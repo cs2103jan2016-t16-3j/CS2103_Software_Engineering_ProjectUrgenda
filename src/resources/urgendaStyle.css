@@ -1,0 +1,31 @@
+.root {
+	-fx-background-color: #474E60;
+}
+
+#logoLabel {
+	-fx-font-family: "Sacramento";
+	-fx-font-size: 55px;
+}
+
+#inputBar {
+	-fx-font-family: "Montserrat-Light";
+	-fx-font-size: 17px;
+}
+
+#displayLabel {
+	-fx-font-family: "Montserrat-Light";
+	-fx-font-size: 17px;
+}
+
+#feedbackPane {
+	-fx-background-color: #313745;
+}
+
+#scrollPane {
+	-fx-background-color: transparent;
+}
+
+#displayPane {
+	-fx-border-color: transparent;
+	-fx-background-color: white;
+}
