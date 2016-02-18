@@ -1,4 +1,4 @@
-package Parser;
+package urgenda.parser;
 
 public class ParserTest {
 

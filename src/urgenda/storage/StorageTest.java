@@ -1,4 +1,4 @@
-package Storage;
+package urgenda.storage;
 
 public class StorageTest {
 

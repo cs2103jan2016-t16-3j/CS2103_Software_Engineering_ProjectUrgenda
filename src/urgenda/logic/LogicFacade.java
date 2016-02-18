@@ -1,4 +1,4 @@
-package Logic;
+package urgenda.logic;
 
 public class LogicFacade {
 
