@@ -1,6 +1,6 @@
 package urgenda.command;
 
-public class ShowArchive implements CommandInterface {
+public class ShowArchive implements Command {
 
 	@Override
 	public String execute() {

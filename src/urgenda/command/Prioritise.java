@@ -2,7 +2,7 @@ package urgenda.command;
 
 import urgenda.util.Task;
 
-public class Prioritise implements CommandInterface {
+public class Prioritise implements Command {
 	
 	private Task prevTask;
 

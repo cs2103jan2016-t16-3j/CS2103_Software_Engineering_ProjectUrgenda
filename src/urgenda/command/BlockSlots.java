@@ -1,6 +1,6 @@
 package urgenda.command;
 
-public class BlockSlots implements CommandInterface {
+public class BlockSlots implements Command {
 
 	@Override
 	public String execute() {

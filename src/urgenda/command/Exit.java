@@ -1,6 +1,6 @@
 package urgenda.command;
 
-public class Exit implements CommandInterface {
+public class Exit implements Command {
 
 	@Override
 	public String execute() {

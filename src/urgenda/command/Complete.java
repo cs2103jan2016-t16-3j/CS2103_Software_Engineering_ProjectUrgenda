@@ -2,7 +2,7 @@ package urgenda.command;
 
 import urgenda.util.Task;
 
-public class Complete implements CommandInterface {
+public class Complete implements Command {
 	
 	// for undo of completed task
 	private Task completedTask;

@@ -1,5 +1,5 @@
 package urgenda.logic;
 
-public class LogicFacade {
+public class Logic {
 
 }

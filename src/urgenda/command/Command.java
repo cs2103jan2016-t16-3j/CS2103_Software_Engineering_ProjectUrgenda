@@ -4,7 +4,7 @@ package urgenda.command;
  * Command interface for implementation of subsequent command classes
  *
  */
-public interface CommandInterface {
+public interface Command {
 	
 	// for execution of specific command
 	String execute();

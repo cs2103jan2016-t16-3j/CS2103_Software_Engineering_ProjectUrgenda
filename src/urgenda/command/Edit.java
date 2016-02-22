@@ -2,7 +2,7 @@ package urgenda.command;
 
 import urgenda.util.Task;
 
-public class Edit implements CommandInterface {
+public class Edit implements Command {
 	
 	private Task prevTask;
 

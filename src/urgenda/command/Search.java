@@ -1,6 +1,6 @@
 package urgenda.command;
 
-public class Search implements CommandInterface {
+public class Search implements Command {
 
 	@Override
 	public String execute() {
