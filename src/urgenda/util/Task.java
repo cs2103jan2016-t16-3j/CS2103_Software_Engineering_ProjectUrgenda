@@ -4,133 +4,138 @@ import java.time.LocalDateTime;
 
 public class Task {
 	
-	protected int _id;
-	protected String _description;
-	protected String _location;
-	protected LocalDateTime _startTime;
-	protected LocalDateTime _endTime;
-	protected String[] _hashtags;
-	protected LocalDateTime _dateAdded;
-	protected LocalDateTime _dateModified;
-	protected boolean _isCompleted = false;
-	protected boolean _isUrgent = false;
-	protected boolean _isOverdue = false;
-	
-	/**
-	 * Constructor for Task objects which requires string array of details
-	 * 
-	 * @param argument is "" if empty
-	 * taskDetails[0] id
-	 * taskDetails[1] description
-	 * taskDetails[2] location
-	 * taskDetails[3] date (start)
-	 * taskDetails[4] month (start)
-	 * taskDetails[5] year (start)
-	 * taskDetails[6] hour (start) (24hrs)
-	 * taskDetails[7] minutes (start)	 
-	 * taskDetails[8] date (end)
-	 * taskDetails[9] month (end)
-	 * taskDetails[10] year (end)
-	 * taskDetails[11] hour (end) (24hrs)
-	 * taskDetails[12] minutes (end)
-	 * taskDetails[13...*] hashtag/s
-	 */
-	public Task (String[] taskDetails) {
-		_id = Integer.parseInt(taskDetails[0]);
-		_description = taskDetails[1];
-		_location = taskDetails[2];
-		int hashLength = 0;
-		for (int i = 13; i < taskDetails.length; i++) {
-			_hashtags[hashLength] = new String(taskDetails[i]);
-		}
+	public enum Type {
+		EVENT, DEADLINE, FLOATING
 	}
 
-	public int get_id() {
+	private int _id;
+	private String _description;
+	private Type _taskType;
+	private String _location;
+	private LocalDateTime _startTime;
+	private LocalDateTime _endTime;
+	private String[] _hashtags;
+	private LocalDateTime _dateAdded;
+	private LocalDateTime _dateModified;
+	private boolean _isCompleted = false;
+	private boolean _isUrgent = false;
+	private boolean _isOverdue = false;
+
+	// default constructor
+	public Task() {
+
+	}
+	
+	// constructor for copying task objects
+	public Task(Task originalTask) {
+		setId(originalTask.getId());
+		setDescription(originalTask.getDescription());
+		setTaskType(originalTask.getTaskType());
+		setLocation(originalTask.getLocation());
+		setStartTime(originalTask.getStartTime());
+		setEndTime(originalTask.getEndTime());
+		setHashtags(originalTask.getHashtags());
+		setDateAdded(originalTask.getDateAdded());
+		setDateModified(originalTask.getDateModified());
+		setIsCompleted(originalTask.isCompleted());
+		setIsUrgent(originalTask.isUrgent());
+		setIsOverdue(originalTask.isOverdue());
+	}
+
+	public int getId() {
 		return _id;
 	}
 
-	public String get_description() {
+	public String getDescription() {
 		return _description;
 	}
+	
+	public Type getTaskType() {
+		return _taskType;
+	}
 
-	public String get_location() {
+	public String getLocation() {
 		return _location;
 	}
 
-	public LocalDateTime get_startTime() {
+	public LocalDateTime getStartTime() {
 		return _startTime;
 	}
 
-	public LocalDateTime get_endTime() {
+	public LocalDateTime getEndTime() {
 		return _endTime;
 	}
 
-	public String[] get_hashtags() {
+	public String[] getHashtags() {
 		return _hashtags;
 	}
 
-	public LocalDateTime get_dateAdded() {
+	public LocalDateTime getDateAdded() {
 		return _dateAdded;
 	}
 
-	public LocalDateTime get_dateModified() {
+	public LocalDateTime getDateModified() {
 		return _dateModified;
 	}
 
-	public boolean is_isCompleted() {
+	public boolean isCompleted() {
 		return _isCompleted;
 	}
 
-	public boolean is_isUrgent() {
+	public boolean isUrgent() {
 		return _isUrgent;
 	}
 
-	public boolean is_isOverdue() {
+	public boolean isOverdue() {
 		return _isOverdue;
 	}
 
-	public void set_id(int _id) {
-		this._id = _id;
+	public void setId(int id) {
+		_id = id;
 	}
 
-	public void set_description(String _description) {
-		this._description = _description;
+	public void setDescription(String description) {
+		_description = description;
 	}
 
-	public void set_location(String _location) {
-		this._location = _location;
+	public void setTaskType(Type taskType) {
+		_taskType = taskType;
 	}
 
-	public void set_startTime(LocalDateTime _startTime) {
-		this._startTime = _startTime;
+	public void setLocation(String location) {
+		_location = location;
 	}
 
-	public void set_endTime(LocalDateTime _endTime) {
-		this._endTime = _endTime;
+	public void setStartTime(LocalDateTime startTime) {
+		_startTime = startTime;
 	}
 
-	public void set_hashtags(String[] _hashtags) {
-		this._hashtags = _hashtags;
+	public void setEndTime(LocalDateTime endTime) {
+		_endTime = endTime;
 	}
 
-	public void set_dateAdded(LocalDateTime _dateAdded) {
-		this._dateAdded = _dateAdded;
+	public void setHashtags(String[] hashtags) {
+		_hashtags = hashtags;
 	}
 
-	public void set_dateModified(LocalDateTime _dateModified) {
-		this._dateModified = _dateModified;
+	public void setDateAdded(LocalDateTime dateAdded) {
+		_dateAdded = dateAdded;
 	}
 
-	public void set_isCompleted(boolean _isCompleted) {
-		this._isCompleted = _isCompleted;
+	public void setDateModified(LocalDateTime dateModified) {
+		_dateModified = dateModified;
 	}
 
-	public void set_isUrgent(boolean _isUrgent) {
-		this._isUrgent = _isUrgent;
+	public void setIsCompleted(boolean isCompleted) {
+		_isCompleted = isCompleted;
 	}
 
-	public void set_isOverdue(boolean _isOverdue) {
-		this._isOverdue = _isOverdue;
+	public void setIsUrgent(boolean isUrgent) {
+		_isUrgent = isUrgent;
 	}
-	
+
+	public void setIsOverdue(boolean isOverdue) {
+		_isOverdue = isOverdue;
+	}
+
 }
