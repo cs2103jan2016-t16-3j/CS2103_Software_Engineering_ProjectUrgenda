@@ -15,11 +15,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import urgenda.logic.Logic;
 
 public class Main extends Application {
 	private AnchorPane rootLayout;
 	private Scene scene;
 	private MainController urgendaController = new MainController();
+	private Logic logic;
 	
 	//default set window size values
 	private static final int SCENE_WIDTH_DEFAULT = 650;

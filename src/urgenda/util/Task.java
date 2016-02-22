@@ -56,7 +56,7 @@ public class Task {
 	// constructor for copying task objects
 	public Task(Task originalTask) {
 		setId(originalTask.getId());
-		setDescription(originalTask.getDescription());
+		setDescription(originalTask.getDesc());
 		setTaskType(originalTask.getTaskType());
 		setLocation(originalTask.getLocation());
 		setStartTime(originalTask.getStartTime());
@@ -85,7 +85,7 @@ public class Task {
 		return _id;
 	}
 
-	public StringProperty getDescription() {
+	public StringProperty getDesc() {
 		return _desc;
 	}
 	

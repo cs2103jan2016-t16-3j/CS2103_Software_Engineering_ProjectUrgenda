@@ -1,18 +1,23 @@
 package urgenda.gui;
 
+import java.time.LocalDateTime;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
+import urgenda.util.Task;
 
-public class MainController {
+public class MainController implements MainControllerInterface{
 	
 	//Elements loaded using FXML
 	@FXML
@@ -24,9 +29,15 @@ public class MainController {
 	@FXML
 	private TableView<String> displayTable;
 	@FXML
-	private TableColumn<String, String> numberColumn;
+	private TableColumn<Task, Number> idColumn;
 	@FXML
-	private TableColumn<String, String> dateColumn;
+	private TableColumn<Task, LocalDateTime> dateColumn;	
+	@FXML
+	private TableColumn<Task, String> descColumn;	
+	@FXML
+	private TableColumn<Task, LocalDateTime> startTimeColumn;
+	@FXML
+	private TableColumn<Task, LocalDateTime> endTimeColumn;
 
 	//Resources to load
 	@SuppressWarnings("unused")
@@ -37,9 +48,8 @@ public class MainController {
 	private static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream("../../resources/Montserrat-Regular.otf"), 10);
 	
 	@FXML
-	private void initialise() {
+	public void initialise() {
 		initDisplayArea();
-		
 	}
 	
 	private void initDisplayArea() {
@@ -51,35 +61,36 @@ public class MainController {
 	}
 
 	private void initIdColumn() {
-		// TODO Auto-generated method stub
-		
+		//TODO: SET ID
 	}
 
 	private void initDateColumn() {
-		// TODO Auto-generated method stub
+		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTime());
 		
 	}
 
 	private void initDescColumn() {
-		// TODO Auto-generated method stub
+		descColumn.setCellValueFactory(cellData -> cellData.getValue().getDesc());
 		
 	}
 
 	private void initStartTimeColumn() {
-		// TODO Auto-generated method stub
+		startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTime());
 		
 	}
 
 	private void initEndTimeColumn() {
-		// TODO Auto-generated method stub
+		endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getEndTime());
 		
 	}
 
 	//tester method for detecting input in inputBar
-	public void commandListener(KeyEvent event) {
+	@Override
+	public void eventListener(KeyEvent event) {
 		KeyCode code = event.getCode();
 		if(code == KeyCode.ENTER) {
 			feedbackArea.setText(("Entered text: \n" + inputBar.getText()));
+			inputBar.clear();
 		}
 	}
 	

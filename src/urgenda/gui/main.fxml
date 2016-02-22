@@ -24,7 +24,7 @@
          </effect></Rectangle>
       <Label fx:id="logoLabel" layoutX="14.0" layoutY="14.0" stylesheets="@../../resources/urgendaStyle.css" text="Urgenda" textFill="WHITE" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0">
          </Label>
-      <Label fx:id="displayLabel" layoutX="14.0" layoutY="91.0" text="Showing ALL TASKS" textFill="WHITE" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="105.0" />
+      <Label fx:id="displayLabel" layoutX="14.0" layoutY="91.0" prefHeight="26.0" prefWidth="620.0" text="Showing ALL TASKS" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="105.0" />
       <AnchorPane fx:id="feedbackPane" layoutX="9.0" layoutY="501.0" maxHeight="100.0" prefHeight="100.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <TextArea fx:id="feedbackArea" editable="false" focusTraversable="false" layoutX="17.0" layoutY="-14.0" prefHeight="20.0" prefWidth="430.0" stylesheets="@../../resources/urgendaStyle.css" text="Welcome to Urgenda!" wrapText="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
@@ -32,7 +32,7 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </TextArea>
-            <TextField fx:id="inputBar" layoutX="10.0" layoutY="62.0" onKeyReleased="#commandListener" prefHeight="30.0" promptText="Type your to-do here!" stylesheets="@../../resources/urgendaStyle.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <TextField fx:id="inputBar" layoutX="10.0" layoutY="62.0" onKeyReleased="#eventListener" prefHeight="30.0" promptText="Type your to-do here!" stylesheets="@../../resources/urgendaStyle.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -60,11 +60,11 @@
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#executeUndo" text="Undo">
                      <accelerator>
-                        <KeyCodeCombination alt="DOWN" code="Z" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#executeRedo" text="Redo">
                      <accelerator>
-                        <KeyCodeCombination alt="DOWN" code="X" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
           </Menu>
@@ -80,14 +80,17 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TableView fx:id="displayTable" layoutX="24.0" layoutY="144.0" prefHeight="386.0" prefWidth="613.0" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0">
+      <TableView fx:id="displayTable" focusTraversable="false" layoutX="24.0" layoutY="144.0" prefHeight="386.0" prefWidth="613.0" stylesheets="@../../resources/urgendaStyle.css" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0">
         <columns>
-          <TableColumn fx:id="numberColumn" prefWidth="40.0" text="No." />
-          <TableColumn fx:id="dateColumn" prefWidth="70.0" text="Date" />
-            <TableColumn prefWidth="285.0" text="Task" />
-            <TableColumn prefWidth="110.0" text="Start Time" />
-            <TableColumn prefWidth="110.0" text="End Time" />
+          <TableColumn fx:id="idColumn" editable="false" prefWidth="40.0" resizable="false" sortable="false" text="No." />
+          <TableColumn fx:id="dateColumn" editable="false" prefWidth="70.0" resizable="false" sortable="false" text="Date" />
+          <TableColumn fx:id="descColumn" editable="false" prefWidth="285.0" resizable="false" sortable="false" text="Task" />
+          <TableColumn fx:id="startTimeColumn" editable="false" prefWidth="110.0" resizable="false" sortable="false" text="Start Time" />
+          <TableColumn fx:id="endTimeColumn" editable="false" prefWidth="110.0" resizable="false" sortable="false" text="End Time" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
    </children>
 </AnchorPane>
