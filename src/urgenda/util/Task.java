@@ -5,7 +5,15 @@ import java.time.LocalDateTime;
 public class Task {
 	
 	public enum Type {
-		EVENT, DEADLINE, FLOATING
+		
+		// Event type have start + end time
+		EVENT, 
+		// Deadline type has only end time
+		DEADLINE, 
+		// Floating type has no start and no end time
+		FLOATING, 
+		// Start type has only starting time
+		START
 	}
 
 	private int _id;
