@@ -34,8 +34,13 @@ public class Task {
 	private BooleanProperty _isCompleted;
 	private boolean _isUrgent = false;
 	private boolean _isOverdue = false;
-
+	
 	// default constructor
+	public Task() {
+		
+	}
+
+	// constructor for inclusion of details
 	public Task(String name, String location, LocalDateTime start, LocalDateTime end, boolean isUrgent) {
 		//TODO: set default id
 		_desc = new SimpleStringProperty(name);
