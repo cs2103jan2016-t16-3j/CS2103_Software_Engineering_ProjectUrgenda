@@ -25,5 +25,6 @@ public class Logic {
 		// TODO to be confirmed when KS decides if he can access directly or we need to return state
 		_logicData.addUndo(currCmd);
 		_logicData.saveContents();
+		return feedback;
 	}
 }
