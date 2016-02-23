@@ -7,19 +7,23 @@ public class Logic {
 
 	private static final String MESSAGE_WELCOME = "Welcome to Urgenda. Your task manager is ready for use.";
 
-	private LogicData _logicData; //attributes of logic?? may include more as we code
+	private LogicData _logicData;
 	
+	// Default constructor for Logic Data if no path is given
 	public Logic() {
-		_logicData = new LogicData();//constructor of logic data, every new launch will empty data in logic data
+		_logicData = new LogicData();
 	}
 	
-	public static String launchProg() {
-		_logicData.retrieveData();
-		return MESSAGE_WELCOME;	
+	// Constructor for specifying path for Data to be saved/extracted
+	public Logic(String path) {
+		_logicData = new LogicData(path);
 	}
 	
-	public static String executeCommand(String command) {
+	public String executeCommand(String command) {
 		Command currCmd = Parser.parseCommand(command); //parser take in a string and return it in its corresponding class obj
-		return currCmd.execute();
+		String feedback = currCmd.execute(_logicData); 
+		// TODO to be confirmed when KS decides if he can access directly or we need to return state
+		_logicData.addUndo(currCmd);
+		_logicData.saveContents();
 	}
 }

@@ -1,5 +1,6 @@
 package urgenda.command;
 
+import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
 public class Complete implements Command {
@@ -8,7 +9,7 @@ public class Complete implements Command {
 	private Task completedTask;
 
 	@Override
-	public String execute() {
+	public String execute(LogicData data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
