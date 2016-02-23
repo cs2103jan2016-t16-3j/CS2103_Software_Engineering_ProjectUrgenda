@@ -4,7 +4,10 @@ import urgenda.command.Command;
 
 public interface ParserInterface {
 
-	// method called from logic
-	Command parseCommand(String command);
+	// method called from logic (for your reference to implement)
+	static Command parseCommand(String command) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

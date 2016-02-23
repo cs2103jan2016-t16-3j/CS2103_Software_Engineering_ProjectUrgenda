@@ -5,6 +5,7 @@ import java.util.Stack;
 
 import urgenda.command.Command;
 import urgenda.storage.Storage;
+import urgenda.util.StateFeedback;
 import urgenda.util.Task;
 
 public class LogicData {
@@ -39,7 +40,13 @@ public class LogicData {
 	}
 	
 	public void saveContents() {
-		_storage.save(_events, _deadlines, _floats, _blocks, _undos, _redos);
+		_storage.save(_events, _deadlines, _floats, _blocks);
+	}
+
+	public StateFeedback getState() {
+		StateFeedback state = new StateFeedback();
+		// to sort into overdue, urgent, today, others and passed into TaskLists in state
+		return state;
 	}
 
 }

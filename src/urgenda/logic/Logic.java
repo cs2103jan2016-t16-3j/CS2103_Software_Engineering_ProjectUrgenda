@@ -2,6 +2,7 @@ package urgenda.logic;
 
 import urgenda.command.Command;
 import urgenda.parser.Parser;
+import urgenda.util.StateFeedback;
 
 public class Logic {
 
@@ -19,12 +20,14 @@ public class Logic {
 		_logicData = new LogicData(path);
 	}
 	
-	public String executeCommand(String command) {
+	public StateFeedback executeCommand(String command) {
 		Command currCmd = Parser.parseCommand(command); //parser take in a string and return it in its corresponding class obj
 		String feedback = currCmd.execute(_logicData); 
 		// TODO to be confirmed when KS decides if he can access directly or we need to return state
 		_logicData.addUndo(currCmd);
 		_logicData.saveContents();
-		return feedback;
+		StateFeedback state = _logicData.getState();
+		state.setFeedback(feedback);
+		return state;
 	}
 }
