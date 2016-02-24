@@ -101,7 +101,7 @@ public class LogicData {
 		} else {
 			return MESSAGE_EMPTY_REDO;
 		}
-		
+
 	}
 
 }
