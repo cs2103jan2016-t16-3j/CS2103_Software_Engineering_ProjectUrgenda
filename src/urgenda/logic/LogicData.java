@@ -60,8 +60,9 @@ public class LogicData {
 	}
 
 	public StateFeedback getState() {
-		// to sort into overdue, urgent, today, others and passed into TaskLists in state
-		// wrap Task as TaskWrapper while sorting
+		// TODO: filter tasks into overdue, urgent, today, others
+		// TODO: wrap tasks into TaskWrapper
+		// TODO: sort tasks in each arraylist by date/time (needs a comparator)
 		ArrayList<TaskWrapper> overdueTasks = new ArrayList<TaskWrapper>();
 		ArrayList<TaskWrapper> urgentTasks = new ArrayList<TaskWrapper>();
 		ArrayList<TaskWrapper> todayTasks = new ArrayList<TaskWrapper>();
