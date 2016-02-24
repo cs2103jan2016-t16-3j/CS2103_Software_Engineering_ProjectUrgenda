@@ -1,5 +1,7 @@
 package urgenda.util;
 
+import java.util.ArrayList;
+
 public class StateFeedback {
 	
 	private TaskList _overdueTasks;
@@ -9,8 +11,17 @@ public class StateFeedback {
 	private TaskList _archiveTasks;
 	private String _feedback;
 	
-	public StateFeedback() {
-		_overdueTasks = new TaskList();
+	public StateFeedback(ArrayList<TaskWrapper> overdueTasks, ArrayList<TaskWrapper> urgentTasks,
+			ArrayList<TaskWrapper> todayTasks, ArrayList<TaskWrapper> otherTasks) {
+		_overdueTasks = new TaskList(overdueTasks);
+		_urgentTasks = new TaskList(urgentTasks);
+		_todayTasks = new TaskList(todayTasks);
+		_otherTasks = new TaskList(otherTasks);
+
+	}
+	
+	public StateFeedback(ArrayList<TaskWrapper> archiveTasks) {
+		_archiveTasks = new TaskList(archiveTasks);
 	}
 	
 	public StateFeedback(String feedback) {

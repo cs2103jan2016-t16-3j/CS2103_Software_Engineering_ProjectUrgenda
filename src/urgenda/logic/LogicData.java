@@ -10,6 +10,7 @@ import urgenda.storage.Storage;
 import urgenda.util.MultipleSlot;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
+import urgenda.util.TaskWrapper;
 
 public class LogicData {
 	
@@ -59,8 +60,13 @@ public class LogicData {
 	}
 
 	public StateFeedback getState() {
-		StateFeedback state = new StateFeedback();
 		// to sort into overdue, urgent, today, others and passed into TaskLists in state
+		// wrap Task as TaskWrapper while sorting
+		ArrayList<TaskWrapper> overdueTasks = new ArrayList<TaskWrapper>();
+		ArrayList<TaskWrapper> urgentTasks = new ArrayList<TaskWrapper>();
+		ArrayList<TaskWrapper> todayTasks = new ArrayList<TaskWrapper>();
+		ArrayList<TaskWrapper> otherTasks = new ArrayList<TaskWrapper>();
+		StateFeedback state = new StateFeedback(overdueTasks, urgentTasks, todayTasks, otherTasks);
 		return state;
 	}
 
