@@ -1,11 +1,5 @@
 package urgenda.gui;
 
-/**
- * color code for gui
- * main: 313745
- * side: 474E60
- */
-
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -15,17 +9,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import urgenda.logic.Logic;
+//import urgenda.logic.Logic;
 
 public class Main extends Application {
 	private AnchorPane rootLayout;
 	private Scene scene;
 	private MainController urgendaController = new MainController();
-	private Logic logic;
+	//private Logic logic;
 	
 	//default set window size values
-	private static final int SCENE_WIDTH_DEFAULT = 650;
-	private static final int SCENE_HEIGHT_DEFAULT = 650;
+	private static final int SCENE_WIDTH_DEFAULT = 600;
+	private static final int SCENE_HEIGHT_DEFAULT = 600;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -40,6 +34,7 @@ public class Main extends Application {
 			primaryStage.initStyle(StageStyle.DECORATED);
 			scene.getStylesheets().add(getClass().getResource("../../resources/urgendaStyle.css").toExternalForm());
 			scene.setFill(Color.TRANSPARENT);
+			//TODO: set icon
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
 			primaryStage.show();
