@@ -13,5 +13,10 @@ public class TestStorage {
 		Storage test = new Storage();
 		assertFalse(test.checkUrgent());
 	}
+	
+	@Test public void testGSONTester(){
+		Storage test = new Storage();
+		test.GSONTester();
+	}
 
 }
