@@ -5,13 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class Task {
 
 	public enum Type {
@@ -27,15 +20,15 @@ public class Task {
 	}
 
 	private int _id;
-	private StringProperty _desc;
-	private ObjectProperty<Type> _taskType;
-	private StringProperty _location;
-	private ObjectProperty<LocalDateTime> _startTime;
-	private ObjectProperty<LocalDateTime> _endTime;
-	private ObjectProperty<ArrayList<String>> _hashtags;
-	private ObjectProperty<LocalDateTime> _dateAdded;
-	private ObjectProperty<LocalDateTime> _dateModified;
-	private BooleanProperty _isCompleted;
+	private String _desc;
+	private Type _taskType;
+	private String _location;
+	private LocalDateTime _startTime;
+	private LocalDateTime _endTime;
+	private ArrayList<String> _hashtags;
+	private LocalDateTime _dateAdded;
+	private LocalDateTime _dateModified;
+	private boolean _isCompleted = false;
 	private boolean _isUrgent = false;
 	private boolean _isOverdue = false;
 
@@ -44,28 +37,37 @@ public class Task {
 
 	}
 
-	// constructor for inclusion of details
-	public Task(String name, String location, LocalDateTime start, LocalDateTime end, boolean isUrgent,
-			ArrayList<String> tags) {
-		_desc = new SimpleStringProperty(name);
-		_location = new SimpleStringProperty(location);
+	// constructor for inclusion of details if there is priority
+	public Task(String desc, String location, LocalDateTime start, LocalDateTime end,
+			ArrayList<String> tags, boolean isUrgent) {
+		_desc = desc;
+		_location = location;
 		setType(start, end);
-		_startTime = new SimpleObjectProperty<LocalDateTime>(start);
-		_endTime = new SimpleObjectProperty<LocalDateTime>(end);
-		_hashtags = new SimpleObjectProperty<ArrayList<String>>(tags);
-		LocalDateTime dateAdded = LocalDateTime.now();
-		_dateAdded = new SimpleObjectProperty<LocalDateTime>(dateAdded);
-		// TODO: set dates modified IMPT DO THISSSS
-		_isCompleted = new SimpleBooleanProperty(false);
+		_startTime = start;
+		_endTime = end;
+		_hashtags = tags;
+		_dateAdded = LocalDateTime.now();
+		_dateModified = LocalDateTime.now();
 		_isUrgent = isUrgent;
-		_isOverdue = false;
-
+	}
+	
+	// constructor for inclusion of details without priority
+	public Task(String desc, String location, LocalDateTime start, LocalDateTime end,
+			ArrayList<String> tags) {
+		_desc = desc;
+		_location = location;
+		setType(start, end);
+		_startTime = start;
+		_endTime = end;
+		_hashtags = tags;
+		_dateAdded = LocalDateTime.now();
+		_dateModified = LocalDateTime.now();
 	}
 
 	// constructor for copying task objects
 	public Task(Task originalTask) {
 		setId(originalTask.getId());
-		setDescription(originalTask.getDesc());
+		setDesc(originalTask.getDesc());
 		setTaskType(originalTask.getTaskType());
 		setLocation(originalTask.getLocation());
 		setStartTime(originalTask.getStartTime());
@@ -78,6 +80,7 @@ public class Task {
 		setIsOverdue(originalTask.isOverdue());
 	}
 
+	/*
 	// constructor for creating Task objects from LinkedHashMap
 	public Task(LinkedHashMap<String, String> taskDetails) {
 		int _id = Integer.parseInt(taskDetails.get("id"));
@@ -137,16 +140,17 @@ public class Task {
 		ArrayList<String> tagsArray = new ArrayList<String>(Arrays.asList(tagstrray));
 		_hashtags = new SimpleObjectProperty<ArrayList<String>>(tagsArray);
 	}
+	*/
 
 	private void setType(LocalDateTime start, LocalDateTime end) {
 		if (start == null && end == null) {
-			_taskType = new SimpleObjectProperty<Type>(Type.FLOATING);
+			_taskType = Type.FLOATING;
 		} else if (start != null && end == null) {
-			_taskType = new SimpleObjectProperty<Type>(Type.START);
+			_taskType = Type.START;
 		} else if (start == null && end != null) {
-			_taskType = new SimpleObjectProperty<Type>(Type.DEADLINE);
+			_taskType = Type.DEADLINE;
 		} else if (start != null && end != null) {
-			_taskType = new SimpleObjectProperty<Type>(Type.EVENT);
+			_taskType = Type.EVENT;
 		}
 	}
 
@@ -154,59 +158,39 @@ public class Task {
 		return _id;
 	}
 
-	public StringProperty getDateString() {
-		//TODO: replace below with method to extract date from localdatetime
-		StringProperty string = new SimpleStringProperty(_startTime.toString());
-		return string;
-	}
-	
-	public StringProperty getStartTimeString() {
-		//TODO: replace below with method to extract starttime from localdatetime
-		StringProperty string = new SimpleStringProperty(_startTime.toString());
-		return string;
-	}
-
-	public StringProperty getEndTimeString() {
-		//TODO: replace below with method to extract endtime from localdatetime
-		StringProperty string = new SimpleStringProperty(_endTime.toString());
-		return string;
-	}
-
-	public StringProperty getDesc() {
+	public String getDesc() {
 		return _desc;
 	}
 
-	public ObjectProperty<Type> getTaskType() {
+	public Type getTaskType() {
 		return _taskType;
 	}
 
-	public StringProperty getLocation() {
+	public String getLocation() {
 		return _location;
 	}
-	
-	public ObjectProperty<LocalDateTime> getStartTime() {
+
+	public LocalDateTime getStartTime() {
 		return _startTime;
 	}
-	
 
-	public ObjectProperty<LocalDateTime> getEndTime() {
+	public LocalDateTime getEndTime() {
 		return _endTime;
 	}
 
-
-	public ObjectProperty<ArrayList<String>> getHashtags() {
+	public ArrayList<String> getHashtags() {
 		return _hashtags;
 	}
 
-	public ObjectProperty<LocalDateTime> getDateAdded() {
+	public LocalDateTime getDateAdded() {
 		return _dateAdded;
 	}
 
-	public ObjectProperty<LocalDateTime> getDateModified() {
+	public LocalDateTime getDateModified() {
 		return _dateModified;
 	}
 
-	public BooleanProperty isCompleted() {
+	public boolean isCompleted() {
 		return _isCompleted;
 	}
 
@@ -222,39 +206,39 @@ public class Task {
 		_id = id;
 	}
 
-	public void setDescription(StringProperty stringProperty) {
-		_desc = stringProperty;
+	public void setDesc(String desc) {
+		_desc = desc;
 	}
 
-	public void setTaskType(ObjectProperty<Type> taskType) {
+	public void setTaskType(Type taskType) {
 		_taskType = taskType;
 	}
 
-	public void setLocation(StringProperty location) {
+	public void setLocation(String location) {
 		_location = location;
 	}
 
-	public void setStartTime(ObjectProperty<LocalDateTime> startTime) {
+	public void setStartTime(LocalDateTime startTime) {
 		_startTime = startTime;
 	}
 
-	public void setEndTime(ObjectProperty<LocalDateTime> endTime) {
+	public void setEndTime(LocalDateTime endTime) {
 		_endTime = endTime;
 	}
 
-	public void setHashtags(ObjectProperty<ArrayList<String>> hashtags) {
+	public void setHashtags(ArrayList<String> hashtags) {
 		_hashtags = hashtags;
 	}
 
-	public void setDateAdded(ObjectProperty<LocalDateTime> dateAdded) {
+	public void setDateAdded(LocalDateTime dateAdded) {
 		_dateAdded = dateAdded;
 	}
 
-	public void setDateModified(ObjectProperty<LocalDateTime> dateModified) {
+	public void setDateModified(LocalDateTime dateModified) {
 		_dateModified = dateModified;
 	}
 
-	public void setIsCompleted(BooleanProperty isCompleted) {
+	public void setIsCompleted(boolean isCompleted) {
 		_isCompleted = isCompleted;
 	}
 
