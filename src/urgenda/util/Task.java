@@ -6,6 +6,19 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class Task {
+	
+	private static final String HASHMAP_KEY_ID = "id";
+	private static final String HASHMAP_KEY_DESC = "desc";
+	private static final String HASHMAP_KEY_TYPE = "type";
+	private static final String HASHMAP_KEY_LOCATION = "location";
+	private static final String HASHMAP_KEY_STARTTIME = "startTime";
+	private static final String HASHMAP_KEY_ENDTIME = "endTime";
+	private static final String HASHMAP_KEY_TAGS = "tags";
+	private static final String HASHMAP_KEY_DATEADDED = "dateAdded";
+	private static final String HASHMAP_KEY_DATEMODIFIED = "dateModified";
+	private static final String HASHMAP_KEY_COMPLETED = "completed";
+	private static final String HASHMAP_KEY_URGENT = "urgent";
+	private static final String HASHMAP_KEY_OVERDUE = "overdue";
 
 	public enum Type {
 
@@ -79,68 +92,60 @@ public class Task {
 		setIsUrgent(originalTask.isUrgent());
 		setIsOverdue(originalTask.isOverdue());
 	}
+	// constructor for creating Task object from LinkedHashMap
+	public Task(LinkedHashMap<String, String> taskDetails, int id) {
+		_id = id;
+		_desc = taskDetails.get(HASHMAP_KEY_DESC);
 
-	/*
-	// constructor for creating Task objects from LinkedHashMap
-	public Task(LinkedHashMap<String, String> taskDetails) {
-		int _id = Integer.parseInt(taskDetails.get("id"));
-
-		String desc = taskDetails.get("description");
-		_desc = new SimpleStringProperty(desc);
-
-		String type = taskDetails.get("taskType");
+		String type = taskDetails.get(HASHMAP_KEY_TYPE);
 		if (type.equals("EVENT")) {
-			_taskType = new SimpleObjectProperty<Type>(Type.EVENT);
+			_taskType = Type.EVENT;
 		} else if (type.equals("DEADLINE")) {
-			_taskType = new SimpleObjectProperty<Type>(Type.DEADLINE);
+			_taskType = Type.DEADLINE;
 		} else if (type.equals("FLOATNG")) {
-			_taskType = new SimpleObjectProperty<Type>(Type.FLOATING);
+			_taskType = Type.FLOATING;
 		} else {
-			_taskType = new SimpleObjectProperty<Type>(Type.START);
+			_taskType = Type.START;
 		}
 
-		String location = taskDetails.get("location");
-		_location = new SimpleStringProperty(location);
+		_location = taskDetails.get(HASHMAP_KEY_LOCATION);
+		_isCompleted = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_COMPLETED));
+		_isUrgent = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_URGENT));
+		_isOverdue = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_OVERDUE));
 
-		LocalDateTime starttime = LocalDateTime.parse(taskDetails.get("startTime"));
-		_startTime = new SimpleObjectProperty<LocalDateTime>(starttime);
-
-		LocalDateTime endtime = LocalDateTime.parse(taskDetails.get("endTime"));
-		_endTime = new SimpleObjectProperty<LocalDateTime>(endtime);
-
-		LocalDateTime dateadded;
-		if (taskDetails.get("dateAdded") == null) {
-			dateadded = null;
+		if (taskDetails.get(HASHMAP_KEY_STARTTIME) == null) {
+			_startTime = null;
 		} else {
-			dateadded = LocalDateTime.parse(taskDetails.get("dateAdded"));
+			_startTime = LocalDateTime.parse(taskDetails.get(HASHMAP_KEY_STARTTIME));
 		}
-		_dateAdded = new SimpleObjectProperty<LocalDateTime>(dateadded);
 
-		LocalDateTime datemodified;
-		if (taskDetails.get("dateModified") == null) {
-			datemodified = null;
+		if (taskDetails.get(HASHMAP_KEY_ENDTIME) == null) {
+			_endTime = null;
 		} else {
-			datemodified = LocalDateTime.parse(taskDetails.get("dateModified"));
+			_endTime = LocalDateTime.parse(taskDetails.get(HASHMAP_KEY_ENDTIME));
 		}
-		_dateModified = new SimpleObjectProperty<LocalDateTime>(datemodified);
 
-		boolean completed;
-		if (taskDetails.get("isCompleted") == null) {
-			completed = false;
+		if (taskDetails.get(HASHMAP_KEY_DATEADDED) == null) {
+			_dateAdded = null;
 		} else {
-			completed = Boolean.parseBoolean(taskDetails.get("isCompleted"));
+			_dateAdded = LocalDateTime.parse(taskDetails.get(HASHMAP_KEY_DATEADDED));
 		}
-		_isCompleted = new SimpleBooleanProperty(completed);
 
-		_isUrgent = Boolean.parseBoolean(taskDetails.get("isUrgent"));
-		_isOverdue = Boolean.parseBoolean(taskDetails.get("isOverdue"));
+		if (taskDetails.get(HASHMAP_KEY_DATEMODIFIED) == null) {
+			_dateModified = null;
+		} else {
+			_dateModified = LocalDateTime.parse(taskDetails.get(HASHMAP_KEY_DATEMODIFIED));
+		}
 
-		String tagstring = taskDetails.get("hashTags");
-		String[] tagstrray = tagstring.split(",");
-		ArrayList<String> tagsArray = new ArrayList<String>(Arrays.asList(tagstrray));
-		_hashtags = new SimpleObjectProperty<ArrayList<String>>(tagsArray);
+		if (taskDetails.get(HASHMAP_KEY_TAGS) == null) {
+			_hashtags = null;
+		} else {
+			String tagstring = taskDetails.get(HASHMAP_KEY_TAGS);
+			System.out.println(tagstring);
+			String[] tagstrray = tagstring.split(",");
+			_hashtags = new ArrayList<String>(Arrays.asList(tagstrray));
+		}
 	}
-	*/
 
 	private void setType(LocalDateTime start, LocalDateTime end) {
 		if (start == null && end == null) {
