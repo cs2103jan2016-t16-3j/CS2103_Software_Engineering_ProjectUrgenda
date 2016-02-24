@@ -12,19 +12,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="650.0" prefHeight="650.0" prefWidth="650.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
+<AnchorPane fx:id="backgroundPane" maxHeight="600.0" maxWidth="600.0" prefHeight="600.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
    <children>
-      <Rectangle fx:id="displayPaneShape" arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="410.0" stroke="TRANSPARENT" strokeType="INSIDE" width="640.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="130.0">
+      <Rectangle fx:id="displayPaneShape" arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="370.0" stroke="TRANSPARENT" strokeType="INSIDE" width="590.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="120.0">
          <effect>
             <InnerShadow />
          </effect></Rectangle>
-      <Label fx:id="logoLabel" layoutX="14.0" layoutY="14.0" stylesheets="@../../resources/urgendaStyle.css" text="Urgenda" textFill="WHITE" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0">
-         </Label>
-      <Label fx:id="displayLabel" layoutX="14.0" layoutY="91.0" prefHeight="26.0" prefWidth="620.0" text="Showing ALL TASKS" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="105.0" />
+      <Label fx:id="displayLabel" layoutX="14.0" layoutY="91.0" prefHeight="26.0" prefWidth="620.0" text="Showing ALL TASKS" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="95.0" />
       <AnchorPane fx:id="feedbackPane" layoutX="9.0" layoutY="501.0" maxHeight="100.0" prefHeight="100.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <TextArea fx:id="feedbackArea" editable="false" focusTraversable="false" layoutX="17.0" layoutY="-14.0" prefHeight="20.0" prefWidth="430.0" stylesheets="@../../resources/urgendaStyle.css" text="Welcome to Urgenda!" wrapText="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
@@ -80,17 +80,22 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TableView fx:id="displayTable" focusTraversable="false" layoutX="24.0" layoutY="144.0" prefHeight="386.0" prefWidth="613.0" stylesheets="@../../resources/urgendaStyle.css" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0">
+      <TableView fx:id="displayTable" focusTraversable="false" layoutX="24.0" layoutY="144.0" prefHeight="386.0" prefWidth="613.0" stylesheets="@../../resources/urgendaStyle.css" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="130.0">
         <columns>
           <TableColumn fx:id="idColumn" editable="false" prefWidth="40.0" resizable="false" sortable="false" text="No." />
           <TableColumn fx:id="dateColumn" editable="false" prefWidth="70.0" resizable="false" sortable="false" text="Date" />
-          <TableColumn fx:id="descColumn" editable="false" prefWidth="285.0" resizable="false" sortable="false" text="Task" />
-          <TableColumn fx:id="startTimeColumn" editable="false" prefWidth="110.0" resizable="false" sortable="false" text="Start Time" />
-          <TableColumn fx:id="endTimeColumn" editable="false" prefWidth="110.0" resizable="false" sortable="false" text="End Time" />
+          <TableColumn fx:id="descColumn" editable="false" prefWidth="260.0" resizable="false" sortable="false" text="Task" />
+          <TableColumn fx:id="startTimeColumn" editable="false" prefWidth="100.0" resizable="false" sortable="false" text="Start Time" />
+          <TableColumn fx:id="endTimeColumn" editable="false" prefWidth="100.0" resizable="false" sortable="false" text="End Time" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="20.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="30.0">
+         <image>
+            <Image url="@../../resources/urgenda_logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
