@@ -6,8 +6,7 @@ public class Undo implements Command {
 
 	@Override
 	public String execute(LogicData data) {
-		// TODO Auto-generated method stub
-		return null;
+		return data.undoCommand();
 	}
 
 	@Override
