@@ -1,6 +1,8 @@
 package urgenda.logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Stack;
 
 import urgenda.command.Command;
@@ -110,5 +112,21 @@ public class LogicData {
 		}
 
 	}
+	
+	public ArrayList<Task> sortList(ArrayList<Task> list) {
+		Collections.sort(list, comparator);
+		return list;
+	}
+	
+	Comparator<Task> comparator = new Comparator<Task>() {
+
+		public int compare(final Task t1, final Task t2) {
+			if (t1.getEndTime() == null || t2.getEndTime() == null) {
+				return 0;
+			} else {
+				return t1.getEndTime().compareTo(t2.getEndTime());
+			}
+		}
+	};
 
 }
