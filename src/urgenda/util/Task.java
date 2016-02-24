@@ -85,6 +85,24 @@ public class Task {
 		return _id;
 	}
 
+	public StringProperty getDateString() {
+		//TODO: replace below with method to extract date from localdatetime
+		StringProperty string = new SimpleStringProperty(_startTime.toString());
+		return string;
+	}
+	
+	public StringProperty getStartTimeString() {
+		//TODO: replace below with method to extract starttime from localdatetime
+		StringProperty string = new SimpleStringProperty(_startTime.toString());
+		return string;
+	}
+
+	public StringProperty getEndTimeString() {
+		//TODO: replace below with method to extract endtime from localdatetime
+		StringProperty string = new SimpleStringProperty(_endTime.toString());
+		return string;
+	}
+
 	public StringProperty getDesc() {
 		return _desc;
 	}
@@ -96,15 +114,17 @@ public class Task {
 	public StringProperty getLocation() {
 		return _location;
 	}
-
+	
 	public ObjectProperty<LocalDateTime> getStartTime() {
 		return _startTime;
 	}
+	
 
 	public ObjectProperty<LocalDateTime> getEndTime() {
 		return _endTime;
 	}
 
+	//TODO: change to objectproperty of type string array
 	public StringProperty[] getHashtags() {
 		return _hashtags;
 	}

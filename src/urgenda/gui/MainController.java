@@ -1,7 +1,5 @@
 package urgenda.gui;
 
-import java.time.LocalDateTime;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import urgenda.util.Task;
 
-public class MainController implements MainControllerInterface{
+public class MainController{
 	
 	//Elements loaded using FXML
 	@FXML
@@ -31,13 +29,13 @@ public class MainController implements MainControllerInterface{
 	@FXML
 	private TableColumn<Task, Number> idColumn;
 	@FXML
-	private TableColumn<Task, LocalDateTime> dateColumn;	
+	private TableColumn<Task, String> dateColumn;	
 	@FXML
 	private TableColumn<Task, String> descColumn;	
 	@FXML
-	private TableColumn<Task, LocalDateTime> startTimeColumn;
+	private TableColumn<Task, String> startTimeColumn;
 	@FXML
-	private TableColumn<Task, LocalDateTime> endTimeColumn;
+	private TableColumn<Task, String> endTimeColumn;
 
 	//Resources to load
 	@SuppressWarnings("unused")
@@ -65,7 +63,7 @@ public class MainController implements MainControllerInterface{
 	}
 
 	private void initDateColumn() {
-		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTime());
+		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateString());
 		
 	}
 
@@ -75,17 +73,16 @@ public class MainController implements MainControllerInterface{
 	}
 
 	private void initStartTimeColumn() {
-		startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTime());
+		startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTimeString());
 		
 	}
 
 	private void initEndTimeColumn() {
-		endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getEndTime());
+		endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getEndTimeString());
 		
 	}
 
 	//tester method for detecting input in inputBar
-	@Override
 	public void eventListener(KeyEvent event) {
 		KeyCode code = event.getCode();
 		if(code == KeyCode.ENTER) {
