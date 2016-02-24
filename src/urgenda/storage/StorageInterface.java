@@ -15,15 +15,14 @@ public interface StorageInterface {
 	// constructor for saving path/location
 	// public Storage(String path);
 
-	// call from logic to initialize the arraylists with the stored objects. only for starting Urgenda
+	// call from logic to initialize the arraylists with the stored objects.
+	// only for starting Urgenda
 	// use .add(Task) to these arrays to retain data in logic
-	// public void updateArrayLists(ArrayList<Task> _events, ArrayList<Task>
-	// _deadlines, ArrayList<Task> _floats,
-	// ArrayList<Task> _blocks);
+	public void updateArrayLists(ArrayList<Task> _events, ArrayList<Task> _deadlines, ArrayList<Task> _floats,
+			ArrayList<Task> _blocks);
 
 	// logic will use this function to store all these arraylists in a txtfile
 	// IMPT: DO NOT MODIFY CONTENTS INSIDE!
-	// public void save(ArrayList<Task> _events, ArrayList<Task> _deadlines,
-	// ArrayList<Task> _floats, ArrayList<Task> _blocks, Stack<Command> _undos,
-	// Stack<Command> _redos);
+	public void save(ArrayList<Task> _events, ArrayList<Task> _deadlines, ArrayList<Task> _floats,
+			ArrayList<Task> _blocks, Stack<Command> _undos, Stack<Command> _redos);
 }
