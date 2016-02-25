@@ -26,6 +26,7 @@ public class TaskWrapper {
 
 	private int _id;
 	private StringProperty _desc;
+	private StringProperty _taskDate;
 	private ObjectProperty<Type> _taskType;
 	private StringProperty _location;
 	private StringProperty _startTime;
@@ -34,8 +35,8 @@ public class TaskWrapper {
 	private StringProperty _dateAdded;
 	private StringProperty _dateModified;
 	private BooleanProperty _isCompleted;
-	private boolean _isUrgent = false;
-	private boolean _isOverdue = false;
+	private BooleanProperty _isUrgent;
+	private BooleanProperty _isOverdue;
 
 	// default constructor
 	public TaskWrapper() {
@@ -45,6 +46,7 @@ public class TaskWrapper {
 	// for wrapping of original task object
 	public TaskWrapper(Task task) {
 		_desc = new SimpleStringProperty(task.getDesc());
+		_taskDate = new SimpleStringProperty(getDateOnly(task.getStartTime()));
 		_location = new SimpleStringProperty(task.getLocation());
 		setType(task.getStartTime(), task.getEndTime());
 		_startTime = new SimpleStringProperty(task.getStartTime().toString());
@@ -53,8 +55,8 @@ public class TaskWrapper {
 		_dateAdded = new SimpleStringProperty(task.getDateAdded().toString());
 		_dateModified = new SimpleStringProperty(task.getDateModified().toString());
 		_isCompleted = new SimpleBooleanProperty(task.isCompleted());
-		_isUrgent = task.isUrgent();
-		_isOverdue = task.isOverdue();
+		_isUrgent = new SimpleBooleanProperty(task.isUrgent());
+		_isOverdue = new SimpleBooleanProperty(task.isOverdue());
 	}
 
 	// TODO: decide if this is redundant
@@ -62,6 +64,7 @@ public class TaskWrapper {
 	public TaskWrapper(String name, String location, LocalDateTime start, LocalDateTime end, boolean isUrgent,
 			ArrayList<String> tags) {
 		_desc = new SimpleStringProperty(name);
+		_taskDate = new SimpleStringProperty(getDateOnly(start));
 		_location = new SimpleStringProperty(location);
 		setType(start, end);
 		_startTime = new SimpleStringProperty(start.toString());
@@ -70,15 +73,17 @@ public class TaskWrapper {
 		_dateAdded = new SimpleStringProperty(LocalDateTime.now().toString());
 		_dateModified = new SimpleStringProperty(LocalDateTime.now().toString());
 		_isCompleted = new SimpleBooleanProperty(false);
-		_isUrgent = isUrgent;
-		_isOverdue = false;
+		_isUrgent = new SimpleBooleanProperty(isUrgent);
+		_isOverdue = new SimpleBooleanProperty(false);
 
 	}
+
 
 	// constructor for copying taskwrapper objects
 	public TaskWrapper(TaskWrapper originalTask) {
 		setId(originalTask.getId());
 		setDescription(originalTask.getDesc());
+		setTaskDate(originalTask.getTaskDate());
 		setTaskType(originalTask.getTaskType());
 		setLocation(originalTask.getLocation());
 		setStartTime(originalTask.getStartTime());
@@ -103,6 +108,11 @@ public class TaskWrapper {
 		}
 	}
 
+	private String getDateOnly(LocalDateTime start) {
+		// TODO to return only date from start time as string
+		return null;
+	}
+
 	public int getId() {
 		return _id;
 	}
@@ -111,6 +121,10 @@ public class TaskWrapper {
 		return _desc;
 	}
 
+	public StringProperty getTaskDate() {
+		return _taskDate;
+	}
+	
 	public ObjectProperty<Type> getTaskType() {
 		return _taskType;
 	}
@@ -143,11 +157,11 @@ public class TaskWrapper {
 		return _isCompleted;
 	}
 
-	public boolean isUrgent() {
+	public BooleanProperty isUrgent() {
 		return _isUrgent;
 	}
 
-	public boolean isOverdue() {
+	public BooleanProperty isOverdue() {
 		return _isOverdue;
 	}
 
@@ -158,7 +172,11 @@ public class TaskWrapper {
 	public void setDescription(StringProperty stringProperty) {
 		_desc = stringProperty;
 	}
-
+	
+	public void setTaskDate(StringProperty taskDate) {
+		_taskDate = taskDate;
+	}
+	
 	public void setTaskType(ObjectProperty<Type> taskType) {
 		_taskType = taskType;
 	}
@@ -191,11 +209,11 @@ public class TaskWrapper {
 		_isCompleted = isCompleted;
 	}
 
-	public void setIsUrgent(boolean isUrgent) {
+	public void setIsUrgent(BooleanProperty isUrgent) {
 		_isUrgent = isUrgent;
 	}
 
-	public void setIsOverdue(boolean isOverdue) {
+	public void setIsOverdue(BooleanProperty isOverdue) {
 		_isOverdue = isOverdue;
 	}
 
