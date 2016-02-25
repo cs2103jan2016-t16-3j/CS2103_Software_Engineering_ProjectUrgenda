@@ -63,7 +63,6 @@ public class AddTask implements Command {
 
 		}
 		return feedback;
-
 	}
 
 	@Override
@@ -84,6 +83,10 @@ public class AddTask implements Command {
 	public String redo() {
 		_data.addTask(_newTask);
 		return MESSAGE_REDO + taskMessage() + MESSAGE_ADDED;
+	}
+	
+	public void setNewTask(Task newTask) {
+		_newTask = newTask;
 	}
 
 }

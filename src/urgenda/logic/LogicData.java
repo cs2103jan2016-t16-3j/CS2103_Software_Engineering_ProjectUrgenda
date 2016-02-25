@@ -148,6 +148,32 @@ public class LogicData {
 		_tasks.remove(newTask);
 	}
 	
+	public Task findMatchingDesc(String desc) {
+		for (Task task : _tasks) {
+			if (task.getDesc().equals(desc)) {
+				return task;
+			}
+		}
+		return null;
+	}
+	
+	public Task findMatchingId(int id) {
+		for (Task task : _tasks) {
+			if (task.getId() == id) {
+				return task;
+			}
+		}
+		return null;
+	}
+	
+	public Task findTaskPosition(int position) {
+		if (position <= 0 || position > _tasks.size()) {
+			return null;
+		} else {
+			return _tasks.get(position-1);
+		}
+	}
+	
 	public String undoCommand() {
 		if (!_undos.isEmpty()) {
 			Command undoCommand = _undos.pop();
@@ -172,6 +198,7 @@ public class LogicData {
 
 	}
 	
+	// TODO (to joanne) does it have to return an arraylist? should have sorted the original array alr
 	public ArrayList<Task> sortList(ArrayList<Task> list) {
 		Collections.sort(list, comparator);
 		return list;
