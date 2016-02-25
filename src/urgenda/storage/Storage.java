@@ -1,6 +1,5 @@
 package urgenda.storage;
 
-import urgenda.command.Command;
 import urgenda.util.*;
 
 import java.io.BufferedReader;
@@ -11,8 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Stack;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,6 +25,7 @@ public class Storage implements StorageInterface {
 		_parentDir = new File(defaultDir);
 		_parentDir.mkdir();
 		_file = new File(_parentDir, "test.txt");
+		_fileDataStringArr = new ArrayList<String>();
 		checkIfFileExist();
 		retrieveFromFile(_file);
 	};
@@ -40,8 +38,8 @@ public class Storage implements StorageInterface {
 		_file = new File(_parentDir, path);
 		retrieveFromFile(_file);
 	};
-	
-	public void checkIfFileExist(){
+
+	public void checkIfFileExist() {
 		if (_file.exists() == false) {
 			try {
 				_file.createNewFile();
@@ -89,7 +87,9 @@ public class Storage implements StorageInterface {
 
 	public void save(ArrayList<Task> _tasks, ArrayList<Task> _archive, ArrayList<MultipleSlot> _blocks) {
 		Gson gson = new Gson();
-		_fileDataStringArr.clear();
+		if (!_fileDataStringArr.isEmpty()) {
+			_fileDataStringArr.clear();
+		}
 		for (Task task : _tasks) {
 			LinkedHashMap<String, String> taskDetail = getTaskDetail(task);
 			String taskString = gson.toJson(taskDetail);
