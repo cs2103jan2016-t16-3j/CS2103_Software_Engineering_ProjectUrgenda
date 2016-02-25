@@ -53,6 +53,7 @@ public class LogicData {
 	public void addUndo(Command currCmd) {
 		if (!(currCmd instanceof Undo) && !(currCmd instanceof Redo)) {
 			_undos.push(currCmd);
+			// clears the redo stack to ensure coherence with behavior of undo/redo and new actions
 			_redos.clear();
 		}
 	}
