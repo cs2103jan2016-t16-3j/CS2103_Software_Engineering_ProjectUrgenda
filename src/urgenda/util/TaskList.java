@@ -1,5 +1,6 @@
 package urgenda.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import urgenda.util.TaskWrapper;
@@ -17,6 +18,13 @@ public class TaskList implements Iterable<TaskWrapper>{
 	public TaskList(ObservableList<TaskWrapper> t) {
         _tasks = t;
     }
+	
+	public TaskList(ArrayList<Task> tasks) {
+		_tasks = FXCollections.observableArrayList();
+		for (Task task : tasks) {
+			_tasks.add(new TaskWrapper(task));
+		}
+	}
 	
 	@Override
 	public Iterator<TaskWrapper> iterator() {

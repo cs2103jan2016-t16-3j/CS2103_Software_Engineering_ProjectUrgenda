@@ -37,6 +37,7 @@ public class TaskWrapper {
 	private BooleanProperty _isCompleted;
 	private BooleanProperty _isUrgent;
 	private BooleanProperty _isOverdue;
+	private ObjectProperty<MultipleSlot> _slot;
 
 	// default constructor
 	public TaskWrapper() {
@@ -57,9 +58,10 @@ public class TaskWrapper {
 		_isCompleted = new SimpleBooleanProperty(task.isCompleted());
 		_isUrgent = new SimpleBooleanProperty(task.isUrgent());
 		_isOverdue = new SimpleBooleanProperty(task.isOverdue());
+		_slot = new SimpleObjectProperty<MultipleSlot>(task.getSlot());
 	}
 
-	// TODO: decide if this is redundant
+	// TODO: decide if this is redundant (can remove)
 	// constructor for inclusion of details
 	public TaskWrapper(String name, String location, LocalDateTime start, LocalDateTime end, boolean isUrgent,
 			ArrayList<String> tags) {
@@ -75,6 +77,7 @@ public class TaskWrapper {
 		_isCompleted = new SimpleBooleanProperty(false);
 		_isUrgent = new SimpleBooleanProperty(isUrgent);
 		_isOverdue = new SimpleBooleanProperty(false);
+		_slot = new SimpleObjectProperty<MultipleSlot>();
 
 	}
 
@@ -94,6 +97,7 @@ public class TaskWrapper {
 		setIsCompleted(originalTask.isCompleted());
 		setIsUrgent(originalTask.isUrgent());
 		setIsOverdue(originalTask.isOverdue());
+		setSlot(originalTask.getSlot());
 	}
 
 	private void setType(LocalDateTime start, LocalDateTime end) {
@@ -165,6 +169,10 @@ public class TaskWrapper {
 		return _isOverdue;
 	}
 
+	public ObjectProperty<MultipleSlot> getSlot() {
+		return _slot;
+	}
+
 	public void setId(int id) {
 		_id = id;
 	}
@@ -215,6 +223,10 @@ public class TaskWrapper {
 
 	public void setIsOverdue(BooleanProperty isOverdue) {
 		_isOverdue = isOverdue;
+	}
+
+	public void setSlot(ObjectProperty<MultipleSlot> slot) {
+		_slot = slot;
 	}
 
 }

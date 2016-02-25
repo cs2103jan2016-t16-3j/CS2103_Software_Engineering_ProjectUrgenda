@@ -1,5 +1,7 @@
 package urgenda.logic;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,7 +23,6 @@ public class LogicData {
 
 	private ArrayList<Task> _tasks;
 	private ArrayList<Task> _archive;
-	private ArrayList<MultipleSlot> _blocks;
 
 	private Stack<Command> _undos;
 	private Stack<Command> _redos;
@@ -34,7 +35,6 @@ public class LogicData {
 	public LogicData() {
 		_tasks = new ArrayList<Task>();
 		_archive = new ArrayList<Task>();
-		_blocks = new ArrayList<MultipleSlot>();
 		_storage = new Storage();
 		_currentId = 0;
 	}
@@ -44,10 +44,9 @@ public class LogicData {
 		_storage = new Storage(path);
 		_tasks = new ArrayList<Task>();
 		_archive = new ArrayList<Task>();
-		_blocks = new ArrayList<MultipleSlot>();
 		// updateArrayLists adds stored task objects into respective arraylists
 		// returns the next id to be used for future labelling of tasks
-		_currentId = _storage.updateArrayLists(_tasks, _archive, _blocks);
+		_currentId = _storage.updateArrayLists(_tasks, _archive);
 	}
 
 	public void addUndo(Command currCmd) {
@@ -59,19 +58,78 @@ public class LogicData {
 	}
 	
 	public void saveContents() {
-		_storage.save(_tasks, _archive, _blocks);
+		_storage.save(_tasks, _archive);
 	}
 
+	// TODO: refactor function
 	public StateFeedback getState() {
+		// To update if there are any deadlines that turned overdue
+		updateState();
+		
 		// TODO: filter tasks into overdue, urgent, today, others
 		// TODO: wrap tasks into TaskWrapper
 		// TODO: sort tasks in each arraylist by date/time (needs a comparator)
-		ArrayList<TaskWrapper> overdueTasks = new ArrayList<TaskWrapper>();
-		ArrayList<TaskWrapper> urgentTasks = new ArrayList<TaskWrapper>();
-		ArrayList<TaskWrapper> todayTasks = new ArrayList<TaskWrapper>();
-		ArrayList<TaskWrapper> otherTasks = new ArrayList<TaskWrapper>();
-		StateFeedback state = new StateFeedback(overdueTasks, urgentTasks, todayTasks, otherTasks);
+		ArrayList<Task> overdueTasks = new ArrayList<Task>();
+		ArrayList<Task> urgentTasks = new ArrayList<Task>();
+		ArrayList<Task> todayTasks = new ArrayList<Task>();
+		ArrayList<Task> otherTasks = new ArrayList<Task>();
+		for (Task task : _tasks) {
+			if(task.isOverdue()) {
+				overdueTasks.add(task);
+			} else if (task.isUrgent()) {
+				urgentTasks.add(task);
+			} else if (isTaskToday(task)) {
+				todayTasks.add(task);
+			} else { // remaining tasks including floating
+				otherTasks.add(task);
+			}
+		}
+		_tasks.clear();
+		_tasks.addAll(overdueTasks);
+		_tasks.addAll(urgentTasks);
+		_tasks.addAll(todayTasks);
+		_tasks.addAll(otherTasks);
+		StateFeedback state = new StateFeedback(_tasks);
 		return state;
+	}
+
+	private boolean isTaskToday(Task task) {
+		LocalDate now = LocalDate.now();
+		if (task.getTaskType() == Task.Type.DEADLINE) {
+			if (task.getEndTime().toLocalDate().isEqual(now)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (task.getTaskType() == Task.Type.EVENT) {
+			if (task.getStartTime().toLocalDate().isEqual(now)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (task.getTaskType() == Task.Type.START) {
+			if (task.getStartTime().toLocalDate().isEqual(now)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else { // Type is floating
+			return false;
+		}
+	}
+
+	private void updateState() {
+		LocalDateTime now = LocalDateTime.now();
+		for (Task task : _tasks) {
+			if (task.getTaskType() == Task.Type.DEADLINE) {
+				if (task.getEndTime().isBefore(now)) {
+					task.setIsOverdue(true);
+				} else {
+					task.setIsOverdue(false);
+				}
+			}
+		}
+		
 	}
 
 	public int getCurrentId() {

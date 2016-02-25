@@ -29,6 +29,7 @@ public class AddTask implements Command {
 	public String execute(LogicData dataStorage) {
 		_data = dataStorage;
 		_newTask.setId(_data.getCurrentId());
+		_data.updateCurrentId();
 		_data.addTask(_newTask);
 		return taskMessage() + MESSAGE_ADDED;
 	}
