@@ -26,7 +26,9 @@ public class Storage implements StorageInterface {
 	public Storage() {
 		String defaultDir = "testfiles";
 		_parentDir = new File(defaultDir);
+		_parentDir.mkdir();
 		_file = new File(_parentDir, "test.txt");
+		checkIfFileExist();
 		retrieveFromFile(_file);
 	};
 
@@ -34,9 +36,20 @@ public class Storage implements StorageInterface {
 	public Storage(String path) {
 		String defaultDir = "testfiles";
 		_parentDir = new File(defaultDir);
+		_parentDir.mkdir();
 		_file = new File(_parentDir, path);
 		retrieveFromFile(_file);
 	};
+	
+	public void checkIfFileExist(){
+		if (_file.exists() == false) {
+			try {
+				_file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void retrieveFromFile(File file) {
 		try {
@@ -96,7 +109,7 @@ public class Storage implements StorageInterface {
 	};
 
 	// getting Task attributes and storing in a LinkedHashMap
-	public static LinkedHashMap<String, String> getTaskDetail(Task task) {
+	public LinkedHashMap<String, String> getTaskDetail(Task task) {
 
 		LinkedHashMap<String, String> taskDetail = new LinkedHashMap<>();
 

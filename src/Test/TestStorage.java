@@ -9,14 +9,8 @@ import urgenda.storage.Storage;
 public class TestStorage {
 
 	@Test
-	public void testCheckUrgent() {
-		Storage test = new Storage();
-		assertFalse(test.checkUrgent());
-	}
-	
-	@Test public void testGSONTester(){
-		Storage test = new Storage();
-		test.GSONTester();
+	public void testConstructor(){
+		Storage store = new Storage();
 	}
 
 }
