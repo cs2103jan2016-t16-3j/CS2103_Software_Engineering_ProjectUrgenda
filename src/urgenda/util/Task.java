@@ -166,7 +166,7 @@ public class Task {
 	public String getDesc() {
 		return _desc;
 	}
-
+	
 	public Type getTaskType() {
 		return _taskType;
 	}
