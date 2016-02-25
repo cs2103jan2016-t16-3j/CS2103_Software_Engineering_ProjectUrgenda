@@ -20,7 +20,7 @@ public class LogicDataTest {
 		LogicData _test = new LogicData();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
-		Task obj = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30), LocalDateTime.of(2014, Month.FEBRUARY, 29, 10, 10, 30), _tags);
+		Task obj = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30), LocalDateTime.of(2014, Month.FEBRUARY, 25, 10, 10, 30), _tags);
 		Task obj2 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 15, 10, 10, 30), LocalDateTime.of(2014, Month.AUGUST, 31, 10, 10, 30), _tags);
 		Task obj3 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 17, 10, 10, 30), LocalDateTime.of(2014, Month.SEPTEMBER, 28, 12, 10, 45), _tags);
 		Task obj4 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 26, 10, 10, 30), LocalDateTime.of(2014, Month.JANUARY, 15, 10, 06, 30), _tags);
@@ -30,6 +30,7 @@ public class LogicDataTest {
 		Task obj8 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30), LocalDateTime.of(2014, Month.MAY, 8, 10, 10, 30), _tags);
 		Task obj9 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30), LocalDateTime.of(2014, Month.AUGUST, 21, 10, 10, 30), _tags);
 		Task obj10 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30), LocalDateTime.of(2014, Month.APRIL, 4, 10, 10, 30), _tags);
+		
 		_tasks.add(obj);
 		_tasks.add(obj2);
 		_tasks.add(obj3);
@@ -40,6 +41,7 @@ public class LogicDataTest {
 		_tasks.add(obj8);
 		_tasks.add(obj9);
 		_tasks.add(obj10);
+		
 		
 		ArrayList<Task> _output = new ArrayList<Task>();
 		_output.add(obj7);

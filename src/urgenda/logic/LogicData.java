@@ -35,7 +35,7 @@ public class LogicData {
 	public LogicData() {
 		_tasks = new ArrayList<Task>();
 		_archive = new ArrayList<Task>();
-		_storage = new Storage();
+		// _storage = new Storage();    commented this away for junit testing of fn. Will add back once storage is working
 		_currentId = 0;
 	}
 
@@ -214,5 +214,5 @@ public class LogicData {
 			}
 		}
 	};
-
+	
 }
