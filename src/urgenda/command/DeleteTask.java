@@ -98,11 +98,11 @@ public class DeleteTask implements Command {
 	}
 
 	public void setId(int id) {
-		_id = id;
+		_id = Integer.valueOf(id);
 	}
 
 	public void setPosition(int position) {
-		_position = position;
+		_position = Integer.valueOf(position);
 	}
 
 }
