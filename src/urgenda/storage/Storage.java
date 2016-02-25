@@ -1,54 +1,115 @@
 package urgenda.storage;
 
-import urgenda.command.Command;
 import urgenda.util.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Stack;
-
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Storage implements StorageInterface {
+	private File _file;
+	private File _parentDir;
+	private String _path;
+	private ArrayList<String> _fileDataStringArr;
 
 	// default constructor for no path included (use default location)?
 	public Storage() {
-
+		String defaultDir = "testfiles";
+		_parentDir = new File(defaultDir);
+		_parentDir.mkdir();
+		_file = new File(_parentDir, "test.txt");
+		_fileDataStringArr = new ArrayList<String>();
+		checkIfFileExist();
+		retrieveFromFile(_file);
 	};
 
 	// constructor for saving path/location
 	public Storage(String path) {
-
+		String defaultDir = "testfiles";
+		_parentDir = new File(defaultDir);
+		_parentDir.mkdir();
+		_file = new File(_parentDir, path);
+		retrieveFromFile(_file);
 	};
 
-	public void updateArrayLists(ArrayList<Task> _events, ArrayList<Task> _deadlines, ArrayList<Task> _floats,
-			ArrayList<Task> _blocks) {
-
-	};
-
-	public void save(ArrayList<Task> _events, ArrayList<Task> _deadlines, ArrayList<Task> _floats,
-			ArrayList<Task> _blocks, Stack<Command> _undos, Stack<Command> _redos) {
-
-	};
-
-	public boolean checkUrgent() {
-		Task testTask = new Task("test this", "ISE LAB", null, null, null, false);
-		boolean test = testTask.isUrgent();
-		return test;
+	public void checkIfFileExist() {
+		if (_file.exists() == false) {
+			try {
+				_file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-	public void GSONTester() {
+	public void retrieveFromFile(File file) {
+		try {
+			boolean isEmpty = false;
+			FileReader reader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(reader);
+			while (!isEmpty) {
+				String taskString = bufferedReader.readLine();
+				if (taskString == null) {
+					isEmpty = true;
+				} else {
+					_fileDataStringArr.add(taskString);
+				}
+			}
+			bufferedReader.close();
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public int updateArrayLists(ArrayList<Task> _tasks, ArrayList<Task> _archive, ArrayList<MultipleSlot> _blocks) {
+		int i;
 		Gson gson = new Gson();
-		Task testTask = new Task("test this", "ISE LAB", null, null, null, false);
-		String testString = gson.toJson(testTask);
-		System.out.println(testString);
-		Task retrieve = gson.fromJson(testString, Task.class);
-		boolean retrieveUrgent = retrieve.isUrgent();
-		System.out.println(retrieveUrgent);
+		for (i = 0; i < _fileDataStringArr.size(); i++) {
+			String fileTaskString = _fileDataStringArr.get(i);
+			LinkedHashMap<String, String> fileTaskDetail = gson.fromJson(fileTaskString,
+					new TypeToken<LinkedHashMap<String, String>>() {
+					}.getType());
+			Task newTask = new Task(fileTaskDetail, i + 1);
+			_tasks.add(newTask);
+		}
+		return i;
+	};
 
-	}
-	
-	public static LinkedHashMap<String, String> getTaskDetail(Task task) {
+	public void save(ArrayList<Task> _tasks, ArrayList<Task> _archive, ArrayList<MultipleSlot> _blocks) {
+		Gson gson = new Gson();
+		if (!_fileDataStringArr.isEmpty()) {
+			_fileDataStringArr.clear();
+		}
+		for (Task task : _tasks) {
+			LinkedHashMap<String, String> taskDetail = getTaskDetail(task);
+			String taskString = gson.toJson(taskDetail);
+			_fileDataStringArr.add(taskString);
+		}
+
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter(_file);
+			for (String phrase : _fileDataStringArr) {
+				writer.println(phrase);
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	};
+
+	// getting Task attributes and storing in a LinkedHashMap
+	public LinkedHashMap<String, String> getTaskDetail(Task task) {
 
 		LinkedHashMap<String, String> taskDetail = new LinkedHashMap<>();
 

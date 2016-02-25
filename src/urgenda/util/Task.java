@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class Task {
-	
+
 	private static final String HASHMAP_KEY_ID = "id";
 	private static final String HASHMAP_KEY_DESC = "desc";
 	private static final String HASHMAP_KEY_TYPE = "type";
@@ -50,9 +50,15 @@ public class Task {
 
 	}
 
+	// constructor with only desc
+	public Task(String desc) {
+		_desc = desc;
+		setType(null, null);
+	}
+
 	// constructor for inclusion of details if there is priority
-	public Task(String desc, String location, LocalDateTime start, LocalDateTime end,
-			ArrayList<String> tags, boolean isUrgent) {
+	public Task(String desc, String location, LocalDateTime start, LocalDateTime end, ArrayList<String> tags,
+			boolean isUrgent) {
 		_desc = desc;
 		_location = location;
 		setType(start, end);
@@ -63,10 +69,9 @@ public class Task {
 		_dateModified = LocalDateTime.now();
 		_isUrgent = isUrgent;
 	}
-	
+
 	// constructor for inclusion of details without priority
-	public Task(String desc, String location, LocalDateTime start, LocalDateTime end,
-			ArrayList<String> tags) {
+	public Task(String desc, String location, LocalDateTime start, LocalDateTime end, ArrayList<String> tags) {
 		_desc = desc;
 		_location = location;
 		setType(start, end);
@@ -92,6 +97,7 @@ public class Task {
 		setIsUrgent(originalTask.isUrgent());
 		setIsOverdue(originalTask.isOverdue());
 	}
+
 	// constructor for creating Task object from LinkedHashMap
 	public Task(LinkedHashMap<String, String> taskDetails, int id) {
 		_id = id;
