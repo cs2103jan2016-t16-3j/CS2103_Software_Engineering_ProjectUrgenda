@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 import org.junit.Test;
 
@@ -40,7 +40,19 @@ public class LogicDataTest {
 		_tasks.add(obj8);
 		_tasks.add(obj9);
 		_tasks.add(obj10);
-		ArrayList<Task> _output = new ArrayList<Task>(Arrays.asList(obj7, obj4, obj6, obj, obj10, obj8, obj5, obj9, obj2, obj3));
+		
+		ArrayList<Task> _output = new ArrayList<Task>();
+		_output.add(obj7);
+		_output.add(obj4);
+		_output.add(obj6);
+		_output.add(obj);
+		_output.add(obj10);
+		_output.add(obj8);
+		_output.add(obj5);
+		_output.add(obj9);
+		_output.add(obj2);
+		_output.add(obj3);
+		
 		assertEquals(_output, _test.sortList(_tasks));	
 	}
 }   //it doesnt pass the test wohensad and i dunno why it dont pass cos testing it on my own project does sort the list. i think it got to do w the initialising cos of logic data
