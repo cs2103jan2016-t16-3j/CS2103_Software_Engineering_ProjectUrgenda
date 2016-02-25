@@ -28,5 +28,32 @@ public class TestStorage {
 		_tasks.add(task4);
 		store.save(_tasks, _archive, _blocks);
 	}
+	
+	@Test
+	public void testUpdateArrayLists(){
+		Storage store = new Storage();
+		ArrayList<Task> _tasks = new ArrayList<Task>();
+		ArrayList<Task> _archive = new ArrayList<Task>();
+		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
+		int id = store.updateArrayLists(_tasks, _archive, _blocks);
+		int i = 1;
+		for (Task print : _tasks) {
+			System.out.printf("task %d details:", i);
+			System.out.println("");
+			System.out.println("id: " + print.getId());
+			System.out.println("desc: " + print.getDesc());
+			System.out.println("type: " + print.getTaskType());
+			System.out.println("location: " + print.getLocation());
+			System.out.println("starttime: " + print.getStartTime());
+			System.out.println("endtime: " + print.getEndTime());
+			System.out.println("tags: " + print.getHashtags());
+			System.out.println("date added: " + print.getDateAdded());
+			System.out.println("date modified: " + print.getDateModified());
+			System.out.println("completed: " + print.isCompleted());
+			System.out.println("urgent: " + print.isUrgent());
+			System.out.println("overdue: " + print.isOverdue());
+			i++;
+		}
+	}
 
 }
