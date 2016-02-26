@@ -28,6 +28,7 @@ public class DeleteTask implements Undoable {
 	public String execute(LogicData data) {
 		_data = data;
 		if (_desc != null) {
+			// TODO to update to search command's algorithm
 			_deletedTask = _data.findMatchingDesc(_desc);
 		} else if (_id != null) {
 			_deletedTask = _data.findMatchingId(_id.intValue());

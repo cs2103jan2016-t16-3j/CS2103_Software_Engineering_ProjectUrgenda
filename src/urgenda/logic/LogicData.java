@@ -88,10 +88,10 @@ public class LogicData {
 			}
 		}
 		_tasks.clear();
-		_tasks.addAll(overdueTasks);
-		_tasks.addAll(urgentTasks);
-		_tasks.addAll(todayTasks);
-		_tasks.addAll(otherTasks);
+		_tasks.addAll(sortList(overdueTasks));
+		_tasks.addAll(sortList(urgentTasks));
+		_tasks.addAll(sortList(todayTasks));
+		_tasks.addAll(sortList(otherTasks));
 		StateFeedback state = new StateFeedback(_tasks);
 		return state;
 	}
@@ -207,7 +207,6 @@ public class LogicData {
 
 	}
 	
-	// TODO (to joanne) does it have to return an arraylist? should have sorted the original array alr
 	public ArrayList<Task> sortList(ArrayList<Task> list) {
 		Collections.sort(list, comparator);
 		return list;
@@ -215,6 +214,7 @@ public class LogicData {
 	
 	Comparator<Task> comparator = new Comparator<Task>() {
 
+		// should we sort by start time first else if empty thn end time?
 		public int compare(final Task t1, final Task t2) {
 			if (t1.getEndTime() == null || t2.getEndTime() == null) {
 				return 0;
