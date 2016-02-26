@@ -18,6 +18,7 @@ public class LogicDataTest {
 	@Test
 	public void testSortList() {
 		LogicData _test = new LogicData();
+		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		Task obj = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30), LocalDateTime.of(2014, Month.FEBRUARY, 25, 10, 10, 30), _tags);
 		Task obj2 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 15, 10, 10, 30), LocalDateTime.of(2014, Month.AUGUST, 31, 10, 10, 30), _tags);
@@ -30,16 +31,16 @@ public class LogicDataTest {
 		Task obj9 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30), LocalDateTime.of(2014, Month.AUGUST, 21, 10, 10, 30), _tags);
 		Task obj10 = new Task("", "", LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30), LocalDateTime.of(2014, Month.APRIL, 4, 10, 10, 30), _tags);
 		
-		_test.addTask(obj);
-		_test.addTask(obj2);
-		_test.addTask(obj3);
-		_test.addTask(obj4);
-		_test.addTask(obj5);
-		_test.addTask(obj6);
-		_test.addTask(obj7);
-		_test.addTask(obj8);
-		_test.addTask(obj9);
-		_test.addTask(obj10);
+		_tasks.add(obj);
+		_tasks.add(obj2);
+		_tasks.add(obj3);
+		_tasks.add(obj4);
+		_tasks.add(obj5);
+		_tasks.add(obj6);
+		_tasks.add(obj7);
+		_tasks.add(obj8);
+		_tasks.add(obj9);
+		_tasks.add(obj10);
 		
 		
 		ArrayList<Task> _output = new ArrayList<Task>();
@@ -54,6 +55,6 @@ public class LogicDataTest {
 		_output.add(obj2);
 		_output.add(obj3);
 		
-		assertEquals(_output, _test.sortList(_test.getTaskList()));	
+		assertEquals(_output, _test.sortList(_tasks));	
 	}
 }   //it doesnt pass the test wohensad and i dunno why it dont pass cos testing it on my own project does sort the list. i think it got to do w the initialising cos of logic data

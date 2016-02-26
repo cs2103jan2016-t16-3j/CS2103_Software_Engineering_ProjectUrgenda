@@ -188,8 +188,4 @@ public class LogicData {
 		}
 	};
 	
-	public ArrayList<Task> getTaskList() {   // added this fn for junit testing
-		return _tasks;
-	}
-
 }
