@@ -6,31 +6,31 @@ public class MultipleSlot {
 
 	private String _desc;
 	// serves as unique id for MultipleSlot attribute
-	private LocalDateTime _dateAdded;
+	private String _uniqueID;
 	
 	public MultipleSlot() {
 		
 	}
 	
-	public MultipleSlot(String desc, LocalDateTime dateAdded) {
+	public MultipleSlot(String desc, String uniqueID) {
 		_desc = desc;
-		_dateAdded = dateAdded;
+		_uniqueID = uniqueID;
 	}
 
 	public String getDesc() {
 		return _desc;
 	}
 
-	public LocalDateTime getDateAdded() {
-		return _dateAdded;
+	public String getuniqueID() {
+		return _uniqueID;
 	}
 
 	public void setDesc(String desc) {
 		_desc = desc;
 	}
 
-	public void setDateAdded(LocalDateTime dateAdded) {
-		_dateAdded = dateAdded;
+	public void setuniqueID(String uniqueID) {
+		_uniqueID = uniqueID;
 	}
 
 }
