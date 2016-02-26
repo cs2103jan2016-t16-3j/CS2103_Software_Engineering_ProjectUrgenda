@@ -35,10 +35,8 @@ public class InputController {
 		KeyCode code = event.getCode();
 		if(code == KeyCode.ENTER) {
 			if(inputBar.getText() != "") {
-				@SuppressWarnings("unused")
 				String feedback = _UI.handleCommandLine(inputBar.getText());
-				//change below to use feedback string
-				displayFeedback(("Entered text: \n" + inputBar.getText()), false);
+				displayFeedback(feedback, false);
 				_UI.retrieveTasksState();
 				inputBar.clear();
 			}

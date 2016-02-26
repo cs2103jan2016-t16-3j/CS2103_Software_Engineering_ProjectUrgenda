@@ -108,9 +108,9 @@ public class TaskWrapper {
 		}
 	}
 
-	private String getDateOnly(LocalDateTime start) {
+	private String getDateOnly(LocalDateTime dateTime) {
 		// TODO to return only date from start time as string
-		return null;
+		return String.valueOf(dateTime.getDayOfMonth()) + "-" + String.valueOf(dateTime.getMonthValue());
 	}
 
 	public int getId() {

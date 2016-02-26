@@ -31,34 +31,10 @@ public class DisplayView{
 	}
 
 	private void initDisplayArea() {
-		initIdColumn();
-		initDateColumn();
-		initDescColumn();
-		initStartTimeColumn();
-		initEndTimeColumn();
-	}
-
-	private void initIdColumn() {
-		//TODO: SET ID
-	}
-
-	private void initDateColumn() {
+		idColumn.setCellValueFactory();
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskDate());
-		
-	}
-
-	private void initDescColumn() {
 		descColumn.setCellValueFactory(cellData -> cellData.getValue().getDesc());
-		
-	}
-
-	private void initStartTimeColumn() {
 		startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTime());
-		
-	}
-
-	private void initEndTimeColumn() {
 		endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getEndTime());
-		
 	}
 }

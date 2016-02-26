@@ -12,13 +12,14 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 //import urgenda.logic.Logic;
+import urgenda.logic.Logic;
 
 public class Main extends Application {
 	private AnchorPane rootLayout;
 	private Scene scene;
 	private InputController inputController;
 	private DisplayView displayView;
-	//private Logic logic;
+	private Logic logic;
 	
 	//
 	private static final String PATH_GUI_FXML = "Main.fxml";
@@ -72,9 +73,8 @@ public class Main extends Application {
 	}
 
 
-	public String handleCommandLine(String text) {
-		// TODO pass to logic to handle
-		
+	public String handleCommandLine(String commandLine) {
+		logic.executeCommand(commandLine);
 		return null;
 	}
 
