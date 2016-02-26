@@ -29,6 +29,7 @@ public class AddTask implements Command {
 	public String execute(LogicData dataStorage) {
 		_data = dataStorage;
 		_newTask.setId(_data.getCurrentId());
+		_data.updateCurrentId();
 		_data.addTask(_newTask);
 		return taskMessage() + MESSAGE_ADDED;
 	}
@@ -62,7 +63,6 @@ public class AddTask implements Command {
 
 		}
 		return feedback;
-
 	}
 
 	@Override
@@ -83,6 +83,10 @@ public class AddTask implements Command {
 	public String redo() {
 		_data.addTask(_newTask);
 		return MESSAGE_REDO + taskMessage() + MESSAGE_ADDED;
+	}
+	
+	public void setNewTask(Task newTask) {
+		_newTask = newTask;
 	}
 
 }

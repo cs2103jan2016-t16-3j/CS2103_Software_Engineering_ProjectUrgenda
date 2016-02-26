@@ -45,6 +45,7 @@ public class Task {
 	private boolean _isCompleted = false;
 	private boolean _isUrgent = false;
 	private boolean _isOverdue = false;
+	private MultipleSlot _slot;
 
 	// default constructor
 	public Task() {
@@ -97,8 +98,10 @@ public class Task {
 		setIsCompleted(originalTask.isCompleted());
 		setIsUrgent(originalTask.isUrgent());
 		setIsOverdue(originalTask.isOverdue());
+		setSlot(originalTask.getSlot());
 	}
 
+	// TODO: support for _slot in storage
 	// constructor for creating Task object from LinkedHashMap
 	public Task(LinkedHashMap<String, String> taskDetails, int id) {
 		_id = id;
@@ -214,6 +217,10 @@ public class Task {
 		return _isOverdue;
 	}
 
+	public MultipleSlot getSlot() {
+		return _slot;
+	}
+
 	public void setId(int id) {
 		_id = id;
 	}
@@ -260,6 +267,10 @@ public class Task {
 
 	public void setIsOverdue(boolean isOverdue) {
 		_isOverdue = isOverdue;
+	}
+
+	public void setSlot(MultipleSlot slot) {
+		_slot = slot;
 	}
 
 }

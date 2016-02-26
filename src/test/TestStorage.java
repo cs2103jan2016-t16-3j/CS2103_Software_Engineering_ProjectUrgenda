@@ -26,7 +26,7 @@ public class TestStorage {
 		_tasks.add(task2);
 		_tasks.add(task3);
 		_tasks.add(task4);
-		store.save(_tasks, _archive, _blocks);
+		store.save(_tasks, _archive);
 	}
 	
 	@Test
@@ -35,7 +35,7 @@ public class TestStorage {
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();
 		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
-		int id = store.updateArrayLists(_tasks, _archive, _blocks);
+		int id = store.updateArrayLists(_tasks, _archive);
 		int i = 1;
 		for (Task print : _tasks) {
 			System.out.printf("task %d details:", i);
