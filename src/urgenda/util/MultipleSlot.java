@@ -1,7 +1,5 @@
 package urgenda.util;
 
-import java.time.LocalDateTime;
-
 public class MultipleSlot {
 
 	private String _desc;

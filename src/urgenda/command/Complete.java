@@ -3,7 +3,7 @@ package urgenda.command;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class Complete implements Command {
+public class Complete implements Undoable {
 	
 	// for undo of completed task
 	private Task completedTask;
@@ -12,12 +12,6 @@ public class Complete implements Command {
 	public String execute(LogicData data) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void getDetails(String[] details) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import urgenda.command.Command;
 import urgenda.command.Redo;
 import urgenda.command.Search;
 import urgenda.command.Undo;
+import urgenda.command.Undoable;
 import urgenda.storage.Storage;
 import urgenda.util.MultipleSlot;
 import urgenda.util.StateFeedback;
@@ -25,8 +26,8 @@ public class LogicData {
 	private ArrayList<Task> _tasks;
 	private ArrayList<Task> _archive;
 
-	private Stack<Command> _undos;
-	private Stack<Command> _redos;
+	private Stack<Undoable> _undos;
+	private Stack<Undoable> _redos;
 
 	private Storage _storage;
 	
@@ -38,8 +39,8 @@ public class LogicData {
 		_archive = new ArrayList<Task>();
 		 _storage = new Storage();
 		_currentId = 0;
-		_undos = new Stack<Command>();
-		_redos = new Stack<Command>();
+		_undos = new Stack<Undoable>();
+		_redos = new Stack<Undoable>();
 	}
 
 	// constructor for a specific storage path being defined
@@ -53,13 +54,8 @@ public class LogicData {
 	}
 
 	public void addUndo(Command currCmd) {
-		if ((currCmd instanceof Undo) || (currCmd instanceof Redo)) {
-			// to ignore if type is redo/undo
-		} else if ((currCmd instanceof Search)) {
-			// to ignore if type is search
-		} else {
-			_undos.push(currCmd);
-			// clears the redo stack to ensure coherence with behavior of undo/redo and new actions
+		if (currCmd instanceof Undoable) {
+			_undos.push((Undoable) currCmd);
 			_redos.clear();
 		}
 	}
@@ -189,7 +185,7 @@ public class LogicData {
 	
 	public String undoCommand() {
 		if (!_undos.isEmpty()) {
-			Command undoCommand = _undos.pop();
+			Undoable undoCommand = _undos.pop();
 			String feedback = undoCommand.undo();
 			_redos.push(undoCommand);
 			return feedback;
@@ -201,7 +197,7 @@ public class LogicData {
 
 	public String redoCommand() {
 		if (!_redos.isEmpty()) {
-			Command redoCommand = _redos.pop();
+			Undoable redoCommand = _redos.pop();
 			String feedback = redoCommand.redo();
 			_undos.push(redoCommand);
 			return feedback;

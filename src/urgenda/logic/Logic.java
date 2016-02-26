@@ -23,7 +23,7 @@ public class Logic {
 	public StateFeedback executeCommand(String command) {
 		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = Parser.parseCommand(command); 
-		String feedback = currCmd.execute(_logicData); 
+		String feedback = currCmd.execute(_logicData);
 		_logicData.addUndo(currCmd);
 		_logicData.saveContents();
 		StateFeedback state = _logicData.getState();

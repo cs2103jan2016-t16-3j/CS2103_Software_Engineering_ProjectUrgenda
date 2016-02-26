@@ -3,7 +3,7 @@ package urgenda.command;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class DeleteTask implements Command {
+public class DeleteTask implements Undoable {
 
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$d:%5$d - %6$d:%7$d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
@@ -73,12 +73,6 @@ public class DeleteTask implements Command {
 
 		}
 		return feedback;
-	}
-
-	@Override
-	public void getDetails(String[] details) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

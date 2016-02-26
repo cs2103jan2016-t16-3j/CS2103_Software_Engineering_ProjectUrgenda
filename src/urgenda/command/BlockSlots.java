@@ -2,18 +2,12 @@ package urgenda.command;
 
 import urgenda.logic.LogicData;
 
-public class BlockSlots implements Command {
+public class BlockSlots implements Undoable {
 
 	@Override
 	public String execute(LogicData data) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void getDetails(String[] details) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

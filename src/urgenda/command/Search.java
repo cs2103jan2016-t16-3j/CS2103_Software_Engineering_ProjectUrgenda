@@ -8,8 +8,8 @@ import urgenda.util.Task;
 
 public class Search implements Command {
 	
-	private static final String MESSAGE_SEARCH = "Search completed. These are all the tasks found containing \"$1%s\"";
-	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"$1%s\"";
+	private static final String MESSAGE_SEARCH = "Search completed. These are all the tasks found containing \"%1$s\"";
+	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
 	
 	private String _searchInput;
 	private ArrayList<Task> _searchStorage;
@@ -34,24 +34,5 @@ public class Search implements Command {
 	public void setSearchInput(String input) {
 		_searchInput = input;
 	}
-
-	@Override
-	public void getDetails(String[] details) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String undo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String redo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
 }
