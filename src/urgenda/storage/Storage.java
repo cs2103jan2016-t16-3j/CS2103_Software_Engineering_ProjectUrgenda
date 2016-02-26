@@ -71,7 +71,7 @@ public class Storage implements StorageInterface {
 		}
 	}
 
-	public int updateArrayLists(ArrayList<Task> _tasks, ArrayList<Task> _archive, ArrayList<MultipleSlot> _blocks) {
+	public int updateArrayLists(ArrayList<Task> _tasks, ArrayList<Task> _archive) {
 		int i;
 		Gson gson = new Gson();
 		for (i = 0; i < _fileDataStringArr.size(); i++) {
@@ -85,7 +85,7 @@ public class Storage implements StorageInterface {
 		return i;
 	};
 
-	public void save(ArrayList<Task> _tasks, ArrayList<Task> _archive, ArrayList<MultipleSlot> _blocks) {
+	public void save(ArrayList<Task> _tasks, ArrayList<Task> _archive) {
 		Gson gson = new Gson();
 		if (!_fileDataStringArr.isEmpty()) {
 			_fileDataStringArr.clear();
