@@ -131,7 +131,12 @@ public class LogicData {
 		}
 		
 	}
+	
+	public ArrayList<Task> getTaskList() {
+		return _tasks;
+	}
 
+ 
 	public int getCurrentId() {
 		return _currentId;
 	}
