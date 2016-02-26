@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import urgenda.command.Command;
 import urgenda.command.Redo;
+import urgenda.command.Search;
 import urgenda.command.Undo;
 import urgenda.storage.Storage;
 import urgenda.util.MultipleSlot;
@@ -50,7 +51,11 @@ public class LogicData {
 	}
 
 	public void addUndo(Command currCmd) {
-		if (!(currCmd instanceof Undo) && !(currCmd instanceof Redo)) {
+		if ((currCmd instanceof Undo) || (currCmd instanceof Redo)) {
+			// to ignore if type is redo/undo
+		} else if ((currCmd instanceof Search)) {
+			// to ignore if type is search
+		} else {
 			_undos.push(currCmd);
 			// clears the redo stack to ensure coherence with behavior of undo/redo and new actions
 			_redos.clear();
@@ -153,9 +158,10 @@ public class LogicData {
 		_tasks.remove(newTask);
 	}
 	
+	// TODO merge with search command (remove this function)
 	public Task findMatchingDesc(String desc) {
 		for (Task task : _tasks) {
-			if (task.getDesc().equals(desc)) {
+			if (task.getDesc().contains(desc)) {
 				return task;
 			}
 		}
