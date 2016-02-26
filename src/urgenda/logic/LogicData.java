@@ -36,8 +36,10 @@ public class LogicData {
 	public LogicData() {
 		_tasks = new ArrayList<Task>();
 		_archive = new ArrayList<Task>();
-		// _storage = new Storage();    commented this away for junit testing of fn. Will add back once storage is working
+		 _storage = new Storage();
 		_currentId = 0;
+		_undos = new Stack<Command>();
+		_redos = new Stack<Command>();
 	}
 
 	// constructor for a specific storage path being defined

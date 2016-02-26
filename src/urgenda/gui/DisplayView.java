@@ -1,5 +1,6 @@
 package urgenda.gui;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 //import javafx.scene.control.TableCell;
@@ -28,10 +29,11 @@ public class DisplayView{
 	
 	public DisplayView() {
 		//initDisplayArea();
+		
 	}
 
 	private void initDisplayArea() {
-		idColumn.setCellValueFactory();
+		idColumn.setCellValueFactory(column -> new ReadOnlyObjectWrapper<Number>(displayTable.getItems().indexOf(column.getValue()) + 1));
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskDate());
 		descColumn.setCellValueFactory(cellData -> cellData.getValue().getDesc());
 		startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTime());

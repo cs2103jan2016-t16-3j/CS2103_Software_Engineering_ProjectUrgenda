@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 //import urgenda.logic.Logic;
 import urgenda.logic.Logic;
+import urgenda.util.StateFeedback;
 
 public class Main extends Application {
 	private AnchorPane rootLayout;
@@ -44,8 +45,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Urgenda");
 		initGuiLayout(primaryStage);
-		inputController.setUIMain(this);
-		displayView = new DisplayView();
+		initDisplayArea();
+		initLogicComponent();
 	}
 
 	private void initGuiLayout(Stage primaryStage) {
@@ -62,10 +63,20 @@ public class Main extends Application {
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			//setting up controller
 			inputController = loader.getController();
+			inputController.setUIMain(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void initDisplayArea() {
+		displayView = new DisplayView();
+	}
+	
+	private void initLogicComponent() {
+		logic = new Logic();	
 	}
 
 	public static void main(String[] args) {
@@ -74,8 +85,9 @@ public class Main extends Application {
 
 
 	public String handleCommandLine(String commandLine) {
-		logic.executeCommand(commandLine);
-		return null;
+		StateFeedback state = logic.executeCommand(commandLine);
+		//pass to displayview to update display
+		return state.getFeedback();
 	}
 
 	public String callUndo() {
@@ -86,11 +98,6 @@ public class Main extends Application {
 	public String callRedo() {
 		//TODO call redo from logic
 		return null;
-	}
-	
-	public void retrieveTasksState() {
-		// TODO retrieve current tasks state from logic
-		
 	}
 	
 	public void invokeHelpSplash() {

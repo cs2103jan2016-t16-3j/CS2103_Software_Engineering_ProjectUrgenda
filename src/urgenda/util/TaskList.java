@@ -16,11 +16,6 @@ public class TaskList implements Iterable<TaskWrapper>{
 		_tasks = FXCollections.observableArrayList();
 	}
 	
-	public TaskList(ArrayList<TaskWrapper> t) {
-		_tasks = FXCollections.observableArrayList();
-		_tasks.addAll(t);
-    }
-	
 	public TaskList(ArrayList<Task> tasks) {
 		_tasks = FXCollections.observableArrayList();
 		for (Task task : tasks) {

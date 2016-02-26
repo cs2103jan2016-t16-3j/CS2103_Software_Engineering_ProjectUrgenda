@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 
 public class Task {
 
-	@SuppressWarnings("unused")
 	private static final String HASHMAP_KEY_ID = "id";
 	private static final String HASHMAP_KEY_DESC = "desc";
 	private static final String HASHMAP_KEY_TYPE = "type";

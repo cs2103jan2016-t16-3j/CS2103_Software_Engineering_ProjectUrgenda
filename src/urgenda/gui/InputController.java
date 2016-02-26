@@ -37,7 +37,6 @@ public class InputController {
 			if(inputBar.getText() != "") {
 				String feedback = _UI.handleCommandLine(inputBar.getText());
 				displayFeedback(feedback, false);
-				_UI.retrieveTasksState();
 				inputBar.clear();
 			}
 		}
@@ -46,19 +45,17 @@ public class InputController {
 	@FXML
 	private void handleUndo(ActionEvent e){
 		@SuppressWarnings("unused")
-		String feedback = _UI.callUndo();
+		String feedback = _UI.handleCommandLine("undo");
 		//change below to use feedback string
 		displayFeedback("Sorry! Undo is currently unavailable!", false);
-		_UI.retrieveTasksState();
 	}
 	
 	@FXML
 	private void handleRedo(ActionEvent e){
 		@SuppressWarnings("unused")
-		String feedback = _UI.callRedo();
+		String feedback = _UI.handleCommandLine("redo");
 		//change below to use feedback string
 		displayFeedback("Sorry! Redo is currently unavailable!", false);
-		_UI.retrieveTasksState();
 	}
 	
 	@FXML
@@ -84,4 +81,3 @@ public class InputController {
 		_UI = ui;
 	}
 }
-

@@ -5,10 +5,10 @@ import urgenda.util.Task;
 
 public class AddTask implements Command {
 	
-	private static final String MESSAGE_EVENT = "\"$1%s\" on $2%d/$3%d, $4%d:$5%d - $6%d:$7%d";
-	private static final String MESSAGE_FLOAT = "\"$1%s\"";
-	private static final String MESSAGE_DEADLINE = "\"$1%s\" by $2%d/$3%d, $4%d:$5%d";
-	private static final String MESSAGE_START = "\"$1%s\" at $2%d/$3%d, $4%d:$5%d";
+	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$d:%5$d - %6$d:%7$d";
+	private static final String MESSAGE_FLOAT = "\"%1$s\"";
+	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$d:%5$d";
+	private static final String MESSAGE_START = "\"%1$s\" at %2$d/%3$d, %4$d:%5$d";
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_UNDO = "Undo: ";
