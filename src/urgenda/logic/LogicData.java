@@ -212,7 +212,7 @@ public class LogicData {
 		return list;
 	}
 	
-	Comparator<Task> comparator = new Comparator<Task>() {
+	Comparator<Task> comparator = new Comparator<Task>() { // to be edited such that filter out diff type of task to be sorted differently
 
 		// should we sort by start time first else if empty thn end time?
 		public int compare(final Task t1, final Task t2) {

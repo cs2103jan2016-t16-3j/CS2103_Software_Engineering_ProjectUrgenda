@@ -16,7 +16,7 @@ public class Search implements Command {
 	private LogicData _data;
 	
 	@Override
-	public String execute(LogicData data) {
+	public String execute(LogicData data) {   //to be edited to search for other combi e.g. time
 		_data = data;
 		_searchStorage = new ArrayList<Task>();
 		for (Task counter : _data.getTaskList()) {
@@ -24,6 +24,7 @@ public class Search implements Command {
 				_searchStorage.add(counter);
 			}
 		}
+		
 		if(_searchStorage.isEmpty()) {
 			return String.format(MESSAGE_SEARCH_NOT_FOUND, _searchInput);
 		} else {
