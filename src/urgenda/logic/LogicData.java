@@ -110,12 +110,6 @@ public class LogicData {
 			} else {
 				return false;
 			}
-		} else if (task.getTaskType() == Task.Type.START) {
-			if (task.getStartTime().toLocalDate().isEqual(now)) {
-				return true;
-			} else {
-				return false;
-			}
 		} else { // Type is floating
 			return false;
 		}

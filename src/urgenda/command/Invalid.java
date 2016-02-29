@@ -1,4 +1,4 @@
-package urgenda.parser;
+package urgenda.command;
 
 import urgenda.command.Command;
 import urgenda.logic.LogicData;
