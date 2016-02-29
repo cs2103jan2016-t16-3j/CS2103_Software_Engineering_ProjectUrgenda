@@ -30,4 +30,9 @@ public class Logic {
 		state.setFeedback(feedback);
 		return state;
 	}
+	
+	// TODO return startup state
+	public StateFeedback getState() {
+		return _logicData.getState();
+	}
 }
