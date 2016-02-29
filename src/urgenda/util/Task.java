@@ -27,9 +27,7 @@ public class Task {
 		// Deadline type has only end time
 		DEADLINE,
 		// Floating type has no start and no end time
-		FLOATING,
-		// Start type has only starting time
-		START
+		FLOATING
 	}
 
 	private int _id;
@@ -113,8 +111,6 @@ public class Task {
 			_taskType = Type.DEADLINE;
 		} else if (type.equals("FLOATNG")) {
 			_taskType = Type.FLOATING;
-		} else {
-			_taskType = Type.START;
 		}
 
 		_location = taskDetails.get(HASHMAP_KEY_LOCATION);
@@ -159,8 +155,6 @@ public class Task {
 	private void setType(LocalDateTime start, LocalDateTime end) {
 		if (start == null && end == null) {
 			_taskType = Type.FLOATING;
-		} else if (start != null && end == null) {
-			_taskType = Type.START;
 		} else if (start == null && end != null) {
 			_taskType = Type.DEADLINE;
 		} else if (start != null && end != null) {

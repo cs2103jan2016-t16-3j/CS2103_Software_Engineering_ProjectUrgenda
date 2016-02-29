@@ -19,9 +19,7 @@ public class TaskWrapper {
 		// Deadline type has only end time
 		DEADLINE,
 		// Floating type has no start and no end time
-		FLOATING,
-		// Start type has only starting time
-		START
+		FLOATING
 	}
 
 	private int _id;
@@ -103,8 +101,6 @@ public class TaskWrapper {
 	private void setType(LocalDateTime start, LocalDateTime end) {
 		if (start == null && end == null) {
 			_taskType = new SimpleObjectProperty<Type>(Type.FLOATING);
-		} else if (start != null && end == null) {
-			_taskType = new SimpleObjectProperty<Type>(Type.START);
 		} else if (start == null && end != null) {
 			_taskType = new SimpleObjectProperty<Type>(Type.DEADLINE);
 		} else if (start != null && end != null) {
