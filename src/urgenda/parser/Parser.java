@@ -1,6 +1,8 @@
 package urgenda.parser;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +18,10 @@ public class Parser {
 		ADD, DELETE, ALLOCATE, DONE, UPDATE, SEARCH, SHOW_DETAILS, UNDO, REDO, ARCHIVE, PRIORITISE, INVALID, EXIT
 	}
 	
+	private static Integer currentYear = LocalDate.now().getYear();
+	private static Integer currentMonth = LocalDate.now().getMonthValue();
+	private static Integer currentDayOfMonth = LocalDate.now().getDayOfMonth();
+	
 	private static final String MESSAGE_INVALID_COMMAND = "\"%1$s\" is not a valid command";
 	
 	private static final Set<String> deleteKeyWords = new HashSet<String>(Arrays.asList(
@@ -25,37 +31,44 @@ public class Parser {
 			new String[] {"add", "create"}
 		));
 	private static final Set<String> allocateKeyWords = new HashSet<String>(Arrays.asList(
-		     new String[] {"block", "reserve", "alloc", "comfirm", "cmf"}
+			new String[] {"block", "reserve", "alloc", "comfirm", "cmf"}
 		));
 	private static final Set<String> doneKeyWords = new HashSet<String>(Arrays.asList(
-		     new String[] {"done", "complete", "completed", "mark", "finish", "fin"}
+			new String[] {"done", "complete", "completed", "mark", "finish", "fin"}
 		));
 	private static final Set<String> updateKeyWords = new HashSet<String>(Arrays.asList(
-		     new String[] {"edit", "change", "update", "mod"}
+			new String[] {"edit", "change", "update", "mod"}
 		));
 	private static final Set<String> searchKeyWords = new HashSet<String>(Arrays.asList(
-		     new String[] {"find", "show", "view", "list", "search", "#"}
+			new String[] {"find", "show", "view", "list", "search", "#"}
 		));
 	private static final Set<String> showDetailsKeyWords = new HashSet<String>(Arrays.asList(
-		     new String[] {"showmore"}
+			new String[] {"showmore"}
 		));
 	private static final Set<String> undoKeywords = new HashSet<String>(Arrays.asList(
-		     new String[] {"undo"}
+			new String[] {"undo"}
 		));
 	private static final Set<String> redoKeywords = new HashSet<String>(Arrays.asList(
-		     new String[] {"redo"}
+			new String[] {"redo"}
 		));
 	private static final Set<String> archiveKeyWords = new HashSet<String>(Arrays.asList(
-		     new String[] {"archive"}
+			new String[] {"archive"}
 		));
 	private static final Set<String> prioritiseKeyWords = new HashSet<String>(Arrays.asList(
-		     new String[] {"urgent", "important", "pri", "impt"}
+			new String[] {"urgent", "important", "pri", "impt"}
 		));
 	private static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(
-		     new String[] {"exit","quit"}
+			new String[] {"exit","quit"}
 		));
 	
 	private static COMMAND_TYPE commandType;
+	
+	private static String dateRegexWithYear = "([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])([- /.])20\\d\\d";
+	private static String dateRegexWithoutYear = "([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])";
+	private static String hourRegex = "(((0[1-9]|1[012]|[1-9])( )?(am|pm))|([01][1-9]|2[0-4]|[1-9]))";
+	private static String minuteAndSecondRegex = "([0-5][0-9]|[1-9])";
+	private static String timeRegex = hourRegex + "[: ]" + minuteAndSecondRegex + "[: ]" + minuteAndSecondRegex + "( )?(am|pm)";
+	private static String dateOfWeekRegex = "((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun)";
 	
 	private static Integer taskID;
 	private static String taskDescription;
@@ -64,14 +77,14 @@ public class Parser {
 	private static LocalDateTime taskEndTime;
 	private static ArrayList<String> taskHashtags;
 	private static MultipleSlot taskSlots;
+	private ArrayList<LocalDate> taskDate;
 	
 	public static Command parseCommand(String commandString) {
 		String firstWord = getFirstWord(commandString);
 		String commandArgs = removeFirstWord(commandString);
 		Boolean isCommandValid = isCommandValid(firstWord,commandArgs);
-		if (isCommandValid) {
-			parseCommandArgs(commandArgs);
-			return generateCommandObjectAndReturn();
+		if (isCommandValid && parseCommandArgs(commandArgs)) {
+				return generateCommandObjectAndReturn();
 		} else {
 			String formatedErrorMessage = String.format(MESSAGE_INVALID_COMMAND, commandString);
 			System.out.print(formatedErrorMessage);
@@ -91,7 +104,7 @@ public class Parser {
 		Boolean returnedValue = false;
 
 		getCommandType(firstWord);
-		returnedValue = checkNumberOfArgs(commandArgs);
+		returnedValue = isCorrectNumberOfArgs(commandArgs);
 		
 		return returnedValue;
 	}
@@ -127,7 +140,7 @@ public class Parser {
 			commandType = COMMAND_TYPE.INVALID;
 		}
 	}
-	private static Boolean checkNumberOfArgs(String commandArgs) {
+	private static Boolean isCorrectNumberOfArgs(String commandArgs) {
 		switch (commandType) {
 		case REDO:
 			return commandArgs.equals(null);
@@ -142,13 +155,13 @@ public class Parser {
 		}
 	}
 	
-	private static void parseCommandArgs(String commandArgs) {
+	private static Boolean parseCommandArgs(String commandArgs) {
+		Boolean returnedValue = true;
 		switch (commandType) {
 		case ADD:
 			searchTaskDescriptionOrID(commandArgs);
 			searchTaskLocation(commandArgs);
-			searchTaskStartTime(commandArgs);
-			searchTaskEndTime(commandArgs);
+			searchTaskDateTime(commandArgs);
 			searchTaskHashtags(commandArgs);
 		case DELETE:
 			searchTaskDescriptionOrID(commandArgs);
@@ -160,8 +173,7 @@ public class Parser {
 		case UPDATE:
 			searchTaskDescriptionOrID(commandArgs);
 			searchTaskLocation(commandArgs);
-			searchTaskStartTime(commandArgs);
-			searchTaskEndTime(commandArgs);
+			searchTaskDateTime(commandArgs);
 			searchTaskHashtags(commandArgs);
 		case SEARCH:
 			searchTaskDescriptionOrID(commandArgs);
@@ -183,6 +195,7 @@ public class Parser {
 		default:
 
 		}
+		return returnedValue;
 	}
 	
 	private static void searchTaskDescriptionOrID(String commandArgs) {
@@ -202,7 +215,12 @@ public class Parser {
 		
 	private static void searchTaskLocation(String commandArgs) {
 		String temp = commandArgs;
-		temp = temp.split("@")[1];
+		try {
+			temp = temp.split("@")[1];
+		}
+		catch ( Exception e) {
+			return;
+		}
 		temp = temp.split("\\bat\\b")[0];
 		temp = temp.split("\\bby\\b")[0];
 		temp = temp.split("\\bfrom\\b")[0];
@@ -210,21 +228,66 @@ public class Parser {
 		taskLocation = temp.trim();
 	}
 	
-	private static void searchTaskStartTime(String commandArgs) {
+	private static Boolean searchDateTime(String commandArgs) {
+		Boolean isValidDate = true;
+		String temp = commandArgs.toLowerCase();
 		
+		
+		ArrayList<String> datesString = new ArrayList<String>();
+		
+		String dateTimeRegexWithYear = dateRegexWithYear + "( )" + timeRegex; 
+		String timeDateRegexWithYear = timeRegex + "( )" + dateRegexWithYear;
+		String dateTimeRegexWithoutYear = dateRegexWithoutYear + "( )" + timeRegex; 
+		String timeDateRegexWithoutYear = timeRegex + "( )" + dateRegexWithoutYear;
+		
+		Matcher m1 = Pattern.compile(dateTimeRegexWithYear)
+				.matcher(temp);
+		while (m1.find()) {
+			datesString.add(m1.group());
+		}
+		
+		Matcher m2 = Pattern.compile(timeDateRegexWithYear)
+				.matcher(temp);
+		while (m2.find()) {
+			datesString.add(m2.group());
+		}	
+		
+		Matcher m3 = Pattern.compile(dateTimeRegexWithoutYear)
+				.matcher(temp);
+		while (m3.find()) {
+			datesString.add(m3.group());
+		}	
+		
+		Matcher m4 = Pattern.compile(timeDateRegexWithoutYear)
+				.matcher(temp);
+		while (m4.find()) {
+			datesString.add(m4.group());
+		}
+		
+		Matcher m5 = Pattern.compile(dateOfWeekRegex)
+				.matcher(temp);
+		while (m5.find()) {
+			datesString.add(m5.group());
+		}
+				
+		if (datesString.size() > 2) {
+			isValidDate = false;
+		}
+		
+		return isValidDate;
 	}
 	
-	private static void searchTaskEndTime(String commandArgs) {
+	private static void searchTaskDateTime(String commandArgs) {
 		
 	}
 	
 	private static void searchTaskHashtags(String commandArgs) {
 		String temp = commandArgs;
-		 Matcher m = Pattern.compile("#\\S+")
-			     .matcher(temp);
-			 while (m.find()) {
-			   taskHashtags.add(m.group());
-			 }
+		Matcher m = Pattern.compile("#\\S+")
+				.matcher(temp);
+		while (m.find()) {
+			taskHashtags.add(m.group());
+		}
 	}
 	
 	private static void searchTaskMultipleSlots(String commandArgs) {
