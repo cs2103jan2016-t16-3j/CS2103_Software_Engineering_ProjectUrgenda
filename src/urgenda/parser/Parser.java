@@ -80,8 +80,8 @@ public class Parser {
 	private static MultipleSlot taskSlots;
 	private static TASK_TYPE taskType;
 
-	private static ArrayList<LocalDateTime> taskDateTime;
-	private static ArrayList<String> taskTimeType;
+	private static ArrayList<LocalDateTime> taskDateTime = new ArrayList<LocalDateTime>();
+	private static ArrayList<String> taskTimeType = new ArrayList<String>();
 
 	public static Command parseCommand(String commandString) {
 		String firstWord = getFirstWord(commandString);
@@ -371,7 +371,6 @@ public class Parser {
 				Integer addedHour = Integer.parseInt(hourString) + 12;
 				hourString = addedHour.toString();
 			}
-
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
 		}
 	}
@@ -618,7 +617,6 @@ public class Parser {
 			}
 		default:
 			taskType = TASK_TYPE.INVALID;
-
 		}
 	}
 
@@ -781,7 +779,7 @@ public class Parser {
 		return invalidCommand;
 	}
 
-	public static void testParserAddfunction(String commandArgs) {
+	public static void testParser(String commandArgs) {
 		searchTaskDescriptionOrID(commandArgs);
 		searchTaskLocation(commandArgs);
 		searchTaskDateTime(commandArgs);
