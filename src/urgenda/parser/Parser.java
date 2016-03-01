@@ -76,7 +76,7 @@ public class Parser {
 	private static String taskLocation;
 	private static LocalDateTime taskStartTime;
 	private static LocalDateTime taskEndTime;
-	private static ArrayList<String> taskHashtags;
+	private static ArrayList<String> taskHashtags = new ArrayList<String>();
 	private static MultipleSlot taskSlots;
 	private static TASK_TYPE taskType;
 
