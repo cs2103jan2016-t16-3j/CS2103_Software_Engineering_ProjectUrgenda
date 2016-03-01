@@ -780,4 +780,21 @@ public class Parser {
 		// TO DO: set methods
 		return invalidCommand;
 	}
+
+	public static void testParserAddfunction(String commandArgs) {
+		searchTaskDescriptionOrID(commandArgs);
+		searchTaskLocation(commandArgs);
+		searchTaskDateTime(commandArgs);
+		searchTaskHashtags(commandArgs);
+		getTaskType(commandArgs);
+		System.out.print("Task description: " + taskDescription + "\n");
+		System.out.print("Task location: " + taskLocation + "\n");
+		System.out.print("Task start time: " + taskStartTime.toString() + "\n");
+		System.out.print("Task end time: " + taskEndTime.toString() + "\n");
+		System.out.print("Task type: " + taskType.toString() + "\n");
+		System.out.print("Task hastags:");
+		for (Integer i = 0; i < taskHashtags.size(); i++) {
+			System.out.print(" " + taskHashtags.get(i) );
+		}
+	}
 }
