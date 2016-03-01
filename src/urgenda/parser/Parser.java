@@ -47,13 +47,24 @@ public class Parser {
 
 	private static COMMAND_TYPE commandType;
 
+	private static String dateOfWeekRegex = "((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun)";
 	private static String dateRegexWithYear = "([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])([- /.])20\\d\\d";
 	private static String dateRegexWithoutYear = "([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])";
-	private static String hourRegex = "(((0[1-9]|1[012]|[1-9]))|([01][1-9]|2[0-4]|[1-9]))";
+	private static String hourRegex12 = "(0[1-9]|1[012]|[1-9])";
+	private static String hourRegex24 = "([01][1-9]|2[0-4]|[1-9])";
 	private static String minuteAndSecondRegex = "([0-5][0-9]|[1-9])";
-	private static String timeRegex = hourRegex + "[: ]" + minuteAndSecondRegex + "[: ]" + minuteAndSecondRegex
-			+ "( )?(am|pm)";
-	private static String dateOfWeekRegex = "((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun)";
+	private static String timeRegexHour12 = hourRegex12 + "( )?(am|pm)\\b";
+	private static String timeRegexHour24 = hourRegex24 + "( )?h\\b";
+	private static String timeRegexHour12Minute = hourRegex12 + "[: ]" + minuteAndSecondRegex + "( )?(am|pm)\\b";
+	private static String timeRegexHour24Minute = hourRegex24 + "[: ]" + minuteAndSecondRegex + "( )?h?\\b";
+	private static String timeRegexHour12MinuteSecond = hourRegex12 + "[: ]" + minuteAndSecondRegex + "[: ]"
+			+ minuteAndSecondRegex + "( )?(am|pm)\\b";
+	private static String timeRegexHour24MinuteSecond = hourRegex24 + "[: ]" + minuteAndSecondRegex + "[: ]"
+			+ minuteAndSecondRegex + "( )?h?\\b";
+
+	private static String generalDateRegex = "(" + dateRegexWithYear + "|" + dateRegexWithoutYear + ")";
+	private static String generalTimeRegex = "(" + timeRegexHour12 + "|" + timeRegexHour24 + "|" + timeRegexHour12Minute
+			+ "|" + timeRegexHour24Minute + "|" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + ")";
 
 	private static Integer taskID;
 	private static String taskDescription;
@@ -220,62 +231,31 @@ public class Parser {
 	private static void searchCombinedDateTime(String commandArgs) {
 		String temp = commandArgs.toLowerCase();
 
-		String dateTimeRegexWithYear = dateRegexWithYear + "( )" + timeRegex;
-		String timeDateRegexWithYear = timeRegex + "( )" + dateRegexWithYear;
-		String dateTimeRegexWithoutYear = dateRegexWithoutYear + "( )" + timeRegex;
-		String timeDateRegexWithoutYear = timeRegex + "( )" + dateRegexWithoutYear;
+		String dateTimeRegex = generalDateRegex + "( )" + generalTimeRegex;
+		String timeDateRegex = generalTimeRegex + "( )" + generalDateRegex;
+		String combinedRegex = "(" + dateTimeRegex + "|" + timeDateRegex + ")";
 
-		Matcher m1 = Pattern.compile(dateTimeRegexWithYear).matcher(temp);
-		while (m1.find()) {
-			LocalDateTime dateTime = processCombinedDateTimeString(m1.group());
+		Matcher matcher = Pattern.compile(combinedRegex).matcher(temp);
+		while (matcher.find()) {
+			LocalDateTime dateTime = processCombinedDateTimeString(matcher.group());
 			if (dateTime != null) {
 				taskDateTime.add(dateTime);
 			}
 		}
-
-		Matcher m2 = Pattern.compile(timeDateRegexWithYear).matcher(temp);
-		while (m2.find()) {
-			LocalDateTime dateTime = processCombinedDateTimeString(m2.group());
-			if (dateTime != null) {
-				taskDateTime.add(dateTime);
-			}
-		}
-
-		Matcher m3 = Pattern.compile(dateTimeRegexWithoutYear).matcher(temp);
-		while (m3.find()) {
-			LocalDateTime dateTime = processCombinedDateTimeString(m3.group());
-			if (dateTime != null) {
-				taskDateTime.add(dateTime);
-			}
-		}
-
-		Matcher m4 = Pattern.compile(timeDateRegexWithoutYear).matcher(temp);
-		while (m4.find()) {
-			LocalDateTime dateTime = processCombinedDateTimeString(m4.group());
-			if (dateTime != null) {
-				taskDateTime.add(dateTime);
-			}
-		}
-
 	}
 
 	public static LocalDateTime processCombinedDateTimeString(String dateTimeString) {
 		String timeString = "";
 		String dateString = "";
 
-		Matcher m1 = Pattern.compile(timeRegex).matcher(dateTimeString);
-		if (m1.find()) {
-			timeString = m1.group();
+		Matcher matcher = Pattern.compile(generalTimeRegex).matcher(dateTimeString);
+		if (matcher.find()) {
+			timeString = matcher.group();
 		}
 
-		Matcher m2 = Pattern.compile(dateRegexWithYear).matcher(dateTimeString);
-		if (m2.find()) {
-			dateString = m2.group(0);
-		} else {
-			Matcher m3 = Pattern.compile(dateRegexWithoutYear).matcher(dateTimeString);
-			if (m3.find()) {
-				dateString = m3.group();
-			}
+		matcher = Pattern.compile(generalDateRegex).matcher(dateTimeString);
+		if (matcher.find()) {
+			dateString = matcher.group();
 		}
 
 		LocalDate date = processDateString(dateString);
@@ -294,9 +274,10 @@ public class Parser {
 			String monthString;
 			String yearString;
 			ArrayList<String> allMatches = new ArrayList<String>();
-			Matcher m1 = Pattern.compile("[- /.]").matcher(dateString);
-			while (m1.find()) {
-				allMatches.add(m1.group());
+
+			Matcher matcher = Pattern.compile("[- /.]").matcher(dateString);
+			while (matcher.find()) {
+				allMatches.add(matcher.group());
 			}
 
 			if (allMatches.size() == 1) {
@@ -338,32 +319,166 @@ public class Parser {
 
 	public static LocalTime processTimeString(String timeString) {
 		if (timeString != "") {
-			
+			Matcher matcher = Pattern.compile("( )?(am|pm)").matcher(timeString);
+			if (matcher.find()) {
+				return process12hTimeString(timeString);
+			} else {
+				return process24hTimeString(timeString);
+			}
 		} else {
 			return null;
 		}
 	}
 
-	public static void searchSeperateDateTime(String commandArgs) {
+	public static LocalTime process12hTimeString(String timeString) {
+		Boolean add12Hour = false;
+		Matcher matcher = Pattern.compile("( )?(am|pm)").matcher(timeString);
+		if (matcher.find()) {
+			if (matcher.group().trim() == "pm") {
+				add12Hour = true;
+			}
+			timeString = timeString.replace(matcher.group(), "").trim();
+		}
+			
+		ArrayList<String> temp = new ArrayList<String>();
+		String hourString;
+		String minuteString;
+		String secondString;
+		
+		temp = parseTimeValues(timeString);
+		hourString = temp.get(0);
+		minuteString = temp.get(1);
+		secondString = temp.get(2);
+		
+		if (hourString == "") {
+			return null;
+		} else {
+			if (add12Hour) {
+				Integer addedHour = Integer.parseInt(hourString) + 12;
+				hourString = addedHour.toString();
+			}
+			
+			return mergeAndParseTimeValues(hourString, minuteString, secondString);
+		}
+	}
+
+	public static LocalTime process24hTimeString(String timeString) {
+		Matcher matcher = Pattern.compile("( )?h").matcher(timeString);
+		if (matcher.find()) {
+			timeString = timeString.replace(matcher.group(), "").trim();
+		}
+		
+		ArrayList<String> temp;
+		String hourString;
+		String minuteString;
+		String secondString;
+		
+		temp = parseTimeValues(timeString);
+		hourString = temp.get(0);
+		minuteString = temp.get(1);
+		secondString = temp.get(2);
+				
+		if (hourString == "") {
+			return null;
+		} else {
+			return mergeAndParseTimeValues(hourString, minuteString, secondString);
+		}
+	}
+	
+	public static ArrayList<String> parseTimeValues(String timeString) {
+		ArrayList<String> returnedArray = new ArrayList<String>();
+		ArrayList<String> allMatches = new ArrayList<String>();
+		String hourString;
+		String minuteString;
+		String secondString;
+		
+		Matcher matcher = Pattern.compile("[: ]").matcher(timeString);
+		while (matcher.find()) {
+			allMatches.add(matcher.group());
+		}
+		
+		switch (allMatches.size()) {
+		case 0:
+			hourString = timeString.split("[: ]")[0];
+			minuteString = "00";
+			secondString = "00";
+			
+			if (hourString.length() == 1) {
+				hourString = "0" + hourString;
+			}
+		case 1:
+			hourString = timeString.split("[: ]")[0];
+			minuteString = timeString.split("[: ]")[1];
+			secondString = "00";
+			
+			if (hourString.length() == 1) {
+				hourString = "0" + hourString;
+			}
+			if (minuteString.length() == 1) {
+				minuteString = "0" + minuteString;
+			}
+		case 2:
+			hourString = timeString.split("[: ]")[0];
+			minuteString = timeString.split("[: ]")[1];
+			secondString = timeString.split("[: ]")[2];
+			
+			if (hourString.length() == 1) {
+				hourString = "0" + hourString;
+			}
+			if (minuteString.length() == 1) {
+				minuteString = "0" + minuteString;
+			}
+			if (secondString.length() == 1) {
+				secondString = "0" + secondString;
+			}
+		default:
+			hourString = "";
+			minuteString = "";
+			secondString = "";
+		}
+		
+		returnedArray.add(hourString);
+		returnedArray.add(minuteString);
+		returnedArray.add(secondString);
+		
+		return returnedArray;
+	}
+	
+	public static LocalTime mergeAndParseTimeValues(String hourString, String minuteString, String secondString) {
+		String mergedTimeString = hourString + ":" + minuteString + ":" + secondString;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+		
+		try {
+			LocalTime time = LocalTime.parse(mergedTimeString, formatter);
+			return time;
+		}
+		catch ( Exception e) {
+			return null;
+		}
+	}
+
+	public static void searchSeparateDateTime(String commandArgs) {
 		String temp = commandArgs.toLowerCase();
 
 		ArrayList<String> datesString = new ArrayList<String>();
 
-		Matcher m5 = Pattern.compile(dateOfWeekRegex).matcher(temp);
-		while (m5.find()) {
-			datesString.add(m5.group());
+		Matcher matcher = Pattern.compile(dateOfWeekRegex).matcher(temp);
+		while (matcher.find()) {
+			datesString.add(matcher.group());
 		}
 	}
 
 	private static void searchTaskDateTime(String commandArgs) {
-
+		searchCombinedDateTime(commandArgs);
+		searchSeparateDateTime(commandArgs);
+		
 	}
 
 	private static void searchTaskHashtags(String commandArgs) {
 		String temp = commandArgs;
-		Matcher m = Pattern.compile("#\\S+").matcher(temp);
-		while (m.find()) {
-			taskHashtags.add(m.group());
+		Matcher matcher = Pattern.compile("#\\S+").matcher(temp);
+		while (matcher.find()) {
+			taskHashtags.add(matcher.group());
 		}
 	}
 
