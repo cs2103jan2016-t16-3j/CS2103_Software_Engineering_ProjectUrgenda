@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import urgenda.command.*;
 import urgenda.util.*;
@@ -51,7 +52,7 @@ public class Parser {
 
 	private static COMMAND_TYPE commandType;
 
-	private static String dateOfWeekRegex = "((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun)";
+	private static String dayOfWeekRegex = "((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun)";
 	private static String dateRegexWithYear = "([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])([- /.])20\\d\\d";
 	private static String dateRegexWithoutYear = "([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])";
 	private static String hourRegex12 = "(0[1-9]|1[012]|[1-9])";
@@ -472,11 +473,95 @@ public class Parser {
 	public static void searchSeparateDateTime(String commandArgs) {
 		String temp = commandArgs.toLowerCase();
 
-		ArrayList<String> datesString = new ArrayList<String>();
+		String dateTimeRegex = dayOfWeekRegex + "( )" + generalTimeRegex;
+		String timeDateRegex = generalTimeRegex + "( )" + dayOfWeekRegex;
+		String combinedRegex = "(at|by|from|to)( )(" + dateTimeRegex + "|" + timeDateRegex + ")";
 
-		Matcher matcher = Pattern.compile(dateOfWeekRegex).matcher(temp);
+		Matcher matcher = Pattern.compile(combinedRegex).matcher(temp);
 		while (matcher.find()) {
-			datesString.add(matcher.group());
+			LocalDateTime dateTime = processSeparateDateTimeString(matcher.group());
+			if (dateTime != null) {
+				taskDateTime.add(dateTime);
+			}
+		}
+	}
+
+	public static LocalDateTime processSeparateDateTimeString(String dateTimeString) {
+		String timeString = "";
+		String dateStringInWeek = "";
+
+		Matcher matcher = Pattern.compile("(at|by|from|to)( )").matcher(dateTimeString);
+		if (matcher.find()) {
+			taskTimeType.add(matcher.group().trim());
+			timeString = timeString.replace(matcher.group(), "").trim();
+		}
+
+		matcher = Pattern.compile(generalTimeRegex).matcher(dateTimeString);
+		if (matcher.find()) {
+			timeString = matcher.group();
+		}
+
+		matcher = Pattern.compile(dayOfWeekRegex).matcher(dateTimeString);
+		if (matcher.find()) {
+			dateStringInWeek = matcher.group();
+		}
+
+		LocalDate date = processDateStringInWeek(dateStringInWeek);
+		LocalTime time = processTimeString(timeString);
+
+		if ((date != null) && (time != null)) {
+			return LocalDateTime.of(date, time);
+		} else {
+			return null;
+		}
+	}
+
+	private static LocalDate processDateStringInWeek(String dateStringInWeek) {
+		if (dateStringInWeek != "") {
+			String temp = dateStringInWeek.toLowerCase();
+			Boolean add7Days = false;
+			Calendar calendar = Calendar.getInstance();
+			int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+			int commandDayOfWeek = 0;
+
+			Matcher matcher = Pattern.compile("next( )?").matcher(dateStringInWeek);
+			if (matcher.find()) {
+				add7Days = true;
+				temp = temp.replace(matcher.group(), "").trim();
+			}
+			
+			switch (temp) {
+			case "monday|mon":
+				commandDayOfWeek = 2;
+			case "tuesday|tues|tue":
+				commandDayOfWeek = 3;
+			case "wednesday|wed":
+				commandDayOfWeek = 4;
+			case "thursday|thurs|thu":
+				commandDayOfWeek = 5;
+			case "friday|fri":
+				commandDayOfWeek = 6;
+			case "saturday|sat":
+				commandDayOfWeek = 7;
+			case "sunday|sun":
+				commandDayOfWeek = 1;
+			}
+			
+			if (currentDayOfWeek > commandDayOfWeek) {
+				add7Days = true;
+			}
+			
+			Integer numberOfDayDifference;;
+			if (add7Days) {
+				numberOfDayDifference = commandDayOfWeek - currentDayOfWeek + 7;
+			} else {
+				numberOfDayDifference = commandDayOfWeek - currentDayOfWeek;
+			}
+			
+			return LocalDateTime.now().toLocalDate().plusDays(numberOfDayDifference);
+ 
+		} else {
+			return null;
 		}
 	}
 
