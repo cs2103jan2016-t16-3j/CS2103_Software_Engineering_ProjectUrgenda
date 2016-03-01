@@ -19,6 +19,10 @@ public class Parser {
 		ADD, DELETE, ALLOCATE, DONE, UPDATE, SEARCH, SHOW_DETAILS, UNDO, REDO, ARCHIVE, PRIORITISE, INVALID, EXIT
 	}
 	
+	private static enum TASK_TYPE {
+		EVENT, DEADLINE, FLOATING, INVALID
+	}
+	
 	private static Integer currentYear = LocalDate.now().getYear();
 	private static Integer currentMonth = LocalDate.now().getMonthValue();
 	private static Integer currentDayOfMonth = LocalDate.now().getDayOfMonth();
@@ -73,8 +77,10 @@ public class Parser {
 	private static LocalDateTime taskEndTime;
 	private static ArrayList<String> taskHashtags;
 	private static MultipleSlot taskSlots;
+	private static TASK_TYPE taskType;
+	
 	private static ArrayList<LocalDateTime> taskDateTime;
-	private static Task.Type taskType;
+	private static ArrayList<String> taskTimeType;
 
 	public static Command parseCommand(String commandString) {
 		String firstWord = getFirstWord(commandString);
@@ -234,7 +240,7 @@ public class Parser {
 
 		String dateTimeRegex = generalDateRegex + "( )" + generalTimeRegex;
 		String timeDateRegex = generalTimeRegex + "( )" + generalDateRegex;
-		String combinedRegex = "(" + dateTimeRegex + "|" + timeDateRegex + ")";
+		String combinedRegex = "(at|by|from|to)( )(" + dateTimeRegex + "|" + timeDateRegex + ")";
 
 		Matcher matcher = Pattern.compile(combinedRegex).matcher(temp);
 		while (matcher.find()) {
@@ -248,8 +254,14 @@ public class Parser {
 	public static LocalDateTime processCombinedDateTimeString(String dateTimeString) {
 		String timeString = "";
 		String dateString = "";
-
-		Matcher matcher = Pattern.compile(generalTimeRegex).matcher(dateTimeString);
+		
+		Matcher matcher = Pattern.compile("(at|by|from|to)( )").matcher(dateTimeString);
+		if (matcher.find()) {
+			taskTimeType.add(matcher.group().trim());
+			timeString = timeString.replace(matcher.group(), "").trim();
+		}
+		
+		matcher = Pattern.compile(generalTimeRegex).matcher(dateTimeString);
 		if (matcher.find()) {
 			timeString = matcher.group();
 		}
@@ -472,12 +484,10 @@ public class Parser {
 	private static void searchTaskDateTime(String commandArgs) {
 		searchCombinedDateTime(commandArgs);
 		searchSeparateDateTime(commandArgs);
+		getTaskType(commandArgs);
 		
 		switch (taskDateTime.size()) {
-		case 0:
-			System.out.print("Too many time values inserted");
 		case 1:
-			searchCaseStartEndtime(commandArgs);
 			switch (taskType) {
 			case EVENT:
 				taskStartTime = taskDateTime.get(0);
@@ -486,28 +496,44 @@ public class Parser {
 				taskEndTime = taskDateTime.get(0);
 			}
 		case 2:
-			if (taskDateTime.get(0).compareTo(taskDateTime.get(1)) > 0 ) {
-				taskStartTime = taskDateTime.get(1);
-				taskEndTime = taskDateTime.get(0);
+			if (taskType == TASK_TYPE.EVENT) {
+				if (taskDateTime.get(0).compareTo(taskDateTime.get(1)) > 0 ) {
+					taskStartTime = taskDateTime.get(1);
+					taskEndTime = taskDateTime.get(0);
+				} else {
+					taskStartTime = taskDateTime.get(0);
+					taskEndTime = taskDateTime.get(1);
+				}
 			} else {
-				taskStartTime = taskDateTime.get(0);
-				taskEndTime = taskDateTime.get(1);
+				System.out.print("Invalid time values inserted");
 			}
 		default:
+			System.out.print("Too many time values inserted");
 		}
 	}
 	
-	public static void searchCaseStartEndtime(String commandArgs) {
-		Matcher matcher = Pattern.compile("\\bat\\b").matcher(commandArgs);
-		Matcher matcher2 = Pattern.compile("\\bby\\b").matcher(commandArgs);
-		if (matcher.find() && matcher2.find()) {
-			taskType = Task.Type.EVENT;
-		} else if (matcher.find()) {
-			taskType = Task.Type.EVENT;
-		} else if (matcher2.find()) {
-			taskType = Task.Type.DEADLINE; 
-		} else {
-			taskType = Task.Type.FLOATING;
+	public static void getTaskType(String commandArgs) {
+		switch (taskTimeType.size()){
+		case 0:
+			taskType = TASK_TYPE.FLOATING;
+		case 1:
+			switch (taskTimeType.get(0)) {
+			case "at|from":
+				taskType = TASK_TYPE.EVENT;
+			case "by":
+				taskType = TASK_TYPE.DEADLINE;
+			case "to":
+				taskType = TASK_TYPE.INVALID;
+			}
+		case 2:
+			if ((taskTimeType.get(0) == "from" && taskTimeType.get(1) == "to")||(taskTimeType.get(1) == "from" && taskTimeType.get(2) == "to")) {
+				taskType = TASK_TYPE.EVENT;
+			} else {
+				taskType = TASK_TYPE.INVALID;
+			}
+		default:
+			taskType = TASK_TYPE.INVALID;
+
 		}
 	}
 
@@ -581,8 +607,14 @@ public class Parser {
 		if (taskSlots != null) {
 			newTask.setSlot(taskSlots);
 		}
-		if (taskType != null) {
-			newTask.setTaskType(taskType);
+		switch (taskType) {
+		case EVENT:
+			newTask.setTaskType(Task.Type.EVENT);
+		case DEADLINE:
+			newTask.setTaskType(Task.Type.DEADLINE);
+		case FLOATING:
+			newTask.setTaskType(Task.Type.FLOATING);
+		default:
 		}
 		return new AddTask(newTask);
 	}
