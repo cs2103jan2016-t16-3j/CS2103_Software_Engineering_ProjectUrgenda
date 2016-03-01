@@ -173,37 +173,44 @@ public class Parser {
 			searchTaskLocation(commandArgs);
 			searchTaskDateTime(commandArgs);
 			searchTaskHashtags(commandArgs);
+			break;
 		case DELETE:
 			searchTaskDescriptionOrID(commandArgs);
+			break;
 		case ALLOCATE:
 			searchTaskDescriptionOrID(commandArgs);
 			searchTaskMultipleSlots(commandArgs);
+			break;
 		case DONE:
 			searchTaskDescriptionOrID(commandArgs);
+			break;
 		case UPDATE:
 			searchTaskDescriptionOrID(commandArgs);
 			searchTaskLocation(commandArgs);
 			searchTaskDateTime(commandArgs);
 			searchTaskHashtags(commandArgs);
+			break;
 		case SEARCH:
 			searchTaskDescriptionOrID(commandArgs);
 			searchTaskHashtags(commandArgs);
+			break;
 		case SHOW_DETAILS:
 			searchTaskDescriptionOrID(commandArgs);
+			break;
 		case UNDO:
-
+			break;
 		case REDO:
-
+			break;
 		case ARCHIVE:
-
+			break;
 		case PRIORITISE:
 			searchTaskDescriptionOrID(commandArgs);
 		case EXIT:
-
+			break;
 		case INVALID:
-
+			break;
 		default:
-
+			break;
 		}
 		return returnedValue;
 	}
@@ -284,9 +291,9 @@ public class Parser {
 
 	public static LocalDate processDateString(String dateString) {
 		if (dateString != "") {
-			String dayString;
-			String monthString;
-			String yearString;
+			String dayString = "";
+			String monthString = "";
+			String yearString = "";
 			ArrayList<String> allMatches = new ArrayList<String>();
 
 			Matcher matcher = Pattern.compile("[- /.]").matcher(dateString);
@@ -305,7 +312,7 @@ public class Parser {
 				if (monthString.length() == 1) {
 					monthString = "0" + monthString;
 				}
-			} else {
+			} else if (allMatches.size() == 2) {
 				dayString = dateString.split("[- /.]")[0];
 				monthString = dateString.split("[- /.]")[1];
 				yearString = dateString.split("[- /.]")[2];
@@ -419,6 +426,7 @@ public class Parser {
 			if (hourString.length() == 1) {
 				hourString = "0" + hourString;
 			}
+			break;
 		case 1:
 			hourString = timeString.split("[: ]")[0];
 			minuteString = timeString.split("[: ]")[1];
@@ -430,6 +438,7 @@ public class Parser {
 			if (minuteString.length() == 1) {
 				minuteString = "0" + minuteString;
 			}
+			break;
 		case 2:
 			hourString = timeString.split("[: ]")[0];
 			minuteString = timeString.split("[: ]")[1];
@@ -444,10 +453,12 @@ public class Parser {
 			if (secondString.length() == 1) {
 				secondString = "0" + secondString;
 			}
+			break;
 		default:
 			hourString = "";
 			minuteString = "";
 			secondString = "";
+			break;
 		}
 
 		returnedArray.add(hourString);
@@ -532,18 +543,25 @@ public class Parser {
 			switch (temp) {
 			case "monday|mon":
 				commandDayOfWeek = 2;
+				break;
 			case "tuesday|tues|tue":
 				commandDayOfWeek = 3;
+				break;
 			case "wednesday|wed":
 				commandDayOfWeek = 4;
+				break;
 			case "thursday|thurs|thu":
 				commandDayOfWeek = 5;
+				break;
 			case "friday|fri":
 				commandDayOfWeek = 6;
+				break;
 			case "saturday|sat":
 				commandDayOfWeek = 7;
+				break;
 			case "sunday|sun":
 				commandDayOfWeek = 1;
+				break;
 			}
 			
 			if (currentDayOfWeek > commandDayOfWeek) {
@@ -575,9 +593,12 @@ public class Parser {
 			case EVENT:
 				taskStartTime = taskDateTime.get(0);
 				taskEndTime = taskStartTime.plusHours(1);
+				break;
 			case DEADLINE:
 				taskEndTime = taskDateTime.get(0);
+				break;
 			}
+			break;
 		case 2:
 			if (taskType == TASK_TYPE.EVENT) {
 				if (taskDateTime.get(0).compareTo(taskDateTime.get(1)) > 0) {
@@ -590,8 +611,10 @@ public class Parser {
 			} else {
 				System.out.print("Invalid time values inserted");
 			}
+			break;
 		default:
 			System.out.print("Too many time values inserted");
+			break;
 		}
 	}
 
@@ -599,15 +622,20 @@ public class Parser {
 		switch (taskTimeType.size()) {
 		case 0:
 			taskType = TASK_TYPE.FLOATING;
+			break;
 		case 1:
 			switch (taskTimeType.get(0)) {
 			case "at|from":
 				taskType = TASK_TYPE.EVENT;
+				break;
 			case "by":
 				taskType = TASK_TYPE.DEADLINE;
+				break;
 			case "to":
 				taskType = TASK_TYPE.INVALID;
+				break;
 			}
+			break;
 		case 2:
 			if ((taskTimeType.get(0) == "from" && taskTimeType.get(1) == "to")
 					|| (taskTimeType.get(1) == "from" && taskTimeType.get(2) == "to")) {
@@ -615,8 +643,10 @@ public class Parser {
 			} else {
 				taskType = TASK_TYPE.INVALID;
 			}
+			break;
 		default:
 			taskType = TASK_TYPE.INVALID;
+			break;
 		}
 	}
 
@@ -637,32 +667,46 @@ public class Parser {
 		switch (commandType) {
 		case ADD:
 			returnedCommandObject = generateAddCommandObject();
+			break;
 		case DELETE:
 			returnedCommandObject = generateDeleteCommandObject();
+			break;
 		case ALLOCATE:
 			returnedCommandObject = generateAllocateCommandObject();
+			break;
 		case DONE:
 			returnedCommandObject = generateDoneCommandObject();
+			break;
 		case UPDATE:
 			returnedCommandObject = generateUpdateCommandObject();
+			break;
 		case SEARCH:
 			returnedCommandObject = generateSearchCommandObject();
+			break;
 		case SHOW_DETAILS:
 			returnedCommandObject = generateShowDetailsCommandObject();
+			break;
 		case UNDO:
 			returnedCommandObject = generateUndoCommandObject();
+			break;
 		case REDO:
 			returnedCommandObject = generateRedoCommandObject();
+			break;
 		case ARCHIVE:
 			returnedCommandObject = generateArchiveCommandObject();
+			break;
 		case PRIORITISE:
 			returnedCommandObject = generatePrioritiseCommandObject();
+			break;
 		case EXIT:
 			returnedCommandObject = generateExitCommandObject();
+			break;
 		case INVALID:
 			returnedCommandObject = generateInvalidCommandObject();
+			break;
 		default:
 			returnedCommandObject = generateInvalidCommandObject();
+			break;
 		}
 		return returnedCommandObject;
 	}
@@ -693,11 +737,15 @@ public class Parser {
 		switch (taskType) {
 		case EVENT:
 			newTask.setTaskType(Task.Type.EVENT);
+			break;
 		case DEADLINE:
 			newTask.setTaskType(Task.Type.DEADLINE);
+			break;
 		case FLOATING:
 			newTask.setTaskType(Task.Type.FLOATING);
+			break;
 		default:
+			break;
 		}
 		return new AddTask(newTask);
 	}
