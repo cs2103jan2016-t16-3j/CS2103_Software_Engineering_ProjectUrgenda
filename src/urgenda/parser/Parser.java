@@ -18,11 +18,11 @@ public class Parser {
 	private static enum COMMAND_TYPE {
 		ADD, DELETE, ALLOCATE, DONE, UPDATE, SEARCH, SHOW_DETAILS, UNDO, REDO, ARCHIVE, PRIORITISE, INVALID, EXIT
 	}
-	
+
 	private static enum TASK_TYPE {
 		EVENT, DEADLINE, FLOATING, INVALID
 	}
-	
+
 	private static Integer currentYear = LocalDate.now().getYear();
 	private static Integer currentMonth = LocalDate.now().getMonthValue();
 	private static Integer currentDayOfMonth = LocalDate.now().getDayOfMonth();
@@ -78,7 +78,7 @@ public class Parser {
 	private static ArrayList<String> taskHashtags;
 	private static MultipleSlot taskSlots;
 	private static TASK_TYPE taskType;
-	
+
 	private static ArrayList<LocalDateTime> taskDateTime;
 	private static ArrayList<String> taskTimeType;
 
@@ -254,13 +254,13 @@ public class Parser {
 	public static LocalDateTime processCombinedDateTimeString(String dateTimeString) {
 		String timeString = "";
 		String dateString = "";
-		
+
 		Matcher matcher = Pattern.compile("(at|by|from|to)( )").matcher(dateTimeString);
 		if (matcher.find()) {
 			taskTimeType.add(matcher.group().trim());
 			timeString = timeString.replace(matcher.group(), "").trim();
 		}
-		
+
 		matcher = Pattern.compile(generalTimeRegex).matcher(dateTimeString);
 		if (matcher.find()) {
 			timeString = matcher.group();
@@ -352,17 +352,17 @@ public class Parser {
 			}
 			timeString = timeString.replace(matcher.group(), "").trim();
 		}
-			
+
 		ArrayList<String> temp = new ArrayList<String>();
 		String hourString;
 		String minuteString;
 		String secondString;
-		
+
 		temp = parseTimeValues(timeString);
 		hourString = temp.get(0);
 		minuteString = temp.get(1);
 		secondString = temp.get(2);
-		
+
 		if (hourString == "") {
 			return null;
 		} else {
@@ -370,7 +370,7 @@ public class Parser {
 				Integer addedHour = Integer.parseInt(hourString) + 12;
 				hourString = addedHour.toString();
 			}
-			
+
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
 		}
 	}
@@ -380,42 +380,42 @@ public class Parser {
 		if (matcher.find()) {
 			timeString = timeString.replace(matcher.group(), "").trim();
 		}
-		
-		ArrayList<String> temp;
+
+		ArrayList<String> temp = new ArrayList<String>();
 		String hourString;
 		String minuteString;
 		String secondString;
-		
+
 		temp = parseTimeValues(timeString);
 		hourString = temp.get(0);
 		minuteString = temp.get(1);
 		secondString = temp.get(2);
-				
+
 		if (hourString == "") {
 			return null;
 		} else {
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
 		}
 	}
-	
+
 	public static ArrayList<String> parseTimeValues(String timeString) {
 		ArrayList<String> returnedArray = new ArrayList<String>();
 		ArrayList<String> allMatches = new ArrayList<String>();
 		String hourString;
 		String minuteString;
 		String secondString;
-		
+
 		Matcher matcher = Pattern.compile("[: ]").matcher(timeString);
 		while (matcher.find()) {
 			allMatches.add(matcher.group());
 		}
-		
+
 		switch (allMatches.size()) {
 		case 0:
 			hourString = timeString.split("[: ]")[0];
 			minuteString = "00";
 			secondString = "00";
-			
+
 			if (hourString.length() == 1) {
 				hourString = "0" + hourString;
 			}
@@ -423,7 +423,7 @@ public class Parser {
 			hourString = timeString.split("[: ]")[0];
 			minuteString = timeString.split("[: ]")[1];
 			secondString = "00";
-			
+
 			if (hourString.length() == 1) {
 				hourString = "0" + hourString;
 			}
@@ -434,7 +434,7 @@ public class Parser {
 			hourString = timeString.split("[: ]")[0];
 			minuteString = timeString.split("[: ]")[1];
 			secondString = timeString.split("[: ]")[2];
-			
+
 			if (hourString.length() == 1) {
 				hourString = "0" + hourString;
 			}
@@ -449,23 +449,22 @@ public class Parser {
 			minuteString = "";
 			secondString = "";
 		}
-		
+
 		returnedArray.add(hourString);
 		returnedArray.add(minuteString);
 		returnedArray.add(secondString);
-		
+
 		return returnedArray;
 	}
-	
+
 	public static LocalTime mergeAndParseTimeValues(String hourString, String minuteString, String secondString) {
 		String mergedTimeString = hourString + ":" + minuteString + ":" + secondString;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
-		
+
 		try {
 			LocalTime time = LocalTime.parse(mergedTimeString, formatter);
 			return time;
-		}
-		catch ( Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -485,7 +484,7 @@ public class Parser {
 		searchCombinedDateTime(commandArgs);
 		searchSeparateDateTime(commandArgs);
 		getTaskType(commandArgs);
-		
+
 		switch (taskDateTime.size()) {
 		case 1:
 			switch (taskType) {
@@ -497,7 +496,7 @@ public class Parser {
 			}
 		case 2:
 			if (taskType == TASK_TYPE.EVENT) {
-				if (taskDateTime.get(0).compareTo(taskDateTime.get(1)) > 0 ) {
+				if (taskDateTime.get(0).compareTo(taskDateTime.get(1)) > 0) {
 					taskStartTime = taskDateTime.get(1);
 					taskEndTime = taskDateTime.get(0);
 				} else {
@@ -511,9 +510,9 @@ public class Parser {
 			System.out.print("Too many time values inserted");
 		}
 	}
-	
+
 	public static void getTaskType(String commandArgs) {
-		switch (taskTimeType.size()){
+		switch (taskTimeType.size()) {
 		case 0:
 			taskType = TASK_TYPE.FLOATING;
 		case 1:
@@ -526,7 +525,8 @@ public class Parser {
 				taskType = TASK_TYPE.INVALID;
 			}
 		case 2:
-			if ((taskTimeType.get(0) == "from" && taskTimeType.get(1) == "to")||(taskTimeType.get(1) == "from" && taskTimeType.get(2) == "to")) {
+			if ((taskTimeType.get(0) == "from" && taskTimeType.get(1) == "to")
+					|| (taskTimeType.get(1) == "from" && taskTimeType.get(2) == "to")) {
 				taskType = TASK_TYPE.EVENT;
 			} else {
 				taskType = TASK_TYPE.INVALID;
