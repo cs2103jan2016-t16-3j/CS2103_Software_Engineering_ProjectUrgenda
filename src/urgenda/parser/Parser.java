@@ -18,7 +18,7 @@ public class Parser {
 	private static enum COMMAND_TYPE {
 		ADD, DELETE, ALLOCATE, DONE, UPDATE, SEARCH, SHOW_DETAILS, UNDO, REDO, ARCHIVE, PRIORITISE, INVALID, EXIT
 	}
-
+	
 	private static Integer currentYear = LocalDate.now().getYear();
 	private static Integer currentMonth = LocalDate.now().getMonthValue();
 	private static Integer currentDayOfMonth = LocalDate.now().getDayOfMonth();
@@ -74,6 +74,7 @@ public class Parser {
 	private static ArrayList<String> taskHashtags;
 	private static MultipleSlot taskSlots;
 	private static ArrayList<LocalDateTime> taskDateTime;
+	private static Task.Type taskType;
 
 	public static Command parseCommand(String commandString) {
 		String firstWord = getFirstWord(commandString);
@@ -472,6 +473,42 @@ public class Parser {
 		searchCombinedDateTime(commandArgs);
 		searchSeparateDateTime(commandArgs);
 		
+		switch (taskDateTime.size()) {
+		case 0:
+			System.out.print("Too many time values inserted");
+		case 1:
+			searchCaseStartEndtime(commandArgs);
+			switch (taskType) {
+			case EVENT:
+				taskStartTime = taskDateTime.get(0);
+				taskEndTime = taskStartTime.plusHours(1);
+			case DEADLINE:
+				taskEndTime = taskDateTime.get(0);
+			}
+		case 2:
+			if (taskDateTime.get(0).compareTo(taskDateTime.get(1)) > 0 ) {
+				taskStartTime = taskDateTime.get(1);
+				taskEndTime = taskDateTime.get(0);
+			} else {
+				taskStartTime = taskDateTime.get(0);
+				taskEndTime = taskDateTime.get(1);
+			}
+		default:
+		}
+	}
+	
+	public static void searchCaseStartEndtime(String commandArgs) {
+		Matcher matcher = Pattern.compile("\\bat\\b").matcher(commandArgs);
+		Matcher matcher2 = Pattern.compile("\\bby\\b").matcher(commandArgs);
+		if (matcher.find() && matcher2.find()) {
+			taskType = Task.Type.EVENT;
+		} else if (matcher.find()) {
+			taskType = Task.Type.EVENT;
+		} else if (matcher2.find()) {
+			taskType = Task.Type.DEADLINE; 
+		} else {
+			taskType = Task.Type.FLOATING;
+		}
 	}
 
 	private static void searchTaskHashtags(String commandArgs) {
@@ -543,6 +580,9 @@ public class Parser {
 		}
 		if (taskSlots != null) {
 			newTask.setSlot(taskSlots);
+		}
+		if (taskType != null) {
+			newTask.setTaskType(taskType);
 		}
 		return new AddTask(newTask);
 	}
