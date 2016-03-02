@@ -45,11 +45,20 @@ public class TaskWrapper {
 	// for wrapping of original task object
 	public TaskWrapper(Task task) {
 		_desc = new SimpleStringProperty(task.getDesc());
-		_taskDate = new SimpleStringProperty(getDateOnly(task.getStartTime()));
+		if (task.getStartTime() == null) {
+			_taskDate = new SimpleStringProperty("");
+			_startTime = new SimpleStringProperty("");
+		} else {
+			_taskDate = new SimpleStringProperty(getDateOnly(task.getStartTime()));
+			_startTime = new SimpleStringProperty(task.getStartTime().toString());
+		}
 		_location = new SimpleStringProperty(task.getLocation());
 		setType(task.getStartTime(), task.getEndTime());
-		_startTime = new SimpleStringProperty(task.getStartTime().toString());
-		_endTime = new SimpleStringProperty(task.getEndTime().toString());
+		if (task.getEndTime() == null) {
+			_endTime = new SimpleStringProperty("");
+		} else {
+			_endTime = new SimpleStringProperty(task.getEndTime().toString());
+		}
 		_hashtags = new SimpleObjectProperty<ArrayList<String>>(task.getHashtags());
 		_dateAdded = new SimpleStringProperty(task.getDateAdded().toString());
 		_dateModified = new SimpleStringProperty(task.getDateModified().toString());
