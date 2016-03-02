@@ -1,5 +1,7 @@
 package urgenda.command;
 
+import java.time.LocalDateTime;
+
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
@@ -27,7 +29,10 @@ public class AddTask implements Undoable {
 	@Override
 	public String execute(LogicData dataStorage) {
 		_data = dataStorage;
+		LocalDateTime now = LocalDateTime.now();
 		_newTask.setId(_data.getCurrentId());
+		_newTask.setDateAdded(now);
+		_newTask.setDateModified(now);
 		_data.updateCurrentId();
 		_data.addTask(_newTask);
 		return taskMessage() + MESSAGE_ADDED;

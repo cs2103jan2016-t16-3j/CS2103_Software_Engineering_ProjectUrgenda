@@ -1,5 +1,6 @@
 package urgenda.command;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
@@ -35,7 +36,16 @@ public class BlockSlots implements Undoable {
 	@Override
 	public String execute(LogicData data) {
 		_data = data;
+		setDateAdded();
 		return MESSAGE_BLOCK + addBlockTasks();
+	}
+
+	private void setDateAdded() {
+		LocalDateTime now = LocalDateTime.now();
+		for (Task task : _taskBlocks) {
+			task.setDateAdded(now);
+			task.setDateModified(now);
+		}
 	}
 
 	public String addBlockTasks() {
