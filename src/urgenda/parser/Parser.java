@@ -61,8 +61,8 @@ public class Parser {
 	private static COMMAND_TYPE commandType;
 
 	private static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
-	private static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])([- /.])20\\d\\d)";
-	private static String dateRegexWithoutYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012]))";
+	private static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])([-/.])20\\d\\d)";
+	private static String dateRegexWithoutYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012]))";
 	private static String hourRegex12 = "(0[1-9]|1[012]|[1-9])";
 	private static String hourRegex24 = "([01][1-9]|2[0-4]|[1-9])";
 	private static String minuteAndSecondRegex = "([0-5][0-9]|[1-9])";
@@ -82,8 +82,8 @@ public class Parser {
 	private static Integer taskID = 0;
 	private static String taskDescription = "";
 	private static String taskLocation = "";
-	private static LocalDateTime taskStartTime = LocalDateTime.now();
-	private static LocalDateTime taskEndTime = LocalDateTime.now();
+	private static LocalDateTime taskStartTime;
+	private static LocalDateTime taskEndTime;
 	private static ArrayList<String> taskHashtags = new ArrayList<String>();
 	private static MultipleSlot taskSlots;
 	private static TASK_TYPE taskType = TASK_TYPE.INVALID;
@@ -109,8 +109,8 @@ public class Parser {
 		taskID = 0;
 		taskDescription = "";
 		taskLocation = "";
-		taskStartTime = LocalDateTime.now();
-		taskEndTime = LocalDateTime.now();
+		taskStartTime = null;
+		taskEndTime = null;
 		taskHashtags = new ArrayList<String>();
 		taskType = TASK_TYPE.INVALID;
 	}
@@ -315,14 +315,14 @@ public class Parser {
 			String yearString = "";
 			ArrayList<String> allMatches = new ArrayList<String>();
 
-			Matcher matcher = Pattern.compile("[- /.]").matcher(dateString);
+			Matcher matcher = Pattern.compile("[-/.]").matcher(dateString);
 			while (matcher.find()) {
 				allMatches.add(matcher.group());
 			}
 
 			if (allMatches.size() == 1) {
-				dayString = dateString.split("[- /.]")[0];
-				monthString = dateString.split("[- /.]")[1];
+				dayString = dateString.split("[-/.]")[0];
+				monthString = dateString.split("[-/.]")[1];
 				yearString = currentYear.toString();
 
 				if (dayString.length() == 1) {
@@ -332,9 +332,9 @@ public class Parser {
 					monthString = "0" + monthString;
 				}
 			} else if (allMatches.size() == 2) {
-				dayString = dateString.split("[- /.]")[0];
-				monthString = dateString.split("[- /.]")[1];
-				yearString = dateString.split("[- /.]")[2];
+				dayString = dateString.split("[-/.]")[0];
+				monthString = dateString.split("[-/.]")[1];
+				yearString = dateString.split("[-/.]")[2];
 
 				if (dayString.length() == 1) {
 					dayString = "0" + dayString;
@@ -417,7 +417,7 @@ public class Parser {
 		hourString = temp.get(0);
 		minuteString = temp.get(1);
 		secondString = temp.get(2);
-
+		
 		if (hourString == "") {
 			return null;
 		} else {
@@ -439,7 +439,7 @@ public class Parser {
 
 		switch (allMatches.size()) {
 		case 0:
-			hourString = timeString.split("[:]")[0];
+			hourString = timeString.split("[:]")[0].trim();
 			minuteString = "00";
 			secondString = "00";
 
@@ -448,8 +448,8 @@ public class Parser {
 			}
 			break;
 		case 1:
-			hourString = timeString.split("[:]")[0];
-			minuteString = timeString.split("[:]")[1];
+			hourString = timeString.split("[:]")[0].trim();
+			minuteString = timeString.split("[:]")[1].trim();
 			secondString = "00";
 
 			if (hourString.length() == 1) {
@@ -460,9 +460,9 @@ public class Parser {
 			}
 			break;
 		case 2:
-			hourString = timeString.split("[:]")[0];
-			minuteString = timeString.split("[:]")[1];
-			secondString = timeString.split("[:]")[2];
+			hourString = timeString.split("[:]")[0].trim();
+			minuteString = timeString.split("[:]")[1].trim();
+			secondString = timeString.split("[:]")[2].trim();
 
 			if (hourString.length() == 1) {
 				hourString = "0" + hourString;
@@ -600,7 +600,8 @@ public class Parser {
 
 		switch (taskDateTime.size()) {
 		case 0:
-			System.out.print("No time values inserted/n");
+			System.out.print("No time values inserted\n");
+			break;
 		case 1:
 			switch (taskType) {
 			case EVENT:
@@ -622,11 +623,11 @@ public class Parser {
 					taskEndTime = taskDateTime.get(1);
 				}
 			} else {
-				System.out.print("Invalid time values inserted/n");
+				System.out.print("Invalid time values inserted\n");
 			}
 			break;
 		default:
-			System.out.print("Too many time values inserted/n");
+			System.out.print("Too many time values inserted\n");
 			break;
 		}
 	}
@@ -837,15 +838,14 @@ public class Parser {
 	}
 
 	public static void testParser(String commandArgs) {
-		reinitializeStorageVariables();
 		searchTaskDescriptionOrID(commandArgs);
 		searchTaskLocation(commandArgs);
 		searchTaskDateTime(commandArgs);
 		searchTaskHashtags(commandArgs);
 		System.out.print("Task description: " + taskDescription + "\n");
 		System.out.print("Task location: " + taskLocation + "\n");
-		System.out.print("Task start time: " + taskStartTime.toString() + "\n");
-		System.out.print("Task end time: " + taskEndTime.toString() + "\n");
+		System.out.print("Task start time: " + taskStartTime + "\n");
+		System.out.print("Task end time: " + taskEndTime + "\n");
 		System.out.print("Task type: " + taskType.toString() + "\n");
 		System.out.print("Task hastags:");
 		for (Integer i = 0; i < taskHashtags.size(); i++) {
@@ -855,17 +855,14 @@ public class Parser {
 	}
 
 	public static void testTimeParse(String timeString) {
-		reinitializeStorageVariables();
 		System.out.print(processTimeString(timeString) + "\n");
 	}
 
 	public static void testDateParse(String dateString) {
-		reinitializeStorageVariables();
 		System.out.print(processDateString(dateString) + "\n");
 	}
 
 	public static void testStringDetection(String commandArgs) {
-		reinitializeStorageVariables();
 		String temp = commandArgs.toLowerCase();
 
 		String dateTimeRegex = generalDateRegex + "( )" + generalTimeRegex;
