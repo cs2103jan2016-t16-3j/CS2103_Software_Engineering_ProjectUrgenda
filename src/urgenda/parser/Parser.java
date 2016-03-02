@@ -40,7 +40,7 @@ public class Parser {
 	private static final Set<String> updateKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "edit", "change", "update", "mod" }));
 	private static final Set<String> searchKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "find", "show", "view", "list", "search", "#" }));
+			Arrays.asList(new String[] { "find", "show", "view", "list", "search", "#\\w+" }));
 	private static final Set<String> showDetailsKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "showmore" }));
 	private static final Set<String> undoKeywords = new HashSet<String>(Arrays.asList(new String[] { "undo" }));
@@ -50,40 +50,49 @@ public class Parser {
 			Arrays.asList(new String[] { "urgent", "important", "pri", "impt" }));
 	private static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(new String[] { "exit", "quit" }));
 
+	private static final Set<String> mondayWords = new HashSet<String>(Arrays.asList(new String[] { "monday", "mon" }));
+	private static final Set<String> tuesdayWords = new HashSet<String>(Arrays.asList(new String[] { "tuesday", "tues", "tue"}));
+	private static final Set<String> wednesdayWords = new HashSet<String>(Arrays.asList(new String[] { "wednesday", "wed" }));
+	private static final Set<String> thursdayWords = new HashSet<String>(Arrays.asList(new String[] { "thursday", "thurs", "thu" }));
+	private static final Set<String> fridayWords = new HashSet<String>(Arrays.asList(new String[] { "friday", "fri" }));
+	private static final Set<String> saturdayWords = new HashSet<String>(Arrays.asList(new String[] { "saturday", "sat" }));
+	private static final Set<String> sundayWords = new HashSet<String>(Arrays.asList(new String[] { "sunday", "sun" }));
+	
 	private static COMMAND_TYPE commandType;
 
-	private static String dayOfWeekRegex = "((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun)";
-	private static String dateRegexWithYear = "([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])([- /.])20\\d\\d";
-	private static String dateRegexWithoutYear = "([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])";
+	private static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
+	private static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012])([- /.])20\\d\\d)";
+	private static String dateRegexWithoutYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([- /.])([1-9]|0[1-9]|1[012]))";
 	private static String hourRegex12 = "(0[1-9]|1[012]|[1-9])";
 	private static String hourRegex24 = "([01][1-9]|2[0-4]|[1-9])";
 	private static String minuteAndSecondRegex = "([0-5][0-9]|[1-9])";
 	private static String timeRegexHour12 = hourRegex12 + "( )?(am|pm)\\b";
 	private static String timeRegexHour24 = hourRegex24 + "( )?h\\b";
-	private static String timeRegexHour12Minute = hourRegex12 + "[: ]" + minuteAndSecondRegex + "( )?(am|pm)\\b";
-	private static String timeRegexHour24Minute = hourRegex24 + "[: ]" + minuteAndSecondRegex + "( )?h?\\b";
-	private static String timeRegexHour12MinuteSecond = hourRegex12 + "[: ]" + minuteAndSecondRegex + "[: ]"
+	private static String timeRegexHour12Minute = hourRegex12 + "[:]" + minuteAndSecondRegex + "( )?(am|pm)\\b";
+	private static String timeRegexHour24Minute = hourRegex24 + "[:]" + minuteAndSecondRegex + "( )?h?\\b";
+	private static String timeRegexHour12MinuteSecond = hourRegex12 + "[:]" + minuteAndSecondRegex + "[:]"
 			+ minuteAndSecondRegex + "( )?(am|pm)\\b";
-	private static String timeRegexHour24MinuteSecond = hourRegex24 + "[: ]" + minuteAndSecondRegex + "[: ]"
+	private static String timeRegexHour24MinuteSecond = hourRegex24 + "[:]" + minuteAndSecondRegex + "[:]"
 			+ minuteAndSecondRegex + "( )?h?\\b";
 
 	private static String generalDateRegex = "(" + dateRegexWithYear + "|" + dateRegexWithoutYear + ")";
-	private static String generalTimeRegex = "(" + timeRegexHour12 + "|" + timeRegexHour24 + "|" + timeRegexHour12Minute
-			+ "|" + timeRegexHour24Minute + "|" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + ")";
+	private static String generalTimeRegex = "(" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + "|"
+			+ timeRegexHour12Minute + "|" + timeRegexHour24Minute + "|" + timeRegexHour12 + "|" + timeRegexHour24 + ")";
 
-	private static Integer taskID;
-	private static String taskDescription;
-	private static String taskLocation;
-	private static LocalDateTime taskStartTime;
-	private static LocalDateTime taskEndTime;
+	private static Integer taskID = 0;
+	private static String taskDescription = "";
+	private static String taskLocation = "";
+	private static LocalDateTime taskStartTime = LocalDateTime.now();
+	private static LocalDateTime taskEndTime = LocalDateTime.now();
 	private static ArrayList<String> taskHashtags = new ArrayList<String>();
 	private static MultipleSlot taskSlots;
-	private static TASK_TYPE taskType;
+	private static TASK_TYPE taskType = TASK_TYPE.INVALID;
 
 	private static ArrayList<LocalDateTime> taskDateTime = new ArrayList<LocalDateTime>();
 	private static ArrayList<String> taskTimeType = new ArrayList<String>();
 
 	public static Command parseCommand(String commandString) {
+		reinitializeStorageVariables();
 		String firstWord = getFirstWord(commandString);
 		String commandArgs = removeFirstWord(commandString);
 		Boolean isCommandValid = isCommandValid(firstWord, commandArgs);
@@ -94,6 +103,16 @@ public class Parser {
 			System.out.print(formatedErrorMessage);
 			return null;
 		}
+	}
+
+	private static void reinitializeStorageVariables() {
+		taskID = 0;
+		taskDescription = "";
+		taskLocation = "";
+		taskStartTime = LocalDateTime.now();
+		taskEndTime = LocalDateTime.now();
+		taskHashtags = new ArrayList<String>();
+		taskType = TASK_TYPE.INVALID;
 	}
 
 	private static String getFirstWord(String commandString) {
@@ -259,7 +278,7 @@ public class Parser {
 		}
 	}
 
-	public static LocalDateTime processCombinedDateTimeString(String dateTimeString) {
+	private static LocalDateTime processCombinedDateTimeString(String dateTimeString) {
 		String timeString = "";
 		String dateString = "";
 
@@ -289,7 +308,7 @@ public class Parser {
 		}
 	}
 
-	public static LocalDate processDateString(String dateString) {
+	private static LocalDate processDateString(String dateString) {
 		if (dateString != "") {
 			String dayString = "";
 			String monthString = "";
@@ -327,7 +346,7 @@ public class Parser {
 
 			try {
 				String mergedDateString = dayString + "-" + monthString + "-" + yearString;
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 				LocalDate date = LocalDate.parse(mergedDateString, formatter);
 				return date;
 			} catch (Exception e) {
@@ -338,9 +357,9 @@ public class Parser {
 		}
 	}
 
-	public static LocalTime processTimeString(String timeString) {
+	private static LocalTime processTimeString(String timeString) {
 		if (timeString != "") {
-			Matcher matcher = Pattern.compile("( )?(am|pm)").matcher(timeString);
+			Matcher matcher = Pattern.compile("(( )?(am|pm))").matcher(timeString);
 			if (matcher.find()) {
 				return process12hTimeString(timeString);
 			} else {
@@ -351,11 +370,11 @@ public class Parser {
 		}
 	}
 
-	public static LocalTime process12hTimeString(String timeString) {
+	private static LocalTime process12hTimeString(String timeString) {
 		Boolean add12Hour = false;
-		Matcher matcher = Pattern.compile("( )?(am|pm)").matcher(timeString);
+		Matcher matcher = Pattern.compile("(( )?(am|pm))").matcher(timeString);
 		if (matcher.find()) {
-			if (matcher.group().trim() == "pm") {
+			if (matcher.group().trim().equals("pm")) {
 				add12Hour = true;
 			}
 			timeString = timeString.replace(matcher.group(), "").trim();
@@ -378,11 +397,12 @@ public class Parser {
 				Integer addedHour = Integer.parseInt(hourString) + 12;
 				hourString = addedHour.toString();
 			}
+
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
 		}
 	}
 
-	public static LocalTime process24hTimeString(String timeString) {
+	private static LocalTime process24hTimeString(String timeString) {
 		Matcher matcher = Pattern.compile("( )?h").matcher(timeString);
 		if (matcher.find()) {
 			timeString = timeString.replace(matcher.group(), "").trim();
@@ -405,21 +425,21 @@ public class Parser {
 		}
 	}
 
-	public static ArrayList<String> parseTimeValues(String timeString) {
+	private static ArrayList<String> parseTimeValues(String timeString) {
 		ArrayList<String> returnedArray = new ArrayList<String>();
 		ArrayList<String> allMatches = new ArrayList<String>();
 		String hourString;
 		String minuteString;
 		String secondString;
 
-		Matcher matcher = Pattern.compile("[: ]").matcher(timeString);
+		Matcher matcher = Pattern.compile("[:]").matcher(timeString);
 		while (matcher.find()) {
 			allMatches.add(matcher.group());
 		}
 
 		switch (allMatches.size()) {
 		case 0:
-			hourString = timeString.split("[: ]")[0];
+			hourString = timeString.split("[:]")[0];
 			minuteString = "00";
 			secondString = "00";
 
@@ -428,8 +448,8 @@ public class Parser {
 			}
 			break;
 		case 1:
-			hourString = timeString.split("[: ]")[0];
-			minuteString = timeString.split("[: ]")[1];
+			hourString = timeString.split("[:]")[0];
+			minuteString = timeString.split("[:]")[1];
 			secondString = "00";
 
 			if (hourString.length() == 1) {
@@ -440,9 +460,9 @@ public class Parser {
 			}
 			break;
 		case 2:
-			hourString = timeString.split("[: ]")[0];
-			minuteString = timeString.split("[: ]")[1];
-			secondString = timeString.split("[: ]")[2];
+			hourString = timeString.split("[:]")[0];
+			minuteString = timeString.split("[:]")[1];
+			secondString = timeString.split("[:]")[2];
 
 			if (hourString.length() == 1) {
 				hourString = "0" + hourString;
@@ -464,13 +484,12 @@ public class Parser {
 		returnedArray.add(hourString);
 		returnedArray.add(minuteString);
 		returnedArray.add(secondString);
-
 		return returnedArray;
 	}
 
-	public static LocalTime mergeAndParseTimeValues(String hourString, String minuteString, String secondString) {
+	private static LocalTime mergeAndParseTimeValues(String hourString, String minuteString, String secondString) {
 		String mergedTimeString = hourString + ":" + minuteString + ":" + secondString;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 		try {
 			LocalTime time = LocalTime.parse(mergedTimeString, formatter);
@@ -480,7 +499,7 @@ public class Parser {
 		}
 	}
 
-	public static void searchSeparateDateTime(String commandArgs) {
+	private static void searchSeparateDateTime(String commandArgs) {
 		String temp = commandArgs.toLowerCase();
 
 		String dateTimeRegex = dayOfWeekRegex + "( )" + generalTimeRegex;
@@ -496,14 +515,14 @@ public class Parser {
 		}
 	}
 
-	public static LocalDateTime processSeparateDateTimeString(String dateTimeString) {
+	private static LocalDateTime processSeparateDateTimeString(String dateTimeString) {
 		String timeString = "";
 		String dateStringInWeek = "";
 
 		Matcher matcher = Pattern.compile("(at|by|from|to)( )").matcher(dateTimeString);
 		if (matcher.find()) {
 			taskTimeType.add(matcher.group().trim());
-			timeString = timeString.replace(matcher.group(), "").trim();
+			dateTimeString = dateTimeString.replace(matcher.group(), "").trim();
 		}
 
 		matcher = Pattern.compile(generalTimeRegex).matcher(dateTimeString);
@@ -532,7 +551,7 @@ public class Parser {
 			Boolean add7Days = false;
 			Calendar calendar = Calendar.getInstance();
 			int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-			int commandDayOfWeek = 0;
+			int commandDayOfWeek = currentDayOfWeek;
 
 			Matcher matcher = Pattern.compile("next( )?").matcher(dateStringInWeek);
 			if (matcher.find()) {
@@ -540,43 +559,35 @@ public class Parser {
 				temp = temp.replace(matcher.group(), "").trim();
 			}
 			
-			switch (temp) {
-			case "monday|mon":
+			if (mondayWords.contains(temp)) {
 				commandDayOfWeek = 2;
-				break;
-			case "tuesday|tues|tue":
+			} else if (tuesdayWords.contains(temp)) {
 				commandDayOfWeek = 3;
-				break;
-			case "wednesday|wed":
+			} else if (wednesdayWords.contains(temp)) {
 				commandDayOfWeek = 4;
-				break;
-			case "thursday|thurs|thu":
+			} else if (thursdayWords.contains(temp)) {
 				commandDayOfWeek = 5;
-				break;
-			case "friday|fri":
+			} else if (fridayWords.contains(temp)) {
 				commandDayOfWeek = 6;
-				break;
-			case "saturday|sat":
+			} else if (saturdayWords.contains(temp)) {
 				commandDayOfWeek = 7;
-				break;
-			case "sunday|sun":
+			} else if (sundayWords.contains(temp)) {
 				commandDayOfWeek = 1;
-				break;
 			}
-			
+
 			if (currentDayOfWeek > commandDayOfWeek) {
 				add7Days = true;
 			}
-			
-			Integer numberOfDayDifference;;
+
+			Integer numberOfDayDifference;
 			if (add7Days) {
 				numberOfDayDifference = commandDayOfWeek - currentDayOfWeek + 7;
 			} else {
 				numberOfDayDifference = commandDayOfWeek - currentDayOfWeek;
 			}
-			
+
 			return LocalDateTime.now().toLocalDate().plusDays(numberOfDayDifference);
- 
+
 		} else {
 			return null;
 		}
@@ -588,6 +599,8 @@ public class Parser {
 		getTaskType(commandArgs);
 
 		switch (taskDateTime.size()) {
+		case 0:
+			System.out.print("No time values inserted/n");
 		case 1:
 			switch (taskType) {
 			case EVENT:
@@ -609,36 +622,32 @@ public class Parser {
 					taskEndTime = taskDateTime.get(1);
 				}
 			} else {
-				System.out.print("Invalid time values inserted");
+				System.out.print("Invalid time values inserted/n");
 			}
 			break;
 		default:
-			System.out.print("Too many time values inserted");
+			System.out.print("Too many time values inserted/n");
 			break;
 		}
 	}
 
-	public static void getTaskType(String commandArgs) {
+	private static void getTaskType(String commandArgs) {
 		switch (taskTimeType.size()) {
 		case 0:
 			taskType = TASK_TYPE.FLOATING;
 			break;
 		case 1:
-			switch (taskTimeType.get(0)) {
-			case "at|from":
+			if (taskTimeType.get(0).contains("at") || taskTimeType.get(0).contains("from")) {
 				taskType = TASK_TYPE.EVENT;
-				break;
-			case "by":
+			} else if (taskTimeType.get(0).contains("by")) {
 				taskType = TASK_TYPE.DEADLINE;
-				break;
-			case "to":
+			} else {
 				taskType = TASK_TYPE.INVALID;
-				break;
 			}
 			break;
 		case 2:
-			if ((taskTimeType.get(0) == "from" && taskTimeType.get(1) == "to")
-					|| (taskTimeType.get(1) == "from" && taskTimeType.get(2) == "to")) {
+			if ((taskTimeType.get(0).contains("from") && taskTimeType.get(1).contains("to"))
+					|| (taskTimeType.get(1).contains("from") && taskTimeType.get(0).contains("to"))) {
 				taskType = TASK_TYPE.EVENT;
 			} else {
 				taskType = TASK_TYPE.INVALID;
@@ -828,11 +837,11 @@ public class Parser {
 	}
 
 	public static void testParser(String commandArgs) {
+		reinitializeStorageVariables();
 		searchTaskDescriptionOrID(commandArgs);
 		searchTaskLocation(commandArgs);
 		searchTaskDateTime(commandArgs);
 		searchTaskHashtags(commandArgs);
-		getTaskType(commandArgs);
 		System.out.print("Task description: " + taskDescription + "\n");
 		System.out.print("Task location: " + taskLocation + "\n");
 		System.out.print("Task start time: " + taskStartTime.toString() + "\n");
@@ -840,7 +849,51 @@ public class Parser {
 		System.out.print("Task type: " + taskType.toString() + "\n");
 		System.out.print("Task hastags:");
 		for (Integer i = 0; i < taskHashtags.size(); i++) {
-			System.out.print(" " + taskHashtags.get(i) );
+			System.out.print(" " + taskHashtags.get(i));
+		}
+		System.out.print("\n");
+	}
+
+	public static void testTimeParse(String timeString) {
+		reinitializeStorageVariables();
+		System.out.print(processTimeString(timeString) + "\n");
+	}
+
+	public static void testDateParse(String dateString) {
+		reinitializeStorageVariables();
+		System.out.print(processDateString(dateString) + "\n");
+	}
+
+	public static void testStringDetection(String commandArgs) {
+		reinitializeStorageVariables();
+		String temp = commandArgs.toLowerCase();
+
+		String dateTimeRegex = generalDateRegex + "( )" + generalTimeRegex;
+		String timeDateRegex = generalTimeRegex + "( )" + generalDateRegex;
+		String combinedRegex = "(at|by|from|to)( )(" + dateTimeRegex + "|" + timeDateRegex + ")";
+
+		Matcher matcher = Pattern.compile(combinedRegex).matcher(temp);
+		while (matcher.find()) {
+			String tempString = matcher.group();
+			String timeString = "";
+			String dateString = "";
+
+			Matcher matcher2;
+			matcher2 = Pattern.compile("(at|by|from|to)( )").matcher(tempString);
+			if (matcher2.find()) {
+				taskTimeType.add(matcher2.group().trim());
+				timeString = timeString.replace(matcher2.group(), "").trim();
+			}
+
+			matcher2 = Pattern.compile(generalTimeRegex).matcher(tempString);
+			if (matcher2.find()) {
+				timeString = matcher2.group();
+			}
+
+			matcher2 = Pattern.compile(generalDateRegex).matcher(tempString);
+			if (matcher2.find()) {
+				dateString = matcher2.group();
+			}
 		}
 	}
 }
