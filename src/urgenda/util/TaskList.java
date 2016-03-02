@@ -23,6 +23,9 @@ public class TaskList implements Iterable<TaskWrapper>{
 		}
 	}
 	
+	public ObservableList<TaskWrapper >getList() {
+		return _tasks;
+	}
 	@Override
 	public Iterator<TaskWrapper> iterator() {
 		return _tasks.iterator();

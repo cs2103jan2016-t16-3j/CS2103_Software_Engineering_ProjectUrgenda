@@ -32,7 +32,7 @@ public class Logic {
 	}
 	
 	// TODO return startup state
-	public StateFeedback getState() {
+	public StateFeedback retrieveStartupState() {
 		return _logicData.getState();
 	}
 }

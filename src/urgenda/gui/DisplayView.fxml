@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
+               <children>
+                  <Label fx:id="displayLabel" prefHeight="26.0" prefWidth="620.0" text="Showing ALL TASKS" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+                  <Rectangle fx:id="displayPaneShape" arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="370.0" stroke="TRANSPARENT" strokeType="INSIDE" width="580.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="25.0">
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Rectangle>
+                  <TableView fx:id="displayTable" focusTraversable="false" prefHeight="350.0" prefWidth="560.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0">
+                    <columns>
+                      <TableColumn fx:id="idColumn" editable="false" maxWidth="45.0" prefWidth="45.0" resizable="false" sortable="false" text="No." />
+                      <TableColumn fx:id="dateColumn" editable="false" prefWidth="55.0" resizable="false" sortable="false" text="Date" />
+                      <TableColumn fx:id="descColumn" editable="false" prefWidth="240.0" resizable="false" sortable="false" text="Task" />
+                      <TableColumn fx:id="startTimeColumn" editable="false" prefWidth="95.0" resizable="false" sortable="false" text="Start Time" />
+                      <TableColumn fx:id="endTimeColumn" editable="false" prefWidth="95.0" resizable="false" sortable="false" text="End Time" />
+                  <TableColumn editable="false" maxWidth="30.0" prefWidth="30.0" resizable="false" sortable="false" text=" *" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>

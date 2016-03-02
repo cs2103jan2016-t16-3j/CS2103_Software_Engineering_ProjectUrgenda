@@ -3,6 +3,7 @@ package urgenda.gui;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,12 +15,13 @@ import javafx.stage.StageStyle;
 //import urgenda.logic.Logic;
 import urgenda.logic.Logic;
 import urgenda.util.StateFeedback;
+import urgenda.util.TaskWrapper;
 
 public class Main extends Application {
 	private AnchorPane rootLayout;
 	private Scene scene;
-	private InputController inputController;
-	private DisplayView displayView;
+	private MainController mainController;
+	private DisplayController displayController;
 	private Logic logic;
 	
 	//
@@ -45,7 +47,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Urgenda");
 		initGuiLayout(primaryStage);
-		initDisplayArea();
 		initLogicComponent();
 	}
 
@@ -64,15 +65,11 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			//setting up controller
-			inputController = loader.getController();
-			inputController.setUIMain(this);
+			mainController = loader.getController();
+			mainController.setUIMain(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void initDisplayArea() {
-		displayView = new DisplayView();
 	}
 	
 	private void initLogicComponent() {
@@ -86,8 +83,12 @@ public class Main extends Application {
 
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = logic.executeCommand(commandLine);
-		//pass to displayview to update display
+		//TODO pass to displayview to update display
 		return state.getFeedback();
+	}
+	
+	public StateFeedback retrieveStartupState(){
+		return logic.retrieveStartupState();
 	}
 
 	public String callUndo() {
@@ -110,8 +111,7 @@ public class Main extends Application {
 		
 	}
 	
-	public InputController getController() {
-		return inputController;
-	}
-
+	public MainController getController() {
+		return mainController;
+	}	
 }
