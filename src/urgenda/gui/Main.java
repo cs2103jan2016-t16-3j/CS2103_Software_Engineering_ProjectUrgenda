@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -18,14 +19,16 @@ import urgenda.util.StateFeedback;
 import urgenda.util.TaskWrapper;
 
 public class Main extends Application {
-	private AnchorPane rootLayout;
+	private BorderPane rootLayout;
 	private Scene scene;
 	private MainController mainController;
 	private DisplayController displayController;
 	private Logic logic;
 	
 	//
+	private static final String APP_NAME = "Urgenda";
 	private static final String PATH_GUI_FXML = "Main.fxml";
+	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	private static final String PATH_STYLESHEET_CSS = "../../resources/urgendaStyle.css";
 	private static final String REGULAR_FONT_PATH = new String("../../resources/Montserrat-Light.otf");
 	private static final String BOLD_FONT_PATH = new String("../../resources/Montserrat-Regular.otf");
@@ -45,35 +48,39 @@ public class Main extends Application {
 		
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("Urgenda");
-		initGuiLayout(primaryStage);
 		initLogicComponent();
+		initRootLayout();
+		initStage(primaryStage);
 	}
 
-	private void initGuiLayout(Stage primaryStage) {
+	private void initLogicComponent() {
+		logic = new Logic();	
+	}
+	
+	private void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(PATH_GUI_FXML));
 			rootLayout = loader.load();
-			scene = new Scene(rootLayout, DEFAULT_SCENE_WIDTH, DEFAULT_SCENE_HEIGHT);
-			primaryStage.initStyle(StageStyle.DECORATED);
-			scene.getStylesheets().add(getClass().getResource(PATH_STYLESHEET_CSS).toExternalForm());
-			scene.setFill(Color.TRANSPARENT);
-			Image ico = new Image(getClass().getResourceAsStream("../../resources/urgenda_icon.png")); 
-			primaryStage.getIcons().add(ico);
-			primaryStage.setResizable(false);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-			//setting up controller
 			mainController = loader.getController();
 			mainController.setUIMain(this);
+			displayController = mainController.getDisplayController();
+			displayController.setDisplay(retrieveStartupState().getTasks().getList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void initLogicComponent() {
-		logic = new Logic();	
+
+	private void initStage(Stage primaryStage) {
+		scene = new Scene(rootLayout, DEFAULT_SCENE_WIDTH, DEFAULT_SCENE_HEIGHT);
+		scene.getStylesheets().add(getClass().getResource(PATH_STYLESHEET_CSS).toExternalForm());
+		primaryStage.initStyle(StageStyle.DECORATED);
+		Image ico = new Image(getClass().getResourceAsStream(PATH_ICON)); 
+		primaryStage.getIcons().add(ico);
+		primaryStage.setTitle(APP_NAME);
+		primaryStage.setResizable(false);
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 
 	public static void main(String[] args) {
@@ -83,12 +90,14 @@ public class Main extends Application {
 
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = logic.executeCommand(commandLine);
-		//TODO pass to displayview to update display
+		displayController.setDisplay(state.getTasks().getList());
 		return state.getFeedback();
 	}
 	
 	public StateFeedback retrieveStartupState(){
-		return logic.retrieveStartupState();
+		StateFeedback state = logic.retrieveStartupState();
+		mainController.displayFeedback(state.getFeedback(), false);
+		return state;
 	}
 
 	public String callUndo() {

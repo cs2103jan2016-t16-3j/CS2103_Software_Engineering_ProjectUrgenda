@@ -34,7 +34,7 @@
 
 #displayPane {
 	-fx-border-color: transparent;
-	-fx-background-color: white;
+	-fx-background-color: transparent;
 }
 
 .table-view 

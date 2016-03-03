@@ -6,7 +6,7 @@ import urgenda.util.StateFeedback;
 
 public class Logic {
 
-	private static final String MESSAGE_WELCOME = "Welcome to Urgenda. Your task manager is ready for use.";
+	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use.";
 
 	private LogicData _logicData;
 	
@@ -33,6 +33,8 @@ public class Logic {
 	
 	// TODO return startup state
 	public StateFeedback retrieveStartupState() {
-		return _logicData.getState();
+		StateFeedback state = _logicData.getState();
+		state.setFeedback(MESSAGE_WELCOME);
+		return state;
 	}
 }

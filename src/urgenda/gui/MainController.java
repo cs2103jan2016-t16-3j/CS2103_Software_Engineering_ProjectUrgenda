@@ -3,10 +3,12 @@ package urgenda.gui;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class MainController {
 	
@@ -18,9 +20,16 @@ public class MainController {
 	private TextField inputBar;
 	@FXML
 	private TextArea feedbackArea;
+	@FXML
+	private Parent displayArea;
+	@FXML
+	private DisplayController displayAreaController;
 	
 	private Main _UI;
 	
+	public MainController() {
+		
+	}
 	public void displayFeedback(String feedback, boolean isWarning) {
 		feedbackArea.setText(feedback);
 		if(isWarning) {
@@ -79,5 +88,8 @@ public class MainController {
 	
 	public void setUIMain(Main ui) {
 		_UI = ui;
+	}
+	public DisplayController getDisplayController() {
+		return displayAreaController;
 	}
 }

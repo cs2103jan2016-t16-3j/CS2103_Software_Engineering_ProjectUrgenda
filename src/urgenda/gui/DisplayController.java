@@ -28,19 +28,18 @@ public class DisplayController extends AnchorPane{
 	private Main main;
 	private ObservableList<TaskWrapper> displayedTasks;
 	
-	public DisplayController(ObservableList<TaskWrapper> startupTasks) {
-		displayedTasks = startupTasks;
+	public DisplayController() {
 	}
 	
-	
-	public void initDisplay() {
-		//TODO
+	public void setDisplay(ObservableList<TaskWrapper> updatedTasks) {
+		displayedTasks = updatedTasks;
+		
 		displayTable.setItems(displayedTasks);
 		
 		//dateColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, String>("_date"));
 		descColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, String>("_desc"));
-		startTimeColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, LocalDateTime>("_startTime"));
-		endTimeColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, LocalDateTime>("_endTime"));
+		//startTimeColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, LocalDateTime>("_startTime"));
+		//endTimeColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, LocalDateTime>("_endTime"));
 		
 	}
 	public void setMain(Main main) {
