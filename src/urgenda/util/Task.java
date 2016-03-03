@@ -42,7 +42,7 @@ public class Task {
 	private boolean _isCompleted = false;
 	private boolean _isUrgent = false;
 	private boolean _isOverdue = false;
-	private MultipleSlot _slot;
+	//private MultipleSlot _slot;
 
 	// default constructor
 	public Task() {
@@ -95,7 +95,7 @@ public class Task {
 		setIsCompleted(originalTask.isCompleted());
 		setIsUrgent(originalTask.isUrgent());
 		setIsOverdue(originalTask.isOverdue());
-		setSlot(originalTask.getSlot());
+	//	setSlot(originalTask.getSlot());
 	}
 
 	// TODO: support for _slot in storage
@@ -210,9 +210,9 @@ public class Task {
 		return _isOverdue;
 	}
 
-	public MultipleSlot getSlot() {
-		return _slot;
-	}
+//	public MultipleSlot getSlot() {
+//		return _slot;
+//	}
 
 	public void setId(int id) {
 		_id = id;
@@ -262,8 +262,8 @@ public class Task {
 		_isOverdue = isOverdue;
 	}
 
-	public void setSlot(MultipleSlot slot) {
-		_slot = slot;
-	}
+//	public void setSlot(MultipleSlot slot) {
+//		_slot = slot;
+//	}
 
 }

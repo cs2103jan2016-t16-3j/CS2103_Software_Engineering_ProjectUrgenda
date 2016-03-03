@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 
 public class TaskList implements Iterable<Task>{
 
-	private ObservableList<Task> _tasks;
+	private ArrayList<Task> _tasks;
 	private int _overdueCount;
 	private int _urgentCount;
 	private int _todayCount;
@@ -26,9 +26,7 @@ public class TaskList implements Iterable<Task>{
 	}
 	
 	public TaskList(ArrayList<Task> tasks, int overdue, int urgent, int today, int remaining, int completed) {
-		for (Task task : tasks) {
-			_tasks.add(task);
-		}
+		_tasks = tasks;
 		setOverdueCount(overdue);
 		setUrgentCount(urgent);
 		setTodayCount(today);
@@ -36,7 +34,7 @@ public class TaskList implements Iterable<Task>{
 		setShownCompletedCount(completed);
 	}
 	
-	public ObservableList<Task> getList() {
+	public ArrayList<Task> getList() {
 		return _tasks;
 	}
 	@Override

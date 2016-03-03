@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane fx:id="displayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
+<AnchorPane fx:id="displayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
                <children>
                   <Label fx:id="displayHeader" prefHeight="26.0" prefWidth="620.0" text="Showing ALL TASKS" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
                   <Rectangle fx:id="displayPaneShape" arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="370.0" stroke="TRANSPARENT" strokeType="INSIDE" width="580.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="25.0">
@@ -21,24 +21,25 @@
       <GridPane maxHeight="20.0" prefHeight="20.0" prefWidth="545.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="35.0">
         <columnConstraints>
           <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="240.0" />
             <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="30.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label fx:id="indexLabel" alignment="CENTER" prefHeight="17.0" prefWidth="35.0" text="No." />
-            <Label fx:id="taskLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="100.0" text="Task" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="100.0" text="Task" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
             <Label fx:id="startLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="Start" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
             <Label fx:id="endLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
       <ScrollPane hbarPolicy="NEVER" prefHeight="350.0" prefWidth="560.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="55.0">
          <content>
-            <VBox fx:id="displayArea" prefHeight="330.0" prefWidth="545.0" />
+            <VBox fx:id="displayArea" prefHeight="330.0" prefWidth="545.0">
+             </VBox>
          </content>
       </ScrollPane>
                </children>

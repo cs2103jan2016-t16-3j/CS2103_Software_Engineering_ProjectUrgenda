@@ -200,15 +200,15 @@ public class LogicData {
 
 	}
 	
-	public ArrayList<Task> findBlocks(MultipleSlot block) {
-		ArrayList<Task> _blocks = new ArrayList<Task>();
-		for (Task task : _tasks) {
-			if (task.getSlot().equals(block)) {
-				_blocks.add(task);
-			}
-		}
-		return _blocks;	
-	}
+//	public ArrayList<Task> findBlocks(MultipleSlot block) {
+//		ArrayList<Task> _blocks = new ArrayList<Task>();
+//		for (Task task : _tasks) {
+//			if (task.getSlot().equals(block)) {
+//				_blocks.add(task);
+//			}
+//		}
+//		return _blocks;	
+//	}
 	
 	public ArrayList<Task> sortList(ArrayList<Task> list) {
 		Collections.sort(list, comparator);

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<fx:root maxHeight="30.0" prefHeight="30.0" prefWidth="545.0" type="GridPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+     <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="240.0" />
+            <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="30.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <Label fx:id="indexLabel" alignment="CENTER" prefHeight="17.0" prefWidth="35.0">
+            </Label>
+            <Label fx:id="descLabel" contentDisplay="CENTER" prefHeight="18.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            </Label>
+      <ImageView fx:id="urgentIndicator" fitHeight="27.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+         <image>
+            <Image url="@../../resources/urgenda_icon.png" />
+         </image>
+      </ImageView>
+            <Label fx:id="startLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+            </Label>
+            <Label fx:id="endLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+             </Label>
+         </children>
+</fx:root>

@@ -1,6 +1,8 @@
 package urgenda.gui;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,8 @@ import javafx.stage.StageStyle;
 //import urgenda.logic.Logic;
 import urgenda.logic.Logic;
 import urgenda.util.StateFeedback;
+import urgenda.util.Task;
+import urgenda.util.TaskList;
 
 public class Main extends Application {
 	private BorderPane rootLayout;
@@ -68,7 +72,8 @@ public class Main extends Application {
 
 	private void initDisplay() {
 		displayController = mainController.getDisplayController();
-		displayController.setDisplay(retrieveStartupState().getTasks(),retrieveStartupState().getDisplayHeader());
+		StateFeedback state = retrieveStartupState();
+		displayController.setDisplay(state.getTasks(),state.getDisplayHeader());
 	}
 
 	private void initStage(Stage primaryStage) {
@@ -95,8 +100,32 @@ public class Main extends Application {
 	}
 	
 	public StateFeedback retrieveStartupState(){
-		StateFeedback state = logic.retrieveStartupState();
+		StateFeedback state = dummyState(); //remove dummy when logic returns a legit feedbackstate
+		//StateFeedback state = logic.retrieveStartupState();
 		mainController.displayFeedback(state.getFeedback(), false);
+		return state;
+	}
+
+	private StateFeedback dummyState() {
+		Task taskU = new Task("Urgent task", "U location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), true);
+		Task task1 = new Task("A task", "A location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
+		Task task2 = new Task("B task", "B location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
+		Task task3 = new Task("C task", "C location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
+		Task task4 = new Task("D task", "D location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
+		Task task5 = new Task("E task", "E location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
+		
+		ArrayList<Task> tasks = new ArrayList<Task>();
+		tasks.add(taskU);
+		tasks.add(task1);
+		tasks.add(task2);
+		tasks.add(task3);
+		tasks.add(task4);
+		tasks.add(task5);
+		
+		StateFeedback state = new StateFeedback();
+		state.setTasks(new TaskList(tasks,0,1,4,0,0));
+		state.setDisplayHeader("Showing dummylist");
+		state.setFeedback("feedback from dummylist");
 		return state;
 	}
 
