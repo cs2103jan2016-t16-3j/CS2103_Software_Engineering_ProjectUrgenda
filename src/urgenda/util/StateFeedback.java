@@ -7,6 +7,7 @@ public class StateFeedback {
 	private TaskList _tasks;
 	private TaskList _archiveTasks;
 	private String _feedback;
+	private String _displayHeader;
 	
 	// default constructor
 	public StateFeedback() {
@@ -14,8 +15,8 @@ public class StateFeedback {
 	}
 	
 	// constructor for creation of tasklist with list of tasks
-	public StateFeedback(ArrayList<Task> tasks) {
-		_tasks = new TaskList(tasks);
+	public StateFeedback(ArrayList<Task> tasks, int overdue, int urgent, int today, int remaining, int completed) {
+		_tasks = new TaskList(tasks, overdue, urgent, today, remaining, completed);
 	}
 	
 	// constructor for feedback string only
@@ -34,6 +35,10 @@ public class StateFeedback {
 	public String getFeedback() {
 		return _feedback;
 	}
+	
+	public String getDisplayHeader() {
+		return _displayHeader;
+	}
 
 	public void setTasks(TaskList tasks) {
 		_tasks = tasks;
@@ -46,5 +51,7 @@ public class StateFeedback {
 	public void setFeedback(String feedback) {
 		_feedback = feedback;
 	}
-
+	public void setDisplayHeader(String displayed) {
+		_displayHeader = displayed;
+	}
 }

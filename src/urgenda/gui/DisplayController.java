@@ -1,48 +1,58 @@
 package urgenda.gui;
 
-import java.time.LocalDateTime;
-
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import urgenda.util.StateFeedback;
-import urgenda.util.TaskWrapper;
+import javafx.scene.layout.VBox;
+import urgenda.util.TaskList;
 
 public class DisplayController extends AnchorPane{	
-	@FXML
-	private TableView<TaskWrapper> displayTable;
-	@FXML
-	private TableColumn<TaskWrapper, String> idColumn;
-	@FXML
-	private TableColumn<TaskWrapper, String> dateColumn;	
-	@FXML
-	private TableColumn<TaskWrapper, String> descColumn;	
-	@FXML
-	private TableColumn<TaskWrapper, LocalDateTime> startTimeColumn;
-	@FXML
-	private TableColumn<TaskWrapper, LocalDateTime> endTimeColumn;
 	
-	private Main main;
-	private ObservableList<TaskWrapper> displayedTasks;
+	@FXML
+	Label displayHeader;
+	@FXML
+	VBox displayArea;
+	
+	private TaskList displayedTasks;
 	
 	public DisplayController() {
 	}
 	
-	public void setDisplay(ObservableList<TaskWrapper> updatedTasks) {
-		displayedTasks = updatedTasks;
-		
-		displayTable.setItems(displayedTasks);
-		
-		//dateColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, String>("_date"));
-		descColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, String>("_desc"));
-		//startTimeColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, LocalDateTime>("_startTime"));
-		//endTimeColumn.setCellValueFactory(new PropertyValueFactory<TaskWrapper, LocalDateTime>("_endTime"));
+	public void setDisplay(TaskList updatedTasks, String displayHeader) {
+		showOverdue();
+		showUrgent();
+		showToday();
+		showRemaining();
+		showCompleted();
+		setDisplayHeader(displayHeader);
+	}
+	
+	private void showOverdue() {
+		// TODO Auto-generated method stub
 		
 	}
-	public void setMain(Main main) {
-		this.main = main;
+
+	private void showUrgent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showToday() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showRemaining() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showCompleted() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setDisplayHeader(String displayed) {
+		displayHeader.setText(displayed);
 	}
 }

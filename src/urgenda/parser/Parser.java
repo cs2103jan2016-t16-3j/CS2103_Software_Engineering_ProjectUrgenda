@@ -16,7 +16,6 @@ import urgenda.command.*;
 import urgenda.util.*;
 
 public class Parser {
-	public static String test = "HI";
 	private static enum COMMAND_TYPE {
 		ADD, DELETE, ALLOCATE, DONE, UPDATE, SEARCH, SHOW_DETAILS, UNDO, REDO, ARCHIVE, PRIORITISE, INVALID, EXIT
 	}

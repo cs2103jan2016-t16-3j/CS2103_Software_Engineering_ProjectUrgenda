@@ -3,20 +3,16 @@ package urgenda.gui;
 import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 //import urgenda.logic.Logic;
 import urgenda.logic.Logic;
 import urgenda.util.StateFeedback;
-import urgenda.util.TaskWrapper;
 
 public class Main extends Application {
 	private BorderPane rootLayout;
@@ -50,6 +46,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		initLogicComponent();
 		initRootLayout();
+		initDisplay();
 		initStage(primaryStage);
 	}
 
@@ -64,11 +61,14 @@ public class Main extends Application {
 			rootLayout = loader.load();
 			mainController = loader.getController();
 			mainController.setUIMain(this);
-			displayController = mainController.getDisplayController();
-			displayController.setDisplay(retrieveStartupState().getTasks().getList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void initDisplay() {
+		displayController = mainController.getDisplayController();
+		displayController.setDisplay(retrieveStartupState().getTasks(),retrieveStartupState().getDisplayHeader());
 	}
 
 	private void initStage(Stage primaryStage) {
@@ -90,7 +90,7 @@ public class Main extends Application {
 
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = logic.executeCommand(commandLine);
-		displayController.setDisplay(state.getTasks().getList());
+		displayController.setDisplay(state.getTasks(),state.getDisplayHeader());
 		return state.getFeedback();
 	}
 	

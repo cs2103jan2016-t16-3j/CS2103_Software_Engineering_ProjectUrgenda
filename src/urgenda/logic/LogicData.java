@@ -8,15 +8,11 @@ import java.util.Comparator;
 import java.util.Stack;
 
 import urgenda.command.Command;
-import urgenda.command.Redo;
-import urgenda.command.Search;
-import urgenda.command.Undo;
 import urgenda.command.Undoable;
 import urgenda.storage.Storage;
 import urgenda.util.MultipleSlot;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
-import urgenda.util.TaskWrapper;
 
 public class LogicData {
 	
@@ -65,7 +61,7 @@ public class LogicData {
 	}
 
 	// TODO: refactor function
-	public StateFeedback getState() {
+	public StateFeedback getState(boolean showCompleted) {
 		// To update if there are any deadlines that turned overdue
 		updateState();
 		
@@ -76,6 +72,7 @@ public class LogicData {
 		ArrayList<Task> urgentTasks = new ArrayList<Task>();
 		ArrayList<Task> todayTasks = new ArrayList<Task>();
 		ArrayList<Task> otherTasks = new ArrayList<Task>();
+		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		for (Task task : _tasks) {
 			if(task.isOverdue()) {
 				overdueTasks.add(task);
@@ -83,7 +80,9 @@ public class LogicData {
 				urgentTasks.add(task);
 			} else if (isTaskToday(task)) {
 				todayTasks.add(task);
-			} else { // remaining tasks including floating
+			} else if (showCompleted) {
+				completedTasks.add(task);
+			} else { // remaining uncompleted tasks including floating
 				otherTasks.add(task);
 			}
 		}
@@ -92,7 +91,7 @@ public class LogicData {
 		_tasks.addAll(sortList(urgentTasks));
 		_tasks.addAll(sortList(todayTasks));
 		_tasks.addAll(sortList(otherTasks));
-		StateFeedback state = new StateFeedback(_tasks);
+		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), urgentTasks.size(), todayTasks.size(), otherTasks.size(),completedTasks.size());
 		return state;
 	}
 
