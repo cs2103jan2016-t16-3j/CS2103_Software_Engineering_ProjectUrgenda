@@ -17,10 +17,11 @@ public class StateFeedback {
 	}
 	
 	// constructor for creation of tasklist with list of tasks
-	public StateFeedback(ArrayList<Task> tasks, int overdue, int urgent, int today, int remaining, int completed) {
-		_tasks = new TaskList(tasks, overdue, urgent, today, remaining, completed);
+	public StateFeedback(ArrayList<Task> tasks, int overdue, int today, int urgent, int remaining, int completed) {
+		_tasks = new TaskList(tasks, overdue, today, urgent, remaining, completed);
 		_tasksDetailed = new ArrayList<Integer>();
 	}
+	
 	//constructor passing tasklist object
 	public StateFeedback(TaskList taskList) {
 		_tasks = taskList;

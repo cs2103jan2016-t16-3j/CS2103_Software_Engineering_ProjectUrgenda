@@ -15,17 +15,17 @@ public class TaskList implements Iterable<Task>{
 	//default constructor creates empty TaskList
 	public TaskList() {
 		setOverdueCount(0);
-		setUrgentCount(0);
 		setTodayCount(0);
+		setUrgentCount(0);  //swapped urgent and today
 		setRemainingCount(0);
 		setShownCompletedCount(0);
 	}
 	
-	public TaskList(ArrayList<Task> tasks, int overdue, int urgent, int today, int remaining, int completed) {
+	public TaskList(ArrayList<Task> tasks, int overdue, int today, int urgent, int remaining, int completed) {
 		_tasks = tasks;
 		setOverdueCount(overdue);
-		setUrgentCount(urgent);
 		setTodayCount(today);
+		setUrgentCount(urgent);                //swapped urgent and today and tat fn in signature
 		setRemainingCount(remaining);
 		setShownCompletedCount(completed);
 	}

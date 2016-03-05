@@ -17,7 +17,7 @@ public class Task {
 	private static final String HASHMAP_KEY_DATEADDED = "dateAdded";
 	private static final String HASHMAP_KEY_DATEMODIFIED = "dateModified";
 	private static final String HASHMAP_KEY_COMPLETED = "completed";
-	private static final String HASHMAP_KEY_URGENT = "urgent";
+	private static final String HASHMAP_KEY_IMPORTANT = "important";
 	private static final String HASHMAP_KEY_OVERDUE = "overdue";
 
 	public enum Type {
@@ -40,9 +40,9 @@ public class Task {
 	private LocalDateTime _dateAdded;
 	private LocalDateTime _dateModified;
 	private boolean _isCompleted = false;
-	private boolean _isUrgent = false;
+	private boolean _isImportant = false;
 	private boolean _isOverdue = false;
-	//private MultipleSlot _slot;
+	private MultipleSlot _slot;
 
 	// default constructor
 	public Task() {
@@ -57,7 +57,7 @@ public class Task {
 
 	// constructor for inclusion of details if there is priority
 	public Task(String desc, String location, LocalDateTime start, LocalDateTime end, ArrayList<String> tags,
-			boolean isUrgent) {
+			boolean isImportant) {
 		_desc = desc;
 		_location = location;
 		setType(start, end);
@@ -66,7 +66,7 @@ public class Task {
 		_hashtags = tags;
 		_dateAdded = LocalDateTime.now();
 		_dateModified = LocalDateTime.now();
-		_isUrgent = isUrgent;
+		_isImportant = isImportant;
 	}
 
 	// constructor for inclusion of details without priority
@@ -93,9 +93,42 @@ public class Task {
 		setDateAdded(originalTask.getDateAdded());
 		setDateModified(originalTask.getDateModified());
 		setIsCompleted(originalTask.isCompleted());
-		setIsUrgent(originalTask.isUrgent());
+		setIsImportant(originalTask.isImportant());
 		setIsOverdue(originalTask.isOverdue());
-	//	setSlot(originalTask.getSlot());
+		setSlot(originalTask.getSlot());
+	}
+	
+	/**
+	 * Full constructor for all variables.
+	 * 
+	 * @param type required to be of String type, will be converted to enum Type in constructor
+	 */
+	public Task(int id, String desc, String type, String location, boolean isCompleted, boolean isImportant,
+			boolean isOverdue, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime dateAdded,
+			LocalDateTime dateModified, ArrayList<String> hashTags) {
+		_id = id;
+		_desc = desc;
+		setType(type);
+		_location = location;
+		_isCompleted = isCompleted;
+		_isImportant = isImportant;
+		_isOverdue = isOverdue;
+		_startTime = startTime;
+		_endTime = endTime;
+		_dateAdded = dateAdded;
+		_dateModified = dateModified;
+		_hashtags = hashTags;
+
+	}
+
+	private void setType(String type) {
+		if (type.equals("EVENT")) {
+			_taskType = Type.EVENT;
+		} else if (type.equals("DEADLINE")) {
+			_taskType = Type.DEADLINE;
+		} else if (type.equals("FLOATNG")) {
+			_taskType = Type.FLOATING;
+		}
 	}
 
 	// TODO: support for _slot in storage
@@ -105,17 +138,11 @@ public class Task {
 		_desc = taskDetails.get(HASHMAP_KEY_DESC);
 
 		String type = taskDetails.get(HASHMAP_KEY_TYPE);
-		if (type.equals("EVENT")) {
-			_taskType = Type.EVENT;
-		} else if (type.equals("DEADLINE")) {
-			_taskType = Type.DEADLINE;
-		} else if (type.equals("FLOATNG")) {
-			_taskType = Type.FLOATING;
-		}
+		setType(type);
 
 		_location = taskDetails.get(HASHMAP_KEY_LOCATION);
 		_isCompleted = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_COMPLETED));
-		_isUrgent = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_URGENT));
+		_isImportant = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_IMPORTANT));
 		_isOverdue = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_OVERDUE));
 
 		if (taskDetails.get(HASHMAP_KEY_STARTTIME) == null) {
@@ -169,7 +196,7 @@ public class Task {
 	public String getDesc() {
 		return _desc;
 	}
-	
+
 	public Type getTaskType() {
 		return _taskType;
 	}
@@ -202,17 +229,17 @@ public class Task {
 		return _isCompleted;
 	}
 
-	public boolean isUrgent() {
-		return _isUrgent;
+	public boolean isImportant() {
+		return _isImportant;
 	}
 
 	public boolean isOverdue() {
 		return _isOverdue;
 	}
 
-//	public MultipleSlot getSlot() {
-//		return _slot;
-//	}
+	 public MultipleSlot getSlot() {
+	 return _slot;
+	 }
 
 	public void setId(int id) {
 		_id = id;
@@ -254,16 +281,16 @@ public class Task {
 		_isCompleted = isCompleted;
 	}
 
-	public void setIsUrgent(boolean isUrgent) {
-		_isUrgent = isUrgent;
+	public void setIsImportant(boolean isImportant) {
+		_isImportant = isImportant;
 	}
 
 	public void setIsOverdue(boolean isOverdue) {
 		_isOverdue = isOverdue;
 	}
 
-//	public void setSlot(MultipleSlot slot) {
-//		_slot = slot;
-//	}
+	 public void setSlot(MultipleSlot slot) {
+	 _slot = slot;
+	 }
 
 }

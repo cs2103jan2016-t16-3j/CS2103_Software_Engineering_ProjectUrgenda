@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import urgenda.storage.Storage;
+import urgenda.storage.JsonCipher;
+import urgenda.storage.OldStorage;
+import urgenda.storage.SettingsEditor;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
@@ -14,27 +17,29 @@ public class TestStorage {
 
 	@Test
 	public void testSave(){
-		Storage store = new Storage();
+		Storage store = new Storage(1);
 		Task task1 = new Task("test1");
 		Task task2 = new Task("test2");
 		Task task3 = new Task("test3");
 		Task task4 = new Task("test4");
+		Task task5 = new Task("test5");
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();
-		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
+//		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
 		_tasks.add(task1);
 		_tasks.add(task2);
 		_tasks.add(task3);
 		_tasks.add(task4);
+		_tasks.add(task5);
 		store.save(_tasks, _archive);
 	}
 	
 	@Test
 	public void testUpdateArrayLists(){
-		Storage store = new Storage();
+		Storage store = new Storage(1);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();
-		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
+//		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
 		int id = store.updateArrayLists(_tasks, _archive);
 		int i = 1;
 		for (Task print : _tasks) {
@@ -50,10 +55,28 @@ public class TestStorage {
 			System.out.println("date added: " + print.getDateAdded());
 			System.out.println("date modified: " + print.getDateModified());
 			System.out.println("completed: " + print.isCompleted());
-			System.out.println("urgent: " + print.isUrgent());
+			System.out.println("urgent: " + print.isImportant());
 			System.out.println("overdue: " + print.isOverdue());
 			i++;
 		}
+	}
+	
+	@Test
+	public void testConvertToString(){
+		JsonCipher _cipher = new JsonCipher();
+		_cipher.setDirectory("settings");
+		_cipher.setFileName("settings.txt");
+		_cipher.convertToString();
+		String test = _cipher.getDetailsString();
+		System.out.println(test);
+	}
+	
+	@Test
+	public void testSettingsEditor(){
+		SettingsEditor _settings = new SettingsEditor();
+		_settings.setFileDir("testfiles");
+		_settings.setFileName("test.txt");
+		_settings.saveSettings();
 	}
 
 }

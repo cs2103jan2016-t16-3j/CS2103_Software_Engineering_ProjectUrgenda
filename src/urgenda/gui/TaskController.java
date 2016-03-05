@@ -43,7 +43,7 @@ public class TaskController extends GridPane {
 		descLabel.setText(task.getDesc());
 		startLabel.setText(formatDateTime(task.getStartTime()));
 		endLabel.setText(formatDateTime(task.getEndTime()));
-		if (task.isUrgent()) {
+		if (task.isImportant()) {
 			urgentIndicator.setVisible(true);
 		}
 	}

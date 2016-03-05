@@ -17,12 +17,6 @@
 	-fx-background-color: transparent;
 }
 
-#scrollableArea {
-	-fx-border-color: transparent;
-	-fx-background: transparent;
-	-fx-background-color: transparent;
-}
-
 #displayArea {
 -fx-border-color: transparent;
 	-fx-background: transparent;
@@ -44,12 +38,14 @@
 #startLabel {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 14px;
+	-fx-font-weight: bold;
 	-fx-text-fill: #474E60;
 }
 
 #endLabel {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 14px;
+	-fx-font-weight: bold;
 	-fx-text-fill: #474E60;
 }
 
