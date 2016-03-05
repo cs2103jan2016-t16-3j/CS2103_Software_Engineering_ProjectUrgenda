@@ -1,9 +1,8 @@
 package urgenda.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class TaskList implements Iterable<Task>{
+public class TaskList {
 
 	private ArrayList<Task> _tasks;
 	private ArrayList<Task> _archives;
@@ -19,7 +18,7 @@ public class TaskList implements Iterable<Task>{
 		_archives = new ArrayList<Task>();
 		setOverdueCount(0);
 		setTodayCount(0);
-		setUrgentCount(0);  //swapped urgent and today
+		setUrgentCount(0); 
 		setRemainingCount(0);
 		setArchiveCount(0);
 	}
@@ -47,44 +46,40 @@ public class TaskList implements Iterable<Task>{
 		setArchiveCount(archive);
 	}
 	
-	public ArrayList<Task> getList() {
+	public ArrayList<Task> getTasks() {
 		return _tasks;
 	}
-	@Override
-	public Iterator<Task> iterator() {
-		return _tasks.iterator();
-	}
-
+	
 	public int getOverdueCount() {
 		return _overdueCount;
 	}
 
-	public void setOverdueCount(int _overdueCount) {
-		this._overdueCount = _overdueCount;
+	public void setOverdueCount(int overdueCount) {
+		_overdueCount = overdueCount;
 	}
 
 	public int getUrgentCount() {
 		return _urgentCount;
 	}
 
-	public void setUrgentCount(int _urgentCount) {
-		this._urgentCount = _urgentCount;
+	public void setUrgentCount(int urgentCount) {
+		_urgentCount = urgentCount;
 	}
 
 	public int getTodayCount() {
 		return _todayCount;
 	}
 
-	public void setTodayCount(int _todayCount) {
-		this._todayCount = _todayCount;
+	public void setTodayCount(int todayCount) {
+		_todayCount = todayCount;
 	}
 
 	public int getRemainingCount() {
 		return _remainingCount;
 	}
 
-	public void setRemainingCount(int _remainingCount) {
-		this._remainingCount = _remainingCount;
+	public void setRemainingCount(int remainingCount) {
+		_remainingCount = remainingCount;
 	}
 
 	public ArrayList<Task> getArchives() {
@@ -101,6 +96,10 @@ public class TaskList implements Iterable<Task>{
 
 	public void setArchiveCount(int archiveCount) {
 		_archiveCount = archiveCount;
+	}
+	
+	public int getUncompletedCount() {
+		return _overdueCount + _urgentCount + _todayCount + _remainingCount;
 	}
 
 }

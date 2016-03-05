@@ -73,7 +73,12 @@ public class Main extends Application {
 	private void initDisplay() {
 		displayController = mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
-		displayController.setDisplay(state.getAllTasks(), state.getDisplayHeader(),state.getDetailedIndexes());
+		displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
+	}
+
+	private String createDisplayHeader(StateFeedback state) {
+		// TODO create display header based on state type
+		return "testing";
 	}
 
 	private void initStage(Stage primaryStage) {
@@ -93,8 +98,8 @@ public class Main extends Application {
 	}
 
 	public String handleCommandLine(String commandLine) {
-		StateFeedback state = logic.executeCommand(commandLine);
-		displayController.setDisplay(state.getAllTasks(), state.getDisplayHeader(), state.getDetailedIndexes());
+		StateFeedback state = logic.executeCommand(commandLine, displayController.getFocusedLine());
+		displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 		return state.getFeedback();
 	}
 
@@ -110,10 +115,10 @@ public class Main extends Application {
 	private StateFeedback dummyState() {
 		Task taskO = new Task("Overdue task", "O location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-		Task taskU = new Task("Urgent task", "U location", LocalDateTime.now(), LocalDateTime.now(),
-				new ArrayList<String>(), true);
 		Task taskT = new Task("Today task", "T location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
+		Task taskU = new Task("Urgent task", "U location", LocalDateTime.now(), LocalDateTime.now(),
+				new ArrayList<String>(), true);
 		Task taskD = new Task("Detailed task", "Detailed location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
 		Task task1 = new Task("1 task", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
@@ -130,11 +135,12 @@ public class Main extends Application {
 				false);
 		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
-
+		
 		ArrayList<Task> tasks = new ArrayList<Task>();
+		ArrayList<Task> archives = new ArrayList<Task>();
 		tasks.add(taskO);
-		tasks.add(taskU);
 		tasks.add(taskT);
+		tasks.add(taskU);
 		tasks.add(taskD);
 		tasks.add(task1);
 		tasks.add(task2);
@@ -142,10 +148,9 @@ public class Main extends Application {
 		tasks.add(task4);
 		tasks.add(task5);
 		tasks.add(task6);
-		tasks.add(taskC);
+		archives.add(taskC);
 		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, 1, 1, 1, 7, 1));
-		state.setDisplayHeader("Showing dummylist");
+		state.setAllTasks(new TaskList(tasks, archives, 1, 1, 1, 7, 1));
 		state.setFeedback("feedback from dummylist");
 		state.addDetailedTaskIdx(3);
 		return state;

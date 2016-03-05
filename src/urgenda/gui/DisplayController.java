@@ -6,15 +6,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import urgenda.util.Task;
 import urgenda.util.TaskList;
 
 public class DisplayController extends AnchorPane {
 
 	public enum Style {
-		OVERDUE, URGENT, TODAY, NORMAL, COMPLETED
+		OVERDUE, URGENT, TODAY, NORMAL, ARCHIVE
 	}
 
-	private static final double SCROLL_INCREMENT_HEIGHT = 10;
+	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display! :(";
+
 	@FXML
 	Label displayHeader;
 	@FXML
@@ -22,41 +24,62 @@ public class DisplayController extends AnchorPane {
 	@FXML
 	ScrollPane displayArea;
 
-	private TaskList displayedTasks;
+	private ArrayList<Task> displayedTasks;
 
 	public DisplayController() {
 	}
 
-	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> detailedTasks) {
+	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes) {
 		displayHolder.getChildren().clear();
-		displayedTasks = updatedTasks;
+		displayedTasks = new ArrayList<Task>();
+		displayedTasks.addAll(updatedTasks.getTasks());
+		displayedTasks.addAll(updatedTasks.getArchives());
 		int indexCounter = 0;
-		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getOverdueCount(),
-				Style.OVERDUE);
-		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getTodayCount(), Style.TODAY);
-		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getUrgentCount(), Style.URGENT);
-		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getRemainingCount(),
-				Style.NORMAL);
-		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getShownCompletedCount(),
-				Style.COMPLETED);
+		if (updatedTasks.getUncompletedCount() != 0) {
+			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getOverdueCount(),
+					Style.OVERDUE);
+			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getTodayCount(),
+					Style.TODAY);
+			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getUrgentCount(),
+					Style.URGENT);
+			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getRemainingCount(),
+					Style.NORMAL);
+		}
+		if(updatedTasks.getArchiveCount() != 0) {
+			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getArchiveCount(),
+					Style.ARCHIVE);
+		}
+		if(updatedTasks.getArchiveCount()+ updatedTasks.getUncompletedCount() == 0) {
+			showZeroTasksFeedback();
+		}
+		// add completed tasks
 		setDisplayHeader(displayHeader);
 	}
 
-	private int showStyledTaskView(int currIndex, ArrayList<Integer> detailedTasks, int toAddCount, Style style) {
+	private void showZeroTasksFeedback() {
+		displayHolder.getChildren().add(new Label(MESSAGE_ZERO_TASKS));		//TODO correct this
+	}
+
+	private int showStyledTaskView(int currIndex, ArrayList<Integer> showmoreIndexes, int toAddCount, Style style) {
 		int addedCount = 0;
 		while (addedCount < toAddCount) {
-			TaskController newTaskView = new TaskController(displayedTasks.getList().get(currIndex), currIndex + 1);
+			TaskController newTaskView = new TaskController(displayedTasks.get(currIndex), currIndex + 1);
 			newTaskView.setTaskStyle(style);
 			displayHolder.getChildren().add(newTaskView);
-			if (detailedTasks.contains(Integer.valueOf(currIndex))) {
+			if (showmoreIndexes.contains(Integer.valueOf(currIndex))) {
 				TaskDetailsController newTaskDetail = new TaskDetailsController(
-						displayedTasks.getList().get(currIndex));
+						displayedTasks.get(currIndex));
 				displayHolder.getChildren().add(newTaskDetail);
 			}
 			addedCount++;
 			currIndex++;
 		}
 		return addedCount;
+	}
+
+	public int getFocusedLine() {
+		// TODO to make traversable and return index of selected task
+		return -1;
 	}
 
 	private void setDisplayHeader(String displayed) {

@@ -80,14 +80,13 @@ public class TaskController extends GridPane {
 			setStyle(TEXT_FILL_TODAY, TEXT_WEIGHT_BOLD, TEXT_MODIFY_NONE);
 		} else if (taskStyle == Style.NORMAL) {
 			setStyle(TEXT_FILL_NORMAL, TEXT_WEIGHT_REGULAR, TEXT_MODIFY_NONE);
-		} else if (taskStyle == Style.COMPLETED) {
+		} else if (taskStyle == Style.ARCHIVE) {
 			setStyle(TEXT_FILL_COMPLETED, TEXT_MODIFY_ITALIC, TEXT_MODIFY_NONE);
 		}
 	}
 
 	private void setStyle(String color, String weight, String modify) {
 		indexLabel.setStyle(color + weight + modify);
-		//indexLabel.
 		descLabel.setStyle(color + weight + modify);
 		startLabel.setStyle(color + weight + modify);
 		endLabel.setStyle(color + weight + modify);

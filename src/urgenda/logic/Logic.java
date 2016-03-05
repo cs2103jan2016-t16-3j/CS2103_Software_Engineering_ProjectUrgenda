@@ -7,7 +7,6 @@ import urgenda.util.StateFeedback;
 public class Logic {
 
 	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use.";
-	private static final String MESSAGE_HEADER_ALL = "Showing ALL TASKS.";
 
 	private LogicData _logicData;
 	
