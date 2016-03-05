@@ -24,11 +24,12 @@ public class TestStorage {
 		Task task4 = new Task("test4");
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();
-//		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
 		_tasks.add(task1);
 		_tasks.add(task2);
 		_tasks.add(task3);
 		_tasks.add(task4);
+		_archive.add(task1);
+		_archive.add(task3);
 		store.save(_tasks, _archive);
 	}
 	
@@ -42,6 +43,23 @@ public class TestStorage {
 		int i = 1;
 		for (Task print : _tasks) {
 			System.out.printf("task %d details:", i);
+			System.out.println("");
+			System.out.println("id: " + print.getId());
+			System.out.println("desc: " + print.getDesc());
+			System.out.println("type: " + print.getTaskType());
+			System.out.println("location: " + print.getLocation());
+			System.out.println("starttime: " + print.getStartTime());
+			System.out.println("endtime: " + print.getEndTime());
+			System.out.println("tags: " + print.getHashtags());
+			System.out.println("date added: " + print.getDateAdded());
+			System.out.println("date modified: " + print.getDateModified());
+			System.out.println("completed: " + print.isCompleted());
+			System.out.println("urgent: " + print.isImportant());
+			System.out.println("overdue: " + print.isOverdue());
+			i++;
+		}
+		for (Task print : _archive) {
+			System.out.printf("archive %d details:", i);
 			System.out.println("");
 			System.out.println("id: " + print.getId());
 			System.out.println("desc: " + print.getDesc());

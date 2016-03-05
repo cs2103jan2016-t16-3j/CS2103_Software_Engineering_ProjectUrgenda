@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class FileEditor {
+	private static final String LIST_SEPARATOR_ARCHIVE = "archive";
+	
 	private File _file;
 	private File _parentDir;
 	
@@ -45,11 +47,12 @@ public class FileEditor {
 		return phrase;
 	}
 	
-	public void retrieveCurrentTask(ArrayList<String> fileDataStringArr) {
+	public void retrieveFromFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
 		try {
 			FileReader reader = new FileReader(_file);
 			BufferedReader breader = new BufferedReader(reader);
-			addtoTaskArray(breader, fileDataStringArr);
+			addToTaskArray(breader, fileDataStringArr);
+			addToArchiveArray(breader, archiveStringArr);
 			breader.close();
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -59,13 +62,13 @@ public class FileEditor {
 		}
 	}
 
-	private void addtoTaskArray(BufferedReader breader, ArrayList<String> fileDataStringArr) throws IOException {
+	private void addToTaskArray(BufferedReader breader, ArrayList<String> fileDataStringArr) throws IOException {
 		boolean hasNoMoreTasks = false;
 		while (!hasNoMoreTasks) {
 			String taskString = breader.readLine();
 			if (taskString == null) {
 				hasNoMoreTasks = true;
-			} else if (taskString.equals("archive")) {
+			} else if (taskString.equals(LIST_SEPARATOR_ARCHIVE)) {
 				hasNoMoreTasks = true;
 			}else {
 				fileDataStringArr.add(taskString);
@@ -73,10 +76,26 @@ public class FileEditor {
 		}
 	}
 	
-	public void writeToFile(ArrayList<String> fileDataStringArr){
+	private void addToArchiveArray(BufferedReader breader, ArrayList<String> archiveStringArr) throws IOException{
+		boolean isEmpty = false;
+		while (!isEmpty){
+			String taskString = breader.readLine();
+			if (taskString == null){
+				isEmpty = true;
+			} else {
+				archiveStringArr.add(taskString);
+			}
+		}
+	}
+	
+	public void writeToFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr){
 		try {
 			PrintWriter writer = new PrintWriter(_file);
 			for (String phrase : fileDataStringArr) {
+				writer.println(phrase);
+			}
+			writer.println(LIST_SEPARATOR_ARCHIVE);
+			for (String phrase : archiveStringArr) {
 				writer.println(phrase);
 			}
 			writer.close();
