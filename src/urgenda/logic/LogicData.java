@@ -21,19 +21,22 @@ public class LogicData {
 	private static final String MESSAGE_EMPTY_REDO = "Nothing to redo";
 
 	private ArrayList<Task> _tasks;
-	private ArrayList<Task> _archive;
+	private ArrayList<Task> _archives;
+	private ArrayList<Task> _displays;
 
 	private Stack<Undoable> _undos;
 	private Stack<Undoable> _redos;
 
 	private Storage _storage;
+	
+	private StateFeedback.State _currState;
 
 	private int _currentId;
 
 	// default constructor for initialization of empty path
 	public LogicData() {
 		_tasks = new ArrayList<Task>();
-		_archive = new ArrayList<Task>();
+		_archives = new ArrayList<Task>();
 		_storage = new Storage();
 		_currentId = 0;
 		_undos = new Stack<Undoable>();
@@ -44,10 +47,10 @@ public class LogicData {
 	public LogicData(String path) {
 		_storage = new Storage(path);
 		_tasks = new ArrayList<Task>();
-		_archive = new ArrayList<Task>();
+		_archives = new ArrayList<Task>();
 		// updateArrayLists adds stored task objects into respective arraylists
 		// returns the next id to be used for future labelling of tasks
-		_currentId = _storage.updateArrayLists(_tasks, _archive);
+		_currentId = _storage.updateArrayLists(_tasks, _archives);
 	}
 
 	public void addUndo(Command currCmd) {
@@ -58,7 +61,7 @@ public class LogicData {
 	}
 
 	public void saveContents() {
-		_storage.save(_tasks, _archive);
+		_storage.save(_tasks, _archives);
 	}
 
 	// TODO: refactor function
@@ -242,4 +245,20 @@ public class LogicData {
 			}
 		}
 	};
+
+	public ArrayList<Task> getDisplays() {
+		return _displays;
+	}
+
+	public void setDisplays(ArrayList<Task> displays) {
+		_displays = displays;
+	}
+
+	public StateFeedback.State getCurrState() {
+		return _currState;
+	}
+
+	public void setCurrState(StateFeedback.State currState) {
+		_currState = currState;
+	}
 }

@@ -21,20 +21,14 @@ public class Logic {
 		_logicData = new LogicData(path);
 	}
 	
-	public StateFeedback executeCommand(String command, int position, StateFeedback.State currState) {
+	public StateFeedback executeCommand(String command, int position) {
 		// parser take in a string and return it in its corresponding class obj
-		Command currCmd = Parser.parseCommand(command, position); 
+		Command currCmd = Parser.parseCommand(command, position);
 		String feedback = currCmd.execute(_logicData);
 		_logicData.addUndo(currCmd);
 		_logicData.saveContents();
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(feedback);
-//		if() {	//TODO: *indicate whether there has been error processing command or not
-//			state.setIsError(true);
-//		} else {
-//			state.setIsError(false);
-//		}
-		state.setDisplayHeader(displayHeader);
 		return state;
 	}
 	

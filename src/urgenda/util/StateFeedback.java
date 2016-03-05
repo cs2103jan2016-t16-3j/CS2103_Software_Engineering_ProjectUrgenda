@@ -5,14 +5,13 @@ import java.util.ArrayList;
 public class StateFeedback {
 	
 	public enum State {
-		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY 
+		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY, ERROR
 	}
 	
 	private State _state;
 	private TaskList _tasks;
 	private TaskList _archiveTasks;
 	private String _feedback;
-	private boolean _isError;
 	private String _displayHeader;
 	private ArrayList<Integer> _tasksDetailed; //index of tasks to show details for
 	
@@ -51,10 +50,6 @@ public class StateFeedback {
 		return _feedback;
 	}
 	
-	public boolean getIsError() {
-		return _isError;
-	}
-	
 	public String getDisplayHeader() {
 		return _displayHeader;
 	}
@@ -73,9 +68,6 @@ public class StateFeedback {
 
 	public void setFeedback(String feedback) {
 		_feedback = feedback;
-	}
-	public void setIsError(boolean isError) {
-		_isError = isError;
 	}
 	
 	public void setDisplayHeader(String displayed) {
