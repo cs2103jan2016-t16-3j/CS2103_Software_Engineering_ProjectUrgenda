@@ -28,8 +28,14 @@ public class Logic {
 		String displayHeader = "Showing BLABLABLA";	//TODO *pass string to be shown at the top of display panel
 		_logicData.addUndo(currCmd);
 		_logicData.saveContents();
-		StateFeedback state = _logicData.getState(false);	//TODO *boolean passed to getstate method indicates whether to show completed tasks or not
+		StateFeedback state = _logicData.getState(false);	//TODO *boolean passed to getState method indicates whether to show completed tasks or not
 		state.setFeedback(feedback);
+//		if() {	//TODO: *indicate whether there has been error processing command or not
+//			state.setIsError(true);
+//		} else {
+//			state.setIsError(false);
+//		}
+		state.setDisplayHeader(displayHeader);
 		return state;
 	}
 	

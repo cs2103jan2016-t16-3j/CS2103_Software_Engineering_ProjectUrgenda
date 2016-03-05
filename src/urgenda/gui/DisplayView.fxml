@@ -21,24 +21,24 @@
       <GridPane maxHeight="20.0" prefHeight="20.0" prefWidth="545.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="35.0">
         <columnConstraints>
           <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="240.0" />
-            <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="30.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
+            <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="240.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label fx:id="indexLabel" alignment="CENTER" prefHeight="17.0" prefWidth="35.0" text="No." />
-            <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="100.0" text="Task" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="100.0" text="Task" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
             <Label fx:id="startLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="Start" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
             <Label fx:id="endLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
-      <ScrollPane hbarPolicy="NEVER" prefHeight="350.0" prefWidth="560.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="55.0">
+      <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" prefHeight="350.0" prefWidth="560.0" vvalue="0.5" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="55.0">
          <content>
-            <VBox fx:id="displayArea" prefHeight="330.0" prefWidth="545.0">
+            <VBox fx:id="displayHolder" prefWidth="545.0" style="-fx-background-color: transparent;">
              </VBox>
          </content>
       </ScrollPane>

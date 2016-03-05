@@ -24,7 +24,7 @@ public class Main extends Application {
 	private MainController mainController;
 	private DisplayController displayController;
 	private Logic logic;
-	
+
 	//
 	private static final String APP_NAME = "Urgenda";
 	private static final String PATH_GUI_FXML = "Main.fxml";
@@ -38,14 +38,14 @@ public class Main extends Application {
 	private static final int DEFAULT_REGULAR_FONT_SIZE = 10;
 	private static final int DEFAULT_BOLD_FONT_SIZE = 10;
 
-	//Resources to load
+	// Resources to load
 	@SuppressWarnings("unused")
-	private static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(REGULAR_FONT_PATH), 
-															   DEFAULT_REGULAR_FONT_SIZE);
+	private static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(REGULAR_FONT_PATH),
+			DEFAULT_REGULAR_FONT_SIZE);
 	@SuppressWarnings("unused")
-	private static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(BOLD_FONT_PATH), 
-															DEFAULT_BOLD_FONT_SIZE);
-		
+	private static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(BOLD_FONT_PATH),
+			DEFAULT_BOLD_FONT_SIZE);
+
 	@Override
 	public void start(Stage primaryStage) {
 		initLogicComponent();
@@ -55,9 +55,9 @@ public class Main extends Application {
 	}
 
 	private void initLogicComponent() {
-		logic = new Logic();	
+		logic = new Logic();
 	}
-	
+
 	private void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -73,14 +73,14 @@ public class Main extends Application {
 	private void initDisplay() {
 		displayController = mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
-		displayController.setDisplay(state.getTasks(),state.getDisplayHeader());
+		displayController.setDisplay(state.getTasks(), state.getDisplayHeader(),state.getDetailedTasks());
 	}
 
 	private void initStage(Stage primaryStage) {
 		scene = new Scene(rootLayout, DEFAULT_SCENE_WIDTH, DEFAULT_SCENE_HEIGHT);
 		scene.getStylesheets().add(getClass().getResource(PATH_STYLESHEET_CSS).toExternalForm());
 		primaryStage.initStyle(StageStyle.DECORATED);
-		Image ico = new Image(getClass().getResourceAsStream(PATH_ICON)); 
+		Image ico = new Image(getClass().getResourceAsStream(PATH_ICON));
 		primaryStage.getIcons().add(ico);
 		primaryStage.setTitle(APP_NAME);
 		primaryStage.setResizable(false);
@@ -92,64 +92,83 @@ public class Main extends Application {
 		launch(args);
 	}
 
-
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = logic.executeCommand(commandLine);
-		displayController.setDisplay(state.getTasks(),state.getDisplayHeader());
+		displayController.setDisplay(state.getTasks(), state.getDisplayHeader(), state.getDetailedTasks());
 		return state.getFeedback();
 	}
-	
-	public StateFeedback retrieveStartupState(){
-		StateFeedback state = dummyState(); //remove dummy when logic returns a legit feedbackstate
-		//StateFeedback state = logic.retrieveStartupState();
+
+	public StateFeedback retrieveStartupState() {
+		StateFeedback state = dummyState(); // remove dummy when logic returns a
+											// legit feedbackstate
+		// StateFeedback state = logic.retrieveStartupState();
 		mainController.displayFeedback(state.getFeedback(), false);
 		return state;
 	}
 
+	//dummy method to create dummy state
 	private StateFeedback dummyState() {
-		Task taskU = new Task("Urgent task", "U location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), true);
-		Task task1 = new Task("A task", "A location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
-		Task task2 = new Task("B task", "B location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
-		Task task3 = new Task("C task", "C location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
-		Task task4 = new Task("D task", "D location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
-		Task task5 = new Task("E task", "E location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(), false);
-		
+		Task taskO = new Task("Overdue task", "O location", LocalDateTime.now(), LocalDateTime.now(),
+				new ArrayList<String>(), false);
+		Task taskU = new Task("Urgent task", "U location", LocalDateTime.now(), LocalDateTime.now(),
+				new ArrayList<String>(), true);
+		Task taskT = new Task("Today task", "T location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+		Task taskD = new Task("Detailed task", "Detailed location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+		Task task1 = new Task("1 task", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+		Task task2 = new Task("2 task", "2 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+		Task task3 = new Task("3 task", "3 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+		Task task4 = new Task("4 task", "4 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+		Task task5 = new Task("5 task", "5 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+		Task task6 = new Task("6 task", "6 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
+
 		ArrayList<Task> tasks = new ArrayList<Task>();
+		tasks.add(taskO);
 		tasks.add(taskU);
+		tasks.add(taskT);
+		tasks.add(taskD);
 		tasks.add(task1);
 		tasks.add(task2);
 		tasks.add(task3);
 		tasks.add(task4);
 		tasks.add(task5);
-		
+		tasks.add(task6);
+		tasks.add(taskC);
 		StateFeedback state = new StateFeedback();
-		state.setTasks(new TaskList(tasks,0,1,4,0,0));
+		state.setTasks(new TaskList(tasks, 1, 1, 1, 7, 1));
 		state.setDisplayHeader("Showing dummylist");
 		state.setFeedback("feedback from dummylist");
+		state.addDetailedTaskIdx(3);
 		return state;
 	}
 
-	public String callUndo() {
-		//TODO call undo from logic
-		return null;
+	public void callUndo() {
+		handleCommandLine("undo");
 	}
-	
-	public String callRedo() {
-		//TODO call redo from logic
-		return null;
+
+	public void callRedo() {
+		handleCommandLine("redo");
 	}
-	
+
 	public void invokeHelpSplash() {
 		// TODO create help splash menu
-		
 	}
-	
+
 	public void invokeUrgendaSplash() {
 		// TODO create about urgenda splash menu
-		
+
 	}
-	
+
 	public MainController getController() {
 		return mainController;
-	}	
+	}
 }

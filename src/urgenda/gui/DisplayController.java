@@ -1,72 +1,62 @@
 package urgenda.gui;
 
-import javafx.beans.value.ChangeListener;
+import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import urgenda.util.TaskList;
 
-public class DisplayController extends AnchorPane{	
-	
+public class DisplayController extends AnchorPane {
+
+	public enum Style {
+		OVERDUE, URGENT, TODAY, NORMAL, COMPLETED
+	}
+
+	private static final double SCROLL_INCREMENT_HEIGHT = 10;
 	@FXML
 	Label displayHeader;
 	@FXML
-	VBox displayArea;
-	
+	VBox displayHolder;
+	@FXML
+	ScrollPane displayArea;
+
 	private TaskList displayedTasks;
 
 	public DisplayController() {
 	}
-	
-	public void setDisplay(TaskList updatedTasks, String displayHeader) {
-		int tasksCounter = 0; 
-		tasksCounter += showOverdue(updatedTasks, tasksCounter);
-		tasksCounter += showUrgent(updatedTasks, tasksCounter);
-		tasksCounter += showToday(updatedTasks, tasksCounter);
-		tasksCounter += showRemaining(updatedTasks, tasksCounter);
-		tasksCounter += showCompleted(updatedTasks, tasksCounter);
+
+	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> detailedTasks) {
+		displayHolder.getChildren().clear();
+		displayedTasks = updatedTasks;
+		int indexCounter = 0;
+		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getOverdueCount(),
+				Style.OVERDUE);
+		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getTodayCount(), Style.TODAY);
+		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getUrgentCount(), Style.URGENT);
+		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getRemainingCount(),
+				Style.NORMAL);
+		indexCounter += showStyledTaskView(indexCounter, detailedTasks, displayedTasks.getShownCompletedCount(),
+				Style.COMPLETED);
 		setDisplayHeader(displayHeader);
 	}
-	
-	private int showOverdue(TaskList updatedTasks, int index) {
-		int overdueCount = 0;
-		while(overdueCount < updatedTasks.getOverdueCount()) {
-			displayArea.getChildren().add(new TaskViewController(updatedTasks.getList().get(index), index + 1));
-			overdueCount++;
-			index++;
+
+	private int showStyledTaskView(int currIndex, ArrayList<Integer> detailedTasks, int toAddCount, Style style) {
+		int addedCount = 0;
+		while (addedCount < toAddCount) {
+			TaskController newTaskView = new TaskController(displayedTasks.getList().get(currIndex), currIndex + 1);
+			newTaskView.setTaskStyle(style);
+			displayHolder.getChildren().add(newTaskView);
+			if (detailedTasks.contains(Integer.valueOf(currIndex))) {
+				TaskDetailsController newTaskDetail = new TaskDetailsController(
+						displayedTasks.getList().get(currIndex));
+				displayHolder.getChildren().add(newTaskDetail);
+			}
+			addedCount++;
+			currIndex++;
 		}
-		return index;
-	}
-
-	private int showUrgent(TaskList updatedTasks, int index) {
-		int urgentCount = 0;
-		while(urgentCount < updatedTasks.getUrgentCount()) {
-			displayArea.getChildren().add(new TaskViewController(updatedTasks.getList().get(index), index + 1));
-			urgentCount++;
-			index++;
-		}
-		return index;
-	}
-
-	private int showToday(TaskList updatedTasks, int index) {
-		int todayCount = 0;
-		while(todayCount < updatedTasks.getTodayCount()) {
-			displayArea.getChildren().add(new TaskViewController(updatedTasks.getList().get(index), index + 1));
-			todayCount++;
-			index++;
-		}
-		return index;
-	}
-
-	private int showRemaining(TaskList updatedTasks, int index) {
-		// TODO Auto-generated method stub
-		return index;
-	}
-
-	private int showCompleted(TaskList updatedTasks, int index) {
-		// TODO Auto-generated method stub
-		return index;
+		return addedCount;
 	}
 
 	private void setDisplayHeader(String displayed) {

@@ -3,10 +3,6 @@ package urgenda.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import urgenda.util.TaskWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class TaskList implements Iterable<Task>{
 
 	private ArrayList<Task> _tasks;
