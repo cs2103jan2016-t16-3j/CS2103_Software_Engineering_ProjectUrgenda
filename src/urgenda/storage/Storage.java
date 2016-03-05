@@ -9,6 +9,7 @@ public class Storage implements StorageInterface {
 	private FileEditor _file;
 	private SettingsEditor _settings;
 	private ArrayList<String> _fileDataStringArr;
+	private ArrayList<String> _archiveStringArr;
 	private Decryptor _decryptor;
 	private Encryptor _encryptor;
 
@@ -18,7 +19,8 @@ public class Storage implements StorageInterface {
 		String name = _settings.getFileName();
 		_file = new FileEditor(path, name);
 		_fileDataStringArr = new ArrayList<String>();
-		_file.retrieveFromFile(_fileDataStringArr);
+		_archiveStringArr = new ArrayList<String>();
+		_file.retrieveCurrentTask(_fileDataStringArr);
 		_decryptor = new Decryptor();
 		_encryptor = new Encryptor();
 
@@ -30,7 +32,7 @@ public class Storage implements StorageInterface {
 		String name = _settings.getFileName();
 		_file = new FileEditor(path, name);
 		_fileDataStringArr = new ArrayList<String>();
-		_file.retrieveFromFile(_fileDataStringArr);
+		_file.retrieveCurrentTask(_fileDataStringArr);
 		_decryptor = new Decryptor();
 		_encryptor = new Encryptor();
 	}

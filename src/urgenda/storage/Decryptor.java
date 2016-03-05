@@ -2,18 +2,16 @@ package urgenda.storage;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
-import com.google.gson.reflect.TypeToken;
-
+import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
-public class Decryptor extends JsonCipher{
-	
-	public Decryptor(){
+public class Decryptor extends JsonCipher {
+
+	public Decryptor() {
 		super();
 	}
-	
+
 	public int decrypt(ArrayList<Task> taskList, ArrayList<String> stringList) {
 		int i;
 		for (i = 0; i < stringList.size(); i++) {
@@ -24,7 +22,6 @@ public class Decryptor extends JsonCipher{
 		}
 		return i;
 	}
-	
 
 	private Task generateTask(int i) {
 		int id = i;
@@ -39,10 +36,12 @@ public class Decryptor extends JsonCipher{
 		LocalDateTime dateAdded = getDateAdded();
 		LocalDateTime dateModified = getDateModified();
 		ArrayList<String> hashTags = getHashTags();
+		String multipleDesc = getMultipleDesc();
+		String multipleId = getMultipleId();
+		MultipleSlot newSlot = new MultipleSlot(multipleDesc, multipleId);
 		Task newTask = new Task(id, desc, type, location, isCompleted, isImportant, isOverdue, startTime, endTime,
-				dateAdded, dateModified, hashTags);
+				dateAdded, dateModified, hashTags, newSlot);
 		return newTask;
 	}
-	
 
 }

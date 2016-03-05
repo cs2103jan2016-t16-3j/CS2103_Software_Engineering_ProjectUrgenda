@@ -45,11 +45,11 @@ public class FileEditor {
 		return phrase;
 	}
 	
-	public void retrieveFromFile(ArrayList<String> fileDataStringArr) {
+	public void retrieveCurrentTask(ArrayList<String> fileDataStringArr) {
 		try {
 			FileReader reader = new FileReader(_file);
 			BufferedReader breader = new BufferedReader(reader);
-			addtoArray(breader, fileDataStringArr);
+			addtoTaskArray(breader, fileDataStringArr);
 			breader.close();
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -59,13 +59,15 @@ public class FileEditor {
 		}
 	}
 
-	private void addtoArray(BufferedReader breader, ArrayList<String> fileDataStringArr) throws IOException {
-		boolean isEmpty = false;
-		while (!isEmpty) {
+	private void addtoTaskArray(BufferedReader breader, ArrayList<String> fileDataStringArr) throws IOException {
+		boolean hasNoMoreTasks = false;
+		while (!hasNoMoreTasks) {
 			String taskString = breader.readLine();
 			if (taskString == null) {
-				isEmpty = true;
-			} else {
+				hasNoMoreTasks = true;
+			} else if (taskString.equals("archive")) {
+				hasNoMoreTasks = true;
+			}else {
 				fileDataStringArr.add(taskString);
 			}
 		}
