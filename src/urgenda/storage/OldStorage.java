@@ -168,7 +168,7 @@ public class OldStorage implements StorageInterface {
 		}
 
 		taskDetail.put("isCompleted", String.valueOf(task.isCompleted()));
-		taskDetail.put("isUrgent", String.valueOf(task.isUrgent()));
+		taskDetail.put("isImportant", String.valueOf(task.isImportant()));
 		taskDetail.put("isOverdue", String.valueOf(task.isOverdue()));
 		return taskDetail;
 	}

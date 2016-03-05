@@ -55,7 +55,7 @@ public class TestStorage {
 			System.out.println("date added: " + print.getDateAdded());
 			System.out.println("date modified: " + print.getDateModified());
 			System.out.println("completed: " + print.isCompleted());
-			System.out.println("urgent: " + print.isUrgent());
+			System.out.println("urgent: " + print.isImportant());
 			System.out.println("overdue: " + print.isOverdue());
 			i++;
 		}

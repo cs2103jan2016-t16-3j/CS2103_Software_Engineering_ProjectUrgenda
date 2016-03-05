@@ -21,7 +21,7 @@ public class JsonCipher {
 	private static final String HASHMAP_KEY_DATEADDED = "dateAdded";
 	private static final String HASHMAP_KEY_DATEMODIFIED = "dateModified";
 	private static final String HASHMAP_KEY_COMPLETED = "completed";
-	private static final String HASHMAP_KEY_URGENT = "urgent";
+	private static final String HASHMAP_KEY_IMPORTANT = "important";
 	private static final String HASHMAP_KEY_OVERDUE = "overdue";
 	private static final String HASHMAP_KEY_FILE_DIRECTORY = "directory";
 	private static final String HASHMAP_KEY_FILE_NAME = "name";
@@ -61,7 +61,7 @@ public class JsonCipher {
 	}
 
 	public void setUrgent(Task task) {
-		_detailsMap.put(HASHMAP_KEY_URGENT, String.valueOf(task.isUrgent()));
+		_detailsMap.put(HASHMAP_KEY_IMPORTANT, String.valueOf(task.isImportant()));
 	}
 
 	public void setCompleted(Task task) {
@@ -179,7 +179,7 @@ public class JsonCipher {
 	}
 
 	public boolean checkUrgent() {
-		return Boolean.parseBoolean(_detailsMap.get(HASHMAP_KEY_URGENT));
+		return Boolean.parseBoolean(_detailsMap.get(HASHMAP_KEY_IMPORTANT));
 	}
 
 	public boolean checkCompleted() {
