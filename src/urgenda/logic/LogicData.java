@@ -65,13 +65,11 @@ public class LogicData {
 	}
 
 	// TODO: refactor function
-	public StateFeedback getState() {
+	public StateFeedback getState(StateFeedback.State currState) {
 		// To update if there are any deadlines that turned overdue
 		updateState();
+		setCurrState(currState);
 
-		// TODO: filter tasks into overdue, urgent, today, others
-		// TODO: wrap tasks into TaskWrapper
-		// TODO: sort tasks in each arraylist by date/time (needs a comparator)
 		ArrayList<Task> overdueTasks = new ArrayList<Task>();
 		ArrayList<Task> todayTasks = new ArrayList<Task>();
 		ArrayList<Task> importantTasks = new ArrayList<Task>();
@@ -94,7 +92,14 @@ public class LogicData {
 		_tasks.addAll(sortList(otherTasks));
 		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), todayTasks.size(), importantTasks.size(),
 				otherTasks.size());
+		state.setState(currState);
+		
 		return state;
+	}
+	
+	public StateFeedback getState(StateFeedback.State currState, ArrayList<Task> tasks) {
+		// TODO replace top function with a refactored function that can be used by both calls
+		return null;
 	}
 	
 	public ArrayList<Task> findMatchingTasks(String desc) {

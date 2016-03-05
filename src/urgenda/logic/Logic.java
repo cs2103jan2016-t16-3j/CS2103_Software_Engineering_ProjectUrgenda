@@ -27,13 +27,13 @@ public class Logic {
 		String feedback = currCmd.execute(_logicData);
 		_logicData.addUndo(currCmd);
 		_logicData.saveContents();
-		StateFeedback state = _logicData.getState();
+		StateFeedback state = _logicData.getState(StateFeedback.State.ALL_TASKS);
 		state.setFeedback(feedback);
 		return state;
 	}
 	
 	public StateFeedback retrieveStartupState() {
-		StateFeedback state = _logicData.getState();
+		StateFeedback state = _logicData.getState(StateFeedback.State.ALL_TASKS);
 		state.setFeedback(MESSAGE_WELCOME);
 		state.setDisplayHeader(MESSAGE_HEADER_ALL);
 		return state;
