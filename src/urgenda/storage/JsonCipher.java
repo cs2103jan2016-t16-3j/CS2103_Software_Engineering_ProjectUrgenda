@@ -23,6 +23,8 @@ public class JsonCipher {
 	private static final String HASHMAP_KEY_COMPLETED = "completed";
 	private static final String HASHMAP_KEY_IMPORTANT = "important";
 	private static final String HASHMAP_KEY_OVERDUE = "overdue";
+	private static final String HASHMAP_KEY_MULTIPLE_DESC = "multipleDesc";
+	private static final String HASHMAP_KEY_MULTIPLE_ID = "multipleId";
 	private static final String HASHMAP_KEY_FILE_DIRECTORY = "directory";
 	private static final String HASHMAP_KEY_FILE_NAME = "name";
 
@@ -40,7 +42,7 @@ public class JsonCipher {
 		_gson = new Gson();
 		_detailsMap = new LinkedHashMap<String, String>();
 	}
-	
+
 	public JsonCipher(String detailsString) {
 		_gson = new Gson();
 		_detailsMap = new LinkedHashMap<String, String>();
@@ -51,16 +53,32 @@ public class JsonCipher {
 		_detailsMap = _gson.fromJson(_detailsString, new TypeToken<LinkedHashMap<String, String>>() {
 		}.getType());
 	}
-	
-	public void convertToString(){
+
+	public void convertToString() {
 		_detailsString = _gson.toJson(_detailsMap);
 	}
-	
+
+	public void setMultipleDesc(Task task) {
+		if (task.getSlot() == null) {
+			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, null);
+		} else {
+			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, task.getSlot().getDesc());
+		}
+	}
+
+	public void setMultipleId(Task task) {
+		if (task.getSlot() == null) {
+			_detailsMap.put(HASHMAP_KEY_MULTIPLE_ID, null);
+		} else {
+			_detailsMap.put(HASHMAP_KEY_MULTIPLE_ID, task.getSlot().getuniqueID());
+		}
+	}
+
 	public void setOverdue(Task task) {
 		_detailsMap.put(HASHMAP_KEY_OVERDUE, String.valueOf(task.isOverdue()));
 	}
 
-	public void setUrgent(Task task) {
+	public void setImportant(Task task) {
 		_detailsMap.put(HASHMAP_KEY_IMPORTANT, String.valueOf(task.isImportant()));
 	}
 
@@ -130,6 +148,30 @@ public class JsonCipher {
 		_detailsMap.put(HASHMAP_KEY_DESC, task.getDesc());
 	}
 
+	public void setDirectory(String path) {
+		_detailsMap.put(HASHMAP_KEY_FILE_DIRECTORY, path);
+	}
+
+	public void setFileName(String name) {
+		_detailsMap.put(HASHMAP_KEY_FILE_NAME, name);
+	}
+
+	public String getMultipleDesc() {
+		if (_detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC) == null) {
+			return null;
+		} else {
+			return _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
+		}
+	}
+
+	public String getMultipleId() {
+		if (_detailsMap.get(HASHMAP_KEY_MULTIPLE_ID) == null) {
+			return null;
+		} else {
+			return _detailsMap.get(HASHMAP_KEY_MULTIPLE_ID);
+		}
+	}
+
 	public ArrayList<String> getHashTags() {
 		ArrayList<String> hashTags;
 		if (_detailsMap.get(HASHMAP_KEY_TAGS) == null) {
@@ -178,7 +220,7 @@ public class JsonCipher {
 		return Boolean.parseBoolean(_detailsMap.get(HASHMAP_KEY_OVERDUE));
 	}
 
-	public boolean checkUrgent() {
+	public boolean checkImportant() {
 		return Boolean.parseBoolean(_detailsMap.get(HASHMAP_KEY_IMPORTANT));
 	}
 
@@ -205,22 +247,13 @@ public class JsonCipher {
 	public String getFileName() {
 		return _detailsMap.get(HASHMAP_KEY_FILE_NAME);
 	}
-	
-	public String getDetailsString(){
+
+	public String getDetailsString() {
 		return _detailsString;
 	}
-	
-	public LinkedHashMap<String, String> getDetailsMap(){
-		return _detailsMap;
-	}
-	
-	public void setDirectory(String path) {
-		System.out.println(path);
-		_detailsMap.put(HASHMAP_KEY_FILE_DIRECTORY, path);
-	}
 
-	public void setFileName(String name) {
-		_detailsMap.put(HASHMAP_KEY_FILE_NAME, name);
+	public LinkedHashMap<String, String> getDetailsMap() {
+		return _detailsMap;
 	}
 
 }

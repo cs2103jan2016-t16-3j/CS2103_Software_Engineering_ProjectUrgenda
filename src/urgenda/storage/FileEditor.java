@@ -9,16 +9,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class FileEditor {
+	private static final String LIST_SEPARATOR_ARCHIVE = "archive";
+	
 	private File _file;
 	private File _parentDir;
-
-	public FileEditor() {
-		String defaultDir = "testfiles";
-		_parentDir = new File(defaultDir);
-		_parentDir.mkdir();
-		_file = new File(_parentDir, "test.txt");
-		checkIfFileExist();
-	}
 	
 	public FileEditor(String path, String name){
 		_parentDir = new File(path);
@@ -36,12 +30,29 @@ public class FileEditor {
 			}
 		}
 	}
-
-	public void retrieveFromFile(ArrayList<String> fileDataStringArr) {
+	
+	public String retrieveFromFile(){
+		String phrase = null;
 		try {
 			FileReader reader = new FileReader(_file);
 			BufferedReader breader = new BufferedReader(reader);
-			addtoArray(breader, fileDataStringArr);
+			phrase = breader.readLine();
+			breader.close();
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return phrase;
+	}
+	
+	public void retrieveFromFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
+		try {
+			FileReader reader = new FileReader(_file);
+			BufferedReader breader = new BufferedReader(reader);
+			addToTaskArray(breader, fileDataStringArr);
+			addToArchiveArray(breader, archiveStringArr);
 			breader.close();
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -51,24 +62,52 @@ public class FileEditor {
 		}
 	}
 
-	private void addtoArray(BufferedReader breader, ArrayList<String> fileDataStringArr) throws IOException {
-		boolean isEmpty = false;
-		while (!isEmpty) {
+	private void addToTaskArray(BufferedReader breader, ArrayList<String> fileDataStringArr) throws IOException {
+		boolean hasNoMoreTasks = false;
+		while (!hasNoMoreTasks) {
 			String taskString = breader.readLine();
 			if (taskString == null) {
-				isEmpty = true;
-			} else {
+				hasNoMoreTasks = true;
+			} else if (taskString.equals(LIST_SEPARATOR_ARCHIVE)) {
+				hasNoMoreTasks = true;
+			}else {
 				fileDataStringArr.add(taskString);
 			}
 		}
 	}
 	
-	public void writeToFile(ArrayList<String> fileDataStringArr){
+	private void addToArchiveArray(BufferedReader breader, ArrayList<String> archiveStringArr) throws IOException{
+		boolean isEmpty = false;
+		while (!isEmpty){
+			String taskString = breader.readLine();
+			if (taskString == null){
+				isEmpty = true;
+			} else {
+				archiveStringArr.add(taskString);
+			}
+		}
+	}
+	
+	public void writeToFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr){
 		try {
 			PrintWriter writer = new PrintWriter(_file);
 			for (String phrase : fileDataStringArr) {
 				writer.println(phrase);
 			}
+			writer.println(LIST_SEPARATOR_ARCHIVE);
+			for (String phrase : archiveStringArr) {
+				writer.println(phrase);
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeToFile(String phrase){
+		try {
+			PrintWriter writer = new PrintWriter(_file);
+			writer.println(phrase);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

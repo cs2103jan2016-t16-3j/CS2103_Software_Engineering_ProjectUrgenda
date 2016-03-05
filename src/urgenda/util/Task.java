@@ -105,7 +105,7 @@ public class Task {
 	 */
 	public Task(int id, String desc, String type, String location, boolean isCompleted, boolean isImportant,
 			boolean isOverdue, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime dateAdded,
-			LocalDateTime dateModified, ArrayList<String> hashTags) {
+			LocalDateTime dateModified, ArrayList<String> hashTags, MultipleSlot slot) {
 		_id = id;
 		_desc = desc;
 		setType(type);
@@ -118,6 +118,7 @@ public class Task {
 		_dateAdded = dateAdded;
 		_dateModified = dateModified;
 		_hashtags = hashTags;
+		_slot = slot;
 
 	}
 

@@ -172,4 +172,22 @@ public class OldStorage implements StorageInterface {
 		taskDetail.put("isOverdue", String.valueOf(task.isOverdue()));
 		return taskDetail;
 	}
+
+	@Override
+	public void changeFilePath(String path) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeFileName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeFileSettings(String path, String name) {
+		// TODO Auto-generated method stub
+		
+	}
 }
