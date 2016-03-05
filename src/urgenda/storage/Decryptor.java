@@ -17,14 +17,14 @@ public class Decryptor extends JsonCipher{
 	public int decrypt(ArrayList<Task> taskList, ArrayList<String> stringList) {
 		int i;
 		for (i = 0; i < stringList.size(); i++) {
-			_taskString = stringList.get(i);
-			_taskDetails = _gson.fromJson(_taskString, new TypeToken<LinkedHashMap<String, String>>() {
-			}.getType());
+			_detailsString = stringList.get(i);
+			convertToMap();
 			Task newTask = generateTask(i + 1);
 			taskList.add(newTask);
 		}
 		return i;
 	}
+	
 
 	private Task generateTask(int i) {
 		int id = i;

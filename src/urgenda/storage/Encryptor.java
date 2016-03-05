@@ -16,10 +16,12 @@ public class Encryptor extends JsonCipher {
 		}
 		for (Task task : taskList) {
 			getTaskDetail(task);
-			_taskString = _gson.toJson(_taskDetails);
-			stringList.add(_taskString);
+			convertToString();
+			stringList.add(_detailsString);
 		}
 	}
+	
+	
 
 	// getting Task attributes and storing in a LinkedHashMap
 	private void getTaskDetail(Task task) {

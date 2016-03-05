@@ -19,6 +19,13 @@ public class FileEditor {
 		_file = new File(_parentDir, "test.txt");
 		checkIfFileExist();
 	}
+	
+	public FileEditor(String path, String name){
+		_parentDir = new File(path);
+		_parentDir.mkdir();
+		_file = new File(_parentDir, name);
+		checkIfFileExist();
+	}
 
 	private void checkIfFileExist() {
 		if (_file.exists() == false) {
@@ -30,11 +37,11 @@ public class FileEditor {
 		}
 	}
 
-	public void retrieveFromFile(ArrayList<String> _fileDataStringArr) {
+	public void retrieveFromFile(ArrayList<String> fileDataStringArr) {
 		try {
 			FileReader reader = new FileReader(_file);
 			BufferedReader breader = new BufferedReader(reader);
-			addtoArray(breader, _fileDataStringArr);
+			addtoArray(breader, fileDataStringArr);
 			breader.close();
 			reader.close();
 		} catch (FileNotFoundException e) {
