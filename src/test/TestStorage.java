@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import urgenda.storage.AStorage;
 import urgenda.storage.Storage;
+import urgenda.storage.OldStorage;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
@@ -15,7 +15,7 @@ public class TestStorage {
 
 	@Test
 	public void testSave(){
-		AStorage store = new AStorage();
+		Storage store = new Storage();
 		Task task1 = new Task("test1");
 		Task task2 = new Task("test2");
 		Task task3 = new Task("test3");
@@ -32,7 +32,7 @@ public class TestStorage {
 	
 	@Test
 	public void testUpdateArrayLists(){
-		AStorage store = new AStorage();
+		Storage store = new Storage();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();
 //		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();

@@ -13,14 +13,14 @@ import java.util.LinkedHashMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class Storage implements StorageInterface {
+public class OldStorage implements StorageInterface {
 	private File _file;
 	private File _parentDir;
 	private String _path;
 	private ArrayList<String> _fileDataStringArr;
 
 	// default constructor for no path included (use default location)?
-	public Storage() {
+	public OldStorage() {
 		String defaultDir = "testfiles";
 		_parentDir = new File(defaultDir);
 		_parentDir.mkdir();
@@ -31,7 +31,7 @@ public class Storage implements StorageInterface {
 	};
 
 	// constructor for saving path/location
-	public Storage(String path) {
+	public OldStorage(String path) {
 		String defaultDir = "testfiles";
 		_parentDir = new File(defaultDir);
 		_parentDir.mkdir();
