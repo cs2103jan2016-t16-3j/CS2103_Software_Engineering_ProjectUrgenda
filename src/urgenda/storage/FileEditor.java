@@ -57,9 +57,8 @@ public class FileEditor {
 	}
 	
 	public void writeToFile(ArrayList<String> fileDataStringArr){
-		PrintWriter writer;
 		try {
-			writer = new PrintWriter(_file);
+			PrintWriter writer = new PrintWriter(_file);
 			for (String phrase : fileDataStringArr) {
 				writer.println(phrase);
 			}
