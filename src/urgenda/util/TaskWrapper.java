@@ -63,7 +63,7 @@ public class TaskWrapper {
 		_dateAdded = new SimpleStringProperty(task.getDateAdded().toString());
 		_dateModified = new SimpleStringProperty(task.getDateModified().toString());
 		_isCompleted = new SimpleBooleanProperty(task.isCompleted());
-		_isUrgent = new SimpleBooleanProperty(task.isUrgent());
+		_isUrgent = new SimpleBooleanProperty(task.isImportant());
 		_isOverdue = new SimpleBooleanProperty(task.isOverdue());
 		_slot = new SimpleObjectProperty<MultipleSlot>(task.getSlot());
 	}

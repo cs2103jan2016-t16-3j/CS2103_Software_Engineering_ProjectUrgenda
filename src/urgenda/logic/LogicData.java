@@ -70,7 +70,7 @@ public class LogicData {
 		// TODO: sort tasks in each arraylist by date/time (needs a comparator)
 		ArrayList<Task> overdueTasks = new ArrayList<Task>();
 		ArrayList<Task> todayTasks = new ArrayList<Task>();
-		ArrayList<Task> urgentTasks = new ArrayList<Task>();
+		ArrayList<Task> importantTasks = new ArrayList<Task>();
 		ArrayList<Task> otherTasks = new ArrayList<Task>();
 		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		for (Task task : _tasks) {
@@ -78,8 +78,8 @@ public class LogicData {
 				overdueTasks.add(task);
 			} else if (isTaskToday(task)) {
 				todayTasks.add(task); // swapped urgent and today
-			} else if (task.isUrgent()) {
-				urgentTasks.add(task);
+			} else if (task.isImportant()) {
+				importantTasks.add(task);
 			} else if (showCompleted) {
 				completedTasks.add(task);
 			} else { // remaining uncompleted tasks including floating
@@ -89,9 +89,9 @@ public class LogicData {
 		_tasks.clear();
 		_tasks.addAll(sortList(overdueTasks));
 		_tasks.addAll(sortList(todayTasks)); // swapped urgent and today
-		_tasks.addAll(sortList(urgentTasks));
+		_tasks.addAll(sortList(importantTasks));
 		_tasks.addAll(sortList(otherTasks));
-		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), todayTasks.size(), urgentTasks.size(),
+		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), todayTasks.size(), importantTasks.size(),
 				otherTasks.size(), completedTasks.size()); // swapped urgent and
 															// today
 		return state;
