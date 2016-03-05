@@ -73,7 +73,7 @@ public class Main extends Application {
 	private void initDisplay() {
 		displayController = mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
-		displayController.setDisplay(state.getTasks(), state.getDisplayHeader(),state.getDetailedTasks());
+		displayController.setDisplay(state.getAllTasks(), state.getDisplayHeader(),state.getDetailedIndexes());
 	}
 
 	private void initStage(Stage primaryStage) {
@@ -94,7 +94,7 @@ public class Main extends Application {
 
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = logic.executeCommand(commandLine);
-		displayController.setDisplay(state.getTasks(), state.getDisplayHeader(), state.getDetailedTasks());
+		displayController.setDisplay(state.getAllTasks(), state.getDisplayHeader(), state.getDetailedIndexes());
 		return state.getFeedback();
 	}
 
@@ -144,7 +144,7 @@ public class Main extends Application {
 		tasks.add(task6);
 		tasks.add(taskC);
 		StateFeedback state = new StateFeedback();
-		state.setTasks(new TaskList(tasks, 1, 1, 1, 7, 1));
+		state.setAllTasks(new TaskList(tasks, 1, 1, 1, 7, 1));
 		state.setDisplayHeader("Showing dummylist");
 		state.setFeedback("feedback from dummylist");
 		state.addDetailedTaskIdx(3);

@@ -9,69 +9,45 @@ public class StateFeedback {
 	}
 	
 	private State _state;
-	private TaskList _tasks;
-	private TaskList _archiveTasks;
+	private TaskList _allTasks;
 	private String _feedback;
-	private String _displayHeader;
-	private ArrayList<Integer> _tasksDetailed; //index of tasks to show details for
+	private ArrayList<Integer> _showmoreIndexes; //index of tasks to show details for
 	
 	// default constructor
 	public StateFeedback() {
-		_tasksDetailed = new ArrayList<Integer>();
+		_showmoreIndexes = new ArrayList<Integer>();
 	}
 	
 	// constructor for default generation of All tasks
 	public StateFeedback(ArrayList<Task> tasks, int overdue, int today, int urgent, int remaining) {
-		_state = State.ALL_TASKS;
-		_tasks = new TaskList(tasks, overdue, today, urgent, remaining);   //swapped urgent and today
-		_tasksDetailed = new ArrayList<Integer>();
+		_allTasks = new TaskList(tasks, overdue, today, urgent, remaining);   //swapped urgent and today
+		_showmoreIndexes = new ArrayList<Integer>();
 	}
 
 	//constructor passing tasklist object
 	public StateFeedback(TaskList taskList) {
-		_tasks = taskList;
-		_tasksDetailed = new ArrayList<Integer>();
+		_allTasks = taskList;
+		_showmoreIndexes = new ArrayList<Integer>();
 	}
 	
-	// constructor for feedback string only
-	public StateFeedback(String feedback) {
-		_feedback = feedback;
-	}
-	
-	public TaskList getTasks() {
-		return _tasks;
-	}
-	
-	public TaskList getArchiveTasks() {
-		return _archiveTasks;
+	public TaskList getAllTasks() {
+		return _allTasks;
 	}
 
 	public String getFeedback() {
 		return _feedback;
 	}
 	
-	public String getDisplayHeader() {
-		return _displayHeader;
-	}
-	
-	public ArrayList<Integer> getDetailedTasks() {
-		return _tasksDetailed;
+	public ArrayList<Integer> getDetailedIndexes() {
+		return _showmoreIndexes;
 		
 	}
-	public void setTasks(TaskList tasks) {
-		_tasks = tasks;
-	}
-
-	public void setArchiveTasks(TaskList archiveTasks) {
-		_archiveTasks = archiveTasks;
+	public void setAllTasks(TaskList tasks) {
+		_allTasks = tasks;
 	}
 
 	public void setFeedback(String feedback) {
 		_feedback = feedback;
-	}
-	
-	public void setDisplayHeader(String displayed) {
-		_displayHeader = displayed;
 	}
 
 	public State getState() {
@@ -83,10 +59,7 @@ public class StateFeedback {
 	}
 	
 	public void addDetailedTaskIdx(int index) {
-		_tasksDetailed.add(index);
+		_showmoreIndexes.add(index);
 	}
 	
-	public void resetDetailedTasks() {
-		_tasksDetailed.clear();
-	}
 }

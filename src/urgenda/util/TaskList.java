@@ -30,7 +30,7 @@ public class TaskList implements Iterable<Task>{
 		_archives = new ArrayList<Task>();
 		setOverdueCount(overdue);
 		setTodayCount(today);
-		setUrgentCount(urgent);                //swapped urgent and today and tat fn in signature
+		setUrgentCount(urgent);
 		setRemainingCount(remaining);
 		setArchiveCount(0);
 	}

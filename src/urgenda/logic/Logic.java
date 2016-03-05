@@ -35,7 +35,6 @@ public class Logic {
 	public StateFeedback retrieveStartupState() {
 		StateFeedback state = _logicData.getState(StateFeedback.State.ALL_TASKS);
 		state.setFeedback(MESSAGE_WELCOME);
-		state.setDisplayHeader(MESSAGE_HEADER_ALL);
 		return state;
 	}
 }
