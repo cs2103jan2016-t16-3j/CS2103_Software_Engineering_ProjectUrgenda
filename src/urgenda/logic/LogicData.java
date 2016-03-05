@@ -76,10 +76,10 @@ public class LogicData {
 		for (Task task : _tasks) {
 			if(task.isOverdue()) {
 				overdueTasks.add(task);
+			} else if (isTaskToday(task)) {
+				todayTasks.add(task);               //swapped urgent and today
 			} else if (task.isUrgent()) {
 				urgentTasks.add(task);
-			} else if (isTaskToday(task)) {
-				todayTasks.add(task);
 			} else if (showCompleted) {
 				completedTasks.add(task);
 			} else { // remaining uncompleted tasks including floating
@@ -88,8 +88,8 @@ public class LogicData {
 		}
 		_tasks.clear();
 		_tasks.addAll(sortList(overdueTasks));
+		_tasks.addAll(sortList(todayTasks));      //swapped urgent and today
 		_tasks.addAll(sortList(urgentTasks));
-		_tasks.addAll(sortList(todayTasks));
 		_tasks.addAll(sortList(otherTasks));
 		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), urgentTasks.size(), todayTasks.size(), otherTasks.size(),completedTasks.size());
 		return state;
