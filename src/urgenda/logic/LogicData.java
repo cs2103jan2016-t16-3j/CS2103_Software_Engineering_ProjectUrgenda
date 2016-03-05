@@ -69,8 +69,8 @@ public class LogicData {
 		// TODO: wrap tasks into TaskWrapper
 		// TODO: sort tasks in each arraylist by date/time (needs a comparator)
 		ArrayList<Task> overdueTasks = new ArrayList<Task>();
-		ArrayList<Task> urgentTasks = new ArrayList<Task>();
 		ArrayList<Task> todayTasks = new ArrayList<Task>();
+		ArrayList<Task> urgentTasks = new ArrayList<Task>();
 		ArrayList<Task> otherTasks = new ArrayList<Task>();
 		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		for (Task task : _tasks) {
@@ -91,8 +91,9 @@ public class LogicData {
 		_tasks.addAll(sortList(todayTasks)); // swapped urgent and today
 		_tasks.addAll(sortList(urgentTasks));
 		_tasks.addAll(sortList(otherTasks));
-		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), urgentTasks.size(), todayTasks.size(),
-				otherTasks.size(), completedTasks.size());
+		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), todayTasks.size(), urgentTasks.size(),
+				otherTasks.size(), completedTasks.size()); // swapped urgent and
+															// today
 		return state;
 	}
 
@@ -235,6 +236,9 @@ public class LogicData {
 			} else if (c2 == null) {
 				return -1;
 			} else {
+				if (c1.compareTo(c2) == 0) {
+					return o1.getDesc().compareToIgnoreCase(o2.getDesc());
+				}
 				return c1.compareTo(c2);
 			}
 		}
