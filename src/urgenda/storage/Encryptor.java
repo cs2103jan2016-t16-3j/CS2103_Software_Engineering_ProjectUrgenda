@@ -36,7 +36,7 @@ public class Encryptor extends JsonCipher {
 		setDateAdded(task);
 		setDateModified(task);
 		setCompleted(task);
-		setUrgent(task);
+		setImportant(task);
 		setOverdue(task);
 	}
 

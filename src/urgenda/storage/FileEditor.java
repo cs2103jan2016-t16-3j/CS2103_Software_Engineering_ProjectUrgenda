@@ -11,14 +11,6 @@ import java.util.ArrayList;
 public class FileEditor {
 	private File _file;
 	private File _parentDir;
-
-	public FileEditor() {
-		String defaultDir = "testfiles";
-		_parentDir = new File(defaultDir);
-		_parentDir.mkdir();
-		_file = new File(_parentDir, "test.txt");
-		checkIfFileExist();
-	}
 	
 	public FileEditor(String path, String name){
 		_parentDir = new File(path);
@@ -36,7 +28,23 @@ public class FileEditor {
 			}
 		}
 	}
-
+	
+	public String retrieveFromFile(){
+		String phrase = null;
+		try {
+			FileReader reader = new FileReader(_file);
+			BufferedReader breader = new BufferedReader(reader);
+			phrase = breader.readLine();
+			breader.close();
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return phrase;
+	}
+	
 	public void retrieveFromFile(ArrayList<String> fileDataStringArr) {
 		try {
 			FileReader reader = new FileReader(_file);
@@ -69,6 +77,16 @@ public class FileEditor {
 			for (String phrase : fileDataStringArr) {
 				writer.println(phrase);
 			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeToFile(String phrase){
+		try {
+			PrintWriter writer = new PrintWriter(_file);
+			writer.println(phrase);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

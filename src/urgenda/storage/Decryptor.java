@@ -32,14 +32,14 @@ public class Decryptor extends JsonCipher{
 		String type = getType();
 		String location = getLocation();
 		boolean isCompleted = checkCompleted();
-		boolean isUrgent = checkUrgent();
+		boolean isImportant = checkImportant();
 		boolean isOverdue = checkOverdue();
 		LocalDateTime startTime = getStartTime();
 		LocalDateTime endTime = getEndTime();
 		LocalDateTime dateAdded = getDateAdded();
 		LocalDateTime dateModified = getDateModified();
 		ArrayList<String> hashTags = getHashTags();
-		Task newTask = new Task(id, desc, type, location, isCompleted, isUrgent, isOverdue, startTime, endTime,
+		Task newTask = new Task(id, desc, type, location, isCompleted, isImportant, isOverdue, startTime, endTime,
 				dateAdded, dateModified, hashTags);
 		return newTask;
 	}

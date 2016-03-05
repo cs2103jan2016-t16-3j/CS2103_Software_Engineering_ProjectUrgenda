@@ -60,7 +60,7 @@ public class JsonCipher {
 		_detailsMap.put(HASHMAP_KEY_OVERDUE, String.valueOf(task.isOverdue()));
 	}
 
-	public void setUrgent(Task task) {
+	public void setImportant(Task task) {
 		_detailsMap.put(HASHMAP_KEY_IMPORTANT, String.valueOf(task.isImportant()));
 	}
 
@@ -130,6 +130,14 @@ public class JsonCipher {
 		_detailsMap.put(HASHMAP_KEY_DESC, task.getDesc());
 	}
 
+	public void setDirectory(String path) {
+		_detailsMap.put(HASHMAP_KEY_FILE_DIRECTORY, path);
+	}
+
+	public void setFileName(String name) {
+		_detailsMap.put(HASHMAP_KEY_FILE_NAME, name);
+	}
+
 	public ArrayList<String> getHashTags() {
 		ArrayList<String> hashTags;
 		if (_detailsMap.get(HASHMAP_KEY_TAGS) == null) {
@@ -178,7 +186,7 @@ public class JsonCipher {
 		return Boolean.parseBoolean(_detailsMap.get(HASHMAP_KEY_OVERDUE));
 	}
 
-	public boolean checkUrgent() {
+	public boolean checkImportant() {
 		return Boolean.parseBoolean(_detailsMap.get(HASHMAP_KEY_IMPORTANT));
 	}
 
@@ -212,15 +220,6 @@ public class JsonCipher {
 	
 	public LinkedHashMap<String, String> getDetailsMap(){
 		return _detailsMap;
-	}
-	
-	public void setDirectory(String path) {
-		System.out.println(path);
-		_detailsMap.put(HASHMAP_KEY_FILE_DIRECTORY, path);
-	}
-
-	public void setFileName(String name) {
-		_detailsMap.put(HASHMAP_KEY_FILE_NAME, name);
 	}
 
 }
