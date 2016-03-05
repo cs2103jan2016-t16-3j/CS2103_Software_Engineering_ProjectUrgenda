@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 import urgenda.command.Command;
 import urgenda.command.Undoable;
@@ -61,7 +62,7 @@ public class LogicData {
 	}
 
 	// TODO: refactor function
-	public StateFeedback getState(boolean showCompleted) {
+	public StateFeedback getState() {
 		// To update if there are any deadlines that turned overdue
 		updateState();
 
@@ -72,7 +73,6 @@ public class LogicData {
 		ArrayList<Task> todayTasks = new ArrayList<Task>();
 		ArrayList<Task> importantTasks = new ArrayList<Task>();
 		ArrayList<Task> otherTasks = new ArrayList<Task>();
-		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		for (Task task : _tasks) {
 			if (task.isOverdue()) {
 				overdueTasks.add(task);
@@ -80,9 +80,7 @@ public class LogicData {
 				todayTasks.add(task); // swapped urgent and today
 			} else if (task.isImportant()) {
 				importantTasks.add(task);
-			} else if (showCompleted) {
-				completedTasks.add(task);
-			} else { // remaining uncompleted tasks including floating
+			} else { // remaining floating tasks
 				otherTasks.add(task);
 			}
 		}
@@ -92,9 +90,18 @@ public class LogicData {
 		_tasks.addAll(sortList(importantTasks));
 		_tasks.addAll(sortList(otherTasks));
 		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), todayTasks.size(), importantTasks.size(),
-				otherTasks.size(), completedTasks.size()); // swapped urgent and
-															// today
+				otherTasks.size());
 		return state;
+	}
+	
+	public ArrayList<Task> findMatchingTasks(String desc) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		for (Task task : _tasks) {
+			if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
+				matches.add(task);
+			}
+		}
+		return matches;
 	}
 
 	private boolean isTaskToday(Task task) {
@@ -148,16 +155,6 @@ public class LogicData {
 
 	public void deleteTask(Task newTask) {
 		_tasks.remove(newTask);
-	}
-
-	// TODO merge with search command (remove this function)
-	public Task findMatchingDesc(String desc) {
-		for (Task task : _tasks) {
-			if (task.getDesc().contains(desc)) {
-				return task;
-			}
-		}
-		return null;
 	}
 
 	public Task findMatchingId(int id) {

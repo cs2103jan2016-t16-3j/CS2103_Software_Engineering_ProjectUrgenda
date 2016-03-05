@@ -21,20 +21,19 @@ public class Logic {
 		_logicData = new LogicData(path);
 	}
 	
-	public StateFeedback executeCommand(String command) {
+	public StateFeedback executeCommand(String command, int position, StateFeedback.State currState) {
 		// parser take in a string and return it in its corresponding class obj
-		Command currCmd = Parser.parseCommand(command); 
+		Command currCmd = Parser.parseCommand(command, position); 
 		String feedback = currCmd.execute(_logicData);
-		String displayHeader = "Showing BLABLABLA";	//TODO *pass string to be shown at the top of display panel
 		_logicData.addUndo(currCmd);
 		_logicData.saveContents();
-		StateFeedback state = _logicData.getState(false);	//TODO *boolean passed to getstate method indicates whether to show completed tasks or not
+		StateFeedback state = _logicData.getState();
 		state.setFeedback(feedback);
 		return state;
 	}
 	
 	public StateFeedback retrieveStartupState() {
-		StateFeedback state = _logicData.getState(false); //TODO *boolean passed to getstate method indicates whether to show completed tasks or not
+		StateFeedback state = _logicData.getState();
 		state.setFeedback(MESSAGE_WELCOME);
 		state.setDisplayHeader(MESSAGE_HEADER_ALL);
 		return state;

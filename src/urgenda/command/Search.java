@@ -1,7 +1,6 @@
 package urgenda.command;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
@@ -12,22 +11,22 @@ public class Search implements Command {
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
 	
 	private String _searchInput;
-	private ArrayList<Task> _searchStorage;
-	private LogicData _data;
+	
+	// default constructor
+	public Search() {
+		
+	}
+	
+	public Search(String input) {
+		_searchInput = input;
+	}
 	
 	@Override
 	public String execute(LogicData data) {   //to be edited to search for other combi e.g. time
-		_data = data;
-		_searchStorage = new ArrayList<Task>();
-		for (Task counter : _data.getTaskList()) {
-			if (Pattern.compile(Pattern.quote(_searchInput), Pattern.CASE_INSENSITIVE).matcher(counter.getDesc()).find()) {
-				_searchStorage.add(counter);
-			}
-		}
-		
-		if(_searchStorage.isEmpty()) {
+		ArrayList<Task> matches = data.findMatchingTasks(_searchInput);
+		if(matches.isEmpty()) {
 			return String.format(MESSAGE_SEARCH_NOT_FOUND, _searchInput);
-		} else {
+		} else { // TODO THROW EXCEPTION
 			return String.format(MESSAGE_SEARCH, _searchInput);
 		}
 	}

@@ -1,5 +1,7 @@
 package urgenda.command;
 
+import java.util.ArrayList;
+
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
@@ -17,7 +19,6 @@ public class DeleteTask implements Undoable {
 	// one of these 3 properties can be filled for identification of deleted task
 	private String _desc;
 	private Integer _id;
-	private Integer _position;
 	
 	// to store from deletion, so that undo can be done
 	private Task _deletedTask;
@@ -26,13 +27,16 @@ public class DeleteTask implements Undoable {
 	@Override
 	public String execute(LogicData data) {
 		_data = data;
-		if (_desc != null) {
-			// TODO to update to search command's algorithm
-			_deletedTask = _data.findMatchingDesc(_desc);
-		} else if (_id != null) {
-			_deletedTask = _data.findMatchingId(_id.intValue());
-		} else if (_position != null) {
-			_deletedTask = _data.findTaskPosition(_position.intValue());
+		ArrayList<Task> matches;
+		if (_id != null) {
+			_deletedTask = _data.findMatchingId(_id.intValue());			
+		} else if (_desc != null) {
+				matches = _data.findMatchingTasks(_desc);
+				if (matches.size() == 1) {
+					_deletedTask = matches.get(0);
+				} else if (matches.size() > 1) {
+					// TODO Throw MULTIPLE_DELETE exception
+				}
 		}
 		
 		if (_deletedTask == null) {
@@ -87,10 +91,6 @@ public class DeleteTask implements Undoable {
 
 	public void setId(int id) {
 		_id = Integer.valueOf(id);
-	}
-
-	public void setPosition(int position) {
-		_position = Integer.valueOf(position);
 	}
 
 }

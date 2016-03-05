@@ -3,10 +3,6 @@ package urgenda.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import urgenda.util.TaskWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class TaskList implements Iterable<Task>{
 
 	private ArrayList<Task> _tasks;
@@ -14,7 +10,6 @@ public class TaskList implements Iterable<Task>{
 	private int _urgentCount;
 	private int _todayCount;
 	private int _remainingCount;
-	private int _shownCompletedCount;
 	
 	//default constructor creates empty TaskList
 	public TaskList() {
@@ -22,16 +17,14 @@ public class TaskList implements Iterable<Task>{
 		setTodayCount(0);
 		setUrgentCount(0);  //swapped urgent and today
 		setRemainingCount(0);
-		setShownCompletedCount(0);
 	}
 	
-	public TaskList(ArrayList<Task> tasks, int overdue, int today, int urgent, int remaining, int completed) {
+	public TaskList(ArrayList<Task> tasks, int overdue, int today, int urgent, int remaining) {
 		_tasks = tasks;
 		setOverdueCount(overdue);
 		setTodayCount(today);
 		setUrgentCount(urgent);                //swapped urgent and today and tat fn in signature
 		setRemainingCount(remaining);
-		setShownCompletedCount(completed);
 	}
 	
 	public ArrayList<Task> getList() {
@@ -72,14 +65,6 @@ public class TaskList implements Iterable<Task>{
 
 	public void setRemainingCount(int _remainingCount) {
 		this._remainingCount = _remainingCount;
-	}
-
-	public int getShownCompletedCount() {
-		return _shownCompletedCount;
-	}
-
-	public void setShownCompletedCount(int _shownCompletedCount) {
-		this._shownCompletedCount = _shownCompletedCount;
 	}
 
 }
