@@ -15,7 +15,7 @@ import urgenda.util.StateFeedback;
 import urgenda.util.Task;
 
 public class LogicData {
-	
+
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
 	private static final String MESSAGE_EMPTY_REDO = "Nothing to redo";
 
@@ -26,14 +26,14 @@ public class LogicData {
 	private Stack<Undoable> _redos;
 
 	private Storage _storage;
-	
+
 	private int _currentId;
 
 	// default constructor for initialization of empty path
 	public LogicData() {
 		_tasks = new ArrayList<Task>();
 		_archive = new ArrayList<Task>();
-		 _storage = new Storage();
+		_storage = new Storage();
 		_currentId = 0;
 		_undos = new Stack<Undoable>();
 		_redos = new Stack<Undoable>();
@@ -55,7 +55,7 @@ public class LogicData {
 			_redos.clear();
 		}
 	}
-	
+
 	public void saveContents() {
 		_storage.save(_tasks, _archive);
 	}
@@ -64,7 +64,7 @@ public class LogicData {
 	public StateFeedback getState(boolean showCompleted) {
 		// To update if there are any deadlines that turned overdue
 		updateState();
-		
+
 		// TODO: filter tasks into overdue, urgent, today, others
 		// TODO: wrap tasks into TaskWrapper
 		// TODO: sort tasks in each arraylist by date/time (needs a comparator)
@@ -74,10 +74,10 @@ public class LogicData {
 		ArrayList<Task> otherTasks = new ArrayList<Task>();
 		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		for (Task task : _tasks) {
-			if(task.isOverdue()) {
+			if (task.isOverdue()) {
 				overdueTasks.add(task);
 			} else if (isTaskToday(task)) {
-				todayTasks.add(task);               //swapped urgent and today
+				todayTasks.add(task); // swapped urgent and today
 			} else if (task.isUrgent()) {
 				urgentTasks.add(task);
 			} else if (showCompleted) {
@@ -88,10 +88,11 @@ public class LogicData {
 		}
 		_tasks.clear();
 		_tasks.addAll(sortList(overdueTasks));
-		_tasks.addAll(sortList(todayTasks));      //swapped urgent and today
+		_tasks.addAll(sortList(todayTasks)); // swapped urgent and today
 		_tasks.addAll(sortList(urgentTasks));
 		_tasks.addAll(sortList(otherTasks));
-		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), urgentTasks.size(), todayTasks.size(), otherTasks.size(),completedTasks.size());
+		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), urgentTasks.size(), todayTasks.size(),
+				otherTasks.size(), completedTasks.size());
 		return state;
 	}
 
@@ -125,22 +126,21 @@ public class LogicData {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	public ArrayList<Task> getTaskList() {
 		return _tasks;
 	}
 
- 
 	public int getCurrentId() {
 		return _currentId;
 	}
-	
+
 	public void updateCurrentId() {
 		_currentId++;
 	}
-	
+
 	public void addTask(Task newTask) {
 		_tasks.add(newTask);
 	}
@@ -148,7 +148,7 @@ public class LogicData {
 	public void deleteTask(Task newTask) {
 		_tasks.remove(newTask);
 	}
-	
+
 	// TODO merge with search command (remove this function)
 	public Task findMatchingDesc(String desc) {
 		for (Task task : _tasks) {
@@ -158,7 +158,7 @@ public class LogicData {
 		}
 		return null;
 	}
-	
+
 	public Task findMatchingId(int id) {
 		for (Task task : _tasks) {
 			if (task.getId() == id) {
@@ -167,15 +167,15 @@ public class LogicData {
 		}
 		return null;
 	}
-	
+
 	public Task findTaskPosition(int position) {
 		if (position <= 0 || position > _tasks.size()) {
 			return null;
 		} else {
-			return _tasks.get(position-1);
+			return _tasks.get(position - 1);
 		}
 	}
-	
+
 	public String undoCommand() {
 		if (!_undos.isEmpty()) {
 			Undoable undoCommand = _undos.pop();
@@ -199,32 +199,44 @@ public class LogicData {
 		}
 
 	}
-	
-//	public ArrayList<Task> findBlocks(MultipleSlot block) {
-//		ArrayList<Task> _blocks = new ArrayList<Task>();
-//		for (Task task : _tasks) {
-//			if (task.getSlot().equals(block)) {
-//				_blocks.add(task);
-//			}
-//		}
-//		return _blocks;	
-//	}
-	
+
+	// public ArrayList<Task> findBlocks(MultipleSlot block) {
+	// ArrayList<Task> _blocks = new ArrayList<Task>();
+	// for (Task task : _tasks) {
+	// if (task.getSlot().equals(block)) {
+	// _blocks.add(task);
+	// }
+	// }
+	// return _blocks;
+	// }
+
 	public ArrayList<Task> sortList(ArrayList<Task> list) {
 		Collections.sort(list, comparator);
 		return list;
 	}
-	
-	Comparator<Task> comparator = new Comparator<Task>() { // to be edited such that filter out diff type of task to be sorted differently
 
-		// should we sort by start time first else if empty thn end time?
-		public int compare(final Task t1, final Task t2) {
-			if (t1.getEndTime() == null || t2.getEndTime() == null) {
-				return 0;
+	static Comparator<Task> comparator = new Comparator<Task>() {
+		public int compare(final Task o1, final Task o2) {
+			LocalDateTime c1, c2;
+			if (o1.getStartTime() != null) {
+				c1 = o1.getStartTime();
 			} else {
-				return t1.getEndTime().compareTo(t2.getEndTime());
+				c1 = o1.getEndTime();
+			}
+			if (o2.getStartTime() != null) {
+				c2 = o2.getStartTime();
+			} else {
+				c2 = o2.getEndTime();
+			}
+			if (c1 == null && c2 == null) {
+				return o1.getDesc().compareToIgnoreCase(o2.getDesc());
+			} else if (c1 == null) {
+				return 1;
+			} else if (c2 == null) {
+				return -1;
+			} else {
+				return c1.compareTo(c2);
 			}
 		}
 	};
-	
 }
