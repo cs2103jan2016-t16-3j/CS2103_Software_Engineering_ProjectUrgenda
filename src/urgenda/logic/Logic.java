@@ -10,14 +10,9 @@ public class Logic {
 
 	private LogicData _logicData;
 	
-	// Default constructor for Logic Data if no path is given
+	// Default constructor for Logic
 	public Logic() {
 		_logicData = new LogicData();
-	}
-	
-	// Constructor for specifying path for Data to be saved/extracted
-	public Logic(String path) {
-		_logicData = new LogicData(path);
 	}
 	
 	public StateFeedback executeCommand(String command, int position) {

@@ -8,6 +8,7 @@ import urgenda.util.Task;
 public class Complete implements Undoable {
 	
 	private static final String MESSAGE_DONE = "Done ";
+	private static final String MESSAGE_UNDONE = "To do ";
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$d:%5$d - %6$d:%7$d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$d:%5$d";
@@ -38,7 +39,7 @@ public class Complete implements Undoable {
 					_data.setDisplays(matches);
 					_data.setCurrState(LogicData.DisplayState.MULTIPLE_COMPLETE);
 					throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
-				} // else matches has no match hence _deletedTask remains null
+				} // else matches has no match hence _completedTask remains null
 		}
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_completedTask == null) {
@@ -80,7 +81,7 @@ public class Complete implements Undoable {
 		_completedTask.setIsCompleted(false);
 		_data.removeArchive(_completedTask);
 		_data.addTask(_completedTask);
-		return MESSAGE_UNDO + MESSAGE_DONE + taskMessage() + "!";
+		return MESSAGE_UNDO + MESSAGE_UNDONE + taskMessage() + "!";
 	}
 
 	@Override

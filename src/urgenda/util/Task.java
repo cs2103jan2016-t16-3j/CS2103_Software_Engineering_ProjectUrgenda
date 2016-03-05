@@ -293,5 +293,13 @@ public class Task {
 	 public void setSlot(MultipleSlot slot) {
 	 _slot = slot;
 	 }
+	 
+	 public void toggleImportant() {
+		 if (_isImportant) {
+			 _isImportant = false;
+		 } else {
+			 _isImportant = true;
+		 }
+	 }
 
 }

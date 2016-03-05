@@ -18,7 +18,7 @@ import urgenda.util.Task;
 public class LogicData {
 	
 	public enum DisplayState {
-		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH
 	}
 
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
@@ -45,16 +45,8 @@ public class LogicData {
 		_tasks = new ArrayList<Task>();
 		_archives = new ArrayList<Task>();
 		_storage = new Storage();
-		_currentId = 0;
 		_undos = new Stack<Undoable>();
 		_redos = new Stack<Undoable>();
-	}
-
-	// constructor for a specific storage path being defined
-	public LogicData(String path) {
-		_storage = new Storage(path);
-		_tasks = new ArrayList<Task>();
-		_archives = new ArrayList<Task>();
 		// updateArrayLists adds stored task objects into respective arraylists
 		// returns the next id to be used for future labelling of tasks
 		_currentId = _storage.updateArrayLists(_tasks, _archives);
@@ -73,7 +65,7 @@ public class LogicData {
 
 	// TODO: refactor function
 	public StateFeedback getState() {
-		StateFeedback state;
+		StateFeedback state = null;
 		switch (_currState) {
 		case ALL_TASKS :
 			state = displayAllTasks(_tasks);
@@ -81,6 +73,8 @@ public class LogicData {
 			break;
 		case MULTIPLE_DELETE :
 		case MULTIPLE_COMPLETE :
+		case MULTIPLE_PRIORITISE :
+		case SHOW_SEARCH :
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.MULTIPLE_MATCHES);
 			break;
@@ -98,7 +92,7 @@ public class LogicData {
 			if (task.isOverdue()) {
 				overdueTasks.add(task);
 			} else if (isTaskToday(task)) {
-				todayTasks.add(task); // swapped urgent and today
+				todayTasks.add(task);
 			} else if (task.isImportant()) {
 				importantTasks.add(task);
 			} else { // remaining floating tasks
@@ -107,7 +101,7 @@ public class LogicData {
 		}
 		clearDisplays();
 		_displays.addAll(sortList(overdueTasks));
-		_displays.addAll(sortList(todayTasks)); // swapped urgent and today
+		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(importantTasks));
 		_displays.addAll(sortList(otherTasks));
 		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), importantTasks.size(),
