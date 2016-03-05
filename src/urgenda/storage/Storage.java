@@ -48,7 +48,8 @@ public class Storage implements StorageInterface {
 			}
 		}
 	}
-
+	
+	//put inside file editor
 	public void retrieveFromFile(File file) {
 		try {
 			boolean isEmpty = false;
@@ -70,7 +71,8 @@ public class Storage implements StorageInterface {
 			e.printStackTrace();
 		}
 	}
-
+	
+	// put under decryptor
 	public int updateArrayLists(ArrayList<Task> _tasks, ArrayList<Task> _archive) {
 		int i;
 		Gson gson = new Gson();
@@ -84,7 +86,10 @@ public class Storage implements StorageInterface {
 		}
 		return i;
 	};
-
+	
+	//split:
+	//tojson part put in encryptor
+	//printwriter put in fileeditor
 	public void save(ArrayList<Task> _tasks, ArrayList<Task> _archive) {
 		Gson gson = new Gson();
 		if (!_fileDataStringArr.isEmpty()) {
@@ -95,7 +100,7 @@ public class Storage implements StorageInterface {
 			String taskString = gson.toJson(taskDetail);
 			_fileDataStringArr.add(taskString);
 		}
-
+		
 		PrintWriter writer;
 		try {
 			writer = new PrintWriter(_file);
@@ -109,6 +114,7 @@ public class Storage implements StorageInterface {
 	};
 
 	// getting Task attributes and storing in a LinkedHashMap
+	// encryptor
 	public LinkedHashMap<String, String> getTaskDetail(Task task) {
 
 		LinkedHashMap<String, String> taskDetail = new LinkedHashMap<>();
