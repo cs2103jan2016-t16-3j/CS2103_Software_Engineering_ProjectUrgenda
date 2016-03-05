@@ -16,22 +16,22 @@
 	-fx-border-color: transparent;
 	-fx-background-color: transparent;
 }
-.scroll-pane {
-	-fx-border-color: transparent;
-	-fx-background-color:transparent;
-	
-} 
+
+#displayArea {
+-fx-border-color: transparent;
+	-fx-background: transparent;
+	-fx-background-color: transparent;
+}
+
 #indexLabel {
 	-fx-font-family: "Montserrat-Light";
-	-fx-font-size: 14px;
-	-fx-font-weight: bold;
+	-fx-font-size: 15px;
 	-fx-text-fill: #474E60;
 }
 
-#taskLabel {
+#descLabel {
 	-fx-font-family: "Montserrat-Light";
-	-fx-font-size: 14px;
-	-fx-font-weight: bold;
+	-fx-font-size: 15px;
 	-fx-text-fill: #474E60;
 }
 

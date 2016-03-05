@@ -29,6 +29,12 @@ public class Logic {
 		_logicData.saveContents();
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(feedback);
+//		if() {	//TODO: *indicate whether there has been error processing command or not
+//			state.setIsError(true);
+//		} else {
+//			state.setIsError(false);
+//		}
+		state.setDisplayHeader(displayHeader);
 		return state;
 	}
 	
