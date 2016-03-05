@@ -30,6 +30,8 @@ public class StateFeedback {
 		_showmoreIndexes = new ArrayList<Integer>();
 	}
 	
+	// TODO constructor for tasklist object with both tasks and archive
+	
 	public TaskList getAllTasks() {
 		return _allTasks;
 	}

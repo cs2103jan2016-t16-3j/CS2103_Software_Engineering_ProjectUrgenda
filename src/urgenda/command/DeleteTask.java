@@ -14,7 +14,8 @@ public class DeleteTask implements Undoable {
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_UNDO = "Undo: ";
 	private static final String MESSAGE_REDO = "Redo: ";
-	private static final String MESSAGE_INVALID_DELETE = "Invalid delete command";
+	private static final String MESSAGE_NO_DELETE_MATCH = "No matches found to delete";
+	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	
 	// one of these 3 properties can be filled for identification of deleted task
 	private String _desc;
@@ -25,7 +26,7 @@ public class DeleteTask implements Undoable {
 	private LogicData _data;
 	
 	@Override
-	public String execute(LogicData data) {
+	public String execute(LogicData data) throws Exception {
 		_data = data;
 		ArrayList<Task> matches;
 		if (_id != null) {
@@ -35,16 +36,17 @@ public class DeleteTask implements Undoable {
 				if (matches.size() == 1) {
 					_deletedTask = matches.get(0);
 				} else if (matches.size() > 1) {
-					// TODO Throw MULTIPLE_DELETE exception
-				}
+					_data.clearDisplays();
+					_data.setDisplays(matches);
+					_data.setCurrState(LogicData.DisplayState.MULTIPLE_DELETE);
+					throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
+				} // else matches has no match hence _deletedTask remains null
 		}
-		
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_deletedTask == null) {
-			// TODO throw exception for invalid delete position
-			return MESSAGE_INVALID_DELETE;
+			throw new Exception(MESSAGE_NO_DELETE_MATCH);
 		}
 		_data.deleteTask(_deletedTask);
-		// TODO allow exception for multiple matching descriptions (throw exception and unique statefeedback)
 		return taskMessage() + MESSAGE_REMOVE;
 	}
 	

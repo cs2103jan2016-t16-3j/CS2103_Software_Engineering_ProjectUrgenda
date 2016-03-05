@@ -1,34 +1,94 @@
 package urgenda.command;
 
+import java.util.ArrayList;
+
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
 public class Complete implements Undoable {
 	
+	private static final String MESSAGE_DONE = "Done ";
+	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$d:%5$d - %6$d:%7$d";
+	private static final String MESSAGE_FLOAT = "\"%1$s\"";
+	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$d:%5$d";
+	private static final String MESSAGE_UNDO = "Undo: ";
+	private static final String MESSAGE_REDO = "Redo: ";
+	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
+	private static final String MESSAGE_NO_COMPLETE_MATCH = "No matches found to complete";
+	
 	// for undo of completed task
 	private String _desc;
 	private Integer _id;
 	
-	private Task completedTask;
+	private Task _completedTask;
 	private LogicData _data;
 	
 	@Override
-	public String execute(LogicData data) {
+	public String execute(LogicData data) throws Exception {
 		_data = data;
-		// TODO complete with search algorithm
-		return null;
+		ArrayList<Task> matches;
+		if (_id != null) {
+			_completedTask = _data.findMatchingId(_id.intValue());			
+		} else if (_desc != null) {
+				matches = _data.findMatchingTasks(_desc);
+				if (matches.size() == 1) {
+					_completedTask = matches.get(0);
+				} else if (matches.size() > 1) {
+					_data.clearDisplays();
+					_data.setDisplays(matches);
+					_data.setCurrState(LogicData.DisplayState.MULTIPLE_COMPLETE);
+					throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
+				} // else matches has no match hence _deletedTask remains null
+		}
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		if (_completedTask == null) {
+			throw new Exception(MESSAGE_NO_COMPLETE_MATCH);
+		}
+		_completedTask.setIsCompleted(true);
+		_data.deleteTask(_completedTask);
+		_data.addArchive(_completedTask);
+		return MESSAGE_DONE + taskMessage() + "!";
+	}
+	
+	private String taskMessage() {
+		Task.Type taskType = _completedTask.getTaskType();
+		String feedback = null;
+		switch (taskType) {
+			case EVENT :
+				feedback = String.format(MESSAGE_EVENT, _completedTask.getDesc(), _completedTask.getStartTime().getDayOfMonth(),
+						_completedTask.getStartTime().getMonthValue(), _completedTask.getStartTime().getHour(), 
+						_completedTask.getStartTime().getMinute(), _completedTask.getEndTime().getHour(), 
+						_completedTask.getEndTime().getMinute());
+				break;
+		
+			case FLOATING :
+				feedback = String.format(MESSAGE_FLOAT, _completedTask.getDesc());
+				break;
+		
+			case DEADLINE :
+				feedback = String.format(MESSAGE_DEADLINE, _completedTask.getDesc(), _completedTask.getStartTime().getDayOfMonth(),
+						_completedTask.getStartTime().getMonthValue(), _completedTask.getEndTime().getHour(), 
+						_completedTask.getEndTime().getMinute());
+				break;
+
+		}
+		return feedback;
 	}
 
 	@Override
 	public String undo() {
-		// TODO Auto-generated method stub
-		return null;
+		_completedTask.setIsCompleted(false);
+		_data.removeArchive(_completedTask);
+		_data.addTask(_completedTask);
+		return MESSAGE_UNDO + MESSAGE_DONE + taskMessage() + "!";
 	}
 
 	@Override
 	public String redo() {
-		// TODO Auto-generated method stub
-		return null;
+		_completedTask.setIsCompleted(true);
+		_data.deleteTask(_completedTask);
+		_data.addArchive(_completedTask);
+		return MESSAGE_REDO + MESSAGE_DONE + taskMessage() + "!";
 	}
 
 
