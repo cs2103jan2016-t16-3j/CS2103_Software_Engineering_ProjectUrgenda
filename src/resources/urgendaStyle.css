@@ -18,7 +18,7 @@
 }
 
 #displayArea {
--fx-border-color: transparent;
+	-fx-border-color: transparent;
 	-fx-background: transparent;
 	-fx-background-color: transparent;
 }
@@ -38,14 +38,12 @@
 #startLabel {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 14px;
-	-fx-font-weight: bold;
 	-fx-text-fill: #474E60;
 }
 
 #endLabel {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 14px;
-	-fx-font-weight: bold;
 	-fx-text-fill: #474E60;
 }
 
@@ -63,7 +61,6 @@
 #feedbackArea .scroll-pane .viewport{
     -fx-background-color: transparent;
 }
-
 
 #feedbackArea .scroll-pane .content{
     -fx-background-color: transparent;

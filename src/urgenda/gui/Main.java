@@ -12,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-//import urgenda.logic.Logic;
 import urgenda.logic.Logic;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
@@ -25,13 +24,12 @@ public class Main extends Application {
 	private DisplayController _displayController;
 	private Logic _logic;
 
-	//
 	private static final String APP_NAME = "Urgenda";
 	private static final String PATH_GUI_FXML = "Main.fxml";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	private static final String PATH_STYLESHEET_CSS = "../../resources/urgendaStyle.css";
-	private static final String REGULAR_FONT_PATH = new String("../../resources/Montserrat-Light.otf");
-	private static final String BOLD_FONT_PATH = new String("../../resources/Montserrat-Regular.otf");
+	private static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
+	private static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
 
 	private static final int DEFAULT_SCENE_WIDTH = 600;
 	private static final int DEFAULT_SCENE_HEIGHT = 600;
@@ -40,10 +38,10 @@ public class Main extends Application {
 
 	// Resources to load
 	@SuppressWarnings("unused")
-	private static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(REGULAR_FONT_PATH),
+	private static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_REGULAR_FONT),
 			DEFAULT_REGULAR_FONT_SIZE);
 	@SuppressWarnings("unused")
-	private static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(BOLD_FONT_PATH),
+	private static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_BOLD_FONT),
 			DEFAULT_BOLD_FONT_SIZE);
 
 	@Override
@@ -104,9 +102,8 @@ public class Main extends Application {
 	}
 
 	public StateFeedback retrieveStartupState() {
-		StateFeedback state = dummyState(); // remove dummy when logic returns a
-											// legit feedbackstate
-		// StateFeedback state = logic.retrieveStartupState();
+		//StateFeedback state = dummyState();	//change here to show dummy list instead
+		StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback(), false);
 		return state;
 	}
@@ -150,7 +147,7 @@ public class Main extends Application {
 		tasks.add(task6);
 		archives.add(taskC);
 		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, archives, 0,0,0,0,0));
+		state.setAllTasks(new TaskList(tasks, archives, 1, 1, 1, 7, 1));
 		state.setFeedback("feedback from dummylist");
 		state.addDetailedTaskIdx(3);
 		return state;

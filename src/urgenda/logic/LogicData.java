@@ -44,12 +44,14 @@ public class LogicData {
 	public LogicData() {
 		_tasks = new ArrayList<Task>();
 		_archives = new ArrayList<Task>();
+		_displays = new ArrayList<Task>();
 		_storage = new Storage();
 		_undos = new Stack<Undoable>();
 		_redos = new Stack<Undoable>();
 		// updateArrayLists adds stored task objects into respective arraylists
 		// returns the next id to be used for future labelling of tasks
 		_currentId = _storage.updateArrayLists(_tasks, _archives);
+		_currState = DisplayState.ALL_TASKS;
 	}
 
 	public void addUndo(Command currCmd) {
@@ -77,6 +79,11 @@ public class LogicData {
 		case SHOW_SEARCH :
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.MULTIPLE_MATCHES);
+			break;
+		default :
+			
+			state = displayAllTasks(_tasks);
+			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
 		}
 		
@@ -156,7 +163,6 @@ public class LogicData {
 				}
 			}
 		}
-
 	}
 	
 	public void addArchive(Task task) {

@@ -17,6 +17,8 @@ public class DisplayController extends AnchorPane {
 
 	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display!";
 
+	private static final double DEFAULT_VERTICAL_SCROLL_HEIGHT = 0;
+
 	@FXML
 	Label displayHeader;
 	@FXML
@@ -29,11 +31,17 @@ public class DisplayController extends AnchorPane {
 	public DisplayController() {
 	}
 
+	public int getFocusedLine() {
+		// TODO to make traversable and return index of selected task
+		return -1;
+	}
+	
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes) {
 		displayHolder.getChildren().clear();
 		_displayedTasks = new ArrayList<Task>();
 		_displayedTasks.addAll(updatedTasks.getTasks());
 		_displayedTasks.addAll(updatedTasks.getArchives());
+		
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
 			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getOverdueCount(),
@@ -52,8 +60,13 @@ public class DisplayController extends AnchorPane {
 		if(updatedTasks.getArchiveCount()+ updatedTasks.getUncompletedCount() == 0) {
 			showZeroTasksFeedback();
 		}
-		// add completed tasks
+		setDisplayScrollTop();
 		setDisplayHeader(displayHeader);
+	}
+
+	private void setDisplayScrollTop() {
+		displayArea.setVvalue(DEFAULT_VERTICAL_SCROLL_HEIGHT);
+		
 	}
 
 	private void showZeroTasksFeedback() {
@@ -77,10 +90,6 @@ public class DisplayController extends AnchorPane {
 		return addedCount;
 	}
 
-	public int getFocusedLine() {
-		// TODO to make traversable and return index of selected task
-		return -1;
-	}
 
 	private void setDisplayHeader(String displayed) {
 		displayHeader.setText(displayed);

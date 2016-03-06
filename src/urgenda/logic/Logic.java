@@ -17,7 +17,7 @@ public class Logic {
 	
 	public StateFeedback executeCommand(String command, int position) {
 		// parser take in a string and return it in its corresponding class obj
-		Command currCmd = Parser.parseCommand(command, position);
+		Command currCmd = Parser.parseCommand(command);
 		String feedback;
 		// To update if there are any deadlines that turned overdue
 		_logicData.updateState();

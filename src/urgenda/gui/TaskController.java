@@ -8,7 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import urgenda.gui.DisplayController.Style;
 import urgenda.util.Task;
 
@@ -23,7 +27,6 @@ public class TaskController extends GridPane {
 	private static final String TEXT_WEIGHT_BOLD = "-fx-font-weight: bold;";
 	private static final String TEXT_WEIGHT_REGULAR = "";
 	private static final String TEXT_MODIFY_ITALIC = "-fx-font-style: italic";
-	private static final String TEXT_MODIFY_STRIKETHROUGH = "-fx-strikethrough: true;";
 	private static final String TEXT_MODIFY_NONE = "";
 	
 	@FXML
@@ -45,6 +48,9 @@ public class TaskController extends GridPane {
 		endLabel.setText(formatDateTime(task.getEndTime()));
 		if (task.isImportant()) {
 			urgentIndicator.setVisible(true);
+		}
+		if(index % 2 == 0) { //even
+			this.backgroundProperty().set(new Background(new BackgroundFill(Color.rgb(71, 78, 96, 0.3), new CornerRadii(3), null)));
 		}
 	}
 
@@ -81,7 +87,7 @@ public class TaskController extends GridPane {
 		} else if (taskStyle == Style.NORMAL) {
 			setStyle(TEXT_FILL_NORMAL, TEXT_WEIGHT_REGULAR, TEXT_MODIFY_NONE);
 		} else if (taskStyle == Style.ARCHIVE) {
-			setStyle(TEXT_FILL_COMPLETED, TEXT_MODIFY_ITALIC, TEXT_MODIFY_NONE);
+			setStyle(TEXT_FILL_COMPLETED, TEXT_WEIGHT_REGULAR, TEXT_MODIFY_ITALIC);
 		}
 	}
 
