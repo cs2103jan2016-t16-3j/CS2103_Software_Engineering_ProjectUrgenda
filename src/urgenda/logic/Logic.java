@@ -16,8 +16,10 @@ public class Logic {
 	}
 	
 	public StateFeedback executeCommand(String command, int position) {
+		assert (position >= 0); // asserts that position is non-negative
 		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = Parser.parseCommand(command);
+		assert (currCmd != null); // asserts that parser returns a command object
 		String feedback;
 		// To update if there are any deadlines that turned overdue
 		_logicData.updateState();

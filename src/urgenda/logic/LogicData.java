@@ -69,23 +69,22 @@ public class LogicData {
 	public StateFeedback getState() {
 		StateFeedback state = null;
 		switch (_currState) {
-		case ALL_TASKS :
-			updateState();
-			state = displayAllTasks(_tasks);
-			state.setState(StateFeedback.State.ALL_TASKS);
-			break;
-		case MULTIPLE_DELETE :
-		case MULTIPLE_COMPLETE :
-		case MULTIPLE_PRIORITISE :
-		case SHOW_SEARCH :
-			state = displayAllTasks(_displays);
-			state.setState(StateFeedback.State.MULTIPLE_MATCHES);
-			break;
-		default :
-			
-			state = displayAllTasks(_tasks);
-			state.setState(StateFeedback.State.ALL_TASKS);
-			break;
+			case ALL_TASKS :
+				updateState();
+				state = displayAllTasks(_tasks);
+				state.setState(StateFeedback.State.ALL_TASKS);
+				break;
+			case MULTIPLE_DELETE : // Fallthrough
+			case MULTIPLE_COMPLETE : // Fallthrough
+			case MULTIPLE_PRIORITISE : // Fallthrough
+			case SHOW_SEARCH :
+				state = displayAllTasks(_displays);
+				state.setState(StateFeedback.State.MULTIPLE_MATCHES);
+				break;
+			default :
+				state = displayAllTasks(_tasks);
+				state.setState(StateFeedback.State.ALL_TASKS);
+				break;
 		}
 		
 		return state;
