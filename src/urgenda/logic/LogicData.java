@@ -2,10 +2,11 @@ package urgenda.logic;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Stack;
+import java.util.Deque;
 import java.util.regex.Pattern;
 
 import urgenda.command.Command;
@@ -31,8 +32,8 @@ public class LogicData {
 	// for storage of tasks being displayed to user by last command
 	private ArrayList<Task> _displays;
 
-	private Stack<Undoable> _undos;
-	private Stack<Undoable> _redos;
+	private Deque<Undoable> _undos;
+	private Deque<Undoable> _redos;
 
 	private Storage _storage;
 
@@ -46,8 +47,8 @@ public class LogicData {
 		_archives = new ArrayList<Task>();
 		_displays = new ArrayList<Task>();
 		_storage = new Storage();
-		_undos = new Stack<Undoable>();
-		_redos = new Stack<Undoable>();
+		_undos = new ArrayDeque<Undoable>();
+		_redos = new ArrayDeque<Undoable>();
 		// updateArrayLists adds stored task objects into respective arraylists
 		// returns the next id to be used for future labelling of tasks
 		_currentId = _storage.updateArrayLists(_tasks, _archives);
@@ -56,7 +57,7 @@ public class LogicData {
 
 	public void addUndo(Command currCmd) {
 		if (currCmd instanceof Undoable) {
-			_undos.push((Undoable) currCmd);
+			_undos.addFirst((Undoable) currCmd);
 			_redos.clear();
 		}
 	}
@@ -67,7 +68,7 @@ public class LogicData {
 
 	// TODO: refactor function
 	public StateFeedback getState() {
-		StateFeedback state = null;
+		StateFeedback state;
 		switch (_currState) {
 			case ALL_TASKS :
 				updateState();
@@ -231,9 +232,9 @@ public class LogicData {
 
 	public String undoCommand() {
 		if (!_undos.isEmpty()) {
-			Undoable undoCommand = _undos.pop();
+			Undoable undoCommand = _undos.removeFirst();
 			String feedback = undoCommand.undo();
-			_redos.push(undoCommand);
+			_redos.addFirst(undoCommand);
 			return feedback;
 		} else {
 			return MESSAGE_EMPTY_UNDO;
@@ -243,9 +244,9 @@ public class LogicData {
 
 	public String redoCommand() {
 		if (!_redos.isEmpty()) {
-			Undoable redoCommand = _redos.pop();
+			Undoable redoCommand = _redos.removeFirst();
 			String feedback = redoCommand.redo();
-			_undos.push(redoCommand);
+			_undos.addFirst(redoCommand);
 			return feedback;
 		} else {
 			return MESSAGE_EMPTY_REDO;
