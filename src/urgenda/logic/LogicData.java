@@ -119,7 +119,7 @@ public class LogicData {
 	
 	public ArrayList<Task> findMatchingTasks(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
-		for (Task task : _tasks) {
+		for (Task task : _displays) {
 			if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
 				matches.add(task);
 			}
@@ -196,13 +196,12 @@ public class LogicData {
 		_tasks.remove(newTask);
 	}
 
-	public Task findMatchingId(int id) {
-		for (Task task : _tasks) {
-			if (task.getId() == id) {
-				return task;
-			}
+	public Task findMatchingPosition(int id) {
+		if (id > 0 || id <= _displays.size()) {
+			return _displays.get(id-1);
+		} else {
+			return null;
 		}
-		return null;
 	}
 
 	public Task findTaskPosition(int position) {

@@ -29,7 +29,7 @@ public class Complete implements Undoable {
 		_data = data;
 		ArrayList<Task> matches;
 		if (_id != null) {
-			_completedTask = _data.findMatchingId(_id.intValue());			
+			_completedTask = _data.findMatchingPosition(_id.intValue());			
 		} else if (_desc != null) {
 				matches = _data.findMatchingTasks(_desc);
 				if (matches.size() == 1) {

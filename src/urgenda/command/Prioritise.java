@@ -28,7 +28,7 @@ public class Prioritise implements Undoable {
 		_data = data;
 		ArrayList<Task> matches;
 		if (_id != null) {
-			_task = _data.findMatchingId(_id.intValue());			
+			_task = _data.findMatchingPosition(_id.intValue());			
 		} else if (_desc != null) {
 				matches = _data.findMatchingTasks(_desc);
 				if (matches.size() == 1) {
