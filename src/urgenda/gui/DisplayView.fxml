@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane fx:id="displayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
                <children>
-                  <Label fx:id="displayHeader" prefHeight="26.0" prefWidth="620.0" text="Showing ALL TASKS" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
-                  <Rectangle fx:id="displayPaneShape" arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="370.0" stroke="TRANSPARENT" strokeType="INSIDE" width="580.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="25.0">
-         <effect>
-            <InnerShadow />
-         </effect>
-      </Rectangle>
-      <GridPane maxHeight="20.0" prefHeight="20.0" prefWidth="545.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="35.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
-            <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="240.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label fx:id="indexLabel" alignment="CENTER" prefHeight="17.0" prefWidth="35.0" text="No." />
-            <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="100.0" text="Task" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-            <Label fx:id="startLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="Start" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
-            <Label fx:id="endLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
-         </children>
-      </GridPane>
-      <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" prefHeight="350.0" prefWidth="560.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="55.0">
-         <content>
-            <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0">
-             </VBox>
-         </content>
-      </ScrollPane>
+                  <Label fx:id="displayHeader" prefHeight="26.0" prefWidth="620.0" text="Display Header" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+      <BorderPane maxHeight="370.0" maxWidth="600.0" prefHeight="370.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+         <center>
+            <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+               <content>
+                  <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0">
+                     <padding>
+                        <Insets left="-1.0" right="-1.0" />
+                     </padding></VBox>
+               </content>
+               <padding>
+                  <Insets left="-1.0" right="-1.0" />
+               </padding>
+            </ScrollPane>
+         </center>
+         <top>
+            <GridPane fx:id="headerPane" alignment="TOP_CENTER" minHeight="35.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+                <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="240.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="indexHeader" alignment="CENTER" prefHeight="17.0" prefWidth="35.0" text="No." GridPane.columnIndex="1" />
+                  <Label fx:id="descHeader" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="100.0" text="Task" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                  <Label fx:id="startHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="Start" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                  <Label fx:id="endHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
+               </children>
+               <BorderPane.margin>
+                  <Insets left="-1.0" right="-1.0" />
+               </BorderPane.margin>
+            </GridPane>
+         </top>
+      </BorderPane>
                </children>
             </AnchorPane>

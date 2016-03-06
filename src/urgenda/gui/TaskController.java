@@ -19,13 +19,27 @@ import urgenda.util.Task;
 
 public class TaskController extends GridPane {
 
-	private static final Insets INSETS_EVEN_ROWS = new Insets(2,0,2,0);
+	private static final Insets INSETS_ROWS = new Insets(1,0,1,0);
 
-	private static final Color COLOR_EVEN_ROWS = Color.rgb(71, 76, 89, 0.2);
+	
+	/* werkpress
+	 * red: E45F56 228, 95, 86
+	 * green: A3D39C 163, 211, 156
+	 * lightblue: 7ACCC8 122, 204, 200
+	 * darkblue: 4AAAA5 74 170 165
+	 * navyblue: 35404F 57 64 79
+	 */
+	private static final Color COLOR_OVERDUE = Color.rgb(254, 154, 154, 1);
+	private static final Color COLOR_URGENT = Color.rgb(71, 76, 89, 0.2);
+	private static final Color COLOR_TODAY = Color.rgb(71, 76, 89, 0.2);
+	private static final Color COLOR_TODAY_IMPORTANT = Color.rgb(71, 76, 89, 0.2);
+	private static final Color COLOR_NORMAL = Color.rgb(71, 76, 89, 0.2);
+	private static final Color COLOR_NORMAL_IMPORTANT = Color.rgb(71, 76, 89, 0.2);
+	private static final Color COLOR_COMPLETED = Color.rgb(71, 76, 89, 0.2);
 	
 	private static final String PATH_TASKVIEW_FXML = "TaskView.fxml";
-	private static final String TEXT_FILL_OVERDUE = "-fx-text-fill: #FF1900;";
-	private static final String TEXT_FILL_URGENT = "-fx-text-fill: #474E60;";
+	private static final String TEXT_FILL_OVERDUE = "-fx-text-fill: #FF1900;";	//red
+	private static final String TEXT_FILL_URGENT = "-fx-text-fill: #474E60;";	
 	private static final String TEXT_FILL_TODAY = "-fx-text-fill: #474E60;";
 	private static final String TEXT_FILL_NORMAL = "-fx-text-fill: #474E60;";
 	private static final String TEXT_FILL_COMPLETED = "-fx-text-fill: #808080;";
@@ -59,9 +73,9 @@ public class TaskController extends GridPane {
 		if (task.isImportant()) {
 			urgentIndicator.setVisible(true);
 		}
-		if(index % 2 == 0) { //format even rows only
-			this.backgroundProperty().set(new Background(new BackgroundFill(COLOR_EVEN_ROWS, new CornerRadii(3), INSETS_EVEN_ROWS)));
-		}
+//		if(index % 2 == 0) { //format even rows only
+//			this.backgroundProperty().set(new Background(new BackgroundFill(COLOR_EVEN_ROWS, new CornerRadii(3), INSETS_EVEN_ROWS)));
+//		}
 		setSelected(false);
 	}
 

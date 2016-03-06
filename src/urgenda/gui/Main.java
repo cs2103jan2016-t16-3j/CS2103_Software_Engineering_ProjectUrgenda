@@ -35,8 +35,6 @@ public class Main extends Application {
 	
 	private static final String HEADER_ALL_TASKS = "Showing ALL TASKS";
 
-	private static final int DEFAULT_SCENE_WIDTH = 600;
-	private static final int DEFAULT_SCENE_HEIGHT = 600;
 	private static final int DEFAULT_REGULAR_FONT_SIZE = 20;
 	private static final int DEFAULT_BOLD_FONT_SIZE = 20;
 	private static final int DEFAULT_LOGO_FONT_SIZE = 50;
@@ -81,7 +79,7 @@ public class Main extends Application {
 	}
 
 	private void initStage(Stage primaryStage) {
-		_scene = new Scene(_rootLayout, DEFAULT_SCENE_WIDTH, DEFAULT_SCENE_HEIGHT);
+		_scene = new Scene(_rootLayout);
 		_scene.getStylesheets().add(getClass().getResource(PATH_STYLESHEET_CSS).toExternalForm());
 		primaryStage.initStyle(StageStyle.DECORATED);
 		Image ico = new Image(getClass().getResourceAsStream(PATH_ICON));
@@ -89,6 +87,7 @@ public class Main extends Application {
 		primaryStage.setTitle(APP_NAME);
 		primaryStage.setResizable(false);
 		primaryStage.setScene(_scene);
+		primaryStage.sizeToScene();
 		primaryStage.show();
 	}
 

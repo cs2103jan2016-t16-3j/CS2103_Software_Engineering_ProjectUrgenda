@@ -1,5 +1,8 @@
 package urgenda.gui;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,10 +18,7 @@ public class MainController {
 	
 	private static final String ERROR_TEXT_FILL = "-fx-text-fill: #FF1900";
 	private static final String NORMAL_TEXT_FILL = "-fx-text-fill: white";
-	
-	private static final KeyCodeCombination KEYCOMB_INPUTBAR_DOWN = new KeyCodeCombination(KeyCode.DOWN);
-	private static final KeyCodeCombination KEYCOMB_INPUTBAR_ENTER = new KeyCodeCombination(KeyCode.ENTER);
-	
+		
 	//Elements loaded using FXML
 	@FXML
 	private TextField inputBar;
@@ -30,9 +30,12 @@ public class MainController {
 	private DisplayController displayAreaController;
 	
 	private Main _main;
+	private Deque<String> prevCommandLines;
+	private Deque<String> nextCommandLines;
 	
 	public MainController() {
-		//default constructor
+		prevCommandLines = new ArrayDeque<String>();
+		nextCommandLines = new ArrayDeque<String>();
 	}
 	
 	@FXML
@@ -40,8 +43,32 @@ public class MainController {
 		KeyCode code = event.getCode();
 			if(code == KeyCode.ENTER) {
 				String feedback = _main.handleCommandLine(inputBar.getText());
+				while(!nextCommandLines.isEmpty()) {
+					prevCommandLines.addFirst(nextCommandLines.getFirst());
+					nextCommandLines.removeFirst();
+				}
+				prevCommandLines.addFirst(inputBar.getText());
 				displayFeedback(feedback, false);
 				inputBar.clear();
+				return;
+			}
+			if(code == KeyCode.DOWN) {
+				if(!prevCommandLines.isEmpty()) {
+					if(inputBar.getText().equals(prevCommandLines.peekFirst()) && prevCommandLines.size() > 1) {
+						nextCommandLines.addFirst(prevCommandLines.getFirst());
+						prevCommandLines.removeFirst();
+					}
+						inputBar.setText(prevCommandLines.getFirst());
+				}
+				return;
+			}
+			if(code == KeyCode.UP) {
+				if(!nextCommandLines.isEmpty()) {
+					prevCommandLines.addFirst(nextCommandLines.getFirst());
+					nextCommandLines.removeFirst();
+					inputBar.setText(prevCommandLines.getFirst());
+				}
+				return;
 			}
 	}
 	

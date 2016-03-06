@@ -2,8 +2,16 @@
 	-fx-background-color: #474E60;
 }
 #titlePane {
+
 	-fx-background-color: transparent;
 }
+
+#logoLabel {
+	-fx-font-family: "Sacramento-Regular";
+	-fx-font-size: 30px;
+	-fx-text-fill: white;
+}
+
 #inputBar {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 17px;
@@ -12,45 +20,45 @@
 #displayHeader {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 17px;
+	-fx-text-fill: white;
+	-fx-font-style: italic;
+}
+#headerPane {
+	-fx-background-color: grey;
 }
 
 #displayPane {
+	-fx-border-width: 0, 0, 0, 0;
 	-fx-border-color: transparent;
 	-fx-background-color: transparent;
 }
 
-#displayArea {
-	-fx-border-color: transparent;
-	-fx-background: transparent;
-	-fx-background-color: transparent;
-}
-
-#indexLabel {
+#indexHeader {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 15px;
 	-fx-font-weight: bold;
-	-fx-text-fill: #474E60;
+	-fx-text-fill: white;
 }
 
-#descLabel {
+#descHeader {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 15px;
 	-fx-font-weight: bold;
-	-fx-text-fill: #474E60;
+	-fx-text-fill: white;
 }
 
-#startLabel {
+#startHeader {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 14px;
 	-fx-font-weight: bold;
-	-fx-text-fill: #474E60;
+	-fx-text-fill: white;
 }
 
-#endLabel {
+#endHeader {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 14px;
 	-fx-font-weight: bold;
-	-fx-text-fill: #474E60;
+	-fx-text-fill: white;
 }
 
 #taskIndexLabel {
