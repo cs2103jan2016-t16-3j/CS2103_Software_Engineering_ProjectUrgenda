@@ -204,14 +204,6 @@ public class LogicData {
 		}
 	}
 
-	public Task findTaskPosition(int position) {
-		if (position <= 0 || position > _tasks.size()) {
-			return null;
-		} else {
-			return _tasks.get(position - 1);
-		}
-	}
-
 	public String undoCommand() {
 		if (!_undos.isEmpty()) {
 			Undoable undoCommand = _undos.pop();
