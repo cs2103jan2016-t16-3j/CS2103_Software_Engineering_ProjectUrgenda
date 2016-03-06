@@ -16,12 +16,19 @@ import urgenda.util.StateFeedback;
 import urgenda.util.Task;
 
 public class LogicData {
+	
+	public enum DisplayState {
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH
+	}
 
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
 	private static final String MESSAGE_EMPTY_REDO = "Nothing to redo";
 
+	// for storage of full lists of tasks
 	private ArrayList<Task> _tasks;
+	// for storage of all completed tasks
 	private ArrayList<Task> _archives;
+	// for storage of tasks being displayed to user by last command
 	private ArrayList<Task> _displays;
 
 	private Stack<Undoable> _undos;
@@ -29,7 +36,7 @@ public class LogicData {
 
 	private Storage _storage;
 	
-	private StateFeedback.State _currState;
+	private DisplayState _currState;
 
 	private int _currentId;
 
@@ -38,16 +45,8 @@ public class LogicData {
 		_tasks = new ArrayList<Task>();
 		_archives = new ArrayList<Task>();
 		_storage = new Storage();
-		_currentId = 0;
 		_undos = new Stack<Undoable>();
 		_redos = new Stack<Undoable>();
-	}
-
-	// constructor for a specific storage path being defined
-	public LogicData(String path) {
-		_storage = new Storage(path);
-		_tasks = new ArrayList<Task>();
-		_archives = new ArrayList<Task>();
 		// updateArrayLists adds stored task objects into respective arraylists
 		// returns the next id to be used for future labelling of tasks
 		_currentId = _storage.updateArrayLists(_tasks, _archives);
@@ -65,41 +64,49 @@ public class LogicData {
 	}
 
 	// TODO: refactor function
-	public StateFeedback getState(StateFeedback.State currState) {
-		// To update if there are any deadlines that turned overdue
-		updateState();
-		setCurrState(currState);
-
+	public StateFeedback getState() {
+		StateFeedback state = null;
+		switch (_currState) {
+		case ALL_TASKS :
+			state = displayAllTasks(_tasks);
+			state.setState(StateFeedback.State.ALL_TASKS);
+			break;
+		case MULTIPLE_DELETE :
+		case MULTIPLE_COMPLETE :
+		case MULTIPLE_PRIORITISE :
+		case SHOW_SEARCH :
+			state = displayAllTasks(_displays);
+			state.setState(StateFeedback.State.MULTIPLE_MATCHES);
+			break;
+		}
+		
+		return state;
+	}
+	
+	public StateFeedback displayAllTasks(ArrayList<Task> displayList) {
 		ArrayList<Task> overdueTasks = new ArrayList<Task>();
 		ArrayList<Task> todayTasks = new ArrayList<Task>();
 		ArrayList<Task> importantTasks = new ArrayList<Task>();
 		ArrayList<Task> otherTasks = new ArrayList<Task>();
-		for (Task task : _tasks) {
+		for (Task task : displayList) {
 			if (task.isOverdue()) {
 				overdueTasks.add(task);
 			} else if (isTaskToday(task)) {
-				todayTasks.add(task); // swapped urgent and today
+				todayTasks.add(task);
 			} else if (task.isImportant()) {
 				importantTasks.add(task);
 			} else { // remaining floating tasks
 				otherTasks.add(task);
 			}
 		}
-		_tasks.clear();
-		_tasks.addAll(sortList(overdueTasks));
-		_tasks.addAll(sortList(todayTasks)); // swapped urgent and today
-		_tasks.addAll(sortList(importantTasks));
-		_tasks.addAll(sortList(otherTasks));
-		StateFeedback state = new StateFeedback(_tasks, overdueTasks.size(), todayTasks.size(), importantTasks.size(),
+		clearDisplays();
+		_displays.addAll(sortList(overdueTasks));
+		_displays.addAll(sortList(todayTasks));
+		_displays.addAll(sortList(importantTasks));
+		_displays.addAll(sortList(otherTasks));
+		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), importantTasks.size(),
 				otherTasks.size());
-		state.setState(currState);
-		
 		return state;
-	}
-	
-	public StateFeedback getState(StateFeedback.State currState, ArrayList<Task> tasks) {
-		// TODO replace top function with a refactored function that can be used by both calls
-		return null;
 	}
 	
 	public ArrayList<Task> findMatchingTasks(String desc) {
@@ -131,7 +138,7 @@ public class LogicData {
 		}
 	}
 
-	private void updateState() {
+	public void updateState() {
 		LocalDateTime now = LocalDateTime.now();
 		for (Task task : _tasks) {
 			if (task.getTaskType() == Task.Type.DEADLINE) {
@@ -141,8 +148,23 @@ public class LogicData {
 					task.setIsOverdue(false);
 				}
 			}
+			if (task.getTaskType() == Task.Type.EVENT) {
+				if (task.getEndTime().isBefore(now)) {
+					task.setIsCompleted(true);
+					deleteTask(task);
+					addArchive(task);
+				}
+			}
 		}
 
+	}
+	
+	public void addArchive(Task task) {
+		_archives.add(task);
+	}
+	
+	public void removeArchive(Task task) {
+		_archives.remove(task);
 	}
 
 	public ArrayList<Task> getTaskList() {
@@ -259,11 +281,16 @@ public class LogicData {
 		_displays = displays;
 	}
 
-	public StateFeedback.State getCurrState() {
+	public DisplayState getCurrState() {
 		return _currState;
 	}
 
-	public void setCurrState(StateFeedback.State currState) {
+	public void setCurrState(DisplayState currState) {
 		_currState = currState;
 	}
+	
+	public void clearDisplays() {
+		_displays.clear();
+	}
+
 }

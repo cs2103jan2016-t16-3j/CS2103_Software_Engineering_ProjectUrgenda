@@ -35,6 +35,7 @@ public class AddTask implements Undoable {
 		_newTask.setDateModified(now);
 		_data.updateCurrentId();
 		_data.addTask(_newTask);
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		return taskMessage() + MESSAGE_ADDED;
 	}
 

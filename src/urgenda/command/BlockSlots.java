@@ -37,6 +37,7 @@ public class BlockSlots implements Undoable {
 	public String execute(LogicData data) {
 		_data = data;
 		setDateAdded();
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		return MESSAGE_BLOCK + addBlockTasks();
 	}
 

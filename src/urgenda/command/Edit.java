@@ -5,7 +5,8 @@ import urgenda.util.Task;
 
 public class Edit implements Undoable {
 	
-	private Task prevTask;
+	private Task _newTask;
+	private Task _prevTask;
 
 	@Override
 	public String execute(LogicData data) {

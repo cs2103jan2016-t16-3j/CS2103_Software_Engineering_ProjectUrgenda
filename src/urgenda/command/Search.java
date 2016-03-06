@@ -7,7 +7,7 @@ import urgenda.util.Task;
 
 public class Search implements Command {
 	
-	private static final String MESSAGE_SEARCH = "Search completed. These are all the tasks found containing \"%1$s\"";
+	private static final String MESSAGE_SEARCH = "These are all the tasks found containing \"%1$s\"";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
 	
 	private String _searchInput;
@@ -25,8 +25,11 @@ public class Search implements Command {
 	public String execute(LogicData data) {   //to be edited to search for other combi e.g. time
 		ArrayList<Task> matches = data.findMatchingTasks(_searchInput);
 		if(matches.isEmpty()) {
+			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			return String.format(MESSAGE_SEARCH_NOT_FOUND, _searchInput);
-		} else { // TODO THROW EXCEPTION
+		} else {
+			data.setDisplays(matches);
+			data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
 			return String.format(MESSAGE_SEARCH, _searchInput);
 		}
 	}

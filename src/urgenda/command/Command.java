@@ -9,6 +9,6 @@ import urgenda.logic.LogicData;
 public interface Command {
 	
 	// for execution of specific command
-	String execute(LogicData data);
+	String execute(LogicData data) throws Exception;
 
 }
