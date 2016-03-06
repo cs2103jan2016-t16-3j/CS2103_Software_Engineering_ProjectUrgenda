@@ -35,6 +35,7 @@ public class BlockSlots implements Undoable {
 	// if default constructor is used, ensure that _block desc set
 	@Override
 	public String execute(LogicData data) {
+		assert (_block.getDesc() != null); // asserts that the desc is set
 		_data = data;
 		setDateAdded();
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
