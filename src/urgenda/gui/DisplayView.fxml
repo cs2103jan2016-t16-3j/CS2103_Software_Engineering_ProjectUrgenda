@@ -36,9 +36,9 @@
             <Label fx:id="endLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
-      <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" prefHeight="350.0" prefWidth="560.0" vvalue="0.5" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="55.0">
+      <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" prefHeight="350.0" prefWidth="560.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="55.0">
          <content>
-            <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0" style="-fx-background-color: transparent;">
+            <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0">
              </VBox>
          </content>
       </ScrollPane>

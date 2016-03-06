@@ -7,12 +7,17 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 
 public class MainController {
 	
 	private static final String ERROR_TEXT_FILL = "-fx-text-fill: #FF1900";
 	private static final String NORMAL_TEXT_FILL = "-fx-text-fill: white";
+	
+	private static final KeyCodeCombination KEYCOMB_INPUTBAR_DOWN = new KeyCodeCombination(KeyCode.DOWN);
+	private static final KeyCodeCombination KEYCOMB_INPUTBAR_ENTER = new KeyCodeCombination(KeyCode.ENTER);
 	
 	//Elements loaded using FXML
 	@FXML
@@ -30,25 +35,14 @@ public class MainController {
 		//default constructor
 	}
 	
-	public void displayFeedback(String feedback, boolean isWarning) {
-		feedbackArea.setText(feedback);
-		if(isWarning) {
-			feedbackArea.setStyle(ERROR_TEXT_FILL);
-		} else {
-			feedbackArea.setStyle(NORMAL_TEXT_FILL);
-		}
-	}
-	
 	@FXML
 	private void commandLineListener(KeyEvent event) {
 		KeyCode code = event.getCode();
-		if(code == KeyCode.ENTER) {
-			if(inputBar.getText() != "") {
+			if(code == KeyCode.ENTER) {
 				String feedback = _main.handleCommandLine(inputBar.getText());
 				displayFeedback(feedback, false);
 				inputBar.clear();
 			}
-		}
 	}
 	
 	@FXML
@@ -82,6 +76,15 @@ public class MainController {
 		//TODO save all edits
 		Platform.exit();
         System.exit(0);
+	}
+	
+	public void displayFeedback(String feedback, boolean isWarning) {
+		feedbackArea.setText(feedback);
+		if(isWarning) {
+			feedbackArea.setStyle(ERROR_TEXT_FILL);
+		} else {
+			feedbackArea.setStyle(NORMAL_TEXT_FILL);
+		}
 	}
 	
 	public void setUIMain(Main ui) {

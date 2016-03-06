@@ -36,15 +36,13 @@ public class Main extends Application {
 
 	private static final int DEFAULT_SCENE_WIDTH = 600;
 	private static final int DEFAULT_SCENE_HEIGHT = 600;
-	private static final int DEFAULT_REGULAR_FONT_SIZE = 10;
-	private static final int DEFAULT_BOLD_FONT_SIZE = 10;
+	private static final int DEFAULT_REGULAR_FONT_SIZE = 20;
+	private static final int DEFAULT_BOLD_FONT_SIZE = 20;
 
 	// Resources to load
-	@SuppressWarnings("unused")
-	private static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_REGULAR_FONT),
+	public static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_REGULAR_FONT),
 			DEFAULT_REGULAR_FONT_SIZE);
-	@SuppressWarnings("unused")
-	private static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_BOLD_FONT),
+	public static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_BOLD_FONT),
 			DEFAULT_BOLD_FONT_SIZE);
 
 	@Override
@@ -77,30 +75,6 @@ public class Main extends Application {
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 	}
 
-	private String createDisplayHeader(StateFeedback state) {
-		String display = "";
-		switch (state.getState()) {
-		case MULTIPLE_MATCHES:
-			display = "Showing MULTIPLE MATCHES";
-			break;
-		case SHOW_SEARCH:
-			display = "Showing SEARCH RESULTS";
-			break;
-		case ALL_TASK_AND_COMPLETED:
-			display = "Showing ALL TASKS WITH COMPLETED TASKS";
-			break;
-		//case DISPLAY:
-		//	break;
-		case ERROR:
-			break;
-		case ALL_TASKS: //fall-through
-		default:
-			display = HEADER_ALL_TASKS;
-			break;
-		}
-		return display;
-	}
-
 	private void initStage(Stage primaryStage) {
 		_scene = new Scene(_rootLayout, DEFAULT_SCENE_WIDTH, DEFAULT_SCENE_HEIGHT);
 		_scene.getStylesheets().add(getClass().getResource(PATH_STYLESHEET_CSS).toExternalForm());
@@ -113,24 +87,59 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
-	public static void main(String[] args) {
-		launch(args);
+	public StateFeedback retrieveStartupState() {
+		//StateFeedback state = dummyState(); // for dummy list
+		StateFeedback state = _logic.retrieveStartupState();
+		_mainController.displayFeedback(state.getFeedback(), false);
+		return state;
 	}
-
+	
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getFocusedLine());
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 		return state.getFeedback();
 	}
-
-	public StateFeedback retrieveStartupState() {
-		//StateFeedback state = dummyState(); // change here to show dummy list
-											// instead
-		StateFeedback state = _logic.retrieveStartupState();
-		_mainController.displayFeedback(state.getFeedback(), false);
-		return state;
+	
+	private String createDisplayHeader(StateFeedback state) {
+		String display = "";
+		switch (state.getState()) {
+		case MULTIPLE_MATCHES:
+			display = "Showing MULTIPLE MATCHES";
+			break;
+		case SHOW_SEARCH:
+			display = "Showing SEARCH RESULTS";
+			break;
+		case ALL_TASK_AND_COMPLETED:
+			display = "Showing ALL TASKS WITH COMPLETED TASKS";
+			break;
+			//case DISPLAY:
+			//	break;
+		case ERROR:
+			break;
+		case ALL_TASKS: //fall-through
+		default:
+			display = HEADER_ALL_TASKS;
+			break;
+		}
+		return display;
+	}
+	
+	public void invokeHelpSplash() {
+		// TODO create help splash menu
 	}
 
+	public void invokeUrgendaSplash() {
+		// TODO create about urgenda splash menu
+	}
+
+	public MainController getController() {
+		return _mainController;
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
 	// dummy method to create dummy state
 	private StateFeedback dummyState() {
 		Task taskO = new Task("Overdue task", "O location", LocalDateTime.now(), LocalDateTime.now(),
@@ -155,7 +164,7 @@ public class Main extends Application {
 				false);
 		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-
+		
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Task> archives = new ArrayList<Task>();
 		tasks.add(taskO);
@@ -174,26 +183,5 @@ public class Main extends Application {
 		state.setFeedback("feedback from dummylist");
 		state.addDetailedTaskIdx(3);
 		return state;
-	}
-
-	public void callUndo() {
-		handleCommandLine("undo");
-	}
-
-	public void callRedo() {
-		handleCommandLine("redo");
-	}
-
-	public void invokeHelpSplash() {
-		// TODO create help splash menu
-	}
-
-	public void invokeUrgendaSplash() {
-		// TODO create about urgenda splash menu
-
-	}
-
-	public MainController getController() {
-		return _mainController;
 	}
 }

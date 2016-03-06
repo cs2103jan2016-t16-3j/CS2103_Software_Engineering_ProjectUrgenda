@@ -2,10 +2,13 @@ package urgenda.gui;
 
 import java.util.ArrayList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
 
@@ -19,12 +22,14 @@ public class DisplayController extends AnchorPane {
 
 	private static final double DEFAULT_VERTICAL_SCROLL_HEIGHT = 0;
 
+	private static final double DEFAULT_EMPTY_TASKS_DISPLAY_HEIGHT = 100;
+
 	@FXML
-	Label displayHeader;
+	private Label displayHeader;
 	@FXML
-	VBox displayHolder;
+	private VBox displayHolder;
 	@FXML
-	ScrollPane displayArea;
+	private ScrollPane displayArea;
 
 	private ArrayList<Task> _displayedTasks;
 
@@ -64,13 +69,12 @@ public class DisplayController extends AnchorPane {
 		setDisplayHeader(displayHeader);
 	}
 
-	private void setDisplayScrollTop() {
-		displayArea.setVvalue(DEFAULT_VERTICAL_SCROLL_HEIGHT);
-		
-	}
-
 	private void showZeroTasksFeedback() {
-		//TODO set label
+		Label emptyDisplay = new Label(MESSAGE_ZERO_TASKS);
+		emptyDisplay.setTextFill(Color.NAVY);
+		emptyDisplay.setPrefHeight(DEFAULT_EMPTY_TASKS_DISPLAY_HEIGHT);
+		emptyDisplay.setFont(Main.REGULAR_FONT);
+		displayHolder.getChildren().add(emptyDisplay);
 	}
 
 	private int showStyledTaskView(int currIndex, ArrayList<Integer> showmoreIndexes, int toAddCount, Style style) {
@@ -90,7 +94,11 @@ public class DisplayController extends AnchorPane {
 		return addedCount;
 	}
 
-
+	private void setDisplayScrollTop() {
+		displayArea.setVvalue(DEFAULT_VERTICAL_SCROLL_HEIGHT);
+		
+	}
+	
 	private void setDisplayHeader(String displayed) {
 		displayHeader.setText(displayed);
 	}
