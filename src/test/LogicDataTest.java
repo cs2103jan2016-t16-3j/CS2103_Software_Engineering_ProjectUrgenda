@@ -60,7 +60,7 @@ public class LogicDataTest {
 	}
 	
 	@Test
-	public void testFindMatchingTasks() {  //test if findmatchingTasks returns right arraylist containing all required searched input
+	public void testFindMatchingTasks() {  //test if findmatchingTasks returns right arraylist containing all required searched description
 		LogicData _test = new LogicData();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
@@ -103,4 +103,7 @@ public class LogicDataTest {
 		assertEquals(_output, _test.findMatchingTasks("ie"));
 		assertEquals(_output, _test.findMatchingTasks("submit ie"));
 	}
+	
+	
+	
 }   
