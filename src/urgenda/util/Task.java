@@ -19,6 +19,10 @@ public class Task {
 	private static final String HASHMAP_KEY_COMPLETED = "completed";
 	private static final String HASHMAP_KEY_IMPORTANT = "important";
 	private static final String HASHMAP_KEY_OVERDUE = "overdue";
+	
+	private static final String TASK_TYPE_FLOATING = "FLOATING";
+	private static final String TASK_TYPE_EVENT = "EVENT";
+	private static final String TASK_TYPE_DEADLINE = "DEADLINE";
 
 	public enum Type {
 
@@ -123,11 +127,11 @@ public class Task {
 	}
 
 	private void setType(String type) {
-		if (type.equals("EVENT")) {
+		if (type.equals(TASK_TYPE_EVENT)) {
 			_taskType = Type.EVENT;
-		} else if (type.equals("DEADLINE")) {
+		} else if (type.equals(TASK_TYPE_DEADLINE)) {
 			_taskType = Type.DEADLINE;
-		} else if (type.equals("FLOATNG")) {
+		} else if (type.equals(TASK_TYPE_FLOATING)) {
 			_taskType = Type.FLOATING;
 		}
 	}
