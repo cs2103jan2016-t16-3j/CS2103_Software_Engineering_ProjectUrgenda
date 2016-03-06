@@ -16,7 +16,7 @@ import urgenda.util.StateFeedback;
 import urgenda.util.Task;
 
 public class LogicData {
-	
+
 	public enum DisplayState {
 		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH
 	}
@@ -35,7 +35,7 @@ public class LogicData {
 	private Stack<Undoable> _redos;
 
 	private Storage _storage;
-	
+
 	private DisplayState _currState;
 
 	private int _currentId;
@@ -69,28 +69,28 @@ public class LogicData {
 	public StateFeedback getState() {
 		StateFeedback state = null;
 		switch (_currState) {
-		case ALL_TASKS :
+		case ALL_TASKS:
 			updateState();
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
-		case MULTIPLE_DELETE :
-		case MULTIPLE_COMPLETE :
-		case MULTIPLE_PRIORITISE :
-		case SHOW_SEARCH :
+		case MULTIPLE_DELETE:
+		case MULTIPLE_COMPLETE:
+		case MULTIPLE_PRIORITISE:
+		case SHOW_SEARCH:
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.MULTIPLE_MATCHES);
 			break;
-		default :
-			
+		default:
+
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
 		}
-		
+
 		return state;
 	}
-	
+
 	public StateFeedback displayAllTasks(ArrayList<Task> displayList) {
 		ArrayList<Task> overdueTasks = new ArrayList<Task>();
 		ArrayList<Task> todayTasks = new ArrayList<Task>();
@@ -112,11 +112,11 @@ public class LogicData {
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(importantTasks));
 		_displays.addAll(sortList(otherTasks));
-		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), importantTasks.size(),
-				otherTasks.size());
+		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(),
+				importantTasks.size(), otherTasks.size());
 		return state;
 	}
-	
+
 	public ArrayList<Task> findMatchingTasks(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
@@ -167,11 +167,11 @@ public class LogicData {
 		_tasks.removeAll(completedTasks);
 		_archives.addAll(completedTasks);
 	}
-	
+
 	public void addArchive(Task task) {
 		_archives.add(task);
 	}
-	
+
 	public void removeArchive(Task task) {
 		_archives.remove(task);
 	}
@@ -198,10 +198,36 @@ public class LogicData {
 
 	public Task findMatchingPosition(int id) {
 		if (id > 0 && id <= _displays.size()) {
-			return _displays.get(id-1);
+			return _displays.get(id - 1);
 		} else {
 			return null;
 		}
+	}
+
+	public ArrayList<Task> findMatchingDates(LocalDate input) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		for (Task task : _tasks) {
+			if (Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
+					.matcher(task.getStartTime().toLocalDate().toString()).find()
+					|| Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
+							.matcher(task.getEndTime().toLocalDate().toString()).find()) {
+				matches.add(task);
+			}
+		}
+		return matches;
+	}
+
+	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		for (Task task : _tasks) {
+			if (Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
+					.matcher(task.getStartTime().toString()).find()
+					|| Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
+							.matcher(task.getEndTime().toString()).find()) {
+				matches.add(task);
+			}
+		}
+		return matches;
 	}
 
 	public String undoCommand() {
@@ -234,7 +260,7 @@ public class LogicData {
 			if (task.getSlot() != null) {
 				if (task.getSlot().equals(block)) {
 					_blocks.add(task);
-				}				
+				}
 			}
 		}
 		return _blocks;
@@ -288,7 +314,7 @@ public class LogicData {
 	public void setCurrState(DisplayState currState) {
 		_currState = currState;
 	}
-	
+
 	public void clearDisplays() {
 		_displays.clear();
 	}
