@@ -89,5 +89,9 @@ public class Search implements Command {
 	public void setSearchDate(LocalDate input) {
 		_searchDate = input;
 	}
+	
+	public void setSearchDateTime(LocalDateTime input) {
+		_searchDateTime = input;
+	}
 
 }
