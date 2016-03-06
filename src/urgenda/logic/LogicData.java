@@ -197,7 +197,7 @@ public class LogicData {
 	}
 
 	public Task findMatchingPosition(int id) {
-		if (id > 0 || id <= _displays.size()) {
+		if (id > 0 && id <= _displays.size()) {
 			return _displays.get(id-1);
 		} else {
 			return null;
