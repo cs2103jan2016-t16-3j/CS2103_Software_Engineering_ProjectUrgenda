@@ -24,12 +24,15 @@ public class Main extends Application {
 	private DisplayController _displayController;
 	private Logic _logic;
 
+	
 	private static final String APP_NAME = "Urgenda";
 	private static final String PATH_GUI_FXML = "Main.fxml";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	private static final String PATH_STYLESHEET_CSS = "../../resources/urgendaStyle.css";
 	private static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
 	private static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
+	
+	private static final String HEADER_ALL_TASKS = "Showing ALL TASKS";
 
 	private static final int DEFAULT_SCENE_WIDTH = 600;
 	private static final int DEFAULT_SCENE_HEIGHT = 600;
@@ -75,8 +78,27 @@ public class Main extends Application {
 	}
 
 	private String createDisplayHeader(StateFeedback state) {
-		// TODO create display header based on state type
-		return "testing";
+		String display = "";
+		switch (state.getState()) {
+		case MULTIPLE_MATCHES:
+			display = "Showing MULTIPLE MATCHES";
+			break;
+		case SHOW_SEARCH:
+			display = "Showing SEARCH RESULTS";
+			break;
+		case ALL_TASK_AND_COMPLETED:
+			display = "Showing ALL TASKS WITH COMPLETED TASKS";
+			break;
+		//case DISPLAY:
+		//	break;
+		case ERROR:
+			break;
+		case ALL_TASKS: //fall-through
+		default:
+			display = HEADER_ALL_TASKS;
+			break;
+		}
+		return display;
 	}
 
 	private void initStage(Stage primaryStage) {
@@ -102,22 +124,23 @@ public class Main extends Application {
 	}
 
 	public StateFeedback retrieveStartupState() {
-		//StateFeedback state = dummyState();	//change here to show dummy list instead
+		//StateFeedback state = dummyState(); // change here to show dummy list
+											// instead
 		StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback(), false);
 		return state;
 	}
 
-	//dummy method to create dummy state
+	// dummy method to create dummy state
 	private StateFeedback dummyState() {
 		Task taskO = new Task("Overdue task", "O location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-		Task taskT = new Task("Today task", "T location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
-				false);
+		Task taskT = new Task("Today task", "T location", LocalDateTime.now(), LocalDateTime.now(),
+				new ArrayList<String>(), false);
 		Task taskU = new Task("Urgent task", "U location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), true);
-		Task taskD = new Task("Detailed task", "Detailed location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
-				false);
+		Task taskD = new Task("Detailed task", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
+				new ArrayList<String>(), false);
 		Task task1 = new Task("1 task", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
 		Task task2 = new Task("2 task", "2 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
@@ -130,9 +153,9 @@ public class Main extends Application {
 				false);
 		Task task6 = new Task("6 task", "6 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
-		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
-				false);
-		
+		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(),
+				new ArrayList<String>(), false);
+
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Task> archives = new ArrayList<Task>();
 		tasks.add(taskO);

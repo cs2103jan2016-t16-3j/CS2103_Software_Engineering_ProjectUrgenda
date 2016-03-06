@@ -18,6 +18,7 @@ import urgenda.util.Task;
 
 public class TaskController extends GridPane {
 
+	private static final Color COLOR_EVEN_ROWS = Color.rgb(71, 78, 96, 0.15);
 	private static final String PATH_TASKVIEW_FXML = "TaskView.fxml";
 	private static final String TEXT_FILL_OVERDUE = "-fx-text-fill: #FF1900;";
 	private static final String TEXT_FILL_URGENT = "-fx-text-fill: #474E60;";
@@ -49,31 +50,8 @@ public class TaskController extends GridPane {
 		if (task.isImportant()) {
 			urgentIndicator.setVisible(true);
 		}
-		if(index % 2 == 0) { //even
-			this.backgroundProperty().set(new Background(new BackgroundFill(Color.rgb(71, 78, 96, 0.3), new CornerRadii(3), null)));
-		}
-	}
-
-	private String formatDateTime(LocalDateTime dateTime) {
-		
-		DateTimeFormatter formatter;
-		if(dateTime.getMinute() == 0) {
-			formatter = DateTimeFormatter.ofPattern("dd MMM | h a");
-		} else {
-			formatter = DateTimeFormatter.ofPattern("dd MMM | hh:mma");
-		}
-		return dateTime.format(formatter);
-	}
-
-	private void loadFXML() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_TASKVIEW_FXML));
-		loader.setController(this);
-		loader.setRoot(this);
-		try {
-			loader.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(index % 2 == 0) { // format for even rows only
+			this.backgroundProperty().set(new Background(new BackgroundFill(COLOR_EVEN_ROWS, new CornerRadii(3), null)));
 		}
 	}
 
@@ -96,5 +74,28 @@ public class TaskController extends GridPane {
 		descLabel.setStyle(color + weight + modify);
 		startLabel.setStyle(color + weight + modify);
 		endLabel.setStyle(color + weight + modify);
+	}
+	
+	private String formatDateTime(LocalDateTime dateTime) {
+		
+		DateTimeFormatter formatter;
+		if(dateTime.getMinute() == 0) {
+			formatter = DateTimeFormatter.ofPattern("dd MMM | h a");
+		} else {
+			formatter = DateTimeFormatter.ofPattern("dd MMM | hh:mma");
+		}
+		return dateTime.format(formatter);
+	}
+	
+	private void loadFXML() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_TASKVIEW_FXML));
+		loader.setController(this);
+		loader.setRoot(this);
+		try {
+			loader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
