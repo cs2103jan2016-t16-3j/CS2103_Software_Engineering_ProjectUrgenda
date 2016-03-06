@@ -27,7 +27,7 @@ public class Prioritise implements Undoable {
 	public String execute(LogicData data) throws Exception {
 		_data = data;
 		ArrayList<Task> matches;
-		if (_id != null || _id != 0) {
+		if (_id != null && _id != 0) {
 			_task = _data.findMatchingPosition(_id.intValue());			
 		} else if (_desc != null) {
 				matches = _data.findMatchingTasks(_desc);
