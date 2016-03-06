@@ -113,6 +113,8 @@ public class Parser {
 		taskEndTime = null;
 		taskHashtags = new ArrayList<String>();
 		taskType = TASK_TYPE.INVALID;
+		taskDateTime = new ArrayList<LocalDateTime>();
+		taskTimeType = new ArrayList<String>();
 	}
 
 	private static String getFirstWord(String commandString) {
