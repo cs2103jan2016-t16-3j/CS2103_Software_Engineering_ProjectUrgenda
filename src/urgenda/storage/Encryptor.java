@@ -1,6 +1,7 @@
 package urgenda.storage;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import urgenda.util.Task;
 
@@ -15,6 +16,7 @@ public class Encryptor extends JsonCipher {
 			stringList.clear();
 		}
 		for (Task task : taskList) {
+			_detailsMap = new LinkedHashMap<String, String>();
 			getTaskDetail(task);
 			convertToString();
 			stringList.add(_detailsString);
