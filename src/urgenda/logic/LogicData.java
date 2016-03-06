@@ -70,6 +70,7 @@ public class LogicData {
 		StateFeedback state = null;
 		switch (_currState) {
 		case ALL_TASKS :
+			updateState();
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;

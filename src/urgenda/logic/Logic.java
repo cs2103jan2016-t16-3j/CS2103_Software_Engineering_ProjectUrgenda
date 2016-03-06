@@ -24,12 +24,12 @@ public class Logic {
 		try {
 			feedback = currCmd.execute(_logicData);
 			_logicData.addUndo(currCmd);
-			_logicData.saveContents();
 		} catch (Exception e) { // TODO might need to upgrade exceptions without affecting the command execute header
 			feedback = e.getMessage();
 		}
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(feedback);
+		_logicData.saveContents();
 		return state;
 	}
 	
