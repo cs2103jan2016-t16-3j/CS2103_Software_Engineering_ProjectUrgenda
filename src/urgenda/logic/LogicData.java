@@ -206,7 +206,7 @@ public class LogicData {
 
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
 		ArrayList<Task> matches = new ArrayList<Task>();
-		for (Task task : _tasks) {
+		for (Task task : _displays) {
 			if (Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
 					.matcher(task.getStartTime().toLocalDate().toString()).find()
 					|| Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
@@ -219,7 +219,7 @@ public class LogicData {
 
 	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
 		ArrayList<Task> matches = new ArrayList<Task>();
-		for (Task task : _tasks) {
+		for (Task task : _displays) {
 			if (Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
 					.matcher(task.getStartTime().toString()).find()
 					|| Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
