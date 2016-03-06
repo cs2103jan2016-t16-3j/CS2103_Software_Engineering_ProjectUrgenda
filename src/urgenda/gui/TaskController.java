@@ -45,7 +45,10 @@ public class TaskController extends GridPane {
 		loadFXML();
 		indexLabel.setText(String.valueOf(index));
 		descLabel.setText(task.getDesc());
-		startLabel.setText(formatDateTime(task.getStartTime()));
+		if(task.getTaskType() == Task.Type.EVENT) {
+			startLabel.setText(formatDateTime(task.getStartTime()));
+		}
+		if(task.getTaskType() == Task.Type.EVENT || task.getTaskType() == Task.Type.DEADLINE)
 		endLabel.setText(formatDateTime(task.getEndTime()));
 		if (task.isImportant()) {
 			urgentIndicator.setVisible(true);
