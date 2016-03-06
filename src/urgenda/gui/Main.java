@@ -31,6 +31,7 @@ public class Main extends Application {
 	private static final String PATH_STYLESHEET_CSS = "../../resources/urgendaStyle.css";
 	private static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
 	private static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
+	private static final String PATH_LOGO_FONT = new String("../../resources/Sacramento-Regular.ttf");
 	
 	private static final String HEADER_ALL_TASKS = "Showing ALL TASKS";
 
@@ -38,12 +39,16 @@ public class Main extends Application {
 	private static final int DEFAULT_SCENE_HEIGHT = 600;
 	private static final int DEFAULT_REGULAR_FONT_SIZE = 20;
 	private static final int DEFAULT_BOLD_FONT_SIZE = 20;
-
+	private static final int DEFAULT_LOGO_FONT_SIZE = 50;
+	
 	// Resources to load
 	public static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_REGULAR_FONT),
 			DEFAULT_REGULAR_FONT_SIZE);
 	public static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_BOLD_FONT),
 			DEFAULT_BOLD_FONT_SIZE);
+	public static final Font LOGO_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_LOGO_FONT),
+			DEFAULT_LOGO_FONT_SIZE);
+	
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -88,7 +93,7 @@ public class Main extends Application {
 	}
 
 	public StateFeedback retrieveStartupState() {
-		//StateFeedback state = dummyState(); // for dummy list
+		//StateFeedback state = dummyState(); //TODO change for dummy list
 		StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback(), false);
 		return state;
@@ -182,6 +187,7 @@ public class Main extends Application {
 		state.setAllTasks(new TaskList(tasks, archives, 1, 1, 1, 7, 1));
 		state.setFeedback("feedback from dummylist");
 		state.addDetailedTaskIdx(3);
+		state.setState(StateFeedback.State.ALL_TASKS);
 		return state;
 	}
 }
