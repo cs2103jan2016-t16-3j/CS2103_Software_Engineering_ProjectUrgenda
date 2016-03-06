@@ -24,11 +24,12 @@ public class MainController {
 	@FXML
 	private DisplayController displayAreaController;
 	
-	private Main _UI;
+	private Main _main;
 	
 	public MainController() {
-		
+		//default constructor
 	}
+	
 	public void displayFeedback(String feedback, boolean isWarning) {
 		feedbackArea.setText(feedback);
 		if(isWarning) {
@@ -43,7 +44,7 @@ public class MainController {
 		KeyCode code = event.getCode();
 		if(code == KeyCode.ENTER) {
 			if(inputBar.getText() != "") {
-				String feedback = _UI.handleCommandLine(inputBar.getText());
+				String feedback = _main.handleCommandLine(inputBar.getText());
 				displayFeedback(feedback, false);
 				inputBar.clear();
 			}
@@ -52,42 +53,41 @@ public class MainController {
 	
 	@FXML
 	private void handleUndo(ActionEvent e){
-		@SuppressWarnings("unused")
-		String feedback = _UI.handleCommandLine("undo");
-		//change below to use feedback string
-		displayFeedback("Sorry! Undo is currently unavailable!", false);
+		String feedback = _main.handleCommandLine("undo");
+		displayFeedback(feedback, false);
 	}
 	
 	@FXML
 	private void handleRedo(ActionEvent e){
-		@SuppressWarnings("unused")
-		String feedback = _UI.handleCommandLine("redo");
-		//change below to use feedback string
-		displayFeedback("Sorry! Redo is currently unavailable!", false);
+		String feedback = _main.handleCommandLine("redo");
+		displayFeedback(feedback, false);
 	}
 	
 	@FXML
 	private void handleHelp(ActionEvent e) {
-		_UI.invokeHelpSplash();
+		_main.invokeHelpSplash();
+		//TODO remove when help is enabled
 		displayFeedback("Sorry! Help is currently unavailable!", false);
 	}
 	
 	@FXML
 	private void handleAboutUrgenda(ActionEvent e) {
-		_UI.invokeUrgendaSplash();
+		_main.invokeUrgendaSplash();
+		//TODO remove when urgenda splash is enabled
 		displayFeedback("Sorry! About Urgenda is currently unavailable!", true);
 	}
 	
 	@FXML
 	private void exit(ActionEvent e) {
-		//save all edits
+		//TODO save all edits
 		Platform.exit();
         System.exit(0);
 	}
 	
 	public void setUIMain(Main ui) {
-		_UI = ui;
+		_main = ui;
 	}
+	
 	public DisplayController getDisplayController() {
 		return displayAreaController;
 	}

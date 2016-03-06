@@ -19,11 +19,11 @@ import urgenda.util.Task;
 import urgenda.util.TaskList;
 
 public class Main extends Application {
-	private BorderPane rootLayout;
-	private Scene scene;
-	private MainController mainController;
-	private DisplayController displayController;
-	private Logic logic;
+	private BorderPane _rootLayout;
+	private Scene _scene;
+	private MainController _mainController;
+	private DisplayController _displayController;
+	private Logic _logic;
 
 	//
 	private static final String APP_NAME = "Urgenda";
@@ -55,25 +55,25 @@ public class Main extends Application {
 	}
 
 	private void initLogicComponent() {
-		logic = new Logic();
+		_logic = new Logic();
 	}
 
 	private void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(PATH_GUI_FXML));
-			rootLayout = loader.load();
-			mainController = loader.getController();
-			mainController.setUIMain(this);
+			_rootLayout = loader.load();
+			_mainController = loader.getController();
+			_mainController.setUIMain(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void initDisplay() {
-		displayController = mainController.getDisplayController();
+		_displayController = _mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
-		displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 	}
 
 	private String createDisplayHeader(StateFeedback state) {
@@ -82,14 +82,14 @@ public class Main extends Application {
 	}
 
 	private void initStage(Stage primaryStage) {
-		scene = new Scene(rootLayout, DEFAULT_SCENE_WIDTH, DEFAULT_SCENE_HEIGHT);
-		scene.getStylesheets().add(getClass().getResource(PATH_STYLESHEET_CSS).toExternalForm());
+		_scene = new Scene(_rootLayout, DEFAULT_SCENE_WIDTH, DEFAULT_SCENE_HEIGHT);
+		_scene.getStylesheets().add(getClass().getResource(PATH_STYLESHEET_CSS).toExternalForm());
 		primaryStage.initStyle(StageStyle.DECORATED);
 		Image ico = new Image(getClass().getResourceAsStream(PATH_ICON));
 		primaryStage.getIcons().add(ico);
 		primaryStage.setTitle(APP_NAME);
 		primaryStage.setResizable(false);
-		primaryStage.setScene(scene);
+		primaryStage.setScene(_scene);
 		primaryStage.show();
 	}
 
@@ -98,8 +98,8 @@ public class Main extends Application {
 	}
 
 	public String handleCommandLine(String commandLine) {
-		StateFeedback state = logic.executeCommand(commandLine, displayController.getFocusedLine());
-		displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
+		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getFocusedLine());
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 		return state.getFeedback();
 	}
 
@@ -107,7 +107,7 @@ public class Main extends Application {
 		StateFeedback state = dummyState(); // remove dummy when logic returns a
 											// legit feedbackstate
 		// StateFeedback state = logic.retrieveStartupState();
-		mainController.displayFeedback(state.getFeedback(), false);
+		_mainController.displayFeedback(state.getFeedback(), false);
 		return state;
 	}
 
@@ -150,7 +150,7 @@ public class Main extends Application {
 		tasks.add(task6);
 		archives.add(taskC);
 		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, archives, 1, 1, 1, 7, 1));
+		state.setAllTasks(new TaskList(tasks, archives, 0,0,0,0,0));
 		state.setFeedback("feedback from dummylist");
 		state.addDetailedTaskIdx(3);
 		return state;
@@ -174,6 +174,6 @@ public class Main extends Application {
 	}
 
 	public MainController getController() {
-		return mainController;
+		return _mainController;
 	}
 }

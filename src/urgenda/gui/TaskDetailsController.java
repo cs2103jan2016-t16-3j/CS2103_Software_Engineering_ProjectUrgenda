@@ -25,7 +25,6 @@ public class TaskDetailsController extends GridPane {
 		loadFXML();
 		dateCreatedLabel.setText(formatDateTime(task.getDateAdded()));
 		dateModifiedLabel.setText(formatDateTime(task.getDateModified()));
-
 	}
 
 	private String formatDateTime(LocalDateTime dateTime) {

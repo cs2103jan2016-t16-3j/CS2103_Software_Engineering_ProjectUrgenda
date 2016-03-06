@@ -15,7 +15,7 @@ public class DisplayController extends AnchorPane {
 		OVERDUE, URGENT, TODAY, NORMAL, ARCHIVE
 	}
 
-	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display! :(";
+	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display!";
 
 	@FXML
 	Label displayHeader;
@@ -24,16 +24,16 @@ public class DisplayController extends AnchorPane {
 	@FXML
 	ScrollPane displayArea;
 
-	private ArrayList<Task> displayedTasks;
+	private ArrayList<Task> _displayedTasks;
 
 	public DisplayController() {
 	}
 
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes) {
 		displayHolder.getChildren().clear();
-		displayedTasks = new ArrayList<Task>();
-		displayedTasks.addAll(updatedTasks.getTasks());
-		displayedTasks.addAll(updatedTasks.getArchives());
+		_displayedTasks = new ArrayList<Task>();
+		_displayedTasks.addAll(updatedTasks.getTasks());
+		_displayedTasks.addAll(updatedTasks.getArchives());
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
 			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getOverdueCount(),
@@ -57,18 +57,18 @@ public class DisplayController extends AnchorPane {
 	}
 
 	private void showZeroTasksFeedback() {
-		displayHolder.getChildren().add(new Label(MESSAGE_ZERO_TASKS));		//TODO correct this
+		//TODO set label
 	}
 
 	private int showStyledTaskView(int currIndex, ArrayList<Integer> showmoreIndexes, int toAddCount, Style style) {
 		int addedCount = 0;
 		while (addedCount < toAddCount) {
-			TaskController newTaskView = new TaskController(displayedTasks.get(currIndex), currIndex + 1);
+			TaskController newTaskView = new TaskController(_displayedTasks.get(currIndex), currIndex + 1);
 			newTaskView.setTaskStyle(style);
 			displayHolder.getChildren().add(newTaskView);
 			if (showmoreIndexes.contains(Integer.valueOf(currIndex))) {
 				TaskDetailsController newTaskDetail = new TaskDetailsController(
-						displayedTasks.get(currIndex));
+						_displayedTasks.get(currIndex));
 				displayHolder.getChildren().add(newTaskDetail);
 			}
 			addedCount++;
