@@ -19,6 +19,7 @@ import urgenda.util.Task;
 public class TaskController extends GridPane {
 
 	private static final Color COLOR_EVEN_ROWS = Color.rgb(71, 78, 96, 0.15);
+	
 	private static final String PATH_TASKVIEW_FXML = "TaskView.fxml";
 	private static final String TEXT_FILL_OVERDUE = "-fx-text-fill: #FF1900;";
 	private static final String TEXT_FILL_URGENT = "-fx-text-fill: #474E60;";
@@ -40,7 +41,9 @@ public class TaskController extends GridPane {
 	private Label endLabel;
 	@FXML
 	private ImageView urgentIndicator;
-
+	
+	private boolean _isSelected;
+	
 	public TaskController(Task task, int index) {
 		loadFXML();
 		indexLabel.setText(String.valueOf(index));
@@ -56,6 +59,7 @@ public class TaskController extends GridPane {
 		if(index % 2 == 0) { // format for even rows only
 			this.backgroundProperty().set(new Background(new BackgroundFill(COLOR_EVEN_ROWS, new CornerRadii(3), null)));
 		}
+		setSelected(false);
 	}
 
 	public void setTaskStyle(Style taskStyle) {
@@ -100,5 +104,14 @@ public class TaskController extends GridPane {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public boolean isSelected() {
+		return _isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		_isSelected = isSelected;
+		urgentIndicator.setVisible(_isSelected);
 	}
 }
