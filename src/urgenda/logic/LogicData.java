@@ -146,6 +146,7 @@ public class LogicData {
 	}
 
 	public void updateState() {
+		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		LocalDateTime now = LocalDateTime.now();
 		for (Task task : _tasks) {
 			if (task.getTaskType() == Task.Type.DEADLINE) {
@@ -158,11 +159,12 @@ public class LogicData {
 			if (task.getTaskType() == Task.Type.EVENT) {
 				if (task.getEndTime().isBefore(now)) {
 					task.setIsCompleted(true);
-					deleteTask(task);
-					addArchive(task);
+					completedTasks.add(task);
 				}
 			}
 		}
+		_tasks.removeAll(completedTasks);
+		_archives.addAll(completedTasks);
 	}
 	
 	public void addArchive(Task task) {
