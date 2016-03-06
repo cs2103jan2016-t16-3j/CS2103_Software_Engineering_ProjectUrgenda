@@ -9,7 +9,7 @@ import urgenda.util.Task;
 
 public class BlockSlots implements Undoable {
 	
-	private static final String MESSAGE_EVENT_DATETIME = ", %1$d/%2$d, %3$d:%4$d - %5$d:%6$d";
+	private static final String MESSAGE_EVENT_DATETIME = ", %1$d/%2$d, %3$02d:%4$02d - %5$02d:%6$02d";
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_BLOCK = "Block: ";
 	private static final String MESSAGE_REMOVE = " removed";
