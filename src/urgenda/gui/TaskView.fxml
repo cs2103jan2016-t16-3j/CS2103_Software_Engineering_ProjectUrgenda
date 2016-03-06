@@ -19,18 +19,18 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Label fx:id="indexLabel" alignment="CENTER" prefHeight="17.0" prefWidth="35.0">
+      <Label fx:id="taskIndexLabel" alignment="CENTER" prefHeight="17.0" prefWidth="35.0">
             </Label>
       <ImageView fx:id="urgentIndicator" fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
          <image>
             <Image url="@../../resources/urgenda_icon.png" />
          </image>
       </ImageView>
-            <Label fx:id="descLabel" contentDisplay="CENTER" prefHeight="18.0" prefWidth="220.0" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+            <Label fx:id="taskDescLabel" contentDisplay="CENTER" prefHeight="18.0" prefWidth="220.0" GridPane.columnIndex="2" GridPane.halignment="CENTER">
             </Label>
-            <Label fx:id="startLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+            <Label fx:id="taskStartLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" GridPane.columnIndex="3" GridPane.halignment="CENTER">
             </Label>
-            <Label fx:id="endLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+            <Label fx:id="taskEndLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" GridPane.columnIndex="4" GridPane.halignment="CENTER">
              </Label>
          </children>
 </fx:root>

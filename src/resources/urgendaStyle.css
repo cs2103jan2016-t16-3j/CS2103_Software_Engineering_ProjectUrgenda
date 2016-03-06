@@ -1,7 +1,9 @@
 .root {
 	-fx-background-color: #474E60;
 }
-
+#titlePane {
+	-fx-background-color: transparent;
+}
 #inputBar {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 17px;
@@ -26,22 +28,50 @@
 #indexLabel {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 15px;
+	-fx-font-weight: bold;
 	-fx-text-fill: #474E60;
 }
 
 #descLabel {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 15px;
+	-fx-font-weight: bold;
 	-fx-text-fill: #474E60;
 }
 
 #startLabel {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 14px;
+	-fx-font-weight: bold;
 	-fx-text-fill: #474E60;
 }
 
 #endLabel {
+	-fx-font-family: "Montserrat-Light";
+	-fx-font-size: 14px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #474E60;
+}
+
+#taskIndexLabel {
+	-fx-font-family: "Montserrat-Light";
+	-fx-font-size: 15px;
+	-fx-text-fill: #474E60;
+}
+
+#taskDescLabel {
+	-fx-font-family: "Montserrat-Light";
+	-fx-font-size: 15px;
+	-fx-text-fill: #474E60;
+}
+
+#taskStartLabel {
+	-fx-font-family: "Montserrat-Light";
+	-fx-font-size: 14px;
+	-fx-text-fill: #474E60;
+}
+
+#taskEndLabel {
 	-fx-font-family: "Montserrat-Light";
 	-fx-font-size: 14px;
 	-fx-text-fill: #474E60;

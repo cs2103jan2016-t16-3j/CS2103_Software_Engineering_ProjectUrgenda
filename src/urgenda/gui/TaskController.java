@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -18,7 +19,9 @@ import urgenda.util.Task;
 
 public class TaskController extends GridPane {
 
-	private static final Color COLOR_EVEN_ROWS = Color.rgb(71, 78, 96, 0.15);
+	private static final Insets INSETS_EVEN_ROWS = new Insets(2,0,2,0);
+
+	private static final Color COLOR_EVEN_ROWS = Color.rgb(71, 76, 89, 0.2);
 	
 	private static final String PATH_TASKVIEW_FXML = "TaskView.fxml";
 	private static final String TEXT_FILL_OVERDUE = "-fx-text-fill: #FF1900;";
@@ -32,13 +35,13 @@ public class TaskController extends GridPane {
 	private static final String TEXT_MODIFY_NONE = "";
 	
 	@FXML
-	private Label indexLabel;
+	private Label taskIndexLabel;
 	@FXML
-	private Label descLabel;
+	private Label taskDescLabel;
 	@FXML
-	private Label startLabel;
+	private Label taskStartLabel;
 	@FXML
-	private Label endLabel;
+	private Label taskEndLabel;
 	@FXML
 	private ImageView urgentIndicator;
 	
@@ -46,18 +49,18 @@ public class TaskController extends GridPane {
 	
 	public TaskController(Task task, int index) {
 		loadFXML();
-		indexLabel.setText(String.valueOf(index));
-		descLabel.setText(task.getDesc());
+		taskIndexLabel.setText(String.valueOf(index));
+		taskDescLabel.setText(task.getDesc());
 		if(task.getTaskType() == Task.Type.EVENT) {
-			startLabel.setText(formatDateTime(task.getStartTime()));
+			taskStartLabel.setText(formatDateTime(task.getStartTime()));
 		}
 		if(task.getTaskType() == Task.Type.EVENT || task.getTaskType() == Task.Type.DEADLINE)
-		endLabel.setText(formatDateTime(task.getEndTime()));
+		taskEndLabel.setText(formatDateTime(task.getEndTime()));
 		if (task.isImportant()) {
 			urgentIndicator.setVisible(true);
 		}
-		if(index % 2 == 0) { // format for even rows only
-			this.backgroundProperty().set(new Background(new BackgroundFill(COLOR_EVEN_ROWS, new CornerRadii(3), null)));
+		if(index % 2 == 0) { //format even rows only
+			this.backgroundProperty().set(new Background(new BackgroundFill(COLOR_EVEN_ROWS, new CornerRadii(3), INSETS_EVEN_ROWS)));
 		}
 		setSelected(false);
 	}
@@ -77,10 +80,10 @@ public class TaskController extends GridPane {
 	}
 
 	private void setStyle(String color, String weight, String modify) {
-		indexLabel.setStyle(color + weight + modify);
-		descLabel.setStyle(color + weight + modify);
-		startLabel.setStyle(color + weight + modify);
-		endLabel.setStyle(color + weight + modify);
+		taskIndexLabel.setStyle(color + weight + modify);
+		taskDescLabel.setStyle(color + weight + modify);
+		taskStartLabel.setStyle(color + weight + modify);
+		taskEndLabel.setStyle(color + weight + modify);
 	}
 	
 	private String formatDateTime(LocalDateTime dateTime) {
