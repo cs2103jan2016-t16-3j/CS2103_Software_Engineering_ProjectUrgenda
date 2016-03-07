@@ -69,9 +69,10 @@ Specify the task number, the task description or simply highlight the task to be
 Example:
 * _**Mark** Dinner with Mum_
 * _**Done** 4_
-	```java
-	//TODO: insert image
-	```
+
+```java
+//TODO: insert image
+```
 
 ## Mark as Completed
 
@@ -82,9 +83,10 @@ Similar to [Delete](#delete), specify the task number, the task description or s
 Example:
 * _**Mark** Dinner with Mum_
 * _**Done** 3_
-	```java
-	//TODO: insert image
-	```
+
+```java
+//TODO: insert image
+```
 
 ## Edit
 
@@ -99,9 +101,10 @@ Similar to [Delete](#delete) and [Mark as Completed](#mark-as-completed), specif
 Example: 
 * _**Change** Dinner with Mum **@** NEX
 * _**Edit** 4 Dinner with Mum and Dad
-	```java
-	//TODO: insert image
-	```
+
+```java
+//TODO: insert image
+```
 
 ## Search
 
@@ -120,9 +123,10 @@ Example:
 _**Search** boss_
 * _Report to boss by 4/4/2016 3:00pm_
 * _Meeting with boss at 6/4/2016 2:00pm to 5:00pm_
-	```java
-	//TODO: insert image
-	```
+
+```java
+//TODO: insert image
+```
 
 ## Exit
 
@@ -141,9 +145,10 @@ To exit Urgenda, click the top right exit button, or type **exit**
 ## Archive
 
 To show previously completed tasks, the commands are **Archive** and **Showarchive**
-	```java
-	//TODO: insert image
-	```
+
+```java
+//TODO: insert image
+```
 
 ## Undo/Redo
 
@@ -165,9 +170,9 @@ This feature allows you to mark certain tasks as important. These tasks will be 
 
 **Urgent**, **Important**, **Impt**, **Pri** or **Pin** are the commands to prioritise a task. 
 Example:
-	```java
-	//TODO: insert image
-	```
+```java
+//TODO: insert image
+```
 
 # Shortcuts
 * Ctrl + Z / Ctrl + Y : Undoing/Redoing what was previously written in the command bar
