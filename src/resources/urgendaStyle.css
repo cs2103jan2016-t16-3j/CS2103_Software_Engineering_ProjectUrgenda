@@ -1,28 +1,47 @@
+@font-face {
+	font-family: Montserrat;
+	src: url('../resources/Montserrat-Regular.otf');
+}
+
+@font-face {
+	font-family: Montserrat Light;
+	src: url('../resources/Montserrat-Light.otf');
+}
+
+@font-face {
+	font-family: Montserrat Ultra Light;
+	src: url('../resources/Montserrat-UltraLight.otf');
+}
+
 .root {
 	-fx-background-color: #474E60;
 }
+	
 #titlePane {
-
 	-fx-background-color: transparent;
 }
 
 #logoLabel {
-	-fx-font-family: "Sacramento-Regular";
-	-fx-font-size: 30px;
+	-fx-font-family: "Montserrat Ultra Light";
+	-fx-font-size: 38px;
 	-fx-text-fill: white;
 }
 
 #inputBar {
-	-fx-font-family: "Montserrat-Light";
+	-fx-background-radius: 0px, 0px;
+	-fx-effect: none;
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 17px;
 }
 
 #displayHeader {
-	-fx-font-family: "Montserrat-Light";
-	-fx-font-size: 17px;
+	-fx-font-family: "Montserrat Ultra Light";
+	-fx-font-weight: bold;
+	-fx-font-size: 20px;
 	-fx-text-fill: white;
 	-fx-font-style: italic;
 }
+
 #headerPane {
 	-fx-background-color: grey;
 }
@@ -34,53 +53,53 @@
 }
 
 #indexHeader {
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat";
 	-fx-font-size: 15px;
 	-fx-font-weight: bold;
 	-fx-text-fill: white;
 }
 
 #descHeader {
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat";
 	-fx-font-size: 15px;
 	-fx-font-weight: bold;
 	-fx-text-fill: white;
 }
 
 #startHeader {
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat";
 	-fx-font-size: 14px;
 	-fx-font-weight: bold;
 	-fx-text-fill: white;
 }
 
 #endHeader {
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat";
 	-fx-font-size: 14px;
 	-fx-font-weight: bold;
 	-fx-text-fill: white;
 }
 
 #taskIndexLabel {
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 15px;
 	-fx-text-fill: #474E60;
 }
 
 #taskDescLabel {
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 15px;
 	-fx-text-fill: #474E60;
 }
 
 #taskStartLabel {
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
 	-fx-text-fill: #474E60;
 }
 
 #taskEndLabel {
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
 	-fx-text-fill: #474E60;
 }
@@ -91,7 +110,7 @@
 #feedbackArea {
 	-fx-background-color: transparent;
 	-fx-border-color: transparent;
-	-fx-font-family: "Montserrat-Light";
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 15px;
 	-fx-text-fill: white;
 }

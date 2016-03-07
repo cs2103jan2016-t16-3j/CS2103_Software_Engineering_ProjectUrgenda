@@ -103,11 +103,7 @@ public class TaskController extends GridPane {
 	private String formatDateTime(LocalDateTime dateTime) {
 		
 		DateTimeFormatter formatter;
-		if(dateTime.getMinute() == 0) {
-			formatter = DateTimeFormatter.ofPattern("dd MMM | h a");
-		} else {
-			formatter = DateTimeFormatter.ofPattern("dd MMM | hh:mma");
-		}
+			formatter = DateTimeFormatter.ofPattern("dd MMM h:mma");
 		return dateTime.format(formatter);
 	}
 	
