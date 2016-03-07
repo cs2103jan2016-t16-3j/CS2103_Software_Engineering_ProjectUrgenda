@@ -165,7 +165,7 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void setSelectedIndexOnClick(int index) {
-		if (index != _selectedTaskIndex) {
+		if(index != _selectedTaskIndex) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
 			_selectedTaskIndex = index;
 		}

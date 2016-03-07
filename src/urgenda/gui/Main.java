@@ -90,8 +90,8 @@ public class Main extends Application {
 	}
 
 	public StateFeedback retrieveStartupState() {
-		//StateFeedback state = dummyState(); //TODO change for dummy list
-		StateFeedback state = _logic.retrieveStartupState();
+		StateFeedback state = dummyState(); //TODO change for dummy list
+		//StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback(), false);
 		return state;
 	}

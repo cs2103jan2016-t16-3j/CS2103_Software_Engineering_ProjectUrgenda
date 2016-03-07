@@ -10,10 +10,10 @@
 
 <fx:root prefHeight="50.0" prefWidth="545.0" type="GridPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
-     <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="270.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="120.0" />
+     <ColumnConstraints hgrow="NEVER" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="240.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="100.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
@@ -44,6 +44,9 @@
 
          </children>
       </AnchorPane>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+         <children>
+            <Label fx:id="locationLabel" prefHeight="20.0" prefWidth="270.0" text="Location:" />
+         </children></VBox>
          </children>
 </fx:root>

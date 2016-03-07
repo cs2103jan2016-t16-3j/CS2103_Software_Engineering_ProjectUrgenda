@@ -23,6 +23,8 @@ public class TaskDetailsController extends GridPane {
 	private Label dateModifiedLabel;
 	@FXML
 	private VBox detailsDisplayArea;
+	@FXML
+	private Label locationLabel;
 	
 	private Task _task;
 
@@ -31,6 +33,7 @@ public class TaskDetailsController extends GridPane {
 		loadFXML();
 		dateCreatedLabel.setText(formatDateTime(_task.getDateAdded()));
 		dateModifiedLabel.setText(formatDateTime(_task.getDateModified()));
+		locationLabel.setText("Location: " + _task.getLocation());
 	}
 
 	private String formatDateTime(LocalDateTime dateTime) {
@@ -77,5 +80,6 @@ public class TaskDetailsController extends GridPane {
 	private void setStyle(String color, String modify) {
 		dateCreatedLabel.setStyle(color  + modify);
 		dateModifiedLabel.setStyle(color + modify);
+		locationLabel.setStyle(color + modify);
 	}
 }

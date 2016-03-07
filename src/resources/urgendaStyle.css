@@ -22,7 +22,7 @@
 }
 
 #urgendaIcon {
-	-fx-image: url('../resources/urgenda_icon1.png');
+	-fx-image: url('../resources/urgenda_icon.png');
 }
 #logoLabel {
 	-fx-font-family: "Montserrat Ultra Light";
@@ -107,6 +107,13 @@
 	-fx-font-size: 14px;
 	-fx-text-fill: #474E60;
 }
+
+#locationLabel {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 12px;
+	-fx-text-fill: #474E60;
+}
+
 #dateCreatedLabel {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 12px;
