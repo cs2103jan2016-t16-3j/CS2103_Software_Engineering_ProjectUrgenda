@@ -11,7 +11,7 @@ meeting, DePlan is here for you!
 
 
 **User Guide for Urgenda**
-* 
+* [User Guide](docs/user guide.md)
 
 **Developer Guide for Urgenda**
-* 
+* [Developer Guide](docs/developer guide.md)

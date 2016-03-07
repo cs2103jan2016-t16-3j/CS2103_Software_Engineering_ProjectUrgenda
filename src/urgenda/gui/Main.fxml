@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -57,26 +58,24 @@
                       </Menu>
                     </menus>
                   </MenuBar>
-                  <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="30.0">
+                  <ImageView fitHeight="86.0" fitWidth="53.0" layoutX="15.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="37.0">
                      <image>
-                        <Image url="@../../resources/urgenda_logo.png" />
+                        <Image url="@../../resources/urgenda_icon.png" />
                      </image>
                   </ImageView>
+            <Label fx:id="logoLabel" layoutX="70.0" layoutY="40.0" text="Urgenda" />
                </children>
             </AnchorPane>
          </top>
-         <center>
-         <fx:include fx:id="displayArea" source="DisplayView.fxml" />
-         </center>
          <bottom>
             <AnchorPane fx:id="feedbackPane" maxHeight="100.0" prefHeight="100.0" prefWidth="398.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextArea fx:id="feedbackArea" editable="false" focusTraversable="false" layoutX="17.0" layoutY="-14.0" prefHeight="20.0" prefWidth="430.0" text="Feedback Area" wrapText="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                  <TextArea fx:id="feedbackArea" editable="false" focusTraversable="false" layoutX="17.0" layoutY="-14.0" prefHeight="20.0" prefWidth="430.0" text="Welcome to Urgenda!" wrapText="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
                   </TextArea>
-                  <TextField fx:id="inputBar" layoutX="10.0" layoutY="62.0" onKeyReleased="#commandLineListener" prefHeight="30.0" promptText="Type your to-do here!" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <TextField fx:id="inputBar" minHeight="45.0" onKeyReleased="#commandLineListener" prefHeight="0.0" promptText="Type your to-do here!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -91,4 +90,7 @@
                </children>
             </AnchorPane>
          </bottom>
+         <center>
+         <fx:include fx:id="displayArea" source="DisplayView.fxml" />
+         </center>
       </BorderPane>
