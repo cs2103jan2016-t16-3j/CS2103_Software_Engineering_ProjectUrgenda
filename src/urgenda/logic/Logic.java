@@ -15,11 +15,13 @@ public class Logic {
 		_logicData = new LogicData();
 	}
 	
-	public StateFeedback executeCommand(String command, int position) {
-		assert (position >= 0); // asserts that position is non-negative
+	public StateFeedback executeCommand(String command, int index) {
+		assert (index >= 0); // asserts that given index is non-negative OR -1(case when there is no tasks)
+		
 		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = Parser.parseCommand(command);
 		assert (currCmd != null); // asserts that parser returns a command object
+		
 		String feedback;
 		// To update if there are any deadlines that turned overdue
 		_logicData.updateState();
