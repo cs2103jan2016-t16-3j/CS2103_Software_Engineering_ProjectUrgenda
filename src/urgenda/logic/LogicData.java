@@ -19,7 +19,7 @@ import urgenda.util.Task;
 public class LogicData {
 
 	public enum DisplayState {
-		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, INVALID_COMMAND
 	}
 
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
@@ -68,7 +68,7 @@ public class LogicData {
 
 	// TODO: refactor function
 	public StateFeedback getState() {
-		StateFeedback state;
+		StateFeedback state = null;
 		switch (_currState) {
 			case ALL_TASKS :
 				updateState();
@@ -81,6 +81,14 @@ public class LogicData {
 			case SHOW_SEARCH :
 				state = displayAllTasks(_displays);
 				state.setState(StateFeedback.State.MULTIPLE_MATCHES);
+				break;
+			case EXIT :
+				saveContents();
+				System.exit(0);
+				break;
+			case INVALID_COMMAND :
+				state = displayAllTasks(_tasks);
+				state.setState(StateFeedback.State.ERROR);
 				break;
 			default :
 				state = displayAllTasks(_tasks);
@@ -207,11 +215,14 @@ public class LogicData {
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
-			if (Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
-					.matcher(task.getStartTime().toLocalDate().toString()).find()
-					|| Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
-							.matcher(task.getEndTime().toLocalDate().toString()).find()) {
-				matches.add(task);
+			if (task.getStartTime() != null) {
+				if (task.getStartTime().toLocalDate().isEqual(input)) {
+					matches.add(task);
+				}
+			} else if (task.getEndTime() != null) {
+				if (task.getEndTime().toLocalDate().isEqual(input)) {
+					matches.add(task);
+				}
 			}
 		}
 		return matches;
@@ -220,11 +231,14 @@ public class LogicData {
 	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
-			if (Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
-					.matcher(task.getStartTime().toString()).find()
-					|| Pattern.compile(Pattern.quote(input.toString()), Pattern.CASE_INSENSITIVE)
-							.matcher(task.getEndTime().toString()).find()) {
-				matches.add(task);
+			if (task.getStartTime() != null) {
+				if (task.getStartTime().isEqual(input)) {
+					matches.add(task);
+				}
+			} else if (task.getEndTime() != null) {
+				if (task.getEndTime().isEqual(input)) {
+					matches.add(task);
+				}
 			}
 		}
 		return matches;
