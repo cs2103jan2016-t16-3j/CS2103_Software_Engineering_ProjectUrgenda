@@ -6,7 +6,7 @@ public class Exit implements Command {
 
 	@Override
 	public String execute(LogicData data) {
-		// TODO Auto-generated method stub
+		data.setCurrState(LogicData.DisplayState.EXIT);
 		return null;
 	}
 
