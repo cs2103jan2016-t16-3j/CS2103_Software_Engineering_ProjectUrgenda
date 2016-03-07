@@ -98,20 +98,20 @@ public class LogicDataTest {
 		_output.add(obj);
 		_output.add(obj2);
 
-		assertEquals(_output, _test.findMatchingTasks("Buy"));
+		assertEquals(_output, _test.findMatchingDesc("Buy"));
 
 		_output.clear();
 		_output.add(obj7);
 		_output.add(obj8);
 
-		assertEquals(_output, _test.findMatchingTasks("project"));
+		assertEquals(_output, _test.findMatchingDesc("project"));
 
 		_output.clear();
 		_output.add(obj5);
 		_output.add(obj7);
 
-		assertEquals(_output, _test.findMatchingTasks("ie"));
-		assertEquals(_output, _test.findMatchingTasks("submit ie"));
+		assertEquals(_output, _test.findMatchingDesc("ie"));
+		assertEquals(_output, _test.findMatchingDesc("submit ie"));
 	}
 
 	/**

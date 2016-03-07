@@ -32,7 +32,7 @@ public class DeleteTask implements Undoable {
 		if (_id != null && _id != 0) {
 			_deletedTask = _data.findMatchingPosition(_id.intValue());			
 		} else if (_desc != null) {
-				matches = _data.findMatchingTasks(_desc);
+				matches = _data.findMatchingDesc(_desc);
 				if (matches.size() == 1) {
 					_deletedTask = matches.get(0);
 				} else if (matches.size() > 1) {

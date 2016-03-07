@@ -49,7 +49,7 @@ public class Search implements Command {
 		ArrayList<Task> matches;
 		String feedback = null;
 		if (_searchDesc != null) {
-			matches = data.findMatchingTasks(_searchDesc);
+			matches = data.findMatchingDesc(_searchDesc);
 			if (matches.isEmpty()) {
 				data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 				feedback = String.format(MESSAGE_SEARCH_NOT_FOUND, _searchDesc);

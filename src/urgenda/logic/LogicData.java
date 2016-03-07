@@ -125,7 +125,7 @@ public class LogicData {
 		return state;
 	}
 
-	public ArrayList<Task> findMatchingTasks(String desc) {
+	public ArrayList<Task> findMatchingDesc(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
 			if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
