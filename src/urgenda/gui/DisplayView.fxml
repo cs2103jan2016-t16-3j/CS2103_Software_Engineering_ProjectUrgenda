@@ -9,10 +9,14 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="displayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
+<AnchorPane fx:id="displayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="598.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
                <children>
-                  <Label fx:id="displayHeader" prefHeight="26.0" prefWidth="620.0" text="Display Header" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="displayHeader" prefHeight="25.0" text="Display Header" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="Montserrat Light" size="15.0" />
+         </font></Label>
       <BorderPane maxHeight="370.0" maxWidth="600.0" prefHeight="370.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <center>
             <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
@@ -28,7 +32,7 @@
             </ScrollPane>
          </center>
          <top>
-            <GridPane fx:id="headerPane" alignment="TOP_CENTER" minHeight="35.0">
+            <GridPane fx:id="headerPane" minHeight="35.0">
               <columnConstraints>
                   <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                 <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
@@ -42,7 +46,7 @@
               </rowConstraints>
                <children>
                   <Label fx:id="indexHeader" alignment="CENTER" prefHeight="17.0" prefWidth="35.0" text="No." GridPane.columnIndex="1" />
-                  <Label fx:id="descHeader" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="100.0" text="Task" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                  <Label fx:id="descHeader" alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="51.0" text="Task" GridPane.columnIndex="3" GridPane.halignment="LEFT" />
                   <Label fx:id="startHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="Start" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
                   <Label fx:id="endHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
                </children>

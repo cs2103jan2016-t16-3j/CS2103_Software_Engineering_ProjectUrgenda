@@ -30,12 +30,12 @@ public class MainController {
 	private DisplayController displayAreaController;
 	
 	private Main _main;
-	private Deque<String> prevCommandLines;
-	private Deque<String> nextCommandLines;
+	private Deque<String> _prevCommandLines;
+	private Deque<String> _nextCommandLines;
 	
 	public MainController() {
-		prevCommandLines = new ArrayDeque<String>();
-		nextCommandLines = new ArrayDeque<String>();
+		_prevCommandLines = new ArrayDeque<String>();
+		_nextCommandLines = new ArrayDeque<String>();
 	}
 	
 	@FXML
@@ -43,30 +43,30 @@ public class MainController {
 		KeyCode code = event.getCode();
 			if(code == KeyCode.ENTER) {
 				String feedback = _main.handleCommandLine(inputBar.getText());
-				while(!nextCommandLines.isEmpty()) {
-					prevCommandLines.addFirst(nextCommandLines.getFirst());
-					nextCommandLines.removeFirst();
+				while(!_nextCommandLines.isEmpty()) {
+					_prevCommandLines.addFirst(_nextCommandLines.getFirst());
+					_nextCommandLines.removeFirst();
 				}
-				prevCommandLines.addFirst(inputBar.getText());
+				_prevCommandLines.addFirst(inputBar.getText());
 				displayFeedback(feedback, false);
 				inputBar.clear();
 				return;
 			}
-			if(code == KeyCode.DOWN) {
-				if(!prevCommandLines.isEmpty()) {
-					if(inputBar.getText().equals(prevCommandLines.peekFirst()) && prevCommandLines.size() > 1) {
-						nextCommandLines.addFirst(prevCommandLines.getFirst());
-						prevCommandLines.removeFirst();
+			if(code == KeyCode.UP) {
+				if(!_prevCommandLines.isEmpty()) {
+					if(inputBar.getText().equals(_prevCommandLines.peekFirst()) && _prevCommandLines.size() > 1) {
+						_nextCommandLines.addFirst(_prevCommandLines.getFirst());
+						_prevCommandLines.removeFirst();
 					}
-						inputBar.setText(prevCommandLines.getFirst());
+					inputBar.setText(_prevCommandLines.getFirst());
 				}
 				return;
 			}
-			if(code == KeyCode.UP) {
-				if(!nextCommandLines.isEmpty()) {
-					prevCommandLines.addFirst(nextCommandLines.getFirst());
-					nextCommandLines.removeFirst();
-					inputBar.setText(prevCommandLines.getFirst());
+			if(code == KeyCode.DOWN) {
+				if(!_nextCommandLines.isEmpty()) {
+					_prevCommandLines.addFirst(_nextCommandLines.getFirst());
+					_nextCommandLines.removeFirst();
+					inputBar.setText(_prevCommandLines.getFirst());
 				}
 				return;
 			}

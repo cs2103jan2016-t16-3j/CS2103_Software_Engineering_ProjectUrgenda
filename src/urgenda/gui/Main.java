@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -28,24 +29,23 @@ public class Main extends Application {
 	private static final String APP_NAME = "Urgenda";
 	private static final String PATH_GUI_FXML = "Main.fxml";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
-	private static final String PATH_STYLESHEET_CSS = "../../resources/urgendaStyle.css";
 	private static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
 	private static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
-	private static final String PATH_LOGO_FONT = new String("../../resources/Sacramento-Regular.ttf");
+	private static final String PATH_LIGHT_FONT = new String("../../resources/Montserrat-UltraLight.ttf");
 	
 	private static final String HEADER_ALL_TASKS = "Showing ALL TASKS";
 
 	private static final int DEFAULT_REGULAR_FONT_SIZE = 20;
 	private static final int DEFAULT_BOLD_FONT_SIZE = 20;
-	private static final int DEFAULT_LOGO_FONT_SIZE = 50;
+	private static final int DEFAULT_LIGHT_FONT_SIZE = 20;
 	
 	// Resources to load
 	public static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_REGULAR_FONT),
 			DEFAULT_REGULAR_FONT_SIZE);
 	public static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_BOLD_FONT),
 			DEFAULT_BOLD_FONT_SIZE);
-	public static final Font LOGO_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_LOGO_FONT),
-			DEFAULT_LOGO_FONT_SIZE);
+	public static final Font LIGHT_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_LIGHT_FONT),
+			DEFAULT_LIGHT_FONT_SIZE);
 	
 
 	@Override
@@ -80,7 +80,6 @@ public class Main extends Application {
 
 	private void initStage(Stage primaryStage) {
 		_scene = new Scene(_rootLayout);
-		_scene.getStylesheets().add(getClass().getResource(PATH_STYLESHEET_CSS).toExternalForm());
 		primaryStage.initStyle(StageStyle.DECORATED);
 		Image ico = new Image(getClass().getResourceAsStream(PATH_ICON));
 		primaryStage.getIcons().add(ico);
@@ -150,7 +149,7 @@ public class Main extends Application {
 				new ArrayList<String>(), false);
 		Task taskT = new Task("Today task", "T location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-		Task taskU = new Task("Urgent task", "U location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskI = new Task("Important task", "I location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), true);
 		Task taskD = new Task("Detailed task", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
@@ -173,7 +172,7 @@ public class Main extends Application {
 		ArrayList<Task> archives = new ArrayList<Task>();
 		tasks.add(taskO);
 		tasks.add(taskT);
-		tasks.add(taskU);
+		tasks.add(taskI);
 		tasks.add(taskD);
 		tasks.add(task1);
 		tasks.add(task2);

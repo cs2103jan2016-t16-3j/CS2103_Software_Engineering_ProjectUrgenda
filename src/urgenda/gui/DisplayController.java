@@ -26,8 +26,8 @@ public class DisplayController extends AnchorPane {
 
 	@FXML
 	private Label displayHeader;
-	@FXML
-	private VBox displayHolder;
+	@FXML 
+	VBox displayHolder;
 	@FXML
 	private ScrollPane displayArea;
 
@@ -71,9 +71,8 @@ public class DisplayController extends AnchorPane {
 
 	private void showZeroTasksFeedback() {
 		Label emptyDisplay = new Label(MESSAGE_ZERO_TASKS);
-		emptyDisplay.setTextFill(Color.NAVY);
 		emptyDisplay.setPrefHeight(DEFAULT_EMPTY_TASKS_DISPLAY_HEIGHT);
-		emptyDisplay.setFont(Main.REGULAR_FONT);
+		emptyDisplay.setFont(Main.BOLD_FONT);
 		displayHolder.getChildren().add(emptyDisplay);
 	}
 
