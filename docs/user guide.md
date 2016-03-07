@@ -1,26 +1,24 @@
-#Developer Guide
-
-##Introduction
+#User Guide
 
 This guide helps you with understanding how to use Urgenda effectively as a task manager for your daily needs.
 
 ##Table of Contents
-* [Getting Started](#Getting Started)
+* [Getting Started](#getting-started)
 
-* [Feature Details](# Feature Details)
-	* [Add](## Add)
-	* [Delete](## Delete)
-	* [Mark as Complete](## Mark as Complete)
-	* [Edit](## Edit)
-	* [Search](## Search)
-	* [Exit](## Exit)
+* [Feature Details](#feature-details)
+	* [Add](#add)
+	* [Delete](#delete)
+	* [Mark as Complete](#mark-as-complete)
+	* [Edit](#edit)
+	* [Search](#search)
+	* [Exit](#exit)
 
-* [Advanced Features](# Advanced Features)
-	* [Show more details](## Show more details)
-	* [Archive](## Archive)
-	* [Undo/Redo](## Undo/Redo)
-	* [Block Multiple Timeslot](## Block Multiple Timeslot)
-	* [Prioritise](## Prioritise)
+* [Advanced Features](#advanced-features)
+	* [Show more details](#show-more-details)
+	* [Archive](#archive)
+	* [Undo/Redo](#undo/redo)
+	* [Block Multiple Timeslot](#block-multiple-timeslot)
+	* [Prioritise](#prioritise)
 
 * [Shortcuts](# Shortcuts)
 
