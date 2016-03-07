@@ -89,7 +89,7 @@ public class TaskController extends GridPane {
 			} else {
 				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_TODAY, null, INSETS_ROWS)));
 			}
-			setStyle(DisplayController.TEXT_FILL_TODAY, DisplayController.TEXT_WEIGHT_BOLD, DisplayController.TEXT_MODIFY_NONE);
+			setStyle(DisplayController.TEXT_FILL_TODAY, DisplayController.TEXT_WEIGHT_REGULAR, DisplayController.TEXT_MODIFY_NONE);
 		} else if (taskStyle == Style.NORMAL) {
 			if(_task.isImportant()) {
 				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_NORMAL_IMPORTANT, null, INSETS_ROWS)));
@@ -114,7 +114,7 @@ public class TaskController extends GridPane {
 	private String formatDateTime(LocalDateTime dateTime) {
 		
 		DateTimeFormatter formatter;
-			formatter = DateTimeFormatter.ofPattern("dd MMM h:mma");
+			formatter = DateTimeFormatter.ofPattern("dd MMM | h:mma");
 		return dateTime.format(formatter);
 	}
 	

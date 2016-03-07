@@ -65,6 +65,8 @@ public class MainController {
 					_prevCommandLines.addFirst(_nextCommandLines.getFirst());
 					_nextCommandLines.removeFirst();
 					inputBar.setText(_prevCommandLines.getFirst());
+				} else {
+					inputBar.clear();
 				}
 				return;
 			}

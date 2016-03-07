@@ -57,6 +57,7 @@ public class DisplayController extends AnchorPane {
 	private ScrollPane displayArea;
 
 	private ArrayList<Task> _displayedTasks;
+	private ArrayList<Integer> _showmoreIndexes;
 	private int _selectedTaskIndex;
 
 	public DisplayController() {
@@ -69,6 +70,7 @@ public class DisplayController extends AnchorPane {
 		_displayedTasks = new ArrayList<Task>();
 		_displayedTasks.addAll(updatedTasks.getTasks());
 		_displayedTasks.addAll(updatedTasks.getArchives());
+		_showmoreIndexes = showmoreIndexes;
 
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
@@ -98,27 +100,6 @@ public class DisplayController extends AnchorPane {
 		displayHolder.getChildren().add(emptyDisplay);
 	}
 
-	public void traverseTasks(Direction direction) {
-		if (_selectedTaskIndex >= 0) {
-			if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() - 1) {
-				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-				((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
-			} else if (direction == Direction.UP && _selectedTaskIndex != 0) {
-				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-				((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
-			}
-		}
-	}
-
-	private void setDefaultSelectedTask() {
-		if (!_displayedTasks.isEmpty()) {
-			((TaskController) displayHolder.getChildren().get(0)).setSelected(true);
-			_selectedTaskIndex = 0;
-		} else {
-			_selectedTaskIndex = -1;
-		}
-	}
-
 	private int showStyledTaskView(int currIndex, ArrayList<Integer> showmoreIndexes, int toAddCount, Style style) {
 		int addedCount = 0;
 		while (addedCount < toAddCount) {
@@ -142,15 +123,54 @@ public class DisplayController extends AnchorPane {
 
 	}
 
+	private void setDefaultSelectedTask() {
+		if (!_displayedTasks.isEmpty()) {
+			((TaskController) displayHolder.getChildren().get(0)).setSelected(true);
+			_selectedTaskIndex = 0;
+		} else {
+			_selectedTaskIndex = -1;
+		}
+	}
+
+	public void traverseTasks(Direction direction) {
+
+		// if (_selectedTaskIndex >= 0) { //to implement resolution when there
+		// are detailed tasks shown
+		// int showmoreCount = 0;
+		// int taskCount = 0;
+		// for(int i = 0; i < _displayedTasks.size() ; i++) {
+		// if(displayHolder.getChildren().get(i).equals(TaskDetailsController.class))
+		// {
+		// showmoreCount++;
+		// }
+		// if(displayHolder.getChildren().get(i).equals(TaskController.class)) {
+		// taskCount++;
+		// }
+		// if(taskCount == _selectedTaskIndex - 1) {
+		// break;
+		// }
+		// }
+
+		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() - 1) {
+			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
+			((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
+		} else if (direction == Direction.UP && _selectedTaskIndex != 0) {
+			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
+			((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
+		}
+	}
+
 	private void setDisplayHeader(String displayed) {
 		displayHeader.setText(displayed);
 	}
-	
+
 	public void setSelectedIndexOnClick(int index) {
-		((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-		_selectedTaskIndex = index;
+		if (index != _selectedTaskIndex) {
+			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
+			_selectedTaskIndex = index;
+		}
 	}
-	
+
 	public int getSelectedTaskIndex() {
 		return _selectedTaskIndex;
 	}
