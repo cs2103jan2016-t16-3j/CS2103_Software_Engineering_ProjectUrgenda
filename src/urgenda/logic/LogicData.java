@@ -274,6 +274,7 @@ public class LogicData {
 
 	public ArrayList<Task> sortList(ArrayList<Task> list) {
 		Collections.sort(list, comparator);
+		Collections.sort(list,imptComparator);
 		return list;
 	}
 
@@ -302,6 +303,20 @@ public class LogicData {
 				}
 				return c1.compareTo(c2);
 			}
+		}
+	};
+	
+	static Comparator<Task> imptComparator = new Comparator<Task>() {
+		public int compare(final Task o1, final Task o2) {
+			int compare = 0;
+			if (o1.isImportant() && o2.isImportant()) {
+				compare = 0;
+			} else if (o1.isImportant()) {
+				compare = -1;
+			} else if (o2.isImportant()) {
+				compare = 1;
+			}
+			return compare;
 		}
 	};
 
