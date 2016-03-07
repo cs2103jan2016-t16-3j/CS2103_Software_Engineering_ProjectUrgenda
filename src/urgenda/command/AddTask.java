@@ -55,8 +55,8 @@ public class AddTask implements Undoable {
 				break;
 		
 			case DEADLINE :
-				feedback = String.format(MESSAGE_DEADLINE, _newTask.getDesc(), _newTask.getStartTime().getDayOfMonth(),
-						_newTask.getStartTime().getMonthValue(), _newTask.getEndTime().getHour(), 
+				feedback = String.format(MESSAGE_DEADLINE, _newTask.getDesc(), _newTask.getEndTime().getDayOfMonth(),
+						_newTask.getEndTime().getMonthValue(), _newTask.getEndTime().getHour(), 
 						_newTask.getEndTime().getMinute());
 				break;
 

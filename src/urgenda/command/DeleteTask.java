@@ -66,8 +66,8 @@ public class DeleteTask implements Undoable {
 				break;
 		
 			case DEADLINE :
-				feedback = String.format(MESSAGE_DEADLINE, _deletedTask.getDesc(), _deletedTask.getStartTime().getDayOfMonth(),
-						_deletedTask.getStartTime().getMonthValue(), _deletedTask.getEndTime().getHour(), 
+				feedback = String.format(MESSAGE_DEADLINE, _deletedTask.getDesc(), _deletedTask.getEndTime().getDayOfMonth(),
+						_deletedTask.getEndTime().getMonthValue(), _deletedTask.getEndTime().getHour(), 
 						_deletedTask.getEndTime().getMinute());
 				break;
 

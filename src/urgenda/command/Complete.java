@@ -67,8 +67,8 @@ public class Complete implements Undoable {
 				break;
 		
 			case DEADLINE :
-				feedback = String.format(MESSAGE_DEADLINE, _completedTask.getDesc(), _completedTask.getStartTime().getDayOfMonth(),
-						_completedTask.getStartTime().getMonthValue(), _completedTask.getEndTime().getHour(), 
+				feedback = String.format(MESSAGE_DEADLINE, _completedTask.getDesc(), _completedTask.getEndTime().getDayOfMonth(),
+						_completedTask.getEndTime().getMonthValue(), _completedTask.getEndTime().getHour(), 
 						_completedTask.getEndTime().getMinute());
 				break;
 

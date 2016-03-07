@@ -64,8 +64,8 @@ public class Prioritise implements Undoable {
 				break;
 		
 			case DEADLINE :
-				feedback = String.format(MESSAGE_DEADLINE, _task.getDesc(), _task.getStartTime().getDayOfMonth(),
-						_task.getStartTime().getMonthValue(), _task.getEndTime().getHour(), 
+				feedback = String.format(MESSAGE_DEADLINE, _task.getDesc(), _task.getEndTime().getDayOfMonth(),
+						_task.getEndTime().getMonthValue(), _task.getEndTime().getHour(), 
 						_task.getEndTime().getMinute());
 				break;
 
