@@ -4,7 +4,6 @@ This guide helps you with understanding how to use Urgenda effectively as a task
 
 ##Table of Contents
 * [Getting Started](#getting-started)
-
 * [Feature Details](#feature-details)
 	* [Add](#add)
 	* [Delete](#delete)
@@ -12,14 +11,12 @@ This guide helps you with understanding how to use Urgenda effectively as a task
 	* [Edit](#edit)
 	* [Search](#search)
 	* [Exit](#exit)
-
 * [Advanced Features](#advanced-features)
 	* [Show more details](#show-more-details)
 	* [Archive](#archive)
 	* [Undo/Redo](#undo/redo)
 	* [Block Multiple Timeslot](#block-multiple-timeslot)
 	* [Prioritise](#prioritise)
-
 * [Shortcuts](#shortcuts)
 
 # Getting Started
