@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -98,7 +97,7 @@ public class Main extends Application {
 	}
 	
 	public String handleCommandLine(String commandLine) {
-		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getFocusedLine());
+		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 		return state.getFeedback();
 	}
@@ -147,6 +146,8 @@ public class Main extends Application {
 	private StateFeedback dummyState() {
 		Task taskO = new Task("Overdue task", "O location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
+		Task taskTI = new Task("Today Important task", "TI location", LocalDateTime.now(), LocalDateTime.now(),
+				new ArrayList<String>(), true);
 		Task taskT = new Task("Today task", "T location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
 		Task taskI = new Task("Important task", "I location", LocalDateTime.now(), LocalDateTime.now(),
@@ -159,32 +160,24 @@ public class Main extends Application {
 				false);
 		Task task3 = new Task("3 task", "3 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
-		Task task4 = new Task("4 task", "4 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
-				false);
-		Task task5 = new Task("5 task", "5 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
-				false);
-		Task task6 = new Task("6 task", "6 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
-				false);
 		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
 		
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Task> archives = new ArrayList<Task>();
 		tasks.add(taskO);
+		tasks.add(taskTI);
 		tasks.add(taskT);
 		tasks.add(taskI);
 		tasks.add(taskD);
 		tasks.add(task1);
 		tasks.add(task2);
 		tasks.add(task3);
-		tasks.add(task4);
-		tasks.add(task5);
-		tasks.add(task6);
 		archives.add(taskC);
 		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, archives, 1, 1, 1, 7, 1));
+		state.setAllTasks(new TaskList(tasks, archives, 1, 2, 0, 5, 1));
 		state.setFeedback("feedback from dummylist");
-		state.addDetailedTaskIdx(3);
+		state.addDetailedTaskIdx(4);
 		state.setState(StateFeedback.State.ALL_TASKS);
 		return state;
 	}

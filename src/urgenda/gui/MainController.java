@@ -10,8 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 
 public class MainController {
@@ -52,7 +50,7 @@ public class MainController {
 				inputBar.clear();
 				return;
 			}
-			if(code == KeyCode.UP) {
+			if(code == KeyCode.UP && !event.isControlDown()) {
 				if(!_prevCommandLines.isEmpty()) {
 					if(inputBar.getText().equals(_prevCommandLines.peekFirst()) && _prevCommandLines.size() > 1) {
 						_nextCommandLines.addFirst(_prevCommandLines.getFirst());
@@ -62,7 +60,7 @@ public class MainController {
 				}
 				return;
 			}
-			if(code == KeyCode.DOWN) {
+			if(code == KeyCode.DOWN && !event.isControlDown()) {
 				if(!_nextCommandLines.isEmpty()) {
 					_prevCommandLines.addFirst(_nextCommandLines.getFirst());
 					_nextCommandLines.removeFirst();
@@ -70,6 +68,16 @@ public class MainController {
 				}
 				return;
 			}
+	}
+	
+	@FXML
+	private void taskToggleDownListener(ActionEvent e) {
+		displayAreaController.traverseTasks(DisplayController.Direction.DOWN);
+	}
+	
+	@FXML
+	private void taskToggleUpListener(ActionEvent e) {
+		displayAreaController.traverseTasks(DisplayController.Direction.UP);
 	}
 	
 	@FXML

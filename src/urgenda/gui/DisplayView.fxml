@@ -11,20 +11,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="displayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="598.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
+<AnchorPane fx:id="displayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
                <children>
                   <Label fx:id="displayHeader" prefHeight="25.0" text="Display Header" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="Montserrat Light" size="15.0" />
          </font></Label>
-      <BorderPane maxHeight="370.0" maxWidth="600.0" prefHeight="370.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+      <BorderPane maxHeight="420.0" maxWidth="600.0" prefHeight="420.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <center>
             <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                <content>
-                  <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0">
-                     <padding>
-                        <Insets left="-1.0" right="-1.0" />
-                     </padding></VBox>
+                  <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0" />
                </content>
                <padding>
                   <Insets left="-1.0" right="-1.0" />
@@ -37,8 +34,9 @@
                   <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                 <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="240.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="230.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
               </columnConstraints>
               <rowConstraints>
@@ -48,10 +46,10 @@
                   <Label fx:id="indexHeader" alignment="CENTER" prefHeight="17.0" prefWidth="35.0" text="No." GridPane.columnIndex="1" />
                   <Label fx:id="descHeader" alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="51.0" text="Task" GridPane.columnIndex="3" GridPane.halignment="LEFT" />
                   <Label fx:id="startHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="Start" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
-                  <Label fx:id="endHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
+                  <Label fx:id="endHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="6" GridPane.halignment="CENTER" />
                </children>
                <BorderPane.margin>
-                  <Insets left="-1.0" right="-1.0" />
+                  <Insets />
                </BorderPane.margin>
             </GridPane>
          </top>

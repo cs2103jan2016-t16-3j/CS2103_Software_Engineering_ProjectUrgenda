@@ -3,35 +3,49 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<fx:root maxHeight="0.0" minHeight="35.0" prefWidth="600.0" type="GridPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="taskPane" maxHeight="0.0" minHeight="35.0" prefWidth="600.0" type="GridPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
-      <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-     <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="5.0" minWidth="5.0" prefWidth="5.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
+     <ColumnConstraints hgrow="NEVER" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" />
             <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="240.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Label fx:id="taskIndexLabel" alignment="CENTER" prefHeight="17.0" prefWidth="35.0" GridPane.columnIndex="1">
-            </Label>
-      <ImageView fx:id="urgentIndicator" fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+      <ImageView fx:id="selector" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
          <image>
-            <Image url="@../../resources/urgenda_icon.png" />
+            <Image url="@../../resources/selector.png" />
          </image>
       </ImageView>
-            <Label fx:id="taskDescLabel" contentDisplay="CENTER" prefHeight="18.0" prefWidth="220.0" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+      <Label fx:id="taskIndexLabel" alignment="CENTER" prefHeight="17.0" prefWidth="35.0" text="Idx" GridPane.columnIndex="2">
             </Label>
-            <Label fx:id="taskStartLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+      <BorderPane GridPane.columnIndex="3" GridPane.halignment="CENTER">
+         <left>
+                  <Label fx:id="taskDescLabel" contentDisplay="CENTER" prefHeight="18.0" prefWidth="185.0" text="Task Name" BorderPane.alignment="CENTER">
             </Label>
-            <Label fx:id="taskEndLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" GridPane.columnIndex="5" GridPane.halignment="CENTER">
+         </left>
+         <right>
+            <ImageView fx:id="importantIndicator" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../../resources/urgenda_icon1.png" />
+               </image>
+            </ImageView>
+         </right>
+      </BorderPane>
+            <Label fx:id="taskStartLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" text="Start DateTime" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+            </Label>
+      <Label fx:id="dateTimeTypeLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="25.0" text="xx" GridPane.columnIndex="5" />
+            <Label fx:id="taskEndLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" text="End DateTime" GridPane.columnIndex="6" GridPane.halignment="CENTER">
              </Label>
          </children>
 </fx:root>

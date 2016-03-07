@@ -7,8 +7,11 @@ import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import urgenda.gui.DisplayController.Style;
 import urgenda.util.Task;
 
 public class TaskDetailsController extends GridPane {
@@ -20,11 +23,14 @@ public class TaskDetailsController extends GridPane {
 	private Label dateModifiedLabel;
 	@FXML
 	private VBox detailsDisplayArea;
+	
+	private Task _task;
 
 	public TaskDetailsController(Task task) {
+		_task = task;
 		loadFXML();
-		dateCreatedLabel.setText(formatDateTime(task.getDateAdded()));
-		dateModifiedLabel.setText(formatDateTime(task.getDateModified()));
+		dateCreatedLabel.setText(formatDateTime(_task.getDateAdded()));
+		dateModifiedLabel.setText(formatDateTime(_task.getDateModified()));
 	}
 
 	private String formatDateTime(LocalDateTime dateTime) {
@@ -42,5 +48,34 @@ public class TaskDetailsController extends GridPane {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void setTaskStyle(Style taskStyle) {
+		if (taskStyle == Style.OVERDUE) {
+			this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_OVERDUE, null, null)));
+			setStyle(DisplayController.TEXT_FILL_OVERDUE, DisplayController.TEXT_MODIFY_NONE);
+		} else if (taskStyle == Style.TODAY) {
+			if(_task.isImportant()) {
+				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_TODAY_IMPORTANT, null, null)));
+			} else {
+				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_TODAY, null, null)));
+			}
+			setStyle(DisplayController.TEXT_FILL_TODAY, DisplayController.TEXT_MODIFY_NONE);
+		} else if (taskStyle == Style.NORMAL) {
+			if(_task.isImportant()) {
+				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_NORMAL_IMPORTANT, null, null)));
+			} else {
+				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_NORMAL, null, null)));
+			}
+			setStyle(DisplayController.TEXT_FILL_NORMAL, DisplayController.TEXT_MODIFY_NONE);
+		} else if (taskStyle == Style.ARCHIVE) {
+			this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_COMPLETED, null, null)));
+			setStyle(DisplayController.TEXT_FILL_COMPLETED, DisplayController.TEXT_MODIFY_NONE);
+	}
+}
+
+	private void setStyle(String color, String modify) {
+		dateCreatedLabel.setStyle(color  + modify);
+		dateModifiedLabel.setStyle(color + modify);
 	}
 }

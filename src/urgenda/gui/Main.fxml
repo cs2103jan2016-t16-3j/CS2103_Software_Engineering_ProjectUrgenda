@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -16,9 +17,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="backgroundPane" maxHeight="600.0" maxWidth="600.0" prefHeight="600.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
+<BorderPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="600.0" prefHeight="650.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
          <top>
-            <AnchorPane fx:id="titlePane" prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="titlePane" prefHeight="100.0" prefWidth="600.0">
                <children>
                   <MenuBar fx:id="menuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <menus>
@@ -45,6 +46,19 @@
                               </MenuItem>
                         </items>
                       </Menu>
+                  <Menu mnemonicParsing="false" text="Select">
+                    <items>
+                        <MenuItem fx:id="taskToggleDown" mnemonicParsing="false" onAction="#taskToggleDownListener" text="Next Task">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="DOWN" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                    
+                      <MenuItem fx:id="taskToggleUp" mnemonicParsing="false" onAction="#taskToggleUpListener" text="Previous Task">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="UP" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                    </items>
+                  </Menu>
                       <Menu mnemonicParsing="false" text="Help">
                         <items>
                               <MenuItem fx:id="menuHelp" mnemonicParsing="false" onAction="#handleHelp" text="Urgenda Help">
@@ -57,8 +71,11 @@
                         </items>
                       </Menu>
                     </menus>
+               <padding>
+                  <Insets left="1.0" />
+               </padding>
                   </MenuBar>
-                  <ImageView fitHeight="86.0" fitWidth="53.0" layoutX="15.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="37.0">
+                  <ImageView fx:id="urgendaIcon" fitHeight="86.0" fitWidth="53.0" layoutX="15.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="37.0">
                      <image>
                         <Image url="@../../resources/urgenda_icon.png" />
                      </image>

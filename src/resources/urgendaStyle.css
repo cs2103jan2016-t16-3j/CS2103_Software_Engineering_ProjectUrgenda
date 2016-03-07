@@ -1,15 +1,15 @@
 @font-face {
-	font-family: Montserrat;
+	font-family: 'Montserrat';
 	src: url('../resources/Montserrat-Regular.otf');
 }
 
 @font-face {
-	font-family: Montserrat Light;
+	font-family: 'Montserrat Light';
 	src: url('../resources/Montserrat-Light.otf');
 }
 
 @font-face {
-	font-family: Montserrat Ultra Light;
+	font-family: 'Montserrat Ultra Light';
 	src: url('../resources/Montserrat-UltraLight.otf');
 }
 
@@ -21,6 +21,9 @@
 	-fx-background-color: transparent;
 }
 
+#urgendaIcon {
+	-fx-image: url('../resources/urgenda_icon1.png');
+}
 #logoLabel {
 	-fx-font-family: "Montserrat Ultra Light";
 	-fx-font-size: 38px;
@@ -28,7 +31,7 @@
 }
 
 #inputBar {
-	-fx-background-radius: 0px, 0px;
+	-fx-background-radius: 0, 0;
 	-fx-effect: none;
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 17px;
@@ -48,35 +51,30 @@
 
 #displayPane {
 	-fx-border-width: 0, 0, 0, 0;
-	-fx-border-color: transparent;
 	-fx-background-color: transparent;
 }
 
 #indexHeader {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 15px;
-	-fx-font-weight: bold;
 	-fx-text-fill: white;
 }
 
 #descHeader {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 15px;
-	-fx-font-weight: bold;
 	-fx-text-fill: white;
 }
 
 #startHeader {
 	-fx-font-family: "Montserrat";
-	-fx-font-size: 14px;
-	-fx-font-weight: bold;
+	-fx-font-size: 15px;
 	-fx-text-fill: white;
 }
 
 #endHeader {
 	-fx-font-family: "Montserrat";
-	-fx-font-size: 14px;
-	-fx-font-weight: bold;
+	-fx-font-size: 15px;
 	-fx-text-fill: white;
 }
 
@@ -98,18 +96,36 @@
 	-fx-text-fill: #474E60;
 }
 
+#dateTimeTypeLabel {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 14px;
+	-fx-text-fill: #474E60;
+}
+
 #taskEndLabel {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
+	-fx-text-fill: #474E60;
+}
+#dateCreatedLabel {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 12px;
+	-fx-text-fill: #474E60;
+}
+
+#dateModifiedLabel {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 12px;
 	-fx-text-fill: #474E60;
 }
 
 #feedbackPane {
 	-fx-background-color: #313745;
 }
+
 #feedbackArea {
 	-fx-background-color: transparent;
-	-fx-border-color: transparent;
+	-fx-border-width: 0, 0, 0, 0;
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 15px;
 	-fx-text-fill: white;
