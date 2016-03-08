@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class StateFeedback {
 	
 	public enum State {
-		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY, ERROR
+		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY, ERROR, SHOW_HELP
 	}
 	
 	private State _state;

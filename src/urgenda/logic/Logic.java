@@ -37,6 +37,11 @@ public class Logic {
 		return state;
 	}
 	
+	public String displayHelp() {
+		
+		return null;
+	}
+	
 	public StateFeedback retrieveStartupState() {
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(MESSAGE_WELCOME);
