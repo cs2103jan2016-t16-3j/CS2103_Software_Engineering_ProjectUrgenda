@@ -77,11 +77,13 @@ public class LogicData {
 				break;
 			case MULTIPLE_DELETE : // Fallthrough
 			case MULTIPLE_COMPLETE : // Fallthrough
-			case MULTIPLE_PRIORITISE : // Fallthrough
-			case SHOW_SEARCH :
+			case MULTIPLE_PRIORITISE :
 				state = displayAllTasks(_displays);
 				state.setState(StateFeedback.State.MULTIPLE_MATCHES);
 				break;
+			case SHOW_SEARCH :
+				state = displayAllTasks(_displays);
+				state.setState(StateFeedback.State.SHOW_SEARCH);
 			case HELP :
 				state = displayAllTasks(_displays);
 				state.setState(StateFeedback.State.SHOW_HELP);
