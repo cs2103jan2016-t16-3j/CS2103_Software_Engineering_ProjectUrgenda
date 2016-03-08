@@ -14,11 +14,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import urgenda.logic.Logic;
 import urgenda.util.StateFeedback;
+import urgenda.util.StateFeedback.State;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
 
 public class Main extends Application {
 	private BorderPane _rootLayout;
+	private Stage _helpStage;
 	private Scene _scene;
 	private MainController _mainController;
 	private DisplayController _displayController;
@@ -99,6 +101,9 @@ public class Main extends Application {
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
+		if(state.getState() == State.SHOW_HELP) {
+			_mainController.showHelp();
+		}
 		return state.getFeedback();
 	}
 	
@@ -114,12 +119,12 @@ public class Main extends Application {
 		case ALL_TASK_AND_COMPLETED:
 			display = "Showing ALL TASKS WITH COMPLETED TASKS";
 			break;
-			//case DISPLAY:
-			//	break;
+//		case DISPLAY:
+//			break;
 		case ERROR:
 			break;
-		case HELP:
-			//TODO create help window
+		case SHOW_HELP:
+			display = null; //previous display header not changed
 			break;
 		case ALL_TASKS: //fall-through
 		default:
@@ -129,8 +134,8 @@ public class Main extends Application {
 		return display;
 	}
 	
-	public void invokeHelpSplash() {
-		// TODO create help splash menu
+	public String getHelpText() {
+		return _logic.displayHelp();
 	}
 
 	public void invokeUrgendaSplash() {

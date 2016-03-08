@@ -24,6 +24,7 @@
 #urgendaIcon {
 	-fx-image: url('../resources/urgenda_icon.png');
 }
+
 #logoLabel {
 	-fx-font-family: "Montserrat Ultra Light";
 	-fx-font-size: 38px;
@@ -144,4 +145,34 @@
 
 #feedbackArea .scroll-pane .content{
     -fx-background-color: transparent;
+}
+
+#helpHeader {
+	-fx-font-family: "Montserrat Ultra Light";
+	-fx-font-size: 30px;
+	-fx-text-fill: white;
+}
+
+#helpContentPane {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 20px;
+	-fx-text-fill: white;
+}
+
+#helpContentPane .scroll-pane:fitToWidth .viewport .content{
+	-fx-background-color: #474E60;
+}
+
+#helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical .track-background{
+	-fx-background-color: #474E60;
+}
+
+
+#helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical{
+	-fx-max-width: 10px;
+	-fx-pref-width: 10px;
+}
+
+#helpContentPane {
+	-fx-background-color: transparent;
 }

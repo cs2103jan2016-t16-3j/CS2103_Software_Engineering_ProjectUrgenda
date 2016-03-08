@@ -354,7 +354,7 @@ public class LogicData {
 
 	public String generateHelpManual() {
 		// TODO storage help manual
-		return null;
+		return "testing help";
 	}
 
 }

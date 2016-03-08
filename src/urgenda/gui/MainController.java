@@ -1,5 +1,6 @@
 package urgenda.gui;
 
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -14,9 +15,14 @@ import javafx.scene.input.KeyEvent;
 
 public class MainController {
 	
+	private static final String KEYWORD_UNDO = "undo";
+	private static final String KEYWORD_REDO = "redo";
+	private static final String KEYWORD_HELP = "help";
 	private static final String ERROR_TEXT_FILL = "-fx-text-fill: #FF1900";
 	private static final String NORMAL_TEXT_FILL = "-fx-text-fill: white";
 		
+	private HelpController _helpController;
+	
 	//Elements loaded using FXML
 	@FXML
 	private TextField inputBar;
@@ -84,21 +90,34 @@ public class MainController {
 	
 	@FXML
 	private void handleUndo(ActionEvent e){
-		String feedback = _main.handleCommandLine("undo");
+		String feedback = _main.handleCommandLine(KEYWORD_UNDO);
 		displayFeedback(feedback, false);
+		inputBar.clear();
 	}
 	
 	@FXML
 	private void handleRedo(ActionEvent e){
-		String feedback = _main.handleCommandLine("redo");
+		String feedback = _main.handleCommandLine(KEYWORD_REDO);
 		displayFeedback(feedback, false);
+		inputBar.clear();
 	}
 	
 	@FXML
-	private void handleHelp(ActionEvent e) {
-		_main.invokeHelpSplash();
-		//TODO remove when help is enabled
-		displayFeedback("Sorry! Help is currently unavailable!", false);
+	private void handleHelp(ActionEvent event) {
+		String feedback = _main.handleCommandLine(KEYWORD_HELP);
+		displayFeedback(feedback, false);
+		inputBar.clear();
+		showHelp();
+	}
+
+	public void showHelp() {
+		_helpController = new HelpController();
+		_helpController.setHelpText(_main.getHelpText());
+		try {
+			_helpController.setupHelpStage();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML

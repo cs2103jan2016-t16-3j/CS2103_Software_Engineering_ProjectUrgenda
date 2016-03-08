@@ -90,7 +90,9 @@ public class DisplayController extends AnchorPane {
 		}
 		setDefaultSelectedTask();
 		setDisplayScrollTop();
-		setDisplayHeader(displayHeader);
+		if(displayHeader != null) {
+			setDisplayHeader(displayHeader);
+		}
 	}
 
 	private void showZeroTasksFeedback() {
