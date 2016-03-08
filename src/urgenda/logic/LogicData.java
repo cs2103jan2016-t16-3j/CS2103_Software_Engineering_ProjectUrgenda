@@ -19,7 +19,7 @@ import urgenda.util.Task;
 public class LogicData {
 
 	public enum DisplayState {
-		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, INVALID_COMMAND
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, INVALID_COMMAND, HELP
 	}
 
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
@@ -81,6 +81,10 @@ public class LogicData {
 			case SHOW_SEARCH :
 				state = displayAllTasks(_displays);
 				state.setState(StateFeedback.State.MULTIPLE_MATCHES);
+				break;
+			case HELP :
+				state = displayAllTasks(_displays);
+				state.setState(StateFeedback.State.SHOW_HELP);
 				break;
 			case EXIT :
 				saveContents();
@@ -346,6 +350,11 @@ public class LogicData {
 
 	public void clearDisplays() {
 		_displays.clear();
+	}
+
+	public String generateHelpManual() {
+		// TODO storage help manual
+		return null;
 	}
 
 }
