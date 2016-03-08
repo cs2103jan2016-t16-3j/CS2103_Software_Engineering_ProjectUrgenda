@@ -31,12 +31,26 @@ public class Edit implements Undoable {
 	@Override
 	public String execute(LogicData data) throws Exception {
 		_data = data;
-		if (_id != null && _id != 0) {
+		if (_id != null && _id.intValue() != 0) {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
 		}
 		if (_prevTask == null) {
 			throw new Exception(MESSAGE_NO_EDIT_MATCH);
 		} else {
+			if(_newTask.getDesc() == null && _prevTask.getDesc() != null) {
+				_newTask.setDesc(_prevTask.getDesc());
+			}
+			if(_newTask.getLocation() == null && _prevTask.getLocation() != null) {
+				_newTask.setLocation(_prevTask.getLocation());
+			}
+			if(_newTask.getStartTime() == null && _prevTask.getStartTime() != null) {
+				_newTask.setStartTime(_prevTask.getStartTime());
+			}
+			if(_newTask.getEndTime() == null && _prevTask.getEndTime() != null) {
+				_newTask.setEndTime(_prevTask.getEndTime());
+			}
+			_newTask.setDateAdded(_prevTask.getDateAdded());
+			_prevTask.setDateModified(_newTask.getDateAdded());
 			_data.deleteTask(_prevTask);
 			_data.addTask(_newTask);
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);

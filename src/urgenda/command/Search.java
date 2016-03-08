@@ -45,7 +45,7 @@ public class Search implements Command {
 	 * String.format(MESSAGE_SEARCH, _searchDesc); } }
 	 **/
 
-	public String execute(LogicData data) {   // ToDo: Further refactoring, excdption handling and considering searching for task type
+	public String execute(LogicData data) {   // ToDo: Further refactoring, exception handling and considering searching for task type
 		ArrayList<Task> matches;
 		String feedback = null;
 		if (_searchDesc != null) {
