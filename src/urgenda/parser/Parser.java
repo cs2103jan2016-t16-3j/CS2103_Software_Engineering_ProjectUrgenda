@@ -51,13 +51,17 @@ public class Parser {
 	private static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(new String[] { "exit", "quit" }));
 
 	private static final Set<String> mondayWords = new HashSet<String>(Arrays.asList(new String[] { "monday", "mon" }));
-	private static final Set<String> tuesdayWords = new HashSet<String>(Arrays.asList(new String[] { "tuesday", "tues", "tue"}));
-	private static final Set<String> wednesdayWords = new HashSet<String>(Arrays.asList(new String[] { "wednesday", "wed" }));
-	private static final Set<String> thursdayWords = new HashSet<String>(Arrays.asList(new String[] { "thursday", "thurs", "thu" }));
+	private static final Set<String> tuesdayWords = new HashSet<String>(
+			Arrays.asList(new String[] { "tuesday", "tues", "tue" }));
+	private static final Set<String> wednesdayWords = new HashSet<String>(
+			Arrays.asList(new String[] { "wednesday", "wed" }));
+	private static final Set<String> thursdayWords = new HashSet<String>(
+			Arrays.asList(new String[] { "thursday", "thurs", "thu" }));
 	private static final Set<String> fridayWords = new HashSet<String>(Arrays.asList(new String[] { "friday", "fri" }));
-	private static final Set<String> saturdayWords = new HashSet<String>(Arrays.asList(new String[] { "saturday", "sat" }));
+	private static final Set<String> saturdayWords = new HashSet<String>(
+			Arrays.asList(new String[] { "saturday", "sat" }));
 	private static final Set<String> sundayWords = new HashSet<String>(Arrays.asList(new String[] { "sunday", "sun" }));
-	
+
 	private static COMMAND_TYPE commandType;
 
 	private static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
@@ -79,7 +83,8 @@ public class Parser {
 	private static String generalTimeRegex = "(" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + "|"
 			+ timeRegexHour12Minute + "|" + timeRegexHour24Minute + "|" + timeRegexHour12 + "|" + timeRegexHour24 + ")";
 
-	private static Integer taskID = 0;
+	private static Integer passedInIndex = -1;
+	private static Integer taskIndex = -1;
 	private static String taskDescription = "";
 	private static String taskLocation = "";
 	private static LocalDateTime taskStartTime;
@@ -91,13 +96,14 @@ public class Parser {
 	private static ArrayList<LocalDateTime> taskDateTime = new ArrayList<LocalDateTime>();
 	private static ArrayList<String> taskTimeType = new ArrayList<String>();
 
-	public static Command parseCommand(String commandString) {
+	public static Command parseCommand(String commandString, Integer index) {
 		reinitializeStorageVariables();
+		storePassedInIndex(index);
 		String firstWord = getFirstWord(commandString);
 		String commandArgs = removeFirstWord(commandString);
 		Boolean isCommandValid = isCommandValid(firstWord, commandArgs);
 		if (isCommandValid && parseCommandArgs(commandArgs)) {
-			return generateCommandObjectAndReturn();
+			return generateCommandObjectAndReturn(commandArgs);
 		} else {
 			String formatedErrorMessage = String.format(MESSAGE_INVALID_COMMAND, commandString);
 			System.out.print(formatedErrorMessage);
@@ -105,8 +111,12 @@ public class Parser {
 		}
 	}
 
+	private static void storePassedInIndex(Integer index) {
+		passedInIndex = index;
+	}
+
 	private static void reinitializeStorageVariables() {
-		taskID = 0;
+		taskIndex = -1;
 		taskDescription = "";
 		taskLocation = "";
 		taskStartTime = null;
@@ -206,6 +216,7 @@ public class Parser {
 			searchTaskDescriptionOrID(commandArgs);
 			break;
 		case UPDATE:
+			commandArgs = splitSearchIdAndArgs(commandArgs);
 			searchTaskDescriptionOrID(commandArgs);
 			searchTaskLocation(commandArgs);
 			searchTaskDateTime(commandArgs);
@@ -236,6 +247,17 @@ public class Parser {
 		return returnedValue;
 	}
 
+	private static String splitSearchIdAndArgs(String commandArgs) {
+		try {
+			taskIndex = Integer.parseInt(getFirstWord(commandArgs));
+		} catch (Exception e) {
+			taskIndex = passedInIndex;
+			return commandArgs;
+		}
+
+		return removeFirstWord(commandArgs);
+	}
+
 	private static void searchTaskDescriptionOrID(String commandArgs) {
 		String temp = commandArgs;
 		temp = temp.split("\\bat\\b")[0];
@@ -244,7 +266,7 @@ public class Parser {
 		temp = temp.split("@")[0];
 		temp = temp.split("#")[0];
 		try {
-			taskID = Integer.parseInt(temp.trim());
+			taskIndex = Integer.parseInt(temp.trim());
 		} catch (Exception e) {
 			taskDescription = temp.trim();
 		}
@@ -419,7 +441,7 @@ public class Parser {
 		hourString = temp.get(0);
 		minuteString = temp.get(1);
 		secondString = temp.get(2);
-		
+
 		if (hourString == "") {
 			return null;
 		} else {
@@ -560,7 +582,7 @@ public class Parser {
 				add7Days = true;
 				temp = temp.replace(matcher.group(), "").trim();
 			}
-			
+
 			if (mondayWords.contains(temp)) {
 				commandDayOfWeek = 2;
 			} else if (tuesdayWords.contains(temp)) {
@@ -674,7 +696,7 @@ public class Parser {
 
 	}
 
-	private static Command generateCommandObjectAndReturn() {
+	private static Command generateCommandObjectAndReturn(String commandArgs) {
 		Command returnedCommandObject;
 		switch (commandType) {
 		case ADD:
@@ -693,7 +715,7 @@ public class Parser {
 			returnedCommandObject = generateUpdateCommandObject();
 			break;
 		case SEARCH:
-			returnedCommandObject = generateSearchCommandObject();
+			returnedCommandObject = generateSearchCommandObject(commandArgs);
 			break;
 		case SHOW_DETAILS:
 			returnedCommandObject = generateShowDetailsCommandObject();
@@ -725,13 +747,13 @@ public class Parser {
 
 	private static Command generateAddCommandObject() {
 		Task newTask = new Task();
-		if (taskID != null) {
-			newTask.setId(taskID);
+		if (taskIndex != -1) {
+			newTask.setId(taskIndex);
 		}
-		if (taskDescription != null) {
+		if (taskDescription != "") {
 			newTask.setDesc(taskDescription);
 		}
-		if (taskLocation != null) {
+		if (taskLocation != "") {
 			newTask.setLocation(taskLocation);
 		}
 		if (taskStartTime != null) {
@@ -764,10 +786,10 @@ public class Parser {
 
 	private static Command generateDeleteCommandObject() {
 		DeleteTask deleteCommand = new DeleteTask();
-		if (taskID != null) {
-			deleteCommand.setId(taskID);
+		if (taskIndex != -1) {
+			deleteCommand.setId(taskIndex);
 		}
-		if (taskDescription != null) {
+		if (taskDescription != "") {
 			deleteCommand.setDesc(taskDescription);
 		}
 		return deleteCommand;
@@ -781,20 +803,91 @@ public class Parser {
 
 	private static Command generateDoneCommandObject() {
 		Complete completeCommand = new Complete();
-		// TO DO: set methods
+		if (taskIndex != -1) {
+			completeCommand.setId(taskIndex);
+		}
+		if (taskDescription != "") {
+			completeCommand.setDesc(taskDescription);
+		}
 		return completeCommand;
 	}
 
 	private static Command generateUpdateCommandObject() {
-		Edit editCommand = new Edit();
-		// TO DO: set methods
-		return editCommand;
+		Task newTask = new Task();
+		if (taskIndex != -1) {
+			newTask.setLocation(taskLocation);
+		}
+		if (taskLocation != "") {
+			newTask.setLocation(taskLocation);
+		}
+		if (taskStartTime != null) {
+			newTask.setStartTime(taskStartTime);
+		}
+		if (taskEndTime != null) {
+			newTask.setEndTime(taskEndTime);
+		}
+		if (!taskHashtags.isEmpty()) {
+			newTask.setHashtags(taskHashtags);
+		}
+		if (taskSlots != null) {
+			newTask.setSlot(taskSlots);
+		}
+		switch (taskType) {
+		case EVENT:
+			newTask.setTaskType(Task.Type.EVENT);
+			break;
+		case DEADLINE:
+			newTask.setTaskType(Task.Type.DEADLINE);
+			break;
+		case FLOATING:
+			newTask.setTaskType(Task.Type.FLOATING);
+			break;
+		default:
+			break;
+		}
+		if (newTask.getId() == -1) {
+			return new Invalid();
+		} else {
+			return new Edit(taskIndex, newTask);
+		}
 	}
 
-	private static Command generateSearchCommandObject() {
-		Search searchCommand = new Search();
-		// TO DO: set methods
-		return searchCommand;
+	private static Command generateSearchCommandObject(String commandArgs) {
+		searchSeparateDateTime(commandArgs);
+		searchCombinedDateTime(commandArgs);
+		ArrayList<LocalDate> taskDate = searchDateOnly(commandArgs);
+		if (taskDateTime.size() == 1 && taskDate.isEmpty()) {
+			return new Search(taskDateTime.get(0));
+		} else if (searchDateOnly(commandArgs).size() == 1 && taskDateTime.isEmpty()) {
+			return new Search(taskDate.get(0));
+		} else if (taskDate.isEmpty() && taskDateTime.isEmpty()) {
+			return new Search(taskDescription);
+		} else {
+			return new Invalid();
+		}
+	}
+
+	private static ArrayList<LocalDate> searchDateOnly(String commandArgs) {
+		ArrayList<LocalDate> returnedTaskDates = new ArrayList<LocalDate>();
+		String temp = commandArgs.toLowerCase();
+
+		Matcher matcher = Pattern.compile(generalDateRegex).matcher(temp);
+		while (matcher.find()) {
+			LocalDate date = processDateString(matcher.group());
+			if (date != null) {
+				returnedTaskDates.add(date);
+			}
+		}
+
+		matcher = Pattern.compile(dayOfWeekRegex).matcher(temp);
+		while (matcher.find()) {
+			LocalDate date = processDateStringInWeek(matcher.group());
+			if (date != null) {
+				returnedTaskDates.add(date);
+			}
+		}
+
+		return returnedTaskDates;
 	}
 
 	private static Command generateShowDetailsCommandObject() {
@@ -823,7 +916,12 @@ public class Parser {
 
 	private static Command generatePrioritiseCommandObject() {
 		Prioritise prioritiseCommand = new Prioritise();
-		// TO DO: set methods
+		if (taskIndex != -1) {
+			prioritiseCommand.setId(taskIndex);
+		}
+		if (taskDescription != "") {
+			prioritiseCommand.setDesc(taskDescription);
+		}
 		return prioritiseCommand;
 	}
 

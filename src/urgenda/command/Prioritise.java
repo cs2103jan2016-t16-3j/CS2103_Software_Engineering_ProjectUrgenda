@@ -94,7 +94,12 @@ public class Prioritise implements Undoable {
 		_task.toggleImportant();
 		return feedback;
 	}
+	
+	public void setDesc(String desc) {
+		_desc = desc;
+	}
 
+<<<<<<< Updated upstream
 	public void setDesc(String desc) {
 		_desc = desc;
 	}
@@ -103,4 +108,9 @@ public class Prioritise implements Undoable {
 		_id = Integer.valueOf(id);
 	}
 
+=======
+	public void setId(int id) {
+		_id = Integer.valueOf(id);
+	}
+>>>>>>> Stashed changes
 }
