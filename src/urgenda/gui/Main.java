@@ -20,7 +20,6 @@ import urgenda.util.TaskList;
 
 public class Main extends Application {
 	private BorderPane _rootLayout;
-	private Stage _helpStage;
 	private Scene _scene;
 	private MainController _mainController;
 	private DisplayController _displayController;
@@ -82,8 +81,7 @@ public class Main extends Application {
 	private void initStage(Stage primaryStage) {
 		_scene = new Scene(_rootLayout);
 		primaryStage.initStyle(StageStyle.DECORATED);
-		Image ico = new Image(getClass().getResourceAsStream(PATH_ICON));
-		primaryStage.getIcons().add(ico);
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		primaryStage.setTitle(APP_NAME);
 		primaryStage.setResizable(false);
 		primaryStage.setScene(_scene);
@@ -100,13 +98,16 @@ public class Main extends Application {
 	
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 		if(state.getState() == State.SHOW_HELP) {
 			_mainController.showHelp();
+		} else if(state.getState() == State.EXIT) {
+			quit();
 		}
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 		return state.getFeedback();
 	}
 	
+
 	private String createDisplayHeader(StateFeedback state) {
 		String display = "";
 		switch (state.getState()) {
@@ -138,12 +139,13 @@ public class Main extends Application {
 		return _logic.displayHelp();
 	}
 
-	public void invokeUrgendaSplash() {
-		// TODO create about urgenda splash menu
-	}
-
 	public MainController getController() {
 		return _mainController;
+	}
+
+	private void quit() {
+		_mainController.getHelpController().closeHelpWindow();
+		System.exit(0);
 	}
 	
 	public static void main(String[] args) {

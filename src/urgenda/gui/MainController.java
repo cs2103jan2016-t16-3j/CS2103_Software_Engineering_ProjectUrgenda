@@ -21,7 +21,6 @@ public class MainController {
 	private static final String ERROR_TEXT_FILL = "-fx-text-fill: #FF1900";
 	private static final String NORMAL_TEXT_FILL = "-fx-text-fill: white";
 		
-	private HelpController _helpController;
 	
 	//Elements loaded using FXML
 	@FXML
@@ -36,6 +35,7 @@ public class MainController {
 	private Main _main;
 	private Deque<String> _prevCommandLines;
 	private Deque<String> _nextCommandLines;
+	private HelpController _helpController;
 	
 	public MainController() {
 		_prevCommandLines = new ArrayDeque<String>();
@@ -111,18 +111,21 @@ public class MainController {
 	}
 
 	public void showHelp() {
-		_helpController = new HelpController();
+		if(_helpController == null) {
+			_helpController = new HelpController();
 		_helpController.setHelpText(_main.getHelpText());
 		try {
 			_helpController.setupHelpStage();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		}else {
+			_helpController.showHelpStage();
+		}
 	}
 	
 	@FXML
 	private void handleAboutUrgenda(ActionEvent e) {
-		_main.invokeUrgendaSplash();
 		//TODO remove when urgenda splash is enabled
 		displayFeedback("Sorry! About Urgenda is currently unavailable!", true);
 	}
@@ -149,5 +152,9 @@ public class MainController {
 	
 	public DisplayController getDisplayController() {
 		return displayAreaController;
+	}
+	
+	public HelpController getHelpController() {
+		return _helpController;
 	}
 }
