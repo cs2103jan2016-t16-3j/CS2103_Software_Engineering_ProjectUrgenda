@@ -56,7 +56,7 @@ public class Task {
 	// constructor with only desc
 	public Task(String desc) {
 		_desc = desc;
-		setType(null, null);
+		updateTaskType(null, null);
 	}
 
 	// constructor for inclusion of details if there is priority
@@ -64,7 +64,7 @@ public class Task {
 			boolean isImportant) {
 		_desc = desc;
 		_location = location;
-		setType(start, end);
+		updateTaskType(start, end);
 		_startTime = start;
 		_endTime = end;
 		_hashtags = tags;
@@ -77,7 +77,7 @@ public class Task {
 	public Task(String desc, String location, LocalDateTime start, LocalDateTime end, ArrayList<String> tags) {
 		_desc = desc;
 		_location = location;
-		setType(start, end);
+		updateTaskType(start, end);
 		_startTime = start;
 		_endTime = end;
 		_hashtags = tags;
@@ -184,7 +184,7 @@ public class Task {
 		}
 	}
 
-	private void setType(LocalDateTime start, LocalDateTime end) {
+	public void updateTaskType(LocalDateTime start, LocalDateTime end) {
 		if (start == null && end == null) {
 			_taskType = Type.FLOATING;
 		} else if (start == null && end != null) {
