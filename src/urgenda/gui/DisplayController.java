@@ -133,30 +133,20 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void traverseTasks(Direction direction) {
-
-		// if (_selectedTaskIndex >= 0) { //to implement resolution when there
-		// are detailed tasks shown
-		// int showmoreCount = 0;
-		// int taskCount = 0;
-		// for(int i = 0; i < _displayedTasks.size() ; i++) {
-		// if(displayHolder.getChildren().get(i).equals(TaskDetailsController.class))
-		// {
-		// showmoreCount++;
-		// }
-		// if(displayHolder.getChildren().get(i).equals(TaskController.class)) {
-		// taskCount++;
-		// }
-		// if(taskCount == _selectedTaskIndex - 1) {
-		// break;
-		// }
-		// }
-
 		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() - 1) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-			((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
+			if (displayHolder.getChildren().get(++_selectedTaskIndex).getClass().equals(TaskDetailsController.class)) {
+				((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
+			} else {
+				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(true);
+			}
 		} else if (direction == Direction.UP && _selectedTaskIndex != 0) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-			((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
+			if (displayHolder.getChildren().get(--_selectedTaskIndex).getClass().equals(TaskDetailsController.class)) {
+				((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
+			} else {
+				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(true);
+			}
 		}
 	}
 
@@ -165,7 +155,7 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void setSelectedIndexOnClick(int index) {
-		if(index != _selectedTaskIndex) {
+		if (index != _selectedTaskIndex) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
 			_selectedTaskIndex = index;
 		}
