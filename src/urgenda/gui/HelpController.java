@@ -43,6 +43,7 @@ public class HelpController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {	
 		helpContentPane.setText(_helpText);
+		helpContentPane.setEditable(false);
 	}
 	
 	public void setupHelpStage() throws IOException {		
