@@ -873,11 +873,7 @@ public class Parser {
 		default:
 			break;
 		}
-		if (taskIndex == -1) {
-			return new Invalid();
-		} else {
-			return new Edit(taskIndex, newTask);
-		}
+		return new Edit(taskIndex, newTask);
 	}
 
 	private static Command generateSearchCommandObject(String commandArgs) {
