@@ -439,7 +439,7 @@ public class Parser {
 			return null;
 		} else {
 			if (add12Hour) {
-				int addedHour = (Integer.parseInt(hourString) + 12)%24;
+				int addedHour = (Integer.parseInt(hourString) + 12) % 24;
 				hourString = String.valueOf(addedHour);
 			}
 
@@ -842,7 +842,7 @@ public class Parser {
 	private static Command generateUpdateCommandObject() {
 		Task newTask = new Task();
 		if (taskDescription != "") {
-			
+
 		}
 		if (taskLocation != "") {
 			newTask.setLocation(taskLocation);
