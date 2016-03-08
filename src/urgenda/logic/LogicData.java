@@ -352,4 +352,9 @@ public class LogicData {
 		_displays.clear();
 	}
 
+	public String generateHelpManual() {
+		// TODO storage help manual
+		return null;
+	}
+
 }

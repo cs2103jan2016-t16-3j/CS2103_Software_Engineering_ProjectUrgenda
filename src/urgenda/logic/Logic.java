@@ -38,8 +38,7 @@ public class Logic {
 	}
 	
 	public String displayHelp() {
-		
-		return null;
+		return _logicData.generateHelpManual();
 	}
 	
 	public StateFeedback retrieveStartupState() {
