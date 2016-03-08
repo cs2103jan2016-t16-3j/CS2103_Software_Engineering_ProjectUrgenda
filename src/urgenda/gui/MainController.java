@@ -18,6 +18,7 @@ public class MainController {
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
 	private static final String KEYWORD_HELP = "help";
+	private static final String KEYWORD_SHOW_ALL = "home";
 	private static final String ERROR_TEXT_FILL = "-fx-text-fill: #FF1900";
 	private static final String NORMAL_TEXT_FILL = "-fx-text-fill: white";
 		
@@ -86,6 +87,12 @@ public class MainController {
 	@FXML
 	private void taskToggleUpListener(ActionEvent e) {
 		displayAreaController.traverseTasks(DisplayController.Direction.UP);
+	}
+	@FXML
+	private void showAllTasks(ActionEvent e) {
+		String feedback = _main.handleCommandLine(KEYWORD_SHOW_ALL);
+		displayFeedback(feedback, false);
+		inputBar.clear();
 	}
 	
 	@FXML
