@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane fx:id="helpPane" minHeight="400.0" minWidth="400.0" onKeyReleased="#handleEscPressed" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.HelpController">
+         <bottom>
+            <Button fx:id="helpExitButton" mnemonicParsing="false" onAction="#handleOkAction" text="OK" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin></Button>
+         </bottom>
+         <top>
+            <Label fx:id="helpHeader" text="Help" BorderPane.alignment="CENTER_LEFT">
+               <padding>
+                  <Insets bottom="15.0" left="20.0" top="10.0" />
+               </padding>
+            </Label>
+         </top>
+         <center>
+            <TextArea fx:id="helpContentPane" prefHeight="343.0" prefWidth="369.0" wrapText="true" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </BorderPane.margin></TextArea>
+         </center>
+      </BorderPane>

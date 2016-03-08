@@ -88,7 +88,8 @@ public class LogicData {
 				break;
 			case EXIT :
 				saveContents();
-				System.exit(0);
+				state = displayAllTasks(_tasks);
+				state.setState(StateFeedback.State.EXIT);
 				break;
 			case INVALID_COMMAND :
 				state = displayAllTasks(_tasks);
@@ -354,7 +355,7 @@ public class LogicData {
 
 	public String generateHelpManual() {
 		// TODO storage help manual
-		return null;
+		return "testing help";
 	}
 
 }

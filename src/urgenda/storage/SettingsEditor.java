@@ -43,5 +43,6 @@ public class SettingsEditor {
 	public LinkedHashMap<String, String> getMap(){
 		return _cipher.getDetailsMap();
 	}
-
+	
+	
 }

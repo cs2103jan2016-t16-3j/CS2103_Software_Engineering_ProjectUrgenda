@@ -19,7 +19,7 @@ public class Logic {
 		assert (index >= 0); // asserts that given index is non-negative OR -1(case when there is no tasks)
 		
 		// parser take in a string and return it in its corresponding class obj
-		Command currCmd = Parser.parseCommand(command);
+		Command currCmd = Parser.parseCommand(command,index);
 		assert (currCmd != null); // asserts that parser returns a command object
 		
 		String feedback;

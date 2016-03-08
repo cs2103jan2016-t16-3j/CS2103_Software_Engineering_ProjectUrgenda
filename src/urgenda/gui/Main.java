@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import urgenda.logic.Logic;
 import urgenda.util.StateFeedback;
+import urgenda.util.StateFeedback.State;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
 
@@ -80,8 +81,7 @@ public class Main extends Application {
 	private void initStage(Stage primaryStage) {
 		_scene = new Scene(_rootLayout);
 		primaryStage.initStyle(StageStyle.DECORATED);
-		Image ico = new Image(getClass().getResourceAsStream(PATH_ICON));
-		primaryStage.getIcons().add(ico);
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		primaryStage.setTitle(APP_NAME);
 		primaryStage.setResizable(false);
 		primaryStage.setScene(_scene);
@@ -98,10 +98,16 @@ public class Main extends Application {
 	
 	public String handleCommandLine(String commandLine) {
 		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
+		if(state.getState() == State.SHOW_HELP) {
+			_mainController.showHelp();
+		} else if(state.getState() == State.EXIT) {
+			quit();
+		}
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
 		return state.getFeedback();
 	}
 	
+
 	private String createDisplayHeader(StateFeedback state) {
 		String display = "";
 		switch (state.getState()) {
@@ -114,12 +120,12 @@ public class Main extends Application {
 		case ALL_TASK_AND_COMPLETED:
 			display = "Showing ALL TASKS WITH COMPLETED TASKS";
 			break;
-			//case DISPLAY:
-			//	break;
+//		case DISPLAY:
+//			break;
 		case ERROR:
 			break;
-		case HELP:
-			//TODO create help window
+		case SHOW_HELP:
+			display = null; //previous display header not changed
 			break;
 		case ALL_TASKS: //fall-through
 		default:
@@ -129,16 +135,17 @@ public class Main extends Application {
 		return display;
 	}
 	
-	public void invokeHelpSplash() {
-		// TODO create help splash menu
-	}
-
-	public void invokeUrgendaSplash() {
-		// TODO create about urgenda splash menu
+	public String getHelpText() {
+		return _logic.displayHelp();
 	}
 
 	public MainController getController() {
 		return _mainController;
+	}
+
+	private void quit() {
+		_mainController.getHelpController().closeHelpWindow();
+		System.exit(0);
 	}
 	
 	public static void main(String[] args) {

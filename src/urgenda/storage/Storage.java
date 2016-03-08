@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import urgenda.util.*;
 
 public class Storage implements StorageInterface {
+	private static final String SETTINGS_HELP = "help.txt";
+	private static final String SETTINGS_DIRECTORY = "settings";
+	
 	private FileEditor _file;
+	private FileEditor _help;
 	private SettingsEditor _settings = new SettingsEditor();
 	private ArrayList<String> _fileDataStringArr = new ArrayList<String>();
 	private ArrayList<String> _archiveStringArr = new ArrayList<String>();
@@ -15,6 +19,7 @@ public class Storage implements StorageInterface {
 	public Storage() {
 		String path = _settings.getFileDir();
 		String name = _settings.getFileName();
+		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 
@@ -52,5 +57,11 @@ public class Storage implements StorageInterface {
 		_settings.setFileDir(path);
 		_settings.setFileName(name);
 		_settings.saveSettings();
+	}
+	
+	public String retrieveHelp(){
+		String help;
+		help = _help.getHelp();
+		return help;
 	}
 }
