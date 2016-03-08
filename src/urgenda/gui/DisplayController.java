@@ -57,11 +57,12 @@ public class DisplayController extends AnchorPane {
 	private ScrollPane displayArea;
 
 	private ArrayList<Task> _displayedTasks;
-	private ArrayList<Integer> _showmoreIndexes;
 	private int _selectedTaskIndex;
+	private int _indicatorShowmoreCount;
 
 	public DisplayController() {
 		_selectedTaskIndex = -1;
+		_indicatorShowmoreCount = 0;
 		_displayedTasks = new ArrayList<Task>();
 	}
 
@@ -70,8 +71,7 @@ public class DisplayController extends AnchorPane {
 		_displayedTasks = new ArrayList<Task>();
 		_displayedTasks.addAll(updatedTasks.getTasks());
 		_displayedTasks.addAll(updatedTasks.getArchives());
-		_showmoreIndexes = showmoreIndexes;
-
+		
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
 			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getOverdueCount(),
@@ -133,9 +133,10 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void traverseTasks(Direction direction) {
-		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() - 1) {
+		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() + _indicatorShowmoreCount - 1) { //to add detailed task count
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
 			if (displayHolder.getChildren().get(++_selectedTaskIndex).getClass().equals(TaskDetailsController.class)) {
+				_indicatorShowmoreCount++;
 				((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
 			} else {
 				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(true);
@@ -143,6 +144,7 @@ public class DisplayController extends AnchorPane {
 		} else if (direction == Direction.UP && _selectedTaskIndex != 0) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
 			if (displayHolder.getChildren().get(--_selectedTaskIndex).getClass().equals(TaskDetailsController.class)) {
+				_indicatorShowmoreCount--;
 				((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
 			} else {
 				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(true);
