@@ -118,6 +118,9 @@ public class Main extends Application {
 			//	break;
 		case ERROR:
 			break;
+		case HELP:
+			//TODO create help window
+			break;
 		case ALL_TASKS: //fall-through
 		default:
 			display = HEADER_ALL_TASKS;
