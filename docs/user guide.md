@@ -64,8 +64,8 @@ To delete an existing task, **Delete**, **Del**, **Erase** or **Remove** are the
 Specify the task number, the task description or simply highlight the task to be deleted. 
 
 Example:
-* _**Mark** Dinner with Mum_
-* _**Done** 4_
+* _**Delete** Dinner with Mum_
+* _**Delete** 4_
 
 ```java
 //TODO: insert image
