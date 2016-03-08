@@ -266,7 +266,7 @@ public class Parser {
 
 	private static String splitSearchIdAndArgs(String commandArgs) {
 		try {
-			taskIndex = Integer.parseInt(getFirstWord(commandArgs));
+			taskIndex = Integer.parseInt(getFirstWord(commandArgs)) - 1;
 		} catch (Exception e) {
 			return commandArgs;
 		}
@@ -284,7 +284,7 @@ public class Parser {
 			temp = temp.split("#")[0];
 			if (taskIndex == -1) {
 				try {
-					taskIndex = Integer.parseInt(temp.trim());
+					taskIndex = Integer.parseInt(temp.trim()) - 1;
 				} catch (Exception e) {
 					taskDescription = temp.trim();
 				}
