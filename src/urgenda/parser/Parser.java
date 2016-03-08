@@ -84,7 +84,7 @@ public class Parser {
 			+ timeRegexHour12Minute + "|" + timeRegexHour24Minute + "|" + timeRegexHour12 + "|" + timeRegexHour24 + ")";
 
 	private static int passedInIndex = -1;
-	private static int taskIndex = -1;
+	private static int taskIndex = -10;
 	private static String taskDescription = "";
 	private static String taskLocation = "";
 	private static LocalDateTime taskStartTime;
@@ -116,7 +116,7 @@ public class Parser {
 	}
 
 	private static void reinitializeStorageVariables() {
-		taskIndex = -1;
+		taskIndex = -10;
 		taskDescription = "";
 		taskLocation = "";
 		taskStartTime = null;
@@ -282,7 +282,7 @@ public class Parser {
 			temp = temp.split("\\bfrom\\b")[0];
 			temp = temp.split("@")[0];
 			temp = temp.split("#")[0];
-			if (taskIndex == -1) {
+			if (taskIndex == -10) {
 				try {
 					taskIndex = Integer.parseInt(temp.trim()) - 1;
 				} catch (Exception e) {
@@ -769,7 +769,7 @@ public class Parser {
 
 	private static Command generateAddCommandObject() {
 		Task newTask = new Task();
-		if (taskIndex != -1) {
+		if (taskIndex != -10) {
 			newTask.setId(taskIndex);
 		} else {
 			newTask.setId(passedInIndex);
@@ -810,7 +810,7 @@ public class Parser {
 
 	private static Command generateDeleteCommandObject() {
 		DeleteTask deleteCommand = new DeleteTask();
-		if (taskIndex != -1) {
+		if (taskIndex != -10) {
 			deleteCommand.setId(taskIndex);
 		} else {
 			deleteCommand.setId(passedInIndex);
@@ -829,7 +829,7 @@ public class Parser {
 
 	private static Command generateDoneCommandObject() {
 		Complete completeCommand = new Complete();
-		if (taskIndex != -1) {
+		if (taskIndex != -10) {
 			completeCommand.setId(taskIndex);
 		} else {
 			completeCommand.setId(passedInIndex);
@@ -940,7 +940,7 @@ public class Parser {
 
 	private static Command generatePrioritiseCommandObject() {
 		Prioritise prioritiseCommand = new Prioritise();
-		if (taskIndex != -1) {
+		if (taskIndex != -10) {
 			prioritiseCommand.setId(taskIndex);
 		} else {
 			prioritiseCommand.setId(passedInIndex);
