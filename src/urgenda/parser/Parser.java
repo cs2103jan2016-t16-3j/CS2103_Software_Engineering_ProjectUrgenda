@@ -253,6 +253,7 @@ public class Parser {
 			break;
 		case PRIORITISE:
 			searchTaskDescriptionOrID(commandArgs);
+			break;
 		case EXIT:
 			break;
 		case INVALID:
