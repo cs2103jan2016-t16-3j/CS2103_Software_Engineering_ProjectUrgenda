@@ -29,18 +29,18 @@ public class DeleteTask implements Undoable {
 	public String execute(LogicData data) throws Exception {
 		_data = data;
 		ArrayList<Task> matches;
-		if (_id != null && _id.intValue() != -1) {
-			_deletedTask = _data.findMatchingPosition(_id.intValue());			
-		} else if (_desc != null) {
-				matches = _data.findMatchingDesc(_desc);
-				if (matches.size() == 1) {
-					_deletedTask = matches.get(0);
-				} else if (matches.size() > 1) {
-					_data.clearDisplays();
-					_data.setDisplays(matches);
-					_data.setCurrState(LogicData.DisplayState.MULTIPLE_DELETE);
-					throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
-				} // else matches has no match hence _deletedTask remains null
+		if (_desc != null) {
+			matches = _data.findMatchingDesc(_desc);
+			if (matches.size() == 1) {
+				_deletedTask = matches.get(0);
+			} else if (matches.size() > 1) {
+				_data.clearDisplays();
+				_data.setDisplays(matches);
+				_data.setCurrState(LogicData.DisplayState.MULTIPLE_DELETE);
+				throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
+			} // else matches has no match hence _deletedTask remains null
+		} else if (_id != null && _id.intValue() != -1) {
+			_deletedTask = _data.findMatchingPosition(_id.intValue());
 		}
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_deletedTask == null) {

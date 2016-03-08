@@ -67,7 +67,7 @@ public class Parser {
 	private static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
 	private static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])([-/.])20\\d\\d)";
 	private static String dateRegexWithoutYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012]))";
-	private static String hourRegex12 = "(0[1-9]|1[012]|[1-9])";
+	private static String hourRegex12 = "([01][1-9]|2[0-3]|[1-9])";
 	private static String hourRegex24 = "([01][1-9]|2[0-4]|[1-9])";
 	private static String minuteAndSecondRegex = "([0-5][0-9]|[1-9])";
 	private static String timeRegexHour12 = hourRegex12 + "( )?(am|pm)\\b";
@@ -83,6 +83,7 @@ public class Parser {
 	private static String generalTimeRegex = "(" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + "|"
 			+ timeRegexHour12Minute + "|" + timeRegexHour24Minute + "|" + timeRegexHour12 + "|" + timeRegexHour24 + ")";
 
+	private static String passedInCommandString = "";
 	private static int passedInIndex = -1;
 	private static int taskIndex = -10;
 	private static String taskDescription = "";
@@ -98,7 +99,7 @@ public class Parser {
 
 	public static Command parseCommand(String commandString, int index) {
 		reinitializeStorageVariables();
-		storePassedInIndex(index);
+		storePassedInArgs(commandString, index);
 		String firstWord = getFirstWord(commandString);
 		String commandArgs = removeFirstWord(commandString);
 		Boolean isCommandValid = isCommandValid(firstWord, commandArgs);
@@ -107,12 +108,13 @@ public class Parser {
 		} else {
 			String formatedErrorMessage = String.format(MESSAGE_INVALID_COMMAND, commandString);
 			System.out.print(formatedErrorMessage);
-			return null;
+			return new Invalid(passedInCommandString);
 		}
 	}
 
-	private static void storePassedInIndex(int index) {
+	private static void storePassedInArgs(String commandString, int index) {
 		passedInIndex = index;
+		passedInCommandString = commandString;
 	}
 
 	private static void reinitializeStorageVariables() {
@@ -439,9 +441,20 @@ public class Parser {
 		if (hourString == "") {
 			return null;
 		} else {
+			int addedHour = Integer.parseInt(hourString);
 			if (add12Hour) {
-				int addedHour = (Integer.parseInt(hourString) + 12) % 24;
-				hourString = String.valueOf(addedHour);
+				if (addedHour >= 12 && addedHour < 24) {
+					hourString = String.valueOf(addedHour);
+				} else {
+					addedHour = (addedHour + 12) % 24;
+					hourString = String.valueOf(addedHour);
+				}
+			} else {
+				if (addedHour >= 12 && addedHour < 24) {
+					hourString = String.valueOf(addedHour - 12);
+				} else {
+					hourString = String.valueOf(addedHour);
+				}
 			}
 
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
@@ -885,7 +898,7 @@ public class Parser {
 		} else if (taskDate.isEmpty() && taskDateTime.isEmpty()) {
 			return new Search(taskDescription);
 		} else {
-			return new Invalid();
+			return new Invalid(passedInCommandString);
 		}
 	}
 
@@ -956,7 +969,7 @@ public class Parser {
 	}
 
 	private static Command generateInvalidCommandObject() {
-		Invalid invalidCommand = new Invalid();
+		Invalid invalidCommand = new Invalid(passedInCommandString);
 		// TO DO: set methods
 		return invalidCommand;
 	}
