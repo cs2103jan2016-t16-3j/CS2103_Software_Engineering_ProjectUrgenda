@@ -209,6 +209,12 @@ public class Parser {
 			} else {
 				return false;
 			}
+		case UPDATE:
+			if (commandArgs != null) {
+				return true;
+			} else {
+				return false;
+			}
 		default:
 			return true;
 		}
@@ -311,17 +317,19 @@ public class Parser {
 	}
 
 	private static void searchCombinedDateTime(String commandArgs) {
-		String temp = commandArgs.toLowerCase();
+		if (commandArgs != null) {
+			String temp = commandArgs.toLowerCase();
 
-		String dateTimeRegex = generalDateRegex + "( )" + generalTimeRegex;
-		String timeDateRegex = generalTimeRegex + "( )" + generalDateRegex;
-		String combinedRegex = "(at|by|from|to)( )(" + dateTimeRegex + "|" + timeDateRegex + ")";
+			String dateTimeRegex = generalDateRegex + "( )" + generalTimeRegex;
+			String timeDateRegex = generalTimeRegex + "( )" + generalDateRegex;
+			String combinedRegex = "(at|by|from|to)( )(" + dateTimeRegex + "|" + timeDateRegex + ")";
 
-		Matcher matcher = Pattern.compile(combinedRegex).matcher(temp);
-		while (matcher.find()) {
-			LocalDateTime dateTime = processCombinedDateTimeString(matcher.group());
-			if (dateTime != null) {
-				taskDateTime.add(dateTime);
+			Matcher matcher = Pattern.compile(combinedRegex).matcher(temp);
+			while (matcher.find()) {
+				LocalDateTime dateTime = processCombinedDateTimeString(matcher.group());
+				if (dateTime != null) {
+					taskDateTime.add(dateTime);
+				}
 			}
 		}
 	}
@@ -559,17 +567,19 @@ public class Parser {
 	}
 
 	private static void searchSeparateDateTime(String commandArgs) {
-		String temp = commandArgs.toLowerCase();
+		if (commandArgs != null) {
+			String temp = commandArgs.toLowerCase();
 
-		String dateTimeRegex = dayOfWeekRegex + "( )" + generalTimeRegex;
-		String timeDateRegex = generalTimeRegex + "( )" + dayOfWeekRegex;
-		String combinedRegex = "(at|by|from|to)( )(" + dateTimeRegex + "|" + timeDateRegex + ")";
+			String dateTimeRegex = dayOfWeekRegex + "( )" + generalTimeRegex;
+			String timeDateRegex = generalTimeRegex + "( )" + dayOfWeekRegex;
+			String combinedRegex = "(at|by|from|to)( )(" + dateTimeRegex + "|" + timeDateRegex + ")";
 
-		Matcher matcher = Pattern.compile(combinedRegex).matcher(temp);
-		while (matcher.find()) {
-			LocalDateTime dateTime = processSeparateDateTimeString(matcher.group());
-			if (dateTime != null) {
-				taskDateTime.add(dateTime);
+			Matcher matcher = Pattern.compile(combinedRegex).matcher(temp);
+			while (matcher.find()) {
+				LocalDateTime dateTime = processSeparateDateTimeString(matcher.group());
+				if (dateTime != null) {
+					taskDateTime.add(dateTime);
+				}
 			}
 		}
 	}
@@ -720,10 +730,12 @@ public class Parser {
 	}
 
 	private static void searchTaskHashtags(String commandArgs) {
-		String temp = commandArgs;
-		Matcher matcher = Pattern.compile("#\\S+").matcher(temp);
-		while (matcher.find()) {
-			taskHashtags.add(matcher.group());
+		if (commandArgs != null) {
+			String temp = commandArgs;
+			Matcher matcher = Pattern.compile("#\\S+").matcher(temp);
+			while (matcher.find()) {
+				taskHashtags.add(matcher.group());
+			}
 		}
 	}
 
