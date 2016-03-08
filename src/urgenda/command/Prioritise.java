@@ -27,7 +27,7 @@ public class Prioritise implements Undoable {
 	public String execute(LogicData data) throws Exception {
 		_data = data;
 		ArrayList<Task> matches;
-		if (_id != null && _id != 0) {
+		if (_id != null && _id.intValue() != 0) {
 			_task = _data.findMatchingPosition(_id.intValue());			
 		} else if (_desc != null) {
 				matches = _data.findMatchingDesc(_desc);
@@ -93,6 +93,14 @@ public class Prioritise implements Undoable {
 		}
 		_task.toggleImportant();
 		return feedback;
+	}
+
+	public void setDesc(String desc) {
+		_desc = desc;
+	}
+
+	public void setId(Integer id) {
+		_id = Integer.valueOf(id);
 	}
 
 }
