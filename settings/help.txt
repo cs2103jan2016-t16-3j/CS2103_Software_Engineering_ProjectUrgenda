@@ -1,7 +1,25 @@
-asdasd
+User Guide
 
-asdasdas
+This guide helps you with understanding how to use Urgenda effectively as a task manager for your daily needs.
 
-test
+All commands need to be entered in this manner:
+[Command Word] [Task](Optional Command Tags)
 
-goodbye
+Tasks are categorized into 3 types: 
+1. Events - Have a start and end time
+2. Deadline - Have an end time
+3. Floating - No start or end times given
+
+Add a Task
+1. [Command Words] - Add, Delete
+2. Example: Add Dinner with Mum
+3. Use Command Tags to add location or dates
+4. Example - Events: Add Dinner with Mum at 23/3/2016 7:00pm to 9:00pm
+5. Example - Deadlines: Add Dinner with Mum by 23/3/2016 7:00pm
+6. Example - Floating: Add Dinner with Mum
+
+Delete a Task
+1. [Command Words] - Delete, Del, Erase, Remove
+2. Specify the task number, the task description or simply highlight the task to be deleted. 
+3. Example:Delete Dinner with Mum
+4. Example:Delete 4
