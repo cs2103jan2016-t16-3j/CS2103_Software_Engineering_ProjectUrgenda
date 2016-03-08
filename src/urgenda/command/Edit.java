@@ -1,5 +1,7 @@
 package urgenda.command;
 
+import java.time.LocalDateTime;
+
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
@@ -35,6 +37,7 @@ public class Edit implements Undoable {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
 		}
 		if (_prevTask == null) {
+			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			throw new Exception(MESSAGE_NO_EDIT_MATCH);
 		} else {
 			if(_newTask.getDesc() == null && _prevTask.getDesc() != null) {
@@ -50,7 +53,9 @@ public class Edit implements Undoable {
 				_newTask.setEndTime(_prevTask.getEndTime());
 			}
 			_newTask.setDateAdded(_prevTask.getDateAdded());
-			_prevTask.setDateModified(_newTask.getDateAdded());
+			_newTask.setDateModified(LocalDateTime.now()); // TODO refactor out to update undo and redo
+			_prevTask.setDateModified(LocalDateTime.now());
+			_newTask.updateTaskType(_newTask.getStartTime(), _newTask.getEndTime());
 			_data.deleteTask(_prevTask);
 			_data.addTask(_newTask);
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
