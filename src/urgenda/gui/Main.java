@@ -90,8 +90,8 @@ public class Main extends Application {
 	}
 
 	public StateFeedback retrieveStartupState() {
-		StateFeedback state = dummyState(); //TODO change for dummy list
-		//StateFeedback state = _logic.retrieveStartupState();
+		//StateFeedback state = dummyState(); //TODO change for dummy list
+		StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback(), false);
 		return state;
 	}
@@ -185,7 +185,7 @@ public class Main extends Application {
 		tasks.add(task3);
 		archives.add(taskC);
 		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, archives, 1, 2, 0, 5, 1));
+		state.setAllTasks(new TaskList(tasks, archives, 1, 2, 5, 1));
 		state.setFeedback("feedback from dummylist");
 		state.addDetailedTaskIdx(4);
 		state.setState(StateFeedback.State.ALL_TASKS);
