@@ -67,7 +67,7 @@ public class Parser {
 	private static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
 	private static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])([-/.])20\\d\\d)";
 	private static String dateRegexWithoutYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012]))";
-	private static String hourRegex12 = "(0[1-9]|1[012]|[1-9])";
+	private static String hourRegex12 = "([01][1-9]|2[0-3]|[1-9])";
 	private static String hourRegex24 = "([01][1-9]|2[0-4]|[1-9])";
 	private static String minuteAndSecondRegex = "([0-5][0-9]|[1-9])";
 	private static String timeRegexHour12 = hourRegex12 + "( )?(am|pm)\\b";
@@ -442,8 +442,13 @@ public class Parser {
 			return null;
 		} else {
 			if (add12Hour) {
-				int addedHour = (Integer.parseInt(hourString) + 12) % 24;
-				hourString = String.valueOf(addedHour);
+				int addedHour = Integer.parseInt(hourString);
+				if (addedHour >= 12 && addedHour < 24) {
+					hourString = String.valueOf(addedHour);
+				} else {
+					addedHour = (addedHour + 12) % 24;
+					hourString = String.valueOf(addedHour);
+				}
 			}
 
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
