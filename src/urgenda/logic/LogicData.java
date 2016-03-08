@@ -84,6 +84,7 @@ public class LogicData {
 			case SHOW_SEARCH :
 				state = displayAllTasks(_displays);
 				state.setState(StateFeedback.State.SHOW_SEARCH);
+				break;
 			case HELP :
 				state = displayAllTasks(_displays);
 				state.setState(StateFeedback.State.SHOW_HELP);
