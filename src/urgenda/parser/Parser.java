@@ -770,8 +770,8 @@ public class Parser {
 	private static Command generateAddCommandObject() {
 		Task newTask = new Task();
 		if (taskIndex != -10) {
-			newTask.setDesc(String.valueOf(taskIndex));
-		} 
+			newTask.setDesc(String.valueOf(taskIndex + 1));
+		}
 		if (taskDescription != "") {
 			newTask.setDesc(taskDescription);
 		}
