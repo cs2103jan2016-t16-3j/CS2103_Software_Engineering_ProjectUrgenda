@@ -31,7 +31,7 @@ public class Edit implements Undoable {
 	@Override
 	public String execute(LogicData data) throws Exception {
 		_data = data;
-		if (_id != null && _id != 0) {
+		if (_id != null && _id.intValue() != 0) {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
 		}
 		if (_prevTask == null) {
