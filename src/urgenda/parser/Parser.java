@@ -441,12 +441,18 @@ public class Parser {
 		if (hourString == "") {
 			return null;
 		} else {
+			int addedHour = Integer.parseInt(hourString);
 			if (add12Hour) {
-				int addedHour = Integer.parseInt(hourString);
 				if (addedHour >= 12 && addedHour < 24) {
 					hourString = String.valueOf(addedHour);
 				} else {
 					addedHour = (addedHour + 12) % 24;
+					hourString = String.valueOf(addedHour);
+				}
+			} else {
+				if (addedHour >= 12 && addedHour < 24) {
+					hourString = String.valueOf(addedHour - 12);
+				} else {
 					hourString = String.valueOf(addedHour);
 				}
 			}
