@@ -88,7 +88,8 @@ public class LogicData {
 				break;
 			case EXIT :
 				saveContents();
-				System.exit(0);
+				state = displayAllTasks(_tasks);
+				state.setState(StateFeedback.State.EXIT);
 				break;
 			case INVALID_COMMAND :
 				state = displayAllTasks(_tasks);
