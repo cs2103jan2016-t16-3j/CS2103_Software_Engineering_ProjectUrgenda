@@ -22,8 +22,8 @@ public class HelpController implements Initializable {
 	private static final String HELP_NAME = "Help";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	
-	static Stage stage = new Stage();
-	static String _helpText;
+	private Stage _helpStage;
+	private String _helpText;
 	
 	@FXML
 	private TextArea helpContentPane;
@@ -31,13 +31,13 @@ public class HelpController implements Initializable {
 	@FXML
 	public void handleEscPressed(KeyEvent event) {
 		if (event.getCode() == KeyCode.ESCAPE || event.getCode() == KeyCode.ENTER) {
-			stage.hide();
+			_helpStage.hide();
 		}
 	}
 	
 	@FXML
 	public void handleOkAction(ActionEvent e) {
-		stage.hide();
+		_helpStage.hide();
 	}
 	
 	@Override
@@ -48,10 +48,11 @@ public class HelpController implements Initializable {
 	
 	public void setupHelpStage() throws IOException {		
 		Parent help = FXMLLoader.load(Main.class.getResource("HelpSplash.fxml"));
-		stage.setScene(new Scene(help));
-		stage.initStyle(StageStyle.DECORATED);
-		stage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
-		stage.setTitle(HELP_NAME);
+		_helpStage = new Stage();
+		_helpStage.setScene(new Scene(help));
+		_helpStage.initStyle(StageStyle.DECORATED);
+		_helpStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
+		_helpStage.setTitle(HELP_NAME);
 		showHelpStage();	
 	}
 	
@@ -60,10 +61,14 @@ public class HelpController implements Initializable {
 	}
 
 	public void showHelpStage() {
-		stage.show();
+		_helpStage.show();
 	}
 
 	public void closeHelpWindow() {
-		stage.close();		
+		_helpStage.close();		
+	}
+	
+	public Stage getHelpStage() {
+		return _helpStage;
 	}
 }

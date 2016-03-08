@@ -33,7 +33,7 @@ public class TaskDetailsController extends GridPane {
 		loadFXML();
 		dateCreatedLabel.setText(formatDateTime(_task.getDateAdded()));
 		dateModifiedLabel.setText(formatDateTime(_task.getDateModified()));
-		locationLabel.setText("Location: " + _task.getLocation());
+		locationLabel.setText(_task.getLocation());
 	}
 
 	private String formatDateTime(LocalDateTime dateTime) {

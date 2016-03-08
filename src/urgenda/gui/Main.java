@@ -122,11 +122,10 @@ public class Main extends Application {
 			break;
 //		case DISPLAY:
 //			break;
-		case ERROR:
-			break;
 		case SHOW_HELP:
 			display = null; //previous display header not changed
 			break;
+		case ERROR:
 		case ALL_TASKS: //fall-through
 		default:
 			display = HEADER_ALL_TASKS;
@@ -144,7 +143,9 @@ public class Main extends Application {
 	}
 
 	private void quit() {
-		_mainController.getHelpController().closeHelpWindow();
+		if(_mainController.getHelpController() != null) {
+			_mainController.getHelpController().closeHelpWindow();
+		}
 		System.exit(0);
 	}
 	
