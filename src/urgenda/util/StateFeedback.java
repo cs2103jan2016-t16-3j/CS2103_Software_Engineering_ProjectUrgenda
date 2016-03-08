@@ -19,8 +19,8 @@ public class StateFeedback {
 	}
 	
 	// constructor for default generation of All tasks
-	public StateFeedback(ArrayList<Task> tasks, int overdue, int today, int urgent, int remaining) {
-		_allTasks = new TaskList(tasks, overdue, today, urgent, remaining);   //swapped urgent and today
+	public StateFeedback(ArrayList<Task> tasks, int overdue, int today, int remaining) {
+		_allTasks = new TaskList(tasks, overdue, today, remaining);
 		_showmoreIndexes = new ArrayList<Integer>();
 	}
 

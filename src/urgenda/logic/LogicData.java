@@ -107,26 +107,21 @@ public class LogicData {
 	public StateFeedback displayAllTasks(ArrayList<Task> displayList) {
 		ArrayList<Task> overdueTasks = new ArrayList<Task>();
 		ArrayList<Task> todayTasks = new ArrayList<Task>();
-		ArrayList<Task> importantTasks = new ArrayList<Task>();
 		ArrayList<Task> otherTasks = new ArrayList<Task>();
 		for (Task task : displayList) {
 			if (task.isOverdue()) {
 				overdueTasks.add(task);
 			} else if (isTaskToday(task)) {
 				todayTasks.add(task);
-			} else if (task.isImportant()) {
-				importantTasks.add(task);
-			} else { // remaining floating tasks
+			} else { // remaining tasks and floating tasks
 				otherTasks.add(task);
 			}
 		}
 		clearDisplays();
 		_displays.addAll(sortList(overdueTasks));
 		_displays.addAll(sortList(todayTasks));
-		_displays.addAll(sortList(importantTasks));
 		_displays.addAll(sortList(otherTasks));
-		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(),
-				importantTasks.size(), otherTasks.size());
+		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
 		return state;
 	}
 

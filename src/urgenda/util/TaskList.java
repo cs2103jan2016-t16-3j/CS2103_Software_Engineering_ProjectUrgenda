@@ -7,7 +7,6 @@ public class TaskList {
 	private ArrayList<Task> _tasks;
 	private ArrayList<Task> _archives;
 	private int _overdueCount;
-	private int _urgentCount;
 	private int _todayCount;
 	private int _remainingCount;
 	private int _archiveCount;
@@ -18,30 +17,27 @@ public class TaskList {
 		_archives = new ArrayList<Task>();
 		setOverdueCount(0);
 		setTodayCount(0);
-		setUrgentCount(0); 
 		setRemainingCount(0);
 		setArchiveCount(0);
 	}
 	
 	// constructor for tasklist of only uncompleted task
-	public TaskList(ArrayList<Task> tasks, int overdue, int today, int urgent, int remaining) {
+	public TaskList(ArrayList<Task> tasks, int overdue, int today, int remaining) {
 		_tasks = tasks;
 		_archives = new ArrayList<Task>();
 		setOverdueCount(overdue);
 		setTodayCount(today);
-		setUrgentCount(urgent);
 		setRemainingCount(remaining);
 		setArchiveCount(0);
 	}
 	
 	// constructor for tasklist with both uncompleted and completed task
-	public TaskList(ArrayList<Task> tasks, ArrayList<Task> archives, int overdue, int today, int urgent, 
+	public TaskList(ArrayList<Task> tasks, ArrayList<Task> archives, int overdue, int today, 
 			int remaining, int archive) {
 		_tasks = tasks;
 		_archives = archives;
 		setOverdueCount(overdue);
 		setTodayCount(today);
-		setUrgentCount(urgent);
 		setRemainingCount(remaining);
 		setArchiveCount(archive);
 	}
@@ -56,14 +52,6 @@ public class TaskList {
 
 	public void setOverdueCount(int overdueCount) {
 		_overdueCount = overdueCount;
-	}
-
-	public int getUrgentCount() {
-		return _urgentCount;
-	}
-
-	public void setUrgentCount(int urgentCount) {
-		_urgentCount = urgentCount;
 	}
 
 	public int getTodayCount() {
@@ -99,7 +87,7 @@ public class TaskList {
 	}
 	
 	public int getUncompletedCount() {
-		return _overdueCount + _urgentCount + _todayCount + _remainingCount;
+		return _overdueCount + _todayCount + _remainingCount;
 	}
 
 }
