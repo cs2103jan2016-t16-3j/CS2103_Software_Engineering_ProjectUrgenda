@@ -16,6 +16,13 @@ import urgenda.util.Task;
 public class TestStorage {
 
 	@Test
+	public void testHelp(){
+		Storage store = new Storage();
+		String phrase = store.retrieveHelp();
+		System.out.println(phrase);
+	}
+	
+	@Test
 	public void testSave(){
 		Storage store = new Storage();
 		Task task1 = new Task("test1");

@@ -24,9 +24,9 @@ public class Parser {
 		EVENT, DEADLINE, FLOATING, INVALID
 	}
 
-	private static Integer currentYear = LocalDate.now().getYear();
-	private static Integer currentMonth = LocalDate.now().getMonthValue();
-	private static Integer currentDayOfMonth = LocalDate.now().getDayOfMonth();
+	private static int currentYear = LocalDate.now().getYear();
+	private static int currentMonth = LocalDate.now().getMonthValue();
+	private static int currentDayOfMonth = LocalDate.now().getDayOfMonth();
 
 	private static final String MESSAGE_INVALID_COMMAND = "\"%1$s\" is not a valid command";
 
@@ -83,8 +83,8 @@ public class Parser {
 	private static String generalTimeRegex = "(" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + "|"
 			+ timeRegexHour12Minute + "|" + timeRegexHour24Minute + "|" + timeRegexHour12 + "|" + timeRegexHour24 + ")";
 
-	private static Integer passedInIndex = -1;
-	private static Integer taskIndex = -1;
+	private static int passedInIndex = -1;
+	private static int taskIndex = -1;
 	private static String taskDescription = "";
 	private static String taskLocation = "";
 	private static LocalDateTime taskStartTime;
@@ -96,7 +96,7 @@ public class Parser {
 	private static ArrayList<LocalDateTime> taskDateTime = new ArrayList<LocalDateTime>();
 	private static ArrayList<String> taskTimeType = new ArrayList<String>();
 
-	public static Command parseCommand(String commandString, Integer index) {
+	public static Command parseCommand(String commandString, int index) {
 		reinitializeStorageVariables();
 		storePassedInIndex(index);
 		String firstWord = getFirstWord(commandString);
@@ -111,7 +111,7 @@ public class Parser {
 		}
 	}
 
-	private static void storePassedInIndex(Integer index) {
+	private static void storePassedInIndex(int index) {
 		passedInIndex = index;
 	}
 
@@ -184,13 +184,29 @@ public class Parser {
 	private static Boolean isCorrectNumberOfArgs(String commandArgs) {
 		switch (commandType) {
 		case REDO:
-			return commandArgs.equals(null);
+			if (commandArgs == null) {
+				return true;
+			} else {
+				return false;
+			}
 		case UNDO:
-			return commandArgs.equals(null);
+			if (commandArgs == null) {
+				return true;
+			} else {
+				return false;
+			}
 		case SEARCH:
-			return !commandArgs.equals(null);
+			if (commandArgs != null) {
+				return true;
+			} else {
+				return false;
+			}
 		case ADD:
-			return !commandArgs.equals(null);
+			if (commandArgs != null) {
+				return true;
+			} else {
+				return false;
+			}
 		default:
 			return true;
 		}
@@ -237,6 +253,7 @@ public class Parser {
 			break;
 		case PRIORITISE:
 			searchTaskDescriptionOrID(commandArgs);
+			break;
 		case EXIT:
 			break;
 		case INVALID:
@@ -251,7 +268,6 @@ public class Parser {
 		try {
 			taskIndex = Integer.parseInt(getFirstWord(commandArgs));
 		} catch (Exception e) {
-			taskIndex = passedInIndex;
 			return commandArgs;
 		}
 
@@ -259,16 +275,22 @@ public class Parser {
 	}
 
 	private static void searchTaskDescriptionOrID(String commandArgs) {
-		String temp = commandArgs;
-		temp = temp.split("\\bat\\b")[0];
-		temp = temp.split("\\bby\\b")[0];
-		temp = temp.split("\\bfrom\\b")[0];
-		temp = temp.split("@")[0];
-		temp = temp.split("#")[0];
-		try {
-			taskIndex = Integer.parseInt(temp.trim());
-		} catch (Exception e) {
-			taskDescription = temp.trim();
+		if (commandArgs != null) {
+			String temp = commandArgs;
+			temp = temp.split("\\bat\\b")[0];
+			temp = temp.split("\\bby\\b")[0];
+			temp = temp.split("\\bfrom\\b")[0];
+			temp = temp.split("@")[0];
+			temp = temp.split("#")[0];
+			if (taskIndex == -1) {
+				try {
+					taskIndex = Integer.parseInt(temp.trim());
+				} catch (Exception e) {
+					taskDescription = temp.trim();
+				}
+			} else {
+				taskDescription = temp.trim();
+			}
 		}
 	}
 
@@ -347,7 +369,7 @@ public class Parser {
 			if (allMatches.size() == 1) {
 				dayString = dateString.split("[-/.]")[0];
 				monthString = dateString.split("[-/.]")[1];
-				yearString = currentYear.toString();
+				yearString = String.valueOf(currentYear);
 
 				if (dayString.length() == 1) {
 					dayString = "0" + dayString;
@@ -418,8 +440,8 @@ public class Parser {
 			return null;
 		} else {
 			if (add12Hour) {
-				Integer addedHour = (Integer.parseInt(hourString) + 12)%24;
-				hourString = addedHour.toString();
+				int addedHour = (Integer.parseInt(hourString) + 12) % 24;
+				hourString = String.valueOf(addedHour);
 			}
 
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
@@ -603,7 +625,7 @@ public class Parser {
 				add7Days = true;
 			}
 
-			Integer numberOfDayDifference;
+			int numberOfDayDifference;
 			if (add7Days) {
 				numberOfDayDifference = commandDayOfWeek - currentDayOfWeek + 7;
 			} else {
@@ -749,6 +771,8 @@ public class Parser {
 		Task newTask = new Task();
 		if (taskIndex != -1) {
 			newTask.setId(taskIndex);
+		} else {
+			newTask.setId(passedInIndex);
 		}
 		if (taskDescription != "") {
 			newTask.setDesc(taskDescription);
@@ -788,6 +812,8 @@ public class Parser {
 		DeleteTask deleteCommand = new DeleteTask();
 		if (taskIndex != -1) {
 			deleteCommand.setId(taskIndex);
+		} else {
+			deleteCommand.setId(passedInIndex);
 		}
 		if (taskDescription != "") {
 			deleteCommand.setDesc(taskDescription);
@@ -805,6 +831,8 @@ public class Parser {
 		Complete completeCommand = new Complete();
 		if (taskIndex != -1) {
 			completeCommand.setId(taskIndex);
+		} else {
+			completeCommand.setId(passedInIndex);
 		}
 		if (taskDescription != "") {
 			completeCommand.setDesc(taskDescription);
@@ -814,8 +842,8 @@ public class Parser {
 
 	private static Command generateUpdateCommandObject() {
 		Task newTask = new Task();
-		if (taskIndex != -1) {
-			newTask.setLocation(taskLocation);
+		if (taskDescription != "") {
+
 		}
 		if (taskLocation != "") {
 			newTask.setLocation(taskLocation);
@@ -845,7 +873,7 @@ public class Parser {
 		default:
 			break;
 		}
-		if (newTask.getId() == -1) {
+		if (taskIndex == -1) {
 			return new Invalid();
 		} else {
 			return new Edit(taskIndex, newTask);
@@ -918,6 +946,8 @@ public class Parser {
 		Prioritise prioritiseCommand = new Prioritise();
 		if (taskIndex != -1) {
 			prioritiseCommand.setId(taskIndex);
+		} else {
+			prioritiseCommand.setId(passedInIndex);
 		}
 		if (taskDescription != "") {
 			prioritiseCommand.setDesc(taskDescription);
@@ -937,18 +967,17 @@ public class Parser {
 		return invalidCommand;
 	}
 
-	public static void testParser(String commandArgs) {
-		searchTaskDescriptionOrID(commandArgs);
-		searchTaskLocation(commandArgs);
-		searchTaskDateTime(commandArgs);
-		searchTaskHashtags(commandArgs);
+	public static void testParser(String commandArgs, int index) {
+		parseCommand(commandArgs, index);
 		System.out.print("Task description: " + taskDescription + "\n");
+		System.out.print("Task Index: " + taskIndex + "\n");
+		System.out.print("Passed in Index: " + passedInIndex + "\n");
 		System.out.print("Task location: " + taskLocation + "\n");
 		System.out.print("Task start time: " + taskStartTime + "\n");
 		System.out.print("Task end time: " + taskEndTime + "\n");
 		System.out.print("Task type: " + taskType.toString() + "\n");
 		System.out.print("Task hastags:");
-		for (Integer i = 0; i < taskHashtags.size(); i++) {
+		for (int i = 0; i < taskHashtags.size(); i++) {
 			System.out.print(" " + taskHashtags.get(i));
 		}
 		System.out.print("\n");

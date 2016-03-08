@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 public class FileEditor {
 	private static final String LIST_SEPARATOR_ARCHIVE = "archive";
-	
+
 	private File _file;
 	private File _parentDir;
-	
-	public FileEditor(String path, String name){
+
+	public FileEditor(String path, String name) {
 		_parentDir = new File(path);
 		_parentDir.mkdir();
 		_file = new File(_parentDir, name);
@@ -30,8 +30,28 @@ public class FileEditor {
 			}
 		}
 	}
-	
-	public String retrieveFromFile(){
+
+	public String getHelp() {
+		String phrase = null;
+		try {
+			FileReader reader = new FileReader(_file);
+			BufferedReader breader = new BufferedReader(reader);
+			StringBuffer stringBuffer = new StringBuffer();
+			while ((phrase = breader.readLine()) != null) {
+				stringBuffer.append(phrase).append("\n");
+			}
+			phrase = stringBuffer.toString();
+			breader.close();
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return phrase;
+	}
+
+	public String retrieveFromFile() {
 		String phrase = null;
 		try {
 			FileReader reader = new FileReader(_file);
@@ -46,7 +66,7 @@ public class FileEditor {
 		}
 		return phrase;
 	}
-	
+
 	public void retrieveFromFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
 		try {
 			FileReader reader = new FileReader(_file);
@@ -70,25 +90,25 @@ public class FileEditor {
 				hasNoMoreTasks = true;
 			} else if (taskString.equals(LIST_SEPARATOR_ARCHIVE)) {
 				hasNoMoreTasks = true;
-			}else {
+			} else {
 				fileDataStringArr.add(taskString);
 			}
 		}
 	}
-	
-	private void addToArchiveArray(BufferedReader breader, ArrayList<String> archiveStringArr) throws IOException{
+
+	private void addToArchiveArray(BufferedReader breader, ArrayList<String> archiveStringArr) throws IOException {
 		boolean isEmpty = false;
-		while (!isEmpty){
+		while (!isEmpty) {
 			String taskString = breader.readLine();
-			if (taskString == null){
+			if (taskString == null) {
 				isEmpty = true;
 			} else {
 				archiveStringArr.add(taskString);
 			}
 		}
 	}
-	
-	public void writeToFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr){
+
+	public void writeToFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
 		try {
 			PrintWriter writer = new PrintWriter(_file);
 			for (String phrase : fileDataStringArr) {
@@ -103,8 +123,8 @@ public class FileEditor {
 			e.printStackTrace();
 		}
 	}
-	
-	public void writeToFile(String phrase){
+
+	public void writeToFile(String phrase) {
 		try {
 			PrintWriter writer = new PrintWriter(_file);
 			writer.println(phrase);

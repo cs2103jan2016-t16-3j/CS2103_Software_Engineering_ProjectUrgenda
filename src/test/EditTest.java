@@ -52,6 +52,10 @@ public class EditTest {
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
 		Edit tester = new Edit(1,testTask);
 		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.execute(_data));
+		Task testTask2 = new Task(null, "", LocalDateTime.of(2016, Month.APRIL, 5, 10, 00),
+				LocalDateTime.of(2016, Month.APRIL, 5, 12, 00), _tags);
+		Edit tester2 = new Edit(2,testTask2);
+		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute(_data));
 		
 	}
 
