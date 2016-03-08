@@ -843,7 +843,7 @@ public class Parser {
 	private static Command generateUpdateCommandObject() {
 		Task newTask = new Task();
 		if (taskDescription != "") {
-
+			newTask.setDesc(taskDescription);
 		}
 		if (taskLocation != "") {
 			newTask.setLocation(taskLocation);
