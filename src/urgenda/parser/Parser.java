@@ -896,7 +896,11 @@ public class Parser {
 		default:
 			break;
 		}
-		return new Edit(taskIndex, newTask);
+		if (taskIndex != -10) {
+			return new Edit(taskIndex, newTask);
+		} else {
+			return new Edit(passedInIndex, newTask);
+		}
 	}
 
 	private static Command generateSearchCommandObject(String commandArgs) {
