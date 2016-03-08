@@ -99,18 +99,9 @@ public class Prioritise implements Undoable {
 		_desc = desc;
 	}
 
-<<<<<<< Updated upstream
-	public void setDesc(String desc) {
-		_desc = desc;
-	}
-
 	public void setId(Integer id) {
 		_id = Integer.valueOf(id);
 	}
 
-=======
-	public void setId(int id) {
-		_id = Integer.valueOf(id);
-	}
->>>>>>> Stashed changes
+
 }
