@@ -22,7 +22,7 @@ public class HelpController implements Initializable {
 	private static final String HELP_NAME = "Help";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	
-	private Stage _helpStage;
+	static Stage _helpStage;
 	private String _helpText;
 	
 	@FXML
@@ -30,14 +30,14 @@ public class HelpController implements Initializable {
 	
 	@FXML
 	public void handleEscPressed(KeyEvent event) {
-		if (event.getCode() == KeyCode.ESCAPE || event.getCode() == KeyCode.ENTER) {
-			_helpStage.hide();
+		if (event.getCode() == KeyCode.ESCAPE) {
+			_helpStage.close();
 		}
 	}
 	
 	@FXML
 	public void handleOkAction(ActionEvent e) {
-		_helpStage.hide();
+		_helpStage.close();
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ public class HelpController implements Initializable {
 		_helpStage.initStyle(StageStyle.DECORATED);
 		_helpStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		_helpStage.setTitle(HELP_NAME);
-		showHelpStage();	
+		showHelpStage();
 	}
 	
 	public void setHelpText(String text) {

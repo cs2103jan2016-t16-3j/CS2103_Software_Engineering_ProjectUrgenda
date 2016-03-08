@@ -24,6 +24,7 @@ public class Main extends Application {
 	private MainController _mainController;
 	private DisplayController _displayController;
 	private Logic _logic;
+	private static Stage _primaryStage;
 
 	
 	private static final String APP_NAME = "Urgenda";
@@ -80,6 +81,7 @@ public class Main extends Application {
 
 	private void initStage(Stage primaryStage) {
 		_scene = new Scene(_rootLayout);
+		_primaryStage = primaryStage;
 		primaryStage.initStyle(StageStyle.DECORATED);
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		primaryStage.setTitle(APP_NAME);
@@ -140,6 +142,10 @@ public class Main extends Application {
 
 	public MainController getController() {
 		return _mainController;
+	}
+	
+	public Stage getPrimaryStage() {
+		return _primaryStage;
 	}
 
 	private void quit() {
