@@ -418,7 +418,7 @@ public class Parser {
 			return null;
 		} else {
 			if (add12Hour) {
-				Integer addedHour = Integer.parseInt(hourString) + 12;
+				Integer addedHour = (Integer.parseInt(hourString) + 12)%24;
 				hourString = addedHour.toString();
 			}
 
