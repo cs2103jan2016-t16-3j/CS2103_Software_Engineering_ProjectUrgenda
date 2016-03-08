@@ -52,6 +52,9 @@ public class Edit implements Undoable {
 			if(_newTask.getEndTime() == null && _prevTask.getEndTime() != null) {
 				_newTask.setEndTime(_prevTask.getEndTime());
 			}
+			_newTask.setId(_prevTask.getId());
+			_newTask.setIsCompleted(_prevTask.isCompleted());
+			_newTask.setIsImportant(_prevTask.isImportant());
 			_newTask.setDateAdded(_prevTask.getDateAdded());
 			_newTask.setDateModified(LocalDateTime.now()); // TODO refactor out to update undo and redo
 			_prevTask.setDateModified(LocalDateTime.now());
