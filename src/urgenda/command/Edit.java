@@ -40,7 +40,7 @@ public class Edit implements Undoable {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			throw new Exception(MESSAGE_NO_EDIT_MATCH);
 		} else {
-			if(_newTask.getDesc() == null && _prevTask.getDesc() != null) {
+			if(_newTask.getDesc() == null && _prevTask.getDesc() != null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
 				_newTask.setDesc(_prevTask.getDesc());
 			}
 			if(_newTask.getLocation() == null && _prevTask.getLocation() != null) {
