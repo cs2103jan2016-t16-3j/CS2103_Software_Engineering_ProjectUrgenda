@@ -14,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class HelpController implements Initializable {
 	
@@ -43,6 +44,7 @@ public class HelpController implements Initializable {
 	public void setupHelpStage() throws IOException {		
 		Parent help = FXMLLoader.load(Main.class.getResource("HelpSplash.fxml"));
 		stage.setScene(new Scene(help));
+		stage.initStyle(StageStyle.DECORATED);
 		stage.show();	
 	}
 	

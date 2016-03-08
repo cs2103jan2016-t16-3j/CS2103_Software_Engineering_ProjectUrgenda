@@ -24,7 +24,7 @@ public class DisplayController extends AnchorPane {
 	static final String TEXT_FILL_OVERDUE = "-fx-text-fill: white;";
 	static final String TEXT_FILL_TODAY = "-fx-text-fill: black;";
 	static final String TEXT_FILL_NORMAL = "-fx-text-fill: black;";
-	static final String TEXT_FILL_COMPLETED = "-fx-text-fill: white;";
+	static final String TEXT_FILL_COMPLETED = "-fx-text-fill: black;";
 	static final String TEXT_WEIGHT_BOLD = "-fx-font-family: \"Montserrat\";";
 	static final String TEXT_WEIGHT_REGULAR = "";
 	static final String TEXT_MODIFY_NONE = "";
