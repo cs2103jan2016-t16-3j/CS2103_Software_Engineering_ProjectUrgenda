@@ -83,6 +83,7 @@ public class Parser {
 	private static String generalTimeRegex = "(" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + "|"
 			+ timeRegexHour12Minute + "|" + timeRegexHour24Minute + "|" + timeRegexHour12 + "|" + timeRegexHour24 + ")";
 
+	private static String passedInCommandString = "";
 	private static int passedInIndex = -1;
 	private static int taskIndex = -10;
 	private static String taskDescription = "";
@@ -98,7 +99,7 @@ public class Parser {
 
 	public static Command parseCommand(String commandString, int index) {
 		reinitializeStorageVariables();
-		storePassedInIndex(index);
+		storePassedInArgs(commandString, index);
 		String firstWord = getFirstWord(commandString);
 		String commandArgs = removeFirstWord(commandString);
 		Boolean isCommandValid = isCommandValid(firstWord, commandArgs);
@@ -107,12 +108,13 @@ public class Parser {
 		} else {
 			String formatedErrorMessage = String.format(MESSAGE_INVALID_COMMAND, commandString);
 			System.out.print(formatedErrorMessage);
-			return null;
+			return new Invalid(passedInCommandString);
 		}
 	}
 
-	private static void storePassedInIndex(int index) {
+	private static void storePassedInArgs(String commandString, int index) {
 		passedInIndex = index;
+		passedInCommandString = commandString;
 	}
 
 	private static void reinitializeStorageVariables() {
@@ -770,9 +772,7 @@ public class Parser {
 	private static Command generateAddCommandObject() {
 		Task newTask = new Task();
 		if (taskIndex != -10) {
-			newTask.setId(taskIndex);
-		} else {
-			newTask.setId(passedInIndex);
+			newTask.setDesc(String.valueOf(taskIndex + 1));
 		}
 		if (taskDescription != "") {
 			newTask.setDesc(taskDescription);
@@ -887,7 +887,7 @@ public class Parser {
 		} else if (taskDate.isEmpty() && taskDateTime.isEmpty()) {
 			return new Search(taskDescription);
 		} else {
-			return new Invalid();
+			return new Invalid(passedInCommandString);
 		}
 	}
 
@@ -958,7 +958,7 @@ public class Parser {
 	}
 
 	private static Command generateInvalidCommandObject() {
-		Invalid invalidCommand = new Invalid();
+		Invalid invalidCommand = new Invalid(passedInCommandString);
 		// TO DO: set methods
 		return invalidCommand;
 	}
