@@ -19,6 +19,10 @@ public class DisplayController extends AnchorPane {
 	public enum Direction {
 		DOWN, UP
 	}
+	
+	public enum TaskType {
+		TASK, DETAILED_TASK
+	}
 
 	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display!";
 	static final String TEXT_FILL_OVERDUE = "-fx-text-fill: white;";
@@ -36,18 +40,18 @@ public class DisplayController extends AnchorPane {
 
 	/*
 	 * COLORS 
-	 * red: FE9A9A, 254, 154, 154 
-	 * orange: FFD99B 255, 217, 155 
-	 * blue: CADEFF 202, 222, 255 
+	 * red: FF9999, 255, 153, 153 
+	 * orange: FFD299 255, 210, 153 
+	 * blue: 96B2FF 150, 178, 255 
 	 * gray: B2B2B2 178, 178, 178
 	 */
 
-	static final Color COLOR_OVERDUE = Color.rgb(255, 150, 150, NORMAL_OPACITY_VALUE);
-	static final Color COLOR_TODAY_IMPORTANT = Color.rgb(255, 210, 150, IMPORTANT_OPACITY_VALUE);
-	static final Color COLOR_TODAY = Color.rgb(255, 210, 150, NORMAL_OPACITY_VALUE);
-	static final Color COLOR_NORMAL_IMPORTANT = Color.rgb(180, 200, 255, IMPORTANT_OPACITY_VALUE);
-	static final Color COLOR_NORMAL = Color.rgb(180, 200, 255, NORMAL_OPACITY_VALUE);
-	static final Color COLOR_COMPLETED = Color.rgb(178, 178, 178, NORMAL_OPACITY_VALUE);
+	static final Color COLOR_OVERDUE = Color.rgb(255, 153, 153, IMPORTANT_OPACITY_VALUE);
+	static final Color COLOR_TODAY_IMPORTANT = Color.rgb(255, 210, 153, IMPORTANT_OPACITY_VALUE);
+	static final Color COLOR_TODAY = Color.rgb(255, 210, 153, NORMAL_OPACITY_VALUE);
+	static final Color COLOR_NORMAL_IMPORTANT = Color.rgb(150, 178, 255, IMPORTANT_OPACITY_VALUE);
+	static final Color COLOR_NORMAL = Color.rgb(150, 178, 255, NORMAL_OPACITY_VALUE);
+	static final Color COLOR_COMPLETED = Color.rgb(178, 178, 178, IMPORTANT_OPACITY_VALUE);
 
 	@FXML
 	private Label displayHeader;
@@ -58,11 +62,11 @@ public class DisplayController extends AnchorPane {
 
 	private ArrayList<Task> _displayedTasks;
 	private int _selectedTaskIndex;
-	private int _indicatorShowmoreCount;
+	private int _detailedTasksBeforeIndicatorCount;
 
 	public DisplayController() {
 		_selectedTaskIndex = -1;
-		_indicatorShowmoreCount = 0;
+		_detailedTasksBeforeIndicatorCount = 0;
 		_displayedTasks = new ArrayList<Task>();
 	}
 
@@ -119,7 +123,45 @@ public class DisplayController extends AnchorPane {
 		}
 		return addedCount;
 	}
-
+//	TODO: implement show more or less by click
+//	private void showMoreByIndex(int index) {
+//		int taskCount = 0;
+//		int objectCount = 0;
+//		while(taskCount <= index) {
+//			if(displayHolder.getChildren().get(objectCount).getClass().equals(TaskController.class)) {				
+//				taskCount++;
+//			}
+//			objectCount++;
+//		}
+//		displayHolder.getChildren().add(objectCount, new TaskDetailsController(_displayedTasks.get(taskCount - 1)));
+//		if(_selectedTaskIndex > taskCount) {
+//			_selectedTaskIndex++;
+//			_indicatorShowmoreCount++;
+//		}
+//	}
+//	
+//	private void showLessByIndex(int index) {
+//		
+//	}
+	
+	//TODO implement for counting tasks and detailed tasks
+	private int typeTasksBeforeIndexCount(int index, TaskType taskType) {
+		int taskCount = 0;
+		int detailedTaskCount = 0;
+		int objectCount = 0;
+		
+		switch(taskType) {
+			case TASK:
+				return taskCount;
+			case DETAILED_TASK:
+				return detailedTaskCount;
+			default:
+				break;
+		}
+		return -1;
+	}
+	
+	//TODO set display scroll position according to latest changed/added task
 	private void setDisplayScrollTop() {
 		displayArea.setVvalue(DEFAULT_VERTICAL_SCROLL_HEIGHT);
 
@@ -135,10 +177,10 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void traverseTasks(Direction direction) {
-		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() + _indicatorShowmoreCount - 1) { //to add detailed task count
+		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() + _detailedTasksBeforeIndicatorCount - 1) { //to add detailed task count
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
 			if (displayHolder.getChildren().get(++_selectedTaskIndex).getClass().equals(TaskDetailsController.class)) {
-				_indicatorShowmoreCount++;
+				_detailedTasksBeforeIndicatorCount++;
 				((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
 			} else {
 				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(true);
@@ -146,7 +188,7 @@ public class DisplayController extends AnchorPane {
 		} else if (direction == Direction.UP && _selectedTaskIndex != 0) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
 			if (displayHolder.getChildren().get(--_selectedTaskIndex).getClass().equals(TaskDetailsController.class)) {
-				_indicatorShowmoreCount--;
+				_detailedTasksBeforeIndicatorCount--;
 				((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
 			} else {
 				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(true);
@@ -158,6 +200,7 @@ public class DisplayController extends AnchorPane {
 		displayHeader.setText(displayed);
 	}
 
+	//TODO does not work for detailed tasks displayed, to fix
 	public void setSelectedIndexOnClick(int index) {
 		if (index != _selectedTaskIndex) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);

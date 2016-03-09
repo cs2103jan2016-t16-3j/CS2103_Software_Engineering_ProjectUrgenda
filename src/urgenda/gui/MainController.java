@@ -120,12 +120,12 @@ public class MainController {
 	public void showHelp() {
 		if(_helpController == null) {
 			_helpController = new HelpController();
-		_helpController.setHelpText(_main.getHelpText());
-		try {
-			_helpController.setupHelpStage();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			_helpController.setHelpText(_main.getHelpText());
+			try {
+				_helpController.setupHelpStage();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}else {
 			_helpController.showHelpStage();
 		}

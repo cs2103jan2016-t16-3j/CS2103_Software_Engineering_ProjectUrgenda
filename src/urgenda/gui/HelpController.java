@@ -23,7 +23,7 @@ public class HelpController implements Initializable {
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	
 	static Stage _helpStage;
-	private String _helpText;
+	private static String _helpText;
 	
 	@FXML
 	private TextArea helpContentPane;
