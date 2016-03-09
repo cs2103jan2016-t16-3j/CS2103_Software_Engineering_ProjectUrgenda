@@ -83,7 +83,7 @@ public class Edit implements Undoable {
 	}
 	
 	public void checkTaskValidity(Task task) throws Exception {
-		if (task.getDesc() == null) {
+		if (task.getDesc() == null || task.getDesc().equals("")) {
 			throw new Exception(ERROR_NO_DESC);
 		}
 		LocalDateTime start = task.getStartTime();

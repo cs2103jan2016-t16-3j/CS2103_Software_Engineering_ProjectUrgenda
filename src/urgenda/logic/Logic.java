@@ -16,7 +16,7 @@ public class Logic {
 	}
 	
 	public StateFeedback executeCommand(String command, int index) {
-		assert (index >= 0); // asserts that given index is non-negative OR -1(case when there is no tasks)
+		assert (index >= -1); // asserts that given index is non-negative OR -1(case when there is no tasks)
 		
 		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = Parser.parseCommand(command,index);
