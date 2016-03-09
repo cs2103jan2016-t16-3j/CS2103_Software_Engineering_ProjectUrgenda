@@ -464,7 +464,15 @@ public class Parser {
 					hourString = String.valueOf(addedHour);
 				}
 			}
-
+			if (hourString.length() == 1) {
+				hourString = "0" + hourString;
+			}
+			if (minuteString.length() == 1) {
+				minuteString = "0" + minuteString;
+			}
+			if (secondString.length() == 1) {
+				secondString = "0" + secondString;
+			}
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
 		}
 	}
@@ -488,6 +496,15 @@ public class Parser {
 		if (hourString == "") {
 			return null;
 		} else {
+			if (hourString.length() == 1) {
+				hourString = "0" + hourString;
+			}
+			if (minuteString.length() == 1) {
+				minuteString = "0" + minuteString;
+			}
+			if (secondString.length() == 1) {
+				secondString = "0" + secondString;
+			}
 			return mergeAndParseTimeValues(hourString, minuteString, secondString);
 		}
 	}
@@ -509,37 +526,16 @@ public class Parser {
 			hourString = timeString.split("[:]")[0].trim();
 			minuteString = "00";
 			secondString = "00";
-
-			if (hourString.length() == 1) {
-				hourString = "0" + hourString;
-			}
 			break;
 		case 1:
 			hourString = timeString.split("[:]")[0].trim();
 			minuteString = timeString.split("[:]")[1].trim();
 			secondString = "00";
-
-			if (hourString.length() == 1) {
-				hourString = "0" + hourString;
-			}
-			if (minuteString.length() == 1) {
-				minuteString = "0" + minuteString;
-			}
 			break;
 		case 2:
 			hourString = timeString.split("[:]")[0].trim();
 			minuteString = timeString.split("[:]")[1].trim();
 			secondString = timeString.split("[:]")[2].trim();
-
-			if (hourString.length() == 1) {
-				hourString = "0" + hourString;
-			}
-			if (minuteString.length() == 1) {
-				minuteString = "0" + minuteString;
-			}
-			if (secondString.length() == 1) {
-				secondString = "0" + secondString;
-			}
 			break;
 		default:
 			hourString = "";
