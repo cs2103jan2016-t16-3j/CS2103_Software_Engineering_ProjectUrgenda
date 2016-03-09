@@ -8,6 +8,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import urgenda.storage.Storage;
+import urgenda.storage.FileEditor;
 import urgenda.storage.JsonCipher;
 import urgenda.storage.OldStorage;
 import urgenda.storage.SettingsEditor;
@@ -18,21 +19,38 @@ import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestStorage {
+	private static final String TEST_FILE_LOCATION = "testfiles";
+	private static final String TEST_FILE_NAME = "test.txt";
+	private static final String TEST_SETTINGS_FILE_NAME = "testsettings.txt";
 
 	@Test
-	public void test01ReadWriteSingleLine(){
+	public void test01ReadWriteSingleLine() {
+		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
+		String inputPhrase = "test phrase";
+		file.writeToFile(inputPhrase);
+		String retrievedPhrase = file.retrieveFromFile();
+		assertEquals("not the same", inputPhrase, retrievedPhrase);
+
+		inputPhrase = "";
+		file.writeToFile(inputPhrase);
+		retrievedPhrase = file.retrieveFromFile();
+		assertEquals("not the same", inputPhrase, retrievedPhrase);
+	}
+
+	@Test
+	public void test02ReadWriteMultipleLines(){
 		
 	}
 	
 	@Test
-	public void testHelp(){
-		Storage store = new Storage();
+	public void testHelp() {
+		Storage store = new Storage(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		String phrase = store.retrieveHelp();
 		System.out.println(phrase);
 	}
-	
+
 	@Test
-	public void test1Save(){
+	public void test1Save() {
 		Storage store = new Storage();
 		Task task1 = new Task("test1");
 		Task task2 = new Task("test2");
@@ -48,13 +66,13 @@ public class TestStorage {
 		_archive.add(task3);
 		store.save(_tasks, _archive);
 	}
-	
+
 	@Test
-	public void test2UpdateArrayLists(){
+	public void test2UpdateArrayLists() {
 		Storage store = new Storage();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();
-//		ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
+		// ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
 		int id = store.updateArrayLists(_tasks, _archive);
 		int i = 1;
 		for (Task print : _tasks) {
@@ -92,9 +110,9 @@ public class TestStorage {
 			i++;
 		}
 	}
-	
+
 	@Test
-	public void testConvertToString(){
+	public void testConvertToString() {
 		JsonCipher _cipher = new JsonCipher();
 		_cipher.setDirectory("settings");
 		_cipher.setFileName("settings.txt");
@@ -102,12 +120,12 @@ public class TestStorage {
 		String test = _cipher.getDetailsString();
 		System.out.println(test);
 	}
-	
+
 	@Test
-	public void testSettingsEditor(){
-		SettingsEditor _settings = new SettingsEditor();
+	public void testSettingsEditor() {
+		SettingsEditor _settings = new SettingsEditor(TEST_FILE_LOCATION, TEST_SETTINGS_FILE_NAME);
 		_settings.setFileDir("testfiles");
-		_settings.setFileName("test.txt");
+		_settings.setFileName("test er.txt");
 		_settings.saveSettings();
 	}
 
