@@ -46,7 +46,8 @@ public class HelpController implements Initializable {
 		helpContentPane.setEditable(false);
 	}
 	
-	public void setupHelpStage() throws IOException {		
+	public void setupHelpStage(String helpText) throws IOException {		
+		_helpText = helpText;
 		Parent help = FXMLLoader.load(Main.class.getResource("HelpSplash.fxml"));
 		_helpStage = new Stage();
 		_helpStage.setScene(new Scene(help));
@@ -54,10 +55,6 @@ public class HelpController implements Initializable {
 		_helpStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		_helpStage.setTitle(HELP_NAME);
 		showHelpStage();
-	}
-	
-	public void setHelpText(String text) {
-		_helpText = text;
 	}
 
 	public void showHelpStage() {
