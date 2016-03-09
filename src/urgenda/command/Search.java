@@ -15,6 +15,7 @@ public class Search implements Command {
 	private String _searchDesc;
 	private LocalDate _searchDate;
 	private LocalDateTime _searchDateTime;
+	// private Month _searchMonth;
 
 	// default constructor
 	public Search() {
@@ -32,6 +33,10 @@ public class Search implements Command {
 	public Search(LocalDateTime input) {
 		_searchDateTime = input;
 	}
+	
+	/** public Search(Month input) { //TODO: add search fn w month
+		_searchMonth = input;
+	} **/
 
 	@Override
 	/**
@@ -93,5 +98,9 @@ public class Search implements Command {
 	public void setSearchDateTime(LocalDateTime input) {
 		_searchDateTime = input;
 	}
+	
+	/** public void setSearchMonth(Month input) {
+		_searchMonth = input;
+	} **/
 
 }
