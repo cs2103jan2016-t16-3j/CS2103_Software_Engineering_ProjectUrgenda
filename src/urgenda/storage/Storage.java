@@ -33,7 +33,7 @@ public class Storage implements StorageInterface {
 	}
 
 	public int updateArrayLists(ArrayList<Task> tasks, ArrayList<Task> archive) {
-		int taskId = _decryptor.decrypt(tasks, _fileDataStringArr, archive, _archiveStringArr);
+		int taskId = _decryptor.decryptStringArr(tasks, _fileDataStringArr, archive, _archiveStringArr);
 		return taskId;
 	}
 

@@ -37,9 +37,7 @@ public class FileEditor {
 			FileReader reader = new FileReader(_file);
 			BufferedReader breader = new BufferedReader(reader);
 			StringBuffer stringBuffer = new StringBuffer();
-			while ((phrase = breader.readLine()) != null) {
-				stringBuffer.append(phrase).append("\n");
-			}
+			phrase = readFileToString(breader, stringBuffer);
 			phrase = stringBuffer.toString();
 			breader.close();
 			reader.close();
@@ -47,6 +45,14 @@ public class FileEditor {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		return phrase;
+	}
+
+	private String readFileToString(BufferedReader breader, StringBuffer stringBuffer) throws IOException {
+		String phrase;
+		while ((phrase = breader.readLine()) != null) {
+			stringBuffer.append(phrase).append("\n");
 		}
 		return phrase;
 	}
