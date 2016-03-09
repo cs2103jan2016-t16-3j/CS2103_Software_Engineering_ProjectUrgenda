@@ -2,6 +2,7 @@ package urgenda.logic;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -240,6 +241,22 @@ public class LogicData {
 				}
 			} else if (task.getEndTime() != null) {
 				if (task.getEndTime().isEqual(input)) {
+					matches.add(task);
+				}
+			}
+		}
+		return matches;
+	}
+	
+	public ArrayList<Task> findMatchingMonths(Month input) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		for (Task task : _displays) {
+			if (task.getStartTime() != null) {
+				if (task.getStartTime().getMonth() == input) {
+					matches.add(task);
+				}
+			} else if (task.getEndTime() != null) {
+				if (task.getEndTime().getMonth() == input) {
 					matches.add(task);
 				}
 			}
