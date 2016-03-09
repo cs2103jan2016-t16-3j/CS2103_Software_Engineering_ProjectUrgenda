@@ -139,4 +139,13 @@ public class FileEditor {
 			e.printStackTrace();
 		}
 	}
+	
+	public void clearFile(){
+		try {
+			PrintWriter writer = new PrintWriter(_file);
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 }

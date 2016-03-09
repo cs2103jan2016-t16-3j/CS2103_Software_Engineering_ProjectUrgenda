@@ -10,9 +10,7 @@ import org.junit.Test;
 import urgenda.storage.Storage;
 import urgenda.storage.FileEditor;
 import urgenda.storage.JsonCipher;
-import urgenda.storage.OldStorage;
 import urgenda.storage.SettingsEditor;
-import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
 import org.junit.runners.MethodSorters;
@@ -38,7 +36,7 @@ public class FileEditorTest {
 	}
 
 	@Test
-	public void test02ReadWriteMultipleLinesOneArrayList(){
+	public void test02ReadWriteMultipleLinesOneArrayList() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		ArrayList<String> inputArrayOne = new ArrayList<String>();
 		ArrayList<String> inputArrayTwo = new ArrayList<String>();
@@ -55,7 +53,7 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayOne.size(); i++) {
 			assertEquals(i + "diff", inputArrayOne.get(i), retrievedArrayOne.get(i));
 		}
-		
+
 		inputArrayOne.clear();
 		retrievedArrayOne.clear();
 		file.writeToFile(inputArrayOne, inputArrayTwo);
@@ -63,8 +61,8 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayOne.size(); i++) {
 			assertEquals(i + "diff", inputArrayOne.get(i), retrievedArrayOne.get(i));
 		}
-		
-		for (int i = 0; i < 1000; i++){
+
+		for (int i = 0; i < 1000; i++) {
 			inputArrayOne.add("string" + i);
 		}
 		file.writeToFile(inputArrayOne, inputArrayTwo);
@@ -73,16 +71,16 @@ public class FileEditorTest {
 			assertEquals(i + "diff", inputArrayOne.get(i), retrievedArrayOne.get(i));
 		}
 	}
-	
+
 	@Test
-	public void test03ReadWriteMultipleLinesTwoArrayList(){
+	public void test03ReadWriteMultipleLinesTwoArrayList() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		ArrayList<String> inputArrayOne = new ArrayList<String>();
 		ArrayList<String> inputArrayTwo = new ArrayList<String>();
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			inputArrayOne.add("String" + i);
 		}
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			inputArrayTwo.add("String" + i);
 		}
 		file.writeToFile(inputArrayOne, inputArrayTwo);
@@ -95,7 +93,7 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayTwo.size(); i++) {
 			assertEquals(i + "diff", inputArrayTwo.get(i), retrievedArrayTwo.get(i));
 		}
-		
+
 		inputArrayOne.clear();
 		inputArrayTwo.clear();
 		retrievedArrayOne.clear();
@@ -108,11 +106,11 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayTwo.size(); i++) {
 			assertEquals(i + "diff", inputArrayTwo.get(i), retrievedArrayTwo.get(i));
 		}
-		
-		for (int i = 0; i < 2000; i++){
+
+		for (int i = 0; i < 2000; i++) {
 			inputArrayOne.add("String" + i);
 		}
-		for (int i = 0; i < 3000; i++){
+		for (int i = 0; i < 3000; i++) {
 			inputArrayTwo.add("String" + i);
 		}
 		file.writeToFile(inputArrayOne, inputArrayTwo);
@@ -123,13 +121,14 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayTwo.size(); i++) {
 			assertEquals(i + "diff", inputArrayTwo.get(i), retrievedArrayTwo.get(i));
 		}
-		
+
 		inputArrayOne.clear();
 		inputArrayTwo.clear();
 		retrievedArrayOne.clear();
 		retrievedArrayTwo.clear();
-		for (int i = 0; i < 7000; i++){
-			inputArrayTwo.add("String" + i + " is a very very long string used to test the robustness of the method in execution speed and smoothness");
+		for (int i = 0; i < 7000; i++) {
+			inputArrayTwo.add("String " + i
+					+ " is a very very long string used to test the robustness of the method in execution speed and smoothness");
 		}
 		file.writeToFile(inputArrayOne, inputArrayTwo);
 		file.retrieveFromFile(retrievedArrayOne, retrievedArrayTwo);
@@ -139,16 +138,18 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayTwo.size(); i++) {
 			assertEquals(i + "diff", inputArrayTwo.get(i), retrievedArrayTwo.get(i));
 		}
-		
+
 		inputArrayOne.clear();
 		inputArrayTwo.clear();
 		retrievedArrayOne.clear();
 		retrievedArrayTwo.clear();
-		for (int i = 0; i < 100000; i++){
-			inputArrayOne.add("String" + i + " is a very very long string used to test the robustness of the method in execution speed and smoothness");
+		for (int i = 0; i < 100000; i++) {
+			inputArrayOne.add("String " + i
+					+ " is a very very long string used to test the robustness of the method in execution speed and smoothness");
 		}
-		for (int i = 0; i < 100000; i++){
-			inputArrayTwo.add("String" + i + " is a very very long string used to test the robustness of the method in execution speed and smoothness");
+		for (int i = 0; i < 100000; i++) {
+			inputArrayTwo.add("String " + i
+					+ " is a very very long string used to test the robustness of the method in execution speed and smoothness");
 		}
 		file.writeToFile(inputArrayOne, inputArrayTwo);
 		file.retrieveFromFile(retrievedArrayOne, retrievedArrayTwo);
@@ -158,8 +159,13 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayTwo.size(); i++) {
 			assertEquals(i + "diff", inputArrayTwo.get(i), retrievedArrayTwo.get(i));
 		}
+		inputArrayOne.clear();
+		inputArrayTwo.clear();
+		retrievedArrayOne.clear();
+		retrievedArrayTwo.clear();
+		// file.clearFile();
 	}
-	
+
 	@Test
 	public void testHelp() {
 		Storage store = new Storage(TEST_FILE_LOCATION, TEST_FILE_NAME);
@@ -227,6 +233,7 @@ public class FileEditorTest {
 			System.out.println("overdue: " + print.isOverdue());
 			i++;
 		}
+		System.out.println(id);
 	}
 
 	@Test
