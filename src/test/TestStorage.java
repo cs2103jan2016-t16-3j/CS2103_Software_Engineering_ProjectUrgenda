@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import urgenda.storage.Storage;
@@ -13,6 +14,9 @@ import urgenda.storage.SettingsEditor;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
+import org.junit.runners.MethodSorters;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestStorage {
 
 	@Test
@@ -23,7 +27,7 @@ public class TestStorage {
 	}
 	
 	@Test
-	public void testSave(){
+	public void test1Save(){
 		Storage store = new Storage();
 		Task task1 = new Task("test1");
 		Task task2 = new Task("test2");
@@ -41,7 +45,7 @@ public class TestStorage {
 	}
 	
 	@Test
-	public void testUpdateArrayLists(){
+	public void test2UpdateArrayLists(){
 		Storage store = new Storage();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();

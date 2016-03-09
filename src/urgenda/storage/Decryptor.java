@@ -12,14 +12,14 @@ public class Decryptor extends JsonCipher {
 		super();
 	}
 
-	public int decrypt(ArrayList<Task> taskList, ArrayList<String> taskStrList, ArrayList<Task> archiveList, ArrayList<String> archiveStrList) {
+	public int decryptStringArr(ArrayList<Task> taskList, ArrayList<String> taskStrList, ArrayList<Task> archiveList, ArrayList<String> archiveStrList) {
 		int i;
 		i = addToTaskList(taskList, taskStrList);
 		addToArchiveList(archiveList, archiveStrList);
 		return i;
 	}
 
-	public int addToTaskList(ArrayList<Task> taskList, ArrayList<String> taskStrList) {
+	private int addToTaskList(ArrayList<Task> taskList, ArrayList<String> taskStrList) {
 		int i;
 		for (i = 0; i < taskStrList.size(); i++) {
 			_detailsString = taskStrList.get(i);
@@ -30,7 +30,7 @@ public class Decryptor extends JsonCipher {
 		return i;
 	}
 	
-	public void addToArchiveList(ArrayList<Task> archiveList, ArrayList<String> archiveStrList) {
+	private void addToArchiveList(ArrayList<Task> archiveList, ArrayList<String> archiveStrList) {
 		for (int i = 0, j = -1; i < archiveStrList.size(); i++, j--) {
 			_detailsString = archiveStrList.get(i);
 			convertToMap();

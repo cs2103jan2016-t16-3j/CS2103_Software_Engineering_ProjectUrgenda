@@ -352,8 +352,7 @@ public class LogicData {
 	}
 
 	public String generateHelpManual() {
-		// TODO storage help manual
-		return "testing help";
+		return _storage.retrieveHelp();
 	}
 
 }
