@@ -18,7 +18,12 @@ import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestStorage {
-
+	
+	@Test
+	public void test01ReadWriteSingleLine(){
+		
+	}
+	
 	@Test
 	public void testHelp(){
 		Storage store = new Storage();

@@ -34,6 +34,9 @@ public class JsonCipher {
 	private static final String TASKTYPE_DEADLINE = "DEADLINE";
 	private static final String TASKTYPE_FLOATING = "FLOATING";
 
+	private static final String DEFAULT_FILE_LOCATION = "settings";
+	private static final String DEFAULT_FILE_NAME = "data.txt";
+
 	protected Gson _gson;
 	protected LinkedHashMap<String, String> _detailsMap;
 	protected String _detailsString;
@@ -241,11 +244,19 @@ public class JsonCipher {
 	}
 
 	public String getDirectory() {
-		return _detailsMap.get(HASHMAP_KEY_FILE_DIRECTORY);
+		if (_detailsMap.get(HASHMAP_KEY_FILE_DIRECTORY) == null) {
+			return DEFAULT_FILE_LOCATION;
+		} else {
+			return _detailsMap.get(HASHMAP_KEY_FILE_DIRECTORY);
+		}
 	}
 
 	public String getFileName() {
-		return _detailsMap.get(HASHMAP_KEY_FILE_NAME);
+		if (_detailsMap.get(HASHMAP_KEY_FILE_NAME) == null) {
+			return DEFAULT_FILE_NAME;
+		} else {
+			return _detailsMap.get(HASHMAP_KEY_FILE_NAME);
+		}
 	}
 
 	public String getDetailsString() {
