@@ -164,12 +164,12 @@ public class LogicDataTest {
 		_tasks.add(obj5);
 		_tasks.add(obj6);
 
-		assertEquals(obj3, _test.findMatchingPosition(3));
-		assertEquals(obj6, _test.findMatchingPosition(6));
-		assertEquals(obj, _test.findMatchingPosition(1));
-		assertEquals(obj5, _test.findMatchingPosition(5));
-		assertEquals(obj2, _test.findMatchingPosition(2));
-		assertEquals(obj4, _test.findMatchingPosition(4));
+		assertEquals(obj4, _test.findMatchingPosition(3));
+		assertEquals(obj, _test.findMatchingPosition(0));
+		assertEquals(obj2, _test.findMatchingPosition(1));
+		assertEquals(obj6, _test.findMatchingPosition(5));
+		assertEquals(obj3, _test.findMatchingPosition(2));
+		assertEquals(obj5, _test.findMatchingPosition(4));
 	}
 
 	@Test
