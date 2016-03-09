@@ -75,7 +75,7 @@ public class Edit implements Undoable {
 				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			} catch (Exception e) {
 				_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
-				// throws exception to prevent AddTask being added to undo stack
+				// throws exception to prevent Edit being added to undo stack
 				throw new Exception(MESSAGE_ERROR + e.getMessage());
 			}
 			return oldTaskMessage() + MESSAGE_EDIT + newTaskMessage();

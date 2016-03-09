@@ -20,6 +20,11 @@ import org.junit.runners.MethodSorters;
 public class TestStorage {
 
 	@Test
+	public void test01ReadWriteSingleLine(){
+		
+	}
+	
+	@Test
 	public void testHelp(){
 		Storage store = new Storage();
 		String phrase = store.retrieveHelp();
