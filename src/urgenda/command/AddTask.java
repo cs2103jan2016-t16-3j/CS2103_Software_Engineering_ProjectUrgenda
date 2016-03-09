@@ -14,6 +14,15 @@ public class AddTask implements Undoable {
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_UNDO = "Undo: ";
 	private static final String MESSAGE_REDO = "Redo: ";
+	private static final String MESSAGE_ERROR = "Error: ";
+	
+	private static final String ERROR_NO_DESC = "Task has no description";
+	private static final String ERROR_MISSING_START_TIME = "Task has missing start time";
+	private static final String ERROR_MISSING_END_TIME = "Task has missing end time";
+	private static final String ERROR_EXTRA_START_TIME = "Task has extra start time";
+	private static final String ERROR_EXTRA_END_TIME = "Task has extra end time";
+	private static final String ERROR_END_BEFORE_START = "Task start time is after end time";
+	private static final String ERROR_SAME_START_END = "Task has same start and end time";
 	
 	private Task _newTask;
 	private LogicData _data;
@@ -27,16 +36,57 @@ public class AddTask implements Undoable {
 	}
 	
 	@Override
-	public String execute(LogicData dataStorage) {
+	public String execute(LogicData dataStorage) throws Exception {
 		_data = dataStorage;
 		LocalDateTime now = LocalDateTime.now();
 		_newTask.setId(_data.getCurrentId());
 		_newTask.setDateAdded(now);
 		_newTask.setDateModified(now);
 		_data.updateCurrentId();
-		_data.addTask(_newTask);
-		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		try {
+			checkTaskValidity(_newTask);
+			_data.addTask(_newTask);
+			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		} catch (Exception e) {
+			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
+			// throws exception to prevent AddTask being added to undo stack
+			throw new Exception(MESSAGE_ERROR + e.getMessage());
+		}
 		return taskMessage() + MESSAGE_ADDED;
+	}
+
+	public void checkTaskValidity(Task task) throws Exception {
+		if (task.getDesc() == null) {
+			throw new Exception(ERROR_NO_DESC);
+		}
+		LocalDateTime start = task.getStartTime();
+		LocalDateTime end = task.getEndTime();
+		if (task.getTaskType() == Task.Type.DEADLINE) {
+			if (start != null) {
+				throw new Exception(ERROR_EXTRA_START_TIME);
+			}
+			if (end == null) {
+				throw new Exception(ERROR_MISSING_END_TIME);
+			}
+		} else if (task.getTaskType() == Task.Type.EVENT) {
+			if (start == null) {
+				throw new Exception(ERROR_MISSING_START_TIME);
+			} else if (end == null) {
+				throw new Exception(ERROR_MISSING_END_TIME);
+			} else if (end.isBefore(start)) {
+				throw new Exception(ERROR_END_BEFORE_START);
+			} else if (end.equals(start)) {
+				throw new Exception(ERROR_SAME_START_END);
+			}
+		} else { // floating type
+			if (start != null) {
+				throw new Exception(ERROR_EXTRA_START_TIME);
+			}
+			if (end != null) {
+				throw new Exception(ERROR_EXTRA_END_TIME);
+			}
+		}
+		
 	}
 
 	private String taskMessage() {

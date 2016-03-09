@@ -19,7 +19,8 @@ import urgenda.util.Task;
 public class LogicData {
 
 	public enum DisplayState {
-		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, INVALID_COMMAND, HELP
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, 
+		EXIT, INVALID_COMMAND, HELP, INVALID_TASK
 	}
 
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
@@ -94,7 +95,8 @@ public class LogicData {
 				state = displayAllTasks(_tasks);
 				state.setState(StateFeedback.State.EXIT);
 				break;
-			case INVALID_COMMAND :
+			case INVALID_COMMAND : // Fallthrough
+			case INVALID_TASK :
 				state = displayAllTasks(_tasks);
 				state.setState(StateFeedback.State.ERROR);
 				break;
