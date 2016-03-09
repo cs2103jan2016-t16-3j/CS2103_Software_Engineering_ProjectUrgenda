@@ -31,16 +31,14 @@ public class FileEditor {
 		}
 	}
 
-	public String getHelp() {
+	public String retrieveFromFile() {
 		String phrase = null;
 		try {
 			FileReader reader = new FileReader(_file);
 			BufferedReader breader = new BufferedReader(reader);
 			StringBuffer stringBuffer = new StringBuffer();
-			while ((phrase = breader.readLine()) != null) {
-				stringBuffer.append(phrase).append("\n");
-			}
-			phrase = stringBuffer.toString();
+			phrase = readFileToString(breader, stringBuffer);
+			phrase = stringBuffer.toString().trim();
 			breader.close();
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -51,21 +49,29 @@ public class FileEditor {
 		return phrase;
 	}
 
-	public String retrieveFromFile() {
-		String phrase = null;
-		try {
-			FileReader reader = new FileReader(_file);
-			BufferedReader breader = new BufferedReader(reader);
-			phrase = breader.readLine();
-			breader.close();
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+	private String readFileToString(BufferedReader breader, StringBuffer stringBuffer) throws IOException {
+		String phrase;
+		while ((phrase = breader.readLine()) != null) {
+			stringBuffer.append(phrase).append("\n");
 		}
 		return phrase;
 	}
+
+//	public String retrieveFromFile() {
+//		String phrase = null;
+//		try {
+//			FileReader reader = new FileReader(_file);
+//			BufferedReader breader = new BufferedReader(reader);
+//			phrase = breader.readLine();
+//			breader.close();
+//			reader.close();
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return phrase;
+//	}
 
 	public void retrieveFromFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
 		try {
@@ -128,6 +134,15 @@ public class FileEditor {
 		try {
 			PrintWriter writer = new PrintWriter(_file);
 			writer.println(phrase);
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void clearFile(){
+		try {
+			PrintWriter writer = new PrintWriter(_file);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

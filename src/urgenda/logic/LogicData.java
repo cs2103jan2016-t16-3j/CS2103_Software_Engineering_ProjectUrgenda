@@ -2,6 +2,7 @@ package urgenda.logic;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +20,8 @@ import urgenda.util.Task;
 public class LogicData {
 
 	public enum DisplayState {
-		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, INVALID_COMMAND, HELP
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, 
+		EXIT, INVALID_COMMAND, HELP, INVALID_TASK
 	}
 
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
@@ -94,7 +96,8 @@ public class LogicData {
 				state = displayAllTasks(_tasks);
 				state.setState(StateFeedback.State.EXIT);
 				break;
-			case INVALID_COMMAND :
+			case INVALID_COMMAND : // Fallthrough
+			case INVALID_TASK :
 				state = displayAllTasks(_tasks);
 				state.setState(StateFeedback.State.ERROR);
 				break;
@@ -246,6 +249,22 @@ public class LogicData {
 		}
 		return matches;
 	}
+	
+	public ArrayList<Task> findMatchingMonths(Month input) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		for (Task task : _displays) {
+			if (task.getStartTime() != null) {
+				if (task.getStartTime().getMonth() == input) {
+					matches.add(task);
+				}
+			} else if (task.getEndTime() != null) {
+				if (task.getEndTime().getMonth() == input) {
+					matches.add(task);
+				}
+			}
+		}
+		return matches;
+	}
 
 	public String undoCommand() {
 		if (!_undos.isEmpty()) {
@@ -352,8 +371,7 @@ public class LogicData {
 	}
 
 	public String generateHelpManual() {
-		// TODO storage help manual
-		return "testing help";
+		return _storage.retrieveHelp();
 	}
 
 }

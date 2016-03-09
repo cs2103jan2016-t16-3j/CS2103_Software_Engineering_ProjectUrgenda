@@ -24,6 +24,12 @@ public class Storage implements StorageInterface {
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 
 	}
+	
+	public Storage(String path, String name){
+		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
+		_file = new FileEditor(path, name);
+		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
+	}
 
 	public Storage(String test) {
 		String path = _settings.getFileDir();
@@ -33,7 +39,7 @@ public class Storage implements StorageInterface {
 	}
 
 	public int updateArrayLists(ArrayList<Task> tasks, ArrayList<Task> archive) {
-		int taskId = _decryptor.decrypt(tasks, _fileDataStringArr, archive, _archiveStringArr);
+		int taskId = _decryptor.decryptStringArr(tasks, _fileDataStringArr, archive, _archiveStringArr);
 		return taskId;
 	}
 
@@ -61,7 +67,7 @@ public class Storage implements StorageInterface {
 	
 	public String retrieveHelp(){
 		String help;
-		help = _help.getHelp();
+		help = _help.retrieveFromFile();
 		return help;
 	}
 }

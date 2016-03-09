@@ -2,6 +2,7 @@ package urgenda.command;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
@@ -15,6 +16,7 @@ public class Search implements Command {
 	private String _searchDesc;
 	private LocalDate _searchDate;
 	private LocalDateTime _searchDateTime;
+	private Month _searchMonth;
 
 	// default constructor
 	public Search() {
@@ -32,18 +34,11 @@ public class Search implements Command {
 	public Search(LocalDateTime input) {
 		_searchDateTime = input;
 	}
+	
+	public Search(Month input) { 
+		_searchMonth = input;
+	} 
 
-	@Override
-	/**
-	 * public String execute(LogicData data) { // to be edited to search for
-	 * other // combi e.g. time ArrayList<Task> matches =
-	 * data.findMatchingTasks(_searchDesc); if (matches.isEmpty()) {
-	 * data.setCurrState(LogicData.DisplayState.ALL_TASKS); return
-	 * String.format(MESSAGE_SEARCH_NOT_FOUND, _searchDesc); } else {
-	 * data.setDisplays(matches);
-	 * data.setCurrState(LogicData.DisplayState.SHOW_SEARCH); return
-	 * String.format(MESSAGE_SEARCH, _searchDesc); } }
-	 **/
 
 	public String execute(LogicData data) {   // TODO: Further refactoring, exception handling and considering searching for task type
 		ArrayList<Task> matches;
@@ -78,6 +73,16 @@ public class Search implements Command {
 				data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
 				feedback = String.format(MESSAGE_SEARCH, _searchDateTime.toString());
 			}
+		} else if (_searchMonth != null) {
+			matches = data.findMatchingMonths(_searchMonth);
+			if(matches.isEmpty()) {
+				data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+				feedback = String.format(MESSAGE_SEARCH_NOT_FOUND, _searchMonth.toString());
+			} else {
+				data.setDisplays(matches);
+				data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
+				feedback = String.format(MESSAGE_SEARCH, _searchMonth.toString());
+			}
 		}
 		return feedback;
 	}
@@ -92,6 +97,10 @@ public class Search implements Command {
 	
 	public void setSearchDateTime(LocalDateTime input) {
 		_searchDateTime = input;
+	}
+	
+	public void setSearchMonth(Month input) {
+		_searchMonth = input;
 	}
 
 }

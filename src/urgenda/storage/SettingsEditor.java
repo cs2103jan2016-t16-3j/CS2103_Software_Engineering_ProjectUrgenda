@@ -15,9 +15,14 @@ public class SettingsEditor {
 		_settings = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_FILENAME);
 		_settingsString = _settings.retrieveFromFile();
 		_cipher = new JsonCipher(_settingsString);
-		_cipher.convertToMap();
 	}
 
+	public SettingsEditor(String path, String name){
+		_settings = new FileEditor(path, name);
+		_settingsString = _settings.retrieveFromFile();
+		_cipher = new JsonCipher(_settingsString);
+	}
+	
 	public void saveSettings() {
 		_cipher.convertToString();
 		_settingsString = _cipher.getDetailsString();
