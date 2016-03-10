@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -27,12 +28,14 @@
             <Image url="@../../resources/selector.png" />
          </image>
       </ImageView>
-      <Label fx:id="taskIndexLabel" contentDisplay="CENTER" prefHeight="17.0" prefWidth="27.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="2">
+      <Label fx:id="taskIndexLabel" contentDisplay="CENTER" prefHeight="21.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="2">
             </Label>
       <BorderPane GridPane.columnIndex="3" GridPane.halignment="CENTER">
          <left>
                   <Label fx:id="taskDescLabel" contentDisplay="CENTER" prefHeight="18.0" prefWidth="190.0" text="Task Name" BorderPane.alignment="CENTER">
-            </Label>
+               <BorderPane.margin>
+                  <Insets left="5.0" />
+               </BorderPane.margin></Label>
          </left>
          <right>
             <ImageView fx:id="importantIndicator" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">

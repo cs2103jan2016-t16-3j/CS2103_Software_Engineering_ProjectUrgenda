@@ -18,10 +18,7 @@ public class MainController {
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
 	private static final String KEYWORD_HELP = "help";
-	private static final String KEYWORD_SHOW_ALL = "home";
-	private static final String ERROR_TEXT_FILL = "-fx-text-fill: #FF1900";
-	private static final String NORMAL_TEXT_FILL = "-fx-text-fill: white";
-		
+	private static final String KEYWORD_SHOW_ALL = "home";		
 	
 	//Elements loaded using FXML
 	@FXML
@@ -53,7 +50,7 @@ public class MainController {
 					_nextCommandLines.removeFirst();
 				}
 				_prevCommandLines.addFirst(inputBar.getText());
-				displayFeedback(feedback, false);
+				displayFeedback(feedback);
 				inputBar.clear();
 				return;
 			}
@@ -91,41 +88,37 @@ public class MainController {
 	@FXML
 	private void showAllTasks(ActionEvent e) {
 		String feedback = _main.handleCommandLine(KEYWORD_SHOW_ALL);
-		displayFeedback(feedback, false);
+		displayFeedback(feedback);
 		inputBar.clear();
 	}
 	
 	@FXML
 	private void handleUndo(ActionEvent e){
 		String feedback = _main.handleCommandLine(KEYWORD_UNDO);
-		displayFeedback(feedback, false);
+		displayFeedback(feedback);
 		inputBar.clear();
 	}
 	
 	@FXML
 	private void handleRedo(ActionEvent e){
 		String feedback = _main.handleCommandLine(KEYWORD_REDO);
-		displayFeedback(feedback, false);
+		displayFeedback(feedback);
 		inputBar.clear();
 	}
 	
 	@FXML
 	private void handleHelp(ActionEvent event) {
-		String feedback = _main.handleCommandLine(KEYWORD_HELP);
-		displayFeedback(feedback, false);
-		inputBar.clear();
 		showHelp();
 	}
 
 	public void showHelp() {
 		if(_helpController == null) {
 			_helpController = new HelpController();
-		_helpController.setHelpText(_main.getHelpText());
-		try {
-			_helpController.setupHelpStage();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			try {
+				_helpController.setupHelpStage(_main.getHelpText());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}else {
 			_helpController.showHelpStage();
 		}
@@ -134,7 +127,7 @@ public class MainController {
 	@FXML
 	private void handleAboutUrgenda(ActionEvent e) {
 		//TODO remove when urgenda splash is enabled
-		displayFeedback("Sorry! About Urgenda is currently unavailable!", true);
+		displayFeedback("Sorry! About Urgenda is currently unavailable!");
 	}
 	
 	@FXML
@@ -144,13 +137,8 @@ public class MainController {
         System.exit(0);
 	}
 	
-	public void displayFeedback(String feedback, boolean isWarning) {
+	public void displayFeedback(String feedback) {
 		feedbackArea.setText(feedback);
-		if(isWarning) {
-			feedbackArea.setStyle(ERROR_TEXT_FILL);
-		} else {
-			feedbackArea.setStyle(NORMAL_TEXT_FILL);
-		}
 	}
 	
 	public void setUIMain(Main ui) {

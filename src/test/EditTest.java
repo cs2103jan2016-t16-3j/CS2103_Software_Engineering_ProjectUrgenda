@@ -50,12 +50,49 @@ public class EditTest {
 		
 		_data.setDisplays(_tasks);
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
-		Edit tester = new Edit(1,testTask);
+		Edit tester = new Edit(0,testTask);
 		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.execute(_data));
 		Task testTask2 = new Task(null, "", LocalDateTime.of(2016, Month.APRIL, 5, 10, 00),
 				LocalDateTime.of(2016, Month.APRIL, 5, 12, 00), _tags);
-		Edit tester2 = new Edit(2,testTask2);
-		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute(_data));
+		Edit tester2 = new Edit(1,testTask2);
+		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute(_data));	
+	}
+	
+	@Test
+	public void testUndo() throws Exception {
+		LogicData _data = new LogicData();
+		ArrayList<Task> _tasks = new ArrayList<Task>();
+		ArrayList<String> _tags = new ArrayList<String>();
+		LocalDateTime notime = null;
+		Task obj = new Task("Buy milk", "", notime, notime, _tags);
+		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59),
+				_tags);
+		_tasks.add(obj);
+		_tasks.add(obj2);
+		_data.setDisplays(_tasks);
+		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
+		Edit tester = new Edit(0,testTask);
+		tester.execute(_data);
+		assertEquals("Undo: \"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.undo());
+	}
+	
+	@Test
+	public void testRedo() throws Exception {
+		LogicData _data = new LogicData();
+		ArrayList<Task> _tasks = new ArrayList<Task>();
+		ArrayList<String> _tags = new ArrayList<String>();
+		LocalDateTime notime = null;
+		Task obj = new Task("Buy milk", "", notime, notime, _tags);
+		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59),
+				_tags);
+		_tasks.add(obj);
+		_tasks.add(obj2);
+		_data.setDisplays(_tasks);
+		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
+		Edit tester = new Edit(0,testTask);
+		tester.execute(_data);
+		tester.undo();
+		assertEquals("Redo: \"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.redo());
 		
 	}
 

@@ -31,14 +31,14 @@ public class FileEditor {
 		}
 	}
 
-	public String getHelp() {
+	public String retrieveFromFile() {
 		String phrase = null;
 		try {
 			FileReader reader = new FileReader(_file);
 			BufferedReader breader = new BufferedReader(reader);
 			StringBuffer stringBuffer = new StringBuffer();
 			phrase = readFileToString(breader, stringBuffer);
-			phrase = stringBuffer.toString();
+			phrase = stringBuffer.toString().trim();
 			breader.close();
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -57,21 +57,21 @@ public class FileEditor {
 		return phrase;
 	}
 
-	public String retrieveFromFile() {
-		String phrase = null;
-		try {
-			FileReader reader = new FileReader(_file);
-			BufferedReader breader = new BufferedReader(reader);
-			phrase = breader.readLine();
-			breader.close();
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return phrase;
-	}
+//	public String retrieveFromFile() {
+//		String phrase = null;
+//		try {
+//			FileReader reader = new FileReader(_file);
+//			BufferedReader breader = new BufferedReader(reader);
+//			phrase = breader.readLine();
+//			breader.close();
+//			reader.close();
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return phrase;
+//	}
 
 	public void retrieveFromFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
 		try {
@@ -134,6 +134,15 @@ public class FileEditor {
 		try {
 			PrintWriter writer = new PrintWriter(_file);
 			writer.println(phrase);
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void clearFile(){
+		try {
+			PrintWriter writer = new PrintWriter(_file);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

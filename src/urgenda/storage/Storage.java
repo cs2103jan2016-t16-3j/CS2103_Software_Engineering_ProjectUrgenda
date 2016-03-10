@@ -24,6 +24,12 @@ public class Storage implements StorageInterface {
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 
 	}
+	
+	public Storage(String path, String name){
+		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
+		_file = new FileEditor(path, name);
+		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
+	}
 
 	public Storage(String test) {
 		String path = _settings.getFileDir();
@@ -61,7 +67,7 @@ public class Storage implements StorageInterface {
 	
 	public String retrieveHelp(){
 		String help;
-		help = _help.getHelp();
+		help = _help.retrieveFromFile();
 		return help;
 	}
 }
