@@ -44,13 +44,15 @@ public class MainController {
 	private void commandLineListener(KeyEvent event) {
 		KeyCode code = event.getCode();
 			if(code == KeyCode.ENTER) {
-				String feedback = _main.handleCommandLine(inputBar.getText());
 				while(!_nextCommandLines.isEmpty()) {
 					_prevCommandLines.addFirst(_nextCommandLines.getFirst());
 					_nextCommandLines.removeFirst();
 				}
 				_prevCommandLines.addFirst(inputBar.getText());
-				displayFeedback(feedback);
+				String feedback = _main.handleCommandLine(inputBar.getText());
+				if(feedback != null) {	//null feedback do not change feedback text
+					displayFeedback(feedback);
+				}
 				inputBar.clear();
 				return;
 			}
