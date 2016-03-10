@@ -20,7 +20,11 @@ public class Invalid implements Command {
 	@Override
 	public String execute(LogicData data) {
 		data.setCurrState(LogicData.DisplayState.INVALID_COMMAND);
-		return String.format(MESSAGE_INVALID_COMMAND, _command);
+		if (_command.equals("")) {
+			return null;
+		} else {
+			return String.format(MESSAGE_INVALID_COMMAND, _command);			
+		}
 	}
 	
 	public void setCommand(String command) {
