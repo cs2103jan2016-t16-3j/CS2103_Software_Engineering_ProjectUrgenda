@@ -46,6 +46,7 @@
 	* [SetingsEditor class](#settingseditor-class)
 
 # Architecture
+![Architecture](docs/UML Diagrams/Architecture.png)
 # Utility Component
 ## Task Class
 ## TaskList Class
