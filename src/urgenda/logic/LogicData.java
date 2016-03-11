@@ -3,15 +3,11 @@ package urgenda.logic;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.regex.Pattern;
 
-import urgenda.command.Command;
-import urgenda.command.Undoable;
 import urgenda.storage.Storage;
 import urgenda.util.MultipleSlot;
 import urgenda.util.StateFeedback;
@@ -24,18 +20,12 @@ public class LogicData {
 		EXIT, INVALID_COMMAND, HELP, INVALID_TASK
 	}
 
-	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
-	private static final String MESSAGE_EMPTY_REDO = "Nothing to redo";
-
 	// for storage of full lists of tasks
 	private ArrayList<Task> _tasks;
 	// for storage of all completed tasks
 	private ArrayList<Task> _archives;
 	// for storage of tasks being displayed to user by last command
 	private ArrayList<Task> _displays;
-
-	private Deque<Undoable> _undos;
-	private Deque<Undoable> _redos;
 
 	private Storage _storage;
 
@@ -49,19 +39,10 @@ public class LogicData {
 		_archives = new ArrayList<Task>();
 		_displays = new ArrayList<Task>();
 		_storage = new Storage();
-		_undos = new ArrayDeque<Undoable>();
-		_redos = new ArrayDeque<Undoable>();
 		// updateArrayLists adds stored task objects into respective arraylists
 		// returns the next id to be used for future labelling of tasks
 		_currentId = _storage.updateArrayLists(_tasks, _archives);
 		_currState = DisplayState.ALL_TASKS;
-	}
-
-	public void addUndo(Command currCmd) {
-		if (currCmd instanceof Undoable) {
-			_undos.addFirst((Undoable) currCmd);
-			_redos.clear();
-		}
 	}
 
 	public void saveContents() {
@@ -264,30 +245,6 @@ public class LogicData {
 			}
 		}
 		return matches;
-	}
-
-	public String undoCommand() {
-		if (!_undos.isEmpty()) {
-			Undoable undoCommand = _undos.removeFirst();
-			String feedback = undoCommand.undo();
-			_redos.addFirst(undoCommand);
-			return feedback;
-		} else {
-			return MESSAGE_EMPTY_UNDO;
-		}
-
-	}
-
-	public String redoCommand() {
-		if (!_redos.isEmpty()) {
-			Undoable redoCommand = _redos.removeFirst();
-			String feedback = redoCommand.redo();
-			_undos.addFirst(redoCommand);
-			return feedback;
-		} else {
-			return MESSAGE_EMPTY_REDO;
-		}
-
 	}
 
 	public ArrayList<Task> findBlocks(MultipleSlot block) {

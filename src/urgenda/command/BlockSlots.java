@@ -7,14 +7,12 @@ import urgenda.logic.LogicData;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
-public class BlockSlots implements Undoable {
+public class BlockSlots extends TaskCommand {
 	
 	private static final String MESSAGE_EVENT_DATETIME = ", %1$d/%2$d, %3$02d:%4$02d - %5$02d:%6$02d";
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_BLOCK = "Block: ";
 	private static final String MESSAGE_REMOVE = " removed";
-	private static final String MESSAGE_UNDO = "Undo: ";
-	private static final String MESSAGE_REDO = "Redo: ";
 	
 	private MultipleSlot _block;
 	private LogicData _data;
@@ -33,7 +31,6 @@ public class BlockSlots implements Undoable {
 	}
 	
 	// if default constructor is used, ensure that _block desc set
-	@Override
 	public String execute(LogicData data) {
 		assert (_block.getDesc() != null); // asserts that the desc is set
 		_data = data;
@@ -55,10 +52,11 @@ public class BlockSlots implements Undoable {
 			task.setSlot(_block);
 			_data.addTask(task);
 		}
-		return taskMessage() + MESSAGE_ADDED;
+		return generateTaskMessages() + MESSAGE_ADDED;
 	}
 	
-	private String taskMessage() {
+	// uses its own method for generating task messages
+	private String generateTaskMessages() {
 		String feedback = _block.getDesc();
 		for (Task task : _taskBlocks) {
 			feedback += String.format(MESSAGE_EVENT_DATETIME,  task.getStartTime().getDayOfMonth(),
@@ -77,18 +75,16 @@ public class BlockSlots implements Undoable {
 		_block.setDesc(desc);
 	}
 	
-	@Override
 	public String undo() {
 		for (Task task : _taskBlocks) {
 			_data.deleteTask(task);
 		}
-		return MESSAGE_UNDO + taskMessage() + MESSAGE_REMOVE;
+		return generateTaskMessages() + MESSAGE_REMOVE;
 	}
 
-	@Override
 	public String redo() {
 		// TODO Decide if Block: to be returned
-		return MESSAGE_REDO + addBlockTasks();
+		return addBlockTasks();
 	}
 
 }

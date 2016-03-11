@@ -5,15 +5,10 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class DeleteTask implements Undoable {
+public class DeleteTask extends TaskCommand {
 
-	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
-	private static final String MESSAGE_FLOAT = "\"%1$s\"";
-	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
-	private static final String MESSAGE_UNDO = "Undo: ";
-	private static final String MESSAGE_REDO = "Redo: ";
 	private static final String MESSAGE_NO_DELETE_MATCH = "No matches found to delete";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	
@@ -25,7 +20,6 @@ public class DeleteTask implements Undoable {
 	private Task _deletedTask;
 	private LogicData _data;
 	
-	@Override
 	public String execute(LogicData data) throws Exception {
 		_data = data;
 		ArrayList<Task> matches;
@@ -47,44 +41,17 @@ public class DeleteTask implements Undoable {
 			throw new Exception(MESSAGE_NO_DELETE_MATCH);
 		}
 		_data.deleteTask(_deletedTask);
-		return taskMessage() + MESSAGE_REMOVE;
-	}
-	
-	private String taskMessage() {
-		Task.Type taskType = _deletedTask.getTaskType();
-		String feedback = null;
-		switch (taskType) {
-			case EVENT :
-				feedback = String.format(MESSAGE_EVENT, _deletedTask.getDesc(), _deletedTask.getStartTime().getDayOfMonth(),
-						_deletedTask.getStartTime().getMonthValue(), _deletedTask.getStartTime().getHour(), 
-						_deletedTask.getStartTime().getMinute(), _deletedTask.getEndTime().getHour(), 
-						_deletedTask.getEndTime().getMinute());
-				break;
-		
-			case FLOATING :
-				feedback = String.format(MESSAGE_FLOAT, _deletedTask.getDesc());
-				break;
-		
-			case DEADLINE :
-				feedback = String.format(MESSAGE_DEADLINE, _deletedTask.getDesc(), _deletedTask.getEndTime().getDayOfMonth(),
-						_deletedTask.getEndTime().getMonthValue(), _deletedTask.getEndTime().getHour(), 
-						_deletedTask.getEndTime().getMinute());
-				break;
-
-		}
-		return feedback;
+		return taskMessage(_deletedTask) + MESSAGE_REMOVE;
 	}
 
-	@Override
 	public String undo() {
 		_data.addTask(_deletedTask);
-		return MESSAGE_UNDO + taskMessage() + MESSAGE_ADDED;
+		return taskMessage(_deletedTask) + MESSAGE_ADDED;
 	}
 
-	@Override
 	public String redo() {
 		_data.deleteTask(_deletedTask);
-		return MESSAGE_REDO + taskMessage() + MESSAGE_REMOVE;
+		return taskMessage(_deletedTask) + MESSAGE_REMOVE;
 	}
 
 	public void setDesc(String desc) {

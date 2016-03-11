@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class Search implements Command {
+public class Search extends Command {
 
 	private static final String MESSAGE_SEARCH = "These are all the tasks found containing \"%1$s\"";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
@@ -38,7 +38,6 @@ public class Search implements Command {
 	public Search(Month input) { 
 		_searchMonth = input;
 	} 
-
 
 	public String execute(LogicData data) {   // TODO: Further refactoring, exception handling and considering searching for task type
 		ArrayList<Task> matches;
