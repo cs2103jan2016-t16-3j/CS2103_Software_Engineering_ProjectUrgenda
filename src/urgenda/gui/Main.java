@@ -92,8 +92,8 @@ public class Main extends Application {
 	}
 
 	public StateFeedback retrieveStartupState() {
-		//StateFeedback state = dummyState(); //TODO change for dummy list
-		StateFeedback state = _logic.retrieveStartupState();
+		StateFeedback state = dummyState(); //TODO change for dummy list
+		//StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback());
 		return state;
 	}
@@ -167,9 +167,11 @@ public class Main extends Application {
 				new ArrayList<String>(), true);
 		Task taskT = new Task("Today task", "T location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
+		Task taskTD = new Task("Today Detailed task", "Today Detailed location", LocalDateTime.now(), LocalDateTime.now(),
+				new ArrayList<String>(), false);
 		Task taskI = new Task("Important task", "I location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), true);
-		Task taskD = new Task("Detailed task", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskD = new Task("Detailed task long long long long long long long long long long long", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
 		Task task1 = new Task("1 task", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
@@ -185,6 +187,7 @@ public class Main extends Application {
 		tasks.add(taskO);
 		tasks.add(taskTI);
 		tasks.add(taskT);
+		tasks.add(taskTD);
 		tasks.add(taskI);
 		tasks.add(taskD);
 		tasks.add(task1);
@@ -192,9 +195,10 @@ public class Main extends Application {
 		tasks.add(task3);
 		archives.add(taskC);
 		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, archives, 1, 2, 5, 1));
+		state.setAllTasks(new TaskList(tasks, archives, 1, 3, 5, 1));
 		state.setFeedback("feedback from dummylist");
-		state.addDetailedTaskIdx(4);
+		state.addDetailedTaskIdx(3);
+		state.addDetailedTaskIdx(5);
 		state.setState(StateFeedback.State.ALL_TASKS);
 		return state;
 	}

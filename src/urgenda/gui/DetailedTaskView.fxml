@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root fx:id="taskPane" prefHeight="60.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" type="GridPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints hgrow="NEVER" maxWidth="5.0" minWidth="5.0" prefWidth="5.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" />
+     <ColumnConstraints hgrow="NEVER" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" />
+            <ColumnConstraints hgrow="NEVER" minWidth="200.0" prefWidth="230.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints fillHeight="false" minHeight="40.0" prefHeight="40.0" valignment="TOP" vgrow="ALWAYS" />
+   </rowConstraints>
+   <children>
+      <ImageView fx:id="selector" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+         <image>
+            <Image url="@../../resources/selector.png" />
+         </image>
+         <GridPane.margin>
+            <Insets top="4.0" />
+         </GridPane.margin>
+      </ImageView>
+      <Label fx:id="taskIndexLabel" contentDisplay="CENTER" prefHeight="21.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="2">
+         <GridPane.margin>
+            <Insets top="8.0" />
+         </GridPane.margin></Label>
+      <BorderPane GridPane.columnIndex="3" GridPane.halignment="CENTER">
+         <right>
+            <ImageView fx:id="importantIndicator" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_RIGHT">
+               <image>
+                  <Image url="@../../resources/urgenda_icon.png" />
+               </image>
+               <BorderPane.margin>
+                  <Insets top="4.0" />
+               </BorderPane.margin>
+            </ImageView>
+         </right>
+         <center>
+            <VBox prefHeight="135.0" prefWidth="202.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="taskDescLabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="202.0" text="aidvndoivaemvobiowmvfbijdmkvos[lewinjkomfc[lsdinedasjcotlksdkiavjflcskveinescojdksbidacjotlkveinjdyscoal;" wrapText="true">
+                     <VBox.margin>
+                        <Insets top="9.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="20.0">
+                     <children>
+                        <ImageView fitHeight="17.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/location_icon.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets top="4.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label fx:id="taskLocationLabel" text="Location">
+                           <HBox.margin>
+                              <Insets top="3.0" />
+                           </HBox.margin></Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets left="5.0" />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+      </BorderPane>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.columnSpan="2">
+         <children>
+            <Label fx:id="dateTimeTypeLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="13.0" prefWidth="20.0" text="xx">
+               <VBox.margin>
+                  <Insets bottom="3.0" top="8.0" />
+               </VBox.margin></Label>
+            <Label fx:id="dateCreatedLabel" text="DATE CREATED">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="dateModifiedLabel" text="DATE MODIFIED">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+            <Label fx:id="taskEndLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" text="End DateTime" GridPane.columnIndex="6" GridPane.halignment="CENTER">
+         <GridPane.margin>
+            <Insets top="8.0" />
+         </GridPane.margin></Label>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
+         <children>
+                  <Label fx:id="taskStartLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" text="Start DateTime">
+               <VBox.margin>
+                  <Insets bottom="3.0" top="8.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="dateCreatedHeader" alignment="CENTER_RIGHT" minWidth="120.0" text="Date Created:" />
+            <Label fx:id="dateModifiedHeader" alignment="CENTER_RIGHT" minWidth="120.0" text="Date Modified:">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Label>
+         </children>
+      </VBox>
+         </children>
+</fx:root>

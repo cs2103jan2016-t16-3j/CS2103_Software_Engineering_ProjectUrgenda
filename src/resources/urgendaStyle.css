@@ -12,11 +12,11 @@
 	font-family: 'Montserrat Ultra Light';
 	src: url('../resources/Montserrat-UltraLight.otf');
 }
-
+	
 .root {
 	-fx-background-color: #474E60;
 }
-	
+
 #titlePane {
 	-fx-background-color: transparent;
 }
@@ -115,14 +115,26 @@
 	-fx-text-fill: #474E60;
 }
 
-#dateCreatedLabel {
+#dateCreatedHeader {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 12px;
 	-fx-text-fill: #474E60;
 }
 
-#dateModifiedLabel {
+#dateModifiedHeader {
 	-fx-font-family: "Montserrat";
+	-fx-font-size: 12px;
+	-fx-text-fill: #474E60;
+}
+
+#dateCreatedLabel {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 12px;
+	-fx-text-fill: #474E60;
+}
+
+#dateModifiedLabel {
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 12px;
 	-fx-text-fill: #474E60;
 }

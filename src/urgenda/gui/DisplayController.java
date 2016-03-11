@@ -1,6 +1,8 @@
 package urgenda.gui;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -12,7 +14,7 @@ import urgenda.util.TaskList;
 
 public class DisplayController extends AnchorPane {
 
-	public enum Style {
+	public enum TaskDisplayType {
 		OVERDUE, TODAY, NORMAL, ARCHIVE
 	}
 
@@ -30,7 +32,7 @@ public class DisplayController extends AnchorPane {
 	static final String TEXT_FILL_NORMAL = "-fx-text-fill: black;";
 	static final String TEXT_FILL_COMPLETED = "-fx-text-fill: black;";
 	static final String TEXT_WEIGHT_BOLD = "-fx-font-family: \"Montserrat\";";
-	static final String TEXT_WEIGHT_REGULAR = "";
+	static final String TEXT_WEIGHT_REGULAR = "-fx-font-family: \"Montserrat Light\";";
 	static final String TEXT_MODIFY_NONE = "";
 
 	private static final double DEFAULT_VERTICAL_SCROLL_HEIGHT = 0;
@@ -61,39 +63,41 @@ public class DisplayController extends AnchorPane {
 	private ScrollPane displayArea;
 
 	private ArrayList<Task> _displayedTasks;
+	private ArrayDeque<Integer> _detailedIndexes;
 	private int _selectedTaskIndex;
-	private int _detailedTasksBeforeIndicatorCount;
 
 	public DisplayController() {
 		_selectedTaskIndex = -1;
-		_detailedTasksBeforeIndicatorCount = 0;
 		_displayedTasks = new ArrayList<Task>();
+		_detailedIndexes = new ArrayDeque<Integer>();
 	}
 
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes) {
 		displayHolder.getChildren().clear();
-		_displayedTasks = new ArrayList<Task>();
+		_displayedTasks.clear();
 		_displayedTasks.addAll(updatedTasks.getTasks());
 		_displayedTasks.addAll(updatedTasks.getArchives());
+		_detailedIndexes.clear();
+		_detailedIndexes.addAll(showmoreIndexes);
 		
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
-			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getOverdueCount(),
-					Style.OVERDUE);
-			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getTodayCount(),
-					Style.TODAY);
-			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getRemainingCount(),
-					Style.NORMAL);
+			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount(),
+					TaskDisplayType.OVERDUE);
+			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTodayCount(),
+					TaskDisplayType.TODAY);
+			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getRemainingCount(),
+					TaskDisplayType.NORMAL);
 		}
 		if (updatedTasks.getArchiveCount() != 0) {
-			indexCounter += showStyledTaskView(indexCounter, showmoreIndexes, updatedTasks.getArchiveCount(),
-					Style.ARCHIVE);
+			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getArchiveCount(),
+					TaskDisplayType.ARCHIVE);
 		}
 		if (updatedTasks.getArchiveCount() + updatedTasks.getUncompletedCount() == 0) {
 			showZeroTasksFeedback();
 		}
 		setDefaultSelectedTask();
-		setDisplayScrollTop();
+		setDisplayScroll();
 		if(displayHeader != null) {
 			setDisplayHeader(displayHeader);
 		}
@@ -106,23 +110,33 @@ public class DisplayController extends AnchorPane {
 		displayHolder.getChildren().add(emptyDisplay);
 	}
 
-	private int showStyledTaskView(int currIndex, ArrayList<Integer> showmoreIndexes, int toAddCount, Style style) {
+	private int showStyledTaskView(int currIndex, int toAddCount, TaskDisplayType taskDisplayType) {
 		int addedCount = 0;
 		while (addedCount < toAddCount) {
-			TaskController newTaskView = new TaskController(_displayedTasks.get(currIndex), currIndex);
-			newTaskView.setDisplayController(this);
-			newTaskView.setTaskStyle(style);
-			displayHolder.getChildren().add(newTaskView);
-			if (showmoreIndexes.contains(Integer.valueOf(currIndex))) {
-				TaskDetailsController newTaskDetail = new TaskDetailsController(_displayedTasks.get(currIndex));
-				newTaskDetail.setTaskStyle(style);
-				displayHolder.getChildren().add(newTaskDetail);
+			if(isDetailed(currIndex)) {
+				DetailedTaskController newDetailedTaskView = new DetailedTaskController(_displayedTasks.get(currIndex), currIndex, taskDisplayType);
+				newDetailedTaskView.setDisplayController(this);
+				displayHolder.getChildren().add(newDetailedTaskView);
+				newDetailedTaskView.resizeOverrunDescLabel();
+			} else {
+				TaskController newTaskView = new TaskController(_displayedTasks.get(currIndex), currIndex, taskDisplayType);
+				newTaskView.setDisplayController(this);
+				displayHolder.getChildren().add(newTaskView);
 			}
 			addedCount++;
 			currIndex++;
 		}
 		return addedCount;
 	}
+	
+private boolean isDetailed(int currIndex) {
+		if(!_detailedIndexes.isEmpty() && currIndex == _detailedIndexes.peekFirst()) {
+			_detailedIndexes.removeFirst();
+			return true;
+		}
+		return false;
+}
+
 //	TODO: implement show more or less by click
 //	private void showMoreByIndex(int index) {
 //		int taskCount = 0;
@@ -145,26 +159,9 @@ public class DisplayController extends AnchorPane {
 //	}
 	
 	//TODO implement for counting tasks and detailed tasks
-	private int typeTasksBeforeIndexCount(int index, TaskType taskType) {
-		int taskCount = 0;
-		int detailedTaskCount = 0;
-		int objectCount = 0;
-		
-		switch(taskType) {
-			case TASK:
-				return taskCount;
-			case DETAILED_TASK:
-				return detailedTaskCount;
-			default:
-				break;
-		}
-		return -1;
-	}
-	
 	//TODO set display scroll position according to latest changed/added task
-	private void setDisplayScrollTop() {
+	private void setDisplayScroll() {
 		displayArea.setVvalue(DEFAULT_VERTICAL_SCROLL_HEIGHT);
-
 	}
 
 	private void setDefaultSelectedTask() {
@@ -177,22 +174,12 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void traverseTasks(Direction direction) {
-		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() + _detailedTasksBeforeIndicatorCount - 1) { //to add detailed task count
+		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() - 1) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-			if (displayHolder.getChildren().get(++_selectedTaskIndex).getClass().equals(TaskDetailsController.class)) {
-				_detailedTasksBeforeIndicatorCount++;
-				((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
-			} else {
-				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(true);
-			}
+			((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
 		} else if (direction == Direction.UP && _selectedTaskIndex != 0) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-			if (displayHolder.getChildren().get(--_selectedTaskIndex).getClass().equals(TaskDetailsController.class)) {
-				_detailedTasksBeforeIndicatorCount--;
-				((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
-			} else {
-				((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(true);
-			}
+			((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
 		}
 	}
 

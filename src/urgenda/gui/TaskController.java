@@ -14,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
-import urgenda.gui.DisplayController.Style;
+import urgenda.gui.DisplayController.TaskDisplayType;
 import urgenda.util.Task;
 
 public class TaskController extends GridPane {
@@ -24,27 +24,31 @@ public class TaskController extends GridPane {
 	private static final String PATH_TASKVIEW_FXML = "TaskView.fxml";
 	
 	@FXML
-	private ImageView selector;
+	protected GridPane taskPane;
 	@FXML
-	private Label taskIndexLabel;
+	protected ImageView selector;
 	@FXML
-	private ImageView importantIndicator;
+	protected Label taskIndexLabel;
 	@FXML
-	private Label taskDescLabel;
+	protected ImageView importantIndicator;
 	@FXML
-	private Label taskStartLabel;
+	protected Label taskDescLabel;
 	@FXML
-	private Label dateTimeTypeLabel;
+	protected Label taskStartLabel;
 	@FXML
-	private Label taskEndLabel;
+	protected Label dateTimeTypeLabel;
+	@FXML
+	protected Label taskEndLabel;
 	
 	private DisplayController _displayController;
 	private boolean _isSelected;
-	private Task _task;
-	private int _index;
+	protected Task _task;
+	protected TaskDisplayType _taskDisplayType;
+	protected int _index;
 	
-	public TaskController(Task task, int index) {
+	public TaskController(Task task, int index, TaskDisplayType taskDisplayType) {
 		_task = task;
+		_taskDisplayType = taskDisplayType;
 		_index = index;
 		loadFXML();
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -76,49 +80,49 @@ public class TaskController extends GridPane {
 		} else {
 			importantIndicator.setVisible(false);
 		}
+		setTaskStyle(_taskDisplayType);
 		setSelected(false);
 	}
 	
-	public void setTaskStyle(Style taskStyle) {
-		if (taskStyle == Style.OVERDUE) {
+	public void setTaskStyle(TaskDisplayType taskDisplayType) {
+		if (taskDisplayType == TaskDisplayType.OVERDUE) {
 			this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_OVERDUE, null, INSETS_ROWS)));
 			setStyle(DisplayController.TEXT_FILL_OVERDUE, DisplayController.TEXT_WEIGHT_BOLD, DisplayController.TEXT_MODIFY_NONE);
-		} else if (taskStyle == Style.TODAY) {
+		} else if (taskDisplayType == TaskDisplayType.TODAY) {
 			if(_task.isImportant()) {
 				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_TODAY_IMPORTANT, null, INSETS_ROWS)));
 			} else {
 				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_TODAY, null, INSETS_ROWS)));
 			}
 			setStyle(DisplayController.TEXT_FILL_TODAY, DisplayController.TEXT_WEIGHT_REGULAR, DisplayController.TEXT_MODIFY_NONE);
-		} else if (taskStyle == Style.NORMAL) {
+		} else if (taskDisplayType == TaskDisplayType.NORMAL) {
 			if(_task.isImportant()) {
 				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_NORMAL_IMPORTANT, null, INSETS_ROWS)));
 			} else {
 				this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_NORMAL, null, INSETS_ROWS)));
 			}
 			setStyle(DisplayController.TEXT_FILL_NORMAL, DisplayController.TEXT_WEIGHT_REGULAR, DisplayController.TEXT_MODIFY_NONE);
-		} else if (taskStyle == Style.ARCHIVE) {
+		} else if (taskDisplayType == TaskDisplayType.ARCHIVE) {
 			this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_COMPLETED, null, INSETS_ROWS)));
 			setStyle(DisplayController.TEXT_FILL_COMPLETED, DisplayController.TEXT_WEIGHT_REGULAR, DisplayController.TEXT_MODIFY_NONE);
 		}
 	}
 
-	private void setStyle(String color, String weight, String modify) {
+	protected void setStyle(String color, String weight, String modify) {
 		taskIndexLabel.setStyle(color + weight + modify);
 		taskDescLabel.setStyle(color + weight + modify);
 		taskStartLabel.setStyle(color + weight + modify);
-		dateTimeTypeLabel.setStyle(color + weight + modify); //TODO check
+		dateTimeTypeLabel.setStyle(color + weight + modify);
 		taskEndLabel.setStyle(color + weight + modify);
 	}
 	
 	private String formatDateTime(LocalDateTime dateTime) {
-		
 		DateTimeFormatter formatter;
 			formatter = DateTimeFormatter.ofPattern("dd MMM | h:mma");
 		return dateTime.format(formatter);
 	}
 	
-	private void loadFXML() {
+	protected void loadFXML() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_TASKVIEW_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
