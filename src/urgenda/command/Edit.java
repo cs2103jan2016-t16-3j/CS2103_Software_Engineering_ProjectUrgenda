@@ -12,8 +12,6 @@ public class Edit implements Undoable {
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
-	private static final String MESSAGE_UNDO = "Undo: ";
-	private static final String MESSAGE_REDO = "Redo: ";
 	private static final String MESSAGE_ERROR = "Error: ";
 	
 	private static final String ERROR_NO_DESC = "Task has no description";
@@ -168,14 +166,14 @@ public class Edit implements Undoable {
 	public String undo() {
 		_data.deleteTask(_newTask);
 		_data.addTask(_prevTask);
-		return MESSAGE_UNDO + oldTaskMessage() + MESSAGE_EDIT + newTaskMessage();
+		return oldTaskMessage() + MESSAGE_EDIT + newTaskMessage();
 	}
 
 	@Override
 	public String redo() {
 		_data.deleteTask(_prevTask);
 		_data.addTask(_newTask);
-		return MESSAGE_REDO + oldTaskMessage() + MESSAGE_EDIT + newTaskMessage();
+		return oldTaskMessage() + MESSAGE_EDIT + newTaskMessage();
 	}
 
 	public void setId(int id) {

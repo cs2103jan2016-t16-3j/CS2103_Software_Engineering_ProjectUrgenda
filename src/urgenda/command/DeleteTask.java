@@ -12,8 +12,6 @@ public class DeleteTask implements Undoable {
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
-	private static final String MESSAGE_UNDO = "Undo: ";
-	private static final String MESSAGE_REDO = "Redo: ";
 	private static final String MESSAGE_NO_DELETE_MATCH = "No matches found to delete";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	
@@ -78,13 +76,13 @@ public class DeleteTask implements Undoable {
 	@Override
 	public String undo() {
 		_data.addTask(_deletedTask);
-		return MESSAGE_UNDO + taskMessage() + MESSAGE_ADDED;
+		return taskMessage() + MESSAGE_ADDED;
 	}
 
 	@Override
 	public String redo() {
 		_data.deleteTask(_deletedTask);
-		return MESSAGE_REDO + taskMessage() + MESSAGE_REMOVE;
+		return taskMessage() + MESSAGE_REMOVE;
 	}
 
 	public void setDesc(String desc) {

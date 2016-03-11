@@ -12,8 +12,6 @@ public class Complete implements Undoable {
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
-	private static final String MESSAGE_UNDO = "Undo: ";
-	private static final String MESSAGE_REDO = "Redo: ";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	private static final String MESSAGE_NO_COMPLETE_MATCH = "No matches found to complete";
 	
@@ -81,7 +79,7 @@ public class Complete implements Undoable {
 		_completedTask.setIsCompleted(false);
 		_data.removeArchive(_completedTask);
 		_data.addTask(_completedTask);
-		return MESSAGE_UNDO + MESSAGE_UNDONE + taskMessage() + "!";
+		return MESSAGE_UNDONE + taskMessage() + "!";
 	}
 
 	@Override
@@ -89,7 +87,7 @@ public class Complete implements Undoable {
 		_completedTask.setIsCompleted(true);
 		_data.deleteTask(_completedTask);
 		_data.addArchive(_completedTask);
-		return MESSAGE_REDO + MESSAGE_DONE + taskMessage() + "!";
+		return MESSAGE_DONE + taskMessage() + "!";
 	}
 
 

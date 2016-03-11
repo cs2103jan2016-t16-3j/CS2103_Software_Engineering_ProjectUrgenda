@@ -12,8 +12,6 @@ public class Prioritise implements Undoable {
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
-	private static final String MESSAGE_UNDO = "Undo: ";
-	private static final String MESSAGE_REDO = "Redo: ";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	private static final String MESSAGE_NO_MATCH = "No matches found to prioritise";
 	
@@ -75,13 +73,13 @@ public class Prioritise implements Undoable {
 	@Override
 	public String undo() {
 		String feedback = toggleTaskImportance();
-		return MESSAGE_UNDO + feedback;
+		return feedback;
 	}
 
 	@Override
 	public String redo() {
 		String feedback = toggleTaskImportance();
-		return MESSAGE_REDO + feedback;
+		return feedback;
 	}
 
 	public String toggleTaskImportance() {

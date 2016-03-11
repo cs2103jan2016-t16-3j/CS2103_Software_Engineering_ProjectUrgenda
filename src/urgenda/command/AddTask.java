@@ -12,8 +12,6 @@ public class AddTask implements Undoable {
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
-	private static final String MESSAGE_UNDO = "Undo: ";
-	private static final String MESSAGE_REDO = "Redo: ";
 	private static final String MESSAGE_ERROR = "Error: ";
 	
 	private static final String ERROR_NO_DESC = "Task has no description";
@@ -117,13 +115,13 @@ public class AddTask implements Undoable {
 	@Override
 	public String undo() {
 		_data.deleteTask(_newTask);
-		return MESSAGE_UNDO + taskMessage() + MESSAGE_REMOVE;
+		return taskMessage() + MESSAGE_REMOVE;
 	}
 
 	@Override
 	public String redo() {
 		_data.addTask(_newTask);
-		return MESSAGE_REDO + taskMessage() + MESSAGE_ADDED;
+		return taskMessage() + MESSAGE_ADDED;
 	}
 	
 	public void setNewTask(Task newTask) {

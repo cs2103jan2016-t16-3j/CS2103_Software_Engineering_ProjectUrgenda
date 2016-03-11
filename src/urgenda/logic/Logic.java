@@ -9,10 +9,12 @@ public class Logic {
 	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use. \nPress ALT + F1 if you need help.";
 
 	private LogicData _logicData;
+	private LogicCommand _logicCommand;
 	
 	// Default constructor for Logic
 	public Logic() {
 		_logicData = new LogicData();
+		_logicCommand = new LogicCommand(_logicData);
 	}
 	
 	public StateFeedback executeCommand(String command, int index) {
@@ -25,12 +27,8 @@ public class Logic {
 		String feedback;
 		// To update if there are any deadlines that turned overdue
 		_logicData.updateState();
-		try {
-			feedback = currCmd.execute(_logicData);
-			_logicData.addUndo(currCmd);
-		} catch (Exception e) { // TODO might need to upgrade exceptions without affecting the command execute header
-			feedback = e.getMessage();
-		}
+		feedback = _logicCommand.processCommand(currCmd);
+		
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(feedback);
 		_logicData.saveContents();

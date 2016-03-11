@@ -13,8 +13,6 @@ public class BlockSlots implements Undoable {
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_BLOCK = "Block: ";
 	private static final String MESSAGE_REMOVE = " removed";
-	private static final String MESSAGE_UNDO = "Undo: ";
-	private static final String MESSAGE_REDO = "Redo: ";
 	
 	private MultipleSlot _block;
 	private LogicData _data;
@@ -82,13 +80,13 @@ public class BlockSlots implements Undoable {
 		for (Task task : _taskBlocks) {
 			_data.deleteTask(task);
 		}
-		return MESSAGE_UNDO + taskMessage() + MESSAGE_REMOVE;
+		return taskMessage() + MESSAGE_REMOVE;
 	}
 
 	@Override
 	public String redo() {
 		// TODO Decide if Block: to be returned
-		return MESSAGE_REDO + addBlockTasks();
+		return addBlockTasks();
 	}
 
 }
