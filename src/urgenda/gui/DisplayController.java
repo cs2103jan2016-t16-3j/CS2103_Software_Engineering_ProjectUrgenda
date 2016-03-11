@@ -60,10 +60,10 @@ public class DisplayController extends AnchorPane {
 	private Label displayHeader;
 	@FXML
 	private VBox displayHolder;
-//	@FXML
-//	private ScrollPane displayArea;
 	@FXML
-	private ScrollBar visibleScrollbar;
+	private ScrollPane displayArea;
+//	@FXML
+//	private ScrollBar visibleScrollbar;
 
 	private ArrayList<Task> _displayedTasks;
 	private ArrayDeque<Integer> _detailedIndexes;
