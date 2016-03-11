@@ -17,6 +17,10 @@ public class DetailedTaskController extends TaskController {
 	private static final String PATH_DETAILEDTASKVIEW_FXML = "DetailedTaskView.fxml";
 	
 	@FXML
+	private Label dateCreatedHeader;
+	@FXML
+	private Label dateModifiedHeader;
+	@FXML
 	private Label dateCreatedLabel;
 	@FXML
 	private Label dateModifiedLabel;
@@ -77,6 +81,8 @@ public class DetailedTaskController extends TaskController {
 		taskStartLabel.setStyle(color + weight + modify);
 		dateTimeTypeLabel.setStyle(color + weight + modify);
 		taskEndLabel.setStyle(color + weight + modify);
+		dateCreatedHeader.setStyle(color);
+		dateModifiedHeader.setStyle(color);
 		dateCreatedLabel.setStyle(color);
 		dateModifiedLabel.setStyle(color);
 		taskLocationLabel.setStyle(color + weight + modify);

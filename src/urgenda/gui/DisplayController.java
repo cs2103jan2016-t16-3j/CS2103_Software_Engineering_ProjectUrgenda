@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -21,7 +22,7 @@ public class DisplayController extends AnchorPane {
 	public enum Direction {
 		DOWN, UP
 	}
-	
+
 	public enum TaskType {
 		TASK, DETAILED_TASK
 	}
@@ -59,8 +60,10 @@ public class DisplayController extends AnchorPane {
 	private Label displayHeader;
 	@FXML
 	private VBox displayHolder;
+//	@FXML
+//	private ScrollPane displayArea;
 	@FXML
-	private ScrollPane displayArea;
+	private ScrollBar visibleScrollbar;
 
 	private ArrayList<Task> _displayedTasks;
 	private ArrayDeque<Integer> _detailedIndexes;
@@ -79,29 +82,40 @@ public class DisplayController extends AnchorPane {
 		_displayedTasks.addAll(updatedTasks.getArchives());
 		_detailedIndexes.clear();
 		_detailedIndexes.addAll(showmoreIndexes);
-		
+
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
-			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount(),
-					TaskDisplayType.OVERDUE);
-			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTodayCount(),
-					TaskDisplayType.TODAY);
-			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getRemainingCount(),
-					TaskDisplayType.NORMAL);
+			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount(), TaskDisplayType.OVERDUE);
+			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTodayCount(), TaskDisplayType.TODAY);
+			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getRemainingCount(), TaskDisplayType.NORMAL);
 		}
 		if (updatedTasks.getArchiveCount() != 0) {
-			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getArchiveCount(),
-					TaskDisplayType.ARCHIVE);
+			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getArchiveCount(), TaskDisplayType.ARCHIVE);
 		}
 		if (updatedTasks.getArchiveCount() + updatedTasks.getUncompletedCount() == 0) {
 			showZeroTasksFeedback();
 		}
 		setDefaultSelectedTask();
 		setDisplayScroll();
-		if(displayHeader != null) {
+		if (displayHeader != null) {
 			setDisplayHeader(displayHeader);
 		}
 	}
+	// TODO: implement scrollbar
+	// public void setScrollbar() {
+	// visibleScrollbar.setMax(displayArea.getViewportBounds().getHeight());
+	// System.out.println(displayArea.getViewportBounds().getHeight());
+	// visibleScrollbar.setMin(0);
+	// vPosition = new SimpleDoubleProperty();
+	// vPosition.bind(visibleScrollbar.valueProperty());
+	// vPosition.addListener(new ChangeListener<Number>(){
+	// @Override
+	// public void changed(ObservableValue<? extends Number> observable, Number
+	// oldValue, Number newValue) {
+	// displayArea.setVvalue((double) newValue);
+	// }
+	// });
+	// }
 
 	private void showZeroTasksFeedback() {
 		Label emptyDisplay = new Label(MESSAGE_ZERO_TASKS);
@@ -113,13 +127,15 @@ public class DisplayController extends AnchorPane {
 	private int showStyledTaskView(int currIndex, int toAddCount, TaskDisplayType taskDisplayType) {
 		int addedCount = 0;
 		while (addedCount < toAddCount) {
-			if(isDetailed(currIndex)) {
-				DetailedTaskController newDetailedTaskView = new DetailedTaskController(_displayedTasks.get(currIndex), currIndex, taskDisplayType);
+			if (isDetailed(currIndex)) {
+				DetailedTaskController newDetailedTaskView = new DetailedTaskController(_displayedTasks.get(currIndex),
+						currIndex, taskDisplayType);
 				newDetailedTaskView.setDisplayController(this);
 				displayHolder.getChildren().add(newDetailedTaskView);
 				newDetailedTaskView.resizeOverrunDescLabel();
 			} else {
-				TaskController newTaskView = new TaskController(_displayedTasks.get(currIndex), currIndex, taskDisplayType);
+				TaskController newTaskView = new TaskController(_displayedTasks.get(currIndex), currIndex,
+						taskDisplayType);
 				newTaskView.setDisplayController(this);
 				displayHolder.getChildren().add(newTaskView);
 			}
@@ -128,38 +144,31 @@ public class DisplayController extends AnchorPane {
 		}
 		return addedCount;
 	}
-	
-private boolean isDetailed(int currIndex) {
-		if(!_detailedIndexes.isEmpty() && currIndex == _detailedIndexes.peekFirst()) {
+
+	private boolean isDetailed(int currIndex) {
+		if (!_detailedIndexes.isEmpty() && currIndex == _detailedIndexes.peekFirst()) {
 			_detailedIndexes.removeFirst();
 			return true;
 		}
 		return false;
-}
+	}
 
-//	TODO: implement show more or less by click
-//	private void showMoreByIndex(int index) {
-//		int taskCount = 0;
-//		int objectCount = 0;
-//		while(taskCount <= index) {
-//			if(displayHolder.getChildren().get(objectCount).getClass().equals(TaskController.class)) {				
-//				taskCount++;
-//			}
-//			objectCount++;
-//		}
-//		displayHolder.getChildren().add(objectCount, new TaskDetailsController(_displayedTasks.get(taskCount - 1)));
-//		if(_selectedTaskIndex > taskCount) {
-//			_selectedTaskIndex++;
-//			_indicatorShowmoreCount++;
-//		}
-//	}
-//	
-//	private void showLessByIndex(int index) {
-//		
-//	}
-	
-	//TODO implement for counting tasks and detailed tasks
-	//TODO set display scroll position according to latest changed/added task
+	protected void toggleDetailedOnClick(Task task, int index, TaskDisplayType taskDisplayType) {
+		if(displayHolder.getChildren().get(index).getClass().equals(TaskController.class)) {
+			DetailedTaskController newDetailedTaskView = new DetailedTaskController(task, index, taskDisplayType);
+			newDetailedTaskView.setDisplayController(this);
+			newDetailedTaskView.setSelected(true);
+			displayHolder.getChildren().add(index++, newDetailedTaskView);
+			displayHolder.getChildren().remove(index);
+		} else {
+			TaskController newTaskView = new TaskController(task, index, taskDisplayType);
+			newTaskView.setDisplayController(this);
+			newTaskView.setSelected(true);
+			displayHolder.getChildren().add(index++, newTaskView);
+			displayHolder.getChildren().remove(index);
+		}
+	}
+	// TODO set display scroll position according to latest changed/added task
 	private void setDisplayScroll() {
 		displayArea.setVvalue(DEFAULT_VERTICAL_SCROLL_HEIGHT);
 	}
@@ -187,8 +196,7 @@ private boolean isDetailed(int currIndex) {
 		displayHeader.setText(displayed);
 	}
 
-	//TODO does not work for detailed tasks displayed, to fix
-	public void setSelectedIndexOnClick(int index) {
+	protected void setSelectedIndexOnClick(int index) {
 		if (index != _selectedTaskIndex) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
 			_selectedTaskIndex = index;

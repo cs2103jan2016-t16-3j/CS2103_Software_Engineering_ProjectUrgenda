@@ -7,66 +7,61 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <fx:root fx:id="taskPane" maxHeight="0.0" minHeight="35.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" type="GridPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
-      <ColumnConstraints hgrow="NEVER" maxWidth="5.0" minWidth="5.0" prefWidth="5.0" />
-      <ColumnConstraints hgrow="NEVER" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" />
-     <ColumnConstraints hgrow="NEVER" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" />
-            <ColumnConstraints hgrow="NEVER" minWidth="200.0" prefWidth="230.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
+     <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="15.0" minWidth="15.0" prefWidth="15.0" />
+      <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <ImageView fx:id="selector" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-         <image>
-            <Image url="@../../resources/selector.png" />
-         </image>
+      <Label fx:id="taskIndexLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="20.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1">
          <GridPane.margin>
-            <Insets top="4.0" />
-         </GridPane.margin>
-      </ImageView>
-      <Label fx:id="taskIndexLabel" contentDisplay="CENTER" prefHeight="21.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="2">
-         <GridPane.margin>
-            <Insets top="7.0" />
+            <Insets left="5.0" top="7.0" />
          </GridPane.margin></Label>
-      <BorderPane GridPane.columnIndex="3" GridPane.halignment="CENTER">
-         <left>
-                  <Label fx:id="taskDescLabel" contentDisplay="CENTER" prefHeight="18.0" prefWidth="190.0" text="Task Name" BorderPane.alignment="TOP_CENTER">
-               <BorderPane.margin>
-                  <Insets left="5.0" />
-               </BorderPane.margin>
-               <padding>
-                  <Insets top="8.0" />
-               </padding></Label>
-         </left>
-         <right>
-            <ImageView fx:id="importantIndicator" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-               <image>
-                  <Image url="@../../resources/urgenda_icon.png" />
-               </image>
-            </ImageView>
-         </right>
+      <BorderPane GridPane.columnIndex="2" GridPane.halignment="CENTER">
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
+         <center>
+                  <Label fx:id="taskDescLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="280.0" text="Task Name" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="5.0" />
+               </BorderPane.margin></Label>
+         </center>
+         <left>
+            <ImageView fx:id="importantIndicator" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_LEFT">
+               <image>
+                  <Image url="@../../resources/important_indicator.png" />
+               </image>
+               <BorderPane.margin>
+                  <Insets left="5.0" top="6.0" />
+               </BorderPane.margin>
+            </ImageView>
+         </left>
       </BorderPane>
-            <Label fx:id="taskStartLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" text="Start DateTime" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+            <Label fx:id="taskStartLabel" alignment="CENTER" prefHeight="20.0" prefWidth="140.0" text="Start DateTime" GridPane.columnIndex="3">
          <GridPane.margin>
             <Insets top="8.0" />
          </GridPane.margin></Label>
-      <Label fx:id="dateTimeTypeLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="20.0" text="xx" GridPane.columnIndex="5">
+      <Label fx:id="dateTimeTypeLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="185.0" text="xx" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.halignment="LEFT">
          <GridPane.margin>
             <Insets top="8.0" />
          </GridPane.margin></Label>
-            <Label fx:id="taskEndLabel" alignment="CENTER" prefHeight="18.0" prefWidth="120.0" text="End DateTime" GridPane.columnIndex="6" GridPane.halignment="CENTER">
+            <Label fx:id="taskEndLabel" alignment="CENTER" prefHeight="20.0" prefWidth="140.0" text="End DateTime" GridPane.columnIndex="5">
          <GridPane.margin>
             <Insets top="8.0" />
          </GridPane.margin></Label>
+      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
          </children>
 </fx:root>

@@ -17,7 +17,6 @@ public class MainController {
 	
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
-	private static final String KEYWORD_HELP = "help";
 	private static final String KEYWORD_SHOW_ALL = "home";		
 	
 	//Elements loaded using FXML

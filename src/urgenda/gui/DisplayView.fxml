@@ -2,12 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -19,14 +21,19 @@
          </font></Label>
       <BorderPane maxHeight="420.0" maxWidth="600.0" prefHeight="420.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <center>
-            <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
-               <content>
-                  <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0" />
-               </content>
-               <padding>
-                  <Insets left="-1.0" right="-1.0" />
-               </padding>
-            </ScrollPane>
+            <StackPane BorderPane.alignment="CENTER">
+               <children>
+                  <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" StackPane.alignment="CENTER_RIGHT">
+                     <content>
+                        <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0" />
+                     </content>
+                     <padding>
+                        <Insets left="-1.0" right="-1.0" />
+                     </padding>
+                  </ScrollPane>
+                  <ScrollBar fx:id="visibleScrollbar" orientation="VERTICAL" style="-fx-background-color: transparent;" StackPane.alignment="CENTER_RIGHT" />
+               </children>
+            </StackPane>
          </center>
          <top>
             <GridPane fx:id="headerPane" minHeight="35.0">
