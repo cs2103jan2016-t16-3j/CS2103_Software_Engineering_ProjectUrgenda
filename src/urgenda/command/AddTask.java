@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class AddTask implements Undoable {
+public class AddTask extends Undoable {
 	
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
@@ -33,7 +33,6 @@ public class AddTask implements Undoable {
 		_newTask = newTask;
 	}
 	
-	@Override
 	public String execute(LogicData dataStorage) throws Exception {
 		_data = dataStorage;
 		LocalDateTime now = LocalDateTime.now();
@@ -112,13 +111,11 @@ public class AddTask implements Undoable {
 		return feedback;
 	}
 
-	@Override
 	public String undo() {
 		_data.deleteTask(_newTask);
 		return taskMessage() + MESSAGE_REMOVE;
 	}
 
-	@Override
 	public String redo() {
 		_data.addTask(_newTask);
 		return taskMessage() + MESSAGE_ADDED;

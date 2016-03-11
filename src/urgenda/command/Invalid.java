@@ -3,7 +3,7 @@ package urgenda.command;
 import urgenda.command.Command;
 import urgenda.logic.LogicData;
 
-public class Invalid implements Command {
+public class Invalid extends Command {
 	
 	private static final String MESSAGE_INVALID_COMMAND = "\"%1$s\" is not a valid command";
 	
@@ -17,7 +17,6 @@ public class Invalid implements Command {
 		_command = command;
 	}
 
-	@Override
 	public String execute(LogicData data) {
 		data.setCurrState(LogicData.DisplayState.INVALID_COMMAND);
 		if (_command.equals("")) {

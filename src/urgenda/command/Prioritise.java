@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class Prioritise implements Undoable {
+public class Prioritise extends Undoable {
 	
 	private static final String MESSAGE_IMPORTANT = " marked as important!";
 	private static final String MESSAGE_UNIMPORTANT = " unmarked as important";
@@ -21,7 +21,6 @@ public class Prioritise implements Undoable {
 	private Task _task;
 	private LogicData _data;
 	
-	@Override
 	public String execute(LogicData data) throws Exception {
 		_data = data;
 		ArrayList<Task> matches;
@@ -70,13 +69,11 @@ public class Prioritise implements Undoable {
 		}
 		return feedback;
 	}
-	@Override
 	public String undo() {
 		String feedback = toggleTaskImportance();
 		return feedback;
 	}
 
-	@Override
 	public String redo() {
 		String feedback = toggleTaskImportance();
 		return feedback;

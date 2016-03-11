@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class Complete implements Undoable {
+public class Complete extends Undoable {
 	
 	private static final String MESSAGE_DONE = "Done ";
 	private static final String MESSAGE_UNDONE = "To do ";
@@ -22,7 +22,6 @@ public class Complete implements Undoable {
 	private Task _completedTask;
 	private LogicData _data;
 	
-	@Override
 	public String execute(LogicData data) throws Exception {
 		_data = data;
 		ArrayList<Task> matches;
@@ -74,7 +73,6 @@ public class Complete implements Undoable {
 		return feedback;
 	}
 
-	@Override
 	public String undo() {
 		_completedTask.setIsCompleted(false);
 		_data.removeArchive(_completedTask);
@@ -82,7 +80,6 @@ public class Complete implements Undoable {
 		return MESSAGE_UNDONE + taskMessage() + "!";
 	}
 
-	@Override
 	public String redo() {
 		_completedTask.setIsCompleted(true);
 		_data.deleteTask(_completedTask);

@@ -1,13 +1,11 @@
 package urgenda.command;
 
 /**
- * Undoable interface for commands that are able to be undone/redone
+ * Undoable class for commands that are able to be undone/redone
  *
  */
-public interface Undoable extends Command {
-	
-	String undo();
-	
-	String redo();
+public abstract class Undoable extends Command{
 
+	public abstract String undo();
+	public abstract String redo();
 }

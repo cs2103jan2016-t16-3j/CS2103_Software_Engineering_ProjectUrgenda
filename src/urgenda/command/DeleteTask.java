@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class DeleteTask implements Undoable {
+public class DeleteTask extends Undoable {
 
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
@@ -23,7 +23,6 @@ public class DeleteTask implements Undoable {
 	private Task _deletedTask;
 	private LogicData _data;
 	
-	@Override
 	public String execute(LogicData data) throws Exception {
 		_data = data;
 		ArrayList<Task> matches;
@@ -73,13 +72,11 @@ public class DeleteTask implements Undoable {
 		return feedback;
 	}
 
-	@Override
 	public String undo() {
 		_data.addTask(_deletedTask);
 		return taskMessage() + MESSAGE_ADDED;
 	}
 
-	@Override
 	public String redo() {
 		_data.deleteTask(_deletedTask);
 		return taskMessage() + MESSAGE_REMOVE;
