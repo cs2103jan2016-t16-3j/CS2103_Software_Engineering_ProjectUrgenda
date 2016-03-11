@@ -171,16 +171,16 @@ public class Main extends Application {
 				new ArrayList<String>(), false);
 		Task taskI = new Task("Important task", "I location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), true);
-		Task taskD = new Task("Detailed task long long long long long long long long long long long", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskD = new Task("Detailed task long long long long long long long", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-		Task task1 = new Task("1 task", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+		Task task1 = new Task("1 task long long long long long", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
 		Task task2 = new Task("2 task", "2 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
-		Task task3 = new Task("3 task", "3 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
-				false);
 		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
+		Task taskC2 = new Task("Completed task2", "C2 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+				false);
 		
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Task> archives = new ArrayList<Task>();
@@ -192,11 +192,11 @@ public class Main extends Application {
 		tasks.add(taskD);
 		tasks.add(task1);
 		tasks.add(task2);
-		tasks.add(task3);
 		archives.add(taskC);
+		archives.add(taskC2);
 		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, archives, 1, 3, 5, 1));
-		state.setFeedback("feedback from dummylist");
+		state.setAllTasks(new TaskList(tasks, archives, 1, 3, 4, 2));
+		state.setFeedback("Welcome to Urgenda! Your task manager is ready for use.\nPress ALT + F1 for help.");
 		state.addDetailedTaskIdx(3);
 		state.addDetailedTaskIdx(5);
 		state.setState(StateFeedback.State.ALL_TASKS);
