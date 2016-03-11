@@ -7,9 +7,6 @@ import urgenda.util.Task;
 
 public class AddTask extends TaskCommand {
 	
-	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
-	private static final String MESSAGE_FLOAT = "\"%1$s\"";
-	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_ERROR = "Error: ";
@@ -49,7 +46,7 @@ public class AddTask extends TaskCommand {
 			// throws exception to prevent AddTask being added to undo stack
 			throw new Exception(MESSAGE_ERROR + e.getMessage());
 		}
-		return taskMessage() + MESSAGE_ADDED;
+		return taskMessage(_newTask) + MESSAGE_ADDED;
 	}
 
 	public void checkTaskValidity(Task task) throws Exception {
@@ -86,39 +83,14 @@ public class AddTask extends TaskCommand {
 		
 	}
 
-	private String taskMessage() {
-		Task.Type taskType = _newTask.getTaskType();
-		String feedback = null;
-		switch (taskType) {
-			case EVENT :
-				feedback = String.format(MESSAGE_EVENT, _newTask.getDesc(), _newTask.getStartTime().getDayOfMonth(),
-						_newTask.getStartTime().getMonthValue(), _newTask.getStartTime().getHour(), 
-						_newTask.getStartTime().getMinute(), _newTask.getEndTime().getHour(), 
-						_newTask.getEndTime().getMinute());
-				break;
-		
-			case FLOATING :
-				feedback = String.format(MESSAGE_FLOAT, _newTask.getDesc());
-				break;
-		
-			case DEADLINE :
-				feedback = String.format(MESSAGE_DEADLINE, _newTask.getDesc(), _newTask.getEndTime().getDayOfMonth(),
-						_newTask.getEndTime().getMonthValue(), _newTask.getEndTime().getHour(), 
-						_newTask.getEndTime().getMinute());
-				break;
-
-		}
-		return feedback;
-	}
-
 	public String undo() {
 		_data.deleteTask(_newTask);
-		return taskMessage() + MESSAGE_REMOVE;
+		return taskMessage(_newTask) + MESSAGE_REMOVE;
 	}
 
 	public String redo() {
 		_data.addTask(_newTask);
-		return taskMessage() + MESSAGE_ADDED;
+		return taskMessage(_newTask) + MESSAGE_ADDED;
 	}
 	
 	public void setNewTask(Task newTask) {

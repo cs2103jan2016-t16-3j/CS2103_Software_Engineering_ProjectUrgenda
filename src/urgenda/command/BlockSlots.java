@@ -52,10 +52,11 @@ public class BlockSlots extends TaskCommand {
 			task.setSlot(_block);
 			_data.addTask(task);
 		}
-		return taskMessage() + MESSAGE_ADDED;
+		return generateTaskMessages() + MESSAGE_ADDED;
 	}
 	
-	private String taskMessage() {
+	// uses its own method for generating task messages
+	private String generateTaskMessages() {
 		String feedback = _block.getDesc();
 		for (Task task : _taskBlocks) {
 			feedback += String.format(MESSAGE_EVENT_DATETIME,  task.getStartTime().getDayOfMonth(),
@@ -78,7 +79,7 @@ public class BlockSlots extends TaskCommand {
 		for (Task task : _taskBlocks) {
 			_data.deleteTask(task);
 		}
-		return taskMessage() + MESSAGE_REMOVE;
+		return generateTaskMessages() + MESSAGE_REMOVE;
 	}
 
 	public String redo() {

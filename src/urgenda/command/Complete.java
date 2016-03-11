@@ -9,9 +9,6 @@ public class Complete extends TaskCommand {
 	
 	private static final String MESSAGE_DONE = "Done ";
 	private static final String MESSAGE_UNDONE = "To do ";
-	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
-	private static final String MESSAGE_FLOAT = "\"%1$s\"";
-	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	private static final String MESSAGE_NO_COMPLETE_MATCH = "No matches found to complete";
 	
@@ -45,46 +42,21 @@ public class Complete extends TaskCommand {
 		_completedTask.setIsCompleted(true);
 		_data.deleteTask(_completedTask);
 		_data.addArchive(_completedTask);
-		return MESSAGE_DONE + taskMessage() + "!";
-	}
-	
-	private String taskMessage() {
-		Task.Type taskType = _completedTask.getTaskType();
-		String feedback = null;
-		switch (taskType) {
-			case EVENT :
-				feedback = String.format(MESSAGE_EVENT, _completedTask.getDesc(), _completedTask.getStartTime().getDayOfMonth(),
-						_completedTask.getStartTime().getMonthValue(), _completedTask.getStartTime().getHour(), 
-						_completedTask.getStartTime().getMinute(), _completedTask.getEndTime().getHour(), 
-						_completedTask.getEndTime().getMinute());
-				break;
-		
-			case FLOATING :
-				feedback = String.format(MESSAGE_FLOAT, _completedTask.getDesc());
-				break;
-		
-			case DEADLINE :
-				feedback = String.format(MESSAGE_DEADLINE, _completedTask.getDesc(), _completedTask.getEndTime().getDayOfMonth(),
-						_completedTask.getEndTime().getMonthValue(), _completedTask.getEndTime().getHour(), 
-						_completedTask.getEndTime().getMinute());
-				break;
-
-		}
-		return feedback;
+		return MESSAGE_DONE + taskMessage(_completedTask) + "!";
 	}
 
 	public String undo() {
 		_completedTask.setIsCompleted(false);
 		_data.removeArchive(_completedTask);
 		_data.addTask(_completedTask);
-		return MESSAGE_UNDONE + taskMessage() + "!";
+		return MESSAGE_UNDONE + taskMessage(_completedTask) + "!";
 	}
 
 	public String redo() {
 		_completedTask.setIsCompleted(true);
 		_data.deleteTask(_completedTask);
 		_data.addArchive(_completedTask);
-		return MESSAGE_DONE + taskMessage() + "!";
+		return MESSAGE_DONE + taskMessage(_completedTask) + "!";
 	}
 
 
