@@ -6,7 +6,7 @@ import java.util.Deque;
 import urgenda.command.Command;
 import urgenda.command.Redo;
 import urgenda.command.Undo;
-import urgenda.command.Undoable;
+import urgenda.command.TaskCommand;
 
 public class LogicCommand {	
 
@@ -15,13 +15,13 @@ public class LogicCommand {
 	
 	private LogicData _logicData;
 
-	private Deque<Undoable> _undos;
-	private Deque<Undoable> _redos;
+	private Deque<TaskCommand> _undos;
+	private Deque<TaskCommand> _redos;
 
 	public LogicCommand(LogicData logicData) {
 		_logicData = logicData;
-		_undos = new ArrayDeque<Undoable>();
-		_redos = new ArrayDeque<Undoable>();
+		_undos = new ArrayDeque<TaskCommand>();
+		_redos = new ArrayDeque<TaskCommand>();
 	}	
 
 	public String processCommand(Command currCmd) {
@@ -44,15 +44,15 @@ public class LogicCommand {
 	}
 	
 	public void addUndo(Command currCmd) {
-		if (currCmd instanceof Undoable) {
-			_undos.addFirst((Undoable) currCmd);
+		if (currCmd instanceof TaskCommand) {
+			_undos.addFirst((TaskCommand) currCmd);
 			_redos.clear();
 		}
 	}
 	
 	public String undoCommand(String feedback) {
 		if (!_undos.isEmpty()) {
-			Undoable undoCommand = _undos.removeFirst();
+			TaskCommand undoCommand = _undos.removeFirst();
 			feedback = feedback + undoCommand.undo();
 			_redos.addFirst(undoCommand);
 			return feedback;
@@ -64,7 +64,7 @@ public class LogicCommand {
 
 	public String redoCommand(String feedback) {
 		if (!_redos.isEmpty()) {
-			Undoable redoCommand = _redos.removeFirst();
+			TaskCommand redoCommand = _redos.removeFirst();
 			feedback = feedback + redoCommand.redo();
 			_undos.addFirst(redoCommand);
 			return feedback;

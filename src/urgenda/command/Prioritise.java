@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class Prioritise extends Undoable {
+public class Prioritise extends TaskCommand {
 	
 	private static final String MESSAGE_IMPORTANT = " marked as important!";
 	private static final String MESSAGE_UNIMPORTANT = " unmarked as important";

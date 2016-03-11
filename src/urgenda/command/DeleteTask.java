@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class DeleteTask extends Undoable {
+public class DeleteTask extends TaskCommand {
 
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class Edit extends Undoable {
+public class Edit extends TaskCommand {
 
 	private static final String MESSAGE_NO_EDIT_MATCH = "Invalid task number. No matches found to edit";
 	private static final String MESSAGE_EDIT = " has been edited to ";

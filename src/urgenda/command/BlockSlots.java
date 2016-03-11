@@ -7,7 +7,7 @@ import urgenda.logic.LogicData;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
-public class BlockSlots extends Undoable {
+public class BlockSlots extends TaskCommand {
 	
 	private static final String MESSAGE_EVENT_DATETIME = ", %1$d/%2$d, %3$02d:%4$02d - %5$02d:%6$02d";
 	private static final String MESSAGE_ADDED = " added";

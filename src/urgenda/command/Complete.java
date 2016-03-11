@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class Complete extends Undoable {
+public class Complete extends TaskCommand {
 	
 	private static final String MESSAGE_DONE = "Done ";
 	private static final String MESSAGE_UNDONE = "To do ";
