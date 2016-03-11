@@ -2,7 +2,9 @@ package urgenda.gui;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.Duration;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -72,8 +74,8 @@ public class TaskController extends GridPane {
 		}
 		if(_task.getTaskType() == Task.Type.DEADLINE) {
 			taskStartLabel.setText("");
-			taskEndLabel.setText(formatDateTime(task.getEndTime()));
-			dateTimeTypeLabel.setText("by");
+			taskEndLabel.setText(formatDeadline(task.getEndTime()));
+			dateTimeTypeLabel.setText("due in");
 		}
 		if (_task.isImportant()) {
 		importantIndicator.setVisible(true);
@@ -84,6 +86,38 @@ public class TaskController extends GridPane {
 		setSelected(false);
 	}
 	
+	private String formatDeadline(LocalDateTime deadline) {
+		String formattedDeadline = "";
+		if(deadline.isAfter(LocalDateTime.now())) {
+			int days = 0;
+			int hours = 0;
+			int minutes = 0;
+			Duration duration = Duration.between(LocalDateTime.now(), deadline);
+			Duration singleDay = Duration.ofDays(1);
+			Duration singleHour = Duration.ofHours(1);
+			Duration singleMinute = Duration.ofMinutes(1);
+			if(duration.getSeconds() > singleDay.getSeconds()) {
+				while(duration.getSeconds() > singleDay.getSeconds()) {
+					duration = duration.minus(singleDay);
+					days++;
+				}
+				formattedDeadline = String.valueOf(days) + "days";
+			} else {
+				while(duration.getSeconds() > singleHour.getSeconds()) {
+					duration = duration.minus(singleHour);
+					hours++;
+				}
+				while(duration.getSeconds() > singleMinute.getSeconds()) {
+					duration = duration.minus(singleMinute);
+					minutes++;
+				}
+				formattedDeadline = String.valueOf(hours) + "hours" + String.valueOf(minutes) + "minutes";
+			}
+		}
+		System.out.println(formattedDeadline);
+		return formattedDeadline;
+	}
+
 	public void setTaskStyle(TaskDisplayType taskDisplayType) {
 		if (taskDisplayType == TaskDisplayType.OVERDUE) {
 			this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_OVERDUE, null, INSETS_ROWS)));
