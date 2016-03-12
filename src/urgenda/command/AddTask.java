@@ -33,6 +33,7 @@ public class AddTask extends TaskCommand {
 			checkTaskValidity(_newTask);
 			_data.addTask(_newTask);
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+			_data.setTaskPointer(_newTask);
 		} catch (Exception e) {
 			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 			// throws exception to prevent AddTask being added to undo stack
@@ -48,6 +49,7 @@ public class AddTask extends TaskCommand {
 
 	public String redo() {
 		_data.addTask(_newTask);
+		_data.setTaskPointer(_newTask);
 		return taskMessage(_newTask) + MESSAGE_ADDED;
 	}
 	

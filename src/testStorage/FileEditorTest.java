@@ -143,11 +143,11 @@ public class FileEditorTest {
 		inputArrayTwo.clear();
 		retrievedArrayOne.clear();
 		retrievedArrayTwo.clear();
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 100; i++) {
 			inputArrayOne.add("String " + i
 					+ " is a very very long string used to test the robustness of the method in execution speed and smoothness");
 		}
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 100; i++) {
 			inputArrayTwo.add("String " + i
 					+ " is a very very long string used to test the robustness of the method in execution speed and smoothness");
 		}

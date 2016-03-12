@@ -59,6 +59,7 @@ public class Edit extends TaskCommand {
 				_data.deleteTask(_prevTask);
 				_data.addTask(_newTask);
 				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+				_data.setTaskPointer(_newTask);
 			} catch (Exception e) {
 				_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 				// throws exception to prevent Edit being added to undo stack
@@ -71,12 +72,14 @@ public class Edit extends TaskCommand {
 	public String undo() {
 		_data.deleteTask(_newTask);
 		_data.addTask(_prevTask);
+		_data.setTaskPointer(_prevTask);
 		return taskMessage(_prevTask) + MESSAGE_EDIT + taskMessage(_newTask);
 	}
 
 	public String redo() {
 		_data.deleteTask(_prevTask);
 		_data.addTask(_newTask);
+		_data.setTaskPointer(_newTask);
 		return taskMessage(_prevTask) + MESSAGE_EDIT + taskMessage(_newTask);
 	}
 

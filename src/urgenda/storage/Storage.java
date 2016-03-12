@@ -42,6 +42,18 @@ public class Storage implements StorageInterface {
 		int taskId = _decryptor.decryptStringArr(tasks, _fileDataStringArr, archive, _archiveStringArr);
 		return taskId;
 	}
+	
+	public ArrayList<Task> updateCurrentTaskList(){
+		ArrayList<Task> tasks = new ArrayList<Task>();
+		_decryptor.addToTaskList(tasks, _fileDataStringArr);
+		return tasks;
+	}
+	
+	public ArrayList<Task> updateArchiveTaskList(){
+		ArrayList<Task> archives = new ArrayList<Task>();
+		_decryptor.addToArchiveList(archives, _archiveStringArr);
+		return archives;
+	}
 
 	public void save(ArrayList<Task> tasks, ArrayList<Task> archive) {
 		_encryptor.encrypt(tasks, _fileDataStringArr);

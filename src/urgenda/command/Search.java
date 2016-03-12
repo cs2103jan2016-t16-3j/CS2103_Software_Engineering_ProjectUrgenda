@@ -12,7 +12,7 @@ public class Search extends Command {
 
 	private static final String MESSAGE_SEARCH = "These are all the tasks found containing \"%1$s\"";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
-
+	
 	private String _searchDesc;
 	private LocalDate _searchDate;
 	private LocalDateTime _searchDateTime;
@@ -34,15 +34,16 @@ public class Search extends Command {
 	public Search(LocalDateTime input) {
 		_searchDateTime = input;
 	}
-	
-	public Search(Month input) { 
-		_searchMonth = input;
-	} 
 
-	public String execute(LogicData data) {   // TODO: Further refactoring, exception handling and considering searching for task type
+	public Search(Month input) {
+		_searchMonth = input;
+	}
+
+	public String execute(LogicData data) { // TODO: Further refactoring,exception handling and considering searching for task type
 		ArrayList<Task> matches;
 		String feedback = null;
-		if (_searchDesc != null) {
+		
+	    if (_searchDesc != null) {
 			matches = data.findMatchingDesc(_searchDesc);
 			if (matches.isEmpty()) {
 				data.setCurrState(LogicData.DisplayState.ALL_TASKS);
@@ -74,7 +75,7 @@ public class Search extends Command {
 			}
 		} else if (_searchMonth != null) {
 			matches = data.findMatchingMonths(_searchMonth);
-			if(matches.isEmpty()) {
+			if (matches.isEmpty()) {
 				data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 				feedback = String.format(MESSAGE_SEARCH_NOT_FOUND, _searchMonth.toString());
 			} else {
@@ -93,11 +94,11 @@ public class Search extends Command {
 	public void setSearchDate(LocalDate input) {
 		_searchDate = input;
 	}
-	
+
 	public void setSearchDateTime(LocalDateTime input) {
 		_searchDateTime = input;
 	}
-	
+
 	public void setSearchMonth(Month input) {
 		_searchMonth = input;
 	}

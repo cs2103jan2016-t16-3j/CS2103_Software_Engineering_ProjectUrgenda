@@ -11,23 +11,24 @@ public class StateFeedback {
 	private State _state;
 	private TaskList _allTasks;
 	private String _feedback;
-	private ArrayList<Integer> _showmoreIndexes; //index of tasks to show details for
+	private int _displayPosition = 0;
+	private ArrayList<Integer> _showMoreIndexes; //index of tasks to show details for
 	
 	// default constructor
 	public StateFeedback() {
-		_showmoreIndexes = new ArrayList<Integer>();
+		_showMoreIndexes = new ArrayList<Integer>();
 	}
 	
 	// constructor for default generation of All tasks
 	public StateFeedback(ArrayList<Task> tasks, int overdue, int today, int remaining) {
 		_allTasks = new TaskList(tasks, overdue, today, remaining);
-		_showmoreIndexes = new ArrayList<Integer>();
+		_showMoreIndexes = new ArrayList<Integer>();
 	}
 
 	//constructor passing tasklist object
 	public StateFeedback(TaskList taskList) {
 		_allTasks = taskList;
-		_showmoreIndexes = new ArrayList<Integer>();
+		_showMoreIndexes = new ArrayList<Integer>();
 	}
 	
 	// TODO constructor for tasklist object with both tasks and archive
@@ -41,7 +42,7 @@ public class StateFeedback {
 	}
 	
 	public ArrayList<Integer> getDetailedIndexes() {
-		return _showmoreIndexes;
+		return _showMoreIndexes;
 		
 	}
 	public void setAllTasks(TaskList tasks) {
@@ -61,7 +62,15 @@ public class StateFeedback {
 	}
 	
 	public void addDetailedTaskIdx(int index) {
-		_showmoreIndexes.add(index);
+		_showMoreIndexes.add(index);
+	}
+
+	public int getDisplayPosition() {
+		return _displayPosition;
+	}
+
+	public void setDisplayPosition(int displayPosition) {
+		_displayPosition = displayPosition;
 	}
 	
 }

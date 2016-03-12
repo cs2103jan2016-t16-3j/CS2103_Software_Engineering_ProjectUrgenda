@@ -30,19 +30,22 @@ public class LogicData {
 	private Storage _storage;
 
 	private DisplayState _currState;
+	private ArrayList<Task> _showMoreTasks;
+	private Task _taskPointer;
 
 	private int _currentId;
 
 	// default constructor for initialization of empty path
 	public LogicData() {
-		_tasks = new ArrayList<Task>();
-		_archives = new ArrayList<Task>();
-		_displays = new ArrayList<Task>();
 		_storage = new Storage();
-		// updateArrayLists adds stored task objects into respective arraylists
-		// returns the next id to be used for future labelling of tasks
-		_currentId = _storage.updateArrayLists(_tasks, _archives);
+		// updates arraylists from stored task objects into respective arraylists
+		_tasks = _storage.updateCurrentTaskList();
+		_archives = _storage.updateArchiveTaskList();
 		_currState = DisplayState.ALL_TASKS;
+		_displays = new ArrayList<Task>();
+		_showMoreTasks = new ArrayList<Task>();
+		// sets the next id to be used for future labelling of tasks
+		_currentId = _tasks.size() + 1;
 	}
 
 	public void saveContents() {
@@ -108,8 +111,30 @@ public class LogicData {
 		_displays.addAll(sortList(overdueTasks));
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(otherTasks));
+		
 		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
+		setFeedbackDisplayPosition(state);
+		setShowMorePositions(state);
 		return state;
+	}
+	
+	public void setShowMorePositions(StateFeedback state) {
+		for (Task task : _showMoreTasks) {
+			if (_displays.contains(task)) {
+				state.addDetailedTaskIdx(_displays.indexOf(task));
+			}
+		}
+	}
+
+	// sets the position if the pointer matches the display
+	public void setFeedbackDisplayPosition(StateFeedback state) {
+		if (_taskPointer != null && _displays.contains(_taskPointer)) {
+			state.setDisplayPosition(_displays.indexOf(_taskPointer));
+		} else { // sets to 0 as default if no specific task is required to be pointed at
+			state.setDisplayPosition(0);
+		}
+		// clears task pointer for next iteration
+		_taskPointer = null;
 	}
 
 	public ArrayList<Task> findMatchingDesc(String desc) {
@@ -329,6 +354,27 @@ public class LogicData {
 
 	public String generateHelpManual() {
 		return _storage.retrieveHelp();
+	}
+
+	public Task getTaskPointer() {
+		return _taskPointer;
+	}
+
+	public void setTaskPointer(Task taskPointer) {
+		_taskPointer = taskPointer;
+	}
+	
+	public void toggleShowMoreTasks(Task task) {
+		if (_showMoreTasks.contains(task)) {
+			_showMoreTasks.remove(task);
+		} else {
+			_showMoreTasks.add(task);
+		}
+	}
+	
+	// TODO command that clears all showmore
+	public void clearShowMoreTasks() {
+		_showMoreTasks.clear();
 	}
 
 }

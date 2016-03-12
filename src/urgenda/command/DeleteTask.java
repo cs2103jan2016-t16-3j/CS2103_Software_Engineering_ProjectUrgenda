@@ -46,6 +46,7 @@ public class DeleteTask extends TaskCommand {
 
 	public String undo() {
 		_data.addTask(_deletedTask);
+		_data.setTaskPointer(_deletedTask);
 		return taskMessage(_deletedTask) + MESSAGE_ADDED;
 	}
 
