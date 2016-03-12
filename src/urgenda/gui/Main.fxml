@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
@@ -75,8 +74,6 @@
                                     <KeyCodeCombination alt="DOWN" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
                                  </accelerator>
                               </MenuItem>
-                              <SeparatorMenuItem mnemonicParsing="false" />
-                          <MenuItem fx:id="menuAboutUrgenda" mnemonicParsing="false" onAction="#handleAboutUrgenda" text="About Urgenda" />
                         </items>
                       </Menu>
                     </menus>
@@ -96,7 +93,7 @@
          <bottom>
             <AnchorPane fx:id="feedbackPane" maxHeight="100.0" prefHeight="100.0" prefWidth="398.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextArea fx:id="feedbackArea" editable="false" focusTraversable="false" layoutX="17.0" layoutY="-14.0" prefHeight="20.0" prefWidth="430.0" text="Welcome to Urgenda!" wrapText="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                  <TextArea fx:id="feedbackArea" editable="false" focusTraversable="false" layoutX="17.0" layoutY="-14.0" prefHeight="20.0" prefWidth="430.0" text="Feedback Message" wrapText="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>

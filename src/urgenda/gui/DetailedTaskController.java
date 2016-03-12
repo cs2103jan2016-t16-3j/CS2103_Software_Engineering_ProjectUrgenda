@@ -75,17 +75,17 @@ public class DetailedTaskController extends TaskController {
 	}
 	
 	@Override
-	protected void setStyle(String color, String weight, String modify) {
-		taskIndexLabel.setStyle(color + weight + modify);
-		taskDescLabel.setStyle(color + weight + modify);
-		taskStartLabel.setStyle(color + weight + modify);
-		dateTimeTypeLabel.setStyle(color + weight + modify);
-		taskEndLabel.setStyle(color + weight + modify);
+	protected void setStyle(String color, String weight) {
+		taskIndexLabel.setStyle(color + weight);
+		taskDescLabel.setStyle(color + weight);
+		taskStartLabel.setStyle(color + weight);
+		dateTimeTypeLabel.setStyle(color + weight);
+		taskEndLabel.setStyle(color + weight);
 		dateCreatedHeader.setStyle(color);
 		dateModifiedHeader.setStyle(color);
 		dateCreatedLabel.setStyle(color);
 		dateModifiedLabel.setStyle(color);
-		taskLocationLabel.setStyle(color + weight + modify);
+		taskLocationLabel.setStyle(color + weight);
 		
 	}
 }

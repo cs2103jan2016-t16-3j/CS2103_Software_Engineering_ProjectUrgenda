@@ -19,13 +19,6 @@ import urgenda.util.Task;
 import urgenda.util.TaskList;
 
 public class Main extends Application {
-	private BorderPane _rootLayout;
-	private Scene _scene;
-	private MainController _mainController;
-	private DisplayController _displayController;
-	private Logic _logic;
-	private static Stage _primaryStage;
-
 	
 	private static final String APP_NAME = "Urgenda";
 	private static final String PATH_GUI_FXML = "Main.fxml";
@@ -48,6 +41,12 @@ public class Main extends Application {
 	public static final Font LIGHT_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_LIGHT_FONT),
 			DEFAULT_LIGHT_FONT_SIZE);
 	
+	private BorderPane _rootLayout;
+	private Scene _scene;
+	private MainController _mainController;
+	private DisplayController _displayController;
+	private Logic _logic;
+	private static Stage _primaryStage;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -67,7 +66,7 @@ public class Main extends Application {
 			loader.setLocation(getClass().getResource(PATH_GUI_FXML));
 			_rootLayout = loader.load();
 			_mainController = loader.getController();
-			_mainController.setUIMain(this);
+			_mainController.setMain(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -76,7 +75,9 @@ public class Main extends Application {
 	private void initDisplay() {
 		_displayController = _mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
+		//TODO change int parameter below after pull
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0);
+		_displayController.setMain(this);
 	}
 
 	private void initStage(Stage primaryStage) {
@@ -91,21 +92,21 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
-	public StateFeedback retrieveStartupState() {
-		StateFeedback state = dummyState(); //TODO change for dummy list
-		//StateFeedback state = _logic.retrieveStartupState();
+	private StateFeedback retrieveStartupState() {
+		StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback());
 		return state;
 	}
 	
-	public String handleCommandLine(String commandLine) {
+	protected String handleCommandLine(String commandLine) {
 		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
 		if(state.getState() == State.SHOW_HELP) {
 			_mainController.showHelp();
 		} else if(state.getState() == State.EXIT) {
 			quit();
 		}
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes());
+		//TODO change int parameter below after pull
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0);
 		return state.getFeedback();
 	}
 	
@@ -159,8 +160,8 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	// dummy method to create dummy state
-	private StateFeedback dummyState() {
+	//dummy method to create dummy list of tasks
+	protected String setupDummyList() {
 		Task taskO = new Task("Overdue task", "O location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
 		Task taskTI = new Task("Today Important task", "TI location", LocalDateTime.now(), LocalDateTime.now(),
@@ -200,6 +201,7 @@ public class Main extends Application {
 		state.addDetailedTaskIdx(3);
 		state.addDetailedTaskIdx(5);
 		state.setState(StateFeedback.State.ALL_TASKS);
-		return state;
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0);
+		return state.getFeedback();
 	}
 }

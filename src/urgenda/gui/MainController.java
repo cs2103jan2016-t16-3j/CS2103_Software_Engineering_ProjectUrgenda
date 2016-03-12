@@ -17,7 +17,8 @@ public class MainController {
 	
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
-	private static final String KEYWORD_SHOW_ALL = "home";		
+	private static final String KEYWORD_SHOW_ALL = "home";
+	private static final String KEYWORD_TESTLIST = "dummytest";		
 	
 	//Elements loaded using FXML
 	@FXML
@@ -48,7 +49,12 @@ public class MainController {
 					_nextCommandLines.removeFirst();
 				}
 				_prevCommandLines.addFirst(inputBar.getText());
-				String feedback = _main.handleCommandLine(inputBar.getText());
+				String feedback;
+				if(inputBar.getText().equals(KEYWORD_TESTLIST)) {
+					feedback = _main.setupDummyList();
+				} else {
+					feedback = _main.handleCommandLine(inputBar.getText());
+				}
 				if(feedback != null) {	//null feedback do not change feedback text
 					displayFeedback(feedback);
 				}
@@ -86,6 +92,7 @@ public class MainController {
 	private void taskToggleUpListener(ActionEvent e) {
 		displayAreaController.traverseTasks(DisplayController.Direction.UP);
 	}
+	
 	@FXML
 	private void showAllTasks(ActionEvent e) {
 		String feedback = _main.handleCommandLine(KEYWORD_SHOW_ALL);
@@ -126,12 +133,6 @@ public class MainController {
 	}
 	
 	@FXML
-	private void handleAboutUrgenda(ActionEvent e) {
-		//TODO remove when urgenda splash is enabled
-		displayFeedback("Sorry! About Urgenda is currently unavailable!");
-	}
-	
-	@FXML
 	private void exit(ActionEvent e) {
 		//TODO save all edits
 		Platform.exit();
@@ -142,8 +143,8 @@ public class MainController {
 		feedbackArea.setText(feedback);
 	}
 	
-	public void setUIMain(Main ui) {
-		_main = ui;
+	public void setMain(Main main) {
+		_main = main;
 	}
 	
 	public DisplayController getDisplayController() {

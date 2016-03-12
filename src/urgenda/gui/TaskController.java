@@ -26,6 +26,10 @@ public class TaskController extends GridPane {
 
 	private static final String PATH_TASKVIEW_FXML = "TaskView.fxml";
 
+	private static final Duration DURATION_SINGLEDAY = Duration.ofDays(1);
+	private static final Duration DURATION_SINGLEHOUR = Duration.ofHours(1);
+	private static final Duration DURATION_SINGLEMINUTE = Duration.ofMinutes(1);
+
 	@FXML
 	protected GridPane taskPane;
 	@FXML
@@ -43,17 +47,52 @@ public class TaskController extends GridPane {
 	@FXML
 	protected Label taskEndLabel;
 
-	private DisplayController _displayController;
-	private boolean _isSelected;
+	protected int _index;
 	protected Task _task;
 	protected TaskDisplayType _taskDisplayType;
-	protected int _index;
+	protected boolean _isSelected;
+	protected DisplayController _displayController;
 
 	public TaskController(Task task, int index, TaskDisplayType taskDisplayType) {
 		_task = task;
 		_taskDisplayType = taskDisplayType;
 		_index = index;
 		loadFXML();
+		setTaskClickHandler();
+		taskIndexLabel.setText(String.valueOf(_index + 1));
+		taskDescLabel.setText(task.getDesc());
+		switch(task.getTaskType()) {
+		case FLOATING:
+			taskStartLabel.setText("");
+			taskEndLabel.setText("");
+			dateTimeTypeLabel.setText("");
+			break;
+		case EVENT:
+			taskStartLabel.setText(formatDateTime(task.getStartTime()));
+			taskEndLabel.setText(formatDateTime(task.getEndTime()));
+			dateTimeTypeLabel.setText("to");
+			break;
+		case DEADLINE:
+			if (_task.isOverdue()) {
+				taskStartLabel.setText("overdue by: ");
+			} else {
+				taskStartLabel.setText("due in: ");
+			}
+			taskStartLabel.setAlignment(Pos.CENTER_RIGHT);
+			taskEndLabel.setText("");
+			dateTimeTypeLabel.setText(formatDeadline(task.getEndTime()));
+			break;
+		}
+		if (_task.isImportant()) {
+			importantIndicator.setVisible(true);
+		} else {
+			importantIndicator.setVisible(false);
+		}
+		setTaskStyle(_taskDisplayType);
+		setSelected(false);
+	}
+
+	private void setTaskClickHandler() {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
@@ -65,66 +104,22 @@ public class TaskController extends GridPane {
 				}
 			}
 		});
-		taskIndexLabel.setText(String.valueOf(_index + 1));
-		taskDescLabel.setText(task.getDesc());
-		if (_task.getTaskType() == Task.Type.FLOATING) {
-			taskStartLabel.setText("");
-			taskEndLabel.setText("");
-			dateTimeTypeLabel.setText("");
-		}
-		if (_task.getTaskType() == Task.Type.EVENT) {
-			taskStartLabel.setText(formatDateTime(task.getStartTime()));
-			taskEndLabel.setText(formatDateTime(task.getEndTime()));
-			dateTimeTypeLabel.setText("to");
-		}
-		if (_task.getTaskType() == Task.Type.DEADLINE) {
-			if (_task.isOverdue()) {
-				taskStartLabel.setText("overdue by ");
-			} else {
-				taskStartLabel.setText("due in ");
-			}
-			taskStartLabel.setAlignment(Pos.CENTER_RIGHT);
-			taskEndLabel.setText("");
-			dateTimeTypeLabel.setText(formatDeadline(task.getEndTime()));
-		}
-		if (_task.isImportant()) {
-			importantIndicator.setVisible(true);
-		} else {
-			importantIndicator.setVisible(false);
-		}
-		setTaskStyle(_taskDisplayType);
-		setSelected(false);
 	}
 
 	private String formatDeadline(LocalDateTime deadline) {
 		String formattedDeadline = "";
-		int days = 0;
-		int hours = 0;
-		int minutes = 0;
 		Duration duration;
 		if (deadline.isAfter(LocalDateTime.now())) {
 			duration = Duration.between(LocalDateTime.now(), deadline);
 		} else {
 			duration = Duration.between(deadline, LocalDateTime.now());
 		}
-		Duration singleDay = Duration.ofDays(1);
-		Duration singleHour = Duration.ofHours(1);
-		Duration singleMinute = Duration.ofMinutes(1);
-		if (duration.getSeconds() > singleDay.getSeconds()) {
-			while (duration.getSeconds() > singleDay.getSeconds()) {
-				duration = duration.minus(singleDay);
-				days++;
-			}
-			formattedDeadline = String.valueOf(days) + " days";
+		if (duration.getSeconds() > DURATION_SINGLEDAY.getSeconds()) {
+			formattedDeadline += generateChronoUnits(duration, DURATION_SINGLEDAY) + " days";
+			
 		} else {
-			while (duration.getSeconds() > singleHour.getSeconds()) {
-				duration = duration.minus(singleHour);
-				hours++;
-			}
-			while (duration.getSeconds() > singleMinute.getSeconds()) {
-				duration = duration.minus(singleMinute);
-				minutes++;
-			}
+			int hours = generateChronoUnits(duration, DURATION_SINGLEHOUR);
+			int minutes = generateChronoUnits(duration.minus(Duration.ofHours(hours)), DURATION_SINGLEMINUTE);
 			if (hours >= 1) {
 				if (hours > 1) {
 					formattedDeadline += String.valueOf(hours) + " hours ";
@@ -151,12 +146,23 @@ public class TaskController extends GridPane {
 		return formattedDeadline;
 	}
 
+	private int generateChronoUnits(Duration duration, Duration chronoUnit) {
+		int chronoUnitCount = 0;
+		while (duration.getSeconds() > chronoUnit.getSeconds()) {
+			duration = duration.minus(chronoUnit);
+			chronoUnitCount++;
+		}
+		return chronoUnitCount;
+	}
+	
+
 	public void setTaskStyle(TaskDisplayType taskDisplayType) {
-		if (taskDisplayType == TaskDisplayType.OVERDUE) {
+		switch(taskDisplayType) {
+		case OVERDUE:
 			this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_OVERDUE, null, INSETS_ROWS)));
-			setStyle(DisplayController.TEXT_FILL_OVERDUE, DisplayController.TEXT_WEIGHT_BOLD,
-					DisplayController.TEXT_MODIFY_NONE);
-		} else if (taskDisplayType == TaskDisplayType.TODAY) {
+			setStyle(DisplayController.TEXT_FILL_OVERDUE, DisplayController.TEXT_WEIGHT_BOLD);
+			break;
+		case TODAY:
 			if (_task.isImportant()) {
 				this.setBackground(
 						new Background(new BackgroundFill(DisplayController.COLOR_TODAY_IMPORTANT, null, INSETS_ROWS)));
@@ -164,9 +170,9 @@ public class TaskController extends GridPane {
 				this.setBackground(
 						new Background(new BackgroundFill(DisplayController.COLOR_TODAY, null, INSETS_ROWS)));
 			}
-			setStyle(DisplayController.TEXT_FILL_TODAY, DisplayController.TEXT_WEIGHT_REGULAR,
-					DisplayController.TEXT_MODIFY_NONE);
-		} else if (taskDisplayType == TaskDisplayType.NORMAL) {
+			setStyle(DisplayController.TEXT_FILL_TODAY, DisplayController.TEXT_WEIGHT_REGULAR);
+			break;
+		case NORMAL:
 			if (_task.isImportant()) {
 				this.setBackground(new Background(
 						new BackgroundFill(DisplayController.COLOR_NORMAL_IMPORTANT, null, INSETS_ROWS)));
@@ -174,28 +180,26 @@ public class TaskController extends GridPane {
 				this.setBackground(
 						new Background(new BackgroundFill(DisplayController.COLOR_NORMAL, null, INSETS_ROWS)));
 			}
-			setStyle(DisplayController.TEXT_FILL_NORMAL, DisplayController.TEXT_WEIGHT_REGULAR,
-					DisplayController.TEXT_MODIFY_NONE);
-		} else if (taskDisplayType == TaskDisplayType.ARCHIVE) {
+			setStyle(DisplayController.TEXT_FILL_NORMAL, DisplayController.TEXT_WEIGHT_REGULAR);
+			break;
+		case ARCHIVE:
 			this.setBackground(
 					new Background(new BackgroundFill(DisplayController.COLOR_COMPLETED, null, INSETS_ROWS)));
-			setStyle(DisplayController.TEXT_FILL_COMPLETED, DisplayController.TEXT_WEIGHT_REGULAR,
-					DisplayController.TEXT_MODIFY_NONE);
+			setStyle(DisplayController.TEXT_FILL_COMPLETED, DisplayController.TEXT_WEIGHT_REGULAR);
+			break;
 		}
 	}
 
-	protected void setStyle(String color, String weight, String modify) {
-		taskIndexLabel.setStyle(color + weight + modify);
-		taskDescLabel.setStyle(color + weight + modify);
-		taskStartLabel.setStyle(color + weight + modify);
-		dateTimeTypeLabel.setStyle(color + weight + modify);
-		taskEndLabel.setStyle(color + weight + modify);
+	protected void setStyle(String color, String weight) {
+		taskIndexLabel.setStyle(color + weight);
+		taskDescLabel.setStyle(color + weight);
+		taskStartLabel.setStyle(color + weight);
+		dateTimeTypeLabel.setStyle(color + weight);
+		taskEndLabel.setStyle(color + weight);
 	}
 
 	private String formatDateTime(LocalDateTime dateTime) {
-		DateTimeFormatter formatter;
-		formatter = DateTimeFormatter.ofPattern("dd MMM | h:mma");
-		return dateTime.format(formatter);
+		return dateTime.format(DateTimeFormatter.ofPattern("dd MMM | h:mma"));
 	}
 
 	protected void loadFXML() {
@@ -205,7 +209,6 @@ public class TaskController extends GridPane {
 		try {
 			loader.load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
