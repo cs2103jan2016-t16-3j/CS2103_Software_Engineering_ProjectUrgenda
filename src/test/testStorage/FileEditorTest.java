@@ -23,6 +23,7 @@ public class FileEditorTest {
 	private static final String TEST_FILE_NAME_2 = "test2.txt";
 	private static final String TEST_SETTINGS_FILE_NAME = "testsettings.txt";
 
+	
 	@Test
 	public void test001Rename(){
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
