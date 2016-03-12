@@ -41,6 +41,14 @@ public class MainController {
 	}
 	
 	@FXML
+	private void focusInputBar(KeyEvent event) {
+		KeyCode code = event.getCode();
+		if(code == KeyCode.ENTER && !inputBar.isFocused()) {
+			inputBar.requestFocus();
+		}
+	}
+	
+	@FXML
 	private void commandLineListener(KeyEvent event) {
 		KeyCode code = event.getCode();
 			if(code == KeyCode.ENTER) {

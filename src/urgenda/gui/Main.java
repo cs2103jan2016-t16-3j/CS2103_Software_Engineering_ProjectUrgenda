@@ -75,8 +75,7 @@ public class Main extends Application {
 	private void initDisplay() {
 		_displayController = _mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
-		//TODO change int parameter below after pull
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0);
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition());
 		_displayController.setMain(this);
 	}
 
@@ -105,8 +104,7 @@ public class Main extends Application {
 		} else if(state.getState() == State.EXIT) {
 			quit();
 		}
-		//TODO change int parameter below after pull
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0);
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition());
 		return state.getFeedback();
 	}
 	
