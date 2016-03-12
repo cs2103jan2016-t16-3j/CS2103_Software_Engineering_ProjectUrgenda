@@ -19,7 +19,7 @@ public class Decryptor extends JsonCipher {
 		return i;
 	}
 
-	private int addToTaskList(ArrayList<Task> taskList, ArrayList<String> taskStrList) {
+	public int addToTaskList(ArrayList<Task> taskList, ArrayList<String> taskStrList) {
 		int i;
 		for (i = 0; i < taskStrList.size(); i++) {
 			_detailsString = taskStrList.get(i);
@@ -30,7 +30,7 @@ public class Decryptor extends JsonCipher {
 		return i;
 	}
 	
-	private void addToArchiveList(ArrayList<Task> archiveList, ArrayList<String> archiveStrList) {
+	public void addToArchiveList(ArrayList<Task> archiveList, ArrayList<String> archiveStrList) {
 		for (int i = 0, j = -1; i < archiveStrList.size(); i++, j--) {
 			_detailsString = archiveStrList.get(i);
 			convertToMap();
