@@ -18,9 +18,26 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FileEditorTest {
 	private static final String TEST_FILE_LOCATION = "testfiles";
+	private static final String TEST_FILE_LOCATION_2 = "testfiles\\test3";
 	private static final String TEST_FILE_NAME = "test.txt";
+	private static final String TEST_FILE_NAME_2 = "test2.txt";
 	private static final String TEST_SETTINGS_FILE_NAME = "testsettings.txt";
 
+	@Test
+	public void test001Rename(){
+		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
+		file.rename(TEST_FILE_NAME_2);
+		file.paths();
+	}
+	
+	@Test
+	public void test002Relocate(){
+		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
+		file.relocate(TEST_FILE_LOCATION_2);
+		file.paths();
+	}
+	
+	
 	@Test
 	public void test01ReadWriteSingleLine() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
@@ -175,7 +192,10 @@ public class FileEditorTest {
 
 	@Test
 	public void test1Save() {
-		Storage store = new Storage();
+		Storage store = new Storage(TEST_FILE_LOCATION, TEST_FILE_NAME);
+//		store.changeFileName(TEST_FILE_NAME_2);
+//		store.changeFilePath(TEST_FILE_LOCATION_2);
+		store.changeFileSettings(TEST_FILE_LOCATION_2, TEST_FILE_NAME_2);
 		Task task1 = new Task("test1");
 		Task task2 = new Task("test2");
 		Task task3 = new Task("test3");
@@ -197,7 +217,8 @@ public class FileEditorTest {
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();
 		// ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();
-		int id = store.updateArrayLists(_tasks, _archive);
+		_tasks = store.updateCurrentTaskList();
+		_archive = store.updateArchiveTaskList();
 		int i = 1;
 		for (Task print : _tasks) {
 			System.out.printf("task %d details:", i);
@@ -233,7 +254,6 @@ public class FileEditorTest {
 			System.out.println("overdue: " + print.isOverdue());
 			i++;
 		}
-		System.out.println(id);
 	}
 
 	@Test
