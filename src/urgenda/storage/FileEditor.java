@@ -6,7 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 
 public class FileEditor {
 	private static final String LIST_SEPARATOR_ARCHIVE = "archive";
@@ -57,22 +64,6 @@ public class FileEditor {
 		return phrase;
 	}
 
-//	public String retrieveFromFile() {
-//		String phrase = null;
-//		try {
-//			FileReader reader = new FileReader(_file);
-//			BufferedReader breader = new BufferedReader(reader);
-//			phrase = breader.readLine();
-//			breader.close();
-//			reader.close();
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return phrase;
-//	}
-
 	public void retrieveFromFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
 		try {
 			FileReader reader = new FileReader(_file);
@@ -98,7 +89,7 @@ public class FileEditor {
 				hasNoMoreTasks = true;
 			} else {
 				fileDataStringArr.add(taskString);
-			}
+			}	
 		}
 	}
 
@@ -147,5 +138,41 @@ public class FileEditor {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void rename(String name){
+		Path source = _file.toPath();
+		try {
+			Files.move(source, source.resolveSibling(name), REPLACE_EXISTING);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		_file = new File(_parentDir, name);
+	}
+	
+	public void relocate(String path){
+		Path source = _file.toPath();
+		File newDir = new File(path);
+		newDir.mkdir();
+		Path newSource = Paths.get(path);
+		try {
+			Files.move(source, newSource.resolve(source.getFileName()), REPLACE_EXISTING);
+		} catch (NoSuchFileException e) {
+			System.out.println(source + " does not exist, unable to proceed with file relocation");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		_file = new File(newDir, source.getFileName().toString());
+	}
+	
+	public void paths(){
+		System.out.println("Absolute Path " + _file.getAbsolutePath());
+		System.out.println("Name " + _file.getName());
+		System.out.println("Path " + _file.getPath());
+		System.out.println("Parent " + _file.getParent());
+		System.out.println("String " + _file.toString());
+		System.out.println("Path path " + _file.toPath());
 	}
 }

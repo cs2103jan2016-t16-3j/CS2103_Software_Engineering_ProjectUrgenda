@@ -1,5 +1,6 @@
 package urgenda.storage;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import urgenda.util.*;
@@ -30,28 +31,16 @@ public class Storage implements StorageInterface {
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 	}
-
-	public Storage(String test) {
-		String path = _settings.getFileDir();
-		String name = _settings.getFileName();
-		_file = new FileEditor(path, name);
-		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
-	}
-
-	public int updateArrayLists(ArrayList<Task> tasks, ArrayList<Task> archive) {
-		int taskId = _decryptor.decryptStringArr(tasks, _fileDataStringArr, archive, _archiveStringArr);
-		return taskId;
-	}
 	
 	public ArrayList<Task> updateCurrentTaskList(){
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		_decryptor.addToTaskList(tasks, _fileDataStringArr);
+		_decryptor.decryptTaskList(tasks, _fileDataStringArr);
 		return tasks;
 	}
 	
 	public ArrayList<Task> updateArchiveTaskList(){
 		ArrayList<Task> archives = new ArrayList<Task>();
-		_decryptor.addToArchiveList(archives, _archiveStringArr);
+		_decryptor.decryptArchiveList(archives, _archiveStringArr);
 		return archives;
 	}
 
@@ -64,17 +53,21 @@ public class Storage implements StorageInterface {
 	public void changeFilePath(String path) {
 		_settings.setFileDir(path);
 		_settings.saveSettings();
+		_file.relocate(path);
 	}
 
 	public void changeFileName(String name) {
 		_settings.setFileName(name);
 		_settings.saveSettings();
+		_file.rename(name);
 	}
 
 	public void changeFileSettings(String path, String name) {
 		_settings.setFileDir(path);
 		_settings.setFileName(name);
 		_settings.saveSettings();
+		_file.rename(name);
+		_file.relocate(path);
 	}
 	
 	public String retrieveHelp(){
