@@ -34,12 +34,13 @@ public class BlockSlots extends TaskCommand {
 	public String execute(LogicData data) {
 		assert (_block.getDesc() != null); // asserts that the desc is set
 		_data = data;
-		setDateAdded();
+		setDateAddedAndModified();
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		_data.setTaskPointer(_taskBlocks.get(0));
 		return MESSAGE_BLOCK + addBlockTasks();
 	}
 
-	private void setDateAdded() {
+	private void setDateAddedAndModified() {
 		LocalDateTime now = LocalDateTime.now();
 		for (Task task : _taskBlocks) {
 			task.setDateAdded(now);
@@ -84,6 +85,7 @@ public class BlockSlots extends TaskCommand {
 
 	public String redo() {
 		// TODO Decide if Block: to be returned
+		_data.setTaskPointer(_taskBlocks.get(0));
 		return addBlockTasks();
 	}
 

@@ -11,6 +11,7 @@ public class StateFeedback {
 	private State _state;
 	private TaskList _allTasks;
 	private String _feedback;
+	private int _displayPosition = 0;
 	private ArrayList<Integer> _showmoreIndexes; //index of tasks to show details for
 	
 	// default constructor
@@ -62,6 +63,14 @@ public class StateFeedback {
 	
 	public void addDetailedTaskIdx(int index) {
 		_showmoreIndexes.add(index);
+	}
+
+	public int getDisplayPosition() {
+		return _displayPosition;
+	}
+
+	public void setDisplayPosition(int displayPosition) {
+		_displayPosition = displayPosition;
 	}
 	
 }

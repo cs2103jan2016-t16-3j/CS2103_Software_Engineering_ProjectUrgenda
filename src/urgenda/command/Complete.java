@@ -49,6 +49,7 @@ public class Complete extends TaskCommand {
 		_completedTask.setIsCompleted(false);
 		_data.removeArchive(_completedTask);
 		_data.addTask(_completedTask);
+		_data.setTaskPointer(_completedTask);
 		return MESSAGE_UNDONE + taskMessage(_completedTask) + "!";
 	}
 

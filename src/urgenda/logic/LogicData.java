@@ -30,6 +30,7 @@ public class LogicData {
 	private Storage _storage;
 
 	private DisplayState _currState;
+	private Task _taskPointer;
 
 	private int _currentId;
 
@@ -116,8 +117,21 @@ public class LogicData {
 		_displays.addAll(sortList(overdueTasks));
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(otherTasks));
+		
 		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
+		setFeedbackDisplayPosition(state);
 		return state;
+	}
+	
+	// sets the position if the pointer matches the display
+	public void setFeedbackDisplayPosition(StateFeedback state) {
+		if (_taskPointer != null && _displays.contains(_taskPointer)) {
+			state.setDisplayPosition(_displays.indexOf(_taskPointer));
+		} else { // sets to 0 as default if no specific task is required to be pointed at
+			state.setDisplayPosition(0);
+		}
+		// clears task pointer for next iteration
+		_taskPointer = null;
 	}
 
 	public ArrayList<Task> findMatchingDesc(String desc) {
@@ -337,6 +351,14 @@ public class LogicData {
 
 	public String generateHelpManual() {
 		return _storage.retrieveHelp();
+	}
+
+	public Task getTaskPointer() {
+		return _taskPointer;
+	}
+
+	public void setTaskPointer(Task taskPointer) {
+		_taskPointer = taskPointer;
 	}
 
 }

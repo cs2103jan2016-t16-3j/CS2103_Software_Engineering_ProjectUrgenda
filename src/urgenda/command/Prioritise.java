@@ -37,6 +37,8 @@ public class Prioritise extends TaskCommand {
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_task == null) {
 			throw new Exception(MESSAGE_NO_MATCH);
+		} else {
+			_data.setTaskPointer(_task);
 		}
 		String feedback = toggleTaskImportance();
 		return feedback;
@@ -44,11 +46,13 @@ public class Prioritise extends TaskCommand {
 	
 	public String undo() {
 		String feedback = toggleTaskImportance();
+		_data.setTaskPointer(_task);
 		return feedback;
 	}
 
 	public String redo() {
 		String feedback = toggleTaskImportance();
+		_data.setTaskPointer(_task);
 		return feedback;
 	}
 
