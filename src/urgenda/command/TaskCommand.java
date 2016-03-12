@@ -10,7 +10,6 @@ import urgenda.util.Task;
  */
 public abstract class TaskCommand extends Command{
 	
-	
 	private static final String ERROR_NO_DESC = "Task has no description";
 	private static final String ERROR_MISSING_START_TIME = "Task has missing start time";
 	private static final String ERROR_MISSING_END_TIME = "Task has missing end time";

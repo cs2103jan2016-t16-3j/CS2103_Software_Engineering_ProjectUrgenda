@@ -35,14 +35,22 @@ public class LogicData {
 
 	// default constructor for initialization of empty path
 	public LogicData() {
-		_tasks = new ArrayList<Task>();
-		_archives = new ArrayList<Task>();
-		_displays = new ArrayList<Task>();
 		_storage = new Storage();
-		// updateArrayLists adds stored task objects into respective arraylists
-		// returns the next id to be used for future labelling of tasks
-		_currentId = _storage.updateArrayLists(_tasks, _archives);
+		// updates arraylists from stored task objects into respective arraylists
+		_tasks = _storage.updateCurrentTaskList();
+		_archives = _storage.updateArchiveTaskList();
 		_currState = DisplayState.ALL_TASKS;
+		_displays = new ArrayList<Task>();
+		// sets the next id to be used for future labelling of tasks
+		_currentId = updateTaskIds();
+	}
+
+	public int updateTaskIds() {
+		int i;
+		for (i = 0; i < _tasks.size(); i++) {
+			_tasks.get(i).setId(i);
+		}
+		return i;
 	}
 
 	public void saveContents() {
