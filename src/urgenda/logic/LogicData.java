@@ -30,6 +30,7 @@ public class LogicData {
 	private Storage _storage;
 
 	private DisplayState _currState;
+	private ArrayList<Task> _showMoreTasks;
 	private Task _taskPointer;
 
 	private int _currentId;
@@ -42,16 +43,9 @@ public class LogicData {
 		_archives = _storage.updateArchiveTaskList();
 		_currState = DisplayState.ALL_TASKS;
 		_displays = new ArrayList<Task>();
+		_showMoreTasks = new ArrayList<Task>();
 		// sets the next id to be used for future labelling of tasks
-		_currentId = updateTaskIds();
-	}
-
-	public int updateTaskIds() {
-		int i;
-		for (i = 0; i < _tasks.size(); i++) {
-			_tasks.get(i).setId(i);
-		}
-		return i;
+		_currentId = _tasks.size() + 1;
 	}
 
 	public void saveContents() {
@@ -120,9 +114,18 @@ public class LogicData {
 		
 		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
 		setFeedbackDisplayPosition(state);
+		setShowMorePositions(state);
 		return state;
 	}
 	
+	public void setShowMorePositions(StateFeedback state) {
+		for (Task task : _showMoreTasks) {
+			if (_displays.contains(task)) {
+				state.addDetailedTaskIdx(_displays.indexOf(task));
+			}
+		}
+	}
+
 	// sets the position if the pointer matches the display
 	public void setFeedbackDisplayPosition(StateFeedback state) {
 		if (_taskPointer != null && _displays.contains(_taskPointer)) {
@@ -359,6 +362,19 @@ public class LogicData {
 
 	public void setTaskPointer(Task taskPointer) {
 		_taskPointer = taskPointer;
+	}
+	
+	public void toggleShowMoreTasks(Task task) {
+		if (_showMoreTasks.contains(task)) {
+			_showMoreTasks.remove(task);
+		} else {
+			_showMoreTasks.add(task);
+		}
+	}
+	
+	// TODO command that clears all showmore
+	public void clearShowMoreTasks() {
+		_showMoreTasks.clear();
 	}
 
 }
