@@ -20,11 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import java.util.Date;
-import java.util.List;
-
-import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
-
 public class test {
 	private static final Scanner scanner = new Scanner(System.in);
 
