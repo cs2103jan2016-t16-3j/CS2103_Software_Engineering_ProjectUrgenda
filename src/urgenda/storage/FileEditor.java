@@ -22,10 +22,18 @@ public class FileEditor {
 	private File _parentDir;
 
 	public FileEditor(String path, String name) {
+		initParentDir(path);
+		initFile(name);
+		checkIfFileExist();
+	}
+
+	private void initFile(String name) {
+		_file = new File(_parentDir, name);
+	}
+
+	private void initParentDir(String path) {
 		_parentDir = new File(path);
 		_parentDir.mkdir();
-		_file = new File(_parentDir, name);
-		checkIfFileExist();
 	}
 
 	private void checkIfFileExist() {
@@ -145,10 +153,9 @@ public class FileEditor {
 		try {
 			Files.move(source, source.resolveSibling(name), REPLACE_EXISTING);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		_file = new File(_parentDir, name);
+		initFile(name);
 	}
 	
 	public void relocate(String path){
@@ -161,7 +168,6 @@ public class FileEditor {
 		} catch (NoSuchFileException e) {
 			System.out.println(source + " does not exist, unable to proceed with file relocation");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		_file = new File(newDir, source.getFileName().toString());
