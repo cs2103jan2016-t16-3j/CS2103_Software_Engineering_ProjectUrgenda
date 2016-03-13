@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 
-public class PTParser {
+public class PtParser {
 
 	@Test
 	public void test() {
