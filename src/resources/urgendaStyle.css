@@ -27,19 +27,10 @@
 	-fx-text-fill: white;
 }
 
-#inputBar {
-	-fx-background-radius: 0, 0;
-	-fx-effect: none;
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 17px;
-}
-
 #displayHeader {
 	-fx-font-family: "Montserrat Ultra Light";
-	-fx-font-weight: bold;
 	-fx-font-size: 20px;
 	-fx-text-fill: white;
-	-fx-font-style: italic;
 }
 
 #headerPane {
@@ -47,29 +38,10 @@
 }
 
 #displayPane {
-	-fx-border-width: 0, 0, 0, 0;
 	-fx-background-color: #474E60;
 }
 
-#indexHeader {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 15px;
-	-fx-text-fill: white;
-}
-
-#descHeader {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 15px;
-	-fx-text-fill: white;
-}
-
-#startHeader {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 15px;
-	-fx-text-fill: white;
-}
-
-#endHeader {
+#indexHeader, #descHeader, #startHeader, #endHeader {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 15px;
 	-fx-text-fill: white;
@@ -85,61 +57,19 @@
 	-fx-text-fill: white;
 }
 
-#taskIndexLabel {
+#taskIndexLabel, #taskDescLabel, #taskStartLabel, #dateTimeTypeLabel, #taskEndLabel  {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 15px;
 	-fx-text-fill: #474E60;
 }
 
-#taskDescLabel {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 15px;
-	-fx-text-fill: #474E60;
-}
-
-#taskStartLabel {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 14px;
-	-fx-text-fill: #474E60;
-}
-
-#dateTimeTypeLabel {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 14px;
-	-fx-text-fill: #474E60;
-}
-
-#taskEndLabel {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 14px;
-	-fx-text-fill: #474E60;
-}
-
-#taskLocationLabel {
+#taskLocationLabel, #dateCreatedHeader #dateModifiedHeader {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 12px;
 	-fx-text-fill: #474E60;
 }
 
-#dateCreatedHeader {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 12px;
-	-fx-text-fill: #474E60;
-}
-
-#dateModifiedHeader {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 12px;
-	-fx-text-fill: #474E60;
-}
-
-#dateCreatedLabel {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 12px;
-	-fx-text-fill: #474E60;
-}
-
-#dateModifiedLabel {
+#dateCreatedLabel, #dateModifiedLabel {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 12px;
 	-fx-text-fill: #474E60;
@@ -157,12 +87,18 @@
 	-fx-text-fill: white;
 }
 
-#feedbackArea .scroll-pane .viewport{
+#feedbackArea .scroll-pane .viewport, #feedbackArea .scroll-pane .content{
     -fx-background-color: transparent;
 }
 
-#feedbackArea .scroll-pane .content{
-    -fx-background-color: transparent;
+#inputBar {
+	-fx-background-radius: 0, 0;
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 17px;
+}
+
+#helpPane {
+	-fx-background-color: #474E60;
 }
 
 #helpHeader {
@@ -172,25 +108,18 @@
 }
 
 #helpContentPane {
+	-fx-background-color: transparent;
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
 	-fx-text-fill: white;
+	-fx-border-color: transparent;
 }
 
-#helpContentPane .scroll-pane:fitToWidth .viewport .content{
+#helpContentPane .scroll-pane:fitToWidth .viewport .content, #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical .track-background {
 	-fx-background-color: #474E60;
 }
-
-#helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical .track-background{
-	-fx-background-color: #474E60;
-}
-
 
 #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical{
 	-fx-max-width: 10px;
 	-fx-pref-width: 10px;
-}
-
-#helpContentPane {
-	-fx-background-color: transparent;
 }
