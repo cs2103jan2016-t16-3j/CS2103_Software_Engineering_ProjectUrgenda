@@ -2,6 +2,8 @@ package urgenda.logic;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import urgenda.command.Command;
 import urgenda.command.Redo;
@@ -9,6 +11,8 @@ import urgenda.command.Undo;
 import urgenda.command.TaskCommand;
 
 public class LogicCommand {	
+	
+	private static Logger theLogger = Logger.getLogger(LogicCommand.class.getName());
 
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
 	private static final String MESSAGE_EMPTY_REDO = "Nothing to redo";
@@ -25,6 +29,9 @@ public class LogicCommand {
 	}	
 
 	public String processCommand(Command currCmd) {
+		
+		theLogger.warning("Can cause exception");
+		
 		String feedback;
 		try {
 			if (currCmd instanceof Undo){ // TODO merge if doesnt compromise on readability
@@ -38,6 +45,7 @@ public class LogicCommand {
 				addUndo(currCmd);
 			}
 		} catch (Exception e) { // TODO might need to upgrade exceptions without affecting the command execute header
+			theLogger.log(Level.SEVERE, "Exception occur", e);
 			return e.getMessage();
 		}
 		return feedback;
@@ -45,6 +53,9 @@ public class LogicCommand {
 	
 	public void addUndo(Command currCmd) {
 		if (currCmd instanceof TaskCommand) {
+			
+			theLogger.info("adding " + currCmd + " to undo stack");
+			
 			_undos.addFirst((TaskCommand) currCmd);
 			_redos.clear();
 		}

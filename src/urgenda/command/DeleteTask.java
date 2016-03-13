@@ -1,11 +1,15 @@
 package urgenda.command;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
 public class DeleteTask extends TaskCommand {
+	
+	private static Logger theLogger = Logger.getLogger(DeleteTask.class.getName());
 
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
@@ -21,6 +25,7 @@ public class DeleteTask extends TaskCommand {
 	private LogicData _data;
 	
 	public String execute(LogicData data) throws Exception {
+		theLogger.warning("Can cause exception");
 		_data = data;
 		ArrayList<Task> matches;
 		if (_desc != null) {
@@ -38,6 +43,8 @@ public class DeleteTask extends TaskCommand {
 		}
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_deletedTask == null) {
+			theLogger.log(Level.SEVERE, "Exception occur, invalid deletion format");
+			
 			throw new Exception(MESSAGE_NO_DELETE_MATCH);
 		}
 		_data.deleteTask(_deletedTask);
