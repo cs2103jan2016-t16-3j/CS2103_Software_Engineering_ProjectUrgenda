@@ -56,8 +56,6 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "saturday", "sat" }));
 	public static final Set<String> sundayWords = new HashSet<String>(Arrays.asList(new String[] { "sunday", "sun" }));
 
-	public static COMMAND_TYPE commandType = COMMAND_TYPE.INVALID;
-
 	public static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
 	public static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])([-/.])20\\d\\d)";
 	public static String dateRegexWithoutYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012]))";
@@ -77,18 +75,20 @@ public class PublicVariables {
 	public static String generalTimeRegex = "(" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + "|"
 			+ timeRegexHour12Minute + "|" + timeRegexHour24Minute + "|" + timeRegexHour12 + "|" + timeRegexHour24 + ")";
 
-	public static String passedInCommandString = "";
-	public static int passedInIndex = -1;
-	public static int taskIndex = -10;
-	public static String taskDescription = "";
-	public static String taskLocation = "";
+	public static String passedInCommandString;
+	public static int passedInIndex;
+	public static int taskIndex;
+	public static String taskDescription;
+	public static String taskLocation;
 	public static LocalDateTime taskStartTime;
 	public static LocalDateTime taskEndTime;
-	public static ArrayList<String> taskHashtags = new ArrayList<String>();
+	public static ArrayList<String> taskHashtags;
 	public static MultipleSlot taskSlots;
 
-	public static TASK_TYPE taskType = TASK_TYPE.INVALID;
-
-	public static ArrayList<LocalDateTime> taskDateTime = new ArrayList<LocalDateTime>();
-	public static ArrayList<String> taskTimeType = new ArrayList<String>();
+	public static TASK_TYPE taskType;
+	public static COMMAND_TYPE commandType;
+	
+	public static ArrayList<LocalDateTime> taskDateTime;
+	public static ArrayList<String> taskTimeType;
+	
 }

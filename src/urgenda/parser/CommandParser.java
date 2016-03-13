@@ -18,6 +18,8 @@ import urgenda.util.*;
 
 public class CommandParser {
 	public static Command parseCommand(String commandString, int index) {
+		PublicFunctions.reinitializePublicVariables();
+		
 		COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
 		String argsString = CommandTypeParser.getArgsString(commandString);
 		Command testReturn = generateAndReturnCommandObjects(commandType, argsString, index);
