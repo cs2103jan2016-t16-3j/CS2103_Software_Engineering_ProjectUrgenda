@@ -1,10 +1,11 @@
 package urgenda.parser;
 
 import urgenda.command.*;
+import urgenda.parser.PublicVariables.*;
 
 public class AddCommandParser {
-	private String _argsString;
-	private int _index;
+	private static String _argsString;
+	private static int _index;
 	
 	public AddCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -12,7 +13,11 @@ public class AddCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		return new Invalid();
+		if (_argsString == null) {
+			return new Invalid();
+		} else {
+			return new Invalid();
+		}
 	}
 }
 

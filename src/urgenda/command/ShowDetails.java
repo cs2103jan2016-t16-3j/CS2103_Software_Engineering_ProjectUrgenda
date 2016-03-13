@@ -6,6 +6,8 @@ import urgenda.util.Task;
 public class ShowDetails extends TaskCommand {
 	
 	private static final String MESSAGE_NO_SHOW_MATCH = "Unable to show more details at position %1$d";
+	private static final String MESSAGE_SHOWING_MORE = "Showing more details for \"%1$s\"";
+	private static final String MESSAGE_SHOWING_LESS = "Showing less details for \"%1$s\"";
 
 	private Integer _position;
 	
@@ -22,17 +24,25 @@ public class ShowDetails extends TaskCommand {
 			throw new Exception(String.format(MESSAGE_NO_SHOW_MATCH, _position));
 		}
 		_data.toggleShowMoreTasks(_task);
-		return null;
+		return showMoreFeedback();
+	}
+
+	public String showMoreFeedback() {
+		if (_data.isShowingMore(_task)) {
+			return String.format(MESSAGE_SHOWING_MORE, _task.getDesc());
+		} else {
+			return String.format(MESSAGE_SHOWING_LESS, _task.getDesc());
+		}
 	}
 
 	public String undo() {
 		_data.toggleShowMoreTasks(_task);
-		return null;
+		return showMoreFeedback();
 	}
 
 	public String redo() {
 		_data.toggleShowMoreTasks(_task);
-		return null;
+		return showMoreFeedback();
 	}
 
 	public Integer getPosition() {
