@@ -15,6 +15,10 @@ import urgenda.util.Task;
 public class DetailedTaskController extends TaskController {
 	
 	private static final String PATH_DETAILEDTASKVIEW_FXML = "DetailedTaskView.fxml";
+
+	private static final double HEIGHT_DEFAULT_DETAILEDTASK = 70;
+	private static final double HEIGHT_MULTILINE_EXPAND = 70;
+	private static final double HEIGHT_DETAILED_TASK_EXPAND = 35;
 	
 	@FXML
 	private Label dateCreatedHeader;
@@ -29,11 +33,14 @@ public class DetailedTaskController extends TaskController {
 	@FXML
 	private Label taskLocationLabel;
 	
-	public DetailedTaskController(Task task, int index, TaskDisplayType taskDisplayType) {
-		super(task, index, taskDisplayType);
+	public DetailedTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
+		super(task, index, taskDisplayType, showHeader);
 		dateCreatedLabel.setText(formatDetailsDateTime(task.getDateAdded()));
 		dateModifiedLabel.setText(formatDetailsDateTime(task.getDateModified()));
 		taskLocationLabel.setText(task.getLocation());
+		if(!showHeader) {
+			taskPane.setMaxHeight(HEIGHT_DEFAULT_DETAILEDTASK);
+		}
 	}
 	
 	public void resizeOverrunDescLabel() {
@@ -48,19 +55,48 @@ public class DetailedTaskController extends TaskController {
 			text.setFont(Main.REGULAR_FONT);
 			break;
 		}
-		double textWidth = text.getLayoutBounds().getWidth();
-		if(textWidth >= 200) {
-			taskDescLabel.setMinHeight(40);
-			taskPane.setMinHeight(80);
-			//System.out.println(textWidth);
+		if(text.getLayoutBounds().getWidth() >= taskDescLabel.getPrefWidth() * 2) {
+			taskDescLabel.setMinHeight(HEIGHT_MULTILINE_EXPAND);
+			taskPane.setMaxHeight(taskPane.getMaxHeight() + HEIGHT_DETAILED_TASK_EXPAND);
 		} 
-		//TODO work on scaling according to label, remove magic numbers
 	}
 
 	private String formatDetailsDateTime(LocalDateTime dateTime) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy hh:mm:ss");
 		return dateTime.format(formatter);
 	}
+	//TODO consider use for formatting countdown label
+//	private String formatCountdown(LocalDateTime deadline) {
+//		String formattedDeadline = "";
+//		LocalDateTimeDifference timeLeft = new LocalDateTimeDifference(LocalDateTime.now(), deadline);
+//
+//		if (timeLeft.getDays() > 0) {
+//			if (timeLeft.firstIsBefore()) { // current time before deadline
+//				formattedDeadline += timeLeft.getDays() + " more day";
+//			} else { // deadline past current time
+//				formattedDeadline += timeLeft.getDays() + " day";
+//			}
+//			if (timeLeft.getDays() > 1)
+//				formattedDeadline += "s";
+//		} else {
+//			if (timeLeft.getHours() > 0) {
+//				formattedDeadline += timeLeft.getHours() + " hour";
+//				if (timeLeft.getHours() > 1)
+//					formattedDeadline += "s";
+//			}
+//			if (timeLeft.getHours() > 0 && timeLeft.getMinutes() > 0) {
+//				formattedDeadline += " & ";
+//			}
+//			if (timeLeft.getMinutes() > 0) {
+//				formattedDeadline += timeLeft.getMinutes() + " minute";
+//				if (timeLeft.getMinutes() > 1)
+//					formattedDeadline += "s";
+//			} else {
+//				formattedDeadline += "less than a minute";
+//			}
+//		}
+//		return formattedDeadline;
+//	}
 	
 	@Override
 	protected void loadFXML() {

@@ -75,7 +75,7 @@ public class DisplayController extends AnchorPane {
 		_detailedIndexes = new ArrayDeque<Integer>();
 	}
 
-	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes, int modifiedTaskIndex) {
+	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes, int modifiedTaskIndex, boolean showNoviceHeaders) {
 		displayHolder.getChildren().clear();
 		_displayedTasks.clear();
 		_displayedTasks.addAll(updatedTasks.getTasks());
@@ -85,12 +85,32 @@ public class DisplayController extends AnchorPane {
 
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
-			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount(), TaskDisplayType.OVERDUE);
-			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTodayCount(), TaskDisplayType.TODAY);
-			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getRemainingCount(), TaskDisplayType.NORMAL);
+			if(showNoviceHeaders) {
+				if(updatedTasks.getOverdueCount() > 0) {
+					indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.OVERDUE, true);
+					indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount() - 1, TaskDisplayType.OVERDUE, false);
+				} 
+				if(updatedTasks.getTodayCount() > 0) {
+					indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.TODAY, true);
+					indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTodayCount() - 1, TaskDisplayType.TODAY, false);
+				}
+				if(updatedTasks.getRemainingCount() > 0) {
+					indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.NORMAL, true);
+					indexCounter += showStyledTaskView(indexCounter, updatedTasks.getRemainingCount() - 1, TaskDisplayType.NORMAL, false);
+				}
+			} else {
+				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount(), TaskDisplayType.OVERDUE, false);
+				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTodayCount(), TaskDisplayType.TODAY, false);
+				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getRemainingCount(), TaskDisplayType.NORMAL, false);
+			}
 		}
 		if (updatedTasks.getArchiveCount() != 0) {
-			indexCounter += showStyledTaskView(indexCounter, updatedTasks.getArchiveCount(), TaskDisplayType.ARCHIVE);
+			if(showNoviceHeaders) {
+				indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.ARCHIVE, true);
+				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getArchiveCount() - 1, TaskDisplayType.ARCHIVE, false);
+			} else {
+				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getArchiveCount(), TaskDisplayType.ARCHIVE, false);
+			}
 		}
 		if (updatedTasks.getArchiveCount() + updatedTasks.getUncompletedCount() == 0) {
 			showZeroTasksFeedback();
@@ -102,18 +122,18 @@ public class DisplayController extends AnchorPane {
 		}
 	}
 	
-	private int showStyledTaskView(int currIndex, int toAddCount, TaskDisplayType taskDisplayType) {
+	private int showStyledTaskView(int currIndex, int toAddCount, TaskDisplayType taskDisplayType, boolean showHeader) {
 		int addedCount = 0;
 		while (addedCount < toAddCount) {
 			if (isDetailed(currIndex)) {
 				DetailedTaskController newDetailedTaskView = new DetailedTaskController(_displayedTasks.get(currIndex),
-						currIndex, taskDisplayType);
+						currIndex, taskDisplayType, showHeader);
 				newDetailedTaskView.setDisplayController(this);
 				displayHolder.getChildren().add(newDetailedTaskView);
 				newDetailedTaskView.resizeOverrunDescLabel();
 			} else {
 				TaskController newTaskView = new TaskController(_displayedTasks.get(currIndex), currIndex,
-						taskDisplayType);
+						taskDisplayType, showHeader);
 				newTaskView.setDisplayController(this);
 				displayHolder.getChildren().add(newTaskView);
 			}

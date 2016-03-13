@@ -12,13 +12,9 @@
 	font-family: 'Montserrat Ultra Light';
 	src: url('../resources/Montserrat-UltraLight.otf');
 }
-	
-.root {
-	-fx-background-color: #474E60;
-}
 
 #titlePane {
-	-fx-background-color: transparent;
+	-fx-background-color: #474E60;
 }
 
 #urgendaIcon {
@@ -52,7 +48,7 @@
 
 #displayPane {
 	-fx-border-width: 0, 0, 0, 0;
-	-fx-background-color: transparent;
+	-fx-background-color: #474E60;
 }
 
 #indexHeader {
@@ -75,6 +71,16 @@
 
 #endHeader {
 	-fx-font-family: "Montserrat";
+	-fx-font-size: 15px;
+	-fx-text-fill: white;
+}
+
+#noviceHeaderPane {
+	-fx-background-color: #474E60;
+}
+
+#noviceHeaderLabel {
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 15px;
 	-fx-text-fill: white;
 }

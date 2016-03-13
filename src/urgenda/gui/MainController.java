@@ -18,7 +18,8 @@ public class MainController {
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
 	private static final String KEYWORD_SHOW_ALL = "home";
-	private static final String KEYWORD_TESTLIST = "dummytest";		
+	private static final String KEYWORD_DELETE = "delete";		
+	private static final String KEYWORD_TESTLIST = "dummytest";
 	
 	//Elements loaded using FXML
 	@FXML
@@ -41,10 +42,17 @@ public class MainController {
 	}
 	
 	@FXML
-	private void focusInputBar(KeyEvent event) {
+	private void sceneListener(KeyEvent event) {
 		KeyCode code = event.getCode();
 		if(code == KeyCode.ENTER && !inputBar.isFocused()) {
 			inputBar.requestFocus();
+		}
+		if(code == KeyCode.DELETE && event.isControlDown()) {
+			String feedback = _main.handleCommandLine(KEYWORD_DELETE);
+			if(feedback != null) {	//null feedback do not change feedback text
+				displayFeedback(feedback);
+			}
+			inputBar.clear();
 		}
 	}
 	

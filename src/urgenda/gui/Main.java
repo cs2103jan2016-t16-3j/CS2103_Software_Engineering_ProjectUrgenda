@@ -75,7 +75,8 @@ public class Main extends Application {
 	private void initDisplay() {
 		_displayController = _mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition());
+		//TODO implement check settings for showing novice headers, change boolean below
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
 		_displayController.setMain(this);
 	}
 
@@ -104,7 +105,8 @@ public class Main extends Application {
 		} else if(state.getState() == State.EXIT) {
 			quit();
 		}
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition());
+		//TODO implement check settings for showing novice headers, change boolean below
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
 		return state.getFeedback();
 	}
 	
@@ -164,17 +166,17 @@ public class Main extends Application {
 				new ArrayList<String>(), false);
 		Task taskTI = new Task("Today Important task", "TI location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), true);
-		Task taskT = new Task("Today task", "T location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskT = new Task("Today task long long long long", "T location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-		Task taskTD = new Task("Today Detailed task", "Today Detailed location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskTD = new Task("Today Detailed task long long long", "Today Detailed location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
 		Task taskI = new Task("Important task", "I location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), true);
-		Task taskD = new Task("Detailed task long long long long long long long", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskD = new Task("Detailed task long long long long long long long long long long long long", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
 		Task task1 = new Task("1 task long long long long long", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
-		Task task2 = new Task("2 task", "2 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+		Task task2 = new Task("Detailed 2 task", "2 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
 		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
@@ -198,8 +200,9 @@ public class Main extends Application {
 		state.setFeedback("Welcome to Urgenda! Your task manager is ready for use.\nPress ALT + F1 for help.");
 		state.addDetailedTaskIdx(3);
 		state.addDetailedTaskIdx(5);
+		state.addDetailedTaskIdx(7);
 		state.setState(StateFeedback.State.ALL_TASKS);
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0);
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0, true);
 		return state.getFeedback();
 	}
 }

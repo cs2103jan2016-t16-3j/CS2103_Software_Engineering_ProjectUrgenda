@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="600.0" onKeyPressed="#focusInputBar" prefHeight="650.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
+<BorderPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="600.0" onKeyPressed="#sceneListener" prefHeight="650.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
          <top>
             <AnchorPane fx:id="titlePane" prefHeight="100.0" prefWidth="600.0">
                <children>

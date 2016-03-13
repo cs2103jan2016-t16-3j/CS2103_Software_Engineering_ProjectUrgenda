@@ -3,20 +3,22 @@ package urgenda.gui;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
-import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import urgenda.gui.DisplayController.TaskDisplayType;
 import urgenda.util.LocalDateTimeDifference;
 import urgenda.util.Task;
@@ -26,6 +28,8 @@ public class TaskController extends GridPane {
 	private static final Insets INSETS_ROWS = new Insets(1, 0, 0, 0);
 
 	private static final String PATH_TASKVIEW_FXML = "TaskView.fxml";
+	
+	private static final double HEIGHT_DEFAULT_TASK = 35;
 
 	@FXML
 	protected GridPane taskPane;
@@ -43,16 +47,18 @@ public class TaskController extends GridPane {
 	protected Label dateTimeTypeLabel;
 	@FXML
 	protected Label taskEndLabel;
+	@FXML
+	protected BorderPane noviceHeaderPane;
+	@FXML
+	protected Label noviceHeaderLabel;
 
 	protected int _index;
 	protected Task _task;
 	protected TaskDisplayType _taskDisplayType;
 	protected boolean _isSelected;
 	protected DisplayController _displayController;
-	// TODO implement countdown of deadlines
-	protected Timeline _timeline;
 
-	public TaskController(Task task, int index, TaskDisplayType taskDisplayType) {
+	public TaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		_task = task;
 		_taskDisplayType = taskDisplayType;
 		_index = index;
@@ -72,20 +78,34 @@ public class TaskController extends GridPane {
 			dateTimeTypeLabel.setText("to");
 			break;
 		case DEADLINE:
-			if (_task.isOverdue()) {
-				taskStartLabel.setText("overdue by: ");
-			} else {
-				taskStartLabel.setText("due in: ");
-			}
-			taskStartLabel.setAlignment(Pos.CENTER_RIGHT);
-			taskEndLabel.setText("");
-			dateTimeTypeLabel.setText(formatDeadline(task.getEndTime()));
+			taskStartLabel.setText("");
+			taskEndLabel.setText(formatDateTime(task.getEndTime()));
+			dateTimeTypeLabel.setText("by");
+			break;
+		}
+		switch (_taskDisplayType) {
+		case OVERDUE:
+			noviceHeaderLabel.setText("Overdue Tasks");
+			break;
+		case TODAY:
+			noviceHeaderLabel.setText("Today's Tasks");
+			break;
+		case NORMAL:
+			noviceHeaderLabel.setText("Other Tasks");
+			break;
+		case ARCHIVE:
+			noviceHeaderLabel.setText("Completed Tasks");
 			break;
 		}
 		if (_task.isImportant()) {
 			importantIndicator.setVisible(true);
 		} else {
 			importantIndicator.setVisible(false);
+		}
+		if(!showHeader) {
+			taskPane.getRowConstraints().set(0, new RowConstraints(0));
+			taskPane.setMaxHeight(HEIGHT_DEFAULT_TASK);
+			noviceHeaderPane.setVisible(false);
 		}
 		setTaskStyle(_taskDisplayType);
 		setSelected(false);
@@ -103,39 +123,6 @@ public class TaskController extends GridPane {
 				}
 			}
 		});
-	}
-
-	private String formatDeadline(LocalDateTime deadline) {
-		String formattedDeadline = "";
-		LocalDateTimeDifference timeLeft = new LocalDateTimeDifference(LocalDateTime.now(), deadline);
-
-		if (timeLeft.getDays() > 0) {
-			if (timeLeft.firstIsBefore()) { // current time before deadline
-				formattedDeadline += timeLeft.getDays() + " more day";
-			} else { // deadline past current time
-				formattedDeadline += timeLeft.getDays() + " day";
-			}
-			if (timeLeft.getDays() > 1)
-				formattedDeadline += "s";
-		} else {
-			if (timeLeft.getHours() > 0) {
-				formattedDeadline += timeLeft.getHours() + " hour";
-				if (timeLeft.getHours() > 1)
-					formattedDeadline += "s";
-			}
-			if (timeLeft.getHours() > 0 && timeLeft.getMinutes() > 0) {
-				formattedDeadline += " & ";
-			}
-			if (timeLeft.getMinutes() > 0) {
-				formattedDeadline += timeLeft.getMinutes() + " minute";
-				if (timeLeft.getMinutes() > 1)
-					formattedDeadline += "s";
-			} else {
-				formattedDeadline += "less than a minute";
-			}
-		}
-
-		return formattedDeadline;
 	}
 
 	public void setTaskStyle(TaskDisplayType taskDisplayType) {
@@ -181,7 +168,23 @@ public class TaskController extends GridPane {
 	}
 
 	private String formatDateTime(LocalDateTime dateTime) {
-		return dateTime.format(DateTimeFormatter.ofPattern("dd MMM | h:mma"));
+		String dateTimeFormatter = "";
+		LocalDateTimeDifference timeLeft = new LocalDateTimeDifference(LocalDateTime.now(), dateTime);
+		if(timeLeft.getRoundedDays() == 0) {
+				dateTimeFormatter += "Today ";
+		} else if(timeLeft.getRoundedDays() == 1) {
+			if(timeLeft.firstIsBefore()) {
+				dateTimeFormatter += "Tomorrow ";
+			} else {
+				dateTimeFormatter += "Yesterday ";
+			}
+		} else if(timeLeft.getRoundedDays() <= 7 && timeLeft.firstIsBefore()) {
+			dateTimeFormatter += dateTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault()) + " ";
+		} else {
+			dateTimeFormatter += dateTime.format(DateTimeFormatter.ofPattern("dd MMM "));
+		}
+		dateTimeFormatter += dateTime.format(DateTimeFormatter.ofPattern("h:mma"));
+		return dateTimeFormatter;
 	}
 
 	protected void loadFXML() {

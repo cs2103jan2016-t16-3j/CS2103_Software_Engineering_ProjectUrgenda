@@ -53,10 +53,26 @@ public class LocalDateTimeDifference {
 		return _dateTime1;
 	}
 
-	public LocalDateTime get_dateTime2() {
+	public LocalDateTime getDateTime2() {
 		return _dateTime2;
 	}
-
+	
+	public LocalDateTime getEarlierDateTime() {
+		if(_firstIsBefore) {
+			return _dateTime1;
+		} else {
+			return _dateTime2;
+		}
+	}
+	
+	public LocalDateTime getLaterDateTime() {
+		if(_firstIsBefore) {
+			return _dateTime2;
+		} else {
+			return _dateTime1;
+		}
+	}
+	
 	public void addToEarlierDateTime(int number, ChronoUnit chronoUnit) {
 		if (_dateTime1.isBefore(_dateTime2)) {
 			_dateTime1.plus(number, chronoUnit);
@@ -93,6 +109,10 @@ public class LocalDateTimeDifference {
 		updateUnits(_dateTime1, _dateTime2);
 	}
 
+	public int getRoundedDays() {
+		return getLaterDateTime().getDayOfYear() - getEarlierDateTime().getDayOfYear();		
+	}
+	
 	public int getSeconds() {
 		return _seconds;
 	}
