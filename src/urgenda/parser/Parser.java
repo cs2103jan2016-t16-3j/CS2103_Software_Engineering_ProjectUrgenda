@@ -139,7 +139,6 @@ public class Parser {
 		} catch (Exception e) {
 			return null;
 		}
-
 	}
 
 	private static Boolean isCommandValid(String firstWord, String commandArgs) {
