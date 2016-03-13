@@ -364,6 +364,10 @@ public class LogicData {
 		_taskPointer = taskPointer;
 	}
 	
+	public boolean isShowingMore(Task task) {
+		return _showMoreTasks.contains(task);
+	}
+	
 	public void toggleShowMoreTasks(Task task) {
 		if (_showMoreTasks.contains(task)) {
 			_showMoreTasks.remove(task);
