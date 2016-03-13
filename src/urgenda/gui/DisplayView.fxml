@@ -36,21 +36,25 @@
             </StackPane>
          </center>
          <top>
-            <GridPane fx:id="headerPane" minHeight="35.0">
+            <GridPane fx:id="headerPane" minHeight="35.0" prefWidth="600.0">
               <columnConstraints>
-                  <ColumnConstraints hgrow="NEVER" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" />
-                <ColumnConstraints hgrow="NEVER" minWidth="35.0" prefWidth="35.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="200.0" prefWidth="230.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+                <ColumnConstraints hgrow="NEVER" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="15.0" minWidth="15.0" prefWidth="15.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label fx:id="indexHeader" alignment="CENTER" prefHeight="19.0" prefWidth="28.0" text="No." GridPane.columnIndex="1" />
-                  <Label fx:id="descHeader" alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="51.0" text="Task" GridPane.columnIndex="2" GridPane.halignment="LEFT" />
+                  <Label fx:id="descHeader" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" text="Task" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+                     <GridPane.margin>
+                        <Insets left="30.0" />
+                     </GridPane.margin></Label>
                   <Label fx:id="startHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="Start" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
                   <Label fx:id="endHeader" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="End" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
                </children>
