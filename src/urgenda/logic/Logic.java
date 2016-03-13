@@ -1,10 +1,14 @@
 package urgenda.logic;
 
+import java.util.logging.Logger;
+
 import urgenda.command.Command;
 import urgenda.parser.Parser;
 import urgenda.util.StateFeedback;
 
 public class Logic {
+	
+	private static Logger theLogger = Logger.getLogger(Logic.class.getName());
 
 	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use. \nPress ALT + F1 if you need help.";
 
@@ -18,6 +22,9 @@ public class Logic {
 	}
 	
 	public StateFeedback executeCommand(String command, int index) {
+		
+		theLogger.info("executing userinput: " + command);
+		
 		assert (index >= -1); // asserts that given index is non-negative OR -1(case when there is no tasks)
 		
 		// parser take in a string and return it in its corresponding class obj
@@ -36,10 +43,16 @@ public class Logic {
 	}
 	
 	public String displayHelp() {
+		
+		theLogger.info("Help fn has been called");
+		
 		return _logicData.generateHelpManual();
 	}
 	
 	public StateFeedback retrieveStartupState() {
+		
+		theLogger.info("retrieving prev launched info");
+		
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(MESSAGE_WELCOME);
 		return state;
