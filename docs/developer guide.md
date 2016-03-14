@@ -46,7 +46,7 @@
 	* [SetingsEditor class](#settingseditor-class)
 
 # Architecture
-![Architecture](https://cloud.githubusercontent.com/assets/17000137/13753296/538c509c-ea4d-11e5-9839-b91f2afcd63f.png)
+![Architecture](https://cloud.githubusercontent.com/assets/17000137/13753825/9952069c-ea4f-11e5-8e69-a18c7dcdb6cd.png)
 # Utility Component
 ## Task Class
 ## TaskList Class
