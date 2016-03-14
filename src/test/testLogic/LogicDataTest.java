@@ -114,31 +114,35 @@ public class LogicDataTest {
 		assertEquals(_output, _test.findMatchingDesc("submit ie"));
 	}
 
-	/**
-	 * @Test public void testIsTaskToday() { LogicData _test = new LogicData();
-	 *       ArrayList<Task> _tasks = new ArrayList<Task>(); ArrayList
-	 *       <String> _tags = new ArrayList<String>(); LocalDateTime notime =
-	 *       null; Task obj = new Task("Buy milk", "", notime, notime, _tags);
-	 *       Task obj2 = new Task("Submit ie2150 draft", "", notime,
-	 *       LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), _tags); Task
-	 *       obj3 = new Task("Dental Appointment", "", LocalDateTime.now(),
-	 *       LocalDateTime.now().plusHours(2), _tags); Task obj4 = new Task(
-	 *       "Travel to Sweden", "", LocalDateTime.of(2016, Month.JULY, 26, 00,
-	 *       00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags); Task
-	 *       obj5 = new Task("Submit ie2100 hw3", "", notime,
-	 *       LocalDateTime.now(), _tags); Task obj6 = new Task("Housekeeping",
-	 *       "", notime, notime, _tags);
-	 * 
-	 *       _tasks.add(obj); _tasks.add(obj2); _tasks.add(obj3);
-	 *       _tasks.add(obj4); _tasks.add(obj5); _tasks.add(obj6);
-	 * 
-	 *       assertFalse(_test.isTaskToday(_tasks.get(0)));
-	 *       assertFalse(_test.isTaskToday(_tasks.get(1)));
-	 *       assertTrue(_test.isTaskToday(_tasks.get(2)));
-	 *       assertFalse(_test.isTaskToday(_tasks.get(3)));
-	 *       assertTrue(_test.isTaskToday(_tasks.get(4)));
-	 *       assertFalse(_test.isTaskToday(_tasks.get(5))); }
-	 **/ // need change fn to public, cfm w kw
+	@Test
+	public void testIsTaskToday() {
+		LogicData _test = new LogicData();
+		ArrayList<Task> _tasks = new ArrayList<Task>();
+		ArrayList<String> _tags = new ArrayList<String>();
+		LocalDateTime notime = null;
+		Task obj = new Task("Buy milk", "", notime, notime, _tags);
+		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59),
+				_tags);
+		Task obj3 = new Task("Dental Appointment", "", LocalDateTime.now(), LocalDateTime.now().plusHours(2), _tags);
+		Task obj4 = new Task("Travel to Sweden", "", LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags);
+		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.now(), _tags);
+		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags);
+
+		_tasks.add(obj);
+		_tasks.add(obj2);
+		_tasks.add(obj3);
+		_tasks.add(obj4);
+		_tasks.add(obj5);
+		_tasks.add(obj6);
+
+		assertFalse(_test.isTaskToday(_tasks.get(0)));
+		assertFalse(_test.isTaskToday(_tasks.get(1)));
+		assertTrue(_test.isTaskToday(_tasks.get(2)));
+		assertFalse(_test.isTaskToday(_tasks.get(3)));
+		assertTrue(_test.isTaskToday(_tasks.get(4)));
+		assertFalse(_test.isTaskToday(_tasks.get(5)));
+	}
 
 	@Test
 	public void testFindMatchingPosition() {
@@ -189,21 +193,21 @@ public class LogicDataTest {
 				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
 		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 2, 17, 00), _tags);
 		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags);
-		
+
 		_tasks.add(obj);
 		_tasks.add(obj2);
 		_tasks.add(obj3);
 		_tasks.add(obj4);
 		_tasks.add(obj5);
 		_tasks.add(obj6);
-		
+
 		ArrayList<Task> _output = new ArrayList<Task>();
 		_output.add(obj);
 		_output.add(obj3);
-		
+
 		assertEquals(_output, _test.findMatchingDates(LocalDate.of(2016, Month.APRIL, 4)));
 	}
-	
+
 	@Test
 	public void testFindMatchingDateTimes() {
 		LogicData _test = new LogicData();
@@ -221,20 +225,20 @@ public class LogicDataTest {
 				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
 		Task obj5 = new Task("Renew pass port", "", notime, LocalDateTime.of(2016, Month.MARCH, 2, 17, 00), _tags);
 		Task obj6 = new Task("Level up pokemon", "", notime, notime, _tags);
-		
+
 		_tasks.add(obj);
 		_tasks.add(obj2);
 		_tasks.add(obj3);
 		_tasks.add(obj4);
 		_tasks.add(obj5);
 		_tasks.add(obj6);
-		
+
 		ArrayList<Task> _output = new ArrayList<Task>();
 		_output.add(obj4);
-		
+
 		assertEquals(_output, _test.findMatchingDateTimes(LocalDateTime.of(2016, Month.MARCH, 2, 13, 00)));
 	}
-	
+
 	@Test
 	public void testFindMatchingMonths() {
 		LogicData _test = new LogicData();
@@ -252,21 +256,21 @@ public class LogicDataTest {
 				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
 		Task obj5 = new Task("Pay bills", "", notime, LocalDateTime.of(2016, Month.MARCH, 16, 17, 00), _tags);
 		Task obj6 = new Task("Housewarming", "", notime, notime, _tags);
-		
+
 		_tasks.add(obj);
 		_tasks.add(obj2);
 		_tasks.add(obj3);
 		_tasks.add(obj4);
 		_tasks.add(obj5);
 		_tasks.add(obj6);
-		
+
 		ArrayList<Task> _output = new ArrayList<Task>();
 		_output.add(obj3);
 		_output.add(obj4);
 		_output.add(obj5);
-		
+
 		assertEquals(_output, _test.findMatchingMonths(Month.MARCH));
-		
+
 	}
 
 }

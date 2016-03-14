@@ -147,7 +147,7 @@ public class LogicData {
 		return matches;
 	}
 
-	private boolean isTaskToday(Task task) {
+	public boolean isTaskToday(Task task) {
 		LocalDate now = LocalDate.now();
 		if (task.getTaskType() == Task.Type.DEADLINE) {
 			if (task.getEndTime().toLocalDate().isEqual(now)) {

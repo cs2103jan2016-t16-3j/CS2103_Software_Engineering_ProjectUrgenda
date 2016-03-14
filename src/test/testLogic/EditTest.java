@@ -58,7 +58,7 @@ public class EditTest {
 		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute(_data));	
 	}
 	
-	@Test
+	@Test  //TODO: Redo test to match change in fn
 	public void testUndo() throws Exception {
 		LogicData _data = new LogicData();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
@@ -76,7 +76,7 @@ public class EditTest {
 		assertEquals("Undo: \"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.undo());
 	}
 	
-	@Test
+	@Test //TODO: Redo test to match change in fn
 	public void testRedo() throws Exception {
 		LogicData _data = new LogicData();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
