@@ -1,12 +1,12 @@
-package urgenda.parser;
+package urgenda.parser.commandParser;
 
 import urgenda.command.*;
 
-public class PrioritiseCommandParser {
+public class CompleteCommandParser {
 	private String _argsString;
 	private int _index;
 	
-	public PrioritiseCommandParser(String argsString, int index) {
+	public CompleteCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 	}

@@ -1,12 +1,12 @@
-package urgenda.parser;
+package urgenda.parser.commandParser;
 
 import urgenda.command.*;
 
-public class RedoCommandParser {
+public class DeleteCommandParser {
 	private String _argsString;
 	private int _index;
 	
-	public RedoCommandParser(String argsString, int index) {
+	public DeleteCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 	}

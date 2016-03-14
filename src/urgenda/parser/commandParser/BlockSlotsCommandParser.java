@@ -1,12 +1,13 @@
-package urgenda.parser;
+package urgenda.parser.commandParser;
 
 import urgenda.command.*;
 
-public class ShowDetailsCommandParser {
+
+public class BlockSlotsCommandParser {
 	private String _argsString;
 	private int _index;
 	
-	public ShowDetailsCommandParser(String argsString, int index) {
+	public BlockSlotsCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 	}

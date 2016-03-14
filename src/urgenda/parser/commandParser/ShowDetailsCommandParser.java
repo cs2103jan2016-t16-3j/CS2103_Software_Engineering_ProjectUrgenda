@@ -1,12 +1,12 @@
-package urgenda.parser;
+package urgenda.parser.commandParser;
 
 import urgenda.command.*;
 
-public class DeleteCommandParser {
+public class ShowDetailsCommandParser {
 	private String _argsString;
 	private int _index;
 	
-	public DeleteCommandParser(String argsString, int index) {
+	public ShowDetailsCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 	}
