@@ -30,42 +30,46 @@ public class AddCommandParser {
 	}
 	
 	private static Command generateAddCommandAndReturn() {
-		Task newTask = new Task();
-		if (PublicVariables.taskIndex != -10) {
-			newTask.setDesc(String.valueOf(PublicVariables.taskIndex + 1));
+		if (PublicVariables.commandType == COMMAND_TYPE.INVALID) {
+			return new Invalid();
+		} else {
+			Task newTask = new Task();
+			if (PublicVariables.taskIndex != -10) {
+				newTask.setDesc(String.valueOf(PublicVariables.taskIndex + 1));
+			}
+			if (PublicVariables.taskDescription != "") {
+				newTask.setDesc(PublicVariables.taskDescription);
+			}
+			if (PublicVariables.taskLocation != "") {
+				newTask.setLocation(PublicVariables.taskLocation);
+			}
+			if (PublicVariables.taskStartTime != null) {
+				newTask.setStartTime(PublicVariables.taskStartTime);
+			}
+			if (PublicVariables.taskEndTime != null) {
+				newTask.setEndTime(PublicVariables.taskEndTime);
+			}
+			if (!PublicVariables.taskHashtags.isEmpty()) {
+				newTask.setHashtags(PublicVariables.taskHashtags);
+			}
+			if (PublicVariables.taskSlots != null) {
+				newTask.setSlot(PublicVariables.taskSlots);
+			}
+			switch (PublicVariables.taskType) {
+			case EVENT:
+				newTask.setTaskType(Task.Type.EVENT);
+				break;
+			case DEADLINE:
+				newTask.setTaskType(Task.Type.DEADLINE);
+				break;
+			case FLOATING:
+				newTask.setTaskType(Task.Type.FLOATING);
+				break;
+			default:
+				return new Invalid();
+			}
+			return new AddTask(newTask);
 		}
-		if (PublicVariables.taskDescription != "") {
-			newTask.setDesc(PublicVariables.taskDescription);
-		}
-		if (PublicVariables.taskLocation != "") {
-			newTask.setLocation(PublicVariables.taskLocation);
-		}
-		if (PublicVariables.taskStartTime != null) {
-			newTask.setStartTime(PublicVariables.taskStartTime);
-		}
-		if (PublicVariables.taskEndTime != null) {
-			newTask.setEndTime(PublicVariables.taskEndTime);
-		}
-		if (!PublicVariables.taskHashtags.isEmpty()) {
-			newTask.setHashtags(PublicVariables.taskHashtags);
-		}
-		if (PublicVariables.taskSlots != null) {
-			newTask.setSlot(PublicVariables.taskSlots);
-		}
-		switch (PublicVariables.taskType) {
-		case EVENT:
-			newTask.setTaskType(Task.Type.EVENT);
-			break;
-		case DEADLINE:
-			newTask.setTaskType(Task.Type.DEADLINE);
-			break;
-		case FLOATING:
-			newTask.setTaskType(Task.Type.FLOATING);
-			break;
-		default:
-			break;
-		}
-		return new AddTask(newTask);
 	}
 }
 
