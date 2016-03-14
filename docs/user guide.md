@@ -21,6 +21,10 @@ This guide helps you with understanding how to use Urgenda effectively as a task
 
 # Getting Started
 
+```java
+//TODO: insert image
+```
+
 1. User input/command bar: Enter your to-dos here easily using the given Command Tags.
 2. Feedback prompt: The outcome to any changes that you make to your tasks is shown here.
 3. Display screen: Your tasks are categorised and displayed here according to time and priority by default.
