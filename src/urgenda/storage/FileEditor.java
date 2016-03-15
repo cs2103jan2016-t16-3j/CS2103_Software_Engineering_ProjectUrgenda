@@ -181,4 +181,8 @@ public class FileEditor {
 		System.out.println("String " + _file.toString());
 		System.out.println("Path path " + _file.toPath());
 	}
+	
+	public String getAbsolutePath(){
+		return _file.getAbsolutePath();
+	}
 }

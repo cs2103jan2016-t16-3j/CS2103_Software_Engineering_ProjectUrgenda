@@ -75,4 +75,8 @@ public class Storage implements StorageInterface {
 		help = _help.retrieveFromFile();
 		return help;
 	}
+	
+	public String getFilePath(){
+		return _file.getAbsolutePath();
+	}
 }
