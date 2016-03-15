@@ -79,6 +79,8 @@
 # Parser Component
 ## Parser Class
 # Storage Component
+![Storage](/docs/UML Diagrams/Storage.png)
+> Structure of Storage component
 ## Storage Class
 ## FileEditor Class
 ## JsonCipher Class
