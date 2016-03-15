@@ -185,4 +185,8 @@ public class FileEditor {
 	public String getAbsolutePath(){
 		return _file.getAbsolutePath();
 	}
+	
+	public String getDirAbsolutePath(){
+		return _parentDir.getAbsolutePath();
+	}
 }
