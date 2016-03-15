@@ -229,14 +229,15 @@ public class PtParser {
 //	}
 	
 	//TODO: Same can't parse without time given
+	//TODO: Location only work "add test001 by next Friday at 2359 at haha" with "by", nt "before/latest" 
 	@Test
 	public void test015DeadlineDay() {
-		String phrase = "add test001 by Friday at 2359";
+		String phrase = "add test001 by next Friday at 2359 at haha";
 		ArrayList<String> testHashtags = new ArrayList<String>();
-		String endTime = "2016-03-18T23:59";
+		String endTime = "2016-03-25T23:59";
 		CommandParser.parseCommand(phrase, 5);
 		assertEquals("test001", PublicVariables.taskDescription);
-		assertEquals("",PublicVariables.taskLocation);
+		assertEquals("haha",PublicVariables.taskLocation);
 		assertEquals(null, PublicVariables.taskStartTime);
 		assertEquals(endTime, PublicVariables.taskEndTime.toString());
 		assertEquals(testHashtags, PublicVariables.taskHashtags);
