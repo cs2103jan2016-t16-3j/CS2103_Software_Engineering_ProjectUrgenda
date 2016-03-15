@@ -23,22 +23,20 @@ public class FileEditorTest {
 	private static final String TEST_FILE_NAME_2 = "test2.txt";
 	private static final String TEST_SETTINGS_FILE_NAME = "testsettings.txt";
 
-	
 	@Test
-	public void test001Rename(){
+	public void test001Rename() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		file.rename(TEST_FILE_NAME_2);
 		file.paths();
 	}
-	
+
 	@Test
-	public void test002Relocate(){
+	public void test002Relocate() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		file.relocate(TEST_FILE_LOCATION_2);
 		file.paths();
 	}
-	
-	
+
 	@Test
 	public void test01ReadWriteSingleLine() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
@@ -181,21 +179,15 @@ public class FileEditorTest {
 		inputArrayTwo.clear();
 		retrievedArrayOne.clear();
 		retrievedArrayTwo.clear();
-		// file.clearFile();
+		file.clearFile();
 	}
 
-	@Test
-	public void testHelp() {
-		Storage store = new Storage(TEST_FILE_LOCATION, TEST_FILE_NAME);
-		String phrase = store.retrieveHelp();
-		System.out.println(phrase);
-	}
 
 	@Test
 	public void test1Save() {
 		Storage store = new Storage(TEST_FILE_LOCATION, TEST_FILE_NAME);
-//		store.changeFileName(TEST_FILE_NAME_2);
-//		store.changeFilePath(TEST_FILE_LOCATION_2);
+		// store.changeFileName(TEST_FILE_NAME_2);
+		// store.changeFilePath(TEST_FILE_LOCATION_2);
 		store.changeFileSettings(TEST_FILE_LOCATION_2, TEST_FILE_NAME_2);
 		Task task1 = new Task("test1");
 		Task task2 = new Task("test2");
@@ -214,7 +206,7 @@ public class FileEditorTest {
 
 	@Test
 	public void test2UpdateArrayLists() {
-		Storage store = new Storage();
+		Storage store = new Storage(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<Task> _archive = new ArrayList<Task>();
 		// ArrayList<MultipleSlot> _blocks = new ArrayList<MultipleSlot>();

@@ -14,15 +14,28 @@ import java.util.Calendar;
 
 import urgenda.command.*;
 import urgenda.parser.PublicVariables.*;
+import urgenda.parser.commandParser.AddCommandParser;
+import urgenda.parser.commandParser.BlockSlotsCommandParser;
+import urgenda.parser.commandParser.CompleteCommandParser;
+import urgenda.parser.commandParser.DeleteCommandParser;
+import urgenda.parser.commandParser.EditCommandParser;
+import urgenda.parser.commandParser.ExitCommandParser;
+import urgenda.parser.commandParser.InvalidCommandParser;
+import urgenda.parser.commandParser.PrioritiseCommandParser;
+import urgenda.parser.commandParser.RedoCommandParser;
+import urgenda.parser.commandParser.SearchCommandParser;
+import urgenda.parser.commandParser.ShowArchiveCommandParser;
+import urgenda.parser.commandParser.ShowDetailsCommandParser;
+import urgenda.parser.commandParser.UndoCommandParser;
 import urgenda.util.*;
 
 public class CommandParser {
 	public static Command parseCommand(String commandString, int index) {
 		PublicFunctions.reinitializePublicVariables();
-		
-		COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
+
+		PublicVariables.commandType = CommandTypeParser.getCommandType(commandString);
 		String argsString = CommandTypeParser.getArgsString(commandString);
-		Command testReturn = generateAndReturnCommandObjects(commandType, argsString, index);
+		Command testReturn = generateAndReturnCommandObjects(PublicVariables.commandType, argsString, index);
 
 		if (testReturn instanceof Invalid) {
 			AddCommandParser addCommand = new AddCommandParser(commandString, index);

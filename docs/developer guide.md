@@ -46,7 +46,7 @@
 	* [SetingsEditor class](#settingseditor-class)
 
 # Architecture
-![Architecture](/docs/UML Diagrams/Architecture.png)
+![Architecture](https://cloud.githubusercontent.com/assets/17000137/13753825/9952069c-ea4f-11e5-8e69-a18c7dcdb6cd.png)
 # Utility Component
 ## Task Class
 ## TaskList Class
@@ -79,6 +79,10 @@
 # Parser Component
 ## Parser Class
 # Storage Component
+![Storage](/docs/UML Diagrams/Storage.png)
+> Structure of Storage component
+
+The Storage component is accessible through the `Storage` class using the facade pattern, where it handles and directs file manipulation using the respective classes. 
 ## Storage Class
 ## FileEditor Class
 ## JsonCipher Class
