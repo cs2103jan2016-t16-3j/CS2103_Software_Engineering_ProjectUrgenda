@@ -81,6 +81,8 @@
 # Storage Component
 ![Storage](/docs/UML Diagrams/Storage.png)
 > Structure of Storage component
+
+The Storage component is accessible through the `Storage` class using the facade pattern, where it handles and directs file manipulation using the respective classes. 
 ## Storage Class
 ## FileEditor Class
 ## JsonCipher Class
