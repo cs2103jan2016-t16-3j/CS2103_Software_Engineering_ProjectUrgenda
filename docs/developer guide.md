@@ -66,6 +66,7 @@
 # Logic Component
 ![Logic](/docs/UML Diagrams/Logic.png)
 > Figure 3: Structure of Logic component
+
 ## Logic Class
 ## LogicData Class
 # Command Component
