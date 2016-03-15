@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -56,6 +57,11 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "saturday", "sat" }));
 	public static final Set<String> sundayWords = new HashSet<String>(Arrays.asList(new String[] { "sunday", "sun" }));
 
+	public static final Set<String> startTimeWords = new HashSet<String>(
+			Arrays.asList(new String[] { "on", "at", "from", "of" }));
+	public static final Set<String> endTimeWords = new HashSet<String>(
+			Arrays.asList(new String[] { "by", "latest", "before" }));
+	
 	public static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
 	public static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])([-/.])20\\d\\d)";
 	public static String dateRegexWithoutYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012]))";
@@ -80,8 +86,8 @@ public class PublicVariables {
 	public static int taskIndex;
 	public static String taskDescription;
 	public static String taskLocation;
-	public static LocalDateTime taskStartTime;
-	public static LocalDateTime taskEndTime;
+	public static Date taskStartTime;
+	public static Date taskEndTime;
 	public static ArrayList<String> taskHashtags;
 	public static MultipleSlot taskSlots;
 
