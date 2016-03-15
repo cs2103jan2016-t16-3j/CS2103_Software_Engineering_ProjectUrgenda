@@ -73,7 +73,7 @@ public class EditTest {
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
 		Edit tester = new Edit(0,testTask);
 		tester.execute(_data);
-		assertEquals("Undo: \"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.undo());
+		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.undo());
 	}
 	
 	@Test //TODO: Redo test to match change in fn
@@ -92,7 +92,7 @@ public class EditTest {
 		Edit tester = new Edit(0,testTask);
 		tester.execute(_data);
 		tester.undo();
-		assertEquals("Redo: \"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.redo());
+		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.redo());
 		
 	}
 
