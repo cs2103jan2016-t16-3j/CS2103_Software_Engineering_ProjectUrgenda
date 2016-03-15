@@ -209,6 +209,6 @@ public class Main extends Application {
 	}
 
 	public File getSaveDirectory() {
-		return _logic.getInitialDirectoryPath();
+		return _logic.getCurrentSaveDirectory();
 	}
 }
