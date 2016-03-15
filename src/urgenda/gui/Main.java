@@ -77,6 +77,7 @@ public class Main extends Application {
 		StateFeedback state = retrieveStartupState();
 		//TODO implement check settings for showing novice headers, change boolean below
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
+		_displayController.setScrollBar();
 		_displayController.setMain(this);
 	}
 

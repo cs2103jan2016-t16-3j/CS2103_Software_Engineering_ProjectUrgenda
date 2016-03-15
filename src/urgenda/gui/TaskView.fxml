@@ -25,7 +25,13 @@
       <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" valignment="TOP" vgrow="SOMETIMES" />
       <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
    </rowConstraints>
-   <children>
+   <children>   
+         <BorderPane fx:id="noviceHeaderPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7">
+         <center>
+            <Label fx:id="noviceHeaderLabel" text="Task Type Header for Novices" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
       <Label fx:id="taskIndexLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="20.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="5.0" top="7.0" />
@@ -63,11 +69,5 @@
          <GridPane.margin>
             <Insets left="5.0" top="8.0" />
          </GridPane.margin></Label>
-      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="1" />   
-         <BorderPane fx:id="noviceHeaderPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7">
-         <center>
-            <Label fx:id="noviceHeaderLabel" text="Task Type Header for Novices" BorderPane.alignment="CENTER" />
-         </center>
-      </BorderPane>
       </children>
 </fx:root>

@@ -2,9 +2,13 @@ package urgenda.gui;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Set;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -33,7 +37,7 @@ public class DisplayController extends AnchorPane {
 	static final String TEXT_FILL_NORMAL = "-fx-text-fill: black;";
 	static final String TEXT_FILL_COMPLETED = "-fx-text-fill: black;";
 	static final String TEXT_WEIGHT_BOLD = "-fx-font-family: \"Montserrat\";";
-	static final String TEXT_WEIGHT_REGULAR = "-fx-font-family: \"Montserrat Light\";";
+	static final String TEXT_WEIGHT_REGULAR = "-fx-font-family: \"Montserrat Light\";";	
 	
 	private static final double DEFAULT_VERTICAL_SCROLL_HEIGHT = 0;
 	private static final double DEFAULT_EMPTY_TASKS_DISPLAY_HEIGHT = 100;
@@ -42,10 +46,10 @@ public class DisplayController extends AnchorPane {
 
 	/*
 	 * COLORS 
-	 * red: FF9999, 255, 153, 153 
-	 * orange: FFD299 255, 210, 153 
-	 * blue: 96B2FF 150, 178, 255 
-	 * gray: B2B2B2 178, 178, 178
+	 * red: FF9999, 255, 153, 153, FF4C4C, 255, 76, 76
+	 * orange: FFD299 255, 210, 153 FFAE4C, 225, 174, 76
+	 * blue: 96B2FF 150, 178, 255, 4C7CFF , 76,124,255
+	 * gray: B2B2B2 178, 178, 178, 666666, 102, 102, 102
 	 */
 
 	static final Color COLOR_OVERDUE = Color.rgb(255, 153, 153, IMPORTANT_OPACITY_VALUE);
@@ -54,6 +58,10 @@ public class DisplayController extends AnchorPane {
 	static final Color COLOR_NORMAL_IMPORTANT = Color.rgb(150, 178, 255, IMPORTANT_OPACITY_VALUE);
 	static final Color COLOR_NORMAL = Color.rgb(150, 178, 255, NORMAL_OPACITY_VALUE);
 	static final Color COLOR_COMPLETED = Color.rgb(178, 178, 178, IMPORTANT_OPACITY_VALUE);
+	static final Color COLOR_INDICATOR_OVERDUE = Color.rgb(255, 76, 76, IMPORTANT_OPACITY_VALUE);
+	static final Color COLOR_INDICATOR_TODAY = Color.rgb(255, 174, 76, NORMAL_OPACITY_VALUE);
+	static final Color COLOR_INDICATOR_NORMAL = Color.rgb(76, 124, 255, NORMAL_OPACITY_VALUE);
+	static final Color COLOR_INDICATOR_COMPLETED = Color.rgb(102, 102, 102, IMPORTANT_OPACITY_VALUE);
 
 	@FXML
 	private Label displayHeader;
@@ -74,7 +82,12 @@ public class DisplayController extends AnchorPane {
 		_displayedTasks = new ArrayList<Task>();
 		_detailedIndexes = new ArrayDeque<Integer>();
 	}
-
+	
+	public void setScrollBar () {
+		//TODO scrollbar
+	}
+	
+	
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes, int modifiedTaskIndex, boolean showNoviceHeaders) {
 		displayHolder.getChildren().clear();
 		_displayedTasks.clear();

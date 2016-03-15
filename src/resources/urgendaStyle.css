@@ -48,13 +48,13 @@
 }
 
 #noviceHeaderPane {
-	-fx-background-color: #474E60;
+	-fx-background-color: white;
 }
 
 #noviceHeaderLabel {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 15px;
-	-fx-text-fill: white;
+	-fx-text-fill: black;
 }
 
 #taskIndexLabel, #taskDescLabel, #taskStartLabel, #dateTimeTypeLabel, #taskEndLabel  {

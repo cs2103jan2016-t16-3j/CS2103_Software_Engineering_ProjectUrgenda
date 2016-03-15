@@ -56,30 +56,32 @@ public class TaskController extends GridPane {
 	protected Task _task;
 	protected TaskDisplayType _taskDisplayType;
 	protected boolean _isSelected;
+	protected boolean _showHeader;
 	protected DisplayController _displayController;
 
 	public TaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		_task = task;
 		_taskDisplayType = taskDisplayType;
 		_index = index;
+		_showHeader = showHeader;
 		loadFXML();
 		setTaskClickHandler();
 		taskIndexLabel.setText(String.valueOf(_index + 1));
 		taskDescLabel.setText(task.getDesc());
-		switch (task.getTaskType()) {
+		switch (_task.getTaskType()) {
 		case FLOATING:
 			taskStartLabel.setText("");
 			taskEndLabel.setText("");
 			dateTimeTypeLabel.setText("");
 			break;
 		case EVENT:
-			taskStartLabel.setText(formatDateTime(task.getStartTime()));
-			taskEndLabel.setText(formatDateTime(task.getEndTime()));
+			taskStartLabel.setText(formatDateTime(_task.getStartTime()));
+			taskEndLabel.setText(formatDateTime(_task.getEndTime()));
 			dateTimeTypeLabel.setText("to");
 			break;
 		case DEADLINE:
 			taskStartLabel.setText("");
-			taskEndLabel.setText(formatDateTime(task.getEndTime()));
+			taskEndLabel.setText(formatDateTime(_task.getEndTime()));
 			dateTimeTypeLabel.setText("by");
 			break;
 		}
@@ -129,6 +131,11 @@ public class TaskController extends GridPane {
 		switch (taskDisplayType) {
 		case OVERDUE:
 			this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_OVERDUE, null, INSETS_ROWS)));
+			if(_showHeader) {	
+				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_OVERDUE, null, null)));
+			} else {
+				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_OVERDUE, null, INSETS_ROWS)));
+			}
 			setStyle(DisplayController.TEXT_FILL_OVERDUE, DisplayController.TEXT_WEIGHT_BOLD);
 			break;
 		case TODAY:
@@ -138,6 +145,11 @@ public class TaskController extends GridPane {
 			} else {
 				this.setBackground(
 						new Background(new BackgroundFill(DisplayController.COLOR_TODAY, null, INSETS_ROWS)));
+			}
+			if(_showHeader) {	
+				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_TODAY, null, null)));
+			} else {
+				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_TODAY, null, INSETS_ROWS)));
 			}
 			setStyle(DisplayController.TEXT_FILL_TODAY, DisplayController.TEXT_WEIGHT_REGULAR);
 			break;
@@ -149,22 +161,32 @@ public class TaskController extends GridPane {
 				this.setBackground(
 						new Background(new BackgroundFill(DisplayController.COLOR_NORMAL, null, INSETS_ROWS)));
 			}
+			if(_showHeader) {	
+				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_NORMAL, null, null)));
+			} else {
+				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_NORMAL, null, INSETS_ROWS)));
+			}
 			setStyle(DisplayController.TEXT_FILL_NORMAL, DisplayController.TEXT_WEIGHT_REGULAR);
 			break;
 		case ARCHIVE:
 			this.setBackground(
 					new Background(new BackgroundFill(DisplayController.COLOR_COMPLETED, null, INSETS_ROWS)));
+			if(_showHeader) {	
+				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_COMPLETED, null, null)));
+			} else {
+				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_COMPLETED, null, INSETS_ROWS)));
+			}
 			setStyle(DisplayController.TEXT_FILL_COMPLETED, DisplayController.TEXT_WEIGHT_REGULAR);
 			break;
 		}
 	}
 
-	protected void setStyle(String color, String weight) {
-		taskIndexLabel.setStyle(color + weight);
-		taskDescLabel.setStyle(color + weight);
-		taskStartLabel.setStyle(color + weight);
-		dateTimeTypeLabel.setStyle(color + weight);
-		taskEndLabel.setStyle(color + weight);
+	protected void setStyle(String backgroundColor, String weight) {
+		taskIndexLabel.setStyle(backgroundColor + weight);
+		taskDescLabel.setStyle(backgroundColor + weight);
+		taskStartLabel.setStyle(backgroundColor + weight);
+		dateTimeTypeLabel.setStyle(backgroundColor + weight);
+		taskEndLabel.setStyle(backgroundColor + weight);
 	}
 
 	private String formatDateTime(LocalDateTime dateTime) {

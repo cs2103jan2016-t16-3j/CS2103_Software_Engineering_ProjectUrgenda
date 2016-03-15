@@ -44,7 +44,7 @@ public class MainController {
 	@FXML
 	private void sceneListener(KeyEvent event) {
 		KeyCode code = event.getCode();
-		if(code == KeyCode.ENTER && !inputBar.isFocused()) {
+		if(code == KeyCode.TAB && !inputBar.isFocused()) {
 			inputBar.requestFocus();
 		}
 		if(code == KeyCode.DELETE && event.isControlDown()) {
@@ -59,7 +59,7 @@ public class MainController {
 	@FXML
 	private void commandLineListener(KeyEvent event) {
 		KeyCode code = event.getCode();
-			if(code == KeyCode.ENTER) {
+			if(code == KeyCode.ENTER && !inputBar.getText().equals("")) {
 				while(!_nextCommandLines.isEmpty()) {
 					_prevCommandLines.addFirst(_nextCommandLines.getFirst());
 					_nextCommandLines.removeFirst();
