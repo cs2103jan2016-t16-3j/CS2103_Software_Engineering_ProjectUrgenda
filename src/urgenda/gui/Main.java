@@ -1,5 +1,6 @@
 package urgenda.gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -205,5 +206,9 @@ public class Main extends Application {
 		state.setState(StateFeedback.State.ALL_TASKS);
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0, true);
 		return state.getFeedback();
+	}
+
+	public File getSaveDirectory() {
+		return _logic.getInitialDirectoryPath();
 	}
 }
