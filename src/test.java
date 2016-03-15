@@ -31,13 +31,13 @@ public class test {
 		while (true) {
 			String input = getUserInput();
 			CommandParser.parseCommand(input, 5);
-			System.out.print(PublicVariables.taskDescription + "\n");
-			System.out.print(PublicVariables.taskIndex + "\n");
-			System.out.print(PublicVariables.taskLocation + "\n");
-			System.out.print(PublicVariables.taskStartTime + "\n");
-			System.out.print(PublicVariables.taskEndTime + "\n");
-			System.out.print(PublicVariables.taskHashtags + "\n");
-			System.out.print(PublicVariables.taskType + "\n");
+			System.out.print("Description: " + PublicVariables.taskDescription + "\n");
+			System.out.print("Index: " + PublicVariables.taskIndex + "\n");
+			System.out.print("Location: " + PublicVariables.taskLocation + "\n");
+			System.out.print("Start Time: " + PublicVariables.taskStartTime + "\n");
+			System.out.print("End Time: " + PublicVariables.taskEndTime + "\n");
+			System.out.print("Hashtags: " + PublicVariables.taskHashtags + "\n");
+			System.out.print("TaskType: " + PublicVariables.taskType + "\n");
 			// PrettyTimeParser p = new PrettyTimeParser();
 			// List<Date> dateTimes = p.parse(input);
 			// for (Date test : dateTimes) {

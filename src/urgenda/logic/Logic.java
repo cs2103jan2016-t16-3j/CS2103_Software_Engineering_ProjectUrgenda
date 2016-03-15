@@ -30,9 +30,9 @@ public class Logic {
 	
 	
 	public StateFeedback executeCommand(String command, int index) {
-		try {
+		/* try {
 		consoleHandler = new ConsoleHandler();
-		fileHandler  = new FileHandler("UrgendaLog.txt");
+		fileHandler  = new FileHandler("UrgendaLog.txt",true);
 		myLogger.addHandler(consoleHandler);
 		myLogger.addHandler(fileHandler);
 		consoleHandler.setLevel(Level.ALL);
@@ -42,7 +42,7 @@ public class Logic {
 		myLogger.removeHandler(consoleHandler);
 		} catch (IOException e){
 			myLogger.log(Level.SEVERE, "Error occur in FileHandler.", e);
-		}
+		} */
 		
 		myLogger.info("executing userinput: " + command);
 		
@@ -64,9 +64,9 @@ public class Logic {
 	}
 	
 	public String displayHelp() {
-		try {
+		/* try {
 			consoleHandler = new ConsoleHandler();
-			fileHandler  = new FileHandler("UrgendaLog.txt");
+			fileHandler  = new FileHandler("UrgendaLog.txt",true);
 			myLogger.addHandler(consoleHandler);
 			myLogger.addHandler(fileHandler);
 			consoleHandler.setLevel(Level.ALL);
@@ -76,7 +76,7 @@ public class Logic {
 			myLogger.removeHandler(consoleHandler);
 			} catch (IOException e){
 				myLogger.log(Level.SEVERE, "Error occur in FileHandler.", e);
-			}
+			} */
 		
 		myLogger.info("Help fn has been called");
 		
@@ -86,7 +86,7 @@ public class Logic {
 	public StateFeedback retrieveStartupState() {
 		try {
 			consoleHandler = new ConsoleHandler();
-			fileHandler  = new FileHandler("UrgendaLog.txt");
+			fileHandler  = new FileHandler("UrgendaLog.txt",true);
 			myLogger.addHandler(consoleHandler);
 			myLogger.addHandler(fileHandler);
 			consoleHandler.setLevel(Level.ALL);
