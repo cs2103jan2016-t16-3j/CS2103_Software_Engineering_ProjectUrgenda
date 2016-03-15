@@ -47,18 +47,25 @@
 
 # Architecture
 ![Architecture](https://cloud.githubusercontent.com/assets/17000137/13753825/9952069c-ea4f-11e5-8e69-a18c7dcdb6cd.png)
+> Figure 1: Architecture of Urgenda
+
 # Utility Component
 ## Task Class
 ## TaskList Class
 ## MultipleSlot Class
 ## StateFeedback Class
 # UI Component
+![UI](/docs/UML Diagrams/UI.png)
+> Figure 2: Structure of UI component
+
 ## Main Class
 ## MainController Class
 ## DisplayController Class
 ## TaskController Class
 ## TaskDetailsController Class
 # Logic Component
+![Logic](/docs/UML Diagrams/Logic.png)
+> Figure 3: Structure of Logic component
 ## Logic Class
 ## LogicData Class
 # Command Component
@@ -80,7 +87,7 @@
 ## Parser Class
 # Storage Component
 ![Storage](/docs/UML Diagrams/Storage.png)
-> Structure of Storage component
+> Figure 4: Structure of Storage component
 
 The Storage component is accessible through the `Storage` class using the facade pattern, where it handles and directs file manipulation using the respective classes. 
 ## Storage Class
