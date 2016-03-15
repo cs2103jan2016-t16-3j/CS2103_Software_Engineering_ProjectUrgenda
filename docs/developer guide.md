@@ -46,7 +46,7 @@
 	* [SetingsEditor class](#settingseditor-class)
 
 # Architecture
-![Architecture](https://cloud.githubusercontent.com/assets/17000137/13753825/9952069c-ea4f-11e5-8e69-a18c7dcdb6cd.png)
+![Architecture](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Architecture%20(new).png?raw=true)
 > Figure 1: Architecture of Urgenda
 
 # Utility Component
