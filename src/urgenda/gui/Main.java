@@ -209,6 +209,7 @@ public class Main extends Application {
 	}
 
 	public File getSaveDirectory() {
-		return _logic.getCurrentSaveDirectory();
+		File file = new File(_logic.getCurrentSaveDirectory());
+		return file;
 	}
 }
