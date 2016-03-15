@@ -1,5 +1,7 @@
 package urgenda.parser;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,24 +53,37 @@ public class DateTimeParser {
 
 	private static String handlel1DateGroup(String argsString, List<DateGroup> dateGroups) {
 		int numberOfDates = dateGroups.get(0).getDates().size();
+		int parsePosition = dateGroups.get(0).getPosition();
+		String dateString = dateGroups.get(0).getText();
+		String preceedingWord = PublicFunctions.getPreceedingWord(parsePosition, argsString);
+		Date timeInDate;
 		switch (numberOfDates) {
 		case 1:
-			int parsePosition = dateGroups.get(0).getPosition();
-			String dateString = dateGroups.get(0).getText();
-			String preceedingWord = PublicFunctions.getPreceedingWord(parsePosition, argsString);
 			if (PublicVariables.startTimeWords.contains(preceedingWord)) {
-				PublicVariables.taskStartTime = dateGroups.get(0).getDates().get(0);
+				timeInDate = dateGroups.get(0).getDates().get(0);
+				PublicVariables.taskStartTime = LocalDateTime.ofInstant(timeInDate.toInstant(), ZoneId.systemDefault());
 				return PublicFunctions.reselectString(argsString, preceedingWord + " " + dateString);
 			} else if (PublicVariables.endTimeWords.contains(preceedingWord)) {
-				PublicVariables.taskEndTime = dateGroups.get(0).getDates().get(0);
+				timeInDate = dateGroups.get(0).getDates().get(0);
+				PublicVariables.taskEndTime = LocalDateTime.ofInstant(timeInDate.toInstant(), ZoneId.systemDefault());
 				return PublicFunctions.reselectString(argsString, preceedingWord + " " + dateString);
 			} else {
-				PublicVariables.taskStartTime = dateGroups.get(0).getDates().get(0);
+				timeInDate = dateGroups.get(0).getDates().get(0);
+				PublicVariables.taskStartTime = LocalDateTime.ofInstant(timeInDate.toInstant(), ZoneId.systemDefault());
 				return PublicFunctions.reselectString(argsString, dateString);
 			}
 		case 2:
-			
+			timeInDate = dateGroups.get(0).getDates().get(0);
+			PublicVariables.taskStartTime = LocalDateTime.ofInstant(timeInDate.toInstant(), ZoneId.systemDefault());
+			timeInDate = dateGroups.get(0).getDates().get(1);
+			PublicVariables.taskEndTime = LocalDateTime.ofInstant(timeInDate.toInstant(), ZoneId.systemDefault());
+			if (PublicVariables.startTimeWords.contains(preceedingWord)) {
+				return PublicFunctions.reselectString(argsString, preceedingWord + " " + dateString);
+			} else {
+				return PublicFunctions.reselectString(argsString, dateString);
+			}
 		case 3:
+			
 		default:
 
 		}

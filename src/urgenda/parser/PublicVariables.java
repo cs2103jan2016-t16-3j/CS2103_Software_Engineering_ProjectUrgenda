@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -86,8 +85,8 @@ public class PublicVariables {
 	public static int taskIndex;
 	public static String taskDescription;
 	public static String taskLocation;
-	public static Date taskStartTime;
-	public static Date taskEndTime;
+	public static LocalDateTime taskStartTime;
+	public static LocalDateTime taskEndTime;
 	public static ArrayList<String> taskHashtags;
 	public static MultipleSlot taskSlots;
 
