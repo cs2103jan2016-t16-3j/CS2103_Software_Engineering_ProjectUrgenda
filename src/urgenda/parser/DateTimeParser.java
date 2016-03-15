@@ -68,6 +68,9 @@ public class DateTimeParser {
 			} else if (PublicVariables.endTimeWords.contains(preceedingWord)) {
 				timeInDate = dateGroups.get(0).getDates().get(0);
 				PublicVariables.taskEndTime = getLocalDateTimeFromDate(timeInDate);
+//				System.out.print(dateString + "\n");
+//				System.out.print(preceedingWord + "\n");
+//				System.out.print(PublicFunctions.reselectString(argsString, preceedingWord + " " + dateString) + "\n");
 				return PublicFunctions.reselectString(argsString, preceedingWord + " " + dateString);
 			} else {
 				timeInDate = dateGroups.get(0).getDates().get(0);
