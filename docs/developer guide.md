@@ -66,6 +66,7 @@
 # Logic Component
 ![Logic](/docs/UML Diagrams/Logic.png)
 > Figure 3: Structure of Logic component
+The Logic component is accessible through the `Logic` class using the facade pattern, in which it is in charge of handling the execution of user inputs from the GUI component. This component only relies on the Parser component and Storage component and works independently from the GUI component.
 
 ## Logic Class
 ## LogicData Class
