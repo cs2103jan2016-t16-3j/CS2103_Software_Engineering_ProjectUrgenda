@@ -32,10 +32,10 @@ import urgenda.util.*;
 public class CommandParser {
 	public static Command parseCommand(String commandString, int index) {
 		PublicFunctions.reinitializePublicVariables();
-		
-		COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
+
+		PublicVariables.commandType = CommandTypeParser.getCommandType(commandString);
 		String argsString = CommandTypeParser.getArgsString(commandString);
-		Command testReturn = generateAndReturnCommandObjects(commandType, argsString, index);
+		Command testReturn = generateAndReturnCommandObjects(PublicVariables.commandType, argsString, index);
 
 		if (testReturn instanceof Invalid) {
 			AddCommandParser addCommand = new AddCommandParser(commandString, index);

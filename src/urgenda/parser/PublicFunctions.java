@@ -1,7 +1,9 @@
 package urgenda.parser;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +20,7 @@ public class PublicFunctions {
 			String removedFirstWord = commandString.split("\\s+", 2)[1];
 			Matcher matcher = Pattern.compile("\\s+").matcher(removedFirstWord);
 			while (matcher.find()) {
-				removedFirstWord.replace(matcher.group(), " ");
+				removedFirstWord = removedFirstWord.replace(matcher.group(), " ");
 			} 
 			return removedFirstWord;
 		} catch (Exception e) {
@@ -52,11 +54,11 @@ public class PublicFunctions {
 		String temp = argsString;
 		Matcher matcher = Pattern.compile(removedString).matcher(temp);
 		while (matcher.find()) {
-			temp.replace(matcher.group(), "");
+			temp = temp.replace(matcher.group(), "");
 		}
 		matcher = Pattern.compile("\\s+").matcher(temp);
 		while (matcher.find()) {
-			temp.replace(matcher.group(), " ");
+			temp = temp.replace(matcher.group(), " ");
 		} 
 		return temp;
 	}

@@ -14,6 +14,8 @@ import org.ocpsoft.prettytime.nlp.parse.DateGroup;
 import urgenda.command.AddTask;
 import urgenda.command.Command;
 import urgenda.command.DeleteTask;
+import urgenda.parser.CommandParser;
+import urgenda.parser.PublicVariables;
 import urgenda.util.Task;
 //import com.joestelmach.natty.*;
 
@@ -28,23 +30,31 @@ public class test {
 	public static void main(String[] args) {
 		while (true) {
 			String input = getUserInput();
-			
-			PrettyTimeParser p = new PrettyTimeParser();
-			List<Date> dateTimes = p.parse(input);
-			for (Date test : dateTimes) {
-				System.out.println(test + "\nEnd\n");
-			}
-			
-			List<DateGroup> parse = new PrettyTimeParser().parseSyntax(input);
-			for (int i = 0; i < parse.size(); i++) {
-				for (int j = 0; j < parse.get(i).getDates().size(); j++) {
-					String formatted = new PrettyTime().format(parse.get(i).getDates().get(j));
-					System.out.print(parse.get(i).getDates().get(j) + "\n");
-					System.out.print(formatted + "\n");
-				}
-				System.out.print(parse.get(i).getText() + "\n");
-				System.out.print(parse.get(i).getPosition() + "\n");
-			}
+			CommandParser.parseCommand(input, 5);
+			System.out.print(PublicVariables.taskDescription + "\n");
+			System.out.print(PublicVariables.taskIndex + "\n");
+			System.out.print(PublicVariables.taskLocation + "\n");
+			System.out.print(PublicVariables.taskStartTime + "\n");
+			System.out.print(PublicVariables.taskEndTime + "\n");
+			System.out.print(PublicVariables.taskHashtags + "\n");
+			System.out.print(PublicVariables.taskType + "\n");
+			// PrettyTimeParser p = new PrettyTimeParser();
+			// List<Date> dateTimes = p.parse(input);
+			// for (Date test : dateTimes) {
+			// System.out.println(test + "\nEnd\n");
+			// }
+			//
+			// List<DateGroup> parse = new PrettyTimeParser()parseSyntax(input);
+			// for (int i = 0; i < parse.size(); i++) {
+			// for (int j = 0; j < parse.get(i).getDates().size(); j++) {
+			// String formatted = new
+			// PrettyTime().format(parse.get(i).getDates().get(j));
+			// System.out.print(parse.get(i).getDates().get(j) + "\n");
+			// System.out.print(formatted + "\n");
+			// }
+			// System.out.print(parse.get(i).getText() + "\n");
+			// System.out.print(parse.get(i).getPosition() + "\n");
+			// }
 		}
 	}
 
