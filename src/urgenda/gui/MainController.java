@@ -1,8 +1,11 @@
 package urgenda.gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+
+import com.sun.javafx.tk.FileChooserType;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -12,13 +15,18 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class MainController {
 	
+	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
 	private static final String KEYWORD_SHOW_ALL = "home";
 	private static final String KEYWORD_DELETE = "delete";		
+	private static final String KEYWORD_CHANGE_SAVE_PATH = "saveto ";
 	private static final String KEYWORD_TESTLIST = "dummytest";
 	
 	//Elements loaded using FXML
@@ -97,6 +105,23 @@ public class MainController {
 				}
 				return;
 			}
+	}
+	
+	@FXML
+	private void savePathChangeListener(ActionEvent e) {
+		String feedback;
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle(TITLE_SAVE_DIRECTORY);
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(".txt files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        //TODO remove comment when method is created in logic
+        //fileChooser.setInitialDirectory(_main.getSaveDirectory());
+		File selectedFileDirectory = fileChooser.showSaveDialog(new Stage());
+		if(selectedFileDirectory != null) {
+			feedback = _main.handleCommandLine(KEYWORD_CHANGE_SAVE_PATH + selectedFileDirectory.getAbsolutePath());
+			displayFeedback(feedback);
+			inputBar.clear();
+		}
 	}
 	
 	@FXML
