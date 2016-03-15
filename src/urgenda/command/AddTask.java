@@ -5,11 +5,10 @@ import java.time.LocalDateTime;
 // import java.util.logging.Logger;
 
 import urgenda.logic.LogicData;
+import urgenda.util.MyLogger;
 import urgenda.util.Task;
 
 public class AddTask extends TaskCommand {
-	
-	// private static Logger theLogger = Logger.getLogger(AddTask.class.getName());
 	
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
@@ -26,8 +25,11 @@ public class AddTask extends TaskCommand {
 		_newTask = newTask;
 	}
 	
+	@SuppressWarnings("static-access")
 	public String execute(LogicData dataStorage) throws Exception {
-		// theLogger.warning("Can cause exception");
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.warning("Can cause exception");
+		
 		_data = dataStorage;
 		LocalDateTime now = LocalDateTime.now();
 		_newTask.setId(_data.getCurrentId());
@@ -40,8 +42,7 @@ public class AddTask extends TaskCommand {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			_data.setTaskPointer(_newTask);
 		} catch (Exception e) {
-			// theLogger.log(Level.SEVERE, "Exception occur", e);
-			
+			logger.myLogger.severe("Exception occurred" + e);			
 			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 			// throws exception to prevent AddTask being added to undo stack
 			throw new Exception(MESSAGE_ERROR + e.getMessage());

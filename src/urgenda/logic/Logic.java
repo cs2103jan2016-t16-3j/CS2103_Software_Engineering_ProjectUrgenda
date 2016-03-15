@@ -1,14 +1,8 @@
 package urgenda.logic;
 
-import java.io.IOException;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import urgenda.command.Command;
 import urgenda.parser.Parser;
+import urgenda.util.MyLogger;
 import urgenda.util.StateFeedback;
 
 public class Logic {
@@ -18,10 +12,6 @@ public class Logic {
 	private LogicData _logicData;
 	private LogicCommand _logicCommand;
 	
-	private static Logger myLogger = Logger.getLogger(Logic.class.getName());
-	private static Handler consoleHandler = null;
-	private static Handler fileHandler = null;
-
 	// Default constructor for Logic
 	public Logic() {
 		_logicData = new LogicData();
@@ -29,22 +19,11 @@ public class Logic {
 	}
 	
 	
+	@SuppressWarnings("static-access")
 	public StateFeedback executeCommand(String command, int index) {
-		/* try {
-		consoleHandler = new ConsoleHandler();
-		fileHandler  = new FileHandler("UrgendaLog.txt",true);
-		myLogger.addHandler(consoleHandler);
-		myLogger.addHandler(fileHandler);
-		consoleHandler.setLevel(Level.ALL);
-		fileHandler.setLevel(Level.ALL);
-		myLogger.setLevel(Level.ALL);
-		myLogger.config("Configuration done.");
-		myLogger.removeHandler(consoleHandler);
-		} catch (IOException e){
-			myLogger.log(Level.SEVERE, "Error occur in FileHandler.", e);
-		} */
 		
-		myLogger.info("executing userinput: " + command);
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("executing user input: " + command);
 		
 		assert (index >= -1); // asserts that given index is non-negative OR -1(case when there is no tasks)
 		
@@ -63,42 +42,19 @@ public class Logic {
 		return state;
 	}
 	
+	@SuppressWarnings("static-access")
 	public String displayHelp() {
-		/* try {
-			consoleHandler = new ConsoleHandler();
-			fileHandler  = new FileHandler("UrgendaLog.txt",true);
-			myLogger.addHandler(consoleHandler);
-			myLogger.addHandler(fileHandler);
-			consoleHandler.setLevel(Level.ALL);
-			fileHandler.setLevel(Level.ALL);
-			myLogger.setLevel(Level.ALL);
-			myLogger.config("Configuration done.");
-			myLogger.removeHandler(consoleHandler);
-			} catch (IOException e){
-				myLogger.log(Level.SEVERE, "Error occur in FileHandler.", e);
-			} */
 		
-		myLogger.info("Help fn has been called");
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("Help fn has been called");
 		
 		return _logicData.generateHelpManual();
 	}
 	
+	@SuppressWarnings("static-access")
 	public StateFeedback retrieveStartupState() {
-		try {
-			consoleHandler = new ConsoleHandler();
-			fileHandler  = new FileHandler("UrgendaLog.txt",true);
-			myLogger.addHandler(consoleHandler);
-			myLogger.addHandler(fileHandler);
-			consoleHandler.setLevel(Level.ALL);
-			fileHandler.setLevel(Level.ALL);
-			myLogger.setLevel(Level.ALL);
-			myLogger.config("Configuration done.");
-			myLogger.removeHandler(consoleHandler);
-			} catch (IOException e){
-				myLogger.log(Level.SEVERE, "Error occur in FileHandler.", e);
-			}
-		
-		myLogger.info("retrieving prev launched info");
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("Retrieving prev launched info");
 		
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(MESSAGE_WELCOME);
