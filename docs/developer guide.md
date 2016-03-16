@@ -56,11 +56,13 @@ The executeCommand(String) method will then return the appropriate feedback to i
 `Command` is an abstract class that uses the Command Pattern and holds the `execute()` method where the generic execution of `Command.execute()` can be used. Classes that extends from it will have their own implementation of the `execute()` method. `TaskCommand` is another abstract class which extends `Command` and is for commands that deal with manipulation of Task objects. `TaskCommand` has two abstract functions which are `Undo()` and `Redo()` which are also implemented separately by the child classes to revert the changes made by that command. 
 
 # Parser Component
+![Parser](/docs/UML Diagrams/Parser.png)
+> Figure 6: Structure of Parser component
 ## Parser Class
 
 # Storage Component
 ![Storage](/docs/UML Diagrams/Storage.png)
-> Figure 6: Structure of Storage component
+> Figure 7: Structure of Storage component
 
 The Storage component is accessible through the `Storage` class using the facade pattern, where it handles and directs file manipulation using the respective classes. Gestalt's Principle is used in this component to enhance the cohesiveness of each class and reduce the coupling, where only necessary dependencies are utilized. The functions of each class are grouped accordingly to the very meaning that each class name suggest. 
 
@@ -93,7 +95,7 @@ Method | Return type and function
 
 ### Sequence diagram `updateArrayList`
 ![updateArrayListSD](/docs/UML Diagrams/updateSDStorage.png)
-> Figure 7: Sequence diagram of `updateArrayList()`
+> Figure 8: Sequence diagram of `updateArrayList()`
 
 `updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`.
 
@@ -101,7 +103,7 @@ Method | Return type and function
 
 ### Sequence diagram `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
 ![saveSD](/docs/UML Diagrams/saveSDStorage.png)
-> Figure 8: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
+> Figure 9: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
 
 `save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it.
 
@@ -109,7 +111,7 @@ Method | Return type and function
 
 ### Sequence diagram `changeFileSettings(String path, String name)`
 ![changeFileSettingsSD](/docs/UML Diagrams/changeFileSettingsSDStorage.png)
-> Figure 9: Sequence diagram of `changeFileSettings(String path, String name)`
+> Figure 10: Sequence diagram of `changeFileSettings(String path, String name)`
 
 `changeFilePath(String path)` and `changeFileName(String name)` are similar methods to `changeFileSettings(String path, String name)`, whereby the latter changes both the name and the directory the datafile is saved in.
 `changeFileSettings(String path, String name)` has two parts to it:
