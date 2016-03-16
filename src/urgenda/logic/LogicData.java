@@ -381,4 +381,8 @@ public class LogicData {
 		_showMoreTasks.clear();
 	}
 
+	public String retrieveCurrentDirectory() {
+		return _storage.getDirPath();
+	}
+
 }

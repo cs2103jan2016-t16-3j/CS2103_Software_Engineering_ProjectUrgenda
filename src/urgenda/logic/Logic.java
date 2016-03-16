@@ -60,4 +60,9 @@ public class Logic {
 		state.setFeedback(MESSAGE_WELCOME);
 		return state;
 	}
+
+
+	public String getCurrentSaveDirectory() {
+		return _logicData.retrieveCurrentDirectory();
+	}
 }

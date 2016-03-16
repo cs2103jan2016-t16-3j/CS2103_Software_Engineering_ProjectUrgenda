@@ -115,7 +115,7 @@ public class MainController {
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(".txt files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
         //TODO remove comment when method is created in logic
-        //fileChooser.setInitialDirectory(_main.getSaveDirectory());
+        fileChooser.setInitialDirectory(_main.getSaveDirectory());
 		File selectedFileDirectory = fileChooser.showSaveDialog(new Stage());
 		if(selectedFileDirectory != null) {
 			feedback = _main.handleCommandLine(KEYWORD_CHANGE_SAVE_PATH + selectedFileDirectory.getAbsolutePath());
