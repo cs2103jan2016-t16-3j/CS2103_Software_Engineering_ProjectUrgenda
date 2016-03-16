@@ -21,7 +21,7 @@ public class PublicFunctions {
 			Matcher matcher = Pattern.compile("\\s+").matcher(removedFirstWord);
 			while (matcher.find()) {
 				removedFirstWord = removedFirstWord.replace(matcher.group(), " ");
-			} 
+			}
 			return removedFirstWord;
 		} catch (Exception e) {
 			return null;
@@ -45,11 +45,15 @@ public class PublicFunctions {
 	}
 
 	public static String getPreceedingWord(int position, String argsString) {
-		argsString = argsString.substring(0, position - 1);
-		String[] splittedString = argsString.split("\\s+");
-		return splittedString[splittedString.length - 1];
+		if (position == 0) {
+			return "";
+		} else {
+			argsString = argsString.substring(0, position - 1);
+			String[] splittedString = argsString.split("\\s+");
+			return splittedString[splittedString.length - 1];
+		}
 	}
-	
+
 	public static String reselectString(String argsString, String removedString) {
 		String temp = argsString;
 		Matcher matcher = Pattern.compile(removedString).matcher(temp);
@@ -59,7 +63,7 @@ public class PublicFunctions {
 		matcher = Pattern.compile("\\s+").matcher(temp);
 		while (matcher.find()) {
 			temp = temp.replace(matcher.group(), " ");
-		} 
+		}
 		return temp;
 	}
 }

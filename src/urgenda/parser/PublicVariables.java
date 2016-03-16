@@ -57,11 +57,11 @@ public class PublicVariables {
 	public static final Set<String> sundayWords = new HashSet<String>(Arrays.asList(new String[] { "sunday", "sun" }));
 
 	public static final Set<String> startTimeWords = new HashSet<String>(
-			Arrays.asList(new String[] { "on", "at", "from", "of" }));
+			Arrays.asList(new String[] { "on", "at", "from", "of", "starting"}));
 	public static final Set<String> endTimeWords = new HashSet<String>(
 			Arrays.asList(new String[] { "by", "latest", "before" }));
 	public static final Set<String> periodWords = new HashSet<String>(
-			Arrays.asList(new String[] { "between", "within" }));
+			Arrays.asList(new String[] { "between", "within", "spanning" }));
 
 	public static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
 	public static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])([-/.])20\\d\\d)";
