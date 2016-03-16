@@ -19,8 +19,8 @@ public class Complete extends TaskCommand {
 	private Task _completedTask;
 	private LogicData _data;
 	
-	public String execute(LogicData data) throws Exception {
-		_data = data;
+	public String execute() throws Exception {
+		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		if (_desc != null) {
 			matches = _data.findMatchingDesc(_desc);

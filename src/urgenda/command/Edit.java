@@ -26,8 +26,8 @@ public class Edit extends TaskCommand {
 		_newTask = newtask;
 	}
 
-	public String execute(LogicData data) throws Exception {
-		_data = data;
+	public String execute() throws Exception {
+		_data = LogicData.getInstance();
 		if (_id != null && _id.intValue() != -1) {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
 		}

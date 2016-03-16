@@ -24,9 +24,9 @@ public class DeleteTask extends TaskCommand {
 	private Task _deletedTask;
 	private LogicData _data;
 	
-	public String execute(LogicData data) throws Exception {
+	public String execute() throws Exception {
 		theLogger.warning("Can cause exception");
-		_data = data;
+		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		if (_desc != null) {
 			matches = _data.findMatchingDesc(_desc);

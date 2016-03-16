@@ -6,7 +6,8 @@ public class Home extends Command {
 	
 	private static final String MESSAGE_HOME = "Showing all tasks";
 
-	public String execute(LogicData data) {
+	public String execute() {
+		LogicData data = LogicData.getInstance();
 		data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		return MESSAGE_HOME;
 	}

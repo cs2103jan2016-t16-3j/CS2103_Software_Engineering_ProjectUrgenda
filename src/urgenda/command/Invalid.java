@@ -18,7 +18,8 @@ public class Invalid extends Command {
 	}
 
 	// TODO set to default pointer at current pointer position
-	public String execute(LogicData data) {
+	public String execute() {
+		LogicData data = LogicData.getInstance();
 		data.setCurrState(LogicData.DisplayState.INVALID_COMMAND);
 		if (_command.equals("")) {
 			return null;

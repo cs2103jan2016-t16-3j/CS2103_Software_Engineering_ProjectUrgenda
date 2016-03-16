@@ -31,9 +31,9 @@ public class BlockSlots extends TaskCommand {
 	}
 	
 	// if default constructor is used, ensure that _block desc set
-	public String execute(LogicData data) {
+	public String execute() {
 		assert (_block.getDesc() != null); // asserts that the desc is set
-		_data = data;
+		_data = LogicData.getInstance();
 		setDateAddedAndModified();
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		_data.setTaskPointer(_taskBlocks.get(0));

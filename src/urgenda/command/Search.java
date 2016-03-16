@@ -39,7 +39,8 @@ public class Search extends Command {
 		_searchMonth = input;
 	}
 
-	public String execute(LogicData data) { // TODO: Further refactoring,exception handling and considering searching for task type
+	public String execute() { // TODO: Further refactoring,exception handling and considering searching for task type
+		LogicData data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		String feedback = null;
 		

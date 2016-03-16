@@ -14,8 +14,8 @@ public class Logic {
 	
 	// Default constructor for Logic
 	public Logic() {
-		_logicData = new LogicData();
-		_logicCommand = new LogicCommand(_logicData);
+		_logicData = LogicData.getInstance();
+		_logicCommand = new LogicCommand();
 	}
 	
 	

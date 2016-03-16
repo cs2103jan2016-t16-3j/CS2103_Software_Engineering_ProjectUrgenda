@@ -19,6 +19,9 @@ public class LogicData {
 		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, 
 		EXIT, INVALID_COMMAND, HELP, INVALID_TASK
 	}
+	
+	// Singleton pattern to ensure that there is only one logicData
+	private static LogicData _logicData;
 
 	// for storage of full lists of tasks
 	private ArrayList<Task> _tasks;
@@ -35,8 +38,8 @@ public class LogicData {
 
 	private int _currentId;
 
-	// default constructor for initialization of empty path
-	public LogicData() {
+	// default constructor where singleton pattern is applied
+	private LogicData() {
 		_storage = new Storage();
 		// updates arraylists from stored task objects into respective arraylists
 		_tasks = _storage.updateCurrentTaskList();
@@ -46,6 +49,13 @@ public class LogicData {
 		_showMoreTasks = new ArrayList<Task>();
 		// sets the next id to be used for future labelling of tasks
 		_currentId = _tasks.size() + 1;
+	}
+	
+	public static LogicData getInstance() {
+		if (_logicData == null) {
+			_logicData = new LogicData();
+		}
+		return _logicData;
 	}
 
 	public void saveContents() {

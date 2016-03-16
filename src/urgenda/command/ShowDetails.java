@@ -14,8 +14,8 @@ public class ShowDetails extends TaskCommand {
 	private Task _task;
 	private LogicData _data;
 
-	public String execute(LogicData data) throws Exception {
-		_data = data;
+	public String execute() throws Exception {
+		_data = LogicData.getInstance();
 		if (_position != null && _position.intValue() != -1) {
 			_task = _data.findMatchingPosition(_position.intValue());
 		}

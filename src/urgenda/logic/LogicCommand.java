@@ -16,13 +16,11 @@ public class LogicCommand {
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
 	private static final String MESSAGE_EMPTY_REDO = "Nothing to redo";
 	
-	private LogicData _logicData;
-
 	private Deque<TaskCommand> _undos;
 	private Deque<TaskCommand> _redos;
 
-	public LogicCommand(LogicData logicData) {
-		_logicData = logicData;
+	// default constructor for logic command
+	public LogicCommand() {
 		_undos = new ArrayDeque<TaskCommand>();
 		_redos = new ArrayDeque<TaskCommand>();
 	}	
@@ -36,13 +34,13 @@ public class LogicCommand {
 		String feedback;
 		try {
 			if (currCmd instanceof Undo){ // TODO merge if doesnt compromise on readability
-				feedback = currCmd.execute(_logicData);
+				feedback = currCmd.execute();
 				feedback = undoCommand(feedback);
 			} else if (currCmd instanceof Redo) {
-				feedback = currCmd.execute(_logicData);
+				feedback = currCmd.execute();
 				feedback = redoCommand(feedback);
 			} else {
-				feedback = currCmd.execute(_logicData);
+				feedback = currCmd.execute();
 				addUndo(currCmd);
 			}
 		} catch (Exception e) { // TODO might need to upgrade exceptions without affecting the command execute header

@@ -14,7 +14,7 @@ public abstract class Command {
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 
 	// for execution of specific command
-	public abstract String execute(LogicData data) throws Exception;
+	public abstract String execute() throws Exception;
 
 	// for generation of messages of the task given as input
 	public String taskMessage(Task task) {

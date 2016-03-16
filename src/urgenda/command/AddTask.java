@@ -26,11 +26,11 @@ public class AddTask extends TaskCommand {
 	}
 	
 	@SuppressWarnings("static-access")
-	public String execute(LogicData dataStorage) throws Exception {
+	public String execute() throws Exception {
 		MyLogger logger = MyLogger.getInstance();
 		logger.myLogger.warning("Can cause exception");
 		
-		_data = dataStorage;
+		_data = LogicData.getInstance();
 		LocalDateTime now = LocalDateTime.now();
 		_newTask.setId(_data.getCurrentId());
 		_newTask.setDateAdded(now);
