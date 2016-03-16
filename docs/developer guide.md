@@ -64,7 +64,7 @@
 ## TaskController Class
 ## TaskDetailsController Class
 # Logic Component
-![Logic](/docs/UML Diagrams/Logic.png)
+![Logic](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Logic.png?raw=true)
 > Figure 3: Structure of Logic component
 
 The Logic component is accessible through the `Logic` class using the facade pattern, in which it is in charge of handling the execution of user inputs from the UI component. This component only relies on the Parser component and Storage component and works independently from the UI component.
@@ -72,7 +72,7 @@ The Logic component is accessible through the `Logic` class using the facade pat
 ## Logic Class
 ## LogicData Class
 # Command Component
-![Command](/https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.xml)
+![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
 > Figure 4: Structure of Command component
 
 ## AddTask Class
