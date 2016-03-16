@@ -6,7 +6,6 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import urgenda.storage.Storage;
@@ -170,7 +169,7 @@ public class LogicData {
 			}
 		}
 		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.log(Level.INFO, "Find matching desc", desc);
+		logger.myLogger.info("Find matching desc: " + desc);
 		return matches;
 	}
 
