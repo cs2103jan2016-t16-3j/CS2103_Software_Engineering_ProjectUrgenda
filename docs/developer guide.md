@@ -116,7 +116,7 @@ As mentioned above, apart from the `Storage` class which acts as the facade, all
 Class | Function
 --- | ---
 `FileEditor` | Contains all the file manipulation methods that is required in the `Storage` component - retrieving from file, writing to file, renaming, moving to other directories, clearing the file. Essentially, only this class can access and manipulate the actual file itself
-`JsonCipher` | The primary ciphering tool. `Storage` uses the external library Gson that allows conversion of objects to a string. In this class, instead of converting directly from a `Task` to a `String`, a `Task` is converted to a `LinkedHashMap<String, String>`, then converted into a `String`. This allows for easier conversion back into a `Task` from a `String`. `JsonCipher` provides the tools required for converting from `Task` <-> `LinkedHashMap<String, String>` <-> `String`
+`JsonCipher` | The primary ciphering tool. `Storage` uses the external library Gson that allows conversion of objects to a string. In this class, instead of converting directly from a `Task` to a `String`, a `Task` is converted to a `LinkedHashMap<String, String>`, then converted into a `String`. This allows for easier conversion back into a `Task` from a `String`. `JsonCipher` provides the tools required for converting from `Task` <=> `LinkedHashMap<String, String>` <=> `String`
 `Encryptor` | A subclass of `JsonCipher`, the role of `Encryptor` is to encrypt all `Task` into a `String` using `JsonCipher` as a means of doing so.
 `Decryptor` | A subclass of `JsonCipher`, the role of `Decryptor` is to decrypt all `String` into a `Task` using `JsonCipher` as a means of doing so.
 `SettingsEditor` | This class handles all matters related to the settings of the user, in order not to mix it with the actual data file. File manipulation and encryption/decryption is done using the `FileEditor` class and through `JsonCipher` directly, since there is no need `Task` involved with the settings. 
@@ -129,3 +129,20 @@ Method | Return type and function
 `save(ArrayList<Task> tasks, ArrayList<Task> archives)` | Void function. This method is used to store all tasks in the datafile, for easy retrieval, relocation to another computer. 
 `changeFileSettings(String path, String name)` | Void function. This method allows the datafile to be renamed and move to other directories/folders through Urgenda itself, with no need to enter File Explorer
 
+![updateArrayListSD](/docs/UML Diagrams/updateSDStorage.png)
+> Figure 7: Sequence diagram of `updateArrayList()`
+
+`updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`.
+
+![saveSD](/docs/UML Diagrams/saveSDStorage.png)
+> Figure 7: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
+
+`save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it.
+
+![saveSD](/docs/UML Diagrams/changeFileSettingsSDStorage.png)
+> Figure 7: Sequence diagram of `changeFileSettings(String path, String name)`
+
+`changeFilePath(String path)` and `changeFileName(String name)` are similar methods to `changeFileSettings(String path, String name)`, whereby the latter changes both the name and the directory the datafile is saved in.
+`changeFileSettings(String path, String name)` has two parts to it:
+* edit the preferred file name and file location in `settings.txt`
+* rename/relocate the actual datafile with the preferred name to the preferred location
