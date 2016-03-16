@@ -44,43 +44,37 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "urgent", "important", "pri", "impt" }));
 	public static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(new String[] { "exit", "quit" }));
 
-	public static final Set<String> mondayWords = new HashSet<String>(Arrays.asList(new String[] { "monday", "mon" }));
-	public static final Set<String> tuesdayWords = new HashSet<String>(
-			Arrays.asList(new String[] { "tuesday", "tues", "tue" }));
-	public static final Set<String> wednesdayWords = new HashSet<String>(
-			Arrays.asList(new String[] { "wednesday", "wed" }));
-	public static final Set<String> thursdayWords = new HashSet<String>(
-			Arrays.asList(new String[] { "thursday", "thurs", "thu" }));
-	public static final Set<String> fridayWords = new HashSet<String>(Arrays.asList(new String[] { "friday", "fri" }));
-	public static final Set<String> saturdayWords = new HashSet<String>(
-			Arrays.asList(new String[] { "saturday", "sat" }));
-	public static final Set<String> sundayWords = new HashSet<String>(Arrays.asList(new String[] { "sunday", "sun" }));
-
+	public static final Set<String> janWords = new HashSet<String>(
+			Arrays.asList(new String[] { "jan", "january" }));
+	public static final Set<String> febWords = new HashSet<String>(
+			Arrays.asList(new String[] { "feb", "february" }));
+	public static final Set<String> marWords = new HashSet<String>(
+			Arrays.asList(new String[] { "mar", "march" }));
+	public static final Set<String> aprWords = new HashSet<String>(
+			Arrays.asList(new String[] { "apr", "april" }));
+	public static final Set<String> mayWords = new HashSet<String>(
+			Arrays.asList(new String[] { "may"}));
+	public static final Set<String> junWords = new HashSet<String>(
+			Arrays.asList(new String[] { "jun", "june" }));
+	public static final Set<String> julWords = new HashSet<String>(
+			Arrays.asList(new String[] { "jul", "july" }));
+	public static final Set<String> augWords = new HashSet<String>(
+			Arrays.asList(new String[] { "aug", "august" }));
+	public static final Set<String> sepWords = new HashSet<String>(
+			Arrays.asList(new String[] { "sep", "sept", "september" }));
+	public static final Set<String> octWords = new HashSet<String>(
+			Arrays.asList(new String[] { "oct", "october" }));
+	public static final Set<String> novWords = new HashSet<String>(
+			Arrays.asList(new String[] { "nov", "november" }));
+	public static final Set<String> decWords = new HashSet<String>(
+			Arrays.asList(new String[] { "dec", "december" }));
+	
 	public static final Set<String> startTimeWords = new HashSet<String>(
 			Arrays.asList(new String[] { "on", "at", "from", "of", "starting"}));
 	public static final Set<String> endTimeWords = new HashSet<String>(
 			Arrays.asList(new String[] { "by", "latest", "before" }));
 	public static final Set<String> periodWords = new HashSet<String>(
 			Arrays.asList(new String[] { "between", "within", "spanning" }));
-
-	public static String dayOfWeekRegex = "(((next)( )+)?(monday|mon|tuesday|tues|tue|wednesday|wed|thursday|thurs|thu|friday|fri|saturday|sat|sunday|sun))";
-	public static String dateRegexWithYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])([-/.])20\\d\\d)";
-	public static String dateRegexWithoutYear = "(([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012]))";
-	public static String hourRegex12 = "([01][1-9]|2[0-3]|[1-9])";
-	public static String hourRegex24 = "([01][1-9]|2[0-4]|[1-9])";
-	public static String minuteAndSecondRegex = "([0-5][0-9]|[1-9])";
-	public static String timeRegexHour12 = hourRegex12 + "( )?(am|pm)\\b";
-	public static String timeRegexHour24 = hourRegex24 + "( )?h\\b";
-	public static String timeRegexHour12Minute = hourRegex12 + "[:]" + minuteAndSecondRegex + "( )?(am|pm)\\b";
-	public static String timeRegexHour24Minute = hourRegex24 + "[:]" + minuteAndSecondRegex + "( )?h?\\b";
-	public static String timeRegexHour12MinuteSecond = hourRegex12 + "[:]" + minuteAndSecondRegex + "[:]"
-			+ minuteAndSecondRegex + "( )?(am|pm)\\b";
-	public static String timeRegexHour24MinuteSecond = hourRegex24 + "[:]" + minuteAndSecondRegex + "[:]"
-			+ minuteAndSecondRegex + "( )?h?\\b";
-
-	public static String generalDateRegex = "(" + dateRegexWithYear + "|" + dateRegexWithoutYear + ")";
-	public static String generalTimeRegex = "(" + timeRegexHour12MinuteSecond + "|" + timeRegexHour24MinuteSecond + "|"
-			+ timeRegexHour12Minute + "|" + timeRegexHour24Minute + "|" + timeRegexHour12 + "|" + timeRegexHour24 + ")";
 
 	public static String passedInCommandString;
 	public static int passedInIndex;
