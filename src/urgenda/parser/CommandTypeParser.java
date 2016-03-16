@@ -36,6 +36,6 @@ public class CommandTypeParser {
 	}
 	
 	public static String getArgsString(String commandString) {
-		return PublicFunctions.removeFirstWord(commandString).toLowerCase();
+		return PublicFunctions.removeFirstWord(commandString);
 	}
 }

@@ -19,23 +19,23 @@ public class SearchCommandParser {
 	}
 
 	public static Command generateAndReturn() {
-		if (_argsString.equals(null)) {
+		if (_argsString == null) {
 			return new Invalid();
 		} else {
 			Search searchCommand = new Search();
 			Month testMonth = DateTimeParser.tryParseMonth(_argsString);
 			LocalDateTime testTime = DateTimeParser.tryParseTime(_argsString);
 			LocalDate testDate = DateTimeParser.tryParseDate(_argsString);
-//			if (!testMonth.equals(null)) {
+			if (testMonth != null) {
 				searchCommand.setSearchMonth(testMonth);
-//			}else if (!testTime.equals(null)) {
+			}else if (testTime != null) {
 				searchCommand.setSearchDateTime(testTime);
-//			} else if (!testDate.equals(null)) {
+			} else if (testDate != null) {
 				searchCommand.setSearchDate(testDate);
-//			} else {
+			} else {
 				TaskDetailsParser.searchTaskDescription(_argsString);
 				searchCommand.setSearchInput(PublicVariables.taskDescription);
-//			}
+			}
 			return searchCommand;
 		}
 	}

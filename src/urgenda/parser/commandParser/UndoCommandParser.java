@@ -12,7 +12,7 @@ public class UndoCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		if (_argsString.equals("")) {
+		if (_argsString == null) {
 			Undo undoCommand = new Undo();
 			return undoCommand;
 		} else {

@@ -14,7 +14,7 @@ public class PrioritiseCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		if (_argsString.equals("")) {
+		if (_argsString == null) {
 			PublicVariables.taskIndex = _index;
 		} else {
 			TaskDetailsParser.searchTaskIndex(_argsString);

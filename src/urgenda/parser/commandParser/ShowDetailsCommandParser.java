@@ -12,7 +12,7 @@ public class ShowDetailsCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		if (_argsString.equals(null)) {
+		if (_argsString == null) {
 			ShowDetails showDetailCommand = new ShowDetails();
 			showDetailCommand.setPosition(_index);
 			return showDetailCommand;

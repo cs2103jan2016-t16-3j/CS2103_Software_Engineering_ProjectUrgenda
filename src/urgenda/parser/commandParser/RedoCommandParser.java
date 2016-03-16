@@ -12,7 +12,7 @@ public class RedoCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		if (_argsString.equals("")) {
+		if (_argsString == null) {
 			Redo redoCommand = new Redo();
 			return redoCommand;
 		} else {

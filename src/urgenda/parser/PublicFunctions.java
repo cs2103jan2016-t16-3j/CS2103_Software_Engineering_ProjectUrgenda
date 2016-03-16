@@ -12,7 +12,7 @@ import urgenda.util.MultipleSlot;
 
 public class PublicFunctions {
 	public static String getFirstWord(String commandString) {
-		return commandString.split("\\s+")[0];
+		return commandString.split("\\s+")[0].toLowerCase();
 	}
 
 	public static String removeFirstWord(String commandString) {
@@ -22,7 +22,7 @@ public class PublicFunctions {
 			while (matcher.find()) {
 				removedFirstWord = removedFirstWord.replace(matcher.group(), " ");
 			}
-			return removedFirstWord.trim();
+			return removedFirstWord.trim().toLowerCase();
 		} catch (Exception e) {
 			return null;
 		}

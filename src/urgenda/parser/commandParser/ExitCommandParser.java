@@ -12,7 +12,7 @@ public class ExitCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		if (_argsString.equals("")) {
+		if (_argsString == null) {
 			Exit exitCommand = new Exit();
 			return exitCommand;
 		} else {
