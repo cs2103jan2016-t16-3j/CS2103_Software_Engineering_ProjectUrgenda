@@ -3,6 +3,7 @@ package urgenda.command;
 import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
+import urgenda.util.MyLogger;
 import urgenda.util.Task;
 
 public class Prioritise extends TaskCommand {
@@ -18,7 +19,9 @@ public class Prioritise extends TaskCommand {
 	private Task _task;
 	private LogicData _data;
 	
+	@SuppressWarnings("static-access")
 	public String execute() throws Exception {
+		MyLogger logger = MyLogger.getInstance(); 
 		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		if (_desc != null) {
@@ -29,6 +32,7 @@ public class Prioritise extends TaskCommand {
 				_data.clearDisplays();
 				_data.setDisplays(matches);
 				_data.setCurrState(LogicData.DisplayState.MULTIPLE_PRIORITISE);
+				logger.myLogger.severe("Exception(Multi-pri) thrown");
 				throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
 			} // else matches has no match hence _task remains null
 		} else if (_id != null && _id.intValue() != -1) {
@@ -36,6 +40,7 @@ public class Prioritise extends TaskCommand {
 		}
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_task == null) {
+			logger.myLogger.severe("Exception(Pri no match) thrown");
 			throw new Exception(MESSAGE_NO_MATCH);
 		} else {
 			_data.setTaskPointer(_task);
