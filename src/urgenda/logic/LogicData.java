@@ -170,7 +170,7 @@ public class LogicData {
 			}
 		}
 		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.log(Level.INFO, "Find matching desc", matches);
+		logger.myLogger.log(Level.INFO, "Find matching desc", desc);
 		return matches;
 	}
 
