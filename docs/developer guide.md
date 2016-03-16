@@ -71,7 +71,7 @@ The Logic component is accessible through the `Logic` class using the facade pat
 
 ## Logic Class
 ![Logic](/docs/UML Diagrams/Logic sequence diagram.png)
-> Figure 4: Sequence Diagram when a user command is given
+> Figure 4: Sequence Diagram when a add command is given
 
 ## LogicData Class
 # Command Component
