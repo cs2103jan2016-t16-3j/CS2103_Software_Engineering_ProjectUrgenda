@@ -64,7 +64,7 @@
 ## TaskController Class
 ## TaskDetailsController Class
 # Logic Component
-![Logic](/docs/UML Diagrams/Logic.png)
+![Logic](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Logic.png?raw=true)
 > Figure 3: Structure of Logic component
 
 The Logic component is accessible through the `Logic` class using the facade pattern, in which it is in charge of handling the execution of user inputs from the UI component. This component only relies on the Parser component and Storage component and works independently from the UI component.
@@ -75,7 +75,7 @@ The Logic component is accessible through the `Logic` class using the facade pat
 
 ## LogicData Class
 # Command Component
-![Command](/https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.xml)
+![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
 > Figure 5: Structure of Command component where the Command Pattern is used
 
 `Command` is an abstract class that uses the Command Pattern and holds the `execute()` method where the generic execution of `Command.execute()` can be used. Classes that extends from it will have their own implementation of the `execute()` method. `TaskCommand` is another abstract class which extends `Command` and is for commands that deal with manipulation of Task objects. `TaskCommand` has two abstract functions which are `Undo()` and `Redo()` which are also implemented separately by the child classes to revert the changes made by that command. 
