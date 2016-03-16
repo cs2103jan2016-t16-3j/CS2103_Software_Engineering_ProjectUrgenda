@@ -4,11 +4,6 @@
 
 ##Table of Contents
 * [Architecture](#architecture)
-* [Utility component](#utility-component)
-	* [Task class](#task-class)
-	* [TaskList class](#tasklist-class)
-	* [MultipleSlot class](#multipleslot-class)
-	* [StateFeedback class](#statefeedback-class)
 * [UI component](#ui-component)
 	* [Main class](#main-class)
 	* [MainController class](#maincontroller-class)
@@ -19,22 +14,6 @@
 	* [Logic class](#logic-class)
 	* [LogicData class](#logicdata-class)
 * [Command component](#command-component)
-	* [AddTask class](#addtask-class)
-	* [BlockSlots class](#blockslots-class)
-	* [Command class](#command-class)
-	* [Complete class](#complete-class)
-	* [DeleteTask class](#deletetask-class)
-	* [Edit class](#edit-class)
-	* [Exit class](#exit-class)
-	* [Help class](#help-class)
-	* [Invalid class](#invalid-class)
-	* [Prioritise class](#prioritise-class)
-	* [Redo class](#redo-class)
-	* [Search class](#search-class)
-	* [ShowArchive class](#showarchive-class)
-	* [ShowDetails class](#showdetails-class)
-	* [Undo class](#undo-class)
-	* [Undoable class](#undoable-class)
 * [Parser component](#parser-component)
 	* [Parser Class](#parser-class)
 * [Storage component](#storage-component)
@@ -44,11 +23,6 @@
 ![Architecture](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Architecture%20(new).png?raw=true)
 > Figure 1: Architecture of Urgenda
 
-# Utility Component
-## Task Class
-## TaskList Class
-## MultipleSlot Class
-## StateFeedback Class
 # UI Component
 ![UI](/docs/UML Diagrams/UI.png)
 > Figure 2: Structure of UI component
@@ -81,20 +55,6 @@ The executeCommand(String) method will then return the appropriate feedback to i
 
 `Command` is an abstract class that uses the Command Pattern and holds the `execute()` method where the generic execution of `Command.execute()` can be used. Classes that extends from it will have their own implementation of the `execute()` method. `TaskCommand` is another abstract class which extends `Command` and is for commands that deal with manipulation of Task objects. `TaskCommand` has two abstract functions which are `Undo()` and `Redo()` which are also implemented separately by the child classes to revert the changes made by that command. 
 
-## AddTask Class
-## BlockSlots Class
-## Command Class
-## Complete Class
-## Edit Class
-## Exit Class
-## Help Class
-## Prioritise Class
-## Redo Class
-## Search Class
-## ShowArchive Class
-## ShowDetails Class
-## Undo Class
-## Undoable Class
 # Parser Component
 ## Parser Class
 
