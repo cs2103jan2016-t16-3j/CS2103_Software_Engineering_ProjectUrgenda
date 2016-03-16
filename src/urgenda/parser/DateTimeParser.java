@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 import org.ocpsoft.prettytime.nlp.parse.DateGroup;
-import org.ocpsoft.prettytime.shade.net.fortuna.ical4j.model.DateTime;
 
 public class DateTimeParser {
 	private static ArrayList<Date> dateWithoutTime;
@@ -127,7 +126,7 @@ public class DateTimeParser {
 		}
 	}
 
-	// need refractoring
+	// need refractoring after done
 	private static String handle2DateGroups() {
 		int numberOfDatesInGroup1 = dateGroups.get(0).getDates().size();
 		int parsePositionGroup1 = dateGroups.get(0).getPosition();
@@ -154,7 +153,7 @@ public class DateTimeParser {
 
 				setTaskStartTime(LocalDateTime.of(commonDate, startTime));
 				setTaskEndTime(LocalDateTime.of(commonDate, endTime));
-				
+
 				String returnedString;
 				if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
 					returnedString = PublicFunctions.reselectString(_argsString,
@@ -168,29 +167,174 @@ public class DateTimeParser {
 				} else {
 					returnedString = PublicFunctions.reselectString(_argsString, dateStringGroup2);
 				}
-				
+
 				return returnedString;
 			} else {
+				setTaskStartTime(group2LocalDate1);
+				setTaskEndTime(group2LocalDate2);
 
+				if (PublicVariables.startTimeWords.contains(preceedingWordGroup2)) {
+					return PublicFunctions.reselectString(_argsString, preceedingWordGroup2 + " " + dateStringGroup2);
+				} else {
+					return PublicFunctions.reselectString(_argsString, dateStringGroup2);
+				}
 			}
-
 		} else if (numberOfDatesInGroup1 == 2 && numberOfDatesInGroup2 == 1) {
+			// basically reverse of case above, refractor later
+			Date group2Date = dateGroups.get(0).getDates().get(0);
+			Date group1Date1 = dateGroups.get(1).getDates().get(0);
+			Date group1Date2 = dateGroups.get(1).getDates().get(1);
+			LocalDateTime group2LocalDate = getLocalDateTimeFromDate(group2Date);
+			LocalDateTime group1LocalDate1 = getLocalDateTimeFromDate(group1Date1);
+			LocalDateTime group1LocalDate2 = getLocalDateTimeFromDate(group1Date2);
 
+			if (isDateOnly(group2Date) && isTimeOnly(group1Date1) && isTimeOnly(group1Date2)) {
+				LocalDate commonDate = group2LocalDate.toLocalDate();
+				LocalTime startTime = group1LocalDate1.toLocalTime();
+				LocalTime endTime = group1LocalDate2.toLocalTime();
+
+				setTaskStartTime(LocalDateTime.of(commonDate, startTime));
+				setTaskEndTime(LocalDateTime.of(commonDate, endTime));
+
+				String returnedString;
+				if (PublicVariables.startTimeWords.contains(preceedingWordGroup2)) {
+					returnedString = PublicFunctions.reselectString(_argsString,
+							preceedingWordGroup2 + " " + dateStringGroup2);
+				} else {
+					returnedString = PublicFunctions.reselectString(_argsString, dateStringGroup1);
+				}
+				if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
+					returnedString = PublicFunctions.reselectString(_argsString,
+							preceedingWordGroup1 + " " + dateStringGroup1);
+				} else {
+					returnedString = PublicFunctions.reselectString(_argsString, dateStringGroup1);
+				}
+
+				return returnedString;
+			} else {
+				setTaskStartTime(group1LocalDate1);
+				setTaskEndTime(group1LocalDate2);
+
+				if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
+					return PublicFunctions.reselectString(_argsString, preceedingWordGroup1 + " " + dateStringGroup1);
+				} else {
+					return PublicFunctions.reselectString(_argsString, dateStringGroup1);
+				}
+			}
 		} else if (numberOfDatesInGroup1 == 1 && numberOfDatesInGroup2 == 1) {
+			Date group1Date = dateGroups.get(0).getDates().get(0);
+			Date group2Date = dateGroups.get(1).getDates().get(0);
+			LocalDateTime group1LocalDate = getLocalDateTimeFromDate(group1Date);
+			LocalDateTime group2LocalDate = getLocalDateTimeFromDate(group2Date);
 
+			if ((isDateOnly(group1Date) && isTimeOnly(group2Date))
+					|| (isDateOnly(group2Date) && isTimeOnly(group1Date))) {
+				LocalDate dateComponent;
+				LocalTime timeComponent;
+				LocalDateTime taskDateTime;
+
+				if (isDateOnly(group1Date) && isTimeOnly(group2Date)) {
+					dateComponent = group1LocalDate.toLocalDate();
+					timeComponent = group2LocalDate.toLocalTime();
+					taskDateTime = LocalDateTime.of(dateComponent, timeComponent);
+				} else {
+					dateComponent = group2LocalDate.toLocalDate();
+					timeComponent = group1LocalDate.toLocalTime();
+					taskDateTime = LocalDateTime.of(dateComponent, timeComponent);
+				}
+				
+				if (PublicVariables.endTimeWords.contains(preceedingWordGroup1)) {
+					setTaskEndTime(taskDateTime);
+
+					if (PublicVariables.startTimeWords.contains(preceedingWordGroup2)) {
+						String reducedArgsString = PublicFunctions.reselectString(_argsString,
+								preceedingWordGroup2 + " " + dateStringGroup2);
+						reducedArgsString = PublicFunctions.reselectString(reducedArgsString,
+								preceedingWordGroup1 + " " + dateStringGroup1);
+
+						return reducedArgsString;
+					} else {
+						String reducedArgsString = PublicFunctions.reselectString(_argsString, dateStringGroup2);
+						reducedArgsString = PublicFunctions.reselectString(reducedArgsString,
+								preceedingWordGroup1 + " " + dateStringGroup1);
+
+						return reducedArgsString;
+					}
+				} else if (PublicVariables.endTimeWords.contains(preceedingWordGroup2)) {
+					setTaskEndTime(taskDateTime);
+
+					if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
+						String reducedArgsString = PublicFunctions.reselectString(_argsString,
+								preceedingWordGroup1 + " " + dateStringGroup1);
+						reducedArgsString = PublicFunctions.reselectString(reducedArgsString,
+								preceedingWordGroup2 + " " + dateStringGroup2);
+
+						return reducedArgsString;
+					} else {
+						String reducedArgsString = PublicFunctions.reselectString(_argsString, dateStringGroup1);
+						reducedArgsString = PublicFunctions.reselectString(reducedArgsString,
+								preceedingWordGroup2 + " " + dateStringGroup2);
+
+						return reducedArgsString;
+					}
+				} else {
+					setTaskStartTime(taskDateTime);
+
+					String reducedArgsString;
+
+					if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
+						reducedArgsString = PublicFunctions.reselectString(_argsString,
+								preceedingWordGroup1 + " " + dateStringGroup1);
+					} else {
+						reducedArgsString = PublicFunctions.reselectString(_argsString, dateStringGroup2);
+					}
+
+					if (PublicVariables.startTimeWords.contains(preceedingWordGroup2)) {
+						reducedArgsString = PublicFunctions.reselectString(_argsString,
+								preceedingWordGroup2 + " " + dateStringGroup2);
+					} else {
+						reducedArgsString = PublicFunctions.reselectString(_argsString, dateStringGroup2);
+					}
+
+					return reducedArgsString;
+				}
+			} else if (isDateOnly(group2Date) && isDateOnly(group1Date)) {
+				return _argsString; // can add handler
+			} else {
+				setTaskStartTime(group1LocalDate);
+				setTaskEndTime(group2LocalDate);
+				
+				String reducedArgsString;
+				
+				if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
+					reducedArgsString = PublicFunctions.reselectString(_argsString,
+							preceedingWordGroup1 + " " + dateStringGroup1);
+				} else {
+					reducedArgsString = PublicFunctions.reselectString(_argsString, dateStringGroup2);
+				}
+				
+				if (PublicVariables.endTimeWords.contains(preceedingWordGroup2)) {
+					reducedArgsString = PublicFunctions.reselectString(_argsString,
+							preceedingWordGroup2 + " " + dateStringGroup2);
+				} else {
+					reducedArgsString = PublicFunctions.reselectString(_argsString, dateStringGroup2);
+				}
+
+				return reducedArgsString;
+			}
 		} else if (numberOfDatesInGroup1 == 2 && numberOfDatesInGroup2 == 2) {
-
+			return _argsString; // can add handler
 		} else {
 			return _argsString;
 		} // can add handler
 	}
 
 	private static String handle3DateGroups() {
-
+		return _argsString;
 	}
 
 	private static String handle4DateGroups() {
-
+		return _argsString;
 	}
 
 	private static LocalDateTime getLocalDateTimeFromDate(Date date) {
