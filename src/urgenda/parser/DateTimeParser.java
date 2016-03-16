@@ -403,7 +403,7 @@ public class DateTimeParser {
 		List<DateGroup> dateGroups = new PrettyTimeParser().parseSyntax(argsString);
 		if (dateGroups.size() == 1) {
 			String parsedString = dateGroups.get(0).getText();
-			if (dateGroups.get(0).getDates().size() == 1 && parsedString.trim().equals(_argsString)) {
+			if (dateGroups.get(0).getDates().size() == 1 && parsedString.trim().equals(argsString)) {
 				List<DateGroup> dateGroups2 = new PrettyTimeParser().parseSyntax(argsString);
 				Date firstParseDate = dateGroups.get(0).getDates().get(0);
 				Date secondParseDate = dateGroups2.get(0).getDates().get(0);

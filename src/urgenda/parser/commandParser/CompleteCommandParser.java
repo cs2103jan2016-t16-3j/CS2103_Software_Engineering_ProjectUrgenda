@@ -17,8 +17,11 @@ public class CompleteCommandParser {
 		if (_argsString == null) {
 			PublicVariables.taskIndex = _index;
 		} else {
-			TaskDetailsParser.searchTaskIndex(_argsString);
-			TaskDetailsParser.searchTaskDescription(_argsString);
+			String reducedArgsString = TaskDetailsParser.searchTaskIndex(_argsString);
+			if (reducedArgsString != null) {
+				PublicVariables.taskIndex = -10;
+				TaskDetailsParser.searchTaskDescription(_argsString);
+			}
 		}
 		
 		Complete completeCommand = new Complete();
@@ -28,7 +31,7 @@ public class CompleteCommandParser {
 			completeCommand.setId(_index);
 		}
 		
-		if (PublicVariables.taskDescription.equals("")) {
+		if (!PublicVariables.taskDescription.equals("")) {
 			completeCommand.setDesc(PublicVariables.taskDescription);
 		}
 		

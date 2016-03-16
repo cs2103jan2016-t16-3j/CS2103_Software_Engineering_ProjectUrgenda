@@ -17,8 +17,11 @@ public class DeleteCommandParser {
 		if (_argsString == null) {
 			PublicVariables.taskIndex = _index;
 		} else {
-			TaskDetailsParser.searchTaskIndex(_argsString);
-			TaskDetailsParser.searchTaskDescription(_argsString);
+			String reducedArgsString = TaskDetailsParser.searchTaskIndex(_argsString);
+			if (reducedArgsString != null) {
+				PublicVariables.taskIndex = -10;
+				TaskDetailsParser.searchTaskDescription(_argsString);
+			}
 		}
 		
 		DeleteTask deleteCommand = new DeleteTask();
