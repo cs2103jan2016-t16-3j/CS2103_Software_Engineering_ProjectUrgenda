@@ -72,6 +72,9 @@ The Logic component is accessible through the `Logic` class using the facade pat
 ## Logic Class
 ## LogicData Class
 # Command Component
+![Command](/https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.xml)
+> Figure 4: Structure of Command component
+
 ## AddTask Class
 ## BlockSlots Class
 ## Command Class
