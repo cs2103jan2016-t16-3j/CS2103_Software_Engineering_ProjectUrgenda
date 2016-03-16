@@ -73,6 +73,12 @@ The Logic component is accessible through the `Logic` class using the facade pat
 ![Logic](/docs/UML Diagrams/Logic sequence diagram.png)
 > Figure 4: Sequence Diagram when a add command is given
 
+The `Logic` class contains the methods that handle the core functionality of Urgenda. It can be thought of as the "processor" of Urgenda. User inputs are passed to the `executeCommand(String,int)` to determine the corresponding command object based on the user input by the `Parser` component.
+
+After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will updates its relevant fields. `LogicData` maintains a set of data same as that displayed to the user per launch time so as to facillitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
+
+The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
+
 ## LogicData Class
 # Command Component
 ![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
