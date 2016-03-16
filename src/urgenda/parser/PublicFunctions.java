@@ -64,6 +64,6 @@ public class PublicFunctions {
 		while (matcher.find()) {
 			temp = temp.replace(matcher.group(), " ");
 		}
-		return temp;
+		return temp.trim();
 	}
 }
