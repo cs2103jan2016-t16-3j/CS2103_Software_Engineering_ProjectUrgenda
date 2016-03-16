@@ -44,7 +44,7 @@ public class LogicData {
 	@SuppressWarnings("static-access")
 	private LogicData() {
 		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.info("constucting LogicData Object");
+		logger.myLogger.info("constructing LogicData Object");
 		_storage = new Storage();
 		// updates arraylists from stored task objects into respective arraylists
 		_tasks = _storage.updateCurrentTaskList();
