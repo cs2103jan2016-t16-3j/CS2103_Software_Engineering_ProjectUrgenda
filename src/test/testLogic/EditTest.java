@@ -16,7 +16,7 @@ public class EditTest {
 
 	@Test
 	public void testExecute() throws Exception {
-		LogicData _data = new LogicData();
+		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
@@ -51,16 +51,16 @@ public class EditTest {
 		_data.setDisplays(_tasks);
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
 		Edit tester = new Edit(0,testTask);
-		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.execute(_data));
+		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.execute());
 		Task testTask2 = new Task(null, "", LocalDateTime.of(2016, Month.APRIL, 5, 10, 00),
 				LocalDateTime.of(2016, Month.APRIL, 5, 12, 00), _tags);
 		Edit tester2 = new Edit(1,testTask2);
-		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute(_data));	
+		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute());	
 	}
 	
 	@Test  //TODO: Redo test to match change in fn
 	public void testUndo() throws Exception {
-		LogicData _data = new LogicData();
+		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
@@ -72,13 +72,13 @@ public class EditTest {
 		_data.setDisplays(_tasks);
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
 		Edit tester = new Edit(0,testTask);
-		tester.execute(_data);
+		tester.execute();
 		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.undo());
 	}
 	
 	@Test //TODO: Redo test to match change in fn
 	public void testRedo() throws Exception {
-		LogicData _data = new LogicData();
+		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
@@ -90,7 +90,7 @@ public class EditTest {
 		_data.setDisplays(_tasks);
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
 		Edit tester = new Edit(0,testTask);
-		tester.execute(_data);
+		tester.execute();
 		tester.undo();
 		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.redo());
 		
