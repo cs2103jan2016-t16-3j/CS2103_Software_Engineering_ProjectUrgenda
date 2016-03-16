@@ -97,6 +97,7 @@ The executeCommand(String) method will then return the appropriate feedback to i
 ## Undoable Class
 # Parser Component
 ## Parser Class
+
 # Storage Component
 ![Storage](/docs/UML Diagrams/Storage.png)
 > Figure 6: Structure of Storage component
@@ -129,18 +130,26 @@ Method | Return type and function
 `save(ArrayList<Task> tasks, ArrayList<Task> archives)` | Void function. This method is used to store all tasks in the datafile, for easy retrieval, relocation to another computer. 
 `changeFileSettings(String path, String name)` | Void function. This method allows the datafile to be renamed and move to other directories/folders through Urgenda itself, with no need to enter File Explorer
 
+
+### Sequence diagram `updateArrayList`
 ![updateArrayListSD](/docs/UML Diagrams/updateSDStorage.png)
 > Figure 7: Sequence diagram of `updateArrayList()`
 
 `updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`.
 
+
+
+### Sequence diagram `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
 ![saveSD](/docs/UML Diagrams/saveSDStorage.png)
-> Figure 7: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
+> Figure 8: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
 
 `save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it.
 
-![saveSD](/docs/UML Diagrams/changeFileSettingsSDStorage.png)
-> Figure 7: Sequence diagram of `changeFileSettings(String path, String name)`
+
+
+### Sequence diagram `changeFileSettings(String path, String name)`
+![changeFileSettingsSD](/docs/UML Diagrams/changeFileSettingsSDStorage.png)
+> Figure 9: Sequence diagram of `changeFileSettings(String path, String name)`
 
 `changeFilePath(String path)` and `changeFileName(String name)` are similar methods to `changeFileSettings(String path, String name)`, whereby the latter changes both the name and the directory the datafile is saved in.
 `changeFileSettings(String path, String name)` has two parts to it:
