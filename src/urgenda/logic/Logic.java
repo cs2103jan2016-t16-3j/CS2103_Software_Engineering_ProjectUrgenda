@@ -18,7 +18,13 @@ public class Logic {
 		_logicCommand = new LogicCommand();
 	}
 	
-	
+	/**
+	 * Executes the command given in string format, taking the relevant position if required
+	 * 
+	 * @param command input string by the user
+	 * @param index current index pointed at by the user
+	 * @return StateFeedback which includes the current state of tasks as well as feedback line
+	 */
 	@SuppressWarnings("static-access")
 	public StateFeedback executeCommand(String command, int index) {
 		
@@ -42,6 +48,11 @@ public class Logic {
 		return state;
 	}
 	
+	/**
+	 * Generates the help manual when requested by the user
+	 * 
+	 * @return String containing the help manual
+	 */
 	@SuppressWarnings("static-access")
 	public String displayHelp() {
 		
@@ -51,6 +62,11 @@ public class Logic {
 		return _logicData.generateHelpManual();
 	}
 	
+	/**
+	 * Initialization of Logic upon launch of the program
+	 * 
+	 * @return StateFeedback containing the previously stored state
+	 */
 	@SuppressWarnings("static-access")
 	public StateFeedback retrieveStartupState() {
 		MyLogger logger = MyLogger.getInstance();
@@ -61,7 +77,11 @@ public class Logic {
 		return state;
 	}
 
-
+	/**
+	 * Retrieval of current directory where the data is stored
+	 * 
+	 * @return String of location of current directory
+	 */
 	public String getCurrentSaveDirectory() {
 		return _logicData.retrieveCurrentDirectory();
 	}
