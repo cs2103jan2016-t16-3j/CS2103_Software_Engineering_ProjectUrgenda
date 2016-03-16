@@ -25,6 +25,7 @@ public class Logic {
 	 * @param index current index pointed at by the user
 	 * @return StateFeedback which includes the current state of tasks as well as feedback line
 	 */
+	
 	@SuppressWarnings("static-access")
 	public StateFeedback executeCommand(String command, int index) {
 		
@@ -32,10 +33,12 @@ public class Logic {
 		logger.myLogger.info("executing user input: " + command);
 		
 		assert (index >= -1); // asserts that given index is non-negative OR -1(case when there is no tasks)
+		logger.myLogger.info("Checking index: " + index + " >= -1 " );
 		
 		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = Parser.parseCommand(command,index);
 		assert (currCmd != null); // asserts that parser returns a command object
+		logger.myLogger.info("Checking cmd obj: " + currCmd + " is non null");
 		
 		String feedback;
 		// To update if there are any deadlines that turned overdue
@@ -53,6 +56,7 @@ public class Logic {
 	 * 
 	 * @return String containing the help manual
 	 */
+	
 	@SuppressWarnings("static-access")
 	public String displayHelp() {
 		
@@ -67,6 +71,7 @@ public class Logic {
 	 * 
 	 * @return StateFeedback containing the previously stored state
 	 */
+	
 	@SuppressWarnings("static-access")
 	public StateFeedback retrieveStartupState() {
 		MyLogger logger = MyLogger.getInstance();
@@ -82,7 +87,10 @@ public class Logic {
 	 * 
 	 * @return String of location of current directory
 	 */
+	@SuppressWarnings("static-access")
 	public String getCurrentSaveDirectory() {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("Retrieving current help directory");
 		return _logicData.retrieveCurrentDirectory();
 	}
 }
