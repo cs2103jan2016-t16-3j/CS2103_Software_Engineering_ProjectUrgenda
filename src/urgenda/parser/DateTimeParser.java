@@ -174,7 +174,8 @@ public class DateTimeParser {
 					// + "\n");
 				}
 
-				if (PublicVariables.startTimeWords.contains(preceedingWordGroup2)) {
+				if (PublicVariables.startTimeWords.contains(preceedingWordGroup2)
+						|| PublicVariables.periodWords.contains(preceedingWordGroup2)) {
 					returnedString = PublicFunctions.reselectString(returnedString,
 							preceedingWordGroup2 + " " + dateStringGroup2);
 				} else {
@@ -218,7 +219,8 @@ public class DateTimeParser {
 					returnedString = PublicFunctions.reselectString(_argsString, dateStringGroup2);
 				}
 
-				if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
+				if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)
+						|| PublicVariables.periodWords.contains(preceedingWordGroup1)) {
 					returnedString = PublicFunctions.reselectString(returnedString,
 							preceedingWordGroup1 + " " + dateStringGroup1);
 				} else {
