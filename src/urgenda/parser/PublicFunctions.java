@@ -22,7 +22,7 @@ public class PublicFunctions {
 			while (matcher.find()) {
 				removedFirstWord = removedFirstWord.replace(matcher.group(), " ");
 			}
-			return removedFirstWord;
+			return removedFirstWord.trim();
 		} catch (Exception e) {
 			return null;
 		}

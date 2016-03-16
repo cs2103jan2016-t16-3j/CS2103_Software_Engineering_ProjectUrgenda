@@ -56,4 +56,12 @@ public class TaskDetailsParser {
 		}
 	}
 
+	public static void searchTaskIndex(String argsString) {
+		try {
+			PublicVariables.taskIndex = Integer.parseInt(argsString.trim()) - 1;
+		} catch (Exception e) {
+			return;
+		}
+	}
+
 }

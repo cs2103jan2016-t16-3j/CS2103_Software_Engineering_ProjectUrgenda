@@ -34,13 +34,10 @@ public class AddCommandParser {
 			return new Invalid();
 		} else {
 			Task newTask = new Task();
-			if (PublicVariables.taskIndex != -10) {
-				newTask.setDesc(String.valueOf(PublicVariables.taskIndex + 1));
-			}
-			if (PublicVariables.taskDescription != "") {
+			if (!PublicVariables.taskDescription.equals("")) {
 				newTask.setDesc(PublicVariables.taskDescription);
 			}
-			if (PublicVariables.taskLocation != "") {
+			if (!PublicVariables.taskLocation.equals("")) {
 				newTask.setLocation(PublicVariables.taskLocation);
 			}
 			if (PublicVariables.taskStartTime != null) {

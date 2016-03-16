@@ -3,8 +3,8 @@ package urgenda.parser.commandParser;
 import urgenda.command.*;
 
 public class UndoCommandParser {
-	private String _argsString;
-	private int _index;
+	private static String _argsString;
+	private static int _index;
 	
 	public UndoCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -12,6 +12,11 @@ public class UndoCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		return new Invalid();
+		if (_argsString.equals("")) {
+			Undo undoCommand = new Undo();
+			return undoCommand;
+		} else {
+			return new Invalid();
+		}
 	}
 }

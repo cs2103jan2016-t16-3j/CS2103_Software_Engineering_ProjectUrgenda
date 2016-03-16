@@ -3,8 +3,8 @@ package urgenda.parser.commandParser;
 import urgenda.command.*;
 
 public class ExitCommandParser {
-	private String _argsString;
-	private int _index;
+	private static String _argsString;
+	private static int _index;
 	
 	public ExitCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -12,6 +12,11 @@ public class ExitCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		return new Invalid();
+		if (_argsString.equals("")) {
+			Exit exitCommand = new Exit();
+			return exitCommand;
+		} else {
+			return new Invalid();
+		}
 	}
 }

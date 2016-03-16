@@ -3,8 +3,8 @@ package urgenda.parser.commandParser;
 import urgenda.command.*;
 
 public class RedoCommandParser {
-	private String _argsString;
-	private int _index;
+	private static String _argsString;
+	private static int _index;
 	
 	public RedoCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -12,6 +12,11 @@ public class RedoCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		return new Invalid();
+		if (_argsString.equals("")) {
+			Redo redoCommand = new Redo();
+			return redoCommand;
+		} else {
+			return new Invalid();
+		}
 	}
 }

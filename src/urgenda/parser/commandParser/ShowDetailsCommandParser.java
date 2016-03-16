@@ -3,8 +3,8 @@ package urgenda.parser.commandParser;
 import urgenda.command.*;
 
 public class ShowDetailsCommandParser {
-	private String _argsString;
-	private int _index;
+	private static String _argsString;
+	private static int _index;
 	
 	public ShowDetailsCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -12,6 +12,12 @@ public class ShowDetailsCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		return new Invalid();
+		if (_argsString.equals(null)) {
+			ShowDetails showDetailCommand = new ShowDetails();
+			showDetailCommand.setPosition(_index);
+			return showDetailCommand;
+		} else {
+			return new Invalid();
+		}
 	}
 }
