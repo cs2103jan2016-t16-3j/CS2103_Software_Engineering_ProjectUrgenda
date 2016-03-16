@@ -39,11 +39,6 @@
 	* [Parser Class](#parser-class)
 * [Storage component](#storage-component)
 	* [Storage class](#storage-class)
-	* [FileEditor class](#fileeditor-class)
-	* [JsonCipher class](#jsoncipher-class)
-	* [Encryptor class](#encryptor-class)
-	* [Decryptor class](#decryptor-class)
-	* [SetingsEditor class](#settingseditor-class)
 
 # Architecture
 ![Architecture](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Architecture%20(new).png?raw=true)
@@ -106,10 +101,31 @@ The executeCommand(String) method will then return the appropriate feedback to i
 ![Storage](/docs/UML Diagrams/Storage.png)
 > Figure 6: Structure of Storage component
 
-The Storage component is accessible through the `Storage` class using the facade pattern, where it handles and directs file manipulation using the respective classes. 
+The Storage component is accessible through the `Storage` class using the facade pattern, where it handles and directs file manipulation using the respective classes. Gestalt's Principle is used in this component to enhance the cohesiveness of each class and reduce the coupling, where only necessary dependencies are utilized. The functions of each class are grouped accordingly to the very meaning that each class name suggest. 
+
+Urgenda primarily has 3 files:
+* `data.txt` stores all the tasks, either completed or uncompleted, in JSON format. Each line, or each string, represents one task. This file is able to be renamed or moved to other directories as per user's desire. 
+* `settings.txt` stores the settings of the user, such as the file name and file location, so that on start-up Urgenda can retrieve these settings, retrieve the datafile and set preferences for the user. This file cannot be moved or renamed. 
+* `help.txt` is where the documentation for the user is stored. If the user ever require any form of assistance in entering commands, he can bring up the help panel, which retrieves the text from this file. This file cannot be moved or renamed. 
+
 ## Storage Class
-## FileEditor Class
-## JsonCipher Class
-## Encryptor Class
-## Decryptor Class
-## SettingsEditor Class
+In every case where `LogicData` needs to access or edit the data in the file or the datafile itself, it goes through `Storage` class, which then dispatches the corresponding method using the respective classes within the `Storage` component. 
+
+As mentioned above, apart from the `Storage` class which acts as the facade, all other classes have their own specific functions:
+
+Class | Function
+--- | ---
+`FileEditor` | Contains all the file manipulation methods that is required in the `Storage` component - retrieving from file, writing to file, renaming, moving to other directories, clearing the file. Essentially, only this class can access and manipulate the actual file itself
+`JsonCipher` | The primary ciphering tool. `Storage` uses the external library Gson that allows conversion of objects to a string. In this class, instead of converting directly from a `Task` to a `String`, a `Task` is converted to a `LinkedHashMap<String, String>`, then converted into a `String`. This allows for easier conversion back into a `Task` from a `String`. `JsonCipher` provides the tools required for converting from `Task` <-> `LinkedHashMap<String, String>` <-> `String`
+`Encryptor` | A subclass of `JsonCipher`, the role of `Encryptor` is to encrypt all `Task` into a `String` using `JsonCipher` as a means of doing so.
+`Decryptor` | A subclass of `JsonCipher`, the role of `Decryptor` is to decrypt all `String` into a `Task` using `JsonCipher` as a means of doing so.
+`SettingsEditor` | This class handles all matters related to the settings of the user, in order not to mix it with the actual data file. File manipulation and encryption/decryption is done using the `FileEditor` class and through `JsonCipher` directly, since there is no need `Task` involved with the settings. 
+
+The main APIs of the `Storage` class include:
+
+Method | Return type and function
+--- | --- 
+`updateArrayList()` | Returns `ArrayList<Task>`. This method is used during startup to retrieve all tasks in the datafile and pack it into an ArrayList.
+`save(ArrayList<Task> tasks, ArrayList<Task> archives)` | Void function. This method is used to store all tasks in the datafile, for easy retrieval, relocation to another computer. 
+`changeFileSettings(String path, String name)` | Void function. This method allows the datafile to be renamed and move to other directories/folders through Urgenda itself, with no need to enter File Explorer
+

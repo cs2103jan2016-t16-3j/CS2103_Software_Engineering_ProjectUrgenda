@@ -12,22 +12,26 @@ public class Decryptor extends JsonCipher {
 		super();
 	}
 
-	public void decryptTaskList(ArrayList<Task> taskList, ArrayList<String> taskStrList) {
+	public ArrayList<Task> decryptTaskList(ArrayList<String> taskStrList) {
+		ArrayList<Task> taskList = new ArrayList<Task>();
 		for (int i = 0; i < taskStrList.size(); i++) {
 			_detailsString = taskStrList.get(i);
 			convertToMap();
 			Task newTask = generateTask(i + 1);
 			taskList.add(newTask);
 		}
+		return taskList;
 	}
 	
-	public void decryptArchiveList(ArrayList<Task> archiveList, ArrayList<String> archiveStrList) {
+	public ArrayList<Task> decryptArchiveList(ArrayList<String> archiveStrList) {
+		ArrayList<Task> archiveList = new ArrayList<Task>();
 		for (int i = 0, j = -1; i < archiveStrList.size(); i++, j--) {
 			_detailsString = archiveStrList.get(i);
 			convertToMap();
 			Task newTask = generateTask(j);
 			archiveList.add(newTask);
 		}
+		return archiveList;
 	}
 
 	private Task generateTask(int i) {
