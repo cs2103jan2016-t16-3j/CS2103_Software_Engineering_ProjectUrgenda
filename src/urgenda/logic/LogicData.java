@@ -18,7 +18,7 @@ public class LogicData {
 
 	public enum DisplayState {
 		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, 
-		EXIT, INVALID_COMMAND, HELP, INVALID_TASK
+		EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE
 	}
 	
 	// Singleton pattern to ensure that there is only one logicData
@@ -106,12 +106,25 @@ public class LogicData {
 				state = displayAllTasks(_tasks);
 				state.setState(StateFeedback.State.ERROR);
 				break;
+			case ARCHIVE :
+				state = displayArchiveTasks(_archives);
+				state.setState(StateFeedback.State.ARCHIVE);
 			default :
 				state = displayAllTasks(_tasks);
 				state.setState(StateFeedback.State.ALL_TASKS);
 				break;
 		}
 
+		return state;
+	}
+
+	public StateFeedback displayArchiveTasks(ArrayList<Task> displayList) {
+		clearDisplays();
+		_displays.addAll(sortList(displayList));
+		StateFeedback state = new StateFeedback(_displays, _displays.size());
+		setFeedbackDisplayPosition(state);
+		// TODO showmore for archive
+//		setShowMorePositions(state);
 		return state;
 	}
 
@@ -435,6 +448,11 @@ public class LogicData {
 
 	public String retrieveCurrentDirectory() {
 		return _storage.getDirPath();
+	}
+
+	public void changeDirectory(String path) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

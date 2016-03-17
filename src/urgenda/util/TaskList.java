@@ -42,6 +42,16 @@ public class TaskList {
 		setArchiveCount(archive);
 	}
 	
+	// constructor for tasklist with only archived tasks
+	public TaskList(ArrayList<Task> archives, int archive) {
+		_tasks = new ArrayList<Task>();
+		_archives = archives;
+		setOverdueCount(0);
+		setTodayCount(0);
+		setRemainingCount(0);
+		setArchiveCount(archive);
+	}
+	
 	public ArrayList<Task> getTasks() {
 		return _tasks;
 	}

@@ -3,11 +3,13 @@ package urgenda.command;
 import urgenda.logic.LogicData;
 
 public class ShowArchive extends Command {
+	
+	private static final String MESSAGE_SHOWING_ARCHIVE = "Showing all archived tasks";
 
 	public String execute() {
 		LogicData data = LogicData.getInstance();
-		// TODO Auto-generated method stub
-		return null;
+		data.setCurrState(LogicData.DisplayState.ARCHIVE);
+		return MESSAGE_SHOWING_ARCHIVE;
 	}
 
 }

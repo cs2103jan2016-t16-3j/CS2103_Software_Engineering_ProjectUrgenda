@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class StateFeedback {
 	
 	public enum State {
-		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY, ERROR, SHOW_HELP, EXIT
+		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY, ERROR, SHOW_HELP, EXIT, ARCHIVE
 	}
 	
 	private State _state;
@@ -22,6 +22,11 @@ public class StateFeedback {
 	// constructor for default generation of All tasks
 	public StateFeedback(ArrayList<Task> tasks, int overdue, int today, int remaining) {
 		_allTasks = new TaskList(tasks, overdue, today, remaining);
+		_showMoreIndexes = new ArrayList<Integer>();
+	}
+	
+	public StateFeedback(ArrayList<Task> archives, int archive) {
+		_allTasks = new TaskList(archives, archive);
 		_showMoreIndexes = new ArrayList<Integer>();
 	}
 
