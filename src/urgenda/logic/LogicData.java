@@ -451,8 +451,7 @@ public class LogicData {
 	}
 
 	public void changeDirectory(String path) {
-		// TODO Auto-generated method stub
-		
+		_storage.changeFilePath(path);
 	}
 
 }
