@@ -43,7 +43,7 @@
 
 #indexHeader, #descHeader, #startHeader, #endHeader {
 	-fx-font-family: "Montserrat";
-	-fx-font-size: 15px;
+	-fx-font-size: 14px;
 	-fx-text-fill: white;
 }
 
@@ -53,13 +53,13 @@
 
 #noviceHeaderLabel {
 	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 15px;
+	-fx-font-size: 14px;
 	-fx-text-fill: black;
 }
 
 #taskIndexLabel, #taskDescLabel, #taskStartLabel, #dateTimeTypeLabel, #taskEndLabel  {
 	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 15px;
+	-fx-font-size: 14px;
 	-fx-text-fill: #474E60;
 }
 
