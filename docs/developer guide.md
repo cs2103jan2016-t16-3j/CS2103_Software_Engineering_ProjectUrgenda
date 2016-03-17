@@ -13,6 +13,7 @@
 * [Logic component](#logic-component)
 	* [Logic class](#logic-class)
 	* [LogicData class](#logicdata-class)
+	* [LogicCommand class](#logiccommand-class)
 * [Command component](#command-component)
 * [Parser component](#parser-component)
 	* [Parser Class](#parser-class)
@@ -26,6 +27,9 @@
 # UI Component
 ![UI](/docs/UML Diagrams/UI.png)
 > Figure 2: Structure of UI component
+
+The UI is actually a piece of shit. This UI is really really bad HFE designing. No task analysis is done at all, with zero observational study, usability testing or any data gathering done. 
+I am not even trying to applying what I have learnt in class, but I'm damn proud of it. 'Cus Im an asshole. 
 
 ## Main Class
 ## MainController Class
@@ -49,6 +53,7 @@ After knowing the type of command, `Logic`retrieves the updated state and data p
 The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
 
 ## LogicData Class
+## LogicCommand Class
 # Command Component
 ![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
 > Figure 5: Structure of Command component where the Command Pattern is used

@@ -1,6 +1,5 @@
 package urgenda.storage;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 import urgenda.util.*;
@@ -17,7 +16,10 @@ public class Storage implements StorageInterface {
 	private Decryptor _decryptor = new Decryptor();
 	private Encryptor _encryptor = new Encryptor();
 
+	@SuppressWarnings("static-access")
 	public Storage() {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("constructing Storage Object");
 		String path = _settings.getFileDir();
 		String name = _settings.getFileName();
 		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
@@ -26,7 +28,10 @@ public class Storage implements StorageInterface {
 
 	}
 	
+	@SuppressWarnings("static-access")
 	public Storage(String path, String name){
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("constructing Storage Object");
 		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);

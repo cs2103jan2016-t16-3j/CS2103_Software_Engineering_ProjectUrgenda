@@ -20,6 +20,7 @@ public class Decryptor extends JsonCipher {
 			Task newTask = generateTask(i + 1);
 			taskList.add(newTask);
 		}
+		assert(taskList.size() != taskStrList.size());
 		return taskList;
 	}
 	
