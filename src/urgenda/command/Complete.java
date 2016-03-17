@@ -3,6 +3,7 @@ package urgenda.command;
 import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
+import urgenda.util.MyLogger;
 import urgenda.util.Task;
 
 public class Complete extends TaskCommand {
@@ -19,7 +20,10 @@ public class Complete extends TaskCommand {
 	private Task _completedTask;
 	private LogicData _data;
 	
+	@SuppressWarnings("static-access")
 	public String execute() throws Exception {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.warning("Can cause exception");
 		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		if (_desc != null) {
@@ -30,6 +34,7 @@ public class Complete extends TaskCommand {
 				_data.clearDisplays();
 				_data.setDisplays(matches);
 				_data.setCurrState(LogicData.DisplayState.MULTIPLE_COMPLETE);
+				logger.myLogger.severe("Exception(Multiple complete) thrown");
 				throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
 			} // else matches has no match hence _completedTask remains null
 		} else if (_id != null && _id.intValue() != -1) {
@@ -37,6 +42,7 @@ public class Complete extends TaskCommand {
 		}
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_completedTask == null) {
+			logger.myLogger.severe("Exception(No complete match) thrown");
 			throw new Exception(MESSAGE_NO_COMPLETE_MATCH);
 		}
 		_completedTask.setIsCompleted(true);

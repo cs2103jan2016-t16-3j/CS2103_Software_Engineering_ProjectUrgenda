@@ -12,7 +12,7 @@ public class ShowArchiveCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		if (_argsString.equals("")) {
+		if (_argsString == null) {
 			ShowArchive showArchiveCommand = new ShowArchive();
 			return showArchiveCommand;
 		} else {

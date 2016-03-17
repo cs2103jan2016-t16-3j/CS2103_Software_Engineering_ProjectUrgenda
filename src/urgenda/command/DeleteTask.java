@@ -1,16 +1,14 @@
 package urgenda.command;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import urgenda.logic.LogicData;
+import urgenda.util.MyLogger;
 import urgenda.util.Task;
 
 public class DeleteTask extends TaskCommand {
 	
-	private static Logger theLogger = Logger.getLogger(DeleteTask.class.getName());
-
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_NO_DELETE_MATCH = "No matches found to delete";
@@ -24,8 +22,11 @@ public class DeleteTask extends TaskCommand {
 	private Task _deletedTask;
 	private LogicData _data;
 	
+	@SuppressWarnings("static-access")
 	public String execute() throws Exception {
-		theLogger.warning("Can cause exception");
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.warning("Can cause exception"); 
+		
 		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		if (_desc != null) {
@@ -36,6 +37,7 @@ public class DeleteTask extends TaskCommand {
 				_data.clearDisplays();
 				_data.setDisplays(matches);
 				_data.setCurrState(LogicData.DisplayState.MULTIPLE_DELETE);
+				logger.myLogger.severe("Exception(Multiple delete) thrown");
 				throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
 			} // else matches has no match hence _deletedTask remains null
 		} else if (_id != null && _id.intValue() != -1) {
@@ -43,8 +45,7 @@ public class DeleteTask extends TaskCommand {
 		}
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_deletedTask == null) {
-			theLogger.log(Level.SEVERE, "Exception occur, invalid deletion format");
-			
+			logger.myLogger.severe("Exception(No del match) thrown");
 			throw new Exception(MESSAGE_NO_DELETE_MATCH);
 		}
 		_data.deleteTask(_deletedTask);

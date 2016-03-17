@@ -11,16 +11,16 @@ public class Encryptor extends JsonCipher {
 		super();
 	}
 
-	public void encrypt(ArrayList<Task> taskList, ArrayList<String> stringList) {
-		if (!stringList.isEmpty()) {
-			stringList.clear();
-		}
+	public ArrayList<String> encrypt(ArrayList<Task> taskList) {
+		ArrayList<String> stringList = new ArrayList<String>();
 		for (Task task : taskList) {
 			_detailsMap = new LinkedHashMap<String, String>();
 			getTaskDetail(task);
 			convertToString();
 			stringList.add(_detailsString);
 		}
+		assert(stringList.size() == taskList.size());
+		return stringList;
 	}
 	
 	

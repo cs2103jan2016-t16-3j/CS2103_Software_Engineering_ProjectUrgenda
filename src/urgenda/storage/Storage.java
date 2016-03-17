@@ -1,6 +1,5 @@
 package urgenda.storage;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 import urgenda.util.*;
@@ -17,7 +16,10 @@ public class Storage implements StorageInterface {
 	private Decryptor _decryptor = new Decryptor();
 	private Encryptor _encryptor = new Encryptor();
 
+	@SuppressWarnings("static-access")
 	public Storage() {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("constructing Storage Object");
 		String path = _settings.getFileDir();
 		String name = _settings.getFileName();
 		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
@@ -26,27 +28,28 @@ public class Storage implements StorageInterface {
 
 	}
 	
+	@SuppressWarnings("static-access")
 	public Storage(String path, String name){
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("constructing Storage Object");
 		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 	}
 	
 	public ArrayList<Task> updateCurrentTaskList(){
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		_decryptor.decryptTaskList(tasks, _fileDataStringArr);
+		ArrayList<Task> tasks = _decryptor.decryptTaskList(_fileDataStringArr);
 		return tasks;
 	}
 	
 	public ArrayList<Task> updateArchiveTaskList(){
-		ArrayList<Task> archives = new ArrayList<Task>();
-		_decryptor.decryptArchiveList(archives, _archiveStringArr);
+		ArrayList<Task> archives = _decryptor.decryptArchiveList(_archiveStringArr);
 		return archives;
 	}
 
 	public void save(ArrayList<Task> tasks, ArrayList<Task> archive) {
-		_encryptor.encrypt(tasks, _fileDataStringArr);
-		_encryptor.encrypt(archive, _archiveStringArr);
+		_fileDataStringArr = _encryptor.encrypt(tasks);
+		_archiveStringArr = _encryptor.encrypt(archive);
 		_file.writeToFile(_fileDataStringArr, _archiveStringArr);
 	}
 

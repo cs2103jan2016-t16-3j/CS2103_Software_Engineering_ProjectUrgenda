@@ -15,9 +15,14 @@ public class TaskDetailsParser {
 			return argsString.replace("@" + temp.trim(), "").trim();
 		} catch (Exception e) {
 			try {
-				temp = temp.split(" at ")[1];
-				PublicVariables.taskLocation = temp.trim();
-				return argsString.replace(" at " + temp.trim(), "");
+				if (temp.substring(0, 3).equals("at ")) {
+					PublicVariables.taskLocation = temp.substring(3);
+					return argsString.replace("at " + temp.substring(3), "");
+				} else {
+					temp = temp.split(" at ")[1];
+					PublicVariables.taskLocation = temp.trim();
+					return argsString.replace(" at " + temp.trim(), "");
+				}
 			} catch (Exception ex) {
 				return argsString.trim();
 			}
@@ -37,8 +42,8 @@ public class TaskDetailsParser {
 	}
 
 	public static void searchTaskDescription(String argsString) {
-		if (argsString.equals(null) || argsString.equals("")) {
-			PublicVariables.commandType = COMMAND_TYPE.INVALID;
+		if (argsString == null || argsString.equals("")) {
+			PublicVariables.taskDescription = "";
 		} else {
 			PublicVariables.taskDescription = argsString.trim();
 		}
@@ -56,11 +61,14 @@ public class TaskDetailsParser {
 		}
 	}
 
-	public static void searchTaskIndex(String argsString) {
+	public static String searchTaskIndex(String argsString) {
 		try {
-			PublicVariables.taskIndex = Integer.parseInt(argsString.trim()) - 1;
+			String firstWord = PublicFunctions.getFirstWord(argsString);
+			String restOfString = PublicFunctions.removeFirstWord(argsString);
+			PublicVariables.taskIndex = Integer.parseInt(firstWord) - 1;
+			return restOfString;
 		} catch (Exception e) {
-			return;
+			return argsString;
 		}
 	}
 

@@ -14,22 +14,28 @@ public class DeleteCommandParser {
 	}
 	
 	public static Command generateAndReturn() {
-		if (_argsString.equals("")) {
+		if (_argsString == null) {
 			PublicVariables.taskIndex = _index;
 		} else {
-			TaskDetailsParser.searchTaskIndex(_argsString);
-			TaskDetailsParser.searchTaskDescription(_argsString);
+			String reducedArgsString = TaskDetailsParser.searchTaskIndex(_argsString);
+			if (reducedArgsString != null) {
+				PublicVariables.taskIndex = -10;
+				TaskDetailsParser.searchTaskDescription(_argsString);
+			}
 		}
 		
 		DeleteTask deleteCommand = new DeleteTask();
 		if (PublicVariables.taskIndex != -10) {
+//			System.out.print("Task index is " + PublicVariables.taskIndex + "\n");
 			deleteCommand.setId(PublicVariables.taskIndex);
 		} else if (PublicVariables.taskDescription.equals("")){
 			deleteCommand.setId(_index);
+//			System.out.print("Task index is " + _index + "\n");
 		}
 		
-		if (PublicVariables.taskDescription.equals("")) {
+		if (!PublicVariables.taskDescription.equals("")) {
 			deleteCommand.setDesc(PublicVariables.taskDescription);
+//			System.out.print("Task desc is " + PublicVariables.taskDescription + "\n");
 		}
 		
 		return deleteCommand;

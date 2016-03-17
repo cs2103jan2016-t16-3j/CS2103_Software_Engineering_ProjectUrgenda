@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import urgenda.storage.Storage;
 import urgenda.util.MultipleSlot;
+import urgenda.util.MyLogger;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
 
@@ -39,7 +40,10 @@ public class LogicData {
 	private int _currentId;
 
 	// default constructor where singleton pattern is applied
+	@SuppressWarnings("static-access")
 	private LogicData() {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("constructing LogicData Object");
 		_storage = new Storage();
 		// updates arraylists from stored task objects into respective arraylists
 		_tasks = _storage.updateCurrentTaskList();
@@ -51,14 +55,21 @@ public class LogicData {
 		_currentId = _tasks.size() + 1;
 	}
 	
+	@SuppressWarnings("static-access")
 	public static LogicData getInstance() {
+		MyLogger logger = MyLogger.getInstance();
 		if (_logicData == null) {
+			logger.myLogger.info("creating instance of logicData");
 			_logicData = new LogicData();
 		}
+		logger.myLogger.info("retrieving prev instance of logicData");
 		return _logicData;
 	}
 
+	@SuppressWarnings("static-access")
 	public void saveContents() {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("Saving contents to storage");
 		_storage.save(_tasks, _archives);
 	}
 
@@ -147,13 +158,18 @@ public class LogicData {
 		_taskPointer = null;
 	}
 
+	@SuppressWarnings("static-access")
 	public ArrayList<Task> findMatchingDesc(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
-		for (Task task : _displays) {
-			if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
+		if(!desc.equals("")){
+			for (Task task : _displays) {
+				if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
 				matches.add(task);
+				}
 			}
 		}
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("Find matching desc: " + desc);
 		return matches;
 	}
 
@@ -176,13 +192,18 @@ public class LogicData {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	public void updateState() {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("Updating state of prog");
+		
 		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		LocalDateTime now = LocalDateTime.now();
 		for (Task task : _tasks) {
 			if (task.getTaskType() == Task.Type.DEADLINE) {
 				if (task.getEndTime().isBefore(now)) {
 					task.setIsOverdue(true);
+					logger.myLogger.info("deadline task " + task + " has turned overdue");
 				} else {
 					task.setIsOverdue(false);
 				}
@@ -190,6 +211,7 @@ public class LogicData {
 			if (task.getTaskType() == Task.Type.EVENT) {
 				if (task.getEndTime().isBefore(now)) {
 					task.setIsCompleted(true);
+					logger.myLogger.info("event task" + task + " has been completed");
 					completedTasks.add(task);
 				}
 			}
@@ -198,7 +220,10 @@ public class LogicData {
 		_archives.addAll(completedTasks);
 	}
 
+	@SuppressWarnings("static-access")
 	public void addArchive(Task task) {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("adding task " + task + " to archive");
 		_archives.add(task);
 	}
 
@@ -226,15 +251,23 @@ public class LogicData {
 		_tasks.remove(newTask);
 	}
 
+	@SuppressWarnings("static-access")
 	public Task findMatchingPosition(int id) {
+		MyLogger logger = MyLogger.getInstance();
+		logger.myLogger.info("Find matching position, " + id);
 		if (id >= 0 && id < _displays.size()) {
+			logger.myLogger.info("Matching position found: " + id);
 			return _displays.get(id);
 		} else {
+			logger.myLogger.info("Matching position not found");
 			return null;
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
+		MyLogger logger = MyLogger.getInstance(); 
+		logger.myLogger.info("Find matching dates, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
 			if (task.getStartTime() != null) {
@@ -250,7 +283,10 @@ public class LogicData {
 		return matches;
 	}
 
+	@SuppressWarnings("static-access")
 	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
+		MyLogger logger = MyLogger.getInstance(); 
+		logger.myLogger.info("Find matching datetime, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
 			if (task.getStartTime() != null) {
@@ -266,7 +302,10 @@ public class LogicData {
 		return matches;
 	}
 	
+	@SuppressWarnings("static-access")
 	public ArrayList<Task> findMatchingMonths(Month input) {
+		MyLogger logger = MyLogger.getInstance(); 
+		logger.myLogger.info("Find matching months, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
 			if (task.getStartTime() != null) {
@@ -378,7 +417,10 @@ public class LogicData {
 		return _showMoreTasks.contains(task);
 	}
 	
+	@SuppressWarnings("static-access")
 	public void toggleShowMoreTasks(Task task) {
+		MyLogger logger = MyLogger.getInstance(); 
+		logger.myLogger.info("toggle showmore status of " + task);
 		if (_showMoreTasks.contains(task)) {
 			_showMoreTasks.remove(task);
 		} else {

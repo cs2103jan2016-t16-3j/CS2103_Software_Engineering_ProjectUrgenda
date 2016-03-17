@@ -16,7 +16,7 @@ public class LogicDataTest {
 
 	@Test
 	public void testSortList() { // test if sort fn returns correct sorted order
-		LogicData _test = new LogicData();
+		LogicData _test = LogicData.getInstance();;
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
@@ -67,7 +67,7 @@ public class LogicDataTest {
 	public void testFindMatchingTasks() { // test if findmatchingTasks returns
 											// right arraylist containing all
 											// required searched description
-		LogicData _test = new LogicData();
+		LogicData _test = LogicData.getInstance();;
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
 		ArrayList<String> _tags = new ArrayList<String>();
@@ -116,7 +116,7 @@ public class LogicDataTest {
 
 	@Test
 	public void testIsTaskToday() {
-		LogicData _test = new LogicData();
+		LogicData _test = LogicData.getInstance();;
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
@@ -146,7 +146,7 @@ public class LogicDataTest {
 
 	@Test
 	public void testFindMatchingPosition() {
-		LogicData _test = new LogicData();
+		LogicData _test = LogicData.getInstance();;
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
 		ArrayList<String> _tags = new ArrayList<String>();
@@ -178,7 +178,7 @@ public class LogicDataTest {
 
 	@Test
 	public void testFindMatchingDate() {
-		LogicData _test = new LogicData();
+		LogicData _test = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
 		ArrayList<String> _tags = new ArrayList<String>();
@@ -210,7 +210,7 @@ public class LogicDataTest {
 
 	@Test
 	public void testFindMatchingDateTimes() {
-		LogicData _test = new LogicData();
+		LogicData _test = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
 		ArrayList<String> _tags = new ArrayList<String>();
@@ -241,7 +241,7 @@ public class LogicDataTest {
 
 	@Test
 	public void testFindMatchingMonths() {
-		LogicData _test = new LogicData();
+		LogicData _test = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
 		ArrayList<String> _tags = new ArrayList<String>();

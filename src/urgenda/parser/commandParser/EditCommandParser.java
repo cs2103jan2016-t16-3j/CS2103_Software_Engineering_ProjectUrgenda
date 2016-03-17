@@ -20,11 +20,18 @@ public class EditCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			String reducedArgsString = DateTimeParser.searchTaskTimes(_argsString);
+			String reducedArgsString;
+			if (TaskDetailsParser.searchTaskIndex(_argsString) == null) {
+				PublicVariables.taskIndex = -10;
+				reducedArgsString = _argsString;
+			} else {
+				reducedArgsString = TaskDetailsParser.searchTaskIndex(_argsString);
+			}
+			reducedArgsString = DateTimeParser.searchTaskTimes(reducedArgsString);
 			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
 			reducedArgsString = TaskDetailsParser.searchTaskLocation(reducedArgsString);
 			TaskDetailsParser.searchTaskDescription(reducedArgsString);
-			TaskDetailsParser.searchTaskIndex(reducedArgsString);
+
 			TaskDetailsParser.searchTaskType();
 			return generateEditCommandAndReturn();
 		}

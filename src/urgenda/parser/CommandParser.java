@@ -38,6 +38,8 @@ public class CommandParser {
 		Command testReturn = generateAndReturnCommandObjects(PublicVariables.commandType, argsString, index);
 
 		if (testReturn instanceof Invalid) {
+			PublicFunctions.reinitializePublicVariables();
+			PublicVariables.commandType = COMMAND_TYPE.ADD;
 			AddCommandParser addCommand = new AddCommandParser(commandString, index);
 			return addCommand.generateAndReturn();
 		} else {
