@@ -31,7 +31,7 @@ public class PrioritiseCommandParser {
 			prioritiseCommand.setId(_index);
 		}
 		
-		if (PublicVariables.taskDescription.equals("")) {
+		if (!PublicVariables.taskDescription.equals("")) {
 			prioritiseCommand.setDesc(PublicVariables.taskDescription);
 		}
 		

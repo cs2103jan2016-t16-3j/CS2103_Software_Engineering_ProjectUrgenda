@@ -26,13 +26,16 @@ public class DeleteCommandParser {
 		
 		DeleteTask deleteCommand = new DeleteTask();
 		if (PublicVariables.taskIndex != -10) {
+//			System.out.print("Task index is " + PublicVariables.taskIndex + "\n");
 			deleteCommand.setId(PublicVariables.taskIndex);
 		} else if (PublicVariables.taskDescription.equals("")){
 			deleteCommand.setId(_index);
+//			System.out.print("Task index is " + _index + "\n");
 		}
 		
-		if (PublicVariables.taskDescription.equals("")) {
+		if (!PublicVariables.taskDescription.equals("")) {
 			deleteCommand.setDesc(PublicVariables.taskDescription);
+//			System.out.print("Task desc is " + PublicVariables.taskDescription + "\n");
 		}
 		
 		return deleteCommand;
