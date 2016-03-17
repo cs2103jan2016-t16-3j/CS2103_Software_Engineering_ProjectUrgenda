@@ -17,6 +17,7 @@ public abstract class TaskCommand extends Command{
 	private static final String ERROR_EXTRA_END_TIME = "Task has extra end time";
 	private static final String ERROR_END_BEFORE_START = "Task start time is after end time";
 	private static final String ERROR_SAME_START_END = "Task has same start and end time";
+	private static final String ERROR_INVALID_TASK_TYPE = "Invalid task entered";
 
 	// abstract functions for implementation by subcommands
 	public abstract String undo();
@@ -46,13 +47,15 @@ public abstract class TaskCommand extends Command{
 			} else if (end.equals(start)) {
 				throw new Exception(ERROR_SAME_START_END);
 			}
-		} else { // floating type
+		} else if (task.getTaskType() == Task.Type.FLOATING){
 			if (start != null) {
 				throw new Exception(ERROR_EXTRA_START_TIME);
 			}
 			if (end != null) {
 				throw new Exception(ERROR_EXTRA_END_TIME);
 			}
+		} else { // Invalid task type
+			throw new Exception(ERROR_INVALID_TASK_TYPE);
 		}
 	}
 }
