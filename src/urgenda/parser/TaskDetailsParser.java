@@ -14,17 +14,17 @@ public class TaskDetailsParser {
 			PublicVariables.taskLocation = temp.trim();
 			return argsString.replace("@" + temp.trim(), "").trim();
 		} catch (Exception e) {
-			if (temp.substring(0, 3).equals("at ")) {
-				PublicVariables.taskLocation = temp.substring(3);
-				return argsString.replace("at " + temp.substring(3), "");
-			} else {
-				try {
+			try {
+				if (temp.substring(0, 3).equals("at ")) {
+					PublicVariables.taskLocation = temp.substring(3);
+					return argsString.replace("at " + temp.substring(3), "");
+				} else {
 					temp = temp.split(" at ")[1];
 					PublicVariables.taskLocation = temp.trim();
 					return argsString.replace(" at " + temp.trim(), "");
-				} catch (Exception ex) {
-					return argsString.trim();
 				}
+			} catch (Exception ex) {
+				return argsString.trim();
 			}
 		}
 	}
