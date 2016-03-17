@@ -135,13 +135,13 @@ public class DateTimeParser {
 		int parsePositionGroup1 = dateGroups.get(0).getPosition();
 		String dateStringGroup1 = dateGroups.get(0).getText();
 		String preceedingWordGroup1 = PublicFunctions.getPreceedingWord(parsePositionGroup1, _argsString);
-		// System.out.print(numberOfDatesInGroup1 + "\n");
+//		 System.out.print(numberOfDatesInGroup1 + "\n");
 
 		int numberOfDatesInGroup2 = dateGroups.get(1).getDates().size();
 		int parsePositionGroup2 = dateGroups.get(1).getPosition();
 		String dateStringGroup2 = dateGroups.get(1).getText();
 		String preceedingWordGroup2 = PublicFunctions.getPreceedingWord(parsePositionGroup2, _argsString);
-		// System.out.print(numberOfDatesInGroup2 + "\n");
+//		 System.out.print(numberOfDatesInGroup2 + "\n");
 
 		if (numberOfDatesInGroup1 == 1 && numberOfDatesInGroup2 == 2) {
 			// System.out.print("here" + "\n");
@@ -254,6 +254,7 @@ public class DateTimeParser {
 					dateComponent = group1LocalDate.toLocalDate();
 					timeComponent = group2LocalDate.toLocalTime();
 					taskDateTime = LocalDateTime.of(dateComponent, timeComponent);
+					System.out.print(taskDateTime + "\n");
 				} else {
 					dateComponent = group2LocalDate.toLocalDate();
 					timeComponent = group1LocalDate.toLocalTime();
@@ -296,14 +297,15 @@ public class DateTimeParser {
 					}
 				} else {
 					setTaskStartTime(taskDateTime);
-
+					setTaskEndTime(taskDateTime.plusHours(1));
+					
 					String reducedArgsString;
 
 					if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
 						reducedArgsString = PublicFunctions.reselectString(_argsString,
 								preceedingWordGroup1 + " " + dateStringGroup1);
 					} else {
-						reducedArgsString = PublicFunctions.reselectString(_argsString, dateStringGroup2);
+						reducedArgsString = PublicFunctions.reselectString(_argsString, dateStringGroup1);
 					}
 
 					if (PublicVariables.startTimeWords.contains(preceedingWordGroup2)) {

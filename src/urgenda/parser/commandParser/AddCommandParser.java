@@ -21,10 +21,10 @@ public class AddCommandParser {
 			return new Invalid();
 		} else {
 			String reducedArgsString = DateTimeParser.searchTaskTimes(_argsString);
-			// System.out.print(reducedArgsString + "\n");
+			 System.out.print(reducedArgsString + "\n");
 			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
 			reducedArgsString = TaskDetailsParser.searchTaskLocation(reducedArgsString);
-			// System.out.print(reducedArgsString + "\n");
+//			 System.out.print(reducedArgsString + "\n");
 			TaskDetailsParser.searchTaskDescription(reducedArgsString);
 			TaskDetailsParser.searchTaskType();
 			return generateAddCommandAndReturn();
