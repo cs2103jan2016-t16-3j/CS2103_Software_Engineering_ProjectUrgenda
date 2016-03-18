@@ -71,7 +71,7 @@ Specify the task number, the task description or simply highlight the task to be
 
 Example:
 
-![Example Del 1](https://cloud.githubusercontent.com/assets/17000137/13889630/91b804d2-ed82-11e5-8e28-d28e157e902a.gif)
+![Example Del 1](https://cloud.githubusercontent.com/assets/17000137/13889728/1559e9c2-ed83-11e5-8ab4-677efaa6bfd3.gif)
 
 * _**Delete** 4_
 
