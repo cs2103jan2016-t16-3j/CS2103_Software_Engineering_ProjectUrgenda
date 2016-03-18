@@ -57,9 +57,11 @@ Example: _**Add** Return home **by** 23/3/2016 7:00pm_
 
 * Floating: Task is given with no start time and end time. 
 Example: _**Add** Dinner with Mum_
-	```java
-	//TODO: insert image
-	```
+
+```java
+//TODO: insert image
+```
+
 
 ## Delete
 
@@ -68,7 +70,9 @@ To delete an existing task, **Delete**, **Del**, **Erase** or **Remove** are the
 Specify the task number, the task description or simply highlight the task to be deleted. 
 
 Example:
-* _**Delete** Dinner with Mum_
+
+![Example Del 1](https://cloud.githubusercontent.com/assets/17000137/13889630/91b804d2-ed82-11e5-8e28-d28e157e902a.gif)
+
 * _**Delete** 4_
 
 ```java
