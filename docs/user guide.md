@@ -42,7 +42,7 @@ Use **Command Tags** to add in details for the task, "**at**" for time, "**@**" 
 Tasks are separated into 3 categories, Events, Deadlines and Floatings. 
 * Event: Task is given with a start time and end time.
 Example: 
-_**Add** Dinner with Mum **at** 23/3/2016 7:00pm to 9:00pm_
+_**Add** Dinner with Mum **at** 23/3/2016 7:00pm to 8:00pm_
 	* If only a start time is given, then end time will automatically be set to 1 hour after the start time. 
 	
 	![Example 2](/docs/UserGuide Diagrams/2.gif)
