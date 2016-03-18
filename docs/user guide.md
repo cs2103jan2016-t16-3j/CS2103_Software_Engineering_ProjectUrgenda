@@ -70,7 +70,7 @@ To delete an existing task, **Delete**, **Del**, **Erase** or **Remove** are the
 Specify the task number, the task description or simply highlight the task to be deleted. 
 
 Example:
-
+* _**Delete** Dinner with Mum_
 ![Example Del 1](https://cloud.githubusercontent.com/assets/17000137/13889728/1559e9c2-ed83-11e5-8ab4-677efaa6bfd3.gif)
 
 * _**Delete** 4_
