@@ -200,8 +200,8 @@ public class TaskController extends GridPane {
 			} else {
 				dateTimeFormatter += "Yesterday ";
 			}
-		} else if(timeLeft.getRoundedDays() <= 7 && timeLeft.firstIsBefore()) {
-			dateTimeFormatter += dateTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault()) + " ";
+		//} else if(timeLeft.getRoundedDays() <= 7 && timeLeft.firstIsBefore()) {
+		//	dateTimeFormatter += dateTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault()) + " ";
 		} else {
 			dateTimeFormatter += dateTime.format(DateTimeFormatter.ofPattern("dd MMM "));
 		}

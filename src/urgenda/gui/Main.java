@@ -77,8 +77,7 @@ public class Main extends Application {
 		_displayController = _mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
 		//TODO implement check settings for showing novice headers, change boolean below
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
-		_displayController.setScrollBar();
+		_displayController.setStartupDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
 		_displayController.setMain(this);
 	}
 
@@ -166,7 +165,7 @@ public class Main extends Application {
 	protected String setupDummyList() {
 		Task taskO = new Task("Overdue task", "O location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-		Task taskTI = new Task("Today Important task", "TI location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskTI = new Task("Today Important task deadline", "TI location", null, LocalDateTime.now(),
 				new ArrayList<String>(), true);
 		Task taskT = new Task("Today task long long long long", "T location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
@@ -176,9 +175,9 @@ public class Main extends Application {
 				new ArrayList<String>(), true);
 		Task taskD = new Task("Detailed task long long long long long long long long long long long long", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-		Task task1 = new Task("1 task long long long long long", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+		Task task1 = new Task("floating task long long long long long", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
 				false);
-		Task task2 = new Task("Detailed 2 task", "2 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+		Task task2 = new Task("Detailed 2 task", "2 location", null, null, new ArrayList<String>(),
 				false);
 		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
