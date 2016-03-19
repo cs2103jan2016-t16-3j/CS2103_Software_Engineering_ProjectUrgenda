@@ -42,14 +42,14 @@ Urgenda consists of 4 main components, with the interaction for the user through
 ![Logic](/docs/UML Diagrams/Logic.png)
 > Figure 3: Structure of Logic component
 
-The Logic component is accessible through the `Logic` class using the facade pattern, in which it is in charge of handling the execution of user inputs from the UI component. This component only relies on the Parser component and Storage component and works independently from the UI component.
+The Logic component is accessible through the `Logic` class using the facade pattern, in which it is in charge of handling the execution of user inputs from the UI component. This component only relies on the Parser component and Storage component and works independently from the UI component. Furthermore, the `Command` component is part of the Logic of Urgenda which encompasses the functionalities of the different commands given by the user.
 
 The table below shows the classes in Logic component and their functions:
 
 Class | Function
 --- | ---
 `Logic` (Facade) | Main handler for external calls from other components. Also has the Singleton pattern as there should always be only one `Logic` handling the processes in Urgenda.
-`LogicData` | Class in Logic component that stores the Tasks temporarily when Urgenda is running. Most data manipulation and edits are done through `LogicData`. It is also responsible for generation of the current state for returning to UI. Also has the Singleton pattern to ensure that all data manipulation is done on the only LogicData.
+`LogicData` | Class in Logic component that stores the Tasks temporarily when Urgenda is running. Most data manipulation and edits are done through `LogicData`. It is also responsible for generation of the current state. Also has the Singleton pattern to ensure that all data manipulation is done on the only LogicData.
 `LogicCommand` | Class where the Commands are being stored in the Logic component. Execution of commands as well as undo/redo of these commands will be carried out by LogicCommand.
 
 Furthermore, the table below shows the notable API for usage of Logic:
