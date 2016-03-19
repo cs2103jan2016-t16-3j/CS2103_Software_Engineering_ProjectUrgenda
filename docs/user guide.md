@@ -21,6 +21,7 @@ This guide helps you with understanding how to use Urgenda effectively as a task
 
 # Getting Started
 
+![Getting Started](/docs/UserGuide Diagrams/1.jpg)
 
 1. User input/command bar: Enter your to-dos here easily using the given Command Tags.
 2. Feedback prompt: The outcome to any changes that you make to your tasks is shown here.
@@ -44,16 +45,19 @@ Example:
 _**Add** Dinner with Mum **at** 23/3/2016 7:00pm to 8:00pm_
 	* If only a start time is given, then end time will automatically be set to 1 hour after the start time. 
 	
+	![Example 2](/docs/UserGuide Diagrams/2.gif)
 
 * Deadline: Task is given with only an end time.
 Example: 
 _**Add** Return home **by** 23/3/2016 7:00pm_
 	
+	![Example 3](/docs/UserGuide Diagrams/3.gif)
 
 * Floating: Task is given with no start time and end time. 
 Example:
 _**Add** Dinner with Mum_
 
+	![Example 4](/docs/UserGuide Diagrams/4.gif)
 
 ## Delete
 
@@ -64,9 +68,11 @@ Specify the task number, the task description or simply highlight the task to be
 Example:
 * _**Delete** Dinner with Mum_
 
+![Example 5](/docs/UserGuide Diagrams/5.gif)
 
 * _**Delete** 4_
 
+![Example 6](/docs/UserGuide Diagrams/6.gif)
 
 ## Mark as Completed
 
@@ -77,9 +83,11 @@ Similar to [Delete](#delete), specify the task number, the task description or s
 Example:
 * _**Mark** Dinner with Mum_
 
+![Example 7](/docs/UserGuide Diagrams/7.gif) 
 
 * _**Done** 3_
 
+![Example 8](/docs/UserGuide Diagrams/8.gif)
 
 ## Edit
 
@@ -95,7 +103,9 @@ Example:
 * _**Change** Dinner with Mum **@** NEX
 * _**Edit** 4 Dinner with Mum and Dad
 
-
+```java
+//TODO: insert image
+```
 
 ## Search
 
@@ -115,6 +125,9 @@ _**Search** boss_
 * _Report to boss by 4/4/2016 3:00pm_
 * _Meeting with boss at 6/4/2016 2:00pm to 5:00pm_
 
+```java
+//TODO: insert image
+```
 
 ## Exit
 
@@ -126,11 +139,17 @@ To exit Urgenda, click the top right exit button, or type **exit**
 
 **Showmore** is a specific command to expand a specific task for the user to view more ddetails about that task, such as the locaiton, the tags for that task, or for any other additional details. 
 
+```java
+//TODO: insert image
+```
 
 ## Archive
 
 To show previously completed tasks, the commands are **Archive** and **Showarchive**
 
+```java
+//TODO: insert image
+```
 
 ## Undo/Redo
 
@@ -152,7 +171,9 @@ This feature allows you to mark certain tasks as important. These tasks will be 
 
 **Urgent**, **Important**, **Impt**, **Pri** or **Pin** are the commands to prioritise a task. 
 Example:
-
+```java
+//TODO: insert image
+```
 
 # Shortcuts
 * Ctrl + Z / Ctrl + Y : Undoing/Redoing what was previously written in the command bar
