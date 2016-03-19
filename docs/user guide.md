@@ -21,9 +21,7 @@ This guide helps you with understanding how to use Urgenda effectively as a task
 
 # Getting Started
 
-```java
-//TODO: insert image
-```
+![Getting Started](/docs/UserGuide Diagrams/1.jpg)
 
 1. User input/command bar: Enter your to-dos here easily using the given Command Tags.
 2. Feedback prompt: The outcome to any changes that you make to your tasks is shown here.
@@ -43,23 +41,23 @@ Use **Command Tags** to add in details for the task, "**at**" for time, "**@**" 
 
 Tasks are separated into 3 categories, Events, Deadlines and Floatings. 
 * Event: Task is given with a start time and end time.
-Example: _**Add** Dinner with Mum **at** 23/3/2016 7:00pm to 9:00pm_
+Example: 
+_**Add** Dinner with Mum **at** 23/3/2016 7:00pm to 8:00pm_
 	* If only a start time is given, then end time will automatically be set to 1 hour after the start time. 
-	```java
-	//TODO: insert image
-	```
+	
+	![Example 2](/docs/UserGuide Diagrams/2.gif)
 
 * Deadline: Task is given with only an end time.
-Example: _**Add** Return home **by** 23/3/2016 7:00pm_
-	```java
-	//TODO: insert image
-	```
+Example: 
+_**Add** Return home **by** 23/3/2016 7:00pm_
+	
+	![Example 3](/docs/UserGuide Diagrams/3.gif)
 
 * Floating: Task is given with no start time and end time. 
-Example: _**Add** Dinner with Mum_
-	```java
-	//TODO: insert image
-	```
+Example:
+_**Add** Dinner with Mum_
+
+	![Example 4](/docs/UserGuide Diagrams/4.gif)
 
 ## Delete
 
@@ -69,11 +67,12 @@ Specify the task number, the task description or simply highlight the task to be
 
 Example:
 * _**Delete** Dinner with Mum_
+
+![Example 5](/docs/UserGuide Diagrams/5.gif)
+
 * _**Delete** 4_
 
-```java
-//TODO: insert image
-```
+![Example 6](/docs/UserGuide Diagrams/6.gif)
 
 ## Mark as Completed
 
@@ -83,11 +82,12 @@ Similar to [Delete](#delete), specify the task number, the task description or s
 
 Example:
 * _**Mark** Dinner with Mum_
+
+![Example 7](/docs/UserGuide Diagrams/7.gif) 
+
 * _**Done** 3_
 
-```java
-//TODO: insert image
-```
+![Example 8](/docs/UserGuide Diagrams/8.gif)
 
 ## Edit
 

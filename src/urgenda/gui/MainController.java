@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import com.sun.javafx.tk.FileChooserType;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +13,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -26,7 +23,7 @@ public class MainController {
 	private static final String KEYWORD_REDO = "redo";
 	private static final String KEYWORD_SHOW_ALL = "home";
 	private static final String KEYWORD_DELETE = "delete";		
-	private static final String KEYWORD_CHANGE_SAVE_PATH = "saveto ";
+	private static final String KEYWORD_CHANGE_SAVE_PATH = "cd ";
 	private static final String KEYWORD_TESTLIST = "dummytest";
 	
 	//Elements loaded using FXML

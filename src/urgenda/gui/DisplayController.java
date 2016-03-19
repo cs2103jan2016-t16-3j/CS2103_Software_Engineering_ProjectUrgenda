@@ -2,15 +2,18 @@ package urgenda.gui;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Set;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import urgenda.util.Task;
@@ -69,24 +72,22 @@ public class DisplayController extends AnchorPane {
 	private VBox displayHolder;
 	@FXML
 	private ScrollPane displayArea;
-//	@FXML
-//	private ScrollBar visibleScrollbar;
 
 	private ArrayList<Task> _displayedTasks;
 	private ArrayDeque<Integer> _detailedIndexes;
-	private int _selectedTaskIndex;
+	private IntegerProperty _selectedTaskIndex;
 	private Main _main;
 
 	public DisplayController() {
-		_selectedTaskIndex = -1;
+		_selectedTaskIndex = new SimpleIntegerProperty(-1);
+		_selectedTaskIndex.addListener(new ChangeListener<Number>(){
+			@Override
+			public void changed(ObservableValue<? extends Number> value, Number oldIndex, Number newIndex) {
+				setDisplayScroll(oldIndex, newIndex);
+			}});
 		_displayedTasks = new ArrayList<Task>();
 		_detailedIndexes = new ArrayDeque<Integer>();
 	}
-	
-	public void setScrollBar () {
-		//TODO scrollbar
-	}
-	
 	
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes, int modifiedTaskIndex, boolean showNoviceHeaders) {
 		displayHolder.getChildren().clear();
@@ -129,7 +130,6 @@ public class DisplayController extends AnchorPane {
 			showZeroTasksFeedback();
 		}
 		initSelectedTask(modifiedTaskIndex);
-		setDisplayScroll();
 		if (displayHeader != null) { //display header needs to be changed
 			setDisplayHeader(displayHeader);
 		}
@@ -173,52 +173,86 @@ public class DisplayController extends AnchorPane {
 
 	private void initSelectedTask(int index) {
 		if (!_displayedTasks.isEmpty()) {
-			_selectedTaskIndex = index;
+			_selectedTaskIndex.set(index);
 			((TaskController) displayHolder.getChildren().get(index)).setSelected(true);
 		} else {
-			_selectedTaskIndex = -1;
+			_selectedTaskIndex.set(-1);	//TODO magic number
 		}
 	}
 	
 	// TODO set display scroll position according to latest changed/added task
-	private void setDisplayScroll() {
-		displayArea.setVvalue(DEFAULT_VERTICAL_SCROLL_HEIGHT);
+	private void setDisplayScroll(Number oldIndex, Number newIndex) {
+		if(newIndex.intValue() >= 0) {
+			double oldSelectedTaskHeightTop = 0;	
+			double oldSelectedTaskHeightBottom = 0;
+			double newSelectedTaskHeightTop = 0;
+			double newSelectedTaskHeightBottom = 0;
+			double taskHeightSum = 0.0;
+			for(int i = 0; i < displayHolder.getChildren().size(); i++) {					
+				taskHeightSum += ((TaskController) displayHolder.getChildren().get(i)).getMaxHeight();
+				if(oldIndex.intValue() >= 0 && i == oldIndex.intValue()) {
+					oldSelectedTaskHeightBottom = taskHeightSum;
+				}
+				if(oldIndex.intValue() >= 0 && i == oldIndex.intValue() - 1) {
+					oldSelectedTaskHeightTop = taskHeightSum;
+				}
+				if(i == newIndex.intValue() - 1) {
+					newSelectedTaskHeightTop = taskHeightSum;
+				}
+				if(i == newIndex.intValue()) {
+					newSelectedTaskHeightBottom = taskHeightSum;
+				}
+			}
+			displayArea.setVmax(taskHeightSum - displayArea.getHeight());
+			System.out.println("ths " + taskHeightSum);
+			double oldScrollHeightTop = displayArea.getVvalue();
+			System.out.println(oldScrollHeightTop);
+			if (!isFullyWithinRange(oldScrollHeightTop, oldScrollHeightTop + displayArea.getHeight(), newSelectedTaskHeightTop, newSelectedTaskHeightBottom)) { //new selected task cannot be fully visible
+				System.out.println("out of range");
+				if (oldSelectedTaskHeightBottom == newSelectedTaskHeightTop) { //indicator move downwards
+					System.out.println(newSelectedTaskHeightBottom - displayArea.getHeight());
+					displayArea.setVvalue(newSelectedTaskHeightBottom - displayArea.getHeight());
+				} else if (oldSelectedTaskHeightTop == newSelectedTaskHeightBottom) { //indicator move upwards
+					System.out.println(newSelectedTaskHeightTop);
+					displayArea.setVvalue(newSelectedTaskHeightTop);
+				} else {
+					//TODO implement scroll for returned task index					
+				}
+			}			
+		}
+		
 	}
 	
+	private boolean isFullyWithinRange(double rangeTop, double rangeBottom, double top, double bottom) {
+		if(top < rangeTop) {
+			return false;
+		}
+		if(bottom > rangeBottom) {
+			return false;
+		}
+		return true;
+	}
+
 	protected void toggleDetailedOnClick(Task task, int index, TaskDisplayType taskDisplayType) {
 		_main.handleCommandLine(KEYWORD_SHOWMORE);
 	}
 	
 	public void traverseTasks(Direction direction) {
-		if (direction == Direction.DOWN && _selectedTaskIndex < _displayedTasks.size() - 1) {
-			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-			((TaskController) displayHolder.getChildren().get(++_selectedTaskIndex)).setSelected(true);
-		} else if (direction == Direction.UP && _selectedTaskIndex != 0) {
-			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-			((TaskController) displayHolder.getChildren().get(--_selectedTaskIndex)).setSelected(true);
+		if (direction == Direction.DOWN && _selectedTaskIndex.getValue() < _displayedTasks.size() - 1) {
+			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
+			_selectedTaskIndex.set(_selectedTaskIndex.getValue() + 1);
+			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
+		} else if (direction == Direction.UP && _selectedTaskIndex.getValue() != 0) {
+			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
+			_selectedTaskIndex.set(_selectedTaskIndex.getValue() - 1);
+			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
 		}
 	}
-
-	// TODO: implement scrollbar
-	// public void setScrollbar() {
-	// visibleScrollbar.setMax(displayArea.getViewportBounds().getHeight());
-	// System.out.println(displayArea.getViewportBounds().getHeight());
-	// visibleScrollbar.setMin(0);
-	// vPosition = new SimpleDoubleProperty();
-	// vPosition.bind(visibleScrollbar.valueProperty());
-	// vPosition.addListener(new ChangeListener<Number>(){
-	// @Override
-	// public void changed(ObservableValue<? extends Number> observable, Number
-	// oldValue, Number newValue) {
-	// displayArea.setVvalue((double) newValue);
-	// }
-	// });
-	// }
 	
 	protected void setSelectedIndexOnClick(int index) {
-		if (index != _selectedTaskIndex) {
-			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex)).setSelected(false);
-			_selectedTaskIndex = index;
+		if (index != _selectedTaskIndex.getValue()) {
+			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
+			_selectedTaskIndex.set(index);
 		}
 	}
 
@@ -227,11 +261,26 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public int getSelectedTaskIndex() {
-		return _selectedTaskIndex;
+		return _selectedTaskIndex.getValue();
 	}
 
 	public void setMain(Main main) {
 		_main = main;
 		
+	}
+
+	public void setStartupDisplay(TaskList allTasks, String createDisplayHeader, ArrayList<Integer> detailedIndexes,
+			int displayPosition, boolean showNoviceHeaders) {
+		setDisplay(allTasks, createDisplayHeader, detailedIndexes, displayPosition, showNoviceHeaders);
+		displayArea.setOnScroll(new EventHandler<ScrollEvent>() {
+		      @Override
+		      public void handle(ScrollEvent scrollEvent) {
+		    	  if(scrollEvent.getDeltaY() > 0) {
+		    		  //TODO
+		    	  } else if(scrollEvent.getDeltaY() < 0) {
+		    		  //TODO
+		    	  }
+		      }
+		    });
 	}
 }
