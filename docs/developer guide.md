@@ -24,12 +24,16 @@
 ![Architecture](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Architecture%20(new).png?raw=true)
 > Figure 1: Architecture of Urgenda
 
+Urgenda consists of 4 main components, with the interaction for the user through the UI
+1. The `UI` component uses JavaFX with FXML files for displaying the UI to the user, with the controllers in java files to control the display
+2. The `Logic` component is the main brainchild of Urgenda. Every other component interacts with `Logic` to provide information and details that are required for Urgenda to run smoothly
+3. The `Parser` component is the parser of Urgenda, parsing natural language used by a typical user into processable variables and attributes for `Logic` to utilise for maximum effectiveness
+4. The `Storage` component keeps all the Tasks, data and settings in textfiles on the user's computer, allowing Urgenda to instantly restore all the previous tasks of the user when he starts up Urgenda every time.
+
 # UI Component
 ![UI](/docs/UML Diagrams/UI.png)
 > Figure 2: Structure of UI component
 
-The UI is actually a piece of shit. This UI is really really bad HFE designing. No task analysis is done at all, with zero observational study, usability testing or any data gathering done. 
-I am not even trying to applying what I have learnt in class, but I'm damn proud of it. 'Cus Im an asshole. 
 
 ## Main Class
 ## MainController Class
@@ -44,11 +48,11 @@ The Logic component is accessible through the `Logic` class using the facade pat
 
 ## Logic Class
 ![Logic](/docs/UML Diagrams/Logic sequence diagram.png)
-> Figure 4: Sequence Diagram when a add command is given
+> Figure 4: Sequence Diagram when an `add` command is given
 
 The `Logic` class contains the methods that handle the core functionality of Urgenda. It can be thought of as the "processor" of Urgenda. User inputs are passed to the `executeCommand(String, int)` to determine the corresponding command object based on the user input by the `Parser` component.
 
-After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facillitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
+After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facilitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
 
 The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
 
@@ -58,7 +62,11 @@ The executeCommand(String) method will then return the appropriate feedback to i
 ![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
 > Figure 5: Structure of Command component where the Command Pattern is used
 
-`Command` is an abstract class that uses the Command Pattern and holds the `execute()` method where the generic execution of `Command.execute()` can be used. Classes that extends from it will have their own implementation of the `execute()` method. `TaskCommand` is another abstract class which extends `Command` and is for commands that deal with manipulation of Task objects. `TaskCommand` has two abstract functions which are `Undo()` and `Redo()` which are also implemented separately by the child classes to revert the changes made by that command. 
+The Command component is part of the Logic processing in Urgenda, where the specific commands are being executed by the program. It mainly consists the specific execution instructions of the individual command types.
+
+`Command` is an abstract class that uses the Command Pattern and holds the `execute()` method where the generic execution of `Command.execute()` can be used. Classes that extends from it will have their own implementation of the `execute()` method. `TaskCommand` is another abstract class which extends `Command` and is for commands that deal with manipulation of Task objects. `TaskCommand` has two abstract functions which are `Undo()` and `Redo()` which are also implemented separately by the child classes to revert the changes made by that command.
+
+The structure of the Command component allows the flexibility of adding new command types to Urgenda by simply extending one of the two abstract classes (`Command` and `TaskCommand`). The abstraction of the Command class allows new Commands to be added by just extending and implementing their unique `execute()` command.
 
 # Parser Component
 ![Parser](/docs/UML Diagrams/Parser.png)

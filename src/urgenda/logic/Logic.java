@@ -1,6 +1,7 @@
 package urgenda.logic;
 
 import urgenda.command.Command;
+import urgenda.parser.CommandParser;
 import urgenda.parser.Parser;
 import urgenda.util.MyLogger;
 import urgenda.util.StateFeedback;
@@ -36,7 +37,7 @@ public class Logic {
 		logger.myLogger.info("Checking index: " + index + " >= -1 " );
 		
 		// parser take in a string and return it in its corresponding class obj
-		Command currCmd = Parser.parseCommand(command,index);
+		Command currCmd = CommandParser.parseCommand(command,index);
 		assert (currCmd != null); // asserts that parser returns a command object
 		logger.myLogger.info("Checking cmd obj: " + currCmd + " is non null");
 		
