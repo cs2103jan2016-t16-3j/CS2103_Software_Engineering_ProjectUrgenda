@@ -114,6 +114,12 @@ Class | Function
 `PublicFunctions` | This class contains all the public functions shared between the command parser classes to perform their role.
 `PublicVariables` | This class contains all the public variables accessible to the different command parser classes and needed to generate the appropriate type of returned Command object and correct details.
 
+The API of parser is:
+
+Method | Return type and function
+--- | --- 
+`ParseCommand(String commandString)` | Returns a Command object with specific type and details, as parsed by parser.
+
 # Storage Component
 ![Storage](/docs/UML Diagrams/Storage.png)
 > Figure 7: Structure of Storage component
