@@ -48,7 +48,7 @@ The table below shows the classes in Logic component and their functions:
 
 Class | Function
 --- | ---
-`Logic` (Facade) | Main handler for external calls from other components. Also has the Singleton pattern as there should always be only one Logic handling the processes in Urgenda.
+`Logic` (Facade) | Main handler for external calls from other components. Also has the Singleton pattern as there should always be only one `Logic` handling the processes in Urgenda.
 `LogicData` | Class in Logic component that stores the Tasks temporarily when Urgenda is running. Most data manipulation and edits are done through `LogicData`. It is also responsible for generation of the current state for returning to UI. Also has the Singleton pattern to ensure that all data manipulation is done on the only LogicData.
 `LogicCommand` | Class where the Commands are being stored in the Logic component. Execution of commands as well as undo/redo of these commands will be carried out by LogicCommand.
 
