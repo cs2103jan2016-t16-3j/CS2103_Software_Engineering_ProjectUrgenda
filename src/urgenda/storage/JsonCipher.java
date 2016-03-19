@@ -147,6 +147,7 @@ public class JsonCipher {
 	}
 
 	public void setType(Task task) {
+		assert(task.getTaskType() != null);
 		if (task.getTaskType().toString().equals(TASKTYPE_EVENT)) {
 			_detailsMap.put(HASHMAP_KEY_TYPE, TASKTYPE_EVENT);
 		} else if (task.getTaskType().toString().equals(TASKTYPE_DEADLINE)) {
