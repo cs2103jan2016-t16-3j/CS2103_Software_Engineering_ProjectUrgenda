@@ -99,7 +99,19 @@ The structure of the Command component allows the flexibility of adding new comm
 # Parser Component
 ![Parser](/docs/UML Diagrams/Parser.png)
 > Figure 6: Structure of Parser component
+
+The Parser component is accessible through the `Parser` class using the interface pattern. This component is invoked by the `Logic` component, and has the function of parsing a passed in user command string and return an appropriate Command Object. In order to do this, Parser will access different classes, each having its unique functions, as listed in the next section.
+
 ## Parser Class
+
+Class | Function
+--- | ---
+`CommandTypeParser` | In charge of parsing the passed in user command string to determine the type of expected returned Command object, as well as returning the string of arguments for further processing by other respective classes, such as `DateTimeParser` or `TaskDetailsParser`.
+`Collection of CommandParsers` | Includes various classes that are in charge of generating and returned a specific type of Command object, such as `AddTask` or `DeleteTask`. The type and details of the returned Command objects depend on the private attributes String _argsString and int _index present in each of these classes, which will be set upon calling of its constructor. Each classes have its own method that invokes different functions in `PublicFunctions` to perform the correct parsing depending on the type of returned Command.
+`DateTimeParser` | In charge of recognizing and parsing date and time values in the argument string. DateTimeParser relies on PrettyTimeParser, which is a external open source project that parses date and time values in natural language flexibly. The role of DateTimeParser is to make modifications to the pick-up patterns of PrettyTimeParser, as well as handling user keywords in the command. The parsing result is made directly on the variables stored in PublicVariables, and DateTimeParser returned the argument string already trimmed of date time expressions.
+`TaskDetailParser` | In charge of recognizing and parsing other relevant details in the argument string, including task index, description, location and hashtags.
+`PublicFunctions` | This class contains all the public functions shared between the command parser classes to perform their role.
+`PublicVariables` | This class contains all the public variables accessible to the different command parser classes and needed to generate the appropriate type of returned Command object and correct details.
 
 # Storage Component
 ![Storage](/docs/UML Diagrams/Storage.png)
