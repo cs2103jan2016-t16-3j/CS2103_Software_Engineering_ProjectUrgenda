@@ -46,6 +46,15 @@ Urgenda consists of 4 main components, with the interaction for the user through
 
 The Logic component is accessible through the `Logic` class using the facade pattern, in which it is in charge of handling the execution of user inputs from the UI component. This component only relies on the Parser component and Storage component and works independently from the UI component.
 
+The table below shows the notable API of Logic:
+
+Method | Return type and function
+--- | ---
+`executeCommand(String command, int index)` | Returns a `StateFeedback` object which consists of the execution feedback, as well as the current state of the task objects relevant to display for UI. The method will be used to process all inputs by the user.
+`retrieveStartupState()` | Returns a `StateFeedback` object of the system. This method is for the initial startup of Urgenda in setting up the components as well as retrieval of previously saved tasks.
+`displayHelp()` | Returns a `String` which consists of the help manual of Urgenda. This method is used for the request of Urgenda's help manual.
+`getCurrentSaveDirectory()` | Returns a `String` of the current location where the data is being saved on the user's computer.
+
 ## Logic Class
 The `Logic` class contains the methods that handle the core functionality of Urgenda. It can be thought of as the "processor" of Urgenda. User inputs are passed to the `executeCommand(String, int)` to determine the corresponding command object based on the user input by the `Parser` component.
 
@@ -67,6 +76,19 @@ The executeCommand(String) method will then return the appropriate feedback to i
 # Command Component
 ![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
 > Figure 5: Structure of Command component where the Command Pattern is used
+
+Here is the abstract method that is present in `Command` class.
+
+Method | Return type and function
+--- | ---
+`execute()` | Returns a `String` which represents the feedback of the command being executed. This is the abstract method for the generic execution of Commands.
+
+Additionally, here are the abstract methods present in the `TaskCommand` class.
+
+Method | Return type and function
+--- | ---
+`undo()` | Returns a `String` which represents the feedback of the command being undone. This is the abstract method of the generic undo execution of each TaskCommand.
+`redo()` | Returns a `String` which represents the feedback of the command being done again. This is the abstract method of the generic redo execution of each TaskCommand.
 
 The Command component is part of the Logic processing in Urgenda, where the specific commands are being executed by the program. It mainly consists the specific execution instructions of the individual command types.
 
