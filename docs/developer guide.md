@@ -23,6 +23,7 @@
 > Figure 1: Architecture of Urgenda
 
 Urgenda consists of 4 main components, with the interaction for the user through the UI
+
 1. The `UI` component uses JavaFX with FXML files for displaying the UI to the user, with the controllers in java files to control the display
 2. The `Logic` component is the main brainchild of Urgenda. Every other component interacts with `Logic` to provide information and details that are required for Urgenda to run smoothly
 3. The `Parser` component is the parser of Urgenda, parsing natural language used by a typical user into processable variables and attributes for `Logic` to utilise for maximum effectiveness
@@ -69,7 +70,7 @@ A generic example of the process flow in Logic can be seen below:
 ![Logic](/docs/UML Diagrams/Logic sequence diagram.png)
 > Figure 4: Sequence Diagram when an `add` command is given
 
-After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facilitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
+After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added to task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facilitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
 
 The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
 
