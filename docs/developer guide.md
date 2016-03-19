@@ -12,8 +12,6 @@
 	* [TaskDetailsController class](#taskdetailscontroller-class)
 * [Logic component](#logic-component)
 	* [Logic class](#logic-class)
-	* [LogicData class](#logicdata-class)
-	* [LogicCommand class](#logiccommand-class)
 * [Command component](#command-component)
 * [Parser component](#parser-component)
 	* [Parser Class](#parser-class)
@@ -46,7 +44,15 @@ Urgenda consists of 4 main components, with the interaction for the user through
 
 The Logic component is accessible through the `Logic` class using the facade pattern, in which it is in charge of handling the execution of user inputs from the UI component. This component only relies on the Parser component and Storage component and works independently from the UI component.
 
-The table below shows the notable API of Logic:
+The table below shows the classes in Logic component and their functions:
+
+Class | Function
+--- | ---
+`Logic` (Facade) | Main handler for external calls from other components. Also has the Singleton pattern as there should always be only one Logic handling the processes in Urgenda.
+`LogicData` | Class in Logic component that stores the Tasks temporarily when Urgenda is running. Most data manipulation and edits are done through `LogicData`. It is also responsible for generation of the current state for returning to UI. Also has the Singleton pattern to ensure that all data manipulation is done on the only LogicData.
+`LogicCommand` | Class where the Commands are being stored in the Logic component. Execution of commands as well as undo/redo of these commands will be carried out by LogicCommand.
+
+Furthermore, the table below shows the notable API for usage of Logic:
 
 Method | Return type and function
 --- | ---
@@ -66,12 +72,6 @@ A generic example of the process flow in Logic can be seen below:
 After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facilitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
 
 The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
-
-## LogicData Class
-`LogicData` is the main class in Logic component that stores the Tasks temporarily when Urgenda is running. Most data manipulation and edits are done through `LogicData`. It is also responsible for generation of the current state for returning to UI.
-
-## LogicCommand Class
-`LogicCommand` is where the Commands are being stored in the Logic component. Execution of commands as well as undo/redo of these commands will be carried out by LogicCommand.
 
 # Command Component
 ![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
