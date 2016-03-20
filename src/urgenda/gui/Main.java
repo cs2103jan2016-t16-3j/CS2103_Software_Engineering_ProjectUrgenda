@@ -77,7 +77,7 @@ public class Main extends Application {
 		_displayController = _mainController.getDisplayController();
 		StateFeedback state = retrieveStartupState();
 		//TODO implement check settings for showing novice headers, change boolean below
-		_displayController.setStartupDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
+		_displayController.initDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
 		_displayController.setMain(this);
 	}
 
@@ -163,13 +163,13 @@ public class Main extends Application {
 	
 	//dummy method to create dummy list of tasks
 	protected String setupDummyList() {
-		Task taskO = new Task("Overdue task", "O location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskO = new Task("Complete tutorial", "O location", null, LocalDateTime.now().minusDays(1).withHour(23).withMinute(59),
 				new ArrayList<String>(), false);
-		Task taskTI = new Task("Today Important task deadline", "TI location", null, LocalDateTime.now(),
+		Task taskTI = new Task("Dinner with mum", "TI location", LocalDateTime.now().withHour(19).withMinute(0), LocalDateTime.now().withHour(20).withMinute(0),
 				new ArrayList<String>(), true);
 		Task taskT = new Task("Today task long long long long", "T location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
-		Task taskTD = new Task("Today Detailed task long long long", "Today Detailed location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskTD = new Task("Finish writing testimonial for scholarship application", "", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), false);
 		Task taskI = new Task("Important task", "I location", LocalDateTime.now(), LocalDateTime.now(),
 				new ArrayList<String>(), true);

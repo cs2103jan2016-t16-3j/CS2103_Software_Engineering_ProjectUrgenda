@@ -28,7 +28,7 @@
       <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="1" />
+      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
       <Label fx:id="taskIndexLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="20.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="5.0" top="7.0" />
@@ -57,7 +57,7 @@
                   </Label>
                   <HBox prefHeight="20.0" prefWidth="190.0">
                      <children>
-                        <ImageView fitHeight="16.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="locationIcon" fitHeight="16.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resources/location_icon.png" />
                            </image>

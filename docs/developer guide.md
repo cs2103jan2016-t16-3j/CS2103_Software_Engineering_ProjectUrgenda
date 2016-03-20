@@ -28,14 +28,28 @@
 ![UI](/docs/UML Diagrams/UI.png)
 > Figure 2: Structure of UI component
 
-The UI is actually a piece of shit. This UI is really really bad HFE designing. No task analysis is done at all, with zero observational study, usability testing or any data gathering done. 
-I am not even trying to applying what I have learnt in class, but I'm damn proud of it. 'Cus Im an asshole. 
+The UI component is the solo component responsible for creating and maintaining Urgenda's graphical user interface. It is also the only component that directly handles any user interaction with Urgenda. User input is mainly through the command line input through the input bar at the bottom of the window. Minor click functionalities are also enabled to enhance the user experience, but do not provide any extra functions beyond that available through command line input.
+
+JavaFX and CSS are used to setup the layout and design for the graphical user interface.
 
 ## Main Class
+The `Main` class acts as the intermediary between the controllers for all UI components with the back-end Logic component. This abstracts all command execution flow from the UI class.
+
 ## MainController Class
+The `MainController` class handles all user interaction with Urgenda, for both command line input as well as click inputs. Several event handlers set in this class, including `commandLineListener`, will call the UI class's handleCommandLine  method as pass the command line String as the argument. Other event handlers include accelerated keyboard shortcuts for undo, redo, and help functions. This class also displays feedback from any user interaction to the user.
+
 ## DisplayController Class
+The `DisplayController` class handles the display area where relevant tasks are displayed to the user. The display area is set up using the `setDisplay` method, where the task panels are created and added to the display according to the task list argument passed. This class also handles the setup of the design for tasks with different task types and tasks to show details for.
+
 ## TaskController Class
+The `TaskController` class handles the set up of the panel for one single task. The task index as ordered in the display area, description, prioritisation, as well as relevant dates and times, are shown on the panel. This class also applies the task design style for the task, and formats the dates and times with respect to the current date and time.
+
 ## TaskDetailsController Class
+The `TaskDetailsController` class is a extended class from `TaskController`. This class is invokes to create the task panel when the relevant task is required to show more details, such as location, date created and modified, and long descriptions.
+
+## FXML Files
+Each controller class will load an FXML file, which sets the layout of the UI window according to the design set by these FXML files. There are a total of 5 FXML files: Main.fxml, DisplayView.fxml, TaskView.fxml, and DetailedTaskView.fxml for the main UI window, and HelpSplash.fxml for setting the help window. FXML files can be opened and edited using SceneBuilder 2.0, which is an official visual layout tool for JavaFX applications from Oracle. More information about SceneBuilder 2.0 can be found at: [a link](http://www.oracle.com/technetwork/java/javase/downloads/sb2download-2177776.html)
+
 # Logic Component
 ![Logic](/docs/UML Diagrams/Logic.png)
 > Figure 3: Structure of Logic component
@@ -48,7 +62,7 @@ The Logic component is accessible through the `Logic` class using the facade pat
 
 The `Logic` class contains the methods that handle the core functionality of Urgenda. It can be thought of as the "processor" of Urgenda. User inputs are passed to the `executeCommand(String, int)` to determine the corresponding command object based on the user input by the `Parser` component.
 
-After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facillitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
+After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateState()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facillitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
 
 The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
 
