@@ -309,6 +309,11 @@ public class Task {
 	}
 
 	public boolean isOverlapping(Task task) {
+		// defensive code to prevent checking of non event types
+		if (task.getTaskType() != Task.Type.EVENT || this.getTaskType() != Task.Type.EVENT) {
+			return false;
+		}
+		
 		// TODO check if all cases are covered
 		if (task.getEndTime().isAfter(_startTime) && task.getEndTime().isBefore(_endTime)) {
 			return true;
