@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 
 import urgenda.logic.LogicData;
+import urgenda.util.DateTimePair;
 import urgenda.util.Task;
 import urgenda.util.Task.Type;
 
@@ -30,7 +32,7 @@ public class FindFree extends Command {
 		LogicData data = LogicData.getInstance();
 		ArrayList<Task> matches = new ArrayList<Task>(); //arraylist for storing of tasks that contains searched range
 		ArrayList<Task> free = new ArrayList<Task>(); //arraylist to be returned to gui for display
-		//Dequeue<new structure> _temp = new Dequeue<new structure>();
+		Deque<DateTimePair> _temp; // feel free to use other struct and delete this
 		String feedback = null;
 		for (Task task : data.getDisplays()) {
 			if(task.getTaskType().equals(Type.EVENT) && isPartOfRange(task)){
