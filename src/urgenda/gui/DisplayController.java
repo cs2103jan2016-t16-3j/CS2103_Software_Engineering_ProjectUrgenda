@@ -74,7 +74,6 @@ public class DisplayController extends AnchorPane {
 	private ArrayList<Task> _displayedTasks;
 	private ArrayDeque<Integer> _detailedIndexes;
 	private IntegerProperty _selectedTaskIndex;
-
 	private boolean _allowChangeScroll;
 	private Main _main;
 
@@ -114,6 +113,7 @@ public class DisplayController extends AnchorPane {
 		
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
 			int modifiedTaskIndex, boolean showNoviceHeaders) {
+		_allowChangeScroll = false;
 		displayHolder.getChildren().clear();
 		_displayedTasks.clear();
 		_displayedTasks.addAll(updatedTasks.getTasks());
@@ -208,25 +208,17 @@ public class DisplayController extends AnchorPane {
 			_selectedTaskIndex.set(index);
 			((TaskController) displayHolder.getChildren().get(index)).setSelected(true);
 		} else {
-			_selectedTaskIndex.set(-1); // TODO magic number
+			_selectedTaskIndex.set(-1);
 		}
 	}
 
 	private void setDisplayScroll(Number oldIndex, Number newIndex) {
 		if (newIndex.intValue() >= 0) {
-			double oldIndexTop = 0;
-			double oldIndexBottom = 0;
 			double newIndexTop = 0;
 			double newIndexBottom = 0;
 			double heightSum = 0.0;
 			for (int i = 0; i < displayHolder.getChildren().size(); i++) {
 				heightSum += ((TaskController) displayHolder.getChildren().get(i)).getMaxHeight();
-				if (oldIndex.intValue() >= 0 && i == oldIndex.intValue()) {
-					oldIndexBottom = heightSum;
-				}
-				if (oldIndex.intValue() >= 0 && i == oldIndex.intValue() - 1) {
-					oldIndexTop = heightSum;
-				}
 				if (i == newIndex.intValue() - 1) {
 					newIndexTop = heightSum;
 				}
@@ -236,24 +228,17 @@ public class DisplayController extends AnchorPane {
 			}
 			displayArea.setVmax(heightSum - displayArea.getHeight());
 			double oldScrollHeightTop = displayArea.getVvalue();
-			
 			if (!isFullyWithinRange(oldScrollHeightTop, oldScrollHeightTop + displayArea.getHeight(),
 					newIndexTop, newIndexBottom)) { //new selected task is not fully visible in displayArea
 				if (oldIndex.intValue() < 0) { //initialising or adding from no tasks
 					changeDisplayVvalue(newIndexTop);
-				} else if (newIndex.intValue() > oldIndex.intValue()) { //downward indicator
+				} else if (newIndex.intValue() > oldIndex.intValue()) { //task is below screen
 					changeDisplayVvalue(newIndexBottom - displayArea.getHeight());
-				} else if (newIndex.intValue() < oldIndex.intValue()) { //upward indicator
+				} else if (newIndex.intValue() < oldIndex.intValue()) { //task is above screen
 					changeDisplayVvalue(newIndexTop);
 				}
 			} 
 		}
-	}
-	
-	private void changeDisplayVvalue(double value) {
-		_allowChangeScroll = true;
-		displayArea.setVvalue(value);
-		_allowChangeScroll = false;
 	}
 	
 	private boolean isFullyWithinRange(double rangeTop, double rangeBottom, double top, double bottom) {
@@ -264,10 +249,6 @@ public class DisplayController extends AnchorPane {
 			return false;
 		}
 		return true;
-	}
-
-	protected void toggleDetailedOnClick(Task task, int index, TaskDisplayType taskDisplayType) {
-		_main.handleCommandLine(KEYWORD_SHOWMORE);
 	}
 
 	public void traverseTasks(Direction direction) {
@@ -281,7 +262,7 @@ public class DisplayController extends AnchorPane {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
 		}
 	}
-
+	
 	protected void setSelectedIndexOnClick(int index) {
 		if (index != _selectedTaskIndex.getValue()) {
 			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
@@ -289,8 +270,18 @@ public class DisplayController extends AnchorPane {
 		}
 	}
 
+	protected void toggleDetailedOnClick(Task task, int index, TaskDisplayType taskDisplayType) {
+		_main.handleCommandLine(KEYWORD_SHOWMORE);
+	}
+	
 	public void setDisplayHeader(String displayed) {
 		displayHeader.setText(displayed);
+	}
+
+	private void changeDisplayVvalue(double value) {
+		_allowChangeScroll = true;
+		displayArea.setVvalue(value);
+		_allowChangeScroll = false;
 	}
 
 	public int getSelectedTaskIndex() {
@@ -299,7 +290,7 @@ public class DisplayController extends AnchorPane {
 
 	public void setMain(Main main) {
 		_main = main;
-
 	}
 
 }
+
