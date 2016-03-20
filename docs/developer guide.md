@@ -1,6 +1,8 @@
 #Developer Guide
 
-##Introduction
+Urgenda is a text-based task manager designed for users who are quick on the keyboard, or generally prefer using the keyboard over mouseclicks. It is a Java application that has a main GUI for users to interaction with mainly through typing. 
+
+This guide describes the implementation of Urgenda from a top-down approach, going from the big picture down to the small details, starting from the UI through which the user interacts with, to the Storage where the files are stored. This guide intends to allow easy assimilation of anyone who would like to contribute and add on to it. 
 
 ##Table of Contents
 * [Architecture](#architecture)
