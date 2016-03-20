@@ -74,7 +74,8 @@ public class DisplayController extends AnchorPane {
 	private ArrayList<Task> _displayedTasks;
 	private ArrayDeque<Integer> _detailedIndexes;
 	private IntegerProperty _selectedTaskIndex;
-	private double _scrollHeight;
+
+	private boolean _allowChangeScroll;
 	private Main _main;
 
 	public DisplayController() {
@@ -82,11 +83,12 @@ public class DisplayController extends AnchorPane {
 		_selectedTaskIndex.addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> value, Number oldIndex, Number newIndex) {
-				setDisplayScroll(oldIndex, newIndex);
+					setDisplayScroll(oldIndex, newIndex);
 			}
 		});
 		_displayedTasks = new ArrayList<Task>();
 		_detailedIndexes = new ArrayDeque<Integer>();
+		_allowChangeScroll = false; //set default setting to change scroll as false
 	}
 	
 	public void initDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
@@ -95,11 +97,19 @@ public class DisplayController extends AnchorPane {
 		displayArea.vvalueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-				if (_scrollHeight != newValue.doubleValue()) {
-					displayArea.setVvalue(_scrollHeight);
+				if (!_allowChangeScroll && oldValue != newValue) {
+					changeDisplayVvalue(oldValue.doubleValue());
 				}
 			}
 		});
+		displayArea.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent scrollEvent) {
+				if(!_allowChangeScroll) {
+					_allowChangeScroll = true;
+				}
+			}
+			});
 	}
 		
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
@@ -226,27 +236,26 @@ public class DisplayController extends AnchorPane {
 			}
 			displayArea.setVmax(heightSum - displayArea.getHeight());
 			double oldScrollHeightTop = displayArea.getVvalue();
-			//new selected task is not fully visible in displayArea
+			
 			if (!isFullyWithinRange(oldScrollHeightTop, oldScrollHeightTop + displayArea.getHeight(),
-					newIndexTop, newIndexBottom)) { 
+					newIndexTop, newIndexBottom)) { //new selected task is not fully visible in displayArea
 				if (oldIndex.intValue() < 0) { //initialising or adding from no tasks
-					_scrollHeight = newIndexTop;
-					displayArea.setVvalue(newIndexTop);
+					changeDisplayVvalue(newIndexTop);
 				} else if (newIndex.intValue() > oldIndex.intValue()) { //downward indicator
-					System.out.println("down " + (newIndexBottom - displayArea.getHeight()));
-					_scrollHeight = newIndexBottom - displayArea.getHeight();
-					displayArea.setVvalue(newIndexBottom - displayArea.getHeight());
+					changeDisplayVvalue(newIndexBottom - displayArea.getHeight());
 				} else if (newIndex.intValue() < oldIndex.intValue()) { //upward indicator
-					System.out.println("up " + newIndexTop);
-					_scrollHeight = newIndexTop;
-					displayArea.setVvalue(newIndexTop);
+					changeDisplayVvalue(newIndexTop);
 				}
-			} else {
-				System.out.println("in range");
-			}
+			} 
 		}
 	}
-
+	
+	private void changeDisplayVvalue(double value) {
+		_allowChangeScroll = true;
+		displayArea.setVvalue(value);
+		_allowChangeScroll = false;
+	}
+	
 	private boolean isFullyWithinRange(double rangeTop, double rangeBottom, double top, double bottom) {
 		if (top < rangeTop) {
 			return false;
