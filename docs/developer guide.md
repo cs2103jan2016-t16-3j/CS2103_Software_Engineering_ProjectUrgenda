@@ -85,8 +85,6 @@ Method | Return type and function
 ## Logic Class
 The `Logic` class contains the methods that handle the core functionality of Urgenda. It can be thought of as the "processor" of Urgenda. User inputs are passed to the `executeCommand(String, int)` to determine the corresponding command object based on the user input by the `Parser` component.
 
-After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateState()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facillitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
-
 A generic example of the process flow in Logic can be seen below:
 
 ![Logic](/docs/UML Diagrams/Logic sequence diagram.png)
@@ -175,12 +173,13 @@ Method | Return type and function
 `save(ArrayList<Task> tasks, ArrayList<Task> archives)` | Void function. This method is used to store all tasks in the datafile, for easy retrieval, relocation to another computer. 
 `changeFileSettings(String path, String name)` | Void function. This method allows the datafile to be renamed and move to other directories/folders through Urgenda itself, with no need to enter File Explorer
 
+These functions are catered specifically for `Logic` component as and when it is required. Below are specific UML diagrams for each of the methods, and how `Storage` relates and interacts with the other classes in this component. 
 
 ### Sequence diagram `updateArrayList`
 ![updateArrayListSD](/docs/UML Diagrams/updateSDStorage.png)
 > Figure 8: Sequence diagram of `updateArrayList()`
 
-`updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`.
+`updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`. With the `_fileDataStringArr` already retrieved and stored within `Storage` upon initialization, it simply has to be decrypted from JSON to actual Tasks objects. 
 
 
 
@@ -188,7 +187,9 @@ Method | Return type and function
 ![saveSD](/docs/UML Diagrams/saveSDStorage.png)
 > Figure 9: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
 
-`save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it.
+`save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it. This method can be split into two parts:
+1. Encrypting the array list of `Tasks` into JSON format and converting it to an array list of `String`. 
+2. This part entails writing the array list of `String` into the specified file, where each `String` represents a single `Task`
 
 
 
