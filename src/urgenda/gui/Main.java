@@ -163,45 +163,42 @@ public class Main extends Application {
 	
 	//dummy method to create dummy list of tasks
 	protected String setupDummyList() {
-		Task taskO = new Task("Complete tutorial", "O location", null, LocalDateTime.now().minusDays(1).withHour(23).withMinute(59),
+		Task taskOverdue = new Task("Complete tutorial", null, null, LocalDateTime.now().minusDays(1).withHour(23).withMinute(59),
 				new ArrayList<String>(), false);
-		Task taskTI = new Task("Dinner with mum", "TI location", LocalDateTime.now().withHour(19).withMinute(0), LocalDateTime.now().withHour(20).withMinute(0),
+		Task taskTodayImportant = new Task("Dinner with mum", null, LocalDateTime.now().withHour(19).withMinute(0), LocalDateTime.now().withHour(20).withMinute(0),
 				new ArrayList<String>(), true);
-		Task taskT = new Task("Today task long long long long", "T location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskToday1 = new Task("NUS Overseas Colleges Workshop", null, LocalDateTime.now().minusDays(1).withHour(10).withMinute(0), LocalDateTime.now().plusDays(1).withHour(22).withMinute(0),
 				new ArrayList<String>(), false);
-		Task taskTD = new Task("Finish writing testimonial for scholarship application", "", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskTodayDetailed = new Task("Finish writing testimonial for scholarship application", "", null, LocalDateTime.now().withHour(23).withMinute(59),
 				new ArrayList<String>(), false);
-		Task taskI = new Task("Important task", "I location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskImportant = new Task("Internship interview w/ Google", null, LocalDateTime.now().plusDays(6).withHour(10).withMinute(0), LocalDateTime.now().plusDays(6).withHour(11).withMinute(0),
 				new ArrayList<String>(), true);
-		Task taskD = new Task("Detailed task long long long long long long long long long long long long", "Detailed location", LocalDateTime.now(), LocalDateTime.now(),
-				new ArrayList<String>(), false);
-		Task task1 = new Task("floating task long long long long long", "1 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+		Task taskOverrun = new Task("Buy milk, eggs, correction tape, eraser", "Supermarket", null, null, new ArrayList<String>(),
 				false);
-		Task task2 = new Task("Detailed 2 task", "2 location", null, null, new ArrayList<String>(),
-				false);
-		Task taskC = new Task("Completed task", "C location", LocalDateTime.now(), LocalDateTime.now(),
+		Task taskDetailedLong = new Task("Success is the sum of small efforts, repeated day in and day out. - Robert Collier", null, null, null,
 				new ArrayList<String>(), false);
-		Task taskC2 = new Task("Completed task2", "C2 location", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<String>(),
+		Task taskC = new Task("Submit Project Report", null, null, LocalDateTime.now().minusDays(4).withHour(23).withMinute(59),
+				new ArrayList<String>(), false);
+		Task taskC2 = new Task("Dental Appointment", null, LocalDateTime.now().minusDays(8).withHour(10).withMinute(30), LocalDateTime.now().minusDays(8).withHour(12).withMinute(00), new ArrayList<String>(),
 				false);
 		
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Task> archives = new ArrayList<Task>();
-		tasks.add(taskO);
-		tasks.add(taskTI);
-		tasks.add(taskT);
-		tasks.add(taskTD);
-		tasks.add(taskI);
-		tasks.add(taskD);
-		tasks.add(task1);
-		tasks.add(task2);
+		tasks.add(taskOverdue);
+		tasks.add(taskTodayImportant);
+		tasks.add(taskToday1);
+		tasks.add(taskTodayDetailed);
+		tasks.add(taskImportant);
+		tasks.add(taskOverrun);
+		tasks.add(taskDetailedLong);
 		archives.add(taskC);
 		archives.add(taskC2);
 		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, archives, 1, 3, 4, 2));
+		state.setAllTasks(new TaskList(tasks, archives, 1, 3, 3, 2));
 		state.setFeedback("Welcome to Urgenda! Your task manager is ready for use.\nPress ALT + F1 for help.");
 		state.addDetailedTaskIdx(3);
 		state.addDetailedTaskIdx(5);
-		state.addDetailedTaskIdx(7);
+		state.addDetailedTaskIdx(6);
 		state.setState(StateFeedback.State.ALL_TASKS);
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0, true);
 		return state.getFeedback();

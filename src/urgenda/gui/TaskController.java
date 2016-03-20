@@ -39,11 +39,7 @@ public class TaskController extends GridPane {
 	@FXML
 	protected Label taskDescLabel;
 	@FXML
-	protected Label taskStartLabel;
-	@FXML
-	protected Label dateTimeTypeLabel;
-	@FXML
-	protected Label taskEndLabel;
+	protected Label taskDateTimeLabel;
 	@FXML
 	protected BorderPane noviceHeaderPane;
 	@FXML
@@ -65,23 +61,7 @@ public class TaskController extends GridPane {
 		setTaskClickHandler();
 		taskIndexLabel.setText(String.valueOf(_index + 1));
 		taskDescLabel.setText(task.getDesc());
-		switch (_task.getTaskType()) {
-		case FLOATING:
-			taskStartLabel.setText("");
-			taskEndLabel.setText("");
-			dateTimeTypeLabel.setText("");
-			break;
-		case EVENT:
-			taskStartLabel.setText(formatDateTime(_task.getStartTime()));
-			taskEndLabel.setText(formatDateTime(_task.getEndTime()));
-			dateTimeTypeLabel.setText("to");
-			break;
-		case DEADLINE:
-			taskStartLabel.setText("");
-			taskEndLabel.setText(formatDateTime(_task.getEndTime()));
-			dateTimeTypeLabel.setText("by");
-			break;
-		}
+		taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
 		switch (_taskDisplayType) {
 		case OVERDUE:
 			noviceHeaderLabel.setText("Overdue Tasks");
@@ -181,29 +161,49 @@ public class TaskController extends GridPane {
 	protected void setStyle(String backgroundColor, String weight) {
 		taskIndexLabel.setStyle(backgroundColor + weight);
 		taskDescLabel.setStyle(backgroundColor + weight);
-		taskStartLabel.setStyle(backgroundColor + weight);
-		dateTimeTypeLabel.setStyle(backgroundColor + weight);
-		taskEndLabel.setStyle(backgroundColor + weight);
+		taskDateTimeLabel.setStyle(backgroundColor + weight);
 	}
 
-	private String formatDateTime(LocalDateTime dateTime) {
+	private String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2) {
 		String dateTimeFormatter = "";
+		if(dateTime2 != null) {
+			if(dateTime1 == null) {	//format for deadline
+				dateTimeFormatter += "by ";
+				dateTimeFormatter += formatDate(dateTime2) + " ";
+				dateTimeFormatter += formatTime(dateTime2);
+			} else { //format for event
+				LocalDateTimeDifference timeDiff = new LocalDateTimeDifference(dateTime1, dateTime2);
+				dateTimeFormatter += formatDate(dateTime1) + " ";
+				dateTimeFormatter += formatTime(dateTime1) + " ";
+				dateTimeFormatter += "to ";
+				if (timeDiff.getDays() > 0) {
+					dateTimeFormatter += formatDate(dateTime2) + " ";
+				}
+				dateTimeFormatter += formatTime(dateTime2);				
+			}
+		}
+		return dateTimeFormatter;
+	}
+	
+	private String formatDate(LocalDateTime dateTime) {
 		LocalDateTimeDifference timeLeft = new LocalDateTimeDifference(LocalDateTime.now(), dateTime);
+		String formattedDate = "";
 		if(timeLeft.getRoundedDays() == 0) {
-				dateTimeFormatter += "Today ";
+			formattedDate += "Today";
 		} else if(timeLeft.getRoundedDays() == 1) {
 			if(timeLeft.firstIsBefore()) {
-				dateTimeFormatter += "Tomorrow ";
+				formattedDate += "Tomorrow";
 			} else {
-				dateTimeFormatter += "Yesterday ";
+				formattedDate += "Yesterday";
 			}
-		//} else if(timeLeft.getRoundedDays() <= 7 && timeLeft.firstIsBefore()) {
-		//	dateTimeFormatter += dateTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault()) + " ";
 		} else {
-			dateTimeFormatter += dateTime.format(DateTimeFormatter.ofPattern("dd MMM "));
+			formattedDate += timeLeft.getDateTime2().format(DateTimeFormatter.ofPattern("dd MMM"));
 		}
-		dateTimeFormatter += dateTime.format(DateTimeFormatter.ofPattern("h:mma"));
-		return dateTimeFormatter;
+		return formattedDate;
+	}
+	
+	private String formatTime(LocalDateTime dateTime) {
+		return dateTime.format(DateTimeFormatter.ofPattern("h:mma"));
 	}
 
 	protected void loadFXML() {

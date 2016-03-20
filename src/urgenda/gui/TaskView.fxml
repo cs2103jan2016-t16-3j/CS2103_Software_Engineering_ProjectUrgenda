@@ -15,10 +15,9 @@
       <ColumnConstraints hgrow="NEVER" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
      <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
             <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="15.0" minWidth="15.0" prefWidth="15.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="290.0" prefWidth="290.0" />
+      <ColumnConstraints />
+      <ColumnConstraints />
       <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
@@ -32,9 +31,9 @@
          </center>
       </BorderPane>
       <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-      <Label fx:id="taskIndexLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="20.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Label fx:id="taskIndexLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="30.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="5.0" top="7.0" />
+            <Insets left="10.0" top="7.0" />
          </GridPane.margin></Label>
       <BorderPane GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <GridPane.margin>
@@ -43,7 +42,7 @@
          <center>
                   <Label fx:id="taskDescLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="280.0" text="Task Name" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="5.0" />
+                  <Insets left="5.0" right="5.0" />
                </BorderPane.margin></Label>
          </center>
          <left>
@@ -57,17 +56,9 @@
             </ImageView>
          </left>
       </BorderPane>
-            <Label fx:id="taskStartLabel" prefHeight="20.0" prefWidth="140.0" text="Start DateTime" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Label fx:id="taskDateTimeLabel" prefHeight="20.0" prefWidth="290.0" text="Start Time to End Time / by Deadline" GridPane.columnIndex="3" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets top="8.0" />
-         </GridPane.margin></Label>
-      <Label fx:id="dateTimeTypeLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="185.0" text="xx" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="3.0" top="8.0" />
-         </GridPane.margin></Label>
-            <Label fx:id="taskEndLabel" prefHeight="20.0" prefWidth="135.0" text="End DateTime" GridPane.columnIndex="5" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="5.0" top="8.0" />
          </GridPane.margin></Label>
       </children>
 </fx:root>

@@ -57,7 +57,7 @@
 	-fx-text-fill: black;
 }
 
-#taskIndexLabel, #taskDescLabel, #taskStartLabel, #dateTimeTypeLabel, #taskEndLabel  {
+#taskIndexLabel, #taskDescLabel, #taskStartLabel, #dateTimeTypeLabel, #taskEndLabel, #taskDateTimeLabel  {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
 	-fx-text-fill: #474E60;

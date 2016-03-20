@@ -24,7 +24,7 @@ public class MainController {
 	private static final String KEYWORD_SHOW_ALL = "home";
 	private static final String KEYWORD_DELETE = "delete";		
 	private static final String KEYWORD_CHANGE_SAVE_PATH = "cd ";
-	private static final String KEYWORD_TESTLIST = "dummytest";
+	private static final String KEYWORD_TESTLIST = "demo";
 	
 	//Elements loaded using FXML
 	@FXML
