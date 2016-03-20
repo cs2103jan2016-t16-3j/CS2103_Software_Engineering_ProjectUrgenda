@@ -316,6 +316,8 @@ public class Task {
 			return true;
 		} else if (task.getStartTime().isBefore(_startTime) && task.getEndTime().isAfter(_endTime)) {
 			return true;
+		} else if (task.getStartTime().equals(_startTime) && task.getEndTime().equals(_endTime)) {
+			return true;
 		} else {
 			return false;
 		}
