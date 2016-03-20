@@ -58,7 +58,7 @@ public class Main extends Application {
 	}
 
 	private void initLogicComponent() {
-		_logic = new Logic();
+		_logic = Logic.getInstance();
 	}
 
 	private void initRootLayout() {
