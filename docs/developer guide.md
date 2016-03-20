@@ -19,8 +19,7 @@
 	* [Storage class](#storage-class)
 
 # Architecture
-![Architecture](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Architecture%20(new).png?raw=true)
-> Figure 1: Architecture of Urgenda
+
 
 Urgenda consists of 4 main components, with the interaction for the user through the UI
 
@@ -30,8 +29,7 @@ Urgenda consists of 4 main components, with the interaction for the user through
 4. The `Storage` component keeps all the Tasks, data and settings in textfiles on the user's computer, allowing Urgenda to instantly restore all the previous tasks of the user when he starts up Urgenda every time.
 
 # UI Component
-![UI](/docs/UML Diagrams/UI.png)
-> Figure 2: Structure of UI component
+
 
 
 The UI component is the solo component responsible for creating and maintaining Urgenda's graphical user interface. It is also the only component that directly handles any user interaction with Urgenda. User input is mainly through the command line input through the input bar at the bottom of the window. Minor click functionalities are also enabled to enhance the user experience, but do not provide any extra functions beyond that available through command line input.
@@ -58,8 +56,7 @@ The `TaskDetailsController` class is a extended class from `TaskController`. Thi
 Each controller class will load an FXML file, which sets the layout of the UI window according to the design set by these FXML files. There are a total of 5 FXML files: Main.fxml, DisplayView.fxml, TaskView.fxml, and DetailedTaskView.fxml for the main UI window, and HelpSplash.fxml for setting the help window. FXML files can be opened and edited using SceneBuilder 2.0, which is an official visual layout tool for JavaFX applications from Oracle. More information about SceneBuilder 2.0 can be found at: [a link](http://www.oracle.com/technetwork/java/javase/downloads/sb2download-2177776.html)
 
 # Logic Component
-![Logic](/docs/UML Diagrams/Logic.png)
-> Figure 3: Structure of Logic component
+
 
 The Logic component is accessible through the `Logic` class using the facade pattern, in which it is in charge of handling the execution of user inputs from the UI component. This component only relies on the Parser component and Storage component and works independently from the UI component. Furthermore, the `Command` component is part of the Logic of Urgenda which encompasses the functionalities of the different commands given by the user.
 
@@ -83,22 +80,19 @@ Method | Return type and function
 ## Logic Class
 The `Logic` class contains the methods that handle the core functionality of Urgenda. It can be thought of as the "processor" of Urgenda. User inputs are passed to the `executeCommand(String, int)` to determine the corresponding command object based on the user input by the `Parser` component.
 
-<<<<<<< HEAD
 After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateState()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facillitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
-=======
+
 A generic example of the process flow in Logic can be seen below:
 
-![Logic](/docs/UML Diagrams/Logic sequence diagram.png)
-> Figure 4: Sequence Diagram when an `add` command is given
+
 
 After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added to task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facilitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
->>>>>>> dabf0684e55cd25e4c0eec0f0ce188be9ee69dcf
+
 
 The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
 
 # Command Component
-![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
-> Figure 5: Structure of Command component where the Command Pattern is used
+
 
 Here is the abstract method that is present in `Command` class.
 
@@ -120,8 +114,7 @@ The Command component is part of the Logic processing in Urgenda, where the spec
 The structure of the Command component allows the flexibility of adding new command types to Urgenda by simply extending one of the two abstract classes (`Command` and `TaskCommand`). The abstraction of the Command class allows new Commands to be added by just extending and implementing their unique `execute()` command.
 
 # Parser Component
-![Parser](/docs/UML Diagrams/Parser.png)
-> Figure 6: Structure of Parser component
+
 
 The Parser component is accessible through the `Parser` class using the interface pattern. This component is invoked by the `Logic` component, and has the function of parsing a passed in user command string and return an appropriate Command Object. In order to do this, Parser will access different classes, each having its unique functions, as listed in the next section.
 
@@ -143,8 +136,7 @@ Method | Return type and function
 `ParseCommand(String commandString)` | Returns a Command object with specific type and details, as parsed by parser.
 
 # Storage Component
-![Storage](/docs/UML Diagrams/Storage.png)
-> Figure 7: Structure of Storage component
+
 
 The Storage component is accessible through the `Storage` class using the facade pattern, where it handles and directs file manipulation using the respective classes. Gestalt's Principle is used in this component to enhance the cohesiveness of each class and reduce the coupling, where only necessary dependencies are utilized. The functions of each class are grouped accordingly to the very meaning that each class name suggest. 
 
@@ -176,24 +168,21 @@ Method | Return type and function
 
 
 ### Sequence diagram `updateArrayList`
-![updateArrayListSD](/docs/UML Diagrams/updateSDStorage.png)
-> Figure 8: Sequence diagram of `updateArrayList()`
+
 
 `updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`.
 
 
 
 ### Sequence diagram `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
-![saveSD](/docs/UML Diagrams/saveSDStorage.png)
-> Figure 9: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
+
 
 `save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it.
 
 
 
 ### Sequence diagram `changeFileSettings(String path, String name)`
-![changeFileSettingsSD](/docs/UML Diagrams/changeFileSettingsSDStorage.png)
-> Figure 10: Sequence diagram of `changeFileSettings(String path, String name)`
+
 
 `changeFilePath(String path)` and `changeFileName(String name)` are similar methods to `changeFileSettings(String path, String name)`, whereby the latter changes both the name and the directory the datafile is saved in.
 `changeFileSettings(String path, String name)` has two parts to it:
