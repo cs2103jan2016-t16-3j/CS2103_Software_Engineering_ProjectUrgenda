@@ -454,4 +454,18 @@ public class LogicData {
 		_storage.changeFilePath(path);
 	}
 
+	public ArrayList<Task> overlappingTasks(Task newTask) {
+		ArrayList<Task> overlaps = new ArrayList<Task>();
+		
+		for (Task task : _tasks) {
+			if (task.getTaskType() == Task.Type.EVENT) {
+				if (task.isOverlapping(newTask)) {
+					overlaps.add(task);
+				}				
+			}
+		}
+		
+		return overlaps;
+	}
+
 }

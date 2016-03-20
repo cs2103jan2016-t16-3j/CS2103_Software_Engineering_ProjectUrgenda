@@ -19,7 +19,7 @@ public class Task {
 	private static final String HASHMAP_KEY_COMPLETED = "completed";
 	private static final String HASHMAP_KEY_IMPORTANT = "important";
 	private static final String HASHMAP_KEY_OVERDUE = "overdue";
-	
+
 	private static final String TASK_TYPE_FLOATING = "FLOATING";
 	private static final String TASK_TYPE_EVENT = "EVENT";
 	private static final String TASK_TYPE_DEADLINE = "DEADLINE";
@@ -101,11 +101,13 @@ public class Task {
 		setIsOverdue(originalTask.isOverdue());
 		setSlot(originalTask.getSlot());
 	}
-	
+
 	/**
 	 * Full constructor for all variables.
 	 * 
-	 * @param type required to be of String type, will be converted to enum Type in constructor
+	 * @param type
+	 *            required to be of String type, will be converted to enum Type
+	 *            in constructor
 	 */
 	public Task(int id, String desc, String type, String location, boolean isCompleted, boolean isImportant,
 			boolean isOverdue, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime dateAdded,
@@ -242,9 +244,9 @@ public class Task {
 		return _isOverdue;
 	}
 
-	 public MultipleSlot getSlot() {
-	 return _slot;
-	 }
+	public MultipleSlot getSlot() {
+		return _slot;
+	}
 
 	public void setId(int id) {
 		_id = id;
@@ -294,16 +296,29 @@ public class Task {
 		_isOverdue = isOverdue;
 	}
 
-	 public void setSlot(MultipleSlot slot) {
-	 _slot = slot;
-	 }
-	 
-	 public void toggleImportant() {
-		 if (_isImportant) {
-			 _isImportant = false;
-		 } else {
-			 _isImportant = true;
-		 }
-	 }
+	public void setSlot(MultipleSlot slot) {
+		_slot = slot;
+	}
+
+	public void toggleImportant() {
+		if (_isImportant) {
+			_isImportant = false;
+		} else {
+			_isImportant = true;
+		}
+	}
+
+	public boolean isOverlapping(Task task) {
+		// TODO check if all cases are covered
+		if (task.getEndTime().isAfter(_startTime) && task.getEndTime().isBefore(_endTime)) {
+			return true;
+		} else if (task.getStartTime().isAfter(_startTime) && task.getStartTime().isBefore(_endTime)) {
+			return true;
+		} else if (task.getStartTime().isBefore(_startTime) && task.getEndTime().isAfter(_endTime)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

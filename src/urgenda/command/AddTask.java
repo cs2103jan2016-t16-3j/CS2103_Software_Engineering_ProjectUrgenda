@@ -3,6 +3,7 @@ package urgenda.command;
 import java.time.LocalDateTime;
 // import java.util.logging.Level;
 // import java.util.logging.Logger;
+import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
 import urgenda.util.MyLogger;
@@ -13,6 +14,7 @@ public class AddTask extends TaskCommand {
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_ERROR = "Error: ";
+	private static final String MESSAGE_OVERLAP = "\nWarning: Overlaps with ";
 	
 	private Task _newTask;
 	private LogicData _data;
@@ -36,18 +38,37 @@ public class AddTask extends TaskCommand {
 		_newTask.setDateAdded(now);
 		_newTask.setDateModified(now);
 		_data.updateCurrentId();
+		
+		String feedback;
 		try {
 			checkTaskValidity(_newTask);
 			_data.addTask(_newTask);
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			_data.setTaskPointer(_newTask);
+			feedback = findOverlaps();
 		} catch (Exception e) {
 			logger.myLogger.severe("Exception occurred" + e);			
 			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 			// throws exception to prevent AddTask being added to undo stack
 			throw new Exception(MESSAGE_ERROR + e.getMessage());
 		}
-		return taskMessage(_newTask) + MESSAGE_ADDED;
+		return taskMessage(_newTask) + MESSAGE_ADDED + feedback;
+	}
+
+	private String findOverlaps() {
+		ArrayList<Task> overlaps;
+		overlaps = _data.overlappingTasks(_newTask);
+		
+		if (overlaps.size() == 0) {
+			return "";
+		} else {
+			String feedback = MESSAGE_OVERLAP + taskMessage(overlaps.get(0));
+			overlaps.remove(0);
+			for (Task task : overlaps) {
+				feedback += ", " + taskMessage(task);
+			}
+			return feedback;
+		}
 	}
 
 	public String undo() {
