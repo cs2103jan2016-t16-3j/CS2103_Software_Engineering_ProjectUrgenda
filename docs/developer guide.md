@@ -1,6 +1,8 @@
 #Developer Guide
 
-##Introduction
+Urgenda is a text-based task manager designed for users who are quick on the keyboard, or generally prefer using the keyboard over mouseclicks. It is a Java application that has a main GUI for users to interaction with mainly through typing. 
+
+This guide describes the implementation of Urgenda from a top-down approach, going from the big picture down to the small details, starting from the UI through which the user interacts with, to the Storage where the files are stored. This guide intends to allow easy assimilation of anyone who would like to contribute and add on to it. 
 
 ##Table of Contents
 * [Architecture](#architecture)
@@ -34,11 +36,29 @@ Urgenda consists of 4 main components, with the interaction for the user through
 > Figure 2: Structure of UI component
 
 
+The UI component is the solo component responsible for creating and maintaining Urgenda's graphical user interface. It is also the only component that directly handles any user interaction with Urgenda. User input is mainly through the command line input through the input bar at the bottom of the window. Minor click functionalities are also enabled to enhance the user experience, but do not provide any extra functions beyond that available through command line input.
+
+JavaFX and CSS are used to setup the layout and design for the graphical user interface.
+
+
 ## Main Class
+The `Main` class acts as the intermediary between the controllers for all UI components with the back-end Logic component. This abstracts all command execution flow from the UI class.
+
 ## MainController Class
+The `MainController` class handles all user interaction with Urgenda, for both command line input as well as click inputs. Several event handlers set in this class, including `commandLineListener`, will call the UI class's handleCommandLine  method as pass the command line String as the argument. Other event handlers include accelerated keyboard shortcuts for undo, redo, and help functions. This class also displays feedback from any user interaction to the user.
+
 ## DisplayController Class
+The `DisplayController` class handles the display area where relevant tasks are displayed to the user. The display area is set up using the `setDisplay` method, where the task panels are created and added to the display according to the task list argument passed. This class also handles the setup of the design for tasks with different task types and tasks to show details for.
+
 ## TaskController Class
+The `TaskController` class handles the set up of the panel for one single task. The task index as ordered in the display area, description, prioritisation, as well as relevant dates and times, are shown on the panel. This class also applies the task design style for the task, and formats the dates and times with respect to the current date and time.
+
 ## TaskDetailsController Class
+The `TaskDetailsController` class is a extended class from `TaskController`. This class is invokes to create the task panel when the relevant task is required to show more details, such as location, date created and modified, and long descriptions.
+
+## FXML Files
+Each controller class will load an FXML file, which sets the layout of the UI window according to the design set by these FXML files. There are a total of 5 FXML files: Main.fxml, DisplayView.fxml, TaskView.fxml, and DetailedTaskView.fxml for the main UI window, and HelpSplash.fxml for setting the help window. FXML files can be opened and edited using SceneBuilder 2.0, which is an official visual layout tool for JavaFX applications from Oracle. More information about SceneBuilder 2.0 can be found at: [a link](http://www.oracle.com/technetwork/java/javase/downloads/sb2download-2177776.html)
+
 # Logic Component
 ![Logic](/docs/UML Diagrams/Logic.png)
 > Figure 3: Structure of Logic component
@@ -71,6 +91,7 @@ A generic example of the process flow in Logic can be seen below:
 > Figure 4: Sequence Diagram when an `add` command is given
 
 After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added to task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facilitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
+
 
 The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
 
@@ -152,12 +173,13 @@ Method | Return type and function
 `save(ArrayList<Task> tasks, ArrayList<Task> archives)` | Void function. This method is used to store all tasks in the datafile, for easy retrieval, relocation to another computer. 
 `changeFileSettings(String path, String name)` | Void function. This method allows the datafile to be renamed and move to other directories/folders through Urgenda itself, with no need to enter File Explorer
 
+These functions are catered specifically for `Logic` component as and when it is required. Below are specific UML diagrams for each of the methods, and how `Storage` relates and interacts with the other classes in this component. 
 
 ### Sequence diagram `updateArrayList`
 ![updateArrayListSD](/docs/UML Diagrams/updateSDStorage.png)
 > Figure 8: Sequence diagram of `updateArrayList()`
 
-`updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`.
+`updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`. With the `_fileDataStringArr` already retrieved and stored within `Storage` upon initialization, it simply has to be decrypted from JSON to actual Tasks objects. 
 
 
 
@@ -165,7 +187,9 @@ Method | Return type and function
 ![saveSD](/docs/UML Diagrams/saveSDStorage.png)
 > Figure 9: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
 
-`save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it.
+`save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it. This method can be split into two parts:
+1. Encrypting the array list of `Tasks` into JSON format and converting it to an array list of `String`. 
+2. This part entails writing the array list of `String` into the specified file, where each `String` represents a single `Task`
 
 
 

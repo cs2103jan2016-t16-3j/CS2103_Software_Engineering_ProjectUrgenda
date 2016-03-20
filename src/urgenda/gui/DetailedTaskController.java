@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import urgenda.gui.DisplayController.TaskDisplayType;
@@ -31,6 +32,8 @@ public class DetailedTaskController extends TaskController {
 	@FXML
 	private VBox detailsDisplayArea;
 	@FXML
+	private ImageView locationIcon;
+	@FXML
 	private Label taskLocationLabel;
 	
 	public DetailedTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
@@ -38,6 +41,9 @@ public class DetailedTaskController extends TaskController {
 		dateCreatedLabel.setText(formatDetailsDateTime(task.getDateAdded()));
 		dateModifiedLabel.setText(formatDetailsDateTime(task.getDateModified()));
 		taskLocationLabel.setText(task.getLocation());
+		if(task.getLocation().equals("")) {
+			locationIcon.setVisible(false);
+		}
 		if(!showHeader) {
 			taskPane.setMaxHeight(HEIGHT_DEFAULT_DETAILEDTASK);
 		}

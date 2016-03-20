@@ -69,7 +69,7 @@
 	-fx-text-fill: #474E60;
 }
 
-#dateCreatedLabel, #dateModifiedLabel {
+#dateCreatedHeader, #dateModifiedHeader, #dateCreatedLabel, #dateModifiedLabel {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 12px;
 	-fx-text-fill: #474E60;
