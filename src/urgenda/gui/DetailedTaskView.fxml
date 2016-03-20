@@ -17,10 +17,8 @@
       <ColumnConstraints hgrow="NEVER" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
      <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
             <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-      <ColumnConstraints maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
-      <ColumnConstraints maxWidth="15.0" minWidth="15.0" prefWidth="15.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="290.0" prefWidth="290.0" />
+      <ColumnConstraints />
       <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
@@ -29,9 +27,9 @@
    </rowConstraints>
    <children>
       <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-      <Label fx:id="taskIndexLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="20.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Label fx:id="taskIndexLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="5.0" top="7.0" />
+            <Insets left="10.0" top="7.0" />
          </GridPane.margin></Label>
       <BorderPane GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <GridPane.margin>
@@ -50,9 +48,9 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                        <Label fx:id="taskDescLabel" alignment="TOP_LEFT" contentDisplay="CENTER" minWidth="200.0" prefHeight="40.0" prefWidth="200.0" text="Task Name" wrapText="true" VBox.vgrow="ALWAYS">
+                        <Label fx:id="taskDescLabel" alignment="TOP_LEFT" contentDisplay="CENTER" minWidth="200.0" prefHeight="40.0" prefWidth="220.0" text="Task Name" wrapText="true" VBox.vgrow="ALWAYS">
                      <VBox.margin>
-                        <Insets left="3.0" />
+                        <Insets left="3.0" right="5.0" />
                      </VBox.margin>
                   </Label>
                   <HBox prefHeight="20.0" prefWidth="190.0">
@@ -79,39 +77,27 @@
             </VBox>
          </center>
       </BorderPane>
-            <Label fx:id="taskEndLabel" prefHeight="20.0" prefWidth="135.0" text="End DateTime" GridPane.columnIndex="5" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="5.0" top="8.0" />
-         </GridPane.margin></Label>
       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
          <children>
-                  <Label fx:id="taskStartLabel" prefHeight="20.0" prefWidth="140.0" text="Start DateTime" />
-            <Label fx:id="dateCreatedHeader" alignment="CENTER_RIGHT" minWidth="140.0" text="Date Added: ">
+                  <Label fx:id="taskDateTimeLabel" prefHeight="20.0" prefWidth="290.0" text="Start Time to End Time / by Deadline" />
+            <HBox prefHeight="12.0" prefWidth="280.0">
+               <children>
+                  <Label fx:id="dateCreatedHeader" alignment="CENTER_RIGHT" minWidth="140.0" text="Date Added: ">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Label>
+                  <Label fx:id="dateCreatedLabel" text="DATE ADDED" />
+               </children>
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label fx:id="dateModifiedHeader" alignment="CENTER_RIGHT" minWidth="140.0" text="Date Modified: " />
-         </children>
-         <GridPane.margin>
-            <Insets top="8.0" />
-         </GridPane.margin>
-      </VBox>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
-         <children>
-            <Label fx:id="dateTimeTypeLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="185.0" text="xx">
-               <VBox.margin>
-                  <Insets left="3.0" />
-               </VBox.margin></Label>
-            <Label fx:id="dateCreatedLabel" text="DATE ADDED">
-               <VBox.margin>
-                  <Insets left="2.0" top="5.0" />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="dateModifiedLabel" text="DATE MODIFIED">
-               <VBox.margin>
-                  <Insets left="2.0" />
-               </VBox.margin></Label>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="dateModifiedHeader" alignment="CENTER_RIGHT" minWidth="140.0" text="Date Modified: " />
+                  <Label fx:id="dateModifiedLabel" text="DATE MODIFIED" />
+               </children>
+            </HBox>
          </children>
          <GridPane.margin>
             <Insets top="8.0" />

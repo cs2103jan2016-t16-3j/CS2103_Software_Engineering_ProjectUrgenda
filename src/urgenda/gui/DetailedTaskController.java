@@ -40,8 +40,11 @@ public class DetailedTaskController extends TaskController {
 		super(task, index, taskDisplayType, showHeader);
 		dateCreatedLabel.setText(formatDetailsDateTime(task.getDateAdded()));
 		dateModifiedLabel.setText(formatDetailsDateTime(task.getDateModified()));
-		taskLocationLabel.setText(task.getLocation());
-		if(task.getLocation().equals("")) {
+		if(task.getLocation() != null) {
+			taskLocationLabel.setText(task.getLocation());
+		} 
+		if(task.getLocation() == null || task.getLocation().equals("")) {
+			taskLocationLabel.setText("");
 			locationIcon.setVisible(false);
 		}
 		if(!showHeader) {
@@ -61,7 +64,9 @@ public class DetailedTaskController extends TaskController {
 			text.setFont(Main.REGULAR_FONT);
 			break;
 		}
-		if(text.getLayoutBounds().getWidth() >= taskDescLabel.getPrefWidth() * 2) {
+		System.out.println(text.getLayoutBounds().getWidth());
+		System.out.println(taskDescLabel.getPrefWidth());
+		if(text.getLayoutBounds().getWidth() >= taskDescLabel.getPrefWidth() * 2.5) {
 			taskDescLabel.setMinHeight(HEIGHT_MULTILINE_EXPAND);
 			taskPane.setMaxHeight(taskPane.getMaxHeight() + HEIGHT_DETAILED_TASK_EXPAND);
 		} 
@@ -120,9 +125,7 @@ public class DetailedTaskController extends TaskController {
 	protected void setStyle(String color, String weight) {
 		taskIndexLabel.setStyle(color + weight);
 		taskDescLabel.setStyle(color + weight);
-		taskStartLabel.setStyle(color + weight);
-		dateTimeTypeLabel.setStyle(color + weight);
-		taskEndLabel.setStyle(color + weight);
+		taskDateTimeLabel.setStyle(color + weight);
 		dateCreatedHeader.setStyle(color);
 		dateModifiedHeader.setStyle(color);
 		dateCreatedLabel.setStyle(color);
