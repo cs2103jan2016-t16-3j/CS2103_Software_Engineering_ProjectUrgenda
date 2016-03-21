@@ -24,6 +24,7 @@ public class ShowDetails extends TaskCommand {
 			throw new Exception(String.format(MESSAGE_NO_SHOW_MATCH, _position));
 		}
 		_data.toggleShowMoreTasks(_task);
+		_data.setTaskPointer(_task);
 		return showMoreFeedback();
 	}
 
