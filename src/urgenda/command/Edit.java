@@ -8,6 +8,7 @@ import urgenda.util.Task;
 
 public class Edit extends TaskCommand {
 
+	private static MyLogger logger = MyLogger.getInstance();
 	private static final String MESSAGE_NO_EDIT_MATCH = "Invalid task number. No matches found to edit";
 	private static final String MESSAGE_EDIT = " has been edited to ";
 	private static final String MESSAGE_ERROR = "Error: ";
@@ -27,16 +28,15 @@ public class Edit extends TaskCommand {
 		_newTask = newtask;
 	}
 
-	@SuppressWarnings("static-access")
+	
 	public String execute() throws Exception {
-		MyLogger logger = MyLogger.getInstance(); 
 		_data = LogicData.getInstance();
 		if (_id != null && _id.intValue() != -1) {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
 		}
 		if (_prevTask == null) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			logger.myLogger.severe("Exception(No edit match) thrown");
+			logger.getLogger().severe("Exception(No edit match) thrown");
 			throw new Exception(MESSAGE_NO_EDIT_MATCH);
 		} else {
 			if(_newTask.getDesc() == null && _prevTask.getDesc() != null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
@@ -65,7 +65,7 @@ public class Edit extends TaskCommand {
 				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 				_data.setTaskPointer(_newTask);
 			} catch (Exception e) {
-				logger.myLogger.severe("Exception occured: " + e);
+				logger.getLogger().severe("Exception occured: " + e);
 				_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 				// throws exception to prevent Edit being added to undo stack
 				throw new Exception(MESSAGE_ERROR + e.getMessage());

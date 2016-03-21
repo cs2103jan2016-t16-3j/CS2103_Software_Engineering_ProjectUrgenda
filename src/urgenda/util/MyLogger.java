@@ -8,7 +8,7 @@ import java.util.logging.SimpleFormatter;
 
 public class MyLogger {
 
-	public final static Logger myLogger = Logger.getLogger(MyLogger.class.getName());
+	private final static Logger myLogger = Logger.getLogger(MyLogger.class.getName());
 	private static MyLogger instance = null;
 
 	public static MyLogger getInstance() {
@@ -22,8 +22,7 @@ public class MyLogger {
 	private static void setUpLogger() {
 		try {
 			FileHandler fh = new FileHandler("UrgendaLog.txt");
-			SimpleFormatter formatterTxt = new SimpleFormatter();
-			fh.setFormatter(formatterTxt);
+			fh.setFormatter(new SimpleFormatter());
 			myLogger.addHandler(fh);
 			myLogger.setUseParentHandlers(false);
 			myLogger.setLevel(Level.FINEST);
@@ -31,4 +30,9 @@ public class MyLogger {
 			myLogger.log(Level.SEVERE, "Error occur in FileHandler.", e);
 		}
 	}
+	
+	public Logger getLogger() {
+		return myLogger;
+	}
+
 }

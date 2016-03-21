@@ -11,6 +11,7 @@ import urgenda.util.Task;
 
 public class AddTask extends TaskCommand {
 	
+	private static MyLogger logger = MyLogger.getInstance();
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_ERROR = "Error: ";
@@ -27,10 +28,9 @@ public class AddTask extends TaskCommand {
 		_newTask = newTask;
 	}
 	
-	@SuppressWarnings("static-access")
+	
 	public String execute() throws Exception {
-		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.warning("Can cause exception");
+		logger.getLogger().warning("Can cause exception");
 		
 		_data = LogicData.getInstance();
 		LocalDateTime now = LocalDateTime.now();
@@ -47,7 +47,7 @@ public class AddTask extends TaskCommand {
 			_data.setTaskPointer(_newTask);
 			feedback = findOverlaps();
 		} catch (Exception e) {
-			logger.myLogger.severe("Exception occurred" + e);			
+			logger.getLogger().severe("Exception occurred" + e);			
 			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 			// throws exception to prevent AddTask being added to undo stack
 			throw new Exception(MESSAGE_ERROR + e.getMessage());

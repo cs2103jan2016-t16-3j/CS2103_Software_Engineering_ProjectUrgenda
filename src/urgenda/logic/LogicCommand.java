@@ -13,6 +13,7 @@ import urgenda.command.TaskCommand;
 
 public class LogicCommand {	
 	
+	private static MyLogger logger = MyLogger.getInstance();
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
 	private static final String MESSAGE_EMPTY_REDO = "Nothing to redo";
 	
@@ -25,11 +26,9 @@ public class LogicCommand {
 		_redos = new ArrayDeque<TaskCommand>();
 	}	
 
-	@SuppressWarnings("static-access")
 	public String processCommand(Command currCmd) {
 		
-		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.warning("Exception can occur");
+		logger.getLogger().warning("Exception can occur");
 		
 		String feedback;
 		try {
@@ -44,17 +43,16 @@ public class LogicCommand {
 				addUndo(currCmd);
 			}
 		} catch (Exception e) { // TODO might need to upgrade exceptions without affecting the command execute header
-			logger.myLogger.severe("Exception occured"+ e);
+			logger.getLogger().severe("Exception occured"+ e);
 			return e.getMessage();
 		}
 		return feedback;
 	}
 	
-	@SuppressWarnings("static-access")
+
 	public void addUndo(Command currCmd) {
 		if (currCmd instanceof TaskCommand) {
-			MyLogger logger = MyLogger.getInstance();
-			logger.myLogger.info("adding " + currCmd + " to undo stack");
+			logger.getLogger().info("adding " + currCmd + " to undo stack");
 			
 			_undos.addFirst((TaskCommand) currCmd);
 			_redos.clear();

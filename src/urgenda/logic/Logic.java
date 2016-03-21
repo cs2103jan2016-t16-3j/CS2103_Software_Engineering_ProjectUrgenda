@@ -8,7 +8,7 @@ import urgenda.util.StateFeedback;
 public class Logic {
 	
 	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use. \nPress ALT + F1 if you need help.";
-
+	private static MyLogger logger = MyLogger.getInstance();
 	private static Logic _logic;
 	private LogicData _logicData;
 	private LogicCommand _logicCommand;
@@ -20,14 +20,13 @@ public class Logic {
 	}
 	
 	// Implementation of Singleton pattern for Logic
-	@SuppressWarnings("static-access")
+	
 	public static Logic getInstance() {
-		MyLogger logger = MyLogger.getInstance();
 		if (_logic == null) {
-			logger.myLogger.info("creating instance of logic");
+			logger.getLogger().info("creating instance of logic");
 			_logic = new Logic();
 		}
-		logger.myLogger.info("retrieving prev instance of logic");
+		logger.getLogger().info("retrieving prev instance of logic");
 		return _logic;
 	}
 	
@@ -39,19 +38,17 @@ public class Logic {
 	 * @return StateFeedback which includes the current state of tasks as well as feedback line
 	 */
 	
-	@SuppressWarnings("static-access")
 	public StateFeedback executeCommand(String command, int index) {
 		
-		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.info("executing user input: " + command);
+		logger.getLogger().info("executing user input: " + command);
 		
 		assert (index >= -1); // asserts that given index is non-negative OR -1(case when there is no tasks)
-		logger.myLogger.info("Checking index: " + index + " >= -1 " );
+		logger.getLogger().info("Checking index: " + index + " >= -1 " );
 		
 		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = CommandParser.parseCommand(command,index);
 		assert (currCmd != null); // asserts that parser returns a command object
-		logger.myLogger.info("Checking cmd obj: " + currCmd + " is non null");
+		logger.getLogger().info("Checking cmd obj: " + currCmd + " is non null");
 		
 		String feedback;
 		// To update if there are any deadlines that turned overdue
@@ -70,11 +67,9 @@ public class Logic {
 	 * @return String containing the help manual
 	 */
 	
-	@SuppressWarnings("static-access")
+	
 	public String displayHelp() {
-		
-		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.info("Help fn has been called");
+		logger.getLogger().info("Help fn has been called");
 		
 		return _logicData.generateHelpManual();
 	}
@@ -85,10 +80,8 @@ public class Logic {
 	 * @return StateFeedback containing the previously stored state
 	 */
 	
-	@SuppressWarnings("static-access")
 	public StateFeedback retrieveStartupState() {
-		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.info("Retrieving prev launched info");
+		logger.getLogger().info("Retrieving prev launched info");
 		
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(MESSAGE_WELCOME);
@@ -100,10 +93,9 @@ public class Logic {
 	 * 
 	 * @return String of location of current directory
 	 */
-	@SuppressWarnings("static-access")
+	
 	public String getCurrentSaveDirectory() {
-		MyLogger logger = MyLogger.getInstance();
-		logger.myLogger.info("Retrieving current help directory");
+		logger.getLogger().info("Retrieving current help directory");
 		return _logicData.retrieveCurrentDirectory();
 	}
 }

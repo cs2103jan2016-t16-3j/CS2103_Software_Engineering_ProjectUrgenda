@@ -1,6 +1,5 @@
 package urgenda.command;
 
-import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
 /**

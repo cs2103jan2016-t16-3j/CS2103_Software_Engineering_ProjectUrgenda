@@ -22,6 +22,7 @@ public class FileEditor {
 
 	private File _file;
 	private File _parentDir;
+	private static MyLogger logger = MyLogger.getInstance();
 
 	public FileEditor(String path, String name) {
 		initParentDir(path);
@@ -48,9 +49,8 @@ public class FileEditor {
 		}
 	}
 
-	@SuppressWarnings("static-access")
+	
 	public String retrieveFromFile() {
-		MyLogger logger = MyLogger.getInstance();
 		String phrase = null;
 		try {
 			FileReader reader = new FileReader(_file);
@@ -60,9 +60,9 @@ public class FileEditor {
 			phrase = stringBuffer.toString().trim();
 			breader.close();
 			reader.close();
-			logger.myLogger.info("successful retrieval of data");
+			logger.getLogger().info("successful retrieval of data");
 		} catch (FileNotFoundException e) {
-			logger.myLogger.info("no such file found" + e);
+			logger.getLogger().info("no such file found" + e);
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -78,9 +78,8 @@ public class FileEditor {
 		return phrase;
 	}
 
-	@SuppressWarnings("static-access")
+	
 	public void retrieveFromFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
-		MyLogger logger = MyLogger.getInstance();
 		try {
 			FileReader reader = new FileReader(_file);
 			BufferedReader breader = new BufferedReader(reader);
@@ -88,9 +87,9 @@ public class FileEditor {
 			addToArchiveArray(breader, archiveStringArr);
 			breader.close();
 			reader.close();
-			logger.myLogger.info("successful retrieval of data");
+			logger.getLogger().info("successful retrieval of data");
 		} catch (FileNotFoundException e) {
-			logger.myLogger.info("no such file found");
+			logger.getLogger().info("no such file found");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -123,9 +122,8 @@ public class FileEditor {
 		}
 	}
 
-	@SuppressWarnings("static-access")
+	
 	public void writeToFile(ArrayList<String> fileDataStringArr, ArrayList<String> archiveStringArr) {
-		MyLogger logger = MyLogger.getInstance();
 		try {
 			PrintWriter writer = new PrintWriter(_file);
 			for (String phrase : fileDataStringArr) {
@@ -137,7 +135,7 @@ public class FileEditor {
 			}
 			writer.close();
 		} catch (FileNotFoundException e) {
-			logger.myLogger.info("no such file found");
+			logger.getLogger().info("no such file found");
 			e.printStackTrace();
 		}
 	}
