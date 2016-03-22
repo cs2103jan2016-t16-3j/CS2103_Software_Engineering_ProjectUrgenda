@@ -79,7 +79,7 @@ public class AddTask extends TaskCommand {
 	public String redo() {
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
-		return taskMessage(_newTask) + MESSAGE_ADDED;
+		return taskMessage(_newTask) + MESSAGE_ADDED + findOverlaps();
 	}
 	
 	public void setNewTask(Task newTask) {

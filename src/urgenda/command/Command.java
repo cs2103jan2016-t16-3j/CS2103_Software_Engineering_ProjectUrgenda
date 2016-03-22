@@ -1,6 +1,11 @@
 package urgenda.command;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
+import urgenda.util.TimePair;
 
 /**
  * Command interface for implementation of subsequent command classes
@@ -9,6 +14,7 @@ import urgenda.util.Task;
 public abstract class Command {
 	
 	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
+	private static final String MESSAGE_EVENT_DATETIME = ", %1$d/%2$d, %3$02d:%4$02d - %5$02d:%6$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 
@@ -37,6 +43,21 @@ public abstract class Command {
 						task.getEndTime().getMinute());
 				break;
 
+		}
+		if (task.getSlot() != null) {
+			feedback += additionalTimings(task.getSlot());
+		}
+		return feedback;
+	}
+
+	private String additionalTimings(MultipleSlot block) {
+		String feedback = "";
+		ArrayList<TimePair> slots = block.getSlots();
+		for (TimePair pair : slots) {
+			LocalDateTime start = pair.getStart();
+			LocalDateTime end = pair.getEnd();
+			feedback += String.format(MESSAGE_EVENT_DATETIME, start.getDayOfMonth(), start.getMonthValue(),
+					start.getHour(), start.getMinute(), end.getHour(), end.getMinute());
 		}
 		return feedback;
 	}
