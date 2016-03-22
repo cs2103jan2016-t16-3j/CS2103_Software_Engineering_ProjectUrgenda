@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Vector;
+
 
 import org.junit.Test;
 
@@ -42,9 +42,9 @@ public class PrioritiseTest {
 		tester2.setId(2);
 		assertEquals("\"Dental Appointment\" marked as important!",tester2.execute());
 		Prioritise tester3 = new Prioritise();
-		Vector<Integer> id = new Vector<Integer>();
-		id.add(1);
-		id.add(3);
+		ArrayList<Integer> id = new ArrayList<Integer>();
+		id.add(0);
+		id.add(2);
 		tester3.setMultiId(id);
 		StringBuilder str = new StringBuilder("2 tasks have been marked as important:\n");
 		str.append("\"Apply Financial Aid\"\n");

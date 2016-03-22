@@ -100,9 +100,7 @@ public class FileEditor {
 		boolean hasNoMoreTasks = false;
 		while (!hasNoMoreTasks) {
 			String taskString = breader.readLine();
-			if (taskString == null) {
-				hasNoMoreTasks = true;
-			} else if (taskString.equals(LIST_SEPARATOR_ARCHIVE)) {
+			if (taskString.equals(LIST_SEPARATOR_ARCHIVE)) {
 				hasNoMoreTasks = true;
 			} else {
 				fileDataStringArr.add(taskString);

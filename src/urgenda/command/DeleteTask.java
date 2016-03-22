@@ -3,8 +3,6 @@ package urgenda.command;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Vector;
-
 import urgenda.logic.LogicData;
 import urgenda.util.MyLogger;
 import urgenda.util.Task;
@@ -23,7 +21,7 @@ public class DeleteTask extends TaskCommand {
 	// task
 	private String _desc;
 	private Integer _id;
-	private Vector<Integer> _multiId;
+	private ArrayList<Integer> _multiId;
 
 	// to store from deletion, so that undo can be done
 	private Task _deletedTask;
@@ -58,7 +56,7 @@ public class DeleteTask extends TaskCommand {
 			return taskMessage(_deletedTask) + MESSAGE_REMOVE;
 		} else {
 			Collections.sort(_multiId);
-			if (_multiId.get(0) > 0 && _multiId.lastElement() < _data.getDisplays().size()) {
+			if (_multiId.get(0) >= 0 && _multiId.get((_multiId.size()-1)) <= _data.getDisplays().size()) {
 				ArrayList<Task> _delTaskList = new ArrayList<Task>();
 				StringBuilder feedback = new StringBuilder();
 				Iterator<Integer> i = _multiId.iterator();
@@ -98,7 +96,7 @@ public class DeleteTask extends TaskCommand {
 		_id = Integer.valueOf(id);
 	}
 
-	public void setMultiId(Vector<Integer> id) {
+	public void setMultiId(ArrayList<Integer> id) {
 		_multiId = id;
 	}
 

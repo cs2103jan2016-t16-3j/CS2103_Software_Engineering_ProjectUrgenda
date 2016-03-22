@@ -9,17 +9,18 @@ public class Storage {
 	private static final String SETTINGS_HELP = "help.txt";
 	private static final String SETTINGS_DIRECTORY = "settings";
 	
-	private FileEditor _file;
-	private FileEditor _help;
-	private SettingsEditor _settings = new SettingsEditor();
-	private ArrayList<String> _fileDataStringArr = new ArrayList<String>();
-	private ArrayList<String> _archiveStringArr = new ArrayList<String>();
-	private Decryptor _decryptor = new Decryptor();
-	private Encryptor _encryptor = new Encryptor();
+	protected FileEditor _file;
+	protected FileEditor _help;
+	protected SettingsEditor _settings;
+	protected ArrayList<String> _fileDataStringArr = new ArrayList<String>();
+	protected ArrayList<String> _archiveStringArr = new ArrayList<String>();
+	protected Decryptor _decryptor = new Decryptor();
+	protected Encryptor _encryptor = new Encryptor();
 
 
 	public Storage() {
 		logger.getLogger().info("constructing Storage Object");
+		_settings = new SettingsEditor();
 		String path = _settings.getFileDir();
 		String name = _settings.getFileName();
 		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
@@ -30,8 +31,8 @@ public class Storage {
 	
 
 	public Storage(String path, String name){
-		MyLogger logger = MyLogger.getInstance();
 		logger.getLogger().info("constructing Storage Object");
+		_settings = new SettingsEditor();
 		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
