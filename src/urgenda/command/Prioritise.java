@@ -3,8 +3,6 @@ package urgenda.command;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Vector;
-
 import urgenda.logic.LogicData;
 import urgenda.util.MyLogger;
 import urgenda.util.Task;
@@ -21,7 +19,7 @@ public class Prioritise extends TaskCommand {
 
 	private String _desc;
 	private Integer _id;
-	private Vector<Integer> _multiId;
+	private ArrayList<Integer> _multiId;
 
 	private Task _task;
 	private LogicData _data;
@@ -55,12 +53,12 @@ public class Prioritise extends TaskCommand {
 			return feedback;
 		} else {
 			Collections.sort(_multiId);
-			if (_multiId.get(0) > 0 && _multiId.lastElement() < _data.getDisplays().size()) {
+			if (_multiId.get(0) >= 0 && _multiId.get((_multiId.size()-1)) <= _data.getDisplays().size()) {
 				ArrayList<Task> _priTaskList = new ArrayList<Task>();
 				StringBuilder feedback = new StringBuilder();
 				Iterator<Integer> i = _multiId.iterator();
 				while (i.hasNext()) {
-					Task temp = _data.findMatchingPosition((i.next().intValue())-1);
+					Task temp = _data.findMatchingPosition(i.next().intValue());
 					_priTaskList.add(temp);
 					feedback = feedback.append(taskMessage(temp)).append("\n");
 				}
@@ -107,7 +105,7 @@ public class Prioritise extends TaskCommand {
 		_id = Integer.valueOf(id);
 	}
 
-	public void setMultiId(Vector<Integer> id) {
+	public void setMultiId(ArrayList<Integer> id) {
 		_multiId = id;
 	}
 
