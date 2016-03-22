@@ -26,6 +26,12 @@ public class DeleteTask extends TaskCommand {
 	// to store from deletion, so that undo can be done
 	private Task _deletedTask;
 	private LogicData _data;
+	
+	public DeleteTask() {
+		_desc = null;
+		_id = null;
+		_multiId = null;
+	}
 
 	public String execute() throws Exception {
 		logger.getLogger().warning("Can cause exception");

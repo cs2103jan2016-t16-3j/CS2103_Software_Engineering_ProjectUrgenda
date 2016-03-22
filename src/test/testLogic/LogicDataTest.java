@@ -20,22 +20,22 @@ public class LogicDataTest {
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task("Buy milk", "", notime, notime, _tags);
+		Task obj = new Task("Buy milk", "", notime, notime, _tags, false);
 		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59),
-				_tags);
+				_tags, true);
 		Task obj3 = new Task("Dental Appointment", "", LocalDateTime.of(2016, Month.APRIL, 4, 10, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00), _tags);
+				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00), _tags, false);
 		Task obj4 = new Task("Travel to Sweden", "", LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags);
-		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 3, 17, 00), _tags);
-		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags);
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags, false);
+		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 3, 17, 00), _tags, true);
+		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags, false);
 		Task obj7 = new Task("Dinner w mum", "", LocalDateTime.of(2016, Month.JANUARY, 8, 19, 00),
-				LocalDateTime.of(2016, Month.JANUARY, 8, 20, 00), _tags);
+				LocalDateTime.of(2016, Month.JANUARY, 8, 20, 00), _tags, false);
 		Task obj8 = new Task("Project Presentation", "", LocalDateTime.of(2016, Month.MAY, 8, 10, 00),
-				LocalDateTime.of(2016, Month.MAY, 8, 12, 00), _tags);
+				LocalDateTime.of(2016, Month.MAY, 8, 12, 00), _tags, false);
 		Task obj9 = new Task("Bro Birthday Dinner", "", LocalDateTime.of(2016, Month.AUGUST, 21, 20, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 21, 21, 00), _tags);
-		Task obj10 = new Task("CS2103 V0.1", "", notime, LocalDateTime.of(2016, Month.MARCH, 10, 17, 00), _tags);
+				LocalDateTime.of(2016, Month.AUGUST, 21, 21, 00), _tags, false);
+		Task obj10 = new Task("CS2103 V0.1", "", notime, LocalDateTime.of(2016, Month.MARCH, 10, 17, 00), _tags, true);
 
 		_tasks.add(obj);
 		_tasks.add(obj2);
