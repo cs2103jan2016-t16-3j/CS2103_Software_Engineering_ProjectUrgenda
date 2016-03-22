@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import org.junit.Test;
 
@@ -20,13 +21,13 @@ public class PrioritiseTest {
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task("Apply Financial Aid", "", notime, notime, _tags);
+		Task obj = new Task("Apply Financial Aid", "", notime, notime, _tags, false);
 		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59),
-				_tags);
+				_tags, false);
 		Task obj3 = new Task("Dental Appointment", "", notime,
-				notime, _tags);
+				notime, _tags, false);
 		Task obj4 = new Task("Travel to Sweden", "", LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags);
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags, false);
 		
 		_tasks.add(obj);
 		_tasks.add(obj2);
@@ -40,5 +41,14 @@ public class PrioritiseTest {
 		Prioritise tester2 = new Prioritise();
 		tester2.setId(2);
 		assertEquals("\"Dental Appointment\" marked as important!",tester2.execute());
+		Prioritise tester3 = new Prioritise();
+		Vector<Integer> id = new Vector<Integer>();
+		id.add(1);
+		id.add(3);
+		tester3.setMultiId(id);
+		StringBuilder str = new StringBuilder("2 tasks have been marked as important:\n");
+		str.append("\"Apply Financial Aid\"\n");
+		str.append("\"Dental Appointment\"\n");
+		assertEquals(str.toString(), tester3.execute());
 	}
 }
