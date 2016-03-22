@@ -40,8 +40,7 @@ public class Encryptor extends JsonCipher {
 		setCompleted(task);
 		setImportant(task);
 		setOverdue(task);
-		setMultipleDesc(task);
-		setMultipleId(task);
+		setMultiple(task);
 	}
 
 }

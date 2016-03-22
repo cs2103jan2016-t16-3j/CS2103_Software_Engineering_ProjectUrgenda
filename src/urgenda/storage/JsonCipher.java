@@ -8,10 +8,11 @@ import java.util.LinkedHashMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
+import urgenda.util.TimePair;
 
 public class JsonCipher {
-	private static final String HASHMAP_KEY_ID = "id";
 	private static final String HASHMAP_KEY_DESC = "desc";
 	private static final String HASHMAP_KEY_TYPE = "type";
 	private static final String HASHMAP_KEY_LOCATION = "location";
@@ -24,11 +25,12 @@ public class JsonCipher {
 	private static final String HASHMAP_KEY_IMPORTANT = "important";
 	private static final String HASHMAP_KEY_OVERDUE = "overdue";
 	private static final String HASHMAP_KEY_MULTIPLE_DESC = "multipleDesc";
-	private static final String HASHMAP_KEY_MULTIPLE_ID = "multipleId";
 	private static final String HASHMAP_KEY_FILE_DIRECTORY = "directory";
 	private static final String HASHMAP_KEY_FILE_NAME = "name";
 
 	private static final String DELIMITER_HASHTAG = ",";
+	private static final String DELIMITER_MULTIPLE_WITHIN_PAIRS = "~";
+	private static final String DELIMITER_MULTIPLE_BET_PAIRS = "`";
 
 	private static final String TASKTYPE_EVENT = "EVENT";
 	private static final String TASKTYPE_DEADLINE = "DEADLINE";
@@ -36,6 +38,9 @@ public class JsonCipher {
 
 	private static final String DEFAULT_FILE_LOCATION = "settings";
 	private static final String DEFAULT_FILE_NAME = "data.txt";
+	
+	private static final int MULTIPLE_START = 0;
+	private static final int MULTIPLE_END = 1;
 
 	protected Gson _gson;
 	protected LinkedHashMap<String, String> _detailsMap;
@@ -50,14 +55,25 @@ public class JsonCipher {
 		_gson = new Gson();
 		_detailsString = detailsString;
 		convertToMap();
-		checkEmptyMap();
+		checkIfMapExist();
+	}
+	
+	public void reset(){
+		_detailsMap.clear();
+		_detailsString = new String();
 	}
 
-	public void checkEmptyMap() {
+	public void checkIfMapExist() {
 		if (_detailsMap == null) {
 			_detailsMap = new LinkedHashMap<String, String>();
-			setDirectory(DEFAULT_FILE_LOCATION);
-			setFileName(DEFAULT_FILE_NAME);
+		}
+	}
+	
+	public boolean isEmptyMap() {
+		if (_detailsMap.isEmpty()) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -70,20 +86,52 @@ public class JsonCipher {
 		_detailsString = _gson.toJson(_detailsMap);
 	}
 
-	public void setMultipleDesc(Task task) {
+	public void setMultiple(Task task) {
 		if (task.getSlot() == null) {
 			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, null);
 		} else {
-			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, task.getSlot().getDesc());
+			ArrayList<TimePair> pairs = task.getSlot().getSlots();
+			String slots = new String();
+			for (TimePair pair: pairs){
+				slots = slots + pair.getStart().toString() + DELIMITER_MULTIPLE_WITHIN_PAIRS + pair.getEnd().toString();
+				slots = slots + DELIMITER_MULTIPLE_BET_PAIRS;
+			}
+			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, slots);
 		}
 	}
 
-	public void setMultipleId(Task task) {
-		if (task.getSlot() == null) {
-			_detailsMap.put(HASHMAP_KEY_MULTIPLE_ID, null);
+	public MultipleSlot getMultiple() {
+		if (_detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC) == null) {
+			return null;
 		} else {
-			_detailsMap.put(HASHMAP_KEY_MULTIPLE_ID, task.getSlot().getuniqueID());
+			MultipleSlot slots = new MultipleSlot();
+			String slotsString = _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
+			String[] slotsArray = slotsString.split(DELIMITER_MULTIPLE_BET_PAIRS);
+			for (String pair: slotsArray){
+				String[] pairArray = pair.split(DELIMITER_MULTIPLE_WITHIN_PAIRS);
+				LocalDateTime start = LocalDateTime.parse(pairArray[MULTIPLE_START]);
+				LocalDateTime end = LocalDateTime.parse(pairArray[MULTIPLE_END]);
+				slots.addTimeSlot(start, end);
+			}
+			
+			return slots;
 		}
+	}
+	
+	public String getMultipleString(){
+		return _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
+	}
+
+	public ArrayList<String> getHashTags() {
+		ArrayList<String> hashTags;
+		if (_detailsMap.get(HASHMAP_KEY_TAGS) == null) {
+			hashTags = null;
+		} else {
+			String tagString = _detailsMap.get(HASHMAP_KEY_TAGS);
+			String[] tagsArray = tagString.split(DELIMITER_HASHTAG);
+			hashTags = new ArrayList<String>(Arrays.asList(tagsArray));
+		}
+		return hashTags;
 	}
 
 	public void setOverdue(Task task) {
@@ -167,34 +215,6 @@ public class JsonCipher {
 
 	public void setFileName(String name) {
 		_detailsMap.put(HASHMAP_KEY_FILE_NAME, name);
-	}
-
-	public String getMultipleDesc() {
-		if (_detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC) == null) {
-			return null;
-		} else {
-			return _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
-		}
-	}
-
-	public String getMultipleId() {
-		if (_detailsMap.get(HASHMAP_KEY_MULTIPLE_ID) == null) {
-			return null;
-		} else {
-			return _detailsMap.get(HASHMAP_KEY_MULTIPLE_ID);
-		}
-	}
-
-	public ArrayList<String> getHashTags() {
-		ArrayList<String> hashTags;
-		if (_detailsMap.get(HASHMAP_KEY_TAGS) == null) {
-			hashTags = null;
-		} else {
-			String tagstring = _detailsMap.get(HASHMAP_KEY_TAGS);
-			String[] tagstrray = tagstring.split(DELIMITER_HASHTAG);
-			hashTags = new ArrayList<String>(Arrays.asList(tagstrray));
-		}
-		return hashTags;
 	}
 
 	public LocalDateTime getDateModified() {
