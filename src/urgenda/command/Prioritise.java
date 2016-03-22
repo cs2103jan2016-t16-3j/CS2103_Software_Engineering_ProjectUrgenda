@@ -23,6 +23,12 @@ public class Prioritise extends TaskCommand {
 
 	private Task _task;
 	private LogicData _data;
+	
+	public Prioritise() {
+		_desc = null;
+		_id = null;
+		_multiId = null;
+	}
 
 	public String execute() throws Exception {
 		_data = LogicData.getInstance();
