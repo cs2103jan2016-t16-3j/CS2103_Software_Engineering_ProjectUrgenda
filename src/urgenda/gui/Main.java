@@ -22,7 +22,7 @@ import urgenda.util.TaskList;
 public class Main extends Application {
 	
 	private static final String APP_NAME = "Urgenda";
-	private static final String PATH_GUI_FXML = "Main.fxml";
+	private static final String PATH_GUI_FXML = "MainView.fxml";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	private static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
 	private static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");

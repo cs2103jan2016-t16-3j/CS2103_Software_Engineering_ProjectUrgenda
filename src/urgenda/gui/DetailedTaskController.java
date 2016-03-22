@@ -17,6 +17,7 @@ public class DetailedTaskController extends TaskController {
 	
 	private static final String PATH_DETAILEDTASKVIEW_FXML = "DetailedTaskView.fxml";
 
+	private static final double WIDTH_TASK_LABEL_EXPAND_BENCHMARK = 2.5;
 	private static final double HEIGHT_DEFAULT_DETAILEDTASK = 70;
 	private static final double HEIGHT_MULTILINE_EXPAND = 70;
 	private static final double HEIGHT_DETAILED_TASK_EXPAND = 35;
@@ -64,9 +65,7 @@ public class DetailedTaskController extends TaskController {
 			text.setFont(Main.REGULAR_FONT);
 			break;
 		}
-		System.out.println(text.getLayoutBounds().getWidth());
-		System.out.println(taskDescLabel.getPrefWidth());
-		if(text.getLayoutBounds().getWidth() >= taskDescLabel.getPrefWidth() * 2.5) {
+		if(text.getLayoutBounds().getWidth() >= taskDescLabel.getPrefWidth() * WIDTH_TASK_LABEL_EXPAND_BENCHMARK) {
 			taskDescLabel.setMinHeight(HEIGHT_MULTILINE_EXPAND);
 			taskPane.setMaxHeight(taskPane.getMaxHeight() + HEIGHT_DETAILED_TASK_EXPAND);
 		} 

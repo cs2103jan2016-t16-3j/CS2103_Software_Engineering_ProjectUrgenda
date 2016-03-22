@@ -24,7 +24,7 @@ public class MainController {
 	private static final String KEYWORD_SHOW_ALL = "home";
 	private static final String KEYWORD_DELETE = "delete";		
 	private static final String KEYWORD_CHANGE_SAVE_PATH = "cd ";
-	private static final String KEYWORD_TESTLIST = "demo";
+	private static final String KEYWORD_DEMO = "demo";
 	
 	//Elements loaded using FXML
 	@FXML
@@ -71,7 +71,7 @@ public class MainController {
 				}
 				_prevCommandLines.addFirst(inputBar.getText());
 				String feedback;
-				if(inputBar.getText().equals(KEYWORD_TESTLIST)) {
+				if(inputBar.getText().equalsIgnoreCase(KEYWORD_DEMO)) {
 					feedback = _main.setupDummyList();
 				} else {
 					feedback = _main.handleCommandLine(inputBar.getText());

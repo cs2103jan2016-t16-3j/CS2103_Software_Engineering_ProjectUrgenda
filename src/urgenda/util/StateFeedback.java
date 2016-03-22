@@ -1,6 +1,7 @@
 package urgenda.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class StateFeedback {
 	
@@ -68,6 +69,7 @@ public class StateFeedback {
 	
 	public void addDetailedTaskIdx(int index) {
 		_showMoreIndexes.add(index);
+		Collections.sort(_showMoreIndexes);
 	}
 
 	public int getDisplayPosition() {

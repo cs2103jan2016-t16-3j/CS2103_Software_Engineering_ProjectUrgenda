@@ -83,12 +83,23 @@
 	-fx-background-color: transparent;
 	-fx-border-width: 0, 0, 0, 0;
 	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 15px;
+	-fx-font-size: 16px;
 	-fx-text-fill: white;
+	
 }
 
 #feedbackArea .scroll-pane .viewport, #feedbackArea .scroll-pane .content{
     -fx-background-color: transparent;
+}
+
+#feedbackArea .scroll-pane {
+	-fx-vbar-policy: always;
+}
+
+#feedbackArea .scroll-pane .scroll-bar:vertical{
+	-fx-background-color: transparent;
+	-fx-unit-increment: 15px;
+	-fx-block-increment: 15px;
 }
 
 #inputBar {
