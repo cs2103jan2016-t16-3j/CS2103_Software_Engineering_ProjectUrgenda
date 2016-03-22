@@ -16,6 +16,7 @@ public class AddTask extends TaskCommand {
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_ERROR = "Error: ";
 	private static final String MESSAGE_OVERLAP = "\nWarning: Overlaps with ";
+	private static final String MESSAGE_HAS_PASSED = "\nWarning: Event added has already passed";
 	
 	private Task _newTask;
 	private LogicData _data;
@@ -45,7 +46,8 @@ public class AddTask extends TaskCommand {
 			_data.addTask(_newTask);
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			_data.setTaskPointer(_newTask);
-			feedback = findOverlaps();
+			feedback = checkPassed();
+			feedback += findOverlaps();
 		} catch (Exception e) {
 			logger.getLogger().severe("Exception occurred" + e);			
 			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
@@ -53,6 +55,13 @@ public class AddTask extends TaskCommand {
 			throw new Exception(MESSAGE_ERROR + e.getMessage());
 		}
 		return taskMessage(_newTask) + MESSAGE_ADDED + feedback;
+	}
+
+	private String checkPassed() {
+		if (_newTask.getTaskType() == Task.Type.EVENT) {
+			return MESSAGE_HAS_PASSED;
+		}
+		return "";
 	}
 
 	private String findOverlaps() {

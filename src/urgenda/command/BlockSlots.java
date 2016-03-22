@@ -43,6 +43,8 @@ public class BlockSlots extends TaskCommand {
 		LocalDateTime now = LocalDateTime.now();
 		_newTask.setDateAdded(now);
 		_newTask.setDateModified(now);
+//		_data.updateMultipleSlot(_newTask);
+		// TODO exception handling for user manipulation of blocking past tasks
 		_data.addTask(_newTask);
 		_data.updateCurrentId();
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);

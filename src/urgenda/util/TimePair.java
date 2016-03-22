@@ -19,4 +19,11 @@ public class TimePair {
 	public LocalDateTime getEnd() {
 		return _end;
 	}
+	
+	public boolean isEqual(TimePair pair) {
+		if (pair.getStart().equals(_start) && pair.getEnd().equals(_end)) {
+			return true;
+		}
+		return false;
+	}
 }
