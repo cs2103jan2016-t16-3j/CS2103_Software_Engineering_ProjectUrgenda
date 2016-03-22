@@ -46,6 +46,7 @@ public class Confirm extends TaskCommand {
 			_confirmedTask.setSlot(null);
 			_data.deleteTask(_prevTask);
 			_data.addTask(_confirmedTask);
+			_data.setTaskPointer(_confirmedTask);
 			return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
 		} else {
 			while (_confirmedTask.getSlot() != null && !(_confirmedTask.getSlot().isEmpty())) {
@@ -55,8 +56,10 @@ public class Confirm extends TaskCommand {
 					_confirmedTask.setStartTime(currPair.getStart());
 					_confirmedTask.setEndTime(currPair.getEnd());
 					_confirmedTask.setSlot(null);
+					updateDateModified();
 					_data.deleteTask(_prevTask);
 					_data.addTask(_confirmedTask);
+					_data.setTaskPointer(_confirmedTask);
 					return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
 				}
 			}
@@ -66,15 +69,25 @@ public class Confirm extends TaskCommand {
 		}
 	}
 
+	private void updateDateModified() {
+		_prevTask.setDateModified(LocalDateTime.now());
+		_confirmedTask.setDateModified(LocalDateTime.now());
+		
+	}
+
 	public String undo() {
+		updateDateModified();
 		_data.deleteTask(_confirmedTask);
 		_data.addTask(_prevTask);
+		_data.setTaskPointer(_prevTask);
 		return MESSAGE_BLOCK + taskMessage(_prevTask);
 	}
 
 	public String redo() {
+		updateDateModified();
 		_data.deleteTask(_prevTask);
 		_data.addTask(_confirmedTask);
+		_data.setTaskPointer(_confirmedTask);
 		return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
 	}
 	

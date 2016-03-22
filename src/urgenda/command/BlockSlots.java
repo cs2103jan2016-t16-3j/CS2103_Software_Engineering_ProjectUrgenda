@@ -68,6 +68,7 @@ public class BlockSlots extends TaskCommand {
 	}
 
 	public String redo() {
+		_newTask.setDateModified(LocalDateTime.now());
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
 		return MESSAGE_BLOCK + taskMessage(_newTask) + MESSAGE_ADDED;
