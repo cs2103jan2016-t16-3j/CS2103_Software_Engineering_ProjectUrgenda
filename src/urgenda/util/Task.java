@@ -2,8 +2,6 @@ package urgenda.util;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 
 public class Task {
 
@@ -124,7 +122,6 @@ public class Task {
 			_taskType = Type.FLOATING;
 		}
 	}
-
 
 	public void updateTaskType(LocalDateTime start, LocalDateTime end) {
 		if (start == null && end == null) {
@@ -253,15 +250,16 @@ public class Task {
 		if (task.getTaskType() != Task.Type.EVENT || this.getTaskType() != Task.Type.EVENT) {
 			return false;
 		}
-		
+		LocalDateTime start = task.getStartTime();
+		LocalDateTime end = task.getEndTime();
 		// TODO check if all cases are covered
-		if (task.getEndTime().isAfter(_startTime) && task.getEndTime().isBefore(_endTime)) {
+		if (end.isAfter(_startTime) && (end.isBefore(_endTime) || end.isEqual(_endTime))) {
 			return true;
-		} else if (task.getStartTime().isAfter(_startTime) && task.getStartTime().isBefore(_endTime)) {
+		} else if ((start.isAfter(_startTime) || start.isEqual(_startTime)) && start.isBefore(_endTime)) {
 			return true;
-		} else if (task.getStartTime().isBefore(_startTime) && task.getEndTime().isAfter(_endTime)) {
+		} else if (start.isBefore(_startTime) && end.isAfter(_endTime)) {
 			return true;
-		} else if (task.getStartTime().equals(_startTime) && task.getEndTime().equals(_endTime)) {
+		} else if (start.isEqual(_startTime) && end.isEqual(_endTime)) {
 			return true;
 		} else {
 			return false;
