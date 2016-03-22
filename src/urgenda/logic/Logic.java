@@ -45,6 +45,10 @@ public class Logic {
 		assert (index >= -1); // asserts that given index is non-negative OR -1(case when there is no tasks)
 		logger.getLogger().info("Checking index: " + index + " >= -1 " );
 		
+		if (isFindFreeState()) {
+			// TODO manipulate stopper
+		}
+		
 		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = CommandParser.parseCommand(command,index);
 		assert (currCmd != null); // asserts that parser returns a command object
@@ -61,6 +65,10 @@ public class Logic {
 		return state;
 	}
 	
+	private boolean isFindFreeState() {
+		return _logicData.getCurrState() == LogicData.DisplayState.FIND_FREE;
+	}
+
 	/**
 	 * Generates the help manual when requested by the user
 	 * 
