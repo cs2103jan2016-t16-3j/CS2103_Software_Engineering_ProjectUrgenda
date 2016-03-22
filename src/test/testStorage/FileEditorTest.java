@@ -33,7 +33,7 @@ public class FileEditorTest {
 	@Test
 	public void test002Relocate() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
-		file.relocate(TEST_FILE_LOCATION_2);
+		file.relocate(TEST_FILE_LOCATION_2)	;
 		file.paths();
 	}
 
@@ -188,7 +188,7 @@ public class FileEditorTest {
 		Storage store = new Storage(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		// store.changeFileName(TEST_FILE_NAME_2);
 		// store.changeFilePath(TEST_FILE_LOCATION_2);
-		store.changeFileSettings(TEST_FILE_LOCATION_2, TEST_FILE_NAME_2);
+//		store.changeFileSettings(TEST_FILE_LOCATION_2, TEST_FILE_NAME_2);
 		Task task1 = new Task("test1");
 		Task task2 = new Task("test2");
 		Task task3 = new Task("test3");

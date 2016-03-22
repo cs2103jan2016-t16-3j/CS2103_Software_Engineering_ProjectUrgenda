@@ -7,19 +7,6 @@ import java.util.LinkedHashMap;
 
 public class Task {
 
-	private static final String HASHMAP_KEY_ID = "id";
-	private static final String HASHMAP_KEY_DESC = "desc";
-	private static final String HASHMAP_KEY_TYPE = "type";
-	private static final String HASHMAP_KEY_LOCATION = "location";
-	private static final String HASHMAP_KEY_STARTTIME = "startTime";
-	private static final String HASHMAP_KEY_ENDTIME = "endTime";
-	private static final String HASHMAP_KEY_TAGS = "tags";
-	private static final String HASHMAP_KEY_DATEADDED = "dateAdded";
-	private static final String HASHMAP_KEY_DATEMODIFIED = "dateModified";
-	private static final String HASHMAP_KEY_COMPLETED = "completed";
-	private static final String HASHMAP_KEY_IMPORTANT = "important";
-	private static final String HASHMAP_KEY_OVERDUE = "overdue";
-
 	private static final String TASK_TYPE_FLOATING = "FLOATING";
 	private static final String TASK_TYPE_EVENT = "EVENT";
 	private static final String TASK_TYPE_DEADLINE = "DEADLINE";
