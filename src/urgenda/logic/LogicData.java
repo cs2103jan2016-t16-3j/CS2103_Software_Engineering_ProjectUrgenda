@@ -412,6 +412,14 @@ public class LogicData {
 			return compare;
 		}
 	};
+	
+	//new comparator for sorting archive
+	static Comparator<Task> archiveComparator = new Comparator<Task>() {
+		public int compare(final Task o1, final Task o2) {
+			return o2.getDateModified().compareTo(o1.getDateModified());
+		}
+	}; 
+	
 
 	public ArrayList<Task> getDisplays() {
 		return _displays;
