@@ -138,53 +138,6 @@ public class Task {
 		}
 	}
 
-	// TODO: support for _slot in storage
-	// constructor for creating Task object from LinkedHashMap
-	public Task(LinkedHashMap<String, String> taskDetails, int id) {
-		_id = id;
-		_desc = taskDetails.get(HASHMAP_KEY_DESC);
-
-		String type = taskDetails.get(HASHMAP_KEY_TYPE);
-		setType(type);
-
-		_location = taskDetails.get(HASHMAP_KEY_LOCATION);
-		_isCompleted = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_COMPLETED));
-		_isImportant = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_IMPORTANT));
-		_isOverdue = Boolean.parseBoolean(taskDetails.get(HASHMAP_KEY_OVERDUE));
-
-		if (taskDetails.get(HASHMAP_KEY_STARTTIME) == null) {
-			_startTime = null;
-		} else {
-			_startTime = LocalDateTime.parse(taskDetails.get(HASHMAP_KEY_STARTTIME));
-		}
-
-		if (taskDetails.get(HASHMAP_KEY_ENDTIME) == null) {
-			_endTime = null;
-		} else {
-			_endTime = LocalDateTime.parse(taskDetails.get(HASHMAP_KEY_ENDTIME));
-		}
-
-		if (taskDetails.get(HASHMAP_KEY_DATEADDED) == null) {
-			_dateAdded = null;
-		} else {
-			_dateAdded = LocalDateTime.parse(taskDetails.get(HASHMAP_KEY_DATEADDED));
-		}
-
-		if (taskDetails.get(HASHMAP_KEY_DATEMODIFIED) == null) {
-			_dateModified = null;
-		} else {
-			_dateModified = LocalDateTime.parse(taskDetails.get(HASHMAP_KEY_DATEMODIFIED));
-		}
-
-		if (taskDetails.get(HASHMAP_KEY_TAGS) == null) {
-			_hashtags = null;
-		} else {
-			String tagstring = taskDetails.get(HASHMAP_KEY_TAGS);
-			System.out.println(tagstring);
-			String[] tagstrray = tagstring.split(",");
-			_hashtags = new ArrayList<String>(Arrays.asList(tagstrray));
-		}
-	}
 
 	public void updateTaskType(LocalDateTime start, LocalDateTime end) {
 		if (start == null && end == null) {

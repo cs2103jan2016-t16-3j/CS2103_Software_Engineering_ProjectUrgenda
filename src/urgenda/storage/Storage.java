@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import urgenda.util.*;
 
-public class Storage implements StorageInterface {
+public class Storage {
 	private static MyLogger logger = MyLogger.getInstance();
 	private static final String SETTINGS_HELP = "help.txt";
 	private static final String SETTINGS_DIRECTORY = "settings";
