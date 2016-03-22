@@ -483,4 +483,15 @@ public class LogicData {
 		return overlaps;
 	}
 
+	// removes archived tasks that are beyond one month old
+	public void clearOldArchive() {
+		ArrayList<Task> outdatedTasks = new ArrayList<Task>();
+		for (Task task : _archives) {
+			if (task.getEndTime().isBefore(LocalDateTime.now().minusMonths(1))) {
+				outdatedTasks.add(task);
+			}
+		}
+		_archives.removeAll(outdatedTasks);
+	}
+
 }

@@ -82,7 +82,7 @@ public class Logic {
 	
 	public StateFeedback retrieveStartupState() {
 		logger.getLogger().info("Retrieving prev launched info");
-		
+		_logicData.clearOldArchive();
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(MESSAGE_WELCOME);
 		return state;
