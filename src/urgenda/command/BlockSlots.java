@@ -1,92 +1,72 @@
 package urgenda.command;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
 public class BlockSlots extends TaskCommand {
-	
-	private static final String MESSAGE_EVENT_DATETIME = ", %1$d/%2$d, %3$02d:%4$02d - %5$02d:%6$02d";
+
 	private static final String MESSAGE_ADDED = " added";
-	private static final String MESSAGE_BLOCK = "Block: ";
+	private static final String MESSAGE_BLOCK = "Blocked ";
 	private static final String MESSAGE_REMOVE = " removed";
-	
+	private static final String MESSAGE_ERROR = "Error: ";
+	private static final String MESSAGE_INVALID_TYPE = "Please input an EVENT for blocking of timeslots";
+	private static final String MESSAGE_INSUFFICIENT_SLOTS = "Insufficient slots entered for blocking of timeslots";
+
 	private MultipleSlot _block;
 	private LogicData _data;
-	private ArrayList<Task> _taskBlocks;
-	
+	private Task _newTask;
+
 	// default constructor
 	public BlockSlots() {
 		_block = new MultipleSlot();
-		_taskBlocks = new ArrayList<Task>();
 	}
 
-	// constructor when description is given
-	public BlockSlots(String desc) {
-		_block = new MultipleSlot(desc);
-		_taskBlocks = new ArrayList<Task>();
+	public BlockSlots(Task newTask) {
+		_newTask = newTask;
+		_block = new MultipleSlot();
 	}
-	
-	// if default constructor is used, ensure that _block desc set
-	public String execute() {
-		assert (_block.getDesc() != null); // asserts that the desc is set
+
+	// throws exception to ensure that block is not stored in undo stack
+	public String execute() throws Exception {
+		if (_newTask.getTaskType() != Task.Type.EVENT) {
+			throw new Exception(MESSAGE_ERROR + MESSAGE_INVALID_TYPE);
+		} else if (_block.isEmpty()) {
+			throw new Exception(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
+		}
 		_data = LogicData.getInstance();
-		setDateAddedAndModified();
-		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-		_data.setTaskPointer(_taskBlocks.get(0));
-		return MESSAGE_BLOCK + addBlockTasks();
-	}
-
-	private void setDateAddedAndModified() {
+		_newTask.setSlot(_block);
+		_newTask.setId(_data.getCurrentId());
 		LocalDateTime now = LocalDateTime.now();
-		for (Task task : _taskBlocks) {
-			task.setDateAdded(now);
-			task.setDateModified(now);
-		}
+		_newTask.setDateAdded(now);
+		_newTask.setDateModified(now);
+		_data.addTask(_newTask);
+		_data.updateCurrentId();
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		_data.setTaskPointer(_newTask);
+
+		return MESSAGE_BLOCK + taskMessage(_newTask) + MESSAGE_ADDED;
 	}
 
-	public String addBlockTasks() {
-		for (Task task : _taskBlocks) {
-			task.setSlot(_block);
-			_data.addTask(task);
-		}
-		return generateTaskMessages() + MESSAGE_ADDED;
-	}
-	
-	// uses its own method for generating task messages
-	private String generateTaskMessages() {
-		String feedback = _block.getDesc();
-		for (Task task : _taskBlocks) {
-			feedback += String.format(MESSAGE_EVENT_DATETIME,  task.getStartTime().getDayOfMonth(),
-					task.getStartTime().getMonthValue(), task.getStartTime().getHour(), 
-					task.getStartTime().getMinute(), task.getEndTime().getHour(), 
-					task.getEndTime().getMinute());
-		}
-		return feedback;
+	public void setNewTask(Task newTask) {
+		_newTask = newTask;
 	}
 
-	public void addTask(Task task) {
-		_taskBlocks.add(task);
+	public void addNewSlots(LocalDateTime start, LocalDateTime end) {
+		_block.addTimeSlot(start, end);
 	}
 
-	public void setDesc(String desc) {
-		_block.setDesc(desc);
-	}
-	
 	public String undo() {
-		for (Task task : _taskBlocks) {
-			_data.deleteTask(task);
-		}
-		return generateTaskMessages() + MESSAGE_REMOVE;
+		_data.deleteTask(_newTask);
+		return taskMessage(_newTask) + MESSAGE_REMOVE;
 	}
 
 	public String redo() {
-		// TODO Decide if Block: to be returned
-		_data.setTaskPointer(_taskBlocks.get(0));
-		return addBlockTasks();
+		_data.addTask(_newTask);
+		_data.setTaskPointer(_newTask);
+		return MESSAGE_BLOCK + taskMessage(_newTask) + MESSAGE_ADDED;
 	}
 
 }

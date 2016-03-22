@@ -1,51 +1,28 @@
 package urgenda.util;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
+// MultipleSlot is an attribute for Tasks with multiple possible timings. Main timing displayed is shown in 
+// _startTime and _endTime for Task. Alternatives that are later will be placed as multiple slots to be confirmed
 public class MultipleSlot {
 
-	private String _desc;
-	// serves as unique id for MultipleSlot attribute
-	private String _uniqueId;
+	private ArrayList<TimePair> _slots;
 	
-	// default constructor
 	public MultipleSlot() {
-		_uniqueId = UUID.randomUUID().toString(); 
+		_slots = new ArrayList<TimePair>();
 	}
 	
-	// constructor with description given
-	public MultipleSlot(String desc) {
-		_desc = desc;
-		_uniqueId = UUID.randomUUID().toString(); 
+	public void addTimeSlot(LocalDateTime start, LocalDateTime end) {
+		_slots.add(new TimePair(start,end));
 	}
 	
-	public MultipleSlot(String desc, String uniqueId) {
-		_desc = desc;
-		_uniqueId = uniqueId;
+	public ArrayList<TimePair> getSlots() {
+		return _slots;
 	}
 	
-	public boolean equals(MultipleSlot slot) {
-		if (slot.getDesc().equals(_desc) && slot.getuniqueID().equals(_uniqueId)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public String getDesc() {
-		return _desc;
-	}
-
-	public String getuniqueID() {
-		return _uniqueId;
-	}
-
-	public void setDesc(String desc) {
-		_desc = desc;
-	}
-
-	public void setuniqueID(String uniqueId) {
-		_uniqueId = uniqueId;
+	public boolean isEmpty() {
+		return _slots.isEmpty();
 	}
 
 }

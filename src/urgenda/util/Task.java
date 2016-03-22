@@ -245,6 +245,7 @@ public class Task {
 		}
 	}
 
+	// assumes that the task given is not a multipleslot type task
 	public boolean isOverlapping(Task task) {
 		// defensive code to prevent checking of non event types
 		if (task.getTaskType() != Task.Type.EVENT || this.getTaskType() != Task.Type.EVENT) {
@@ -252,14 +253,29 @@ public class Task {
 		}
 		LocalDateTime start = task.getStartTime();
 		LocalDateTime end = task.getEndTime();
+		
+		// checks overlaps if there are multiple slots
+		if (this.getSlot() != null) {
+			ArrayList<TimePair> slots = this.getSlot().getSlots();
+			for (TimePair pair : slots) {
+				if (hasOverlap(start, end, pair.getStart(), pair.getEnd())) {
+					return true;
+				}
+			}
+		}
+		// checks for the initial timings in task
+		return hasOverlap(start, end, _startTime, _endTime);
+	}
+
+	public boolean hasOverlap(LocalDateTime start, LocalDateTime end, LocalDateTime compareStart, LocalDateTime compareEnd) {
 		// TODO check if all cases are covered
-		if (end.isAfter(_startTime) && (end.isBefore(_endTime) || end.isEqual(_endTime))) {
+		if (end.isAfter(compareStart) && (end.isBefore(compareEnd) || end.isEqual(compareEnd))) {
 			return true;
-		} else if ((start.isAfter(_startTime) || start.isEqual(_startTime)) && start.isBefore(_endTime)) {
+		} else if ((start.isAfter(compareStart) || start.isEqual(compareStart)) && start.isBefore(compareEnd)) {
 			return true;
-		} else if (start.isBefore(_startTime) && end.isAfter(_endTime)) {
+		} else if (start.isBefore(compareStart) && end.isAfter(compareEnd)) {
 			return true;
-		} else if (start.isEqual(_startTime) && end.isEqual(_endTime)) {
+		} else if (start.isEqual(compareStart) && end.isEqual(compareEnd)) {
 			return true;
 		} else {
 			return false;
