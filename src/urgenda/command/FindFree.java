@@ -35,7 +35,7 @@ public class FindFree extends Command {
 		Deque<DateTimePair> _temp; // feel free to use other struct and delete this
 		String feedback = null;
 		for (Task task : data.getDisplays()) {
-			if(task.getTaskType().equals(Type.EVENT) && isPartOfRange(task)){
+			if(task.getTaskType().equals(Type.EVENT) && isOverlapping(task)){
 				matches.add(task);
 			}
 		}
@@ -52,7 +52,7 @@ public class FindFree extends Command {
 		_endOfRange = end;
 	}
 
-	public boolean isPartOfRange(Task task) {
+	public boolean isOverlapping(Task task) {
 		if (isBeforeOrEqual(task.getStartTime(), _startOfRange) && isAfterOrEqual(task.getEndTime(), _endOfRange)) {
 			return true;
 		} else if (task.getEndTime().isAfter(_startOfRange) && isBeforeOrEqual(task.getEndTime(), _endOfRange)) {
