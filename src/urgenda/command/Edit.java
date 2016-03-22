@@ -55,9 +55,8 @@ public class Edit extends TaskCommand {
 			_newTask.setIsCompleted(_prevTask.isCompleted());
 			_newTask.setIsImportant(_prevTask.isImportant());
 			_newTask.setDateAdded(_prevTask.getDateAdded());
-			_newTask.setDateModified(LocalDateTime.now()); // TODO refactor out to update undo and redo
-			_prevTask.setDateModified(LocalDateTime.now());
 			_newTask.updateTaskType(_newTask.getStartTime(), _newTask.getEndTime());
+			updateDateModified();
 			try {
 				checkTaskValidity(_newTask);
 				_data.deleteTask(_prevTask);
@@ -74,7 +73,13 @@ public class Edit extends TaskCommand {
 		}
 	}
 
+	private void updateDateModified() {
+		_newTask.setDateModified(LocalDateTime.now());
+		_prevTask.setDateModified(LocalDateTime.now());
+	}
+
 	public String undo() {
+		updateDateModified();
 		_data.deleteTask(_newTask);
 		_data.addTask(_prevTask);
 		_data.setTaskPointer(_prevTask);
@@ -82,6 +87,7 @@ public class Edit extends TaskCommand {
 	}
 
 	public String redo() {
+		updateDateModified();
 		_data.deleteTask(_prevTask);
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);

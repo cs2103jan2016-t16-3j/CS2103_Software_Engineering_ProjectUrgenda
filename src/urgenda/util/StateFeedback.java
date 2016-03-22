@@ -6,7 +6,8 @@ import java.util.Collections;
 public class StateFeedback {
 	
 	public enum State {
-		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY, ERROR, SHOW_HELP, EXIT, ARCHIVE
+		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY, ERROR, SHOW_HELP, EXIT, 
+		ARCHIVE, FIND_FREE
 	}
 	
 	private State _state;

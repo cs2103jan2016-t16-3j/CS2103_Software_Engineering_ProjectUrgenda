@@ -1,5 +1,6 @@
 package urgenda.command;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
@@ -46,6 +47,7 @@ public class Complete extends TaskCommand {
 			throw new Exception(MESSAGE_NO_COMPLETE_MATCH);
 		}
 		_completedTask.setIsCompleted(true);
+		_completedTask.setDateModified(LocalDateTime.now());
 		_data.deleteTask(_completedTask);
 		_data.addArchive(_completedTask);
 		return MESSAGE_DONE + taskMessage(_completedTask) + "!";
@@ -53,6 +55,7 @@ public class Complete extends TaskCommand {
 
 	public String undo() {
 		_completedTask.setIsCompleted(false);
+		_completedTask.setDateModified(LocalDateTime.now());
 		_data.removeArchive(_completedTask);
 		_data.addTask(_completedTask);
 		_data.setTaskPointer(_completedTask);
@@ -61,6 +64,7 @@ public class Complete extends TaskCommand {
 
 	public String redo() {
 		_completedTask.setIsCompleted(true);
+		_completedTask.setDateModified(LocalDateTime.now());
 		_data.deleteTask(_completedTask);
 		_data.addArchive(_completedTask);
 		return MESSAGE_DONE + taskMessage(_completedTask) + "!";

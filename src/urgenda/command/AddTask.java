@@ -86,6 +86,7 @@ public class AddTask extends TaskCommand {
 	}
 
 	public String redo() {
+		_newTask.setDateModified(LocalDateTime.now());
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
 		return taskMessage(_newTask) + MESSAGE_ADDED + findOverlaps();

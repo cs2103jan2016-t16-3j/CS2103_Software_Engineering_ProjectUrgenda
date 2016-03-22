@@ -19,7 +19,7 @@ public class LogicData {
 
 	public enum DisplayState {
 		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, 
-		EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE
+		EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE
 	}
 	
 	private static MyLogger logger = MyLogger.getInstance();
@@ -108,6 +108,11 @@ public class LogicData {
 			case ARCHIVE :
 				state = displayArchiveTasks(_archives);
 				state.setState(StateFeedback.State.ARCHIVE);
+				break;
+			case FIND_FREE:
+				state = displayAllTasks(_displays);
+				state.setState(StateFeedback.State.FIND_FREE);
+				break;
 			default :
 				state = displayAllTasks(_tasks);
 				state.setState(StateFeedback.State.ALL_TASKS);
