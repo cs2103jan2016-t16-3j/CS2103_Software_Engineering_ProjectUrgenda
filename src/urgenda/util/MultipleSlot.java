@@ -21,6 +21,24 @@ public class MultipleSlot {
 		return _slots;
 	}
 	
+	public void sortSlots() {
+		// TODO SORT
+	}
+	
+	public TimePair getNextSlot() {
+		if (_slots.isEmpty()) {
+			return null;
+		} else {
+			return _slots.get(0);
+		}
+	}
+	
+	public void removeNextSlot() {
+		if (!_slots.isEmpty()) {
+			_slots.remove(0);
+		} 
+	}
+	
 	public boolean isEmpty() {
 		return _slots.isEmpty();
 	}

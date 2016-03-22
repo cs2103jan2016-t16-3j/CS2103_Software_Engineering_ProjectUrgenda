@@ -37,6 +37,7 @@ public class BlockSlots extends TaskCommand {
 			throw new Exception(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
 		}
 		_data = LogicData.getInstance();
+		_block.sortSlots();
 		_newTask.setSlot(_block);
 		_newTask.setId(_data.getCurrentId());
 		LocalDateTime now = LocalDateTime.now();

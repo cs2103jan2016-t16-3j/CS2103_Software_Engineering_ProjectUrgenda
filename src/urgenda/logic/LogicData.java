@@ -13,6 +13,7 @@ import urgenda.util.MultipleSlot;
 import urgenda.util.MyLogger;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
+import urgenda.util.TimePair;
 
 public class LogicData {
 
@@ -75,6 +76,7 @@ public class LogicData {
 		StateFeedback state = null;
 		switch (_currState) {
 			case ALL_TASKS :
+				// TODO update diagram
 				updateState();
 				state = displayAllTasks(_tasks);
 				state.setState(StateFeedback.State.ALL_TASKS);
@@ -216,11 +218,17 @@ public class LogicData {
 					task.setIsOverdue(false);
 				}
 			}
+			if (task.getSlot() != null) {
+				updateMultipleSlot(task);
+			}
 			if (task.getTaskType() == Task.Type.EVENT) {
 				if (task.getEndTime().isBefore(now)) {
 					task.setIsCompleted(true);
 					logger.getLogger().info("event task" + task + " has been completed");
-					completedTasks.add(task);
+					// only moves completed tasks when the day ends for that day
+					if (task.getEndTime().toLocalDate().isBefore(LocalDate.now())) {
+						completedTasks.add(task);						
+					}
 				}
 			}
 		}
@@ -228,6 +236,22 @@ public class LogicData {
 		_archives.addAll(completedTasks);
 	}
 
+	// assumes that the multipleslots are sorted
+	private void updateMultipleSlot(Task task) {
+		LocalDateTime now = LocalDateTime.now();
+		
+		while (task.getEndTime().isBefore(now) && !(task.getSlot().isEmpty())) {
+			TimePair newTime = task.getSlot().getNextSlot();
+			task.setStartTime(newTime.getStart());
+			task.setEndTime(newTime.getEnd());
+			task.getSlot().removeNextSlot();
+		}
+		// sets multipleslots to empty when latest timing is the current timing
+		// makes block type to normal task event
+		if (task.getSlot().isEmpty()){
+			task.setSlot(null);
+		}		
+	}
 
 	public void addArchive(Task task) {
 		logger.getLogger().info("adding task " + task + " to archive");
