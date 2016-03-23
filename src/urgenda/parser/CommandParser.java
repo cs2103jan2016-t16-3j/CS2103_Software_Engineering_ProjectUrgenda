@@ -21,6 +21,7 @@ import urgenda.parser.commandParser.DeleteCommandParser;
 import urgenda.parser.commandParser.EditCommandParser;
 import urgenda.parser.commandParser.ExitCommandParser;
 import urgenda.parser.commandParser.FindFreeCommandParser;
+import urgenda.parser.commandParser.HomeCommandParser;
 import urgenda.parser.commandParser.InvalidCommandParser;
 import urgenda.parser.commandParser.PrioritiseCommandParser;
 import urgenda.parser.commandParser.RedoCommandParser;
@@ -92,6 +93,9 @@ public class CommandParser {
 		case FIND_FREE:
 			FindFreeCommandParser findFreeCommand = new FindFreeCommandParser(argsString, index);
 			return findFreeCommand.generateAndReturn();
+		case HOME:
+			HomeCommandParser homeCommand = new HomeCommandParser(argsString, index);
+			return homeCommand.generateAndReturn();
 		case UNDO:
 			UndoCommandParser undoCommand = new UndoCommandParser(argsString, index);
 			return undoCommand.generateAndReturn();
