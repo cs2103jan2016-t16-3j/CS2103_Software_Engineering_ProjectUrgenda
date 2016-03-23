@@ -84,7 +84,7 @@ public class Edit extends TaskCommand {
 		_data.deleteTask(_newTask);
 		_data.addTask(_prevTask);
 		_data.setTaskPointer(_prevTask);
-		return taskMessage(_newTask) + MESSAGE_EDIT + taskMessage(_prevTask) ;
+		return taskMessage(_newTask) + MESSAGE_REVERTED  + taskMessage(_prevTask) ;
 	}
 
 	public String redo() {
@@ -92,7 +92,7 @@ public class Edit extends TaskCommand {
 		_data.deleteTask(_prevTask);
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
-		return taskMessage(_prevTask) + MESSAGE_REVERTED + taskMessage(_newTask);
+		return taskMessage(_prevTask) + MESSAGE_EDIT + taskMessage(_newTask);
 	}
 
 	public void setId(int id) {
