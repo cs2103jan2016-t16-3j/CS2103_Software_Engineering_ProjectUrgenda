@@ -1,6 +1,5 @@
 package urgenda.command;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
@@ -14,7 +13,7 @@ import urgenda.util.Task;
 
 public class FindFree extends Command {
 
-	private static final String MESSAGE_FREE_TIME = "Showing time slots where there are no events between "
+	private static final String MESSAGE_FREE_TIME = "Showing available time slots between "
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
 	private static final String MESSAGE_NO_FREE_TIME = "There are no free slots between "
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
