@@ -17,10 +17,6 @@ public class StorageTest {
 	private static final String TEST_FILE_LOCATION_2 = "testfiles\\test3";
 	private static final String TEST_FILE_NAME_2 = "test2.txt";
 	
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
 	
 	@Test
 	public void test1Save() {
