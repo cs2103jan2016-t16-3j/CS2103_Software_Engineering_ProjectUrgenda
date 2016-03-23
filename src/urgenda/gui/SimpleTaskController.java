@@ -6,12 +6,9 @@ import java.time.format.DateTimeFormatter;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -22,10 +19,18 @@ import urgenda.util.Task;
 
 public class SimpleTaskController extends GridPane {
 
-	private static final Insets INSETS_ROWS = new Insets(1, 0, 0, 0);
+	private static final String HEADER_OVERDUE_TASK = "Overdue Tasks";
+	private static final String HEADER_TODAY_TASK = "Today's Tasks";
+	private static final String HEADER_OTHER_TASK = "Other Tasks";
+	private static final String HEADER_ARCHIVE_TASK = "Completed Tasks";
+	private static final String PATH_TASK_FREETIME_CSS = "TaskFreeTime.css";
+	private static final String PATH_TASK_OVERDUE_CSS = "TaskOverdue.css";
+	private static final String PATH_TASK_TODAY_CSS = "TaskToday.css";
+	private static final String PATH_TASK_TODAY_OVERTIME_CSS = "TaskTodayOvertime.css";
+	private static final String PATH_TASK_NORMAL_CSS = "TaskNormal.css";
+	private static final String PATH_TASK_ARCHIVE_CSS = "TaskArchive.css";
+	private static final String PATH_SIMPLETASKVIEW_FXML = "SimpleTaskView.fxml";
 
-	private static final String PATH_TASKVIEW_FXML = "SimpleTaskView.fxml";
-	
 	private static final double HEIGHT_DEFAULT_TASK = 35;
 
 	@FXML
@@ -77,27 +82,34 @@ public class SimpleTaskController extends GridPane {
 	private void initLabels() {
 		taskIndexLabel.setText(String.valueOf(_index + 1));
 		taskDescLabel.setText(_task.getDesc());
-		taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
 		switch (_taskDisplayType) {
+		case FREE_TIME:
+			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), true));
+			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_FREETIME_CSS).toExternalForm());
+			break;
 		case OVERDUE:
-			this.getStylesheets().addAll(getClass().getResource("TaskOverdue.css").toExternalForm());
-			noviceHeaderLabel.setText("Overdue Tasks");
+			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), false));
+			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_OVERDUE_CSS).toExternalForm());
+			noviceHeaderLabel.setText(HEADER_OVERDUE_TASK);
 			break;
 		case TODAY:
+			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), false));
 			if(_task.isCompleted()) {
-				this.getStylesheets().addAll(getClass().getResource("TaskTodayOvertime.css").toExternalForm());
+				this.getStylesheets().addAll(getClass().getResource(PATH_TASK_TODAY_OVERTIME_CSS).toExternalForm());
 			} else {
-				this.getStylesheets().addAll(getClass().getResource("TaskToday.css").toExternalForm());
+				this.getStylesheets().addAll(getClass().getResource(PATH_TASK_TODAY_CSS).toExternalForm());
 			}	
-			noviceHeaderLabel.setText("Today's Tasks");
+			noviceHeaderLabel.setText(HEADER_TODAY_TASK);
 			break;
 		case NORMAL:
-			this.getStylesheets().addAll(getClass().getResource("TaskNormal.css").toExternalForm());
-			noviceHeaderLabel.setText("Other Tasks");
+			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), false));
+			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_NORMAL_CSS).toExternalForm());
+			noviceHeaderLabel.setText(HEADER_OTHER_TASK);
 			break;
 		case ARCHIVE:
-			this.getStylesheets().addAll(getClass().getResource("TaskArchive.css").toExternalForm());
-			noviceHeaderLabel.setText("Completed Tasks");
+			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), false));
+			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_ARCHIVE_CSS).toExternalForm());
+			noviceHeaderLabel.setText(HEADER_ARCHIVE_TASK);
 			break;
 		}
 	}
@@ -116,7 +128,7 @@ public class SimpleTaskController extends GridPane {
 		});
 	}
 
-	private String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2) {
+	private String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2, boolean isFreeTime) {
 		String dateTimeFormatter = "";
 		if(dateTime2 != null) {
 			if(dateTime1 == null) {	//format for deadline
@@ -125,10 +137,12 @@ public class SimpleTaskController extends GridPane {
 				dateTimeFormatter += formatTime(dateTime2);
 			} else { //format for event
 				DateTimePair timeDiff = new DateTimePair(dateTime1, dateTime2);
-				dateTimeFormatter += formatDate(dateTime1) + " ";
+				if(!isFreeTime) {
+					dateTimeFormatter += formatDate(dateTime1) + " ";
+				}
 				dateTimeFormatter += formatTime(dateTime1) + " ";
 				dateTimeFormatter += "to ";
-				if (timeDiff.getDays() > 0) {
+				if (!isFreeTime && timeDiff.getDays() > 0) {
 					dateTimeFormatter += formatDate(dateTime2) + " ";
 				}
 				dateTimeFormatter += formatTime(dateTime2);				
@@ -159,7 +173,7 @@ public class SimpleTaskController extends GridPane {
 	}
 
 	protected void loadFXML() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_TASKVIEW_FXML));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_SIMPLETASKVIEW_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
 		try {

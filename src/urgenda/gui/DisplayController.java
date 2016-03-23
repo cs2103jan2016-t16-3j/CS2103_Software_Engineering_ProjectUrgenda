@@ -21,7 +21,7 @@ import urgenda.util.TaskList;
 public class DisplayController extends AnchorPane {
 
 	public enum TaskDisplayType {
-		OVERDUE, TODAY, NORMAL, ARCHIVE
+		OVERDUE, TODAY, NORMAL, ARCHIVE, FREE_TIME
 	}
 
 	public enum Direction {
@@ -30,12 +30,6 @@ public class DisplayController extends AnchorPane {
 
 	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display!";
 	private static final String KEYWORD_SHOWMORE = "showmore";
-	static final String TEXT_FILL_OVERDUE = "-fx-text-fill: white;";
-	static final String TEXT_FILL_TODAY = "-fx-text-fill: black;";
-	static final String TEXT_FILL_NORMAL = "-fx-text-fill: black;";
-	static final String TEXT_FILL_COMPLETED = "-fx-text-fill: black;";
-	static final String TEXT_WEIGHT_BOLD = "-fx-font-family: \"Montserrat\";";
-	static final String TEXT_WEIGHT_REGULAR = "-fx-font-family: \"Montserrat Light\";";
 
 	private static final double DEFAULT_EMPTY_TASKS_DISPLAY_HEIGHT = 100;
 	private static final double NORMAL_OPACITY_VALUE = 0.7;
@@ -46,19 +40,9 @@ public class DisplayController extends AnchorPane {
 	 * red: FF9999, 255, 153, 153, FF4C4C, 255, 76, 76 
 	 * orange: FFD299, 255, 210, 153 FFAE4C, 225, 174, 76 
 	 * blue: 96B2FF 150, 178, 255, 4C7CFF, 76, 124, 255 
+	 * green: 86E086 134, 224, 134, 15C815, 21, 200, 21 
 	 * gray: B2B2B2 178, 178, 178, 666666, 102, 102, 102
 	 */
-	
-	static final Color COLOR_OVERDUE = Color.rgb(255, 153, 153, IMPORTANT_OPACITY_VALUE);
-	static final Color COLOR_TODAY_IMPORTANT = Color.rgb(255, 210, 153, IMPORTANT_OPACITY_VALUE);
-	static final Color COLOR_TODAY = Color.rgb(255, 210, 153, NORMAL_OPACITY_VALUE);
-	static final Color COLOR_NORMAL_IMPORTANT = Color.rgb(150, 178, 255, IMPORTANT_OPACITY_VALUE);
-	static final Color COLOR_NORMAL = Color.rgb(150, 178, 255, NORMAL_OPACITY_VALUE);
-	static final Color COLOR_COMPLETED = Color.rgb(178, 178, 178, IMPORTANT_OPACITY_VALUE);
-	static final Color COLOR_INDICATOR_OVERDUE = Color.rgb(255, 76, 76, IMPORTANT_OPACITY_VALUE);
-	static final Color COLOR_INDICATOR_TODAY = Color.rgb(255, 174, 76, NORMAL_OPACITY_VALUE);
-	static final Color COLOR_INDICATOR_NORMAL = Color.rgb(76, 124, 255, NORMAL_OPACITY_VALUE);
-	static final Color COLOR_INDICATOR_COMPLETED = Color.rgb(102, 102, 102, IMPORTANT_OPACITY_VALUE);
 
 	// FXML attributes
 	@FXML
@@ -89,7 +73,7 @@ public class DisplayController extends AnchorPane {
 
 	public void initDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
 			int modifiedTaskIndex, boolean showNoviceHeaders) {
-		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex, showNoviceHeaders);
+		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex, showNoviceHeaders, false);
 		displayArea.vvalueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
@@ -111,7 +95,7 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
-			int modifiedTaskIndex, boolean showNoviceHeaders) {
+			int modifiedTaskIndex, boolean showNoviceHeaders, boolean isShowFreeTime) {
 		_allowChangeScroll = false;
 		displayHolder.getChildren().clear();
 		_displayedTasks.clear();
@@ -122,7 +106,10 @@ public class DisplayController extends AnchorPane {
 
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
-			if (showNoviceHeaders) {
+			if(isShowFreeTime) {
+				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount(),
+						TaskDisplayType.FREE_TIME, false);
+			} else if (showNoviceHeaders) {
 				if (updatedTasks.getOverdueCount() > 0) {
 					indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.OVERDUE, true);	
 					indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount() - 1,

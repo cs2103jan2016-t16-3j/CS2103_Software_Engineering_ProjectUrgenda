@@ -110,7 +110,14 @@ public class Main extends Application {
 			quit();
 		}
 		//TODO implement check settings for showing novice headers, change boolean below
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
+		switch(state.getState()) {
+		case FIND_FREE:
+			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, true);
+			break;
+		default:
+			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
+			break;
+		}
 		return state.getFeedback();
 	}
 	
@@ -204,7 +211,7 @@ public class Main extends Application {
 		state.addDetailedTaskIdx(5);
 		state.addDetailedTaskIdx(6);
 		state.setState(StateFeedback.State.ALL_TASKS);
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0, true);
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0, true, false);
 		return state.getFeedback();
 	}
 
