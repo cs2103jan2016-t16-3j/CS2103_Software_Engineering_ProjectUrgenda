@@ -29,6 +29,9 @@ public class Main extends Application {
 	private static final String PATH_LIGHT_FONT = new String("../../resources/Montserrat-UltraLight.ttf");
 	
 	private static final String HEADER_ALL_TASKS = "Showing ALL TASKS";
+	private static final String HEADER_ALL_WITH_COMPLETED_TASKS = "Showing ALL TASKS WITH COMPLETED TASKS";
+	private static final String HEADER_SEARCH_RESULTS = "Showing SEARCH RESULTS";
+	private static final String HEADER_MULTIPLE_MATCHES = "Showing MULTIPLE MATCHES";
 
 	private static final int DEFAULT_REGULAR_FONT_SIZE = 20;
 	private static final int DEFAULT_BOLD_FONT_SIZE = 20;
@@ -116,13 +119,13 @@ public class Main extends Application {
 		String display = "";
 		switch (state.getState()) {
 		case MULTIPLE_MATCHES:
-			display = "Showing MULTIPLE MATCHES";
+			display = HEADER_MULTIPLE_MATCHES;
 			break;
 		case SHOW_SEARCH:
-			display = "Showing SEARCH RESULTS";
+			display = HEADER_SEARCH_RESULTS;
 			break;
 		case ALL_TASK_AND_COMPLETED:
-			display = "Showing ALL TASKS WITH COMPLETED TASKS";
+			display = HEADER_ALL_WITH_COMPLETED_TASKS;
 			break;
 //		case DISPLAY:
 //			break;
@@ -165,8 +168,9 @@ public class Main extends Application {
 	protected String setupDummyList() {
 		Task taskOverdue = new Task("Complete tutorial", null, null, LocalDateTime.now().minusDays(1).withHour(23).withMinute(59),
 				new ArrayList<String>(), false);
-		Task taskTodayImportant = new Task("Dinner with mum", null, LocalDateTime.now().withHour(19).withMinute(0), LocalDateTime.now().withHour(20).withMinute(0),
+		Task taskTodayImportant = new Task("Breakfast with mum and dad", null, LocalDateTime.now().withHour(8).withMinute(0), LocalDateTime.now().withHour(9).withMinute(0),
 				new ArrayList<String>(), true);
+		taskTodayImportant.setIsCompleted(true);
 		Task taskToday1 = new Task("NUS Overseas Colleges Workshop", null, LocalDateTime.now().minusDays(1).withHour(10).withMinute(0), LocalDateTime.now().plusDays(1).withHour(22).withMinute(0),
 				new ArrayList<String>(), false);
 		Task taskTodayDetailed = new Task("Finish writing testimonial for scholarship application", "", null, LocalDateTime.now().withHour(23).withMinute(59),

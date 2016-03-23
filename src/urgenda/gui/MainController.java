@@ -111,7 +111,6 @@ public class MainController {
 		fileChooser.setTitle(TITLE_SAVE_DIRECTORY);
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(".txt files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
-        //TODO remove comment when method is created in logic
         fileChooser.setInitialDirectory(_main.getSaveDirectory());
 		File selectedFileDirectory = fileChooser.showSaveDialog(new Stage());
 		if(selectedFileDirectory != null) {
@@ -172,7 +171,6 @@ public class MainController {
 	
 	@FXML
 	private void exit(ActionEvent e) {
-		//TODO save all edits
 		Platform.exit();
         System.exit(0);
 	}

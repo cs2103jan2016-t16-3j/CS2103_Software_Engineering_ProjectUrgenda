@@ -28,10 +28,6 @@ public class DisplayController extends AnchorPane {
 		DOWN, UP
 	}
 
-	public enum TaskType {
-		TASK, DETAILED_TASK, TASK_HEADER
-	}
-
 	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display!";
 	private static final String KEYWORD_SHOWMORE = "showmore";
 	static final String TEXT_FILL_OVERDUE = "-fx-text-fill: white;";
@@ -52,7 +48,7 @@ public class DisplayController extends AnchorPane {
 	 * blue: 96B2FF 150, 178, 255, 4C7CFF, 76, 124, 255 
 	 * gray: B2B2B2 178, 178, 178, 666666, 102, 102, 102
 	 */
-
+	
 	static final Color COLOR_OVERDUE = Color.rgb(255, 153, 153, IMPORTANT_OPACITY_VALUE);
 	static final Color COLOR_TODAY_IMPORTANT = Color.rgb(255, 210, 153, IMPORTANT_OPACITY_VALUE);
 	static final Color COLOR_TODAY = Color.rgb(255, 210, 153, NORMAL_OPACITY_VALUE);
@@ -64,6 +60,7 @@ public class DisplayController extends AnchorPane {
 	static final Color COLOR_INDICATOR_NORMAL = Color.rgb(76, 124, 255, NORMAL_OPACITY_VALUE);
 	static final Color COLOR_INDICATOR_COMPLETED = Color.rgb(102, 102, 102, IMPORTANT_OPACITY_VALUE);
 
+	// FXML attributes
 	@FXML
 	private Label displayHeader;
 	@FXML
@@ -82,20 +79,22 @@ public class DisplayController extends AnchorPane {
 		_selectedTaskIndex.addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> value, Number oldIndex, Number newIndex) {
-					setDisplayScroll(oldIndex, newIndex);
+				setDisplayScroll(oldIndex, newIndex);
 			}
 		});
 		_displayedTasks = new ArrayList<Task>();
 		_detailedIndexes = new ArrayDeque<Integer>();
-		_allowChangeScroll = false; //set default setting to change scroll as false
+		_allowChangeScroll = false; // set default setting to change scroll as false
 	}
-	
+
 	public void initDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
 			int modifiedTaskIndex, boolean showNoviceHeaders) {
 		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex, showNoviceHeaders);
 		displayArea.vvalueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
+				// prevent changes to scroll height of displayArea other than
+				// method calls and mouse or touch scrolls
 				if (!_allowChangeScroll && oldValue != newValue) {
 					changeDisplayVvalue(oldValue.doubleValue());
 				}
@@ -104,13 +103,13 @@ public class DisplayController extends AnchorPane {
 		displayArea.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent scrollEvent) {
-				if(!_allowChangeScroll) {
+				if (!_allowChangeScroll) { // allow if is mouse/touch scroll event
 					_allowChangeScroll = true;
 				}
 			}
-			});
+		});
 	}
-		
+
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
 			int modifiedTaskIndex, boolean showNoviceHeaders) {
 		_allowChangeScroll = false;
@@ -125,7 +124,7 @@ public class DisplayController extends AnchorPane {
 		if (updatedTasks.getUncompletedCount() != 0) {
 			if (showNoviceHeaders) {
 				if (updatedTasks.getOverdueCount() > 0) {
-					indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.OVERDUE, true);
+					indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.OVERDUE, true);	
 					indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount() - 1,
 							TaskDisplayType.OVERDUE, false);
 				}
@@ -177,7 +176,7 @@ public class DisplayController extends AnchorPane {
 				displayHolder.getChildren().add(newDetailedTaskView);
 				newDetailedTaskView.resizeOverrunDescLabel();
 			} else {
-				TaskController newTaskView = new TaskController(_displayedTasks.get(currIndex), currIndex,
+				SimpleTaskController newTaskView = new SimpleTaskController(_displayedTasks.get(currIndex), currIndex,
 						taskDisplayType, showHeader);
 				newTaskView.setDisplayController(this);
 				displayHolder.getChildren().add(newTaskView);
@@ -206,7 +205,7 @@ public class DisplayController extends AnchorPane {
 	private void initSelectedTask(int index) {
 		if (!_displayedTasks.isEmpty()) {
 			_selectedTaskIndex.set(index);
-			((TaskController) displayHolder.getChildren().get(index)).setSelected(true);
+			((SimpleTaskController) displayHolder.getChildren().get(index)).setSelected(true);
 		} else {
 			_selectedTaskIndex.set(-1);
 		}
@@ -218,7 +217,7 @@ public class DisplayController extends AnchorPane {
 			double newIndexBottom = 0;
 			double heightSum = 0.0;
 			for (int i = 0; i < displayHolder.getChildren().size(); i++) {
-				heightSum += ((TaskController) displayHolder.getChildren().get(i)).getMaxHeight();
+				heightSum += ((SimpleTaskController) displayHolder.getChildren().get(i)).getMaxHeight();
 				if (i == newIndex.intValue() - 1) {
 					newIndexTop = heightSum;
 				}
@@ -228,19 +227,19 @@ public class DisplayController extends AnchorPane {
 			}
 			displayArea.setVmax(heightSum - displayArea.getHeight());
 			double oldScrollHeightTop = displayArea.getVvalue();
-			if (!isFullyWithinRange(oldScrollHeightTop, oldScrollHeightTop + displayArea.getHeight(),
-					newIndexTop, newIndexBottom)) { //new selected task is not fully visible in displayArea
-				if (oldIndex.intValue() < 0) { //initialising or adding from no tasks
+			if (!isFullyWithinRange(oldScrollHeightTop, oldScrollHeightTop + displayArea.getHeight(), newIndexTop,
+					newIndexBottom)) { // new selected task is not fully visible
+				if (oldIndex.intValue() < 0) { // originally no tasks
 					changeDisplayVvalue(newIndexTop);
-				} else if (newIndex.intValue() > oldIndex.intValue()) { //task is below screen
+				} else if (newIndex.intValue() > oldIndex.intValue()) { // task below screen
 					changeDisplayVvalue(newIndexBottom - displayArea.getHeight());
-				} else if (newIndex.intValue() < oldIndex.intValue()) { //task is above screen
+				} else if (newIndex.intValue() < oldIndex.intValue()) { // task above screen
 					changeDisplayVvalue(newIndexTop);
 				}
-			} 
+			}
 		}
 	}
-	
+
 	private boolean isFullyWithinRange(double rangeTop, double rangeBottom, double top, double bottom) {
 		if (top < rangeTop) {
 			return false;
@@ -252,28 +251,32 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void traverseTasks(Direction direction) {
-		if (direction == Direction.DOWN && _selectedTaskIndex.getValue() < _displayedTasks.size() - 1) {
-			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
-			_selectedTaskIndex.set(_selectedTaskIndex.getValue() + 1);
-			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
-		} else if (direction == Direction.UP && _selectedTaskIndex.getValue() != 0) {
-			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
-			_selectedTaskIndex.set(_selectedTaskIndex.getValue() - 1);
-			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
+		if (direction == Direction.DOWN) {
+			if (_selectedTaskIndex.getValue() < _displayedTasks.size() - 1) {
+				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
+				_selectedTaskIndex.set(_selectedTaskIndex.getValue() + 1);
+				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
+			}
+		} else if (direction == Direction.UP) {
+			if (_selectedTaskIndex.getValue() != 0) {
+				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
+				_selectedTaskIndex.set(_selectedTaskIndex.getValue() - 1);
+				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
+			}
 		}
 	}
-	
+
 	protected void setSelectedIndexOnClick(int index) {
 		if (index != _selectedTaskIndex.getValue()) {
-			((TaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
+			((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
 			_selectedTaskIndex.set(index);
 		}
 	}
 
-	protected void toggleDetailedOnClick(Task task, int index, TaskDisplayType taskDisplayType) {
+	protected void toggleSelectedDetailsOnClick() {
 		_main.handleCommandLine(KEYWORD_SHOWMORE);
 	}
-	
+
 	public void setDisplayHeader(String displayed) {
 		displayHeader.setText(displayed);
 	}
@@ -293,4 +296,3 @@ public class DisplayController extends AnchorPane {
 	}
 
 }
-

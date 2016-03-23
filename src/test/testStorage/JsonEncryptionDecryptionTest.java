@@ -15,7 +15,7 @@ import org.junit.runners.MethodSorters;
 import urgenda.storage.JsonCipher;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
-import urgenda.util.TimePair;
+import urgenda.util.DateTimePair;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JsonEncryptionDecryptionTest {
@@ -109,10 +109,10 @@ public class JsonEncryptionDecryptionTest {
 		cipher.setMultiple(task);
 		
 		MultipleSlot expectedSlot = cipher.getMultiple();
-		ArrayList<TimePair> list = expectedSlot.getSlots();
-		for (TimePair pair: list){
-			LocalDateTime actualStart = pair.getStart();
-			LocalDateTime actualEnd = pair.getEnd();
+		ArrayList<DateTimePair> list = expectedSlot.getSlots();
+		for (DateTimePair pair: list){
+			LocalDateTime actualStart = pair.getEarlierDateTime();
+			LocalDateTime actualEnd = pair.getLaterDateTime();
 			assertEquals(start, actualStart);
 			assertEquals(end, actualEnd);
 		}

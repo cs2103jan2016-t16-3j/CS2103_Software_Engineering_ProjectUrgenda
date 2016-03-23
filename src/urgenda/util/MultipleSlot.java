@@ -10,17 +10,17 @@ import org.ocpsoft.prettytime.shade.edu.emory.mathcs.backport.java.util.Collecti
 // _startTime and _endTime for Task. Alternatives that are later will be placed as multiple slots to be confirmed
 public class MultipleSlot {
 
-	private ArrayList<TimePair> _slots;
+	private ArrayList<DateTimePair> _slots;
 	
 	public MultipleSlot() {
-		_slots = new ArrayList<TimePair>();
+		_slots = new ArrayList<DateTimePair>();
 	}
 	
 	public void addTimeSlot(LocalDateTime start, LocalDateTime end) {
-		_slots.add(new TimePair(start,end));
+		_slots.add(new DateTimePair(start,end));
 	}
 	
-	public ArrayList<TimePair> getSlots() {
+	public ArrayList<DateTimePair> getSlots() {
 		return _slots;
 	}
 	
@@ -29,17 +29,17 @@ public class MultipleSlot {
 		Collections.sort(_slots, comparator);
 	}
 	
-	static Comparator<TimePair> comparator = new Comparator<TimePair>() {
-		public int compare(final TimePair p1, final TimePair p2) {
-			if (p1.getStart().equals(p2.getStart())) {
-				return p1.getEnd().compareTo(p2.getEnd());
+	static Comparator<DateTimePair> comparator = new Comparator<DateTimePair>() {
+		public int compare(final DateTimePair p1, final DateTimePair p2) {
+			if (p1.getEarlierDateTime().equals(p2.getEarlierDateTime())) {
+				return p1.getLaterDateTime().compareTo(p2.getLaterDateTime());
 			} else {
-				return p1.getStart().compareTo(p2.getStart());
+				return p1.getEarlierDateTime().compareTo(p2.getEarlierDateTime());
 			}
 		}
 	};
 	
-	public TimePair getNextSlot() {
+	public DateTimePair getNextSlot() {
 		if (_slots.isEmpty()) {
 			return null;
 		} else {

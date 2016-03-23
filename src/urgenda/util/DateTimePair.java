@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.Duration;
 
-public class LocalDateTimeDifference {
+public class DateTimePair {
 
 	private static final Duration DURATION_SINGLEDAY = Duration.ofDays(1);
 	private static final Duration DURATION_SINGLEHOUR = Duration.ofHours(1);
@@ -19,7 +19,7 @@ public class LocalDateTimeDifference {
 	private int _days;
 	private boolean _firstIsBefore;
 
-	public LocalDateTimeDifference(LocalDateTime dateTime1, LocalDateTime dateTime2) {
+	public DateTimePair(LocalDateTime dateTime1, LocalDateTime dateTime2) {
 		_dateTime1 = dateTime1;
 		_dateTime2 = dateTime2;
 		updateUnits(dateTime1, dateTime2);
@@ -109,6 +109,13 @@ public class LocalDateTimeDifference {
 		updateUnits(_dateTime1, _dateTime2);
 	}
 
+	public boolean equals(DateTimePair d) {
+		if(d.getEarlierDateTime() == this.getEarlierDateTime() && d.getLaterDateTime() == this.getLaterDateTime()) {
+			return true;
+		}
+		return false;
+	}
+	
 	public int getRoundedDays() {
 		return getLaterDateTime().getDayOfYear() - getEarlierDateTime().getDayOfYear();		
 	}

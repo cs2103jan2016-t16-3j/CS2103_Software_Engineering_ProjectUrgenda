@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
-import urgenda.util.TimePair;
+import urgenda.util.DateTimePair;
 
 public class Confirm extends TaskCommand {
 	
@@ -16,7 +16,7 @@ public class Confirm extends TaskCommand {
 	private static final String MESSAGE_BLOCK = "Blocked ";
 	
 	private Integer _id;
-	private TimePair _confirmed;
+	private DateTimePair _confirmed;
 	private LogicData _data;
 	private Task _prevTask;
 	private Task _confirmedTask;
@@ -24,7 +24,7 @@ public class Confirm extends TaskCommand {
 	public String execute() throws Exception {
 		if (_confirmed == null) {
 			throw new Exception(MESSAGE_INVALID_TIME);
-		} else if (_confirmed.getStart() == null || _confirmed.getEnd() == null) {
+		} else if (_confirmed.getEarlierDateTime() == null || _confirmed.getLaterDateTime() == null) {
 			throw new Exception(MESSAGE_INVALID_TIME);
 		}
 		_data = LogicData.getInstance();
@@ -41,8 +41,8 @@ public class Confirm extends TaskCommand {
 		}
 		
 		_confirmedTask = new Task(_prevTask);
-		TimePair currPair = new TimePair(_confirmedTask.getStartTime(), _confirmedTask.getEndTime());
-		if (currPair.isEqual(_confirmed)) {
+		DateTimePair currPair = new DateTimePair(_confirmedTask.getStartTime(), _confirmedTask.getEndTime());
+		if (currPair.equals(_confirmed)) {
 			_confirmedTask.setSlot(null);
 			_data.deleteTask(_prevTask);
 			_data.addTask(_confirmedTask);
@@ -52,9 +52,9 @@ public class Confirm extends TaskCommand {
 			while (_confirmedTask.getSlot() != null && !(_confirmedTask.getSlot().isEmpty())) {
 				currPair = _confirmedTask.getSlot().getNextSlot();
 				_confirmedTask.getSlot().removeNextSlot();
-				if (currPair.isEqual(_confirmed)) {
-					_confirmedTask.setStartTime(currPair.getStart());
-					_confirmedTask.setEndTime(currPair.getEnd());
+				if (currPair.equals(_confirmed)) {
+					_confirmedTask.setStartTime(currPair.getEarlierDateTime());
+					_confirmedTask.setEndTime(currPair.getLaterDateTime());
 					_confirmedTask.setSlot(null);
 					updateDateModified();
 					_data.deleteTask(_prevTask);
@@ -63,9 +63,9 @@ public class Confirm extends TaskCommand {
 					return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
 				}
 			}
-			throw new Exception(String.format(MESSAGE_NO_MATCH, _confirmed.getStart().getDayOfMonth(),
-					_confirmed.getStart().getMonthValue(), _confirmed.getEnd().getDayOfMonth(),
-					_confirmed.getEnd().getMonthValue()));
+			throw new Exception(String.format(MESSAGE_NO_MATCH, _confirmed.getEarlierDateTime().getDayOfMonth(),
+					_confirmed.getEarlierDateTime().getMonthValue(), _confirmed.getLaterDateTime().getDayOfMonth(),
+					_confirmed.getLaterDateTime().getMonthValue()));
 		}
 	}
 
@@ -96,7 +96,7 @@ public class Confirm extends TaskCommand {
 	}
 	
 	public void setTimeSlot(LocalDateTime start, LocalDateTime end) {
-		_confirmed = new TimePair(start, end);
+		_confirmed = new DateTimePair(start, end);
 	}
 	
 }

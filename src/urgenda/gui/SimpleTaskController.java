@@ -17,14 +17,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import urgenda.gui.DisplayController.TaskDisplayType;
-import urgenda.util.LocalDateTimeDifference;
+import urgenda.util.DateTimePair;
 import urgenda.util.Task;
 
-public class TaskController extends GridPane {
+public class SimpleTaskController extends GridPane {
 
 	private static final Insets INSETS_ROWS = new Insets(1, 0, 0, 0);
 
-	private static final String PATH_TASKVIEW_FXML = "TaskView.fxml";
+	private static final String PATH_TASKVIEW_FXML = "SimpleTaskView.fxml";
 	
 	private static final double HEIGHT_DEFAULT_TASK = 35;
 
@@ -52,30 +52,14 @@ public class TaskController extends GridPane {
 	protected boolean _showHeader;
 	protected DisplayController _displayController;
 
-	public TaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
+	public SimpleTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		_task = task;
 		_taskDisplayType = taskDisplayType;
 		_index = index;
 		_showHeader = showHeader;
 		loadFXML();
 		setTaskClickHandler();
-		taskIndexLabel.setText(String.valueOf(_index + 1));
-		taskDescLabel.setText(task.getDesc());
-		taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
-		switch (_taskDisplayType) {
-		case OVERDUE:
-			noviceHeaderLabel.setText("Overdue Tasks");
-			break;
-		case TODAY:
-			noviceHeaderLabel.setText("Today's Tasks");
-			break;
-		case NORMAL:
-			noviceHeaderLabel.setText("Other Tasks");
-			break;
-		case ARCHIVE:
-			noviceHeaderLabel.setText("Completed Tasks");
-			break;
-		}
+		initLabels();
 		if (_task.isImportant()) {
 			importantIndicator.setVisible(true);
 		} else {
@@ -86,8 +70,36 @@ public class TaskController extends GridPane {
 			taskPane.setMaxHeight(HEIGHT_DEFAULT_TASK);
 			noviceHeaderPane.setVisible(false);
 		}
-		setTaskStyle(_taskDisplayType);
+		//setTaskStyle(_taskDisplayType);
 		setSelected(false);
+	}
+
+	private void initLabels() {
+		taskIndexLabel.setText(String.valueOf(_index + 1));
+		taskDescLabel.setText(_task.getDesc());
+		taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
+		switch (_taskDisplayType) {
+		case OVERDUE:
+			this.getStylesheets().addAll(getClass().getResource("TaskOverdue.css").toExternalForm());
+			noviceHeaderLabel.setText("Overdue Tasks");
+			break;
+		case TODAY:
+			if(_task.isCompleted()) {
+				this.getStylesheets().addAll(getClass().getResource("TaskTodayOvertime.css").toExternalForm());
+			} else {
+				this.getStylesheets().addAll(getClass().getResource("TaskToday.css").toExternalForm());
+			}	
+			noviceHeaderLabel.setText("Today's Tasks");
+			break;
+		case NORMAL:
+			this.getStylesheets().addAll(getClass().getResource("TaskNormal.css").toExternalForm());
+			noviceHeaderLabel.setText("Other Tasks");
+			break;
+		case ARCHIVE:
+			this.getStylesheets().addAll(getClass().getResource("TaskArchive.css").toExternalForm());
+			noviceHeaderLabel.setText("Completed Tasks");
+			break;
+		}
 	}
 
 	private void setTaskClickHandler() {
@@ -95,73 +107,13 @@ public class TaskController extends GridPane {
 			@Override
 			public void handle(MouseEvent arg0) {
 				if (_isSelected) {
-					_displayController.toggleDetailedOnClick(_task, _index, _taskDisplayType);
+					_displayController.toggleSelectedDetailsOnClick();
 				} else {
 					setSelected(true);
 					_displayController.setSelectedIndexOnClick(_index);
 				}
 			}
 		});
-	}
-
-	public void setTaskStyle(TaskDisplayType taskDisplayType) {
-		switch (taskDisplayType) {
-		case OVERDUE:
-			this.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_OVERDUE, null, INSETS_ROWS)));
-			if(_showHeader) {	
-				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_OVERDUE, null, null)));
-			} else {
-				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_OVERDUE, null, INSETS_ROWS)));
-			}
-			setStyle(DisplayController.TEXT_FILL_OVERDUE, DisplayController.TEXT_WEIGHT_BOLD);
-			break;
-		case TODAY:
-			if (_task.isImportant()) {
-				this.setBackground(
-						new Background(new BackgroundFill(DisplayController.COLOR_TODAY_IMPORTANT, null, INSETS_ROWS)));
-			} else {
-				this.setBackground(
-						new Background(new BackgroundFill(DisplayController.COLOR_TODAY, null, INSETS_ROWS)));
-			}
-			if(_showHeader) {	
-				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_TODAY, null, null)));
-			} else {
-				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_TODAY, null, INSETS_ROWS)));
-			}
-			setStyle(DisplayController.TEXT_FILL_TODAY, DisplayController.TEXT_WEIGHT_REGULAR);
-			break;
-		case NORMAL:
-			if (_task.isImportant()) {
-				this.setBackground(new Background(
-						new BackgroundFill(DisplayController.COLOR_NORMAL_IMPORTANT, null, INSETS_ROWS)));
-			} else {
-				this.setBackground(
-						new Background(new BackgroundFill(DisplayController.COLOR_NORMAL, null, INSETS_ROWS)));
-			}
-			if(_showHeader) {	
-				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_NORMAL, null, null)));
-			} else {
-				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_NORMAL, null, INSETS_ROWS)));
-			}
-			setStyle(DisplayController.TEXT_FILL_NORMAL, DisplayController.TEXT_WEIGHT_REGULAR);
-			break;
-		case ARCHIVE:
-			this.setBackground(
-					new Background(new BackgroundFill(DisplayController.COLOR_COMPLETED, null, INSETS_ROWS)));
-			if(_showHeader) {	
-				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_COMPLETED, null, null)));
-			} else {
-				selector.setBackground(new Background(new BackgroundFill(DisplayController.COLOR_INDICATOR_COMPLETED, null, INSETS_ROWS)));
-			}
-			setStyle(DisplayController.TEXT_FILL_COMPLETED, DisplayController.TEXT_WEIGHT_REGULAR);
-			break;
-		}
-	}
-
-	protected void setStyle(String backgroundColor, String weight) {
-		taskIndexLabel.setStyle(backgroundColor + weight);
-		taskDescLabel.setStyle(backgroundColor + weight);
-		taskDateTimeLabel.setStyle(backgroundColor + weight);
 	}
 
 	private String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2) {
@@ -172,7 +124,7 @@ public class TaskController extends GridPane {
 				dateTimeFormatter += formatDate(dateTime2) + " ";
 				dateTimeFormatter += formatTime(dateTime2);
 			} else { //format for event
-				LocalDateTimeDifference timeDiff = new LocalDateTimeDifference(dateTime1, dateTime2);
+				DateTimePair timeDiff = new DateTimePair(dateTime1, dateTime2);
 				dateTimeFormatter += formatDate(dateTime1) + " ";
 				dateTimeFormatter += formatTime(dateTime1) + " ";
 				dateTimeFormatter += "to ";
@@ -186,7 +138,7 @@ public class TaskController extends GridPane {
 	}
 	
 	private String formatDate(LocalDateTime dateTime) {
-		LocalDateTimeDifference timeLeft = new LocalDateTimeDifference(LocalDateTime.now(), dateTime);
+		DateTimePair timeLeft = new DateTimePair(LocalDateTime.now(), dateTime);
 		String formattedDate = "";
 		if(timeLeft.getRoundedDays() == 0) {
 			formattedDate += "Today";

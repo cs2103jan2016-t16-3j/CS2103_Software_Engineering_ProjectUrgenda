@@ -24,16 +24,11 @@ public class Prioritise extends TaskCommand {
 	private Task _task;
 	private LogicData _data;
 	
-	public Prioritise() {
-		_desc = null;
-		_id = null;
-		_multiId = null;
-	}
 
 	public String execute() throws Exception {
 		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
-		if (_multiId == null) {
+		if (_multiId == null || _multiId.isEmpty()) {
 			if (_desc != null) {
 				matches = _data.findMatchingDesc(_desc);
 				if (matches.size() == 1) {

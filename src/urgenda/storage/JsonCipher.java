@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import urgenda.util.MultipleSlot;
 import urgenda.util.MyLogger;
 import urgenda.util.Task;
-import urgenda.util.TimePair;
+import urgenda.util.DateTimePair;
 
 public class JsonCipher {
 	private static final String HASHMAP_KEY_DESC = "desc";
@@ -109,10 +109,11 @@ public class JsonCipher {
 		if (task.getSlot() == null) {
 			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, null);
 		} else {
-			ArrayList<TimePair> pairs = task.getSlot().getSlots();
+			ArrayList<DateTimePair> pairs = task.getSlot().getSlots();
 			String slots = new String();
-			for (TimePair pair : pairs) {
-				slots = slots + pair.getStart().toString() + DELIMITER_MULTIPLE_WITHIN_PAIRS + pair.getEnd().toString();
+
+			for (DateTimePair pair: pairs){
+				slots = slots + pair.getEarlierDateTime().toString() + DELIMITER_MULTIPLE_WITHIN_PAIRS + pair.getLaterDateTime().toString();
 				slots = slots + DELIMITER_MULTIPLE_BET_PAIRS;
 			}
 			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, slots);
