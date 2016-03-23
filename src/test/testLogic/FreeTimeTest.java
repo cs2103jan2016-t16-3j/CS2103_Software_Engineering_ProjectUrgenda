@@ -28,7 +28,9 @@ public class FreeTimeTest {
 		LocalDateTime end1 = LocalDateTime.of(2016, 3, 23, 14, 0);
 		task1.setStartTime(start1);
 		task1.setEndTime(end1);
+		task1.updateTaskType(start1, end1);
 		data.addTask(task1);
+		
 		
 		//configuring expected outputs
 		String expectedPhrase = "Showing time slots where there are no events between 23/3, 12:00 to 23/3, 18:00";
@@ -43,27 +45,19 @@ public class FreeTimeTest {
 		//getting actual outputs
 		LocalDateTime rangeStart = LocalDateTime.of(2016, 3, 23, 12, 0);
 		LocalDateTime rangeEnd = LocalDateTime.of(2016, 3, 23, 18, 0);
-		
-		Task timeRange = new Task();
-		timeRange.setStartTime(rangeStart);
-		timeRange.setEndTime(rangeEnd);
-		ArrayList<Task> chkoverlaps = data.overlappingTasks(timeRange);
-		System.out.println(chkoverlaps.size());
-//			System.out.println(.getStartTime());
-//			System.out.println(task.getEndTime());
-		
 		FindFree test = new FindFree(rangeStart, rangeEnd);
-		assertEquals(expectedPhrase, test.execute());
+		String actualPhrase = test.execute();
+		assertEquals(expectedPhrase, actualPhrase);
 		ArrayList<Task> actualList = data.getDisplays();
 		
 		//comparing expected and actual free time range
 		assertEquals(expectedList.size(), actualList.size());
-//		for (int i = 0; i < expectedList.size(); i++){
-//			Task actual = actualList.get(i);
-//			Task expected = expectedList.get(i);
-//			assertEquals(expected.getStartTime(), actual.getStartTime());
-//			assertEquals(expected.getEndTime(), actual.getEndTime());
-//		}
+		for (int i = 0; i < expectedList.size(); i++){
+			Task actual = actualList.get(i);
+			Task expected = expectedList.get(i);
+			assertEquals(expected.getStartTime(), actual.getStartTime());
+			assertEquals(expected.getEndTime(), actual.getEndTime());
+		}
 		
 		
 
