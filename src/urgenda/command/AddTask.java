@@ -16,7 +16,8 @@ public class AddTask extends TaskCommand {
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_ERROR = "Error: ";
 	private static final String MESSAGE_OVERLAP = "\nWarning: Overlaps with ";
-	private static final String MESSAGE_HAS_PASSED = "\nWarning: Event added has already passed";
+	private static final String MESSAGE_EVENT_PASSED = "\nWarning: Event added has already passed";
+	private static final String MESSAGE_DEADLINE_PASSED = "\nWarning: Deadline added has already passed";
 	
 	private Task _newTask;
 	private LogicData _data;
@@ -59,7 +60,13 @@ public class AddTask extends TaskCommand {
 
 	private String checkPassed() {
 		if (_newTask.getTaskType() == Task.Type.EVENT) {
-			return MESSAGE_HAS_PASSED;
+			if (_newTask.getEndTime().isBefore(LocalDateTime.now())) {
+				return MESSAGE_EVENT_PASSED;				
+			}
+		} else if (_newTask.getTaskType() == Task.Type.DEADLINE) {
+			if (_newTask.getEndTime().isBefore(LocalDateTime.now())) {
+				return MESSAGE_DEADLINE_PASSED;
+			}
 		}
 		return "";
 	}
