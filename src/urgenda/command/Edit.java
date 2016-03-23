@@ -10,6 +10,7 @@ public class Edit extends TaskCommand {
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_NO_EDIT_MATCH = "Invalid task number. No matches found to edit";
+	private static final String MESSAGE_EDIT = " has been edited to ";
 	private static final String MESSAGE_REVERTED = " has been reverted to ";
 	private static final String MESSAGE_ERROR = "Error: ";
 
@@ -69,7 +70,7 @@ public class Edit extends TaskCommand {
 				// throws exception to prevent Edit being added to undo stack
 				throw new Exception(MESSAGE_ERROR + e.getMessage());
 			}
-			return taskMessage(_newTask) + MESSAGE_REVERTED + taskMessage(_prevTask) ;
+			return taskMessage(_prevTask) + MESSAGE_EDIT + taskMessage(_newTask) ;
 		}
 	}
 
@@ -83,7 +84,7 @@ public class Edit extends TaskCommand {
 		_data.deleteTask(_newTask);
 		_data.addTask(_prevTask);
 		_data.setTaskPointer(_prevTask);
-		return taskMessage(_newTask) + MESSAGE_REVERTED + taskMessage(_prevTask) ;
+		return taskMessage(_newTask) + MESSAGE_EDIT + taskMessage(_prevTask) ;
 	}
 
 	public String redo() {
