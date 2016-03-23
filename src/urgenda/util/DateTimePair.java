@@ -12,11 +12,7 @@ public class DateTimePair {
 	public DateTimePair(LocalDateTime dateTime1, LocalDateTime dateTime2) {
 		_dateTime1 = dateTime1;
 		_dateTime2 = dateTime2;
-		if (dateTime1.isBefore(dateTime2)) {
-			_firstIsBefore = true;
-		} else {
-			_firstIsBefore = false;
-		}
+		checkRelativeDateTimes();
 	}
 
 	public LocalDateTime getDateTime1() {
@@ -44,40 +40,46 @@ public class DateTimePair {
 	}
 	
 	public void addToEarlierDateTime(int number, ChronoUnit chronoUnit) {
-		if (_dateTime1.isBefore(_dateTime2)) {
-			_dateTime1.plus(number, chronoUnit);
+		if (_firstIsBefore) {
+			_dateTime1 = _dateTime1.plus(number, chronoUnit);
 		} else {
-			_dateTime2.plus(number, chronoUnit);
+			_dateTime2 = _dateTime2.plus(number, chronoUnit);
 		}
+		checkRelativeDateTimes();
 	}
 
+
 	public void minusFromEarlierDateTime(int number, ChronoUnit chronoUnit) {
-		if (_dateTime1.isBefore(_dateTime2)) {
-			_dateTime1.minus(number, chronoUnit);
+		if (_firstIsBefore) {
+			_dateTime1 = _dateTime1.minus(number, chronoUnit);
 		} else {
-			_dateTime2.minus(number, chronoUnit);
+			_dateTime2 = _dateTime2.minus(number, chronoUnit);
 		}
+		checkRelativeDateTimes();
 	}
 
 	public void addToLaterDateTime(int number, ChronoUnit chronoUnit) {
-		if (_dateTime1.isAfter(_dateTime2)) {
-			_dateTime1.plus(number, chronoUnit);
+		if (!_firstIsBefore) {
+			_dateTime1 = _dateTime1.plus(number, chronoUnit);
 		} else {
-			_dateTime2.plus(number, chronoUnit);
+			_dateTime2 = _dateTime2.plus(number, chronoUnit);
 		}
+		checkRelativeDateTimes();
 	}
 
 	public void minusFromLaterDateTime(int number, ChronoUnit chronoUnit) {
-		if (_dateTime1.isAfter(_dateTime2)) {
-			_dateTime1.minus(number, chronoUnit);
+		if (!_firstIsBefore) {
+			_dateTime1 = _dateTime1.minus(number, chronoUnit);
 		} else {
-			_dateTime2.minus(number, chronoUnit);
+			_dateTime2 = _dateTime2.minus(number, chronoUnit);
 		}
+		checkRelativeDateTimes();
 	}
-
 	public boolean equals(DateTimePair d) {
-		if(d.getEarlierDateTime() == this.getEarlierDateTime() && d.getLaterDateTime() == this.getLaterDateTime()) {
-			return true;
+		if(d.getEarlierDateTime() == this.getEarlierDateTime()) {
+			if(d.getLaterDateTime() == this.getLaterDateTime()) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -95,5 +97,13 @@ public class DateTimePair {
 	
 	public boolean firstIsBefore() {
 		return _firstIsBefore;
+	}
+	
+	private void checkRelativeDateTimes() {
+		if(_dateTime1.isBefore(_dateTime2)) {
+			_firstIsBefore = true;
+		} else if(_dateTime1.isAfter(_dateTime2)) {
+			_firstIsBefore = false;
+		}
 	}
 }

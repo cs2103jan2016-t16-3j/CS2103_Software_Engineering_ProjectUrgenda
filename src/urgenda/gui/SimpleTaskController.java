@@ -138,11 +138,11 @@ public class SimpleTaskController extends GridPane {
 				DateTimePair timeDiff = new DateTimePair(dateTime1, dateTime2);
 				if(!isFreeTime) {
 					dateTimeFormatter += formatDate(dateTime1) + " ";
-					dateTimeFormatter += formatTime(dateTime1) + " ";
-					dateTimeFormatter += "to ";
-					if (!timeDiff.isSameDay()) {
-						dateTimeFormatter += formatDate(dateTime2) + " ";
-					}
+				}
+				dateTimeFormatter += formatTime(dateTime1) + " ";
+				dateTimeFormatter += "to ";
+				if (!timeDiff.isSameDay()) {
+					dateTimeFormatter += formatDate(dateTime2) + " ";
 				}
 				dateTimeFormatter += formatTime(dateTime2);				
 			}
