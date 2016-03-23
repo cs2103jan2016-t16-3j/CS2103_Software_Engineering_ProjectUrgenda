@@ -14,7 +14,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
 
@@ -32,8 +31,6 @@ public class DisplayController extends AnchorPane {
 	private static final String KEYWORD_SHOWMORE = "showmore";
 
 	private static final double DEFAULT_EMPTY_TASKS_DISPLAY_HEIGHT = 100;
-	private static final double NORMAL_OPACITY_VALUE = 0.7;
-	private static final double IMPORTANT_OPACITY_VALUE = 1;
 
 	/*
 	 * COLORS 
@@ -107,7 +104,7 @@ public class DisplayController extends AnchorPane {
 		int indexCounter = 0;
 		if (updatedTasks.getUncompletedCount() != 0) {
 			if(isShowFreeTime) {
-				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount(),
+				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTasks().size(),
 						TaskDisplayType.FREE_TIME, false);
 			} else if (showNoviceHeaders) {
 				if (updatedTasks.getOverdueCount() > 0) {
@@ -146,8 +143,9 @@ public class DisplayController extends AnchorPane {
 		}
 		if (updatedTasks.getArchiveCount() + updatedTasks.getUncompletedCount() == 0) {
 			showZeroTasksFeedback();
+		} else {
+			initSelectedTask(modifiedTaskIndex);
 		}
-		initSelectedTask(modifiedTaskIndex);
 		if (displayHeader != null) { // display header needs to be changed
 			setDisplayHeader(displayHeader);
 		}
