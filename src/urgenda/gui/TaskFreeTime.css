@@ -1,0 +1,31 @@
+* {
+	-taskBackgroundPane-color: rgb(134, 224, 134, 0.7);
+	-selector-color: rgb(21, 200, 21, 1.0);
+	-label-color: rgb(0, 0, 0, 1.0);
+}
+
+#taskBackgroundPane {
+	-fx-background-color: -taskBackgroundPane-color;
+}
+
+#selector {
+	-fx-background-color: -selector-color;
+}
+
+#taskIndexLabel, #taskDescLabel, #taskDateTimeLabel  {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 14px;
+	-fx-text-fill: -label-color;
+}
+
+#taskLocationLabel {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 12px;
+	-fx-text-fill: -label-color;
+}
+
+#dateCreatedHeader, #dateModifiedHeader, #dateCreatedLabel, #dateModifiedLabel {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 12px;
+	-fx-text-fill: -label-color;
+}
