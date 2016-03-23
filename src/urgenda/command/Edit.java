@@ -3,12 +3,12 @@ package urgenda.command;
 import java.time.LocalDateTime;
 
 import urgenda.logic.LogicData;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.Task;
 
 public class Edit extends TaskCommand {
 
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_NO_EDIT_MATCH = "Invalid task number. No matches found to edit";
 	private static final String MESSAGE_EDIT = " has been edited to ";
 	private static final String MESSAGE_ERROR = "Error: ";

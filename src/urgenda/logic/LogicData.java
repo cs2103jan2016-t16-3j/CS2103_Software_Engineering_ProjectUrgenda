@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 import urgenda.storage.Storage;
 import urgenda.util.MultipleSlot;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
 import urgenda.util.DateTimePair;
@@ -22,7 +22,7 @@ public class LogicData {
 		EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE
 	}
 	
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	// Singleton pattern to ensure that there is only one logicData
 	private static LogicData _logicData;
 

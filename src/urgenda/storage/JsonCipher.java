@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import urgenda.util.MultipleSlot;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.Task;
 import urgenda.util.DateTimePair;
 
@@ -43,7 +43,7 @@ public class JsonCipher {
 	private static final int MULTIPLE_START = 0;
 	private static final int MULTIPLE_END = 1;
 	
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 
 	protected Gson _gson;
 	protected LinkedHashMap<String, String> _detailsMap;

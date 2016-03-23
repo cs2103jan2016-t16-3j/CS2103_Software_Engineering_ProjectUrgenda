@@ -6,17 +6,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class MyLogger {
+public class UrgendaLogger {
 
-	private final static Logger myLogger = Logger.getLogger(MyLogger.class.getName());
-	private static MyLogger instance = null;
+	private final static Logger myLogger = Logger.getLogger(UrgendaLogger.class.getName());
+	private static UrgendaLogger _loggerInstance;
 
-	public static MyLogger getInstance() {
-		if (instance == null) {
+	public static UrgendaLogger getInstance() {
+		if (_loggerInstance == null) {
 			setUpLogger();
-			instance = new MyLogger();
+			_loggerInstance = new UrgendaLogger();
 		}
-		return instance;
+		return _loggerInstance;
 	}
 
 	private static void setUpLogger() {
