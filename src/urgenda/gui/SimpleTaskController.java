@@ -117,12 +117,11 @@ public class SimpleTaskController extends GridPane {
 	private void setTaskClickHandler() {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent arg0) {
-				if (_isSelected) {
+			public void handle(MouseEvent e) {
+				setSelected(true);
+				_displayController.setSelectedIndexOnClick(_index);
+				if(e.getClickCount() == 2) { //double click
 					_displayController.toggleSelectedDetailsOnClick();
-				} else {
-					setSelected(true);
-					_displayController.setSelectedIndexOnClick(_index);
 				}
 			}
 		});
