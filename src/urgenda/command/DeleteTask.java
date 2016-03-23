@@ -38,7 +38,7 @@ public class DeleteTask extends TaskCommand {
 
 		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
-		if (_multiId.isEmpty()) {
+		if (_multiId == null) {
 			if (_desc != null) {
 				matches = _data.findMatchingDesc(_desc);
 				if (matches.size() == 1) {
