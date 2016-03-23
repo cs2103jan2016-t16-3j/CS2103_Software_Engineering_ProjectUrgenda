@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -12,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import urgenda.gui.DisplayController.TaskDisplayType;
-import urgenda.parser.PublicVariables.TASK_TYPE;
 import urgenda.util.Task;
 
 public class DetailedTaskController extends SimpleTaskController {
@@ -65,6 +63,7 @@ public class DetailedTaskController extends SimpleTaskController {
 		case OVERDUE:
 			text.setFont(Main.BOLD_FONT);
 			break;
+		case FREE_TIME: //fall-through
 		case TODAY: //fall-through
 		case NORMAL: //fall-through
 		case ARCHIVE:
