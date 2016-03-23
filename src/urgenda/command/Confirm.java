@@ -47,6 +47,7 @@ public class Confirm extends TaskCommand {
 			_data.deleteTask(_prevTask);
 			_data.addTask(_confirmedTask);
 			_data.setTaskPointer(_confirmedTask);
+			_data.clearShowMoreTasks();
 			return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
 		} else {
 			while (_confirmedTask.getSlot() != null && !(_confirmedTask.getSlot().isEmpty())) {
@@ -60,6 +61,7 @@ public class Confirm extends TaskCommand {
 					_data.deleteTask(_prevTask);
 					_data.addTask(_confirmedTask);
 					_data.setTaskPointer(_confirmedTask);
+					_data.clearShowMoreTasks();
 					return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
 				}
 			}

@@ -9,6 +9,7 @@ public class ShowArchive extends Command {
 	public String execute() {
 		LogicData data = LogicData.getInstance();
 		data.setCurrState(LogicData.DisplayState.ARCHIVE);
+		data.clearShowMoreTasks();
 		return MESSAGE_SHOWING_ARCHIVE;
 	}
 

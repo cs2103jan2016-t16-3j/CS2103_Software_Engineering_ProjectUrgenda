@@ -47,6 +47,7 @@ public class AddTask extends TaskCommand {
 			_data.addTask(_newTask);
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			_data.setTaskPointer(_newTask);
+			_data.clearShowMoreTasks();
 			feedback = checkPassed();
 			feedback += findOverlaps();
 		} catch (Exception e) {
