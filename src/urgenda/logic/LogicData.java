@@ -440,6 +440,11 @@ public class LogicData {
 	public void clearDisplays() {
 		_displays.clear();
 	}
+	
+	//for testing purposes only. delete if necessary. Can be found in FreeTimeTest.java
+	public void clearTasks(){
+		_tasks.clear();
+	}
 
 	public String generateHelpManual() {
 		return _storage.retrieveHelp();
