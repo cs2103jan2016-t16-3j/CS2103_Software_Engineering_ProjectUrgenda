@@ -13,7 +13,7 @@ import urgenda.util.MultipleSlot;
 import urgenda.util.MyLogger;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
-import urgenda.util.TimePair;
+import urgenda.util.DateTimePair;
 
 public class LogicData {
 
@@ -246,9 +246,9 @@ public class LogicData {
 		LocalDateTime now = LocalDateTime.now();
 		
 		while (task.getEndTime().isBefore(now) && !(task.getSlot().isEmpty())) {
-			TimePair newTime = task.getSlot().getNextSlot();
-			task.setStartTime(newTime.getStart());
-			task.setEndTime(newTime.getEnd());
+			DateTimePair newTime = task.getSlot().getNextSlot();
+			task.setStartTime(newTime.getEarlierDateTime());
+			task.setEndTime(newTime.getLaterDateTime());
 			task.getSlot().removeNextSlot();
 		}
 		// sets multipleslots to empty when latest timing is the current timing

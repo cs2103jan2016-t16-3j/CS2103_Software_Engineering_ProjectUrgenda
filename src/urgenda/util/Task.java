@@ -256,9 +256,9 @@ public class Task {
 		
 		// checks overlaps if there are multiple slots
 		if (this.getSlot() != null) {
-			ArrayList<TimePair> slots = this.getSlot().getSlots();
-			for (TimePair pair : slots) {
-				if (hasOverlap(start, end, pair.getStart(), pair.getEnd())) {
+			ArrayList<DateTimePair> slots = this.getSlot().getSlots();
+			for (DateTimePair pair : slots) {
+				if (hasOverlap(start, end, pair.getEarlierDateTime(), pair.getLaterDateTime())) {
 					return true;
 				}
 			}

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
-import urgenda.util.TimePair;
+import urgenda.util.DateTimePair;
 
 /**
  * Command interface for implementation of subsequent command classes
@@ -52,10 +52,10 @@ public abstract class Command {
 
 	private String additionalTimings(MultipleSlot block) {
 		String feedback = "";
-		ArrayList<TimePair> slots = block.getSlots();
-		for (TimePair pair : slots) {
-			LocalDateTime start = pair.getStart();
-			LocalDateTime end = pair.getEnd();
+		ArrayList<DateTimePair> slots = block.getSlots();
+		for (DateTimePair pair : slots) {
+			LocalDateTime start = pair.getEarlierDateTime();
+			LocalDateTime end = pair.getLaterDateTime();
 			feedback += String.format(MESSAGE_EVENT_DATETIME, start.getDayOfMonth(), start.getMonthValue(),
 					start.getHour(), start.getMinute(), end.getHour(), end.getMinute());
 		}
