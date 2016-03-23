@@ -1,5 +1,6 @@
 package urgenda.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -76,16 +77,16 @@ public class DateTimePair {
 		checkRelativeDateTimes();
 	}
 	public boolean equals(DateTimePair d) {
-		if(d.getEarlierDateTime() == this.getEarlierDateTime()) {
-			if(d.getLaterDateTime() == this.getLaterDateTime()) {
+		if(d.getEarlierDateTime().equals(this.getEarlierDateTime()) && d.getLaterDateTime().equals(this.getLaterDateTime())) {
 				return true;
-			}
 		}
 		return false;
 	}
 	
 	public int getRoundedDays() {
-		return getLaterDateTime().getDayOfYear() - getEarlierDateTime().getDayOfYear();		
+		LocalDate d1 = getEarlierDateTime().toLocalDate();
+		LocalDate d2 = getLaterDateTime().toLocalDate();
+		return (int) ChronoUnit.DAYS.between(d1, d2);
 	}
 	
 	public boolean isSameDay() {

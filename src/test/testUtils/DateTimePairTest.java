@@ -2,7 +2,9 @@ package test.testUtils;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.Test;
@@ -58,6 +60,14 @@ public class DateTimePairTest {
 	
 	@Test
 	public void testRoundedDays() {
-		DateTimePair t1 = new DateTimePair(referenceDateTime, referenceDateTime);
+		LocalDateTime dt1 = LocalDateTime.of(1999, 12, 31, 23, 59);
+		LocalDateTime dt2 = LocalDateTime.of(2000, 1, 1, 0, 0);
+		LocalDateTime dt3 = LocalDateTime.of(2001, 1, 1, 0, 0);
+		DateTimePair t1 = new DateTimePair(dt1, dt1);
+		assertEquals(t1.getRoundedDays(), 0);
+		DateTimePair t2 = new DateTimePair(dt1, dt2);
+		assertEquals(t2.getRoundedDays(), 1);
+		DateTimePair t3 = new DateTimePair(dt2, dt3);
+		assertEquals(t3.getRoundedDays(), 366);
 	}
 }
