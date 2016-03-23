@@ -9,6 +9,7 @@ public class Home extends Command {
 	public String execute() {
 		LogicData data = LogicData.getInstance();
 		data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		data.clearShowMoreTasks();
 		return MESSAGE_HOME;
 	}
 

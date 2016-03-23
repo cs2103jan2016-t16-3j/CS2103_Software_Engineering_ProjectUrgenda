@@ -43,6 +43,7 @@ public class Search extends Command {
 		LogicData data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		String feedback = null;
+		data.clearShowMoreTasks();
 		
 	    if (_searchDesc != null) {
 			matches = data.findMatchingDesc(_searchDesc);

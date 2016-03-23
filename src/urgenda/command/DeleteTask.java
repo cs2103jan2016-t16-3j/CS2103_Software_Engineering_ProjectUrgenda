@@ -54,6 +54,7 @@ public class DeleteTask extends TaskCommand {
 				throw new Exception(MESSAGE_NO_DELETE_MATCH);
 			}
 			_data.deleteTask(_deletedTask);
+			_data.clearShowMoreTasks();
 			return taskMessage(_deletedTask) + MESSAGE_REMOVE;
 		} else {
 			Collections.sort(_multiId);
@@ -70,6 +71,7 @@ public class DeleteTask extends TaskCommand {
 				for (int j = 0; j < _delTaskList.size(); j++) {
 					_data.deleteTask(_delTaskList.get(j));
 				}
+				_data.clearShowMoreTasks();
 				return String.format(MESSAGE_NUM, _delTaskList.size()) + feedback; 
 			} else {
 				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);

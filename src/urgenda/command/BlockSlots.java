@@ -50,6 +50,8 @@ public class BlockSlots extends TaskCommand {
 		_data.updateCurrentId();
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		_data.setTaskPointer(_newTask);
+		_data.clearShowMoreTasks();
+		_data.toggleShowMoreTasks(_newTask);
 
 		return MESSAGE_BLOCK + taskMessage(_newTask) + MESSAGE_ADDED;
 	}

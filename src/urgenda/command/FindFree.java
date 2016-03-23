@@ -32,6 +32,7 @@ public class FindFree extends Command {
 
 	public String execute() {
 		LogicData data = LogicData.getInstance();
+		data.clearShowMoreTasks();
 		Task timeRange = createTimeTask(_startOfRange, _endOfRange);
 		ArrayList<Task> matches = data.overlappingTasks(timeRange);
 		Collections.sort(matches, comparator);
