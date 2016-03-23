@@ -50,19 +50,19 @@ public class JsonEncryptionDecryptionTest {
 	public void test003MultipleNoPairs(){
 		JsonCipher cipher = new JsonCipher();
 		MultipleSlot slot = new MultipleSlot();
-		ArrayList<TimePair> expectedList = slot.getSlots();
+		ArrayList<DateTimePair> expectedList = slot.getSlots();
 		Task task = new Task();
 		task.setSlot(slot);
 		cipher.setMultiple(task);
 		
 		MultipleSlot actualSlot = cipher.getMultiple();
-		ArrayList<TimePair> actualList = actualSlot.getSlots();
+		ArrayList<DateTimePair> actualList = actualSlot.getSlots();
 		assertEquals(expectedList.size(), actualList.size());
 		for (int i = 0; i < expectedList.size(); i++) {
-			LocalDateTime actualStart = actualList.get(i).getStart();
-			LocalDateTime actualEnd = actualList.get(i).getEnd();
-			LocalDateTime expectedStart = expectedList.get(i).getStart();
-			LocalDateTime expectedEnd = expectedList.get(i).getEnd();
+			LocalDateTime actualStart = actualList.get(i).getEarlierDateTime();
+			LocalDateTime actualEnd = actualList.get(i).getLaterDateTime();
+			LocalDateTime expectedStart = expectedList.get(i).getEarlierDateTime();
+			LocalDateTime expectedEnd = expectedList.get(i).getLaterDateTime();
 			assertEquals(expectedStart, actualStart);
 			assertEquals(expectedEnd,actualEnd);
 		}
@@ -78,19 +78,19 @@ public class JsonEncryptionDecryptionTest {
 			LocalDateTime end = LocalDateTime.of(2016, 3, i+1, 0, 0);
 			slot.addTimeSlot(start, end);
 		}
-		ArrayList<TimePair> expectedList = slot.getSlots();
+		ArrayList<DateTimePair> expectedList = slot.getSlots();
 		Task task = new Task();
 		task.setSlot(slot);
 		cipher.setMultiple(task);
 		
 		MultipleSlot actualSlot = cipher.getMultiple();
-		ArrayList<TimePair> actualList = actualSlot.getSlots();
+		ArrayList<DateTimePair> actualList = actualSlot.getSlots();
 		assertEquals(expectedList.size(), actualList.size());
 		for (int i = 0; i < expectedList.size(); i++) {
-			LocalDateTime actualStart = actualList.get(i).getStart();
-			LocalDateTime actualEnd = actualList.get(i).getEnd();
-			LocalDateTime expectedStart = expectedList.get(i).getStart();
-			LocalDateTime expectedEnd = expectedList.get(i).getEnd();
+			LocalDateTime actualStart = actualList.get(i).getEarlierDateTime();
+			LocalDateTime actualEnd = actualList.get(i).getLaterDateTime();
+			LocalDateTime expectedStart = expectedList.get(i).getEarlierDateTime();
+			LocalDateTime expectedEnd = expectedList.get(i).getLaterDateTime();
 			assertEquals(expectedStart, actualStart);
 			assertEquals(expectedEnd,actualEnd);
 		}

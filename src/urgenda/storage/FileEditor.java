@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -22,7 +22,7 @@ public class FileEditor {
 
 	private File _file;
 	private File _parentDir;
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 
 	public FileEditor(String path, String name) {
 		initParentDir(path);

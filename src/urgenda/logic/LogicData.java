@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 import urgenda.storage.Storage;
 import urgenda.util.MultipleSlot;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
 import urgenda.util.DateTimePair;
@@ -22,7 +22,7 @@ public class LogicData {
 		EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE
 	}
 	
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	// Singleton pattern to ensure that there is only one logicData
 	private static LogicData _logicData;
 
@@ -124,7 +124,7 @@ public class LogicData {
 
 	public StateFeedback displayArchiveTasks(ArrayList<Task> displayList) {
 		clearDisplays();
-		_displays.addAll(sortList(displayList));
+		_displays.addAll(sortArchive(displayList));
 		StateFeedback state = new StateFeedback(_displays, _displays.size());
 		setFeedbackDisplayPosition(state);
 		// TODO showmore for archive
@@ -412,6 +412,11 @@ public class LogicData {
 			return compare;
 		}
 	};
+	
+	public ArrayList<Task> sortArchive(ArrayList<Task> list) {
+		Collections.sort(list, archiveComparator);
+		return list;
+	}	
 	
 	//new comparator for sorting archive
 	static Comparator<Task> archiveComparator = new Comparator<Task>() {

@@ -8,12 +8,12 @@ import java.util.Deque;
 import urgenda.command.Command;
 import urgenda.command.Redo;
 import urgenda.command.Undo;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.command.TaskCommand;
 
 public class LogicCommand {	
 	
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_EMPTY_UNDO = "Nothing to undo";
 	private static final String MESSAGE_EMPTY_REDO = "Nothing to redo";
 	
