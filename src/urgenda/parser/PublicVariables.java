@@ -11,7 +11,7 @@ import urgenda.util.MultipleSlot;
 
 public class PublicVariables {
 	public static enum COMMAND_TYPE {
-		ADD, DELETE, ALLOCATE, COMPLETE, EDIT, SEARCH, SHOW_DETAILS, BLOCK, UNDO, REDO, SHOW_ARCHIVE, PRIORITISE, INVALID, EXIT
+		ADD, DELETE, ALLOCATE, COMPLETE, EDIT, SEARCH, SHOW_DETAILS, BLOCK, FIND_FREE, UNDO, REDO, SHOW_ARCHIVE, PRIORITISE, INVALID, EXIT
 	}
 
 	public static enum TASK_TYPE {
@@ -39,6 +39,8 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "showmore" }));
 	public static final Set<String> blockKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "block", "rev", "reserve" }));
+	public static final Set<String> findFreeKeyWords = new HashSet<String>(
+			Arrays.asList(new String[] { "findfree", "free", "checkfree" }));
 	public static final Set<String> undoKeywords = new HashSet<String>(Arrays.asList(new String[] { "undo" }));
 	public static final Set<String> redoKeywords = new HashSet<String>(Arrays.asList(new String[] { "redo" }));
 	public static final Set<String> archiveKeyWords = new HashSet<String>(Arrays.asList(new String[] { "archive" }));

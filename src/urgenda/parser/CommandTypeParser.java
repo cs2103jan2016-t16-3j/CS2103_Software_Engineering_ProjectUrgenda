@@ -22,8 +22,10 @@ public class CommandTypeParser {
 			return COMMAND_TYPE.SHOW_DETAILS;
 		} else if (PublicVariables.blockKeyWords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.BLOCK;
-		}else if (PublicVariables.undoKeywords.contains(lowerCaseFirstWord)) {
+		} else if (PublicVariables.undoKeywords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.UNDO;
+		} else if (PublicVariables.findFreeKeyWords.contains(lowerCaseFirstWord)) {
+			return COMMAND_TYPE.FIND_FREE;
 		} else if (PublicVariables.redoKeywords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.REDO;
 		} else if (PublicVariables.archiveKeyWords.contains(lowerCaseFirstWord)) {
