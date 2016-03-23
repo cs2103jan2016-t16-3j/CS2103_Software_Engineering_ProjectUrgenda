@@ -85,6 +85,9 @@ public class CommandParser {
 		case SHOW_DETAILS:
 			ShowDetailsCommandParser showDetailsCommand = new ShowDetailsCommandParser(argsString, index);
 			return showDetailsCommand.generateAndReturn();
+		case BLOCK:
+			BlockSlotsCommandParser blockCommand = new BlockSlotsCommandParser(argsString, index);
+			return blockCommand.generateAndReturn();
 		case UNDO:
 			UndoCommandParser undoCommand = new UndoCommandParser(argsString, index);
 			return undoCommand.generateAndReturn();

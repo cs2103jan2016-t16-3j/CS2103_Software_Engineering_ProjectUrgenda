@@ -12,6 +12,8 @@ import java.util.List;
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 import org.ocpsoft.prettytime.nlp.parse.DateGroup;
 
+import urgenda.util.MultipleSlot;
+
 public class DateTimeParser {
 	private static ArrayList<Date> dateWithoutTime;
 	private static List<DateGroup> dateGroups;
@@ -464,5 +466,25 @@ public class DateTimeParser {
 			return Month.DECEMBER;
 		}
 		return null;
+	}
+	
+	public static void searchTaskSlots(ArrayList<String> taskTimeStrings) {
+		PublicVariables.taskSlots = new MultipleSlot();
+		try {
+			for (String taskTime : taskTimeStrings) {
+				dateGroups = new PrettyTimeParser().parseSyntax(taskTime);
+				if (dateGroups.size() == 1 && dateGroups.get(0).getDates().size() == 2) {
+					LocalDateTime start = getLocalDateTimeFromDate(dateGroups.get(0).getDates().get(0));
+					LocalDateTime end = getLocalDateTimeFromDate(dateGroups.get(0).getDates().get(1));
+					PublicVariables.taskSlots.addTimeSlot(start, end);
+				}
+			}
+		} catch (Exception e) {
+			
+		}
+
+		if (PublicVariables.taskSlots.isEmpty()) {
+			PublicVariables.taskSlots = null;
+		}
 	}
 }

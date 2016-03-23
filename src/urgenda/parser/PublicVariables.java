@@ -11,7 +11,7 @@ import urgenda.util.MultipleSlot;
 
 public class PublicVariables {
 	public static enum COMMAND_TYPE {
-		ADD, DELETE, ALLOCATE, COMPLETE, EDIT, SEARCH, SHOW_DETAILS, UNDO, REDO, SHOW_ARCHIVE, PRIORITISE, INVALID, EXIT
+		ADD, DELETE, ALLOCATE, COMPLETE, EDIT, SEARCH, SHOW_DETAILS, BLOCK, UNDO, REDO, SHOW_ARCHIVE, PRIORITISE, INVALID, EXIT
 	}
 
 	public static enum TASK_TYPE {
@@ -37,6 +37,8 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "find", "show", "view", "list", "search", "#\\w+" }));
 	public static final Set<String> showDetailsKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "showmore" }));
+	public static final Set<String> blockKeyWords = new HashSet<String>(
+			Arrays.asList(new String[] { "block", "rev", "reserve" }));
 	public static final Set<String> undoKeywords = new HashSet<String>(Arrays.asList(new String[] { "undo" }));
 	public static final Set<String> redoKeywords = new HashSet<String>(Arrays.asList(new String[] { "redo" }));
 	public static final Set<String> archiveKeyWords = new HashSet<String>(Arrays.asList(new String[] { "archive" }));
@@ -44,33 +46,22 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "urgent", "important", "pri", "impt" }));
 	public static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(new String[] { "exit", "quit" }));
 
-	public static final Set<String> janWords = new HashSet<String>(
-			Arrays.asList(new String[] { "jan", "january" }));
-	public static final Set<String> febWords = new HashSet<String>(
-			Arrays.asList(new String[] { "feb", "february" }));
-	public static final Set<String> marWords = new HashSet<String>(
-			Arrays.asList(new String[] { "mar", "march" }));
-	public static final Set<String> aprWords = new HashSet<String>(
-			Arrays.asList(new String[] { "apr", "april" }));
-	public static final Set<String> mayWords = new HashSet<String>(
-			Arrays.asList(new String[] { "may"}));
-	public static final Set<String> junWords = new HashSet<String>(
-			Arrays.asList(new String[] { "jun", "june" }));
-	public static final Set<String> julWords = new HashSet<String>(
-			Arrays.asList(new String[] { "jul", "july" }));
-	public static final Set<String> augWords = new HashSet<String>(
-			Arrays.asList(new String[] { "aug", "august" }));
+	public static final Set<String> janWords = new HashSet<String>(Arrays.asList(new String[] { "jan", "january" }));
+	public static final Set<String> febWords = new HashSet<String>(Arrays.asList(new String[] { "feb", "february" }));
+	public static final Set<String> marWords = new HashSet<String>(Arrays.asList(new String[] { "mar", "march" }));
+	public static final Set<String> aprWords = new HashSet<String>(Arrays.asList(new String[] { "apr", "april" }));
+	public static final Set<String> mayWords = new HashSet<String>(Arrays.asList(new String[] { "may" }));
+	public static final Set<String> junWords = new HashSet<String>(Arrays.asList(new String[] { "jun", "june" }));
+	public static final Set<String> julWords = new HashSet<String>(Arrays.asList(new String[] { "jul", "july" }));
+	public static final Set<String> augWords = new HashSet<String>(Arrays.asList(new String[] { "aug", "august" }));
 	public static final Set<String> sepWords = new HashSet<String>(
 			Arrays.asList(new String[] { "sep", "sept", "september" }));
-	public static final Set<String> octWords = new HashSet<String>(
-			Arrays.asList(new String[] { "oct", "october" }));
-	public static final Set<String> novWords = new HashSet<String>(
-			Arrays.asList(new String[] { "nov", "november" }));
-	public static final Set<String> decWords = new HashSet<String>(
-			Arrays.asList(new String[] { "dec", "december" }));
-	
+	public static final Set<String> octWords = new HashSet<String>(Arrays.asList(new String[] { "oct", "october" }));
+	public static final Set<String> novWords = new HashSet<String>(Arrays.asList(new String[] { "nov", "november" }));
+	public static final Set<String> decWords = new HashSet<String>(Arrays.asList(new String[] { "dec", "december" }));
+
 	public static final Set<String> startTimeWords = new HashSet<String>(
-			Arrays.asList(new String[] { "on", "at", "from", "of", "starting"}));
+			Arrays.asList(new String[] { "on", "at", "from", "of", "starting" }));
 	public static final Set<String> endTimeWords = new HashSet<String>(
 			Arrays.asList(new String[] { "by", "latest", "before" }));
 	public static final Set<String> periodWords = new HashSet<String>(
