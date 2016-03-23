@@ -500,7 +500,7 @@ public class LogicData {
 	public void clearOldArchive() {
 		ArrayList<Task> outdatedTasks = new ArrayList<Task>();
 		for (Task task : _archives) {
-			if (task.getEndTime().isBefore(LocalDateTime.now().minusMonths(1))) {
+			if (task.getDateModified().isBefore(LocalDateTime.now().minusMonths(1))) {
 				outdatedTasks.add(task);
 			}
 		}
