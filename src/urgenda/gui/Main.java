@@ -30,7 +30,7 @@ public class Main extends Application {
 	
 	private static final String HEADER_ALL_TASKS = "Showing ALL TASKS";
 	private static final String HEADER_ALL_WITH_COMPLETED_TASKS = "Showing ALL TASKS WITH COMPLETED TASKS";
-	private static final String HEADER_FREE_TIME = "Showing FREE TIME SEARCH RESULTS";
+	private static final String HEADER_FREE_TIME = "Showing AVAILABLE TIME PERIODS";
 	private static final String HEADER_SEARCH_RESULTS = "Showing SEARCH RESULTS";
 	private static final String HEADER_MULTIPLE_MATCHES = "Showing MULTIPLE MATCHES";
 
@@ -143,7 +143,9 @@ public class Main extends Application {
 		case FIND_FREE:
 			display = HEADER_FREE_TIME;
 			break;
-		case ERROR:
+		case ARCHIVE:
+			display = "Showing ARCHIVE TASKS";
+			break;
 		case ALL_TASKS: //fall-through
 		default:
 			display = HEADER_ALL_TASKS;
