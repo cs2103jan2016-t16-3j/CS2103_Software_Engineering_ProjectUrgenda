@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -11,9 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import urgenda.gui.DisplayController.TaskDisplayType;
+import urgenda.parser.PublicVariables.TASK_TYPE;
 import urgenda.util.Task;
 
-public class DetailedTaskController extends TaskController {
+public class DetailedTaskController extends SimpleTaskController {
 	
 	private static final String PATH_DETAILEDTASKVIEW_FXML = "DetailedTaskView.fxml";
 
@@ -39,17 +41,21 @@ public class DetailedTaskController extends TaskController {
 	
 	public DetailedTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		super(task, index, taskDisplayType, showHeader);
-		dateCreatedLabel.setText(formatDetailsDateTime(task.getDateAdded()));
-		dateModifiedLabel.setText(formatDetailsDateTime(task.getDateModified()));
-		if(task.getLocation() != null) {
-			taskLocationLabel.setText(task.getLocation());
-		} 
-		if(task.getLocation() == null || task.getLocation().equals("")) {
-			taskLocationLabel.setText("");
-			locationIcon.setVisible(false);
-		}
+		initDetailedLabels();
 		if(!showHeader) {
 			taskPane.setMaxHeight(HEIGHT_DEFAULT_DETAILEDTASK);
+		}
+	}
+
+	private void initDetailedLabels() {
+		dateCreatedLabel.setText(formatDetailsDateTime(_task.getDateAdded()));
+		dateModifiedLabel.setText(formatDetailsDateTime(_task.getDateModified()));
+		if(_task.getLocation() != null) {
+			taskLocationLabel.setText(_task.getLocation());
+		} 
+		if(_task.getLocation() == null || _task.getLocation().equals("")) {
+			taskLocationLabel.setText("");
+			locationIcon.setVisible(false);
 		}
 	}
 	
@@ -59,8 +65,8 @@ public class DetailedTaskController extends TaskController {
 		case OVERDUE:
 			text.setFont(Main.BOLD_FONT);
 			break;
-		case TODAY:
-		case NORMAL:
+		case TODAY: //fall-through
+		case NORMAL: //fall-through
 		case ARCHIVE:
 			text.setFont(Main.REGULAR_FONT);
 			break;
@@ -108,6 +114,7 @@ public class DetailedTaskController extends TaskController {
 //		return formattedDeadline;
 //	}
 	
+	
 	@Override
 	protected void loadFXML() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_DETAILEDTASKVIEW_FXML));
@@ -118,18 +125,5 @@ public class DetailedTaskController extends TaskController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	protected void setStyle(String color, String weight) {
-		taskIndexLabel.setStyle(color + weight);
-		taskDescLabel.setStyle(color + weight);
-		taskDateTimeLabel.setStyle(color + weight);
-		dateCreatedHeader.setStyle(color);
-		dateModifiedHeader.setStyle(color);
-		dateCreatedLabel.setStyle(color);
-		dateModifiedLabel.setStyle(color);
-		taskLocationLabel.setStyle(color + weight);
-		
 	}
 }
