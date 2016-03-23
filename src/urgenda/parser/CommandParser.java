@@ -20,6 +20,7 @@ import urgenda.parser.commandParser.CompleteCommandParser;
 import urgenda.parser.commandParser.DeleteCommandParser;
 import urgenda.parser.commandParser.EditCommandParser;
 import urgenda.parser.commandParser.ExitCommandParser;
+import urgenda.parser.commandParser.FindFreeCommandParser;
 import urgenda.parser.commandParser.InvalidCommandParser;
 import urgenda.parser.commandParser.PrioritiseCommandParser;
 import urgenda.parser.commandParser.RedoCommandParser;
@@ -85,6 +86,12 @@ public class CommandParser {
 		case SHOW_DETAILS:
 			ShowDetailsCommandParser showDetailsCommand = new ShowDetailsCommandParser(argsString, index);
 			return showDetailsCommand.generateAndReturn();
+		case BLOCK:
+			BlockSlotsCommandParser blockCommand = new BlockSlotsCommandParser(argsString, index);
+			return blockCommand.generateAndReturn();
+		case FIND_FREE:
+			FindFreeCommandParser findFreeCommand = new FindFreeCommandParser(argsString, index);
+			return findFreeCommand.generateAndReturn();
 		case UNDO:
 			UndoCommandParser undoCommand = new UndoCommandParser(argsString, index);
 			return undoCommand.generateAndReturn();

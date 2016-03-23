@@ -1,0 +1,42 @@
+* {
+	-taskBackgroundPane-color: rgb(255, 210, 153, 0.7);
+	-noviceHeaderPane-color: rgb(255, 210, 153, 1.0);
+	-selector-color: rgb(255, 174, 76, 1.0);
+	-label-color: rgb(0, 0, 0, 1.0);
+}
+
+#taskBackgroundPane {
+	-fx-background-color: -taskBackgroundPane-color;
+}
+
+#noviceHeaderPane {
+	-fx-background-color: -noviceheaderPane-color;
+}
+
+#noviceHeaderLabel {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 14px;
+	-fx-text-fill: -label-color;
+}
+
+#selector {
+	-fx-background-color: -selector-color;
+}
+
+#taskIndexLabel, #taskDescLabel, #taskDateTimeLabel  {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 14px;
+	-fx-text-fill: -label-color;
+}
+
+#taskLocationLabel {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 12px;
+	-fx-text-fill: -label-color;
+}
+
+#dateCreatedHeader, #dateModifiedHeader, #dateCreatedLabel, #dateModifiedLabel {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 12px;
+	-fx-text-fill: -label-color;
+}

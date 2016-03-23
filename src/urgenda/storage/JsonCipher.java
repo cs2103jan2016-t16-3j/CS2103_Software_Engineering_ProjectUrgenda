@@ -9,8 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import urgenda.util.MultipleSlot;
+import urgenda.util.MyLogger;
 import urgenda.util.Task;
-import urgenda.util.TimePair;
+import urgenda.util.DateTimePair;
 
 public class JsonCipher {
 	private static final String HASHMAP_KEY_DESC = "desc";
@@ -38,9 +39,11 @@ public class JsonCipher {
 
 	private static final String DEFAULT_FILE_LOCATION = "settings";
 	private static final String DEFAULT_FILE_NAME = "data.txt";
-	
+
 	private static final int MULTIPLE_START = 0;
 	private static final int MULTIPLE_END = 1;
+	
+	private static MyLogger logger = MyLogger.getInstance();
 
 	protected Gson _gson;
 	protected LinkedHashMap<String, String> _detailsMap;
@@ -53,12 +56,16 @@ public class JsonCipher {
 
 	public JsonCipher(String detailsString) {
 		_gson = new Gson();
-		_detailsString = detailsString;
-		convertToMap();
-		checkIfMapExist();
+		if (isJsonValid(detailsString)) {
+			_detailsString = detailsString;
+			convertToMap();
+			checkIfMapExist();
+		} else {
+			_detailsMap = new LinkedHashMap<String, String>();
+		}
 	}
-	
-	public void reset(){
+
+	public void reset() {
 		_detailsMap.clear();
 		_detailsString = new String();
 	}
@@ -68,11 +75,23 @@ public class JsonCipher {
 			_detailsMap = new LinkedHashMap<String, String>();
 		}
 	}
-	
+
 	public boolean isEmptyMap() {
 		if (_detailsMap.isEmpty()) {
 			return true;
 		} else {
+			return false;
+		}
+	}
+
+	private boolean isJsonValid(String phrase) {
+		try {
+			_gson.fromJson(phrase, new TypeToken<LinkedHashMap<String, String>>() {
+			}.getType());
+			return true;
+		} catch (com.google.gson.JsonSyntaxException ex) {
+			logger.getLogger().info(ex.toString());
+			logger.getLogger().info("String not in required json format for Tasks. Unable to parse, will be overwritten.");
 			return false;
 		}
 	}
@@ -90,10 +109,11 @@ public class JsonCipher {
 		if (task.getSlot() == null) {
 			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, null);
 		} else {
-			ArrayList<TimePair> pairs = task.getSlot().getSlots();
+			ArrayList<DateTimePair> pairs = task.getSlot().getSlots();
 			String slots = new String();
-			for (TimePair pair: pairs){
-				slots = slots + pair.getStart().toString() + DELIMITER_MULTIPLE_WITHIN_PAIRS + pair.getEnd().toString();
+
+			for (DateTimePair pair: pairs){
+				slots = slots + pair.getEarlierDateTime().toString() + DELIMITER_MULTIPLE_WITHIN_PAIRS + pair.getLaterDateTime().toString();
 				slots = slots + DELIMITER_MULTIPLE_BET_PAIRS;
 			}
 			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, slots);
@@ -103,22 +123,25 @@ public class JsonCipher {
 	public MultipleSlot getMultiple() {
 		if (_detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC) == null) {
 			return null;
+		} else if (_detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC).isEmpty()) {
+			MultipleSlot slots = new MultipleSlot();
+			return slots;
 		} else {
 			MultipleSlot slots = new MultipleSlot();
 			String slotsString = _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
 			String[] slotsArray = slotsString.split(DELIMITER_MULTIPLE_BET_PAIRS);
-			for (String pair: slotsArray){
+			for (String pair : slotsArray) {
 				String[] pairArray = pair.split(DELIMITER_MULTIPLE_WITHIN_PAIRS);
 				LocalDateTime start = LocalDateTime.parse(pairArray[MULTIPLE_START]);
 				LocalDateTime end = LocalDateTime.parse(pairArray[MULTIPLE_END]);
 				slots.addTimeSlot(start, end);
 			}
-			
+
 			return slots;
 		}
 	}
-	
-	public String getMultipleString(){
+
+	public String getMultipleString() {
 		return _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
 	}
 
@@ -195,7 +218,7 @@ public class JsonCipher {
 	}
 
 	public void setType(Task task) {
-		assert(task.getTaskType() != null);
+		assert (task.getTaskType() != null);
 		if (task.getTaskType().toString().equals(TASKTYPE_EVENT)) {
 			_detailsMap.put(HASHMAP_KEY_TYPE, TASKTYPE_EVENT);
 		} else if (task.getTaskType().toString().equals(TASKTYPE_DEADLINE)) {

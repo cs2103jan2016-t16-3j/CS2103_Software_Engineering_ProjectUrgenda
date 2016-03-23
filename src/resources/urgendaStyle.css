@@ -47,34 +47,6 @@
 	-fx-text-fill: white;
 }
 
-#noviceHeaderPane {
-	-fx-background-color: white;
-}
-
-#noviceHeaderLabel {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 14px;
-	-fx-text-fill: black;
-}
-
-#taskIndexLabel, #taskDescLabel, #taskStartLabel, #dateTimeTypeLabel, #taskEndLabel, #taskDateTimeLabel  {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 14px;
-	-fx-text-fill: #474E60;
-}
-
-#taskLocationLabel, #dateCreatedHeader #dateModifiedHeader {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 12px;
-	-fx-text-fill: #474E60;
-}
-
-#dateCreatedHeader, #dateModifiedHeader, #dateCreatedLabel, #dateModifiedLabel {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 12px;
-	-fx-text-fill: #474E60;
-}
-
 #feedbackPane {
 	-fx-background-color: #313745;
 }

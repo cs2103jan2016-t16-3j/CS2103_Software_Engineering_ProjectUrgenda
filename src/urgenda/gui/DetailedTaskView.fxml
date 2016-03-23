@@ -20,13 +20,21 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="290.0" prefWidth="290.0" />
       <ColumnConstraints />
       <ColumnConstraints />
+      <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" valignment="TOP" vgrow="SOMETIMES" />
       <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+      <Pane fx:id="taskBackgroundPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets top="1.0" />
+         </GridPane.margin></Pane>
+      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets top="1.0" />
+         </GridPane.margin></Pane>
       <Label fx:id="taskIndexLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="35.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" top="7.0" />
