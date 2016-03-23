@@ -1,6 +1,8 @@
 package urgenda.command;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,6 +100,8 @@ public class FindFree extends Command {
 
 	private Task createTimeTask(LocalDateTime start, LocalDateTime end) {
 		Task temp = new Task();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yy");
+		temp.setDesc(start.format(formatter));
 		temp.setStartTime(start);
 		temp.setEndTime(end);
 		temp.setTaskType(Task.Type.EVENT);
