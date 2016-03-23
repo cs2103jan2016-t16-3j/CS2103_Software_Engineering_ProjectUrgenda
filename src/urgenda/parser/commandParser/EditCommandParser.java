@@ -57,6 +57,9 @@ public class EditCommandParser {
 			if (PublicVariables.taskSlots != null) {
 				newTask.setSlot(PublicVariables.taskSlots);
 			}
+			if (!PublicVariables.taskDescription.equals("")) {
+				newTask.setDesc(PublicVariables.taskDescription);
+			}
 			switch (PublicVariables.taskType) {
 			case EVENT:
 				newTask.setTaskType(Task.Type.EVENT);
@@ -73,12 +76,7 @@ public class EditCommandParser {
 			if (PublicVariables.taskIndex != -10) {
 				return new Edit(PublicVariables.taskIndex, newTask);
 			} else {
-				if (!PublicVariables.taskDescription.equals("")) {
-					newTask.setDesc(PublicVariables.taskDescription);
-					return new Edit(null, newTask);
-				} else {
-					return new Edit(_index, newTask);
-				}
+				return new Edit(_index, newTask);
 			}
 		}
 	}
