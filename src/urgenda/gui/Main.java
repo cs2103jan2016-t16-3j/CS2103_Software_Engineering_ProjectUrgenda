@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import urgenda.util.StateFeedback;
 import urgenda.util.StateFeedback.State;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
+import urgenda.util.UrgendaLogger;
 
 public class Main extends Application {
 	
@@ -55,14 +57,20 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		initLogger();
 		initLogicComponent();
 		initRootLayout();
 		initDisplay();
 		initStage(primaryStage);
 	}
 
+	private void initLogger() {
+		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of logger");
+	}
+
 	private void initLogicComponent() {
 		_logic = Logic.getInstance();
+		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of logic");
 	}
 
 	private void initRootLayout() {
@@ -73,8 +81,10 @@ public class Main extends Application {
 			_mainController = loader.getController();
 			_mainController.setMain(this);
 		} catch (IOException e) {
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, "Initialisation of root layout failed!");
 			e.printStackTrace();
 		}
+		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of root layout");
 	}
 
 	private void initDisplay() {
@@ -83,6 +93,7 @@ public class Main extends Application {
 		//TODO implement check settings for showing novice headers, change boolean below
 		_displayController.initDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
 		_displayController.setMain(this);
+		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of display view");
 	}
 
 	private void initStage(Stage primaryStage) {
@@ -95,6 +106,7 @@ public class Main extends Application {
 		primaryStage.setScene(_scene);
 		primaryStage.sizeToScene();
 		primaryStage.show();
+		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of Urgenda window");
 	}
 
 	private StateFeedback retrieveStartupState() {
