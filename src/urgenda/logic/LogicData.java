@@ -440,6 +440,11 @@ public class LogicData {
 	public void clearDisplays() {
 		_displays.clear();
 	}
+	
+	//for testing purposes only. delete if necessary. Can be found in FreeTimeTest.java
+	public void clearTasks(){
+		_tasks.clear();
+	}
 
 	public String generateHelpManual() {
 		return _storage.retrieveHelp();
@@ -500,7 +505,7 @@ public class LogicData {
 	public void clearOldArchive() {
 		ArrayList<Task> outdatedTasks = new ArrayList<Task>();
 		for (Task task : _archives) {
-			if (task.getEndTime().isBefore(LocalDateTime.now().minusMonths(1))) {
+			if (task.getDateModified().isBefore(LocalDateTime.now().minusMonths(1))) {
 				outdatedTasks.add(task);
 			}
 		}
