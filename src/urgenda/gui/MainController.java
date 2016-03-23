@@ -64,23 +64,26 @@ public class MainController {
 	@FXML
 	private void commandLineListener(KeyEvent event) {
 		KeyCode code = event.getCode();
-			if(code == KeyCode.ENTER && !inputBar.getText().equals("")) {
-				while(!_nextCommandLines.isEmpty()) {
-					_prevCommandLines.addFirst(_nextCommandLines.getFirst());
-					_nextCommandLines.removeFirst();
+			if(code == KeyCode.ENTER) {
+				if(!inputBar.getText().trim().equals("") && !inputBar.getText().equals("")) {
+					while(!_nextCommandLines.isEmpty()) {
+						_prevCommandLines.addFirst(_nextCommandLines.getFirst());
+						_nextCommandLines.removeFirst();
+					}
+					_prevCommandLines.addFirst(inputBar.getText());
+					String feedback;
+					if(inputBar.getText().equalsIgnoreCase(KEYWORD_DEMO)) {
+						feedback = _main.setupDummyList();
+					} else {
+						feedback = _main.handleCommandLine(inputBar.getText());
+					}
+					if(feedback != null) {	//null feedback do not change feedback text
+						displayFeedback(feedback);
+					}
+					inputBar.clear();
+				} else { //inputbar has whitespaces
+					inputBar.clear();
 				}
-				_prevCommandLines.addFirst(inputBar.getText());
-				String feedback;
-				if(inputBar.getText().equalsIgnoreCase(KEYWORD_DEMO)) {
-					feedback = _main.setupDummyList();
-				} else {
-					feedback = _main.handleCommandLine(inputBar.getText());
-				}
-				if(feedback != null) {	//null feedback do not change feedback text
-					displayFeedback(feedback);
-				}
-				inputBar.clear();
-				return;
 			}
 			if(code == KeyCode.UP && !event.isControlDown()) {
 				if(!_prevCommandLines.isEmpty()) {
@@ -90,7 +93,6 @@ public class MainController {
 					}
 					inputBar.setText(_prevCommandLines.getFirst());
 				}
-				return;
 			}
 			if(code == KeyCode.DOWN && !event.isControlDown()) {
 				if(!_nextCommandLines.isEmpty()) {
@@ -100,7 +102,6 @@ public class MainController {
 				} else {
 					inputBar.clear();
 				}
-				return;
 			}
 	}
 	
