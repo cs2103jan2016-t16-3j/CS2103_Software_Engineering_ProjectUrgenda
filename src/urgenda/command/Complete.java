@@ -6,12 +6,12 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import urgenda.logic.LogicData;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.Task;
 
 public class Complete extends TaskCommand {
 
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_DONE = "Done ";
 	private static final String MESSAGE_UNDONE = "To do ";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";

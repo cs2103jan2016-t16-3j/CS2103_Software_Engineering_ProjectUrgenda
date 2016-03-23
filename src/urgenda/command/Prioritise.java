@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import urgenda.logic.LogicData;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.Task;
 
 public class Prioritise extends TaskCommand {
 
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_IMPORTANT = " marked as important!";
 	private static final String MESSAGE_UNIMPORTANT = " unmarked as important";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";

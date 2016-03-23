@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import urgenda.logic.LogicData;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.Task;
 
 public class DeleteTask extends TaskCommand {
 
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_NO_DELETE_MATCH = "No matches found to delete";

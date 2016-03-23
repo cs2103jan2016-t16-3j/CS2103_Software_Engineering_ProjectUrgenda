@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.Task;
 
 public class AddTask extends TaskCommand {
 	
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_ADDED = " added";
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_ERROR = "Error: ";

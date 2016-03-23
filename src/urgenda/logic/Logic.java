@@ -2,13 +2,13 @@ package urgenda.logic;
 
 import urgenda.command.Command;
 import urgenda.parser.CommandParser;
-import urgenda.util.MyLogger;
+import urgenda.util.UrgendaLogger;
 import urgenda.util.StateFeedback;
 
 public class Logic {
 	
 	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use. \nPress ALT + F1 if you need help.";
-	private static MyLogger logger = MyLogger.getInstance();
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static Logic _logic;
 	private LogicData _logicData;
 	private LogicCommand _logicCommand;
