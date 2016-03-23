@@ -124,7 +124,7 @@ public class LogicData {
 
 	public StateFeedback displayArchiveTasks(ArrayList<Task> displayList) {
 		clearDisplays();
-		_displays.addAll(sortList(displayList));
+		_displays.addAll(sortArchive(displayList));
 		StateFeedback state = new StateFeedback(_displays, _displays.size());
 		setFeedbackDisplayPosition(state);
 		// TODO showmore for archive
@@ -412,6 +412,11 @@ public class LogicData {
 			return compare;
 		}
 	};
+	
+	public ArrayList<Task> sortArchive(ArrayList<Task> list) {
+		Collections.sort(list, archiveComparator);
+		return list;
+	}	
 	
 	//new comparator for sorting archive
 	static Comparator<Task> archiveComparator = new Comparator<Task>() {
