@@ -116,29 +116,6 @@ public class FindFree extends Command {
 		_endOfRange = end;
 	}
 
-	public boolean isOverlapping(Task task) {
-		if (isBeforeOrEqual(task.getStartTime(), _startOfRange) && isAfterOrEqual(task.getEndTime(), _endOfRange)) {
-			return true;
-		} else if (task.getEndTime().isAfter(_startOfRange) && isBeforeOrEqual(task.getEndTime(), _endOfRange)) {
-			return true;
-		} else if (isAfterOrEqual(task.getStartTime(), _startOfRange) && task.getStartTime().isBefore(_endOfRange)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// a comparator to compare time return true if first timing is before or
-	// equals to second timing
-	public boolean isBeforeOrEqual(LocalDateTime first, LocalDateTime second) {
-		return first.isBefore(second) || first.isEqual(second);
-	}
-
-	// a comparator to compare time return true if first timing is after or
-	// equals to second timing
-	public boolean isAfterOrEqual(LocalDateTime first, LocalDateTime second) {
-		return first.isAfter(second) || first.isEqual(second);
-	}
 
 	// TODO: to be edited if the list for sorting consists of new structure and
 	// not tasks
