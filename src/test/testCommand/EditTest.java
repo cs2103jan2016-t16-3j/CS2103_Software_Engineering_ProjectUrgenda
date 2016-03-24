@@ -1,4 +1,4 @@
-package test.testCommand;
+package testCommand;
 
 import static org.junit.Assert.*;
 
@@ -73,7 +73,7 @@ public class EditTest {
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
 		Edit tester = new Edit(0,testTask);
 		tester.execute();
-		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.undo());
+		assertEquals("\"Buy milk and eggs\" has been reverted to \"Buy milk\"",tester.undo());
 	}
 	
 	@Test //TODO: Redo test to match change in fn
