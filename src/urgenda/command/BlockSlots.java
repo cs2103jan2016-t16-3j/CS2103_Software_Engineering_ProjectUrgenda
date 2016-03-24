@@ -31,6 +31,7 @@ public class BlockSlots extends TaskCommand {
 
 	// throws exception to ensure that block is not stored in undo stack
 	public String execute() throws Exception {
+		_newTask.updateTaskType();
 		if (_newTask.getTaskType() != Task.Type.EVENT) {
 			throw new Exception(MESSAGE_ERROR + MESSAGE_INVALID_TYPE);
 		} else if (_block.isEmpty()) {

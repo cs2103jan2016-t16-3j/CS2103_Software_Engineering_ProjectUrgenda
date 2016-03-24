@@ -21,6 +21,65 @@ public class FreeTimeTest {
 	/**
 	 * two tasks
 	 * 1st has start time in front of range, end time inside range
+	 * 2nd has start time in front of range after start time, end time inside range, after 1st end time
+	 */
+	@Test
+	public void test012FreeTimeMultipleTask() {
+		// setting up the test
+		LogicData data = LogicData.getInstance();
+		data.clearTasks();
+		ArrayList<Task> expectedList = new ArrayList<Task>();
+		LocalDateTime rangeStart = LocalDateTime.of(2016, 3, 23, 12, 0);
+		LocalDateTime rangeEnd = LocalDateTime.of(2016, 3, 23, 18, 0);
+		FindFree test = new FindFree(rangeStart, rangeEnd);
+
+		// timing is from 6.01pm to 7pm starttime and endtime both infront of
+		// range
+		Task task1 = new Task();
+		LocalDateTime start1 = LocalDateTime.of(2016, 3, 23, 11, 58);
+		LocalDateTime end1 = LocalDateTime.of(2016, 3, 23, 12, 01);
+		task1.setStartTime(start1);
+		task1.setEndTime(end1);
+		task1.updateTaskType();
+		data.addTask(task1);
+		Task task2 = new Task();
+		LocalDateTime start2 = LocalDateTime.of(2016, 3, 23, 11, 59);
+		LocalDateTime end2 = LocalDateTime.of(2016, 3, 23, 12, 11);
+		task2.setStartTime(start2);
+		task2.setEndTime(end2);
+		task2.updateTaskType(start2, end2);
+		data.addTask(task2);
+
+		// configuring expected outputs
+		String expectedPhrase = "Showing available time slots between 23/3, 12:00 to 23/3, 18:00";
+		Task exTask1 = new Task();
+		LocalDateTime exStart1 = LocalDateTime.of(2016, 3, 23, 12, 11);
+		LocalDateTime exEnd1 = LocalDateTime.of(2016, 3, 23, 18, 0);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yy");
+		exTask1.setDesc(exStart1.format(formatter));
+		exTask1.setStartTime(exStart1);
+		exTask1.setEndTime(exEnd1);
+		expectedList.add(exTask1);
+
+		// getting actual outputs
+		String actualPhrase = test.execute();
+		assertEquals(expectedPhrase, actualPhrase);
+		ArrayList<Task> actualList = data.getDisplays();
+
+		// comparing expected and actual free time range
+		assertEquals(expectedList.size(), actualList.size());
+		for (int i = 0; i < expectedList.size(); i++) {
+			Task actual = actualList.get(i);
+			Task expected = expectedList.get(i);
+			assertEquals(expected.getDesc(), actual.getDesc());
+			assertEquals(expected.getStartTime(), actual.getStartTime());
+			assertEquals(expected.getEndTime(), actual.getEndTime());
+		}
+	}
+	
+	/**
+	 * two tasks
+	 * 1st has start time in front of range, end time inside range
 	 * 2nd has start time in front of range, end time inside range, after 1st end time
 	 */
 	@Test
@@ -40,7 +99,7 @@ public class FreeTimeTest {
 		LocalDateTime end1 = LocalDateTime.of(2016, 3, 23, 12, 01);
 		task1.setStartTime(start1);
 		task1.setEndTime(end1);
-		task1.updateTaskType(start1, end1);
+		task1.updateTaskType();
 		data.addTask(task1);
 		Task task2 = new Task();
 		LocalDateTime start2 = LocalDateTime.of(2016, 3, 23, 11, 58);
