@@ -132,6 +132,16 @@ public class Task {
 			_taskType = Type.EVENT;
 		}
 	}
+	
+	public void updateTaskType() {
+		if (_startTime == null && _endTime == null) {
+			_taskType = Type.FLOATING;
+		} else if (_startTime == null && _endTime != null) {
+			_taskType = Type.DEADLINE;
+		} else if (_startTime != null && _endTime != null) {
+			_taskType = Type.EVENT;
+		}
+	}
 
 	public int getId() {
 		return _id;
