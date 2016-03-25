@@ -85,13 +85,14 @@ public class TaskTest {
 	}
 	
 	//This fn is for checking whether two task overlaps
-	//Boundary Value Analysis: Dont overlap (task tested lies totally to the left of compared task
+	//Equivalence Partition: Dont overlap (task tested lies totally to the left of compared task
 	// Dont overlap( task tested lies totally to the right of compared task
 	// Overlap: End of task tested overlaps w compared task
 	//overlap: start of task tested overlaps w compared task
 	//overlap: task tested same as compared task
 	//overlap: task tested lies within compared task
 	//overlap: test compared is subset of test tested
+	//Boundary value analysis: used 00000 , 235959 as timings
 	@Test
 	public void testHasOverlap() {
 		Task test = new Task();
@@ -99,18 +100,18 @@ public class TaskTest {
 		LocalDateTime end = LocalDateTime.of(2016, Month.MARCH, 1, 22, 00, 00);
 		LocalDateTime comparestart1 = LocalDateTime.of(2016, Month.MARCH, 1, 9, 00, 00);
 		LocalDateTime compareend1 = LocalDateTime.of(2016, Month.MARCH, 1, 22, 00, 00);
-		LocalDateTime comparestart2 = LocalDateTime.of(2016, Month.MARCH, 1, 19, 30, 00);
-		LocalDateTime compareend2 = LocalDateTime.of(2016, Month.MARCH, 1, 20, 45, 00);
-		LocalDateTime comparestart3 = LocalDateTime.of(2016, Month.MARCH, 1, 7, 15, 00);
+		LocalDateTime comparestart2 = LocalDateTime.of(2016, Month.MARCH, 1, 19, 30, 59);
+		LocalDateTime compareend2 = LocalDateTime.of(2016, Month.MARCH, 1, 20, 45, 01);
+		LocalDateTime comparestart3 = LocalDateTime.of(2016, Month.MARCH, 1, 00, 00, 00); //Boundary value for time
 		LocalDateTime compareend3 = LocalDateTime.of(2016, Month.MARCH, 1, 11, 17, 00);
 		LocalDateTime comparestart4 = LocalDateTime.of(2016, Month.MARCH, 1, 12, 35, 00);
-		LocalDateTime compareend4 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 30, 00);
+		LocalDateTime compareend4 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 59, 59); //The other boundary value for time
 		LocalDateTime comparestart5 = LocalDateTime.of(2016, Month.MARCH, 1, 7, 00, 00);
 		LocalDateTime compareend5 = LocalDateTime.of(2016, Month.MARCH, 1, 9, 00, 00);
 		LocalDateTime comparestart6 = LocalDateTime.of(2016, Month.MARCH, 1, 22, 00, 00);
 		LocalDateTime compareend6 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 00, 00);
-		LocalDateTime comparestart7 = LocalDateTime.of(2016, Month.MARCH, 1, 8, 00, 00);
-		LocalDateTime compareend7 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 00, 00);
+		LocalDateTime comparestart7 = LocalDateTime.of(2016, Month.MARCH, 1, 8, 00, 34);
+		LocalDateTime compareend7 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 54, 00);
 		
 		assertTrue(test.hasOverlap(start, end, comparestart1, compareend1)); //overlap: task tested same as compared task
 		assertTrue(test.hasOverlap(start, end, comparestart2, compareend2)); //overlap: task tested lies within compared task
@@ -123,7 +124,7 @@ public class TaskTest {
 	}
 	
 	//This fn test whether a task is overlapping w other task
-	//Equivalence partition: yes, no, no(not an event)
+	//Equivalence partition: yes, no, no(not an event), no(empty task)
 	@Test
 	public void testIsOverlapping() {
 		ArrayList<String> _tags = new ArrayList<String>();
@@ -133,10 +134,12 @@ public class TaskTest {
 		Task test1 = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
 		Task test2 = new Task(2, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(2), LocalDateTime.now(), LocalDateTime.now(), notime,  _tags, slot);
 		Task test3 = new Task(3, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(5), LocalDateTime.now(), notime,  _tags, slot);
+		Task test4 = new Task();
 		
 		assertFalse(compare.isOverlapping(test1)); //no (non-event)
 		assertTrue(compare.isOverlapping(test2)); //yes
 		assertFalse(compare.isOverlapping(test3)); //no
+		assertFalse(compare.isOverlapping(test4)); // no (empty task)
 	}
 
 }
