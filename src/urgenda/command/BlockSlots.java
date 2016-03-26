@@ -3,6 +3,7 @@ package urgenda.command;
 import java.time.LocalDateTime;
 
 import urgenda.logic.LogicData;
+import urgenda.util.DateTimePair;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
@@ -21,34 +22,41 @@ public class BlockSlots extends TaskCommand {
 
 	// default constructor
 	public BlockSlots() {
-		_block = new MultipleSlot();
+		
 	}
 
 	public BlockSlots(Task newTask) {
 		_newTask = newTask;
-		_block = new MultipleSlot();
 	}
 
 	// throws exception to ensure that block is not stored in undo stack
 	public String execute() throws Exception {
-		_newTask.updateTaskType();
-		if (_newTask.getTaskType() != Task.Type.EVENT) {
-			throw new Exception(MESSAGE_ERROR + MESSAGE_INVALID_TYPE);
-		} else if (_block.isEmpty()) {
+		_block = _newTask.getSlot();
+		if (_block.isEmpty()) {
 			throw new Exception(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
 		}
-		_data = LogicData.getInstance();
 		// TODO test if sorting works
 		_block.sortSlots();
-		_newTask.setSlot(_block);
+		DateTimePair time = _block.getNextSlot();
+		_block.removeNextSlot();
+		if (_block.isEmpty()) {
+			throw new Exception(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
+		}
+		_newTask.setStartTime(time.getDateTime1());
+		_newTask.setEndTime(time.getDateTime2());
+		_newTask.updateTaskType();
+		_data = LogicData.getInstance();
+		if (_newTask.getTaskType() != Task.Type.EVENT) {
+			throw new Exception(MESSAGE_ERROR + MESSAGE_INVALID_TYPE);
+		}
 		_newTask.setId(_data.getCurrentId());
+		_data.updateCurrentId();
 		LocalDateTime now = LocalDateTime.now();
 		_newTask.setDateAdded(now);
 		_newTask.setDateModified(now);
-//		_data.updateMultipleSlot(_newTask);
+		_data.updateMultipleSlot(_newTask);
 		// TODO exception handling for user manipulation of blocking past tasks
 		_data.addTask(_newTask);
-		_data.updateCurrentId();
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		_data.setTaskPointer(_newTask);
 		_data.clearShowMoreTasks();
@@ -61,9 +69,10 @@ public class BlockSlots extends TaskCommand {
 		_newTask = newTask;
 	}
 
-	public void addNewSlots(LocalDateTime start, LocalDateTime end) {
-		_block.addTimeSlot(start, end);
-	}
+	// TODO remove if not used by parser
+//	public void addNewSlots(LocalDateTime start, LocalDateTime end) {
+//		_block.addTimeSlot(start, end);
+//	}
 
 	public String undo() {
 		_data.deleteTask(_newTask);
