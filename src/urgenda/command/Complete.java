@@ -51,6 +51,7 @@ public class Complete extends TaskCommand {
 			throw new Exception(MESSAGE_NO_COMPLETE_MATCH);
 		}
 		completeTasks(true);
+		updateDateModified(_completedTasks);
 		_data.deleteTasks(_completedTasks);
 		_data.addArchive(_completedTasks);
 		return completeFeedback();
@@ -83,6 +84,7 @@ public class Complete extends TaskCommand {
 
 	public String undo() {
 		completeTasks(false);
+		updateDateModified(_completedTasks);
 		_data.removeArchive(_completedTasks);
 		_data.addTasks(_completedTasks);
 		_data.setTaskPointer(_completedTasks.get(0));
@@ -101,11 +103,19 @@ public class Complete extends TaskCommand {
 
 	public String redo() {
 		completeTasks(true);
+		updateDateModified(_completedTasks);
 		_data.deleteTasks(_completedTasks);
 		_data.addArchive(_completedTasks);
 		return completeFeedback();
 	}
-
+	
+	public void updateDateModified(ArrayList<Task> tasks) {
+		LocalDateTime now = LocalDateTime.now();
+		for (Task task : tasks) {
+			task.setDateModified(now);
+		}
+	}
+	
 	public void setDesc(String desc) {
 		_desc = desc;
 	}

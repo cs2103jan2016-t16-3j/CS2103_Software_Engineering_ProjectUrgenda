@@ -1,5 +1,6 @@
 package urgenda.command;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -46,6 +47,7 @@ public class Prioritise extends TaskCommand {
 			throw new Exception(MESSAGE_NO_MATCH);
 		} else {
 			String feedback = toggleTasks();
+			updateDateModified(_tasks);
 			_data.setTaskPointer(_tasks.get(0));
 			return feedback;
 		}
@@ -65,12 +67,14 @@ public class Prioritise extends TaskCommand {
 
 	public String undo() {
 		String feedback = toggleTasks();
+		updateDateModified(_tasks);
 		_data.setTaskPointer(_tasks.get(0));
 		return feedback;
 	}
 
 	public String redo() {
 		String feedback = toggleTasks();
+		updateDateModified(_tasks);
 		_data.setTaskPointer(_tasks.get(0));
 		return feedback;
 	}
@@ -84,6 +88,13 @@ public class Prioritise extends TaskCommand {
 		}
 		task.toggleImportant();
 		return feedback;
+	}
+	
+	public void updateDateModified(ArrayList<Task> tasks) {
+		LocalDateTime now = LocalDateTime.now();
+		for (Task task : tasks) {
+			task.setDateModified(now);
+		}
 	}
 
 	public void setDesc(String desc) {

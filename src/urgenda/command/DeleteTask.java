@@ -1,5 +1,6 @@
 package urgenda.command;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -51,6 +52,7 @@ public class DeleteTask extends TaskCommand {
 			logger.getLogger().severe("Exception(No del match) thrown");
 			throw new Exception(MESSAGE_NO_DELETE_MATCH);
 		}
+		updateDateModified(_deletedTasks);
 		_data.deleteTasks(_deletedTasks);
 		_data.clearShowMoreTasks();
 		
@@ -76,6 +78,7 @@ public class DeleteTask extends TaskCommand {
 	}
 
 	public String undo() {
+		updateDateModified(_deletedTasks);
 		_data.addTasks(_deletedTasks);
 		_data.setTaskPointer(_deletedTasks.get(0));
 		return addFeedback();
@@ -92,8 +95,16 @@ public class DeleteTask extends TaskCommand {
 	}
 
 	public String redo() {
+		updateDateModified(_deletedTasks);
 		_data.deleteTasks(_deletedTasks);
 		return deleteFeedback();
+	}
+	
+	public void updateDateModified(ArrayList<Task> tasks) {
+		LocalDateTime now = LocalDateTime.now();
+		for (Task task : tasks) {
+			task.setDateModified(now);
+		}
 	}
 
 	public void setDesc(String desc) {
