@@ -10,7 +10,8 @@ import urgenda.util.Task;
 
 public class Search extends Command {
 
-	private static final String MESSAGE_SEARCH = "These are all the tasks found containing \"%1$s\"";
+	private static final String MESSAGE_SEARCH_DESC = "These are all the tasks found containing \"%1$s\"";
+	private static final String MESSAGE_SEARCH_TIME = "These are all the tasks falling on \"%1$s\"";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
 	
 	private String _searchDesc;
@@ -53,7 +54,7 @@ public class Search extends Command {
 			} else {
 				data.setDisplays(matches);
 				data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
-				feedback = String.format(MESSAGE_SEARCH, _searchDesc);
+				feedback = String.format(MESSAGE_SEARCH_DESC, _searchDesc);
 			}
 		} else if (_searchDate != null) {
 			matches = data.findMatchingDates(_searchDate);
@@ -63,7 +64,7 @@ public class Search extends Command {
 			} else {
 				data.setDisplays(matches);
 				data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
-				feedback = String.format(MESSAGE_SEARCH, _searchDate.toString());
+				feedback = String.format(MESSAGE_SEARCH_TIME, _searchDate.toString());
 			}
 		} else if (_searchDateTime != null) {
 			matches = data.findMatchingDateTimes(_searchDateTime);
@@ -73,7 +74,7 @@ public class Search extends Command {
 			} else {
 				data.setDisplays(matches);
 				data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
-				feedback = String.format(MESSAGE_SEARCH, _searchDateTime.toString());
+				feedback = String.format(MESSAGE_SEARCH_TIME, _searchDateTime.toString());
 			}
 		} else if (_searchMonth != null) {
 			matches = data.findMatchingMonths(_searchMonth);
@@ -83,7 +84,7 @@ public class Search extends Command {
 			} else {
 				data.setDisplays(matches);
 				data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
-				feedback = String.format(MESSAGE_SEARCH, _searchMonth.toString());
+				feedback = String.format(MESSAGE_SEARCH_TIME, _searchMonth.toString());
 			}
 		}
 		return feedback;
