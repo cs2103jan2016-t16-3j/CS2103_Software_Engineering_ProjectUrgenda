@@ -80,39 +80,6 @@ public class DetailedTaskController extends SimpleTaskController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy hh:mm:ss");
 		return dateTime.format(formatter);
 	}
-	//TODO consider use for formatting countdown label
-//	private String formatCountdown(LocalDateTime deadline) {
-//		String formattedDeadline = "";
-//		LocalDateTimeDifference timeLeft = new LocalDateTimeDifference(LocalDateTime.now(), deadline);
-//
-//		if (timeLeft.getDays() > 0) {
-//			if (timeLeft.firstIsBefore()) { // current time before deadline
-//				formattedDeadline += timeLeft.getDays() + " more day";
-//			} else { // deadline past current time
-//				formattedDeadline += timeLeft.getDays() + " day";
-//			}
-//			if (timeLeft.getDays() > 1)
-//				formattedDeadline += "s";
-//		} else {
-//			if (timeLeft.getHours() > 0) {
-//				formattedDeadline += timeLeft.getHours() + " hour";
-//				if (timeLeft.getHours() > 1)
-//					formattedDeadline += "s";
-//			}
-//			if (timeLeft.getHours() > 0 && timeLeft.getMinutes() > 0) {
-//				formattedDeadline += " & ";
-//			}
-//			if (timeLeft.getMinutes() > 0) {
-//				formattedDeadline += timeLeft.getMinutes() + " minute";
-//				if (timeLeft.getMinutes() > 1)
-//					formattedDeadline += "s";
-//			} else {
-//				formattedDeadline += "less than a minute";
-//			}
-//		}
-//		return formattedDeadline;
-//	}
-	
 	
 	@Override
 	protected void loadFXML() {
