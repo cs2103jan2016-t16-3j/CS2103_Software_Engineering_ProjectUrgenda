@@ -1,8 +1,8 @@
 package urgenda.command;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -97,9 +97,9 @@ public class FindFree extends Command {
 		while (!freeTimes.isEmpty()) {
 			LocalDateTime start = freeTimes.removeLast();
 			LocalDateTime end = freeTimes.removeLast();
-			if (!start.toLocalDate().equals(end.toLocalDate())) {
+			if (!start.toLocalDate().equals(end.toLocalDate()) && !end.toLocalTime().equals(LocalTime.of(0, 0))) {
 				LocalDateTime split = LocalDateTime.of(end.toLocalDate(), LocalTime.of(0, 0));
-				forDisplay.add(createTimeTask(start, split.minusSeconds(1)));
+				forDisplay.add(createTimeTask(start, split));
 				forDisplay.add(createTimeTask(split, end));
 			} else {
 				forDisplay.add(createTimeTask(start, end));				
@@ -110,9 +110,6 @@ public class FindFree extends Command {
 
 	private Task createTimeTask(LocalDateTime start, LocalDateTime end) {
 		Task temp = new Task();
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yy");
-//		temp.setDesc(start.format(formatter));
-		
 		temp.setDesc(timeDiff(start.toLocalTime(), end.toLocalTime()));
 		temp.setStartTime(start);
 		temp.setEndTime(end);
@@ -121,9 +118,10 @@ public class FindFree extends Command {
 	}
 
 	private String timeDiff(LocalTime start, LocalTime end) {
-		int hourDiff = end.getHour() - start.getHour();
-		int minuteDiff = end.getMinute() - start.getMinute();
-		int secondDiff = end.getSecond() - start.getSecond();
+		Duration diff = Duration.between(start, end);
+		long hourDiff = diff.toHours();
+		long minuteDiff = diff.toMinutes() - 60 * hourDiff;
+		long secondDiff = diff.getSeconds() - 60 * minuteDiff - 3600 * hourDiff;
 		
 		String duration = "";
 		if (hourDiff > 0) {
