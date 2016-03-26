@@ -1,6 +1,6 @@
 package testCommand;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import urgenda.command.Edit;
+import urgenda.command.NewEdit;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
-public class EditTest {
-
+public class NewEditTest {
+	
 	@Test
 	public void testExecute() throws Exception {
 		LogicData _data = LogicData.getInstance();
@@ -50,15 +50,31 @@ public class EditTest {
 		
 		_data.setDisplays(_tasks);
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
-		Edit tester = new Edit(0,testTask);
+		NewEdit tester = new NewEdit();
+		tester.setId(0);
+		tester.setNewTask(testTask);
 		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.execute());
 		Task testTask2 = new Task(null, "", LocalDateTime.of(2016, Month.APRIL, 5, 10, 00),
 				LocalDateTime.of(2016, Month.APRIL, 5, 12, 00), _tags);
-		Edit tester2 = new Edit(1,testTask2);
-		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute());	
+		NewEdit tester2 = new NewEdit();
+		tester2.setNewTask(testTask2);
+		tester2.setId(1);
+		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute());
+		Task testTask3 = new Task();
+		NewEdit tester3 = new NewEdit();
+		tester3.setNewTask(testTask3);
+		tester3.setId(3);
+		tester3.setIsRemovedOnce();
+		tester3.setIsRemovedTwice();
+		assertEquals("\"Travel to Sweden\" on 26/7, 00:00 - 23:59 has been edited to \"Travel to Sweden\"",tester3.execute());
+		NewEdit tester4 = new NewEdit();
+		tester4.setUnknown(LocalDateTime.of(2016, Month.MARCH, 17, 23, 59));
+		tester4.setId(9);
+		assertEquals("\"CS2103 V0.1\" by 10/3, 17:00 has been edited to \"CS2103 V0.1\" by 17/3, 23:59",tester4.execute());
+			
 	}
 	
-	@Test  
+	@Test
 	public void testUndo() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
@@ -71,7 +87,9 @@ public class EditTest {
 		_tasks.add(obj2);
 		_data.setDisplays(_tasks);
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
-		Edit tester = new Edit(0,testTask);
+		NewEdit tester = new NewEdit();
+		tester.setId(0);
+		tester.setNewTask(testTask);
 		tester.execute();
 		assertEquals("\"Buy milk and eggs\" has been reverted to \"Buy milk\"",tester.undo());
 	}
@@ -89,7 +107,9 @@ public class EditTest {
 		_tasks.add(obj2);
 		_data.setDisplays(_tasks);
 		Task testTask = new Task("Buy milk and eggs", "", notime, notime, _tags);
-		Edit tester = new Edit(0,testTask);
+		NewEdit tester = new NewEdit();
+		tester.setId(0);
+		tester.setNewTask(testTask);
 		tester.execute();
 		tester.undo();
 		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.redo());
