@@ -18,6 +18,7 @@ public class FindFree extends Command {
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
 	private static final String MESSAGE_NO_FREE_TIME = "There are no available time between "
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
+	private static final String MESSAGE_INVALID_TIME_RANGE = "Invalid time range for finding available time";
 	private static final String MESSAGE_HOURS = " hours ";
 	private static final String MESSAGE_MINUTES = " minutes ";
 	private static final String MESSAGE_SECONDS = " seconds ";
@@ -38,8 +39,13 @@ public class FindFree extends Command {
 		_endOfRange = end;
 	}
 
-	public String execute() {
+	public String execute() throws Exception {
 		LogicData data = LogicData.getInstance();
+		// TODO show warning then flip range
+		if (!_startOfRange.isBefore(_endOfRange)) {
+			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+			throw new Exception(MESSAGE_INVALID_TIME_RANGE);
+		}
 		data.clearShowMoreTasks();
 		Task timeRange = createTimeTask(_startOfRange, _endOfRange);
 		ArrayList<Task> matches = data.overlappingTasks(timeRange);
@@ -79,6 +85,8 @@ public class FindFree extends Command {
 		assert (freeTimes.size() % 2 == 0);
 		
 		if (freeTimes.isEmpty()) {
+			data.clearDisplays();
+			data.setCurrState(LogicData.DisplayState.FIND_FREE);
 			return formatFeedback(MESSAGE_NO_FREE_TIME);
 		}
 		
