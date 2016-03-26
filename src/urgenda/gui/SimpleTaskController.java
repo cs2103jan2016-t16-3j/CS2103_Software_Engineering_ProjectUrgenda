@@ -82,18 +82,16 @@ public class SimpleTaskController extends GridPane {
 	private void initLabels() {
 		taskIndexLabel.setText(String.valueOf(_index + 1));
 		taskDescLabel.setText(_task.getDesc());
+		taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
 		switch (_taskDisplayType) {
 		case FREE_TIME:
-			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), true));
 			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_FREETIME_CSS).toExternalForm());
 			break;
 		case OVERDUE:
-			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), false));
 			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_OVERDUE_CSS).toExternalForm());
 			noviceHeaderLabel.setText(HEADER_OVERDUE_TASK);
 			break;
 		case TODAY:
-			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), false));
 			if(_task.isCompleted()) {
 				this.getStylesheets().addAll(getClass().getResource(PATH_TASK_TODAY_OVERTIME_CSS).toExternalForm());
 			} else {
@@ -102,12 +100,10 @@ public class SimpleTaskController extends GridPane {
 			noviceHeaderLabel.setText(HEADER_TODAY_TASK);
 			break;
 		case NORMAL:
-			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), false));
 			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_NORMAL_CSS).toExternalForm());
 			noviceHeaderLabel.setText(HEADER_OTHER_TASK);
 			break;
 		case ARCHIVE:
-			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime(), false));
 			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_ARCHIVE_CSS).toExternalForm());
 			noviceHeaderLabel.setText(HEADER_ARCHIVE_TASK);
 			break;
@@ -127,7 +123,7 @@ public class SimpleTaskController extends GridPane {
 		});
 	}
 
-	private String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2, boolean isFreeTime) {
+	private String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2) {
 		String dateTimeFormatter = "";
 		if(dateTime2 != null) {
 			if(dateTime1 == null) {	//format for deadline
@@ -136,9 +132,7 @@ public class SimpleTaskController extends GridPane {
 				dateTimeFormatter += formatTime(dateTime2);
 			} else { //format for event
 				DateTimePair timeDiff = new DateTimePair(dateTime1, dateTime2);
-				if(!isFreeTime) {
 					dateTimeFormatter += formatDate(dateTime1) + " ";
-				}
 				dateTimeFormatter += formatTime(dateTime1) + " ";
 				dateTimeFormatter += "to ";
 				if (!timeDiff.isSameDay()) {
