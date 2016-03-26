@@ -71,9 +71,8 @@ public class PublicVariables {
 	public static final Set<String> periodWords = new HashSet<String>(
 			Arrays.asList(new String[] { "between", "within", "spanning" }));
 
-	public static String passedInCommandString;
-	public static int passedInIndex;
 	public static int taskIndex;
+	public static ArrayList<Integer> positions;
 	public static String taskDescription;
 	public static String taskLocation;
 	public static LocalDateTime taskStartTime;

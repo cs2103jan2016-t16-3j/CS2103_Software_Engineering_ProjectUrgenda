@@ -1,5 +1,6 @@
 package urgenda.parser;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,5 +72,28 @@ public class TaskDetailsParser {
 			return argsString;
 		}
 	}
-
+	
+	public static String searchTaskIndexRange(String argsString) {
+		String rangeRegex = "((\\d+)( )?-( )?(\\d+)";
+		String numberRegex = "(\\d+)";
+		String temp = argsString;
+		String[] indexRanges = argsString.split(",");
+		for (int i = 0 ; i < indexRanges.length; i++) {
+			try {
+				if (indexRanges[i].trim().matches(rangeRegex)) {
+					int index1 = Integer.parseInt(indexRanges[i].split("-")[0].trim());
+					int index2 = Integer.parseInt(indexRanges[i].split("-")[1].trim());
+					for (int j = Integer.min(index1, index2); j <= Integer.max(index1, index2); j++) {
+						PublicVariables.positions.add(j);
+					}
+				} else if (indexRanges[i].trim().matches(numberRegex)) {
+					PublicVariables.positions.add(Integer.parseInt(indexRanges[i].trim()));
+				} 
+			}
+			catch (Exception e) {
+				return argsString;
+			}
+		}
+		return null;
+	}
 }

@@ -1,37 +1,36 @@
 package urgenda.parser.commandParser;
 
+import java.util.ArrayList;
+
 import urgenda.command.*;
 import urgenda.parser.PublicVariables;
 import urgenda.parser.TaskDetailsParser;
 
 public class CompleteCommandParser {
 	private static String _argsString;
-	private static int _index;
+	private static int _passedInIndex;
+	private static ArrayList<Integer> _positions = new ArrayList<Integer>();
 
 	public CompleteCommandParser(String argsString, int index) {
 		_argsString = argsString;
-		_index = index;
+		_passedInIndex = index;
 	}
 
 	public static Command generateAndReturn() {
 		if (_argsString == null) {
-			PublicVariables.taskIndex = _index;
+			_positions.add(_passedInIndex);
 		} else {
-			String reducedArgsString = TaskDetailsParser.searchTaskIndex(_argsString);
+			String reducedArgsString = TaskDetailsParser.searchTaskIndexRange(_argsString);
 			if (reducedArgsString != null) {
-				PublicVariables.taskIndex = -10;
+				PublicVariables.positions = new ArrayList<Integer>();
 				TaskDetailsParser.searchTaskDescription(_argsString);
 			}
 		}
 		
 		Complete completeCommand = new Complete();
-		if (PublicVariables.taskIndex != -10) {
-			completeCommand.setId(PublicVariables.taskIndex);
-		} else if (PublicVariables.taskDescription.equals("")){
-			completeCommand.setId(_index);
-		}
-		
-		if (!PublicVariables.taskDescription.equals("")) {
+		if (!PublicVariables.positions.isEmpty()) {
+			completeCommand.setPositions(PublicVariables.positions);
+		} else {
 			completeCommand.setDesc(PublicVariables.taskDescription);
 		}
 		

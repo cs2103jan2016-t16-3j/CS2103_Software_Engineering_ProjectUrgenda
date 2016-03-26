@@ -30,9 +30,8 @@ public class PublicFunctions {
 
 	public static void reinitializePublicVariables() {
 		PublicVariables.commandType = COMMAND_TYPE.INVALID;
-		PublicVariables.passedInCommandString = "";
-		PublicVariables.passedInIndex = -1;
 		PublicVariables.taskIndex = -10;
+		PublicVariables.positions = new ArrayList<Integer>();
 		PublicVariables.taskDescription = "";
 		PublicVariables.taskLocation = "";
 		PublicVariables.taskStartTime = null;
