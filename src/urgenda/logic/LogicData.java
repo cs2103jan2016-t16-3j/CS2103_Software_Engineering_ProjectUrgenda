@@ -262,9 +262,18 @@ public class LogicData {
 		logger.getLogger().info("adding task " + task + " to archive");
 		_archives.add(task);
 	}
+	
+	public void addArchive(ArrayList<Task> tasks) {
+		logger.getLogger().info("adding task multiple tasks to archive");
+		_archives.addAll(tasks);
+	}
 
 	public void removeArchive(Task task) {
 		_archives.remove(task);
+	}
+	
+	public void removeArchive(ArrayList<Task> tasks) {
+		_archives.removeAll(tasks);
 	}
 
 	public ArrayList<Task> getTaskList() {
@@ -282,11 +291,18 @@ public class LogicData {
 	public void addTask(Task newTask) {
 		_tasks.add(newTask);
 	}
-
-	public void deleteTask(Task newTask) {
-		_tasks.remove(newTask);
+	
+	public void addTasks(ArrayList<Task> tasks) {
+		_tasks.addAll(tasks);
 	}
 
+	public void deleteTask(Task task) {
+		_tasks.remove(task);
+	}
+	
+	public void deleteTasks(ArrayList<Task> tasks) {
+		_tasks.removeAll(tasks);
+	}
 
 	public Task findMatchingPosition(int id) {
 		logger.getLogger().info("Find matching position, " + id);
@@ -298,7 +314,22 @@ public class LogicData {
 			return null;
 		}
 	}
-
+	
+	// overloaded function for finding matching positions with arraylists of positions
+	// returns only matching positions that are valid else ignored
+	public ArrayList<Task> findMatchingPosition(ArrayList<Integer> idPositions) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		for (Integer i : idPositions) {
+			if (i != null && i >= 0 && i < _displays.size()) {
+				matches.add(_displays.get(i));
+			}
+		}
+		if (matches.isEmpty()) {
+			return null;
+		} else {
+			return matches;
+		}
+	}
 
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
 		logger.getLogger().info("Find matching dates, " + input);

@@ -2,10 +2,10 @@ package urgenda.command;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
+
 import urgenda.logic.LogicData;
-import urgenda.util.UrgendaLogger;
 import urgenda.util.Task;
+import urgenda.util.UrgendaLogger;
 
 public class DeleteTask extends TaskCommand {
 
@@ -14,93 +14,94 @@ public class DeleteTask extends TaskCommand {
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_NO_DELETE_MATCH = "No matches found to delete";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
-	private static final String MESSAGE_INVALID_RANGE = "Invalid task range";
-	private static final String MESSAGE_NUM = "%1$s tasks have been removed:\n";
+	private static final String MESSAGE_NUM_REMOVED = "%1$s tasks have been removed:";
+	private static final String MESSAGE_NUM_ADDED = "%1$s tasks have been added:";
 
-	// one of these 3 properties can be filled for identification of deleted
-	// task
+	// desc will be entered if there was a description for deletion
+	// else one or more integers will be indicated
 	private String _desc;
-	private Integer _id;
-	private ArrayList<Integer> _multiId;
+	private ArrayList<Integer> _positions;
 
 	// to store from deletion, so that undo can be done
-	private Task _deletedTask;
+	private ArrayList<Task> _deletedTasks;
 	private LogicData _data;
-	
 
 	public String execute() throws Exception {
 		logger.getLogger().warning("Can cause exception");
 
 		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
-		if (_multiId == null || _multiId.isEmpty()) {
-			if (_desc != null) {
-				matches = _data.findMatchingDesc(_desc);
-				if (matches.size() == 1) {
-					_deletedTask = matches.get(0);
-				} else if (matches.size() > 1) {
-					_data.clearDisplays();
-					_data.setDisplays(matches);
-					_data.setCurrState(LogicData.DisplayState.MULTIPLE_DELETE);
-					logger.getLogger().severe("Exception(Multiple delete) thrown");
-					throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
-				} // else matches has no match hence _deletedTask remains null
-			} else if (_id != null && _id.intValue() != -1) {
-				_deletedTask = _data.findMatchingPosition(_id.intValue());
-			}
-			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			if (_deletedTask == null) {
-				logger.getLogger().severe("Exception(No del match) thrown");
-				throw new Exception(MESSAGE_NO_DELETE_MATCH);
-			}
-			_data.deleteTask(_deletedTask);
-			_data.clearShowMoreTasks();
-			return taskMessage(_deletedTask) + MESSAGE_REMOVE;
+		if (_desc != null) {
+			matches = _data.findMatchingDesc(_desc);
+			if (matches.size() == 1) {
+				_deletedTasks = matches;
+			} else if (matches.size() > 1) {
+				_data.clearDisplays();
+				_data.setDisplays(matches);
+				_data.setCurrState(LogicData.DisplayState.MULTIPLE_DELETE);
+				logger.getLogger().severe("Exception(Multiple delete) thrown");
+				throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
+			} // else matches has no match hence _deletedTasks remains null
+		} else if (_positions != null && _positions.size() != 0) {
+			Collections.sort(_positions);
+			_deletedTasks = _data.findMatchingPosition(_positions);
+		}
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		if (_deletedTasks == null || _deletedTasks.isEmpty()) {
+			logger.getLogger().severe("Exception(No del match) thrown");
+			throw new Exception(MESSAGE_NO_DELETE_MATCH);
+		}
+		_data.deleteTasks(_deletedTasks);
+		_data.clearShowMoreTasks();
+		
+		return deleteFeedback();
+	}
+
+	private String deleteFeedback() {
+		if (_deletedTasks.size() == 1) {
+			return taskMessage(_deletedTasks.get(0)) + MESSAGE_REMOVE;
 		} else {
-			Collections.sort(_multiId);
-			if (_multiId.get(0) >= 0 && _multiId.get((_multiId.size()-1)) <= _data.getDisplays().size()) {
-				ArrayList<Task> _delTaskList = new ArrayList<Task>();
-				StringBuilder feedback = new StringBuilder();
-				Iterator<Integer> i = _multiId.iterator();
-				while (i.hasNext()) {
-					Task temp = _data.findMatchingPosition(i.next().intValue());
-					_delTaskList.add(temp);
-					feedback = feedback.append(taskMessage(temp)).append("\n");
-				}
-				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-				for (int j = 0; j < _delTaskList.size(); j++) {
-					_data.deleteTask(_delTaskList.get(j));
-				}
-				_data.clearShowMoreTasks();
-				return String.format(MESSAGE_NUM, _delTaskList.size()) + feedback; 
-			} else {
-				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-				throw new Exception(MESSAGE_INVALID_RANGE);
-			}
+			String feedback = String.format(MESSAGE_NUM_REMOVED, _deletedTasks.size());
+			feedback += multipleTaskFeedback();
+			return feedback;
 		}
 	}
 
+	private String multipleTaskFeedback() {
+		String feedback = "";
+		for (Task task : _deletedTasks) {
+			feedback += "\n" + taskMessage(task);
+		}
+		return feedback;
+	}
+
 	public String undo() {
-		_data.addTask(_deletedTask);
-		_data.setTaskPointer(_deletedTask);
-		return taskMessage(_deletedTask) + MESSAGE_ADDED;
+		_data.addTasks(_deletedTasks);
+		_data.setTaskPointer(_deletedTasks.get(0));
+		return addFeedback();
+	}
+	
+	private String addFeedback() {
+		if (_deletedTasks.size() == 1) {
+			return taskMessage(_deletedTasks.get(0)) + MESSAGE_ADDED;
+		} else {
+			String feedback = String.format(MESSAGE_NUM_ADDED, _deletedTasks.size());
+			feedback += multipleTaskFeedback();
+			return feedback;
+		}
 	}
 
 	public String redo() {
-		_data.deleteTask(_deletedTask);
-		return taskMessage(_deletedTask) + MESSAGE_REMOVE;
+		_data.deleteTasks(_deletedTasks);
+		return deleteFeedback();
 	}
 
 	public void setDesc(String desc) {
 		_desc = desc;
 	}
 
-	public void setId(int id) {
-		_id = Integer.valueOf(id);
-	}
-
-	public void setMultiId(ArrayList<Integer> id) {
-		_multiId = id;
+	public void setPositions(ArrayList<Integer> positions) {
+		_positions = positions;
 	}
 
 }

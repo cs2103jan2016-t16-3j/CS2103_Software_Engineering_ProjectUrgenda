@@ -3,11 +3,10 @@ package urgenda.command;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 
 import urgenda.logic.LogicData;
-import urgenda.util.UrgendaLogger;
 import urgenda.util.Task;
+import urgenda.util.UrgendaLogger;
 
 public class Complete extends TaskCommand {
 
@@ -16,96 +15,103 @@ public class Complete extends TaskCommand {
 	private static final String MESSAGE_UNDONE = "To do ";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	private static final String MESSAGE_NO_COMPLETE_MATCH = "No matches found to complete";
-	private static final String MESSAGE_NUM = "%1$s tasks have been marked as important:\n";
-	private static final String MESSAGE_INVALID_RANGE = "Invalid task range";
-	
+	private static final String MESSAGE_NUM_DONE = "%1$s tasks have been done:";
+	private static final String MESSAGE_NUM_UNDONE = "%1$s tasks to be done:";
+
 	// for undo of completed task
 	private String _desc;
-	private Integer _id;
-	private ArrayList<Integer> _multiId;
+	private ArrayList<Integer> _positions;
 
-	private Task _completedTask;
+	private ArrayList<Task> _completedTasks;
 	private LogicData _data;
-
 
 	public String execute() throws Exception {
 		logger.getLogger().warning("Can cause exception");
+		
 		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
-		if (_multiId == null || _multiId.isEmpty()) {
-			if (_desc != null) {
-				matches = _data.findMatchingDesc(_desc);
-				if (matches.size() == 1) {
-					_completedTask = matches.get(0);
-				} else if (matches.size() > 1) {
-					_data.clearDisplays();
-					_data.setDisplays(matches);
-					_data.setCurrState(LogicData.DisplayState.MULTIPLE_COMPLETE);
-					logger.getLogger().severe("Exception(Multiple complete) thrown");
-					throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
-				} // else matches has no match hence _completedTask remains null
-			} else if (_id != null && _id.intValue() != -1) {
-				_completedTask = _data.findMatchingPosition(_id.intValue());
-			}
-			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			if (_completedTask == null) {
-				logger.getLogger().severe("Exception(No complete match) thrown");
-				throw new Exception(MESSAGE_NO_COMPLETE_MATCH);
-			}
-			_completedTask.setIsCompleted(true);
-			_completedTask.setDateModified(LocalDateTime.now());
-			_data.deleteTask(_completedTask);
-			_data.addArchive(_completedTask);
-			return MESSAGE_DONE + taskMessage(_completedTask) + "!";
+		if (_desc != null) {
+			matches = _data.findMatchingDesc(_desc);
+			if (matches.size() == 1) {
+				_completedTasks = matches;
+			} else if (matches.size() > 1) {
+				_data.clearDisplays();
+				_data.setDisplays(matches);
+				_data.setCurrState(LogicData.DisplayState.MULTIPLE_COMPLETE);
+				logger.getLogger().severe("Exception(Multiple complete) thrown");
+				throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
+			} // else matches has no match hence _completedTasks remains null
+		} else if (_positions != null && _positions.size() != 0) {
+			Collections.sort(_positions);
+			_completedTasks = _data.findMatchingPosition(_positions);
+		}
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		if (_completedTasks == null || _completedTasks.isEmpty()) {
+			logger.getLogger().severe("Exception(No complete match) thrown");
+			throw new Exception(MESSAGE_NO_COMPLETE_MATCH);
+		}
+		completeTasks(true);
+		_data.deleteTasks(_completedTasks);
+		_data.addArchive(_completedTasks);
+		return completeFeedback();
+	}
+
+	private String completeFeedback() {
+		if (_completedTasks.size() == 1) {
+			return MESSAGE_DONE + taskMessage(_completedTasks.get(0)) + "!";
 		} else {
-			Collections.sort(_multiId);
-			if (_multiId.get(0) >= 0 && _multiId.get((_multiId.size()-1)) <= _data.getDisplays().size()) {
-				ArrayList<Task> _doneTaskList = new ArrayList<Task>();
-				StringBuilder feedback = new StringBuilder();
-				Iterator<Integer> i = _multiId.iterator();
-				while (i.hasNext()) {
-					Task temp = _data.findMatchingPosition(i.next().intValue());
-					_doneTaskList.add(temp);
-					feedback = feedback.append(taskMessage(temp)).append("\n");
-				}
-				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-				for (int j = 0; j < _doneTaskList.size(); j++) {
-					_doneTaskList.get(j).setIsCompleted(true);
-					_doneTaskList.get(j).setDateModified(LocalDateTime.now());
-					_data.deleteTask(_doneTaskList.get(j));
-					_data.addArchive(_doneTaskList.get(j));
-				}
-				return String.format(MESSAGE_NUM, _doneTaskList.size()) + feedback;
-			} else {
-				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-				throw new Exception(MESSAGE_INVALID_RANGE);
-			}
+			String feedback = String.format(MESSAGE_NUM_DONE, _completedTasks.size());
+			feedback += multipleTaskFeedback();
+			return feedback;
+		}
+	}
+
+	private String multipleTaskFeedback() {
+		String feedback = "";
+		for (Task task : _completedTasks) {
+			feedback += "\n" + taskMessage(task);
+		}
+		return feedback;
+	}
+
+	private void completeTasks(boolean isComplete) {
+		for (Task task : _completedTasks) {
+			task.setIsCompleted(isComplete);
+			task.setDateModified(LocalDateTime.now());			
 		}
 	}
 
 	public String undo() {
-		_completedTask.setIsCompleted(false);
-		_completedTask.setDateModified(LocalDateTime.now());
-		_data.removeArchive(_completedTask);
-		_data.addTask(_completedTask);
-		_data.setTaskPointer(_completedTask);
-		return MESSAGE_UNDONE + taskMessage(_completedTask) + "!";
+		completeTasks(false);
+		_data.removeArchive(_completedTasks);
+		_data.addTasks(_completedTasks);
+		_data.setTaskPointer(_completedTasks.get(0));
+		return uncompletedFeedback();
+	}
+
+	private String uncompletedFeedback() {
+		if (_completedTasks.size() == 1) {
+			return MESSAGE_UNDONE + taskMessage(_completedTasks.get(0)) + "!";
+		} else {
+			String feedback = String.format(MESSAGE_NUM_UNDONE, _completedTasks.size());
+			feedback += multipleTaskFeedback();
+			return feedback;
+		}
 	}
 
 	public String redo() {
-		_completedTask.setIsCompleted(true);
-		_completedTask.setDateModified(LocalDateTime.now());
-		_data.deleteTask(_completedTask);
-		_data.addArchive(_completedTask);
-		return MESSAGE_DONE + taskMessage(_completedTask) + "!";
+		completeTasks(true);
+		_data.deleteTasks(_completedTasks);
+		_data.addArchive(_completedTasks);
+		return completeFeedback();
 	}
 
 	public void setDesc(String desc) {
 		_desc = desc;
 	}
 
-	public void setId(int id) {
-		_id = Integer.valueOf(id);
+	public void setPositions(ArrayList<Integer> positions) {
+		_positions = positions;
 	}
 
 }

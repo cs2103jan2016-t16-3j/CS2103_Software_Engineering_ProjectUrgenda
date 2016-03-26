@@ -45,7 +45,7 @@ public class PrioritiseTest {
 		ArrayList<Integer> id = new ArrayList<Integer>();
 		id.add(0);
 		id.add(2);
-		tester3.setMultiId(id);
+		tester3.setPositions(id);
 		StringBuilder str = new StringBuilder("2 tasks have been marked as important:\n");
 		str.append("\"Apply Financial Aid\"\n");
 		str.append("\"Dental Appointment\"\n");
