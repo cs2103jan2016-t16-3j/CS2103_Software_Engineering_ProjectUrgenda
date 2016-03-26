@@ -1,6 +1,7 @@
 package urgenda.command;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class FindFree extends Command {
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
 	private static final String MESSAGE_NO_FREE_TIME = "There are no available time between "
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
+	private static final String MESSAGE_HOURS = " hour(s) ";
+	private static final String MESSAGE_MINUTES = " minute(s) ";
+	private static final String MESSAGE_SECONDS = " second(s) ";
 	
 	private LocalDateTime _startOfRange;
 	private LocalDateTime _endOfRange;
@@ -93,19 +97,45 @@ public class FindFree extends Command {
 		while (!freeTimes.isEmpty()) {
 			LocalDateTime start = freeTimes.removeLast();
 			LocalDateTime end = freeTimes.removeLast();
-			forDisplay.add(createTimeTask(start, end));
+			if (!start.toLocalDate().equals(end.toLocalDate())) {
+				LocalDateTime split = LocalDateTime.of(end.toLocalDate(), LocalTime.of(0, 0));
+				forDisplay.add(createTimeTask(start, split.minusSeconds(1)));
+				forDisplay.add(createTimeTask(split, end));
+			} else {
+				forDisplay.add(createTimeTask(start, end));				
+			}
 		}
 		return forDisplay;
 	}
 
 	private Task createTimeTask(LocalDateTime start, LocalDateTime end) {
 		Task temp = new Task();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yy");
-		temp.setDesc(start.format(formatter));
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yy");
+//		temp.setDesc(start.format(formatter));
+		
+		temp.setDesc(timeDiff(start.toLocalTime(), end.toLocalTime()));
 		temp.setStartTime(start);
 		temp.setEndTime(end);
 		temp.setTaskType(Task.Type.EVENT);
 		return temp;
+	}
+
+	private String timeDiff(LocalTime start, LocalTime end) {
+		int hourDiff = end.getHour() - start.getHour();
+		int minuteDiff = end.getMinute() - start.getMinute();
+		int secondDiff = end.getSecond() - start.getSecond();
+		
+		String duration = "";
+		if (hourDiff > 0) {
+			duration += hourDiff + MESSAGE_HOURS;
+		}
+		if (minuteDiff > 0) {
+			duration += minuteDiff + MESSAGE_MINUTES;
+		}
+		if (secondDiff > 0) {
+			duration += secondDiff + MESSAGE_SECONDS;
+		}
+		return duration;
 	}
 
 	public void setStartOfRange(LocalDateTime start) {
