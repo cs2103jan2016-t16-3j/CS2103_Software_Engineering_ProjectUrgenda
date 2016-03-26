@@ -37,7 +37,7 @@ public class PublicFunctions {
 		PublicVariables.taskStartTime = null;
 		PublicVariables.taskEndTime = null;
 		PublicVariables.taskHashtags = new ArrayList<String>();
-		PublicVariables.taskSlots = null;
+		PublicVariables.taskSlots = new MultipleSlot();
 		PublicVariables.taskType = TASK_TYPE.INVALID;
 		PublicVariables.taskDateTime = new ArrayList<LocalDateTime>();
 		PublicVariables.taskTimeType = new ArrayList<String>();
