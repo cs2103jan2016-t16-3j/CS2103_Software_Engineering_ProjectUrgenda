@@ -18,9 +18,13 @@ public class FindFree extends Command {
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
 	private static final String MESSAGE_NO_FREE_TIME = "There are no available time between "
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
-	private static final String MESSAGE_HOURS = " hour(s) ";
-	private static final String MESSAGE_MINUTES = " minute(s) ";
-	private static final String MESSAGE_SECONDS = " second(s) ";
+	private static final String MESSAGE_HOURS = " hours ";
+	private static final String MESSAGE_MINUTES = " minutes ";
+	private static final String MESSAGE_SECONDS = " seconds ";
+	private static final String MESSAGE_HOUR = " hour ";
+	private static final String MESSAGE_MINUTE = " minute ";
+	private static final String MESSAGE_SECOND = " second ";
+	private static final int SINGLE_LIMITER = 1;
 	
 	private LocalDateTime _startOfRange;
 	private LocalDateTime _endOfRange;
@@ -125,13 +129,28 @@ public class FindFree extends Command {
 		
 		String duration = "";
 		if (hourDiff > 0) {
-			duration += hourDiff + MESSAGE_HOURS;
+			duration += hourDiff;
+			if (hourDiff == SINGLE_LIMITER) {
+				duration += MESSAGE_HOUR;
+			} else {
+				duration += MESSAGE_HOURS;
+			}
 		}
 		if (minuteDiff > 0) {
-			duration += minuteDiff + MESSAGE_MINUTES;
+			duration += minuteDiff;
+			if (minuteDiff == SINGLE_LIMITER) {
+				duration += MESSAGE_MINUTE;
+			} else {
+				duration += MESSAGE_MINUTES;
+			}
 		}
 		if (secondDiff > 0) {
-			duration += secondDiff + MESSAGE_SECONDS;
+			duration += secondDiff;
+			if (secondDiff == SINGLE_LIMITER) {
+				duration += MESSAGE_SECOND;
+			} else {
+				duration += MESSAGE_SECONDS;
+			}
 		}
 		return duration;
 	}
