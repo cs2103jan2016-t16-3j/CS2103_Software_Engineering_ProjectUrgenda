@@ -13,7 +13,7 @@ public class Search extends Command {
 	private static final String MESSAGE_SEARCH_DESC = "These are all the tasks found containing \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TIME = "These are all the tasks falling on \"%1$s\"";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
-	
+
 	private String _searchDesc;
 	private LocalDate _searchDate;
 	private LocalDateTime _searchDateTime;
@@ -39,15 +39,69 @@ public class Search extends Command {
 	public Search(Month input) {
 		_searchMonth = input;
 	}
-
-	public String execute() { // TODO: Further refactoring,exception handling and considering searching for task type
+	
+	
+	// TODO: Further refactoring
+	public String execute() { 
 		LogicData data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		String feedback = null;
 		data.clearShowMoreTasks();
-		
-	    if (_searchDesc != null) {
-			matches = data.findMatchingDesc(_searchDesc);
+
+		if (_searchDesc != null) {
+			String copy = _searchDesc; // copy of _searchDesc for modification, trimming and caseignore
+			if (copy.trim().charAt(0) == '#') {
+				String input = copy.replaceFirst("#", "").trim();
+				matches = data.findMatchingHashtags(input);
+			} else {
+				switch (copy.toLowerCase().trim()) {
+				case "overdue":
+					matches = data.findMatchingDesc(_searchDesc);
+					for (Task task : data.getDisplays()) {
+						if (task.isOverdue()) {
+							matches.add(task);
+						}
+					}
+					break;
+				case "important": // Fallthrough
+				case "prioritise":
+					matches = data.findMatchingDesc(_searchDesc);
+					for (Task task : data.getDisplays()) {
+						if (task.isImportant()) {
+							matches.add(task);
+						}
+					}
+					break;
+				case "event":
+					matches = data.findMatchingDesc(_searchDesc);
+					for (Task task : data.getDisplays()) {
+						if (task.getTaskType().equals(Task.Type.EVENT)) {
+							matches.add(task);
+						}
+					}
+					break;
+				case "deadline":
+					matches = data.findMatchingDesc(_searchDesc);
+					for (Task task : data.getDisplays()) {
+						if (task.getTaskType().equals(Task.Type.DEADLINE)) {
+							matches.add(task);
+						}
+					}
+					break;
+				case "floating": // Fallthrough
+				case "untimed":
+					matches = data.findMatchingDesc(_searchDesc);
+					for (Task task : data.getDisplays()) {
+						if (task.getTaskType().equals(Task.Type.FLOATING)) {
+							matches.add(task);
+						}
+					}
+					break;
+				default:
+					matches = data.findMatchingDesc(_searchDesc);
+					break;
+				}
+			}
 			if (matches.isEmpty()) {
 				data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 				feedback = String.format(MESSAGE_SEARCH_NOT_FOUND, _searchDesc);

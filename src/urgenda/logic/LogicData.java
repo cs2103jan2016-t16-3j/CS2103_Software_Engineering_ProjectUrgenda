@@ -6,6 +6,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import urgenda.storage.Storage;
@@ -18,10 +19,9 @@ import urgenda.util.DateTimePair;
 public class LogicData {
 
 	public enum DisplayState {
-		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, 
-		EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE
 	}
-	
+
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	// Singleton pattern to ensure that there is only one logicData
 	private static LogicData _logicData;
@@ -45,7 +45,8 @@ public class LogicData {
 	private LogicData() {
 		logger.getLogger().info("constructing LogicData Object");
 		_storage = new Storage();
-		// updates arraylists from stored task objects into respective arraylists
+		// updates arraylists from stored task objects into respective
+		// arraylists
 		_tasks = _storage.updateCurrentTaskList();
 		_archives = _storage.updateArchiveTaskList();
 		_currState = DisplayState.ALL_TASKS;
@@ -54,8 +55,7 @@ public class LogicData {
 		// sets the next id to be used for future labelling of tasks
 		_currentId = _tasks.size() + 1;
 	}
-	
-	
+
 	public static LogicData getInstance() {
 		if (_logicData == null) {
 			logger.getLogger().info("creating instance of logicData");
@@ -65,7 +65,6 @@ public class LogicData {
 		return _logicData;
 	}
 
-	
 	public void saveContents() {
 		logger.getLogger().info("Saving contents to storage");
 		_storage.save(_tasks, _archives);
@@ -75,48 +74,48 @@ public class LogicData {
 	public StateFeedback getState() {
 		StateFeedback state = null;
 		switch (_currState) {
-			case ALL_TASKS :
-				// TODO update diagram
-				updateState();
-				state = displayAllTasks(_tasks);
-				state.setState(StateFeedback.State.ALL_TASKS);
-				break;
-			case MULTIPLE_DELETE : // Fallthrough
-			case MULTIPLE_COMPLETE : // Fallthrough
-			case MULTIPLE_PRIORITISE :
-				state = displayAllTasks(_displays);
-				state.setState(StateFeedback.State.MULTIPLE_MATCHES);
-				break;
-			case SHOW_SEARCH :
-				state = displayAllTasks(_displays);
-				state.setState(StateFeedback.State.SHOW_SEARCH);
-				break;
-			case HELP :
-				state = displayAllTasks(_displays);
-				state.setState(StateFeedback.State.SHOW_HELP);
-				break;
-			case EXIT :
-				saveContents();
-				state = displayAllTasks(_tasks);
-				state.setState(StateFeedback.State.EXIT);
-				break;
-			case INVALID_COMMAND : // Fallthrough
-			case INVALID_TASK :
-				state = displayAllTasks(_tasks);
-				state.setState(StateFeedback.State.ERROR);
-				break;
-			case ARCHIVE :
-				state = displayArchiveTasks(_archives);
-				state.setState(StateFeedback.State.ARCHIVE);
-				break;
-			case FIND_FREE:
-				state = displayAllTasks(_displays);
-				state.setState(StateFeedback.State.FIND_FREE);
-				break;
-			default :
-				state = displayAllTasks(_tasks);
-				state.setState(StateFeedback.State.ALL_TASKS);
-				break;
+		case ALL_TASKS:
+			// TODO update diagram
+			updateState();
+			state = displayAllTasks(_tasks);
+			state.setState(StateFeedback.State.ALL_TASKS);
+			break;
+		case MULTIPLE_DELETE: // Fallthrough
+		case MULTIPLE_COMPLETE: // Fallthrough
+		case MULTIPLE_PRIORITISE:
+			state = displayAllTasks(_displays);
+			state.setState(StateFeedback.State.MULTIPLE_MATCHES);
+			break;
+		case SHOW_SEARCH:
+			state = displayAllTasks(_displays);
+			state.setState(StateFeedback.State.SHOW_SEARCH);
+			break;
+		case HELP:
+			state = displayAllTasks(_displays);
+			state.setState(StateFeedback.State.SHOW_HELP);
+			break;
+		case EXIT:
+			saveContents();
+			state = displayAllTasks(_tasks);
+			state.setState(StateFeedback.State.EXIT);
+			break;
+		case INVALID_COMMAND: // Fallthrough
+		case INVALID_TASK:
+			state = displayAllTasks(_tasks);
+			state.setState(StateFeedback.State.ERROR);
+			break;
+		case ARCHIVE:
+			state = displayArchiveTasks(_archives);
+			state.setState(StateFeedback.State.ARCHIVE);
+			break;
+		case FIND_FREE:
+			state = displayAllTasks(_displays);
+			state.setState(StateFeedback.State.FIND_FREE);
+			break;
+		default:
+			state = displayAllTasks(_tasks);
+			state.setState(StateFeedback.State.ALL_TASKS);
+			break;
 		}
 
 		return state;
@@ -128,7 +127,7 @@ public class LogicData {
 		StateFeedback state = new StateFeedback(_displays, _displays.size());
 		setFeedbackDisplayPosition(state);
 		// TODO showmore for archive
-//		setShowMorePositions(state);
+		// setShowMorePositions(state);
 		return state;
 	}
 
@@ -149,13 +148,13 @@ public class LogicData {
 		_displays.addAll(sortList(overdueTasks));
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(otherTasks));
-		
+
 		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
 		setFeedbackDisplayPosition(state);
 		setShowMorePositions(state);
 		return state;
 	}
-	
+
 	public void setShowMorePositions(StateFeedback state) {
 		for (Task task : _showMoreTasks) {
 			if (_displays.contains(task)) {
@@ -168,20 +167,20 @@ public class LogicData {
 	public void setFeedbackDisplayPosition(StateFeedback state) {
 		if (_taskPointer != null && _displays.contains(_taskPointer)) {
 			state.setDisplayPosition(_displays.indexOf(_taskPointer));
-		} else { // sets to 0 as default if no specific task is required to be pointed at
+		} else { // sets to 0 as default if no specific task is required to be
+					// pointed at
 			state.setDisplayPosition(0);
 		}
 		// clears task pointer for next iteration
 		_taskPointer = null;
 	}
 
-	
 	public ArrayList<Task> findMatchingDesc(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
-		if(!desc.equals("")){
+		if (!desc.equals("")) {
 			for (Task task : _displays) {
 				if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
-				matches.add(task);
+					matches.add(task);
 				}
 			}
 		}
@@ -208,10 +207,9 @@ public class LogicData {
 		}
 	}
 
-
 	public void updateState() {
 		logger.getLogger().info("Updating state of prog");
-		
+
 		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		LocalDateTime now = LocalDateTime.now();
 		for (Task task : _tasks) {
@@ -232,7 +230,7 @@ public class LogicData {
 					logger.getLogger().info("event task" + task + " has been completed");
 					// only moves completed tasks when the day ends for that day
 					if (task.getEndTime().toLocalDate().isBefore(LocalDate.now())) {
-						completedTasks.add(task);						
+						completedTasks.add(task);
 					}
 				}
 			}
@@ -244,7 +242,7 @@ public class LogicData {
 	// assumes that the multipleslots are sorted
 	public void updateMultipleSlot(Task task) {
 		LocalDateTime now = LocalDateTime.now();
-		
+
 		while (task.getEndTime().isBefore(now) && !(task.getSlot().isEmpty())) {
 			DateTimePair newTime = task.getSlot().getNextSlot();
 			task.setStartTime(newTime.getEarlierDateTime());
@@ -253,16 +251,16 @@ public class LogicData {
 		}
 		// sets multipleslots to empty when latest timing is the current timing
 		// makes block type to normal task event
-		if (task.getSlot().isEmpty()){
+		if (task.getSlot().isEmpty()) {
 			task.setSlot(null);
-		}		
+		}
 	}
 
 	public void addArchive(Task task) {
 		logger.getLogger().info("adding task " + task + " to archive");
 		_archives.add(task);
 	}
-	
+
 	public void addArchive(ArrayList<Task> tasks) {
 		logger.getLogger().info("adding task multiple tasks to archive");
 		_archives.addAll(tasks);
@@ -271,7 +269,7 @@ public class LogicData {
 	public void removeArchive(Task task) {
 		_archives.remove(task);
 	}
-	
+
 	public void removeArchive(ArrayList<Task> tasks) {
 		_archives.removeAll(tasks);
 	}
@@ -291,7 +289,7 @@ public class LogicData {
 	public void addTask(Task newTask) {
 		_tasks.add(newTask);
 	}
-	
+
 	public void addTasks(ArrayList<Task> tasks) {
 		_tasks.addAll(tasks);
 	}
@@ -299,7 +297,7 @@ public class LogicData {
 	public void deleteTask(Task task) {
 		_tasks.remove(task);
 	}
-	
+
 	public void deleteTasks(ArrayList<Task> tasks) {
 		_tasks.removeAll(tasks);
 	}
@@ -314,14 +312,16 @@ public class LogicData {
 			return null;
 		}
 	}
-	
-	// overloaded function for finding matching positions with arraylists of positions
+
+	// overloaded function for finding matching positions with arraylists of
+	// positions
 	// returns only matching positions that are valid else ignored
 	public ArrayList<Task> findMatchingPosition(ArrayList<Integer> idPositions) {
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Integer i : idPositions) {
 			if (i != null && i >= 0 && i < _displays.size()) {
 				matches.add(_displays.get(i));
+				logger.getLogger().info("Found matching position, " + i);
 			}
 		}
 		if (matches.isEmpty()) {
@@ -329,6 +329,30 @@ public class LogicData {
 		} else {
 			return matches;
 		}
+	}
+
+	public ArrayList<Task> findMatchingHashtags(String input) {
+		logger.getLogger().info("Find matching hashtags, " + input);
+		ArrayList<Task> matches = new ArrayList<Task>();
+		boolean flag = true;
+		if (!input.equals("")) {
+			try {
+				for (Task task : _displays) {
+					if (task.getHashtags() != null || !task.getHashtags().isEmpty()) {
+						Iterator<String> i = task.getHashtags().iterator();
+						while (i.hasNext() && flag) {
+							if (Pattern.compile(Pattern.quote(input), Pattern.CASE_INSENSITIVE).matcher(i.next())
+									.find()) {
+								matches.add(task);
+								flag = false;
+							}
+						}
+					}
+				}
+			} catch (NullPointerException e) {
+			}
+		}
+		return matches;
 	}
 
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
@@ -348,7 +372,6 @@ public class LogicData {
 		return matches;
 	}
 
-
 	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
 		logger.getLogger().info("Find matching datetime, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
@@ -365,8 +388,7 @@ public class LogicData {
 		}
 		return matches;
 	}
-	
-	
+
 	public ArrayList<Task> findMatchingMonths(Month input) {
 		logger.getLogger().info("Find matching months, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
@@ -398,7 +420,7 @@ public class LogicData {
 
 	public ArrayList<Task> sortList(ArrayList<Task> list) {
 		Collections.sort(list, comparator);
-		Collections.sort(list,imptComparator);
+		Collections.sort(list, imptComparator);
 		return list;
 	}
 
@@ -429,7 +451,7 @@ public class LogicData {
 			}
 		}
 	};
-	
+
 	static Comparator<Task> imptComparator = new Comparator<Task>() {
 		public int compare(final Task o1, final Task o2) {
 			int compare = 0;
@@ -443,19 +465,18 @@ public class LogicData {
 			return compare;
 		}
 	};
-	
+
 	public ArrayList<Task> sortArchive(ArrayList<Task> list) {
 		Collections.sort(list, archiveComparator);
 		return list;
-	}	
-	
-	//new comparator for sorting archive
+	}
+
+	// new comparator for sorting archive
 	static Comparator<Task> archiveComparator = new Comparator<Task>() {
 		public int compare(final Task o1, final Task o2) {
 			return o2.getDateModified().compareTo(o1.getDateModified());
 		}
-	}; 
-	
+	};
 
 	public ArrayList<Task> getDisplays() {
 		return _displays;
@@ -476,9 +497,10 @@ public class LogicData {
 	public void clearDisplays() {
 		_displays.clear();
 	}
-	
-	//for testing purposes only. delete if necessary. Can be found in FreeTimeTest.java
-	public void clearTasks(){
+
+	// for testing purposes only. delete if necessary. Can be found in
+	// FreeTimeTest.java
+	public void clearTasks() {
 		_tasks.clear();
 	}
 
@@ -493,12 +515,11 @@ public class LogicData {
 	public void setTaskPointer(Task taskPointer) {
 		_taskPointer = taskPointer;
 	}
-	
+
 	public boolean isShowingMore(Task task) {
 		return _showMoreTasks.contains(task);
 	}
-	
-	
+
 	public void toggleShowMoreTasks(Task task) {
 		logger.getLogger().info("toggle showmore status of " + task);
 		if (_showMoreTasks.contains(task)) {
@@ -507,7 +528,7 @@ public class LogicData {
 			_showMoreTasks.add(task);
 		}
 	}
-	
+
 	// TODO command that clears all showmore
 	public void clearShowMoreTasks() {
 		_showMoreTasks.clear();
@@ -523,17 +544,17 @@ public class LogicData {
 
 	public ArrayList<Task> overlappingTasks(Task newTask) {
 		ArrayList<Task> overlaps = new ArrayList<Task>();
-		
+
 		for (Task task : _tasks) {
 			if (!task.equals(newTask)) {
 				if (task.getTaskType() == Task.Type.EVENT) {
 					if (task.isOverlapping(newTask)) {
 						overlaps.add(task);
-					}				
-				}				
+					}
+				}
 			}
 		}
-		
+
 		return overlaps;
 	}
 
