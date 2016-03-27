@@ -126,7 +126,7 @@ public class LogicData {
 		_displays.addAll(sortArchive(displayList));
 		StateFeedback state = new StateFeedback(_displays, _displays.size());
 		setFeedbackDisplayPosition(state);
-		 setShowMorePositions(state);
+		setShowMorePositions(state);
 		return state;
 	}
 
@@ -241,7 +241,7 @@ public class LogicData {
 	// assumes that the multipleslots are sorted
 	public void updateMultipleSlot(Task task) {
 		LocalDateTime now = LocalDateTime.now();
-		
+
 		if (task.getStartTime() == null || task.getEndTime() == null) {
 			return;
 		}
@@ -363,16 +363,32 @@ public class LogicData {
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
 		logger.getLogger().info("Find matching dates, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
-		for (Task task : _displays) {
-			if (task.getStartTime() != null) {
-				if (task.getStartTime().toLocalDate().isEqual(input)) {
-					matches.add(task);
+		boolean flag = true;
+		try {
+			for (Task task : _displays) {
+				if (task.getStartTime() != null) {
+					if (task.getStartTime().toLocalDate().isEqual(input)) {
+						matches.add(task);
+						flag = false;
+					}
+				} else if (task.getEndTime() != null) {
+					if (task.getEndTime().toLocalDate().isEqual(input)) {
+						matches.add(task);
+						flag = false;
+					}
 				}
-			} else if (task.getEndTime() != null) {
-				if (task.getEndTime().toLocalDate().isEqual(input)) {
-					matches.add(task);
+				if (task.getSlot() != null && flag) {
+					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+					for (DateTimePair pair : slots) {
+						if (pair.getEarlierDateTime().toLocalDate().isEqual(input)
+								|| pair.getLaterDateTime().toLocalDate().isEqual(input)) {
+							matches.add(task);
+							flag = false;
+						}
+					}
 				}
 			}
+		} catch (NullPointerException e) {
 		}
 		return matches;
 	}
@@ -380,16 +396,31 @@ public class LogicData {
 	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
 		logger.getLogger().info("Find matching datetime, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
-		for (Task task : _displays) {
-			if (task.getStartTime() != null) {
-				if (task.getStartTime().isEqual(input)) {
-					matches.add(task);
+		boolean flag = true;
+		try {
+			for (Task task : _displays) {
+				if (task.getStartTime() != null) {
+					if (task.getStartTime().isEqual(input)) {
+						matches.add(task);
+						flag = false;
+					}
+				} else if (task.getEndTime() != null) {
+					if (task.getEndTime().isEqual(input)) {
+						matches.add(task);
+						flag = false;
+					}
 				}
-			} else if (task.getEndTime() != null) {
-				if (task.getEndTime().isEqual(input)) {
-					matches.add(task);
+				if (task.getSlot() != null && flag) {
+					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+					for (DateTimePair pair : slots) {
+						if (pair.getEarlierDateTime().isEqual(input) || pair.getLaterDateTime().isEqual(input)) {
+							matches.add(task);
+							flag = false;
+						}
+					}
 				}
 			}
+		} catch (NullPointerException e) {
 		}
 		return matches;
 	}
@@ -397,16 +428,32 @@ public class LogicData {
 	public ArrayList<Task> findMatchingMonths(Month input) {
 		logger.getLogger().info("Find matching months, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
-		for (Task task : _displays) {
-			if (task.getStartTime() != null) {
-				if (task.getStartTime().getMonth() == input) {
-					matches.add(task);
+		boolean flag = true;
+		try {
+			for (Task task : _displays) {
+				if (task.getStartTime() != null) {
+					if (task.getStartTime().getMonth() == input) {
+						matches.add(task);
+						flag = false;
+					}
+				} else if (task.getEndTime() != null) {
+					if (task.getEndTime().getMonth() == input) {
+						matches.add(task);
+						flag = false;
+					}
 				}
-			} else if (task.getEndTime() != null) {
-				if (task.getEndTime().getMonth() == input) {
-					matches.add(task);
+				if (task.getSlot() != null && flag) {
+					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+					for (DateTimePair pair : slots) {
+						if (pair.getEarlierDateTime().getMonth() == input
+								|| pair.getLaterDateTime().getMonth() == input) {
+							matches.add(task);
+							flag = false;
+						}
+					}
 				}
 			}
+		} catch (NullPointerException e) {
 		}
 		return matches;
 	}
