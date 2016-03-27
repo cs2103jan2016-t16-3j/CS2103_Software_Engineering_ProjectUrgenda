@@ -605,6 +605,19 @@ public class LogicData {
 						overlaps.add(task);
 					}
 				}
+				// case when there are multiple slots, multiple copies of overlaps are added
+				if (task.getSlot() != null && !task.getSlot().isEmpty()) {
+					MultipleSlot slot = new MultipleSlot(task.getSlot());
+					while (!slot.isEmpty()) {
+						DateTimePair pair = slot.getNextSlot();
+						slot.removeNextSlot();
+						Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(), 
+								pair.getDateTime2(), task.getHashtags());
+						if (currTask.isOverlapping(newTask)) {
+							overlaps.add(currTask);
+						}
+					}
+				}
 			}
 		}
 

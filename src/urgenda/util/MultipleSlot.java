@@ -16,6 +16,10 @@ public class MultipleSlot {
 		_slots = new ArrayList<DateTimePair>();
 	}
 	
+	public MultipleSlot(MultipleSlot original) {
+		_slots = new ArrayList<DateTimePair>(original.getSlots());
+	}
+	
 	public void addTimeSlot(LocalDateTime start, LocalDateTime end) {
 		_slots.add(new DateTimePair(start,end));
 	}

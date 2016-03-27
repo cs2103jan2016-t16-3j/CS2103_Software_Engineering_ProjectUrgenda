@@ -79,6 +79,8 @@ public class BlockSlots extends TaskCommand {
 			for (DateTimePair pair : slots) {
 				if (pair.getDateTime1() == null || pair.getDateTime2() == null) {
 					return false;
+				} else if (pair.getDateTime2().isBefore(pair.getDateTime1())) {
+					return false;
 				}
 			}
 		}
