@@ -42,9 +42,14 @@ public class FindFree extends Command {
 	public String execute() throws Exception {
 		LogicData data = LogicData.getInstance();
 		// TODO show warning then flip range
-		if (!_startOfRange.isBefore(_endOfRange)) {
+		LocalDateTime now = LocalDateTime.now();
+		if (!_startOfRange.isBefore(_endOfRange) || _endOfRange.isBefore(now)) {
 			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			throw new Exception(MESSAGE_INVALID_TIME_RANGE);
+		} else if (_startOfRange.isBefore(now)) {
+			_startOfRange = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(),
+					now.getHour(), now.getMinute());
+			// TODO feedback for edited time
 		}
 		data.clearShowMoreTasks();
 		Task timeRange = createTimeTask(_startOfRange, _endOfRange);
@@ -130,7 +135,12 @@ public class FindFree extends Command {
 	}
 
 	private String timeDiff(LocalTime start, LocalTime end) {
-		Duration diff = Duration.between(start, end);
+		Duration diff;
+		if (start.isBefore(end)) {
+			diff =Duration.between(start, end);			
+		} else {
+			diff = Duration.between(end, start);	
+		}
 		long hourDiff = diff.toHours();
 		long minuteDiff = diff.toMinutes() - 60 * hourDiff;
 		long secondDiff = diff.getSeconds() - 60 * minuteDiff - 3600 * hourDiff;

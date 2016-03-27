@@ -1,6 +1,7 @@
 package urgenda.command;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
 import urgenda.util.DateTimePair;
@@ -15,6 +16,7 @@ public class BlockSlots extends TaskCommand {
 	private static final String MESSAGE_ERROR = "Error: ";
 	private static final String MESSAGE_INVALID_TYPE = "Please input an EVENT for blocking of timeslots";
 	private static final String MESSAGE_INSUFFICIENT_SLOTS = "Insufficient slots entered for blocking of timeslots";
+	private static final String MESSAGE_INVALID_SLOTS = "Invalid slots entered for blocking of timeslots";
 
 	private MultipleSlot _block;
 	private LogicData _data;
@@ -32,8 +34,10 @@ public class BlockSlots extends TaskCommand {
 	// throws exception to ensure that block is not stored in undo stack
 	public String execute() throws Exception {
 		_block = _newTask.getSlot();
-		if (_block.isEmpty()) {
+		if (_block == null || _block.isEmpty()) {
 			throw new Exception(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
+		} else if (!isValidBlock(_block)) {
+			throw new Exception(MESSAGE_ERROR + MESSAGE_INVALID_SLOTS);
 		}
 		// TODO test if sorting works
 		_block.sortSlots();
@@ -63,6 +67,22 @@ public class BlockSlots extends TaskCommand {
 		_data.toggleShowMoreTasks(_newTask);
 
 		return MESSAGE_BLOCK + taskMessage(_newTask) + MESSAGE_ADDED;
+	}
+
+	private boolean isValidBlock(MultipleSlot block) {
+		ArrayList<DateTimePair> slots = block.getSlots();
+		if (slots == null) {
+			return false;
+		} else if (slots.isEmpty()) {
+			return false;
+		} else {
+			for (DateTimePair pair : slots) {
+				if (pair.getDateTime1() == null || pair.getDateTime2() == null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public void setNewTask(Task newTask) {
