@@ -9,7 +9,6 @@ import urgenda.parser.TaskDetailsParser;
 public class PrioritiseCommandParser {
 	private static String _argsString;
 	private static int _passedInIndex;
-	private static ArrayList<Integer> _positions = new ArrayList<Integer>();
 
 	public PrioritiseCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -18,7 +17,7 @@ public class PrioritiseCommandParser {
 
 	public static Command generateAndReturn() {
 		if (_argsString == null) {
-			_positions.add(_passedInIndex);
+			PublicVariables.positions.add(_passedInIndex);
 		} else {
 			String reducedArgsString = TaskDetailsParser.searchTaskIndexRange(_argsString);
 			if (reducedArgsString != null) {

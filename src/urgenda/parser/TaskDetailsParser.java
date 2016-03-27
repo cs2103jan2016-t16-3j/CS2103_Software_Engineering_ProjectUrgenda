@@ -72,29 +72,28 @@ public class TaskDetailsParser {
 			return argsString;
 		}
 	}
-	
+
 	public static String searchTaskIndexRange(String argsString) {
 		String rangeRegex = "((\\d+)( )?-( )?(\\d+))";
 		String numberRegex = "(\\d+)";
 		String[] indexRanges = argsString.split(",");
-		
-		for (int i = 0 ; i < indexRanges.length; i++) {
+
+		for (int i = 0; i < indexRanges.length; i++) {
 			try {
 				if (indexRanges[i].trim().matches(rangeRegex)) {
 					int index1 = Integer.parseInt(indexRanges[i].split("-")[0].trim());
 					int index2 = Integer.parseInt(indexRanges[i].split("-")[1].trim());
 					for (int j = Integer.min(index1, index2); j <= Integer.max(index1, index2); j++) {
-						if (!PublicVariables.positions.contains(j)) {
-							PublicVariables.positions.add(j);
+						if (!PublicVariables.positions.contains(j - 1)) {
+							PublicVariables.positions.add(j - 1);
 						}
 					}
 				} else if (indexRanges[i].trim().matches(numberRegex)) {
-					if (!PublicVariables.positions.contains(Integer.parseInt(indexRanges[i].trim()))) {
-						PublicVariables.positions.add(Integer.parseInt(indexRanges[i].trim()));
+					if (!PublicVariables.positions.contains(Integer.parseInt(indexRanges[i].trim()) - 1)) {
+						PublicVariables.positions.add(Integer.parseInt(indexRanges[i].trim()) - 1);
 					}
-				} 
-			}
-			catch (Exception e) {
+				}
+			} catch (Exception e) {
 				return argsString;
 			}
 		}
