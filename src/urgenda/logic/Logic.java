@@ -1,13 +1,19 @@
 package urgenda.logic;
 
+import urgenda.command.AddTask;
+import urgenda.command.BlockSlots;
 import urgenda.command.Command;
+import urgenda.command.Invalid;
+import urgenda.command.ShowDetails;
+import urgenda.command.TaskCommand;
 import urgenda.parser.CommandParser;
-import urgenda.util.UrgendaLogger;
 import urgenda.util.StateFeedback;
+import urgenda.util.UrgendaLogger;
 
 public class Logic {
 	
 	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use. \nPress ALT + F1 if you need help.";
+	private static final String MESSAGE_INVALID_FINDFREE = "This command in FindFree";
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static Logic _logic;
 	private LogicData _logicData;
@@ -45,14 +51,12 @@ public class Logic {
 		assert (index >= -1); // asserts that given index is non-negative OR -1(case when there is no tasks)
 		logger.getLogger().info("Checking index: " + index + " >= -1 " );
 		
-		if (isFindFreeState()) {
-			// TODO manipulate stopper
-		}
-		
 		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = CommandParser.parseCommand(command,index);
 		assert (currCmd != null); // asserts that parser returns a command object
 		logger.getLogger().info("Checking cmd obj: " + currCmd + " is non null");
+
+		currCmd = checkAndFilterCommand(currCmd);
 		
 		String feedback;
 		// To update if there are any deadlines that turned overdue
@@ -65,8 +69,19 @@ public class Logic {
 		return state;
 	}
 	
-	private boolean isFindFreeState() {
-		return _logicData.getCurrState() == LogicData.DisplayState.FIND_FREE;
+	private Command checkAndFilterCommand(Command currCmd) {
+		if (_logicData.getCurrState() == LogicData.DisplayState.FIND_FREE) {
+			if (currCmd instanceof TaskCommand || currCmd instanceof ShowDetails) {
+				if (currCmd instanceof AddTask || currCmd instanceof BlockSlots) {
+					// allow the addition of tasks
+				} else {
+					currCmd = new Invalid(MESSAGE_INVALID_FINDFREE);
+				}
+				
+			}
+		}
+		
+		return currCmd;
 	}
 
 	/**
