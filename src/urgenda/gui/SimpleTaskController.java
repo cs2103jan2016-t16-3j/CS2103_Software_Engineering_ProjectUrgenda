@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Font;
 import urgenda.gui.DisplayController.Direction;
 import urgenda.gui.DisplayController.TaskDisplayType;
 import urgenda.util.DateTimePair;
@@ -94,6 +95,7 @@ public class SimpleTaskController extends GridPane {
 			_multipleSlotList.add(new DateTimePair(_task.getStartTime(), _task.getEndTime()));
 			_multipleSlotList.addAll(_task.getSlot().getSlots());
 			taskDateTimeLabel.setText(formatMultipleSlotDateTime());
+			taskDateTimeLabel.setFont(Main.LIGHT_FONT);
 		} else {
 			_multipleSlotIndex = -1; //task has no multiple slots
 			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
@@ -210,7 +212,7 @@ public class SimpleTaskController extends GridPane {
 				}
 				break;
 			case RIGHT:
-				if (_multipleSlotIndex < _multipleSlotList.size()) {
+				if (_multipleSlotIndex < _multipleSlotList.size() - 1) {
 					_multipleSlotIndex++;
 					taskDateTimeLabel.setText(formatMultipleSlotDateTime());
 				}

@@ -242,6 +242,10 @@ public class LogicData {
 	// assumes that the multipleslots are sorted
 	public void updateMultipleSlot(Task task) {
 		LocalDateTime now = LocalDateTime.now();
+		
+		if (task.getStartTime() == null || task.getEndTime() == null) {
+			return;
+		}
 
 		while (task.getEndTime().isBefore(now) && !(task.getSlot().isEmpty())) {
 			DateTimePair newTime = task.getSlot().getNextSlot();
