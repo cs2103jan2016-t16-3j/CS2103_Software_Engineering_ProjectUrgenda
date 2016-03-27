@@ -126,8 +126,7 @@ public class LogicData {
 		_displays.addAll(sortArchive(displayList));
 		StateFeedback state = new StateFeedback(_displays, _displays.size());
 		setFeedbackDisplayPosition(state);
-		// TODO showmore for archive
-		// setShowMorePositions(state);
+		 setShowMorePositions(state);
 		return state;
 	}
 
@@ -300,10 +299,12 @@ public class LogicData {
 
 	public void deleteTask(Task task) {
 		_tasks.remove(task);
+		_archives.remove(task);
 	}
 
 	public void deleteTasks(ArrayList<Task> tasks) {
 		_tasks.removeAll(tasks);
+		_archives.removeAll(tasks);
 	}
 
 	public Task findMatchingPosition(int id) {

@@ -66,6 +66,7 @@ public class Postpone extends TaskCommand {
 			_task.setDateModified(LocalDateTime.now());
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			_data.setTaskPointer(_task);
+			_data.clearShowMoreTasks();
 		}
 		return generateFeedback();
 	}
