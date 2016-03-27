@@ -15,6 +15,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import urgenda.logic.Logic;
+import urgenda.util.DateTimePair;
+import urgenda.util.MultipleSlot;
 import urgenda.util.StateFeedback;
 import urgenda.util.StateFeedback.State;
 import urgenda.util.Task;
@@ -202,6 +204,8 @@ public class Main extends Application {
 				new ArrayList<String>(), false);
 		Task taskImportant = new Task("Internship interview w/ Google", null, LocalDateTime.now().plusDays(6).withHour(10).withMinute(0), LocalDateTime.now().plusDays(6).withHour(11).withMinute(0),
 				new ArrayList<String>(), true);
+		taskImportant.setSlot(new MultipleSlot());
+		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(11).withMinute(0), LocalDateTime.now().plusDays(6).withHour(12).withMinute(0));
 		Task taskOverrun = new Task("Buy milk, eggs, correction tape, eraser", "Supermarket", null, null, new ArrayList<String>(),
 				false);
 		Task taskDetailedLong = new Task("Success is the sum of small efforts, repeated day in and day out. - Robert Collier", null, null, null,

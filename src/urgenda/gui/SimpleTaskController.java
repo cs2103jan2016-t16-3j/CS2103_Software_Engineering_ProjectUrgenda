@@ -3,6 +3,9 @@ package urgenda.gui;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +16,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import urgenda.gui.DisplayController.Direction;
 import urgenda.gui.DisplayController.TaskDisplayType;
 import urgenda.util.DateTimePair;
 import urgenda.util.Task;
+import urgenda.util.UrgendaLogger;
 
 public class SimpleTaskController extends GridPane {
 
@@ -55,6 +60,8 @@ public class SimpleTaskController extends GridPane {
 	protected TaskDisplayType _taskDisplayType;
 	protected boolean _isSelected;
 	protected boolean _showHeader;
+	protected ArrayList<DateTimePair> _multipleSlotList;
+	private int _multipleSlotIndex;
 	protected DisplayController _displayController;
 
 	public SimpleTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
@@ -62,6 +69,7 @@ public class SimpleTaskController extends GridPane {
 		_taskDisplayType = taskDisplayType;
 		_index = index;
 		_showHeader = showHeader;
+		_multipleSlotList = new ArrayList<DateTimePair>();
 		loadFXML();
 		setTaskClickHandler();
 		initLabels();
@@ -75,14 +83,21 @@ public class SimpleTaskController extends GridPane {
 			taskPane.setMaxHeight(HEIGHT_DEFAULT_TASK);
 			noviceHeaderPane.setVisible(false);
 		}
-		//setTaskStyle(_taskDisplayType);
 		setSelected(false);
 	}
 
 	private void initLabels() {
 		taskIndexLabel.setText(String.valueOf(_index + 1));
 		taskDescLabel.setText(_task.getDesc());
-		taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
+		if (_task.getSlot() != null) { //task has multiple time slots
+			_multipleSlotIndex = 0;
+			_multipleSlotList.add(new DateTimePair(_task.getStartTime(), _task.getEndTime()));
+			_multipleSlotList.addAll(_task.getSlot().getSlots());
+			taskDateTimeLabel.setText(formatMultipleSlotDateTime());
+		} else {
+			_multipleSlotIndex = -1; //task has no multiple slots
+			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
+		}
 		switch (_taskDisplayType) {
 		case FREE_TIME:
 			this.getStylesheets().addAll(getClass().getResource(PATH_TASK_FREETIME_CSS).toExternalForm());
@@ -183,5 +198,31 @@ public class SimpleTaskController extends GridPane {
 
 	public void setDisplayController(DisplayController displayController) {
 		_displayController = displayController;
+	}
+
+	public void traverseMultipleSlot(Direction direction) {
+		if (!_multipleSlotList.isEmpty()) {
+			switch(direction) {
+			case LEFT:
+				if (_multipleSlotIndex > 0) {
+					_multipleSlotIndex--;
+					taskDateTimeLabel.setText(formatMultipleSlotDateTime());
+				}
+				break;
+			case RIGHT:
+				if (_multipleSlotIndex < _multipleSlotList.size()) {
+					_multipleSlotIndex++;
+					taskDateTimeLabel.setText(formatMultipleSlotDateTime());
+				}
+				break;
+			default:
+				UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, "Issue with call of multipleslot toggle");
+				break;
+			}
+		}
+	}
+
+	private String formatMultipleSlotDateTime() {
+		return "(" + (_multipleSlotIndex + 1) + "/" + _multipleSlotList.size() + ") " + formatDateTime(_multipleSlotList.get(_multipleSlotIndex).getEarlierDateTime(), _multipleSlotList.get(_multipleSlotIndex).getLaterDateTime());
 	}
 }

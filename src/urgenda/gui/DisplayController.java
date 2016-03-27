@@ -24,7 +24,7 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public enum Direction {
-		DOWN, UP
+		DOWN, UP, LEFT, RIGHT
 	}
 
 	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display!";
@@ -235,19 +235,26 @@ public class DisplayController extends AnchorPane {
 		return true;
 	}
 
-	public void traverseTasks(Direction direction) {
-		if (direction == Direction.DOWN) {
+	public void executeTraverse(Direction direction) {
+		switch(direction) {
+		case DOWN:
 			if (_selectedTaskIndex.getValue() < _displayedTasks.size() - 1) {
 				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
 				_selectedTaskIndex.set(_selectedTaskIndex.getValue() + 1);
 				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
 			}
-		} else if (direction == Direction.UP) {
+			break;
+		case UP:
 			if (_selectedTaskIndex.getValue() != 0) {
 				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
 				_selectedTaskIndex.set(_selectedTaskIndex.getValue() - 1);
 				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
 			}
+			break;
+		case LEFT: //fall-through
+		case RIGHT:
+			((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).traverseMultipleSlot(direction);
+			break;
 		}
 	}
 

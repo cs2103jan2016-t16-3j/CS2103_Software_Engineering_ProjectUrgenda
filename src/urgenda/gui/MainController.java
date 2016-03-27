@@ -123,12 +123,22 @@ public class MainController {
 	
 	@FXML
 	private void taskToggleDownListener(ActionEvent e) {
-		displayAreaController.traverseTasks(DisplayController.Direction.DOWN);
+		displayAreaController.executeTraverse(DisplayController.Direction.DOWN);
 	}
 	
 	@FXML
 	private void taskToggleUpListener(ActionEvent e) {
-		displayAreaController.traverseTasks(DisplayController.Direction.UP);
+		displayAreaController.executeTraverse(DisplayController.Direction.UP);
+	}
+	
+	@FXML
+	private void multipleSlotToggleLeftListener(ActionEvent e) {
+		displayAreaController.executeTraverse(DisplayController.Direction.LEFT);
+	}
+	
+	@FXML
+	private void multipleSlotToggleRightListener(ActionEvent e) {
+		displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 	}
 	
 	@FXML

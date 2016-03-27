@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
@@ -53,6 +54,9 @@
                               <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="menuNextMultipleSlot" mnemonicParsing="false" onAction="#multipleSlotToggleRightListener" text="Next Blocked Timeslot" />
+                        <MenuItem fx:id="menuPrevMultipleSlot" mnemonicParsing="false" onAction="#multipleSlotToggleLeftListener" text="Previous Blocked Timeslot" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Select">
