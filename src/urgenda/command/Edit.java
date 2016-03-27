@@ -64,6 +64,7 @@ public class Edit extends TaskCommand {
 				_data.addTask(_newTask);
 				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 				_data.setTaskPointer(_newTask);
+				_data.clearShowMoreTasks();
 			} catch (Exception e) {
 				logger.getLogger().severe("Exception occured: " + e);
 				_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
