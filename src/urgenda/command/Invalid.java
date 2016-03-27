@@ -6,8 +6,10 @@ import urgenda.logic.LogicData;
 public class Invalid extends Command {
 	
 	private static final String MESSAGE_INVALID_COMMAND = "\"%1$s\" is not a valid command";
+	private static final String MESSAGE_INVALID_FINDFREE = "Invalid command for available time";
 	
 	private String _command;
+	private LogicData.DisplayState _state;
 	
 	public Invalid() {
 		
@@ -16,12 +18,18 @@ public class Invalid extends Command {
 	public Invalid(String command) {
 		_command = command;
 	}
+	
+	public Invalid(LogicData.DisplayState state) {
+		_state = state;
+	}
 
 	// TODO set to default pointer at current pointer position
 	public String execute() {
 		LogicData data = LogicData.getInstance();
 		data.setCurrState(LogicData.DisplayState.INVALID_COMMAND);
-		if (_command.equals("")) {
+		if (_state == LogicData.DisplayState.FIND_FREE) {
+			return MESSAGE_INVALID_FINDFREE;
+		} else if (_command.equals("")) {
 			return null;
 		} else {
 			return String.format(MESSAGE_INVALID_COMMAND, _command);			

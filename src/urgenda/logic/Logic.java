@@ -13,7 +13,6 @@ import urgenda.util.UrgendaLogger;
 public class Logic {
 	
 	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use. \nPress ALT + F1 if you need help.";
-	private static final String MESSAGE_INVALID_FINDFREE = "This command in FindFree";
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static Logic _logic;
 	private LogicData _logicData;
@@ -75,10 +74,12 @@ public class Logic {
 				if (currCmd instanceof AddTask || currCmd instanceof BlockSlots) {
 					// allow the addition of tasks
 				} else {
-					currCmd = new Invalid(MESSAGE_INVALID_FINDFREE);
+					currCmd = new Invalid(LogicData.DisplayState.FIND_FREE);
 				}
 				
 			}
+		} else if (_logicData.getCurrState() == LogicData.DisplayState.ARCHIVE) {
+			// TODO settle archive cases
 		}
 		
 		return currCmd;

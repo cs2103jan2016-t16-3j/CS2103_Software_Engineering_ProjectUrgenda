@@ -37,6 +37,8 @@ public class AddTask extends TaskCommand {
 		_data = LogicData.getInstance();
 		LocalDateTime now = LocalDateTime.now();
 		_newTask.setId(_data.getCurrentId());
+		// to differentiate between a normal task an a blocked task (requires block command)
+		_newTask.setSlot(null);
 		_newTask.setDateAdded(now);
 		_newTask.setDateModified(now);
 		_data.updateCurrentId();
