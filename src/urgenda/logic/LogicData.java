@@ -196,7 +196,8 @@ public class LogicData {
 				return false;
 			}
 		} else if (task.getTaskType() == Task.Type.EVENT) {
-			if (task.getStartTime().toLocalDate().isEqual(now)) {
+			if (task.getStartTime().toLocalDate().isEqual(now)|| task.getEndTime().toLocalDate().isEqual(now)
+					|| task.getStartTime().toLocalDate().isBefore(now) && task.getEndTime().toLocalDate().isAfter(now)) {
 				return true;
 			} else {
 				return false;

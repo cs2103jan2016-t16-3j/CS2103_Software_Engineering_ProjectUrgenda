@@ -58,7 +58,7 @@ public class Search extends Command {
 				case "overdue":
 					matches = data.findMatchingDesc(_searchDesc);
 					for (Task task : data.getDisplays()) {
-						if (task.isOverdue()) {
+						if (task.isOverdue() && !matches.contains(task)) {
 							matches.add(task);
 						}
 					}
@@ -67,7 +67,7 @@ public class Search extends Command {
 				case "prioritise":
 					matches = data.findMatchingDesc(_searchDesc);
 					for (Task task : data.getDisplays()) {
-						if (task.isImportant()) {
+						if (task.isImportant() && !matches.contains(task)) {
 							matches.add(task);
 						}
 					}
@@ -75,7 +75,7 @@ public class Search extends Command {
 				case "event":
 					matches = data.findMatchingDesc(_searchDesc);
 					for (Task task : data.getDisplays()) {
-						if (task.getTaskType().equals(Task.Type.EVENT)) {
+						if (task.getTaskType().equals(Task.Type.EVENT) && !matches.contains(task)) {
 							matches.add(task);
 						}
 					}
@@ -83,7 +83,7 @@ public class Search extends Command {
 				case "deadline":
 					matches = data.findMatchingDesc(_searchDesc);
 					for (Task task : data.getDisplays()) {
-						if (task.getTaskType().equals(Task.Type.DEADLINE)) {
+						if (task.getTaskType().equals(Task.Type.DEADLINE) && !matches.contains(task)) {
 							matches.add(task);
 						}
 					}
@@ -92,7 +92,7 @@ public class Search extends Command {
 				case "untimed":
 					matches = data.findMatchingDesc(_searchDesc);
 					for (Task task : data.getDisplays()) {
-						if (task.getTaskType().equals(Task.Type.FLOATING)) {
+						if (task.getTaskType().equals(Task.Type.FLOATING) && !matches.contains(task)) {
 							matches.add(task);
 						}
 					}
