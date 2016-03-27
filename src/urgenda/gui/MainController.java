@@ -85,8 +85,7 @@ public class MainController {
 			} else { // inputbar has whitespaces
 				inputBar.clear();
 			}
-		}
-		if (code == KeyCode.UP && !event.isControlDown()) {
+		} else if (code == KeyCode.UP && !event.isControlDown()) {
 			if (!_prevCommandLines.isEmpty()) {
 				if (inputBar.getText().equals(_prevCommandLines.peekFirst()) && _prevCommandLines.size() > 1) {
 					_nextCommandLines.addFirst(_prevCommandLines.getFirst());
@@ -94,8 +93,7 @@ public class MainController {
 				}
 				inputBar.setText(_prevCommandLines.getFirst());
 			}
-		}
-		if (code == KeyCode.DOWN && !event.isControlDown()) {
+		} else if (code == KeyCode.DOWN && !event.isControlDown()) {
 			if (!_nextCommandLines.isEmpty()) {
 				_prevCommandLines.addFirst(_nextCommandLines.getFirst());
 				_nextCommandLines.removeFirst();
@@ -103,6 +101,10 @@ public class MainController {
 			} else {
 				inputBar.clear();
 			}
+		} else if (code == KeyCode.LEFT && event.isControlDown()) {	//hard-coded since FXML accelerator doesn't work
+			displayAreaController.executeTraverse(DisplayController.Direction.LEFT);
+		} else if (code == KeyCode.RIGHT && event.isControlDown()) { //hard-coded since FXML accelerator doesn't work
+			displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 		}
 	}
 

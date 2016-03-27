@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
@@ -46,24 +47,27 @@
                               </MenuItem>
                         </items>
                       </Menu>
-                  <Menu mnemonicParsing="false" text="View" />
-                  <Menu mnemonicParsing="false" text="Select">
-                    <items>
+                  <Menu mnemonicParsing="false" text="View">
+                     <items>
                       <MenuItem fx:id="menuShowAllTasks" mnemonicParsing="false" onAction="#showAllTasks" text="All tasks">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="menuPrevMultipleSlot" mnemonicParsing="false" onAction="#multipleSlotToggleLeftListener" text="Previous Blocked Timeslot">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="PERIOD" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="LEFT" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
                         <MenuItem fx:id="menuNextMultipleSlot" mnemonicParsing="false" onAction="#multipleSlotToggleRightListener" text="Next Blocked Timeslot">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="SLASH" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="RIGHT" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
+                     </items></Menu>
+                  <Menu mnemonicParsing="false" text="Select">
+                    <items>
                         <MenuItem fx:id="taskToggleDown" mnemonicParsing="false" onAction="#taskToggleDownListener" text="Next Task">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="DOWN" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
