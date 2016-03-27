@@ -65,6 +65,8 @@ public class Postpone extends TaskCommand {
 			addTime();
 			_task.setDateModified(LocalDateTime.now());
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+			_data.deleteTask(_task);
+			_data.addTask(_task);
 			_data.setTaskPointer(_task);
 			_data.clearShowMoreTasks();
 		}
@@ -150,6 +152,8 @@ public class Postpone extends TaskCommand {
 		addTime();
 		_task.setDateModified(LocalDateTime.now());
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		_data.deleteTask(_task);
+		_data.addTask(_task);
 		_data.setTaskPointer(_task);
 		return generateFeedback();
 	}

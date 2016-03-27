@@ -196,7 +196,9 @@ public class LogicData {
 				return false;
 			}
 		} else if (task.getTaskType() == Task.Type.EVENT) {
-			if (task.getStartTime().toLocalDate().isEqual(now)) {
+			if (task.getStartTime().toLocalDate().isEqual(now) || task.getEndTime().toLocalDate().isEqual(now)
+					|| task.getStartTime().toLocalDate().isBefore(now)
+							&& task.getEndTime().toLocalDate().isAfter(now)) {
 				return true;
 			} else {
 				return false;
@@ -363,27 +365,29 @@ public class LogicData {
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
 		logger.getLogger().info("Find matching dates, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
-		boolean flag = true;
 		try {
 			for (Task task : _displays) {
-				if (task.getStartTime() != null) {
-					if (task.getStartTime().toLocalDate().isEqual(input)) {
-						matches.add(task);
-						flag = false;
-					}
-				} else if (task.getEndTime() != null) {
+				if (task.getTaskType() == Task.Type.DEADLINE) {
 					if (task.getEndTime().toLocalDate().isEqual(input)) {
 						matches.add(task);
-						flag = false;
 					}
-				}
-				if (task.getSlot() != null && flag) {
-					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
-					for (DateTimePair pair : slots) {
-						if (pair.getEarlierDateTime().toLocalDate().isEqual(input)
-								|| pair.getLaterDateTime().toLocalDate().isEqual(input)) {
-							matches.add(task);
-							flag = false;
+				} else if (task.getTaskType() == Task.Type.EVENT) {
+					if (task.getStartTime().toLocalDate().isEqual(input)
+							|| task.getEndTime().toLocalDate().isEqual(input)) {
+						matches.add(task);
+					} else if (task.getStartTime().toLocalDate().isBefore(input)
+							&& task.getEndTime().toLocalDate().isAfter(input)) {
+						matches.add(task);
+					} else if (task.getSlot() != null) {
+						ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+						for (DateTimePair pair : slots) {
+							if (pair.getEarlierDateTime().toLocalDate().isEqual(input)
+									|| pair.getLaterDateTime().toLocalDate().isEqual(input)) {
+								matches.add(task);
+							} else if (pair.getEarlierDateTime().toLocalDate().isBefore(input)
+									&& pair.getLaterDateTime().toLocalDate().isAfter(input)) {
+								matches.add(task);
+							}
 						}
 					}
 				}
@@ -393,29 +397,33 @@ public class LogicData {
 		return matches;
 	}
 
+
 	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
 		logger.getLogger().info("Find matching datetime, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
-		boolean flag = true;
 		try {
 			for (Task task : _displays) {
-				if (task.getStartTime() != null) {
-					if (task.getStartTime().isEqual(input)) {
-						matches.add(task);
-						flag = false;
-					}
-				} else if (task.getEndTime() != null) {
+				if (task.getTaskType() == Task.Type.DEADLINE) {
 					if (task.getEndTime().isEqual(input)) {
 						matches.add(task);
-						flag = false;
 					}
-				}
-				if (task.getSlot() != null && flag) {
-					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
-					for (DateTimePair pair : slots) {
-						if (pair.getEarlierDateTime().isEqual(input) || pair.getLaterDateTime().isEqual(input)) {
-							matches.add(task);
-							flag = false;
+				} else if (task.getTaskType() == Task.Type.EVENT) {
+					if (task.getStartTime().isEqual(input)
+							|| task.getEndTime().isEqual(input)) {
+						matches.add(task);
+					} else if (task.getStartTime().isBefore(input)
+							&& task.getEndTime().isAfter(input)) {
+						matches.add(task);
+					} else if (task.getSlot() != null) {
+						ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+						for (DateTimePair pair : slots) {
+							if (pair.getEarlierDateTime().isEqual(input)
+									|| pair.getLaterDateTime().isEqual(input)) {
+								matches.add(task);
+							} else if (pair.getEarlierDateTime().isBefore(input)
+									&& pair.getLaterDateTime().isAfter(input)) {
+								matches.add(task);
+							}
 						}
 					}
 				}
@@ -428,27 +436,29 @@ public class LogicData {
 	public ArrayList<Task> findMatchingMonths(Month input) {
 		logger.getLogger().info("Find matching months, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
-		boolean flag = true;
 		try {
 			for (Task task : _displays) {
-				if (task.getStartTime() != null) {
-					if (task.getStartTime().getMonth() == input) {
-						matches.add(task);
-						flag = false;
-					}
-				} else if (task.getEndTime() != null) {
+				if (task.getTaskType() == Task.Type.DEADLINE) {
 					if (task.getEndTime().getMonth() == input) {
 						matches.add(task);
-						flag = false;
 					}
-				}
-				if (task.getSlot() != null && flag) {
-					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
-					for (DateTimePair pair : slots) {
-						if (pair.getEarlierDateTime().getMonth() == input
-								|| pair.getLaterDateTime().getMonth() == input) {
-							matches.add(task);
-							flag = false;
+				} else if (task.getTaskType() == Task.Type.EVENT) {
+					if (task.getStartTime().getMonth() == input
+							|| task.getEndTime().getMonth() == input) {
+						matches.add(task);
+					} else if (task.getStartTime().getMonth() == input
+							&& task.getEndTime().getMonth() == input) {
+						matches.add(task);
+					} else if (task.getSlot() != null) {
+						ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+						for (DateTimePair pair : slots) {
+							if (pair.getEarlierDateTime().getMonth() == input
+									|| pair.getLaterDateTime().getMonth() == input) {
+								matches.add(task);
+							} else if (pair.getEarlierDateTime().getMonth() == input
+									&& pair.getLaterDateTime().getMonth() == input) {
+								matches.add(task);
+							}
 						}
 					}
 				}
@@ -457,7 +467,7 @@ public class LogicData {
 		}
 		return matches;
 	}
-
+	
 	public ArrayList<Task> findBlocks(MultipleSlot block) {
 		ArrayList<Task> _blocks = new ArrayList<Task>();
 		for (Task task : _tasks) {
@@ -478,45 +488,10 @@ public class LogicData {
 
 	static Comparator<Task> comparator = new Comparator<Task>() {
 		public int compare(final Task o1, final Task o2) {
-			LocalDateTime c1, c2;
-			if (o1.getStartTime() != null) {
-				c1 = o1.getStartTime();
-			} else {
-				c1 = o1.getEndTime();
-			}
-			if (o2.getStartTime() != null) {
-				c2 = o2.getStartTime();
-			} else {
-				c2 = o2.getEndTime();
-			}
-			if (c1 == null && c2 == null) {
-				return o1.getDesc().compareToIgnoreCase(o2.getDesc());
-			} else if (c1 == null) {
-				return 1;
-			} else if (c2 == null) {
-				return -1;
-			} else {
-				if (c1.compareTo(c2) == 0) {
-					return o1.getDesc().compareToIgnoreCase(o2.getDesc());
-				}
-				return c1.compareTo(c2);
-			}
-		}
-	};
+			LocalDateTime c1,c2;if(o1.getStartTime()!=null){c1=o1.getStartTime();}else{c1=o1.getEndTime();}if(o2.getStartTime()!=null){c2=o2.getStartTime();}else{c2=o2.getEndTime();}if(c1==null&&c2==null){return o1.getDesc().compareToIgnoreCase(o2.getDesc());}else if(c1==null){return 1;}else if(c2==null){return-1;}else{if(c1.compareTo(c2)==0){return o1.getDesc().compareToIgnoreCase(o2.getDesc());}return c1.compareTo(c2);}}};
 
 	static Comparator<Task> imptComparator = new Comparator<Task>() {
-		public int compare(final Task o1, final Task o2) {
-			int compare = 0;
-			if (o1.isImportant() && o2.isImportant()) {
-				compare = 0;
-			} else if (o1.isImportant()) {
-				compare = -1;
-			} else if (o2.isImportant()) {
-				compare = 1;
-			}
-			return compare;
-		}
-	};
+		public int compare(final Task o1,final Task o2){int compare=0;if(o1.isImportant()&&o2.isImportant()){compare=0;}else if(o1.isImportant()){compare=-1;}else if(o2.isImportant()){compare=1;}return compare;}};
 
 	public ArrayList<Task> sortArchive(ArrayList<Task> list) {
 		Collections.sort(list, archiveComparator);
@@ -525,10 +500,7 @@ public class LogicData {
 
 	// new comparator for sorting archive
 	static Comparator<Task> archiveComparator = new Comparator<Task>() {
-		public int compare(final Task o1, final Task o2) {
-			return o2.getDateModified().compareTo(o1.getDateModified());
-		}
-	};
+		public int compare(final Task o1,final Task o2){return o2.getDateModified().compareTo(o1.getDateModified());}};
 
 	public ArrayList<Task> getDisplays() {
 		return _displays;
@@ -602,6 +574,19 @@ public class LogicData {
 				if (task.getTaskType() == Task.Type.EVENT) {
 					if (task.isOverlapping(newTask)) {
 						overlaps.add(task);
+					}
+				}
+				// case when there are multiple slots, multiple copies of overlaps are added
+				if (task.getSlot() != null && !task.getSlot().isEmpty()) {
+					MultipleSlot slot = new MultipleSlot(task.getSlot());
+					while (!slot.isEmpty()) {
+						DateTimePair pair = slot.getNextSlot();
+						slot.removeNextSlot();
+						Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(), 
+								pair.getDateTime2(), task.getHashtags());
+						if (currTask.isOverlapping(newTask)) {
+							overlaps.add(currTask);
+						}
 					}
 				}
 			}

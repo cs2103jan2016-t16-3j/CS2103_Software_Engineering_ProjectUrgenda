@@ -40,16 +40,16 @@ public class Edit extends TaskCommand {
 			logger.getLogger().severe("Exception(No edit match) thrown");
 			throw new Exception(MESSAGE_NO_EDIT_MATCH);
 		} else {
-			if(_newTask.getDesc() == null && _prevTask.getDesc() != null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
+			if (_newTask.getDesc() == null && _prevTask.getDesc() != null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
 				_newTask.setDesc(_prevTask.getDesc());
 			}
-			if(_newTask.getLocation() == null && _prevTask.getLocation() != null) {
+			if (_newTask.getLocation() == null && _prevTask.getLocation() != null) {
 				_newTask.setLocation(_prevTask.getLocation());
 			}
-			if(_newTask.getStartTime() == null && _prevTask.getStartTime() != null) {
+			if (_newTask.getStartTime() == null && _prevTask.getStartTime() != null) {
 				_newTask.setStartTime(_prevTask.getStartTime());
 			}
-			if(_newTask.getEndTime() == null && _prevTask.getEndTime() != null) {
+			if (_newTask.getEndTime() == null && _prevTask.getEndTime() != null) {
 				_newTask.setEndTime(_prevTask.getEndTime());
 			}
 			_newTask.setId(_prevTask.getId());
