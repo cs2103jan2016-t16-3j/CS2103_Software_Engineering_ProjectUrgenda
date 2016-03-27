@@ -13,22 +13,15 @@
 	-fx-background-color: -noviceheaderPane-color;
 }
 
-#noviceHeaderLabel {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 14px;
-	-fx-text-fill: -label-color;
-}
-
 #selector {
 	-fx-background-color: -selector-color;
 }
 
-#taskIndexLabel, #taskDescLabel, #taskDateTimeLabel  {
+.label {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 14px;
 	-fx-text-fill: -label-color;
 }
-
 
 #taskLocationLabel {
 	-fx-font-family: "Montserrat";

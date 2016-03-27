@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -36,6 +37,8 @@ public class DetailedTaskController extends SimpleTaskController {
 	private ImageView locationIcon;
 	@FXML
 	private Label taskLocationLabel;
+	@FXML
+	private VBox dateTimesHolder;
 	
 	public DetailedTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		super(task, index, taskDisplayType, showHeader);
@@ -54,6 +57,13 @@ public class DetailedTaskController extends SimpleTaskController {
 		if(_task.getLocation() == null || _task.getLocation().equals("")) {
 			taskLocationLabel.setText("");
 			locationIcon.setVisible(false);
+		}
+		if (_task.getSlot() != null) { //task has multiple time slots
+			taskDateTimeLabel.setText(formatDateTime(_multipleSlotList.get(0).getEarlierDateTime(), _multipleSlotList.get(0).getLaterDateTime()));
+			for(int i = 1; i < _multipleSlotList.size(); i++) {
+				Label newLabel = new Label(formatDateTime(_multipleSlotList.get(i).getEarlierDateTime(), _multipleSlotList.get(i).getLaterDateTime()));
+				dateTimesHolder.getChildren().add(i, newLabel);	
+			}
 		}
 	}
 	
