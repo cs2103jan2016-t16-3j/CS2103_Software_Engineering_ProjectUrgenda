@@ -16,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Font;
 import urgenda.gui.DisplayController.Direction;
 import urgenda.gui.DisplayController.TaskDisplayType;
 import urgenda.util.DateTimePair;
