@@ -137,7 +137,7 @@ public class FindFree extends Command {
 	private String timeDiff(LocalTime start, LocalTime end) {
 		Duration diff;
 		if (start.isBefore(end)) {
-			diff =Duration.between(start, end);			
+			diff = Duration.between(start, end);			
 		} else {
 			diff = Duration.between(end, start);	
 		}
