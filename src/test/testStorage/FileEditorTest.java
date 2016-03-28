@@ -24,6 +24,7 @@ public class FileEditorTest {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		file.rename(TEST_FILE_NAME_2); 
 		file.paths();
+		file.delete();
 	}
 
 	@Test
@@ -31,6 +32,7 @@ public class FileEditorTest {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		file.relocate(TEST_FILE_LOCATION_2)	;
 		file.paths();
+		file.delete();
 	}
 
 	@Test
@@ -45,6 +47,7 @@ public class FileEditorTest {
 		file.writeToFile(inputPhrase);
 		retrievedPhrase = file.retrieveFromFile();
 		assertEquals("not the same", inputPhrase, retrievedPhrase);
+		file.delete();
 	}
 
 	@Test
@@ -82,6 +85,7 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayOne.size(); i++) {
 			assertEquals(i + "diff", inputArrayOne.get(i), retrievedArrayOne.get(i));
 		}
+		file.delete();
 	}
 
 	@Test
@@ -179,6 +183,7 @@ public class FileEditorTest {
 		retrievedArrayOne.clear();
 		retrievedArrayTwo.clear();
 		file.clearFile();
+		file.delete();
 	}
 	
 	@Test
@@ -188,6 +193,7 @@ public class FileEditorTest {
 		String expectedName = "C:\\Users\\User\\workspace\\Urgenda\\testfiles\\test.txt";
 		assertEquals("wrong path name", expectedPath, file.getDirAbsolutePath());
 		assertEquals("wrong file name", expectedName, file.getAbsolutePath());
+		file.delete();
 	}
 	
 	

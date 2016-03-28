@@ -86,4 +86,11 @@ public class Storage {
 	public String getDirPath(){
 		return _file.getDirAbsolutePath();
 	}
+	
+	/**
+	 * For testing purposes, to eliminate all additional files used for testing.
+	 */
+	public void delete(){
+		_file.delete();
+	}
 }

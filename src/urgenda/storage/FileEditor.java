@@ -171,8 +171,10 @@ public class FileEditor {
 	
 	public void relocate(String path){
 		Path source = _file.toPath();
-		File newDir = new File(path);
-		newDir.mkdir();
+		_parentDir = new File(path);
+		_parentDir.mkdir();
+//		File newDir = new File(path);
+//		newDir.mkdir();
 		Path newSource = Paths.get(path);
 		try {
 			Files.move(source, newSource.resolve(source.getFileName()), REPLACE_EXISTING);
@@ -181,7 +183,7 @@ public class FileEditor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		_file = new File(newDir, source.getFileName().toString());
+		_file = new File(_parentDir, source.getFileName().toString());
 	}
 	
 	public void paths(){
@@ -199,5 +201,10 @@ public class FileEditor {
 	
 	public String getDirAbsolutePath(){
 		return _parentDir.getAbsolutePath();
+	}
+	
+	public void delete(){
+		_file.delete();
+		_parentDir.delete();
 	}
 }
