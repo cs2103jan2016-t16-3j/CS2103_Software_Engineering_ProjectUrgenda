@@ -606,4 +606,12 @@ public class LogicData {
 		_archives.removeAll(outdatedTasks);
 	}
 
+	public void checkPointer() {
+		if (_taskPointer != null) {
+			if (_archives.contains(_taskPointer)) {
+				_currState = LogicData.DisplayState.ARCHIVE;
+			}
+		}
+	}
+
 }

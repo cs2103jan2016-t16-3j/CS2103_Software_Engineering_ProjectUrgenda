@@ -55,6 +55,7 @@ public class Logic {
 		assert (currCmd != null); // asserts that parser returns a command object
 		logger.getLogger().info("Checking cmd obj: " + currCmd + " is non null");
 
+		// To ensure that the command is applicable to the state
 		currCmd = checkAndFilterCommand(currCmd);
 		
 		String feedback;
@@ -62,6 +63,12 @@ public class Logic {
 		_logicData.updateState();
 		feedback = _logicCommand.processCommand(currCmd);
 		
+		// To update after the command has been processed to ensure that the newly edited tasks are updated
+		_logicData.updateState();
+		
+		// To check and change accordingly if the pointer is pointed towards an archived task 
+		// after the state is updated
+		_logicData.checkPointer();
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(feedback);
 		_logicData.saveContents();
