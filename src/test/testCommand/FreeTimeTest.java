@@ -23,6 +23,59 @@ public class FreeTimeTest {
 			+ "%1$d/%2$d, %3$02d:%4$02d to %5$d/%6$d, %7$02d:%8$02d";
 
 	/**
+	 * 1 task comparing with range timing is from 11.59 to 17.00 start time
+	 * outside range, end time inside range
+	 */
+	@Test
+	public void test016SplitTime() {
+		// setting up the test
+		LogicData data = LogicData.getInstance();
+		data.clearTasks();
+		ArrayList<Task> expectedList = new ArrayList<Task>();
+		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 22, 23, 0);
+		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 1, 0);
+		FindFree test = new FindFree(rangeStart, rangeEnd);
+
+		// configuring expected outputs
+		String expectedPhrase = "Showing available time slots between 22/3, 23:00 to 23/3, 01:00";
+		Task exTask1 = new Task();
+		LocalDateTime exStart1 = LocalDateTime.of(2017, 3, 22, 23, 0);
+		LocalDateTime exEnd1 = LocalDateTime.of(2017, 3, 23, 00, 0);
+		exTask1.setDesc("1 hour ");
+		exTask1.setStartTime(exStart1);
+		exTask1.setEndTime(exEnd1);
+		expectedList.add(exTask1);
+		Task exTask2 = new Task();
+		LocalDateTime exStart2 = LocalDateTime.of(2017, 3, 23, 0, 0);
+		LocalDateTime exEnd2 = LocalDateTime.of(2017, 3, 23, 1, 0);
+		exTask2.setDesc("1 hour ");
+		exTask2.setStartTime(exStart2);
+		exTask2.setEndTime(exEnd2);
+		expectedList.add(exTask2);
+
+		// getting actual outputs
+		String actualPhrase;
+		try {
+			actualPhrase = test.execute();
+		} catch (Exception e) {
+			actualPhrase = MESSAGE_INVALID_TIME_RANGE;
+			assertEquals(MESSAGE_INVALID_TIME_RANGE, e.getMessage());
+		}
+		assertEquals(expectedPhrase, actualPhrase);
+		ArrayList<Task> actualList = data.getDisplays();
+
+		// comparing expected and actual free time range
+//		assertEquals(expectedList.size(), actualList.size());
+		for (int i = 0; i < expectedList.size(); i++) {
+			Task actual = actualList.get(i);
+			Task expected = expectedList.get(i);
+			assertEquals(expected.getStartTime(), actual.getStartTime());
+			assertEquals(expected.getEndTime(), actual.getEndTime());
+			assertEquals(expected.getDesc(), actual.getDesc());
+		}
+	}
+	
+	/**
 	 * start time of range is before current time
 	 */
 	@Test
@@ -849,7 +902,7 @@ public class FreeTimeTest {
 	}
 
 	/**
-	 * 1 task comparing with range timing is from 11.59 to 14.00 start time
+	 * 1 task comparing with range timing is from 11.59 to 17.00 start time
 	 * outside range, end time inside range
 	 */
 	@Test
@@ -866,7 +919,7 @@ public class FreeTimeTest {
 		// range
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 59);
-		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 14, 0);
+		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 17, 0);
 		task1.setStartTime(start1);
 		task1.setEndTime(end1);
 		task1.updateTaskType(start1, end1);
@@ -875,9 +928,9 @@ public class FreeTimeTest {
 		// configuring expected outputs
 		String expectedPhrase = "Showing available time slots between 23/3, 12:00 to 23/3, 18:00";
 		Task exTask1 = new Task();
-		LocalDateTime exStart1 = LocalDateTime.of(2017, 3, 23, 14, 0);
+		LocalDateTime exStart1 = LocalDateTime.of(2017, 3, 23, 17, 0);
 		LocalDateTime exEnd1 = LocalDateTime.of(2017, 3, 23, 18, 0);
-		exTask1.setDesc("4 hours ");
+		exTask1.setDesc("1 hour ");
 		exTask1.setStartTime(exStart1);
 		exTask1.setEndTime(exEnd1);
 		expectedList.add(exTask1);

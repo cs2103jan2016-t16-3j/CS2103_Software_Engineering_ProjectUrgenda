@@ -55,14 +55,17 @@ public class FindFree extends Command {
 		Task timeRange = createTimeTask(_startOfRange, _endOfRange);
 		ArrayList<Task> matches = data.overlappingTasks(timeRange);
 		Collections.sort(matches, comparator);
+		Deque<LocalDateTime> freeTimes = new ArrayDeque<LocalDateTime>();
 		if (matches.isEmpty()) {
 			matches.add(timeRange);
 			data.clearDisplays();
-			data.setDisplays(matches);
+			freeTimes.addFirst(_startOfRange);
+			freeTimes.addFirst(_endOfRange);
+			ArrayList<Task> forDisplay = generateDisplayList(freeTimes);
+			data.setDisplays(forDisplay);
 			data.setCurrState(LogicData.DisplayState.FIND_FREE);
 			return formatFeedback(MESSAGE_FREE_TIME);
 		}
-		Deque<LocalDateTime> freeTimes = new ArrayDeque<LocalDateTime>();
 		if (matches.get(0).getStartTime().isAfter(_startOfRange)) {
 			freeTimes.addFirst(_startOfRange);
 			freeTimes.addFirst(matches.get(0).getStartTime());
