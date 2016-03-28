@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import urgenda.storage.Storage;
+import urgenda.storage.StorageTester;
 import urgenda.util.MultipleSlot;
 import urgenda.util.UrgendaLogger;
 import urgenda.util.StateFeedback;
@@ -58,7 +59,7 @@ public class LogicData {
 	
 	// alternative constructor for testing
 	private LogicData(boolean isTest) {
-		_storage = new Storage(isTest);
+		_storage = new StorageTester();
 		_tasks = _storage.updateCurrentTaskList();
 		_archives = _storage.updateArchiveTaskList();
 		_currState = DisplayState.ALL_TASKS;
