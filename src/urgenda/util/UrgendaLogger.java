@@ -9,7 +9,7 @@ import java.util.logging.SimpleFormatter;
 public class UrgendaLogger {
 
 	private final static Logger myLogger = Logger.getLogger(UrgendaLogger.class.getName());
-	private static UrgendaLogger _loggerInstance;
+	private static UrgendaLogger _loggerInstance = null;
 
 	public static UrgendaLogger getInstance() {
 		if (_loggerInstance == null) {
