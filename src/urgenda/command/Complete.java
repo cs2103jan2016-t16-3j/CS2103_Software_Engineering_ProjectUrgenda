@@ -59,7 +59,7 @@ public class Complete extends TaskCommand {
 
 	private String completeFeedback() {
 		if (_completedTasks.size() == 1) {
-			return MESSAGE_DONE + taskMessage(_completedTasks.get(0)) + "!";
+			return MESSAGE_DONE + taskMessageWithMulti(_completedTasks.get(0)) + "!";
 		} else {
 			String feedback = String.format(MESSAGE_NUM_DONE, _completedTasks.size());
 			feedback += multipleTaskFeedback();
@@ -70,7 +70,7 @@ public class Complete extends TaskCommand {
 	private String multipleTaskFeedback() {
 		String feedback = "";
 		for (Task task : _completedTasks) {
-			feedback += "\n" + taskMessage(task);
+			feedback += "\n" + taskMessageWithMulti(task);
 		}
 		return feedback;
 	}
@@ -93,7 +93,7 @@ public class Complete extends TaskCommand {
 
 	private String uncompletedFeedback() {
 		if (_completedTasks.size() == 1) {
-			return MESSAGE_UNDONE + taskMessage(_completedTasks.get(0)) + "!";
+			return MESSAGE_UNDONE + taskMessageWithMulti(_completedTasks.get(0)) + "!";
 		} else {
 			String feedback = String.format(MESSAGE_NUM_UNDONE, _completedTasks.size());
 			feedback += multipleTaskFeedback();

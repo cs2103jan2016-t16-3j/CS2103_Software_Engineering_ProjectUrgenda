@@ -21,7 +21,16 @@ public abstract class Command {
 	// for execution of specific command
 	public abstract String execute() throws Exception;
 
-	// for generation of messages of the task given as input
+	// for generation of messages of the task given as input, includes multiple tasks
+	public String taskMessageWithMulti(Task task) {
+		String feedback = taskMessage(task);
+		if (task.getSlot() != null) {
+			feedback += additionalTimings(task.getSlot());
+		}
+		return feedback;
+	}
+
+	// for generation of messages of task given as input, excludes multiple tasks
 	public String taskMessage(Task task) {
 		Task.Type taskType = task.getTaskType();
 		String feedback = null;
@@ -43,9 +52,6 @@ public abstract class Command {
 						task.getEndTime().getMinute());
 				break;
 
-		}
-		if (task.getSlot() != null) {
-			feedback += additionalTimings(task.getSlot());
 		}
 		return feedback;
 	}

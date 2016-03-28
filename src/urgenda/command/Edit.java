@@ -71,7 +71,7 @@ public class Edit extends TaskCommand {
 				// throws exception to prevent Edit being added to undo stack
 				throw new Exception(MESSAGE_ERROR + e.getMessage());
 			}
-			return taskMessage(_prevTask) + MESSAGE_EDIT + taskMessage(_newTask) ;
+			return taskMessageWithMulti(_prevTask) + MESSAGE_EDIT + taskMessageWithMulti(_newTask) ;
 		}
 	}
 
@@ -85,7 +85,7 @@ public class Edit extends TaskCommand {
 		_data.deleteTask(_newTask);
 		_data.addTask(_prevTask);
 		_data.setTaskPointer(_prevTask);
-		return taskMessage(_newTask) + MESSAGE_REVERTED  + taskMessage(_prevTask) ;
+		return taskMessageWithMulti(_newTask) + MESSAGE_REVERTED  + taskMessageWithMulti(_prevTask) ;
 	}
 
 	public String redo() {
@@ -93,7 +93,7 @@ public class Edit extends TaskCommand {
 		_data.deleteTask(_prevTask);
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
-		return taskMessage(_prevTask) + MESSAGE_EDIT + taskMessage(_newTask);
+		return taskMessageWithMulti(_prevTask) + MESSAGE_EDIT + taskMessageWithMulti(_newTask);
 	}
 
 	public void setId(int id) {

@@ -58,7 +58,7 @@ public class AddTask extends TaskCommand {
 			// throws exception to prevent AddTask being added to undo stack
 			throw new Exception(MESSAGE_ERROR + e.getMessage());
 		}
-		return taskMessage(_newTask) + MESSAGE_ADDED + feedback;
+		return taskMessageWithMulti(_newTask) + MESSAGE_ADDED + feedback;
 	}
 
 	private String checkPassed() {
@@ -92,14 +92,14 @@ public class AddTask extends TaskCommand {
 
 	public String undo() {
 		_data.deleteTask(_newTask);
-		return taskMessage(_newTask) + MESSAGE_REMOVE;
+		return taskMessageWithMulti(_newTask) + MESSAGE_REMOVE;
 	}
 
 	public String redo() {
 		_newTask.setDateModified(LocalDateTime.now());
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
-		return taskMessage(_newTask) + MESSAGE_ADDED + findOverlaps();
+		return taskMessageWithMulti(_newTask) + MESSAGE_ADDED + findOverlaps();
 	}
 	
 	public void setNewTask(Task newTask) {

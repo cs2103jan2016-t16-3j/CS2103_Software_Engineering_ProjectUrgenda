@@ -61,7 +61,7 @@ public class DeleteTask extends TaskCommand {
 
 	private String deleteFeedback() {
 		if (_deletedTasks.size() == 1) {
-			return taskMessage(_deletedTasks.get(0)) + MESSAGE_REMOVE;
+			return taskMessageWithMulti(_deletedTasks.get(0)) + MESSAGE_REMOVE;
 		} else {
 			String feedback = String.format(MESSAGE_NUM_REMOVED, _deletedTasks.size());
 			feedback += multipleTaskFeedback();
@@ -72,7 +72,7 @@ public class DeleteTask extends TaskCommand {
 	private String multipleTaskFeedback() {
 		String feedback = "";
 		for (Task task : _deletedTasks) {
-			feedback += "\n" + taskMessage(task);
+			feedback += "\n" + taskMessageWithMulti(task);
 		}
 		return feedback;
 	}
@@ -86,7 +86,7 @@ public class DeleteTask extends TaskCommand {
 	
 	private String addFeedback() {
 		if (_deletedTasks.size() == 1) {
-			return taskMessage(_deletedTasks.get(0)) + MESSAGE_ADDED;
+			return taskMessageWithMulti(_deletedTasks.get(0)) + MESSAGE_ADDED;
 		} else {
 			String feedback = String.format(MESSAGE_NUM_ADDED, _deletedTasks.size());
 			feedback += multipleTaskFeedback();

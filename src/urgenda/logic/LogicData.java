@@ -76,7 +76,6 @@ public class LogicData {
 		switch (_currState) {
 		case ALL_TASKS:
 			// TODO update diagram
-			updateState();
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
@@ -217,6 +216,7 @@ public class LogicData {
 			if (task.getTaskType() == Task.Type.DEADLINE) {
 				if (task.getEndTime().isBefore(now)) {
 					task.setIsOverdue(true);
+					task.setDateModified(LocalDateTime.now());
 					logger.getLogger().info("deadline task " + task + " has turned overdue");
 				} else {
 					task.setIsOverdue(false);
@@ -228,10 +228,12 @@ public class LogicData {
 			if (task.getTaskType() == Task.Type.EVENT) {
 				if (task.getEndTime().isBefore(now)) {
 					task.setIsCompleted(true);
+					task.setDateModified(LocalDateTime.now());
 					logger.getLogger().info("event task" + task + " has been completed");
 					// only moves completed tasks when the day ends for that day
 					if (task.getEndTime().toLocalDate().isBefore(LocalDate.now())) {
 						completedTasks.add(task);
+						task.setDateModified(LocalDateTime.now());
 					}
 				}
 			}

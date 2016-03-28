@@ -82,9 +82,9 @@ public class Prioritise extends TaskCommand {
 	public String toggleTaskImportance(Task task) {
 		String feedback;
 		if (task.isImportant()) {
-			feedback = taskMessage(task) + MESSAGE_UNIMPORTANT;
+			feedback = taskMessageWithMulti(task) + MESSAGE_UNIMPORTANT;
 		} else {
-			feedback = taskMessage(task) + MESSAGE_IMPORTANT;
+			feedback = taskMessageWithMulti(task) + MESSAGE_IMPORTANT;
 		}
 		task.toggleImportant();
 		return feedback;

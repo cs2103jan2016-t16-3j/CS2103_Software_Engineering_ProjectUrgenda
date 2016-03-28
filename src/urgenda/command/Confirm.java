@@ -48,7 +48,7 @@ public class Confirm extends TaskCommand {
 			_data.addTask(_confirmedTask);
 			_data.setTaskPointer(_confirmedTask);
 			_data.clearShowMoreTasks();
-			return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
+			return MESSAGE_CONFIRM + taskMessageWithMulti(_confirmedTask);
 		} else {
 			while (_confirmedTask.getSlot() != null && !(_confirmedTask.getSlot().isEmpty())) {
 				currPair = _confirmedTask.getSlot().getNextSlot();
@@ -62,7 +62,7 @@ public class Confirm extends TaskCommand {
 					_data.addTask(_confirmedTask);
 					_data.setTaskPointer(_confirmedTask);
 					_data.clearShowMoreTasks();
-					return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
+					return MESSAGE_CONFIRM + taskMessageWithMulti(_confirmedTask);
 				}
 			}
 			throw new Exception(String.format(MESSAGE_NO_MATCH, _confirmed.getEarlierDateTime().getDayOfMonth(),
@@ -82,7 +82,7 @@ public class Confirm extends TaskCommand {
 		_data.deleteTask(_confirmedTask);
 		_data.addTask(_prevTask);
 		_data.setTaskPointer(_prevTask);
-		return MESSAGE_BLOCK + taskMessage(_prevTask);
+		return MESSAGE_BLOCK + taskMessageWithMulti(_prevTask);
 	}
 
 	public String redo() {
@@ -90,7 +90,7 @@ public class Confirm extends TaskCommand {
 		_data.deleteTask(_prevTask);
 		_data.addTask(_confirmedTask);
 		_data.setTaskPointer(_confirmedTask);
-		return MESSAGE_CONFIRM + taskMessage(_confirmedTask);
+		return MESSAGE_CONFIRM + taskMessageWithMulti(_confirmedTask);
 	}
 	
 	public void setId(int id) {

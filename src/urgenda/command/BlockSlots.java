@@ -66,7 +66,7 @@ public class BlockSlots extends TaskCommand {
 		_data.clearShowMoreTasks();
 		_data.toggleShowMoreTasks(_newTask);
 
-		return MESSAGE_BLOCK + taskMessage(_newTask) + MESSAGE_ADDED;
+		return MESSAGE_BLOCK + taskMessageWithMulti(_newTask) + MESSAGE_ADDED;
 	}
 
 	private boolean isValidBlock(MultipleSlot block) {
@@ -98,14 +98,14 @@ public class BlockSlots extends TaskCommand {
 
 	public String undo() {
 		_data.deleteTask(_newTask);
-		return taskMessage(_newTask) + MESSAGE_REMOVE;
+		return taskMessageWithMulti(_newTask) + MESSAGE_REMOVE;
 	}
 
 	public String redo() {
 		_newTask.setDateModified(LocalDateTime.now());
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
-		return MESSAGE_BLOCK + taskMessage(_newTask) + MESSAGE_ADDED;
+		return MESSAGE_BLOCK + taskMessageWithMulti(_newTask) + MESSAGE_ADDED;
 	}
 
 }
