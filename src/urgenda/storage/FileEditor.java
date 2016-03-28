@@ -206,6 +206,5 @@ public class FileEditor {
 	public void delete(){
 		_file.delete();
 		_parentDir.delete();
-		_parentDir.deleteOnExit();
 	}
 }
