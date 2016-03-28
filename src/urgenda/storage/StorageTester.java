@@ -1,7 +1,7 @@
 package urgenda.storage;
 
 public class StorageTester extends Storage{
-	private static final String TEST_SETTINGS_DIRECTORY = "testfiles\\testsettings";
+	private static final String TEST_SETTINGS_DIRECTORY = "testfiles";
 	private static final String TEST_SETTINGS_NAME = "settings.txt";
 	private static final String TEST_FILE_LOCATION = "testfiles";
 	private static final String TEST_FILE_NAME = "test.txt";
