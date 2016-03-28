@@ -28,10 +28,6 @@ public class Storage {
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 
 	}
-	
-	public Storage(boolean isTest) {
-		
-	}
 
 	public Storage(String path, String name){
 		logger.getLogger().info("constructing Storage Object");
