@@ -24,14 +24,26 @@ public class Logic {
 		_logicCommand = new LogicCommand();
 	}
 	
-	// Implementation of Singleton pattern for Logic
+	private Logic(boolean isTest) {
+		_logicData = LogicData.getInstance(isTest);
+		_logicCommand = new LogicCommand();
+	}
 	
+	// Implementation of Singleton pattern for Logic
 	public static Logic getInstance() {
 		if (_logic == null) {
 			logger.getLogger().info("creating instance of logic");
 			_logic = new Logic();
 		}
 		logger.getLogger().info("retrieving prev instance of logic");
+		return _logic;
+	}
+	
+	// alternative constructor for testing purposes
+	public static Logic getInstance(boolean isTest) {
+		if (_logic == null) {
+			_logic = new Logic(isTest);
+		}
 		return _logic;
 	}
 	

@@ -25,6 +25,7 @@ public class FindFree extends Command {
 	private static final String MESSAGE_HOUR = " hour ";
 	private static final String MESSAGE_MINUTE = " minute ";
 	private static final String MESSAGE_SECOND = " second ";
+	private static final String MESSAGE_24_HOURS = "24 hours";
 	private static final int SINGLE_LIMITER = 1;
 	
 	private LocalDateTime _startOfRange;
@@ -55,14 +56,17 @@ public class FindFree extends Command {
 		Task timeRange = createTimeTask(_startOfRange, _endOfRange);
 		ArrayList<Task> matches = data.overlappingTasks(timeRange);
 		Collections.sort(matches, comparator);
+		Deque<LocalDateTime> freeTimes = new ArrayDeque<LocalDateTime>();
 		if (matches.isEmpty()) {
 			matches.add(timeRange);
 			data.clearDisplays();
-			data.setDisplays(matches);
+			freeTimes.addFirst(_startOfRange);
+			freeTimes.addFirst(_endOfRange);
+			ArrayList<Task> forDisplay = generateDisplayList(freeTimes);
+			data.setDisplays(forDisplay);
 			data.setCurrState(LogicData.DisplayState.FIND_FREE);
 			return formatFeedback(MESSAGE_FREE_TIME);
 		}
-		Deque<LocalDateTime> freeTimes = new ArrayDeque<LocalDateTime>();
 		if (matches.get(0).getStartTime().isAfter(_startOfRange)) {
 			freeTimes.addFirst(_startOfRange);
 			freeTimes.addFirst(matches.get(0).getStartTime());
@@ -115,9 +119,10 @@ public class FindFree extends Command {
 			LocalDateTime start = freeTimes.removeLast();
 			LocalDateTime end = freeTimes.removeLast();
 			if (!start.toLocalDate().equals(end.toLocalDate()) && !end.toLocalTime().equals(LocalTime.of(0, 0))) {
-				LocalDateTime split = LocalDateTime.of(end.toLocalDate(), LocalTime.of(0, 0));
+				LocalDateTime split = LocalDateTime.of(start.toLocalDate().plusDays(1), LocalTime.of(0, 0));
 				forDisplay.add(createTimeTask(start, split));
-				forDisplay.add(createTimeTask(split, end));
+				freeTimes.addLast(end);
+				freeTimes.addLast(split);
 			} else {
 				forDisplay.add(createTimeTask(start, end));				
 			}
@@ -127,7 +132,11 @@ public class FindFree extends Command {
 
 	private Task createTimeTask(LocalDateTime start, LocalDateTime end) {
 		Task temp = new Task();
-		temp.setDesc(timeDiff(start.toLocalTime(), end.toLocalTime()));
+		if (start.toLocalTime().equals(end.toLocalTime()) && start.toLocalDate().isBefore(end.toLocalDate())) {
+			temp.setDesc(MESSAGE_24_HOURS);
+		} else {
+			temp.setDesc(timeDiff(start.toLocalTime(), end.toLocalTime()));			
+		}
 		temp.setStartTime(start);
 		temp.setEndTime(end);
 		temp.setTaskType(Task.Type.EVENT);
@@ -136,11 +145,13 @@ public class FindFree extends Command {
 
 	private String timeDiff(LocalTime start, LocalTime end) {
 		Duration diff;
-		if (start.isBefore(end)) {
-			diff = Duration.between(start, end);			
+		if (end.equals(LocalTime.of(0, 0))) { // to get duration when timing ends at midnight
+			diff = Duration.between(start, LocalTime.of(23, 59, 59));
+			diff = diff.plusSeconds(1);
 		} else {
-			diff = Duration.between(end, start);	
+			diff = Duration.between(start, end);			
 		}
+		
 		long hourDiff = diff.toHours();
 		long minuteDiff = diff.toMinutes() - 60 * hourDiff;
 		long secondDiff = diff.getSeconds() - 60 * minuteDiff - 3600 * hourDiff;
