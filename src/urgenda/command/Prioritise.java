@@ -56,13 +56,39 @@ public class Prioritise extends TaskCommand {
 	private String toggleTasks() {
 		if (_tasks.size() == 1) {
 			return toggleTaskImportance(_tasks.get(0));
+		} else if (isAllImportant()) {
+			String feedback = String.format(MESSAGE_NUM, _tasks.size());
+			for (Task task : _tasks) {
+				feedback += "\n" + toggleTaskImportance(task);
+			}
+			return feedback;
 		} else {
+			filterImportantTasks();
 			String feedback = String.format(MESSAGE_NUM, _tasks.size());
 			for (Task task : _tasks) {
 				feedback += "\n" + toggleTaskImportance(task);
 			}
 			return feedback;
 		}
+	}
+
+	private void filterImportantTasks() {
+		ArrayList<Task> removalList = new ArrayList<Task>();
+		for (Task task : _tasks) {
+			if (task.isImportant()) {
+				removalList.add(task);
+			}
+		}
+		_tasks.removeAll(removalList);
+	}
+
+	private boolean isAllImportant() {
+		for (Task task : _tasks) {
+			if (!task.isImportant()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public String undo() {
