@@ -92,5 +92,6 @@ public class Storage {
 	 */
 	public void delete(){
 		_file.delete();
+		_settings.delete();
 	}
 }

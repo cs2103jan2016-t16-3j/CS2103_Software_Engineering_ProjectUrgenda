@@ -13,11 +13,10 @@ import urgenda.util.Task;
 public class StorageTest {
 	private static final String TEST_FILE_LOCATION = "testfiles";
 	private static final String TEST_FILE_NAME = "test.txt";
-	
+
 	private static final String TEST_FILE_LOCATION_2 = "testfiles\\test3";
 	private static final String TEST_FILE_NAME_2 = "test2.txt";
-	
-	
+
 	@Test
 	public void test1Save() {
 		StorageTester store = new StorageTester(TEST_FILE_LOCATION, TEST_FILE_NAME);
@@ -37,6 +36,7 @@ public class StorageTest {
 		_archive.add(task1);
 		_archive.add(task3);
 		store.save(_tasks, _archive);
+		store.delete();
 	}
 
 	@Test
@@ -82,5 +82,6 @@ public class StorageTest {
 			System.out.println("overdue: " + print.isOverdue());
 			i++;
 		}
+		store.delete();
 	}
 }

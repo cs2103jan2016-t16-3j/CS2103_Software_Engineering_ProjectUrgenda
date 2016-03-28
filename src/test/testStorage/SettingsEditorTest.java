@@ -13,7 +13,7 @@ import urgenda.storage.SettingsEditor;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SettingsEditorTest {
-	private static final String TEST_SETTINGS_DIRECTORY = "testfiles\\testsettings";
+	private static final String TEST_SETTINGS_DIRECTORY = "testfiles";
 	private static final String TEST_SETTINGS_NAME = "settings.txt";
 	
 	private static final String TEST_FILE_LOCATION = "testfiles";
@@ -32,6 +32,7 @@ public class SettingsEditorTest {
 		settings.setFileName(TEST_FILE_NAME);
 		assertEquals(TEST_FILE_LOCATION, settings.getFileDir());
 		assertEquals(TEST_FILE_NAME, settings.getFileName());
+		settings.delete();
 	}
 	
 	@Test
@@ -42,5 +43,6 @@ public class SettingsEditorTest {
 		expected.put(HASHMAP_KEY_FILE_DIRECTORY, DEFAULT_FILE_LOCATION);
 		expected.put(HASHMAP_KEY_FILE_NAME, DEFAULT_FILE_NAME);
 		assertEquals(expected, settings.getMap());
+		settings.delete();
 	}
 }

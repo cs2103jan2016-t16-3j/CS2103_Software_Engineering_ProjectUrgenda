@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
+import urgenda.util.UrgendaLogger;
 
 public class Decryptor extends JsonCipher {
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 
 	public Decryptor() {
 		super();
@@ -16,21 +18,28 @@ public class Decryptor extends JsonCipher {
 		ArrayList<Task> taskList = new ArrayList<Task>();
 		for (int i = 0; i < taskStrList.size(); i++) {
 			_detailsString = taskStrList.get(i);
-			convertToMap();
-			Task newTask = generateTask(i + 1);
-			taskList.add(newTask);
+			if (isJsonValid(_detailsString)) {
+				convertToMap();
+				Task newTask = generateTask(i + 1);
+				taskList.add(newTask);
+			} else {
+				logger.getLogger().info("String is not in JSON format, discarded");
+			}
 		}
-		assert(taskList.size() == taskStrList.size());
 		return taskList;
 	}
-	
+
 	public ArrayList<Task> decryptArchiveList(ArrayList<String> archiveStrList) {
 		ArrayList<Task> archiveList = new ArrayList<Task>();
 		for (int i = 0, j = -1; i < archiveStrList.size(); i++, j--) {
 			_detailsString = archiveStrList.get(i);
-			convertToMap();
-			Task newTask = generateTask(j);
-			archiveList.add(newTask);
+			if (isJsonValid(_detailsString)) {
+				convertToMap();
+				Task newTask = generateTask(j);
+				archiveList.add(newTask);
+			} else {
+				logger.getLogger().info("String is not in JSON format, discarded");
+			}
 		}
 		return archiveList;
 	}

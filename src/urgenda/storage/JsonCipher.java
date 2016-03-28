@@ -42,7 +42,7 @@ public class JsonCipher {
 
 	private static final int MULTIPLE_START = 0;
 	private static final int MULTIPLE_END = 1;
-	
+
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 
 	protected Gson _gson;
@@ -84,14 +84,15 @@ public class JsonCipher {
 		}
 	}
 
-	private boolean isJsonValid(String phrase) {
+	protected boolean isJsonValid(String phrase) {
 		try {
 			_gson.fromJson(phrase, new TypeToken<LinkedHashMap<String, String>>() {
 			}.getType());
 			return true;
 		} catch (com.google.gson.JsonSyntaxException ex) {
 			logger.getLogger().info(ex.toString());
-			logger.getLogger().info("String not in required json format for Tasks. Unable to parse, will be overwritten.");
+			logger.getLogger()
+					.info("String not in required json format for Tasks. Unable to parse, will be overwritten.");
 			return false;
 		}
 	}
@@ -112,8 +113,9 @@ public class JsonCipher {
 			ArrayList<DateTimePair> pairs = task.getSlot().getSlots();
 			String slots = new String();
 
-			for (DateTimePair pair: pairs){
-				slots = slots + pair.getEarlierDateTime().toString() + DELIMITER_MULTIPLE_WITHIN_PAIRS + pair.getLaterDateTime().toString();
+			for (DateTimePair pair : pairs) {
+				slots = slots + pair.getEarlierDateTime().toString() + DELIMITER_MULTIPLE_WITHIN_PAIRS
+						+ pair.getLaterDateTime().toString();
 				slots = slots + DELIMITER_MULTIPLE_BET_PAIRS;
 			}
 			_detailsMap.put(HASHMAP_KEY_MULTIPLE_DESC, slots);
@@ -141,22 +143,6 @@ public class JsonCipher {
 		}
 	}
 
-	public String getMultipleString() {
-		return _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
-	}
-
-	public ArrayList<String> getHashTags() {
-		ArrayList<String> hashTags;
-		if (_detailsMap.get(HASHMAP_KEY_TAGS) == null) {
-			hashTags = null;
-		} else {
-			String tagString = _detailsMap.get(HASHMAP_KEY_TAGS);
-			String[] tagsArray = tagString.split(DELIMITER_HASHTAG);
-			hashTags = new ArrayList<String>(Arrays.asList(tagsArray));
-		}
-		return hashTags;
-	}
-
 	public void setOverdue(Task task) {
 		_detailsMap.put(HASHMAP_KEY_OVERDUE, String.valueOf(task.isOverdue()));
 	}
@@ -182,14 +168,6 @@ public class JsonCipher {
 			_detailsMap.put(HASHMAP_KEY_DATEADDED, null);
 		} else {
 			_detailsMap.put(HASHMAP_KEY_DATEADDED, task.getDateAdded().toString());
-		}
-	}
-
-	public void setHashTags(Task task) {
-		if (task.getHashtags() == null) {
-			_detailsMap.put(HASHMAP_KEY_TAGS, null);
-		} else {
-			_detailsMap.put(HASHMAP_KEY_TAGS, String.join(DELIMITER_HASHTAG, task.getHashtags()));
 		}
 	}
 
@@ -229,7 +207,11 @@ public class JsonCipher {
 	}
 
 	public void setDesc(Task task) {
-		_detailsMap.put(HASHMAP_KEY_DESC, task.getDesc());
+		if (task.getDesc() == null) {
+			_detailsMap.put(HASHMAP_KEY_DESC, null);
+		} else {
+			_detailsMap.put(HASHMAP_KEY_DESC, task.getDesc());
+		}
 	}
 
 	public void setDirectory(String path) {
@@ -318,6 +300,30 @@ public class JsonCipher {
 
 	public LinkedHashMap<String, String> getDetailsMap() {
 		return _detailsMap;
+	}
+
+	public String getMultipleString() {
+		return _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
+	}
+
+	public void setHashTags(Task task) {
+		if (task.getHashtags() == null) {
+			_detailsMap.put(HASHMAP_KEY_TAGS, null);
+		} else {
+			_detailsMap.put(HASHMAP_KEY_TAGS, String.join(DELIMITER_HASHTAG, task.getHashtags()));
+		}
+	}
+
+	public ArrayList<String> getHashTags() {
+		ArrayList<String> hashTags;
+		if (_detailsMap.get(HASHMAP_KEY_TAGS) == null) {
+			hashTags = null;
+		} else {
+			String tagString = _detailsMap.get(HASHMAP_KEY_TAGS);
+			String[] tagsArray = tagString.split(DELIMITER_HASHTAG);
+			hashTags = new ArrayList<String>(Arrays.asList(tagsArray));
+		}
+		return hashTags;
 	}
 
 }

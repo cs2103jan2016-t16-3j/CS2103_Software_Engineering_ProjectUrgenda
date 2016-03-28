@@ -68,5 +68,9 @@ public class SettingsEditor {
 		saveSettings();
 	}
 	
+	public void delete(){
+		_settings.delete();
+	}
+	
 	
 }
