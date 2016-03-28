@@ -139,7 +139,7 @@ public class SimpleTaskController extends GridPane {
 		});
 	}
 
-	private String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2) {
+	protected String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2) {
 		String dateTimeFormatter = "";
 		if(dateTime2 != null) {
 			if(dateTime1 == null) {	//format for deadline
