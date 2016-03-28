@@ -22,12 +22,12 @@ public class EditTest {
 		ArrayList<String> _tags = new ArrayList<String>();
 		MultipleSlot slot = null;
 		LocalDateTime notime = null;
-		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
-		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, slot);
-		Task obj3 = new Task(3, "Submit ie2100 hw3", "deadline", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime, _tags, slot);
-		Task obj4 = new Task(4, "Dental Appointment", "event", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,  _tags, slot);
-		Task obj5 = new Task(5, "Travel to Sweden", "event", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,  _tags, slot);
-		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADLINE", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, slot);
+		Task obj3 = new Task(3, "Submit ie2100 hw3", "DEADLINE", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime, _tags, slot);
+		Task obj4 = new Task(4, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,  _tags, slot);
+		Task obj5 = new Task(5, "Travel to Sweden", "EVENT", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,  _tags, slot);
+		Task obj6 = new Task(1, "Mop floor", "FLOATING", "", true, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
 	
 		_tasks.add(obj);
 		_tasks.add(obj2);
@@ -37,9 +37,14 @@ public class EditTest {
 		_tasks.add(obj6);
 		
 		_data.setDisplays(_tasks);
+		
+		ArrayList<Task> checker = _data.getDisplays();
+		System.out.println(checker.get(0).getTaskType());
+		
 		Task testTask = new Task(1, "Buy milk and eggs", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
 		Edit tester = new Edit(0,testTask);
-		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.execute());
+		String phrase = tester.execute();
+		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",phrase);
 		Task testTask2 = new Task(2, null, "event", "", true, false, true, LocalDateTime.of(2016, Month.APRIL, 5, 10, 00), LocalDateTime.of(2016, Month.APRIL, 5, 12, 00), LocalDateTime.now(), notime, _tags, slot);
 		Edit tester2 = new Edit(1,testTask2);
 		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute());	

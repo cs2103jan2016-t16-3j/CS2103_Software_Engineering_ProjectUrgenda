@@ -40,7 +40,7 @@ public class Edit extends TaskCommand {
 			logger.getLogger().severe("Exception(No edit match) thrown");
 			throw new Exception(MESSAGE_NO_EDIT_MATCH);
 		} else {
-			if (_newTask.getSlot().isEmpty()) {
+			if (_newTask.getSlot() == null || _newTask.getSlot().isEmpty()) {
 				_newTask.setSlot(null);
 			}
 			if (_newTask.getDesc() == null && _prevTask.getDesc() != null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
@@ -60,7 +60,7 @@ public class Edit extends TaskCommand {
 			_newTask.setIsCompleted(_prevTask.isCompleted());
 			_newTask.setIsImportant(_prevTask.isImportant());
 			_newTask.setDateAdded(_prevTask.getDateAdded());
-			_newTask.updateTaskType(_newTask.getStartTime(), _newTask.getEndTime());
+			_newTask.updateTaskType();
 			updateDateModified();
 			try {
 				checkTaskValidity(_newTask);
