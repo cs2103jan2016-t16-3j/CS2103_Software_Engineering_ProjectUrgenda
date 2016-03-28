@@ -41,11 +41,11 @@ public class EditTest {
 		ArrayList<Task> checker = _data.getDisplays();
 		System.out.println(checker.get(0).getTaskType());
 		
-		Task testTask = new Task(1, "Buy milk and eggs", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task testTask = new Task(1, "Buy milk and eggs", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
 		Edit tester = new Edit(0,testTask);
 		String phrase = tester.execute();
 		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",phrase);
-		Task testTask2 = new Task(2, null, "event", "", true, false, true, LocalDateTime.of(2016, Month.APRIL, 5, 10, 00), LocalDateTime.of(2016, Month.APRIL, 5, 12, 00), LocalDateTime.now(), notime, _tags, slot);
+		Task testTask2 = new Task(2, null, "EVENT", "", true, false, true, LocalDateTime.of(2016, Month.APRIL, 5, 10, 00), LocalDateTime.of(2016, Month.APRIL, 5, 12, 00), LocalDateTime.now(), notime, _tags, slot);
 		Edit tester2 = new Edit(1,testTask2);
 		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute());	
 	}
@@ -57,10 +57,10 @@ public class EditTest {
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		MultipleSlot slot = null;
-		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
 		_tasks.add(obj);
 		_data.setDisplays(_tasks);
-		Task testTask = new Task(1, "Buy milk and eggs", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task testTask = new Task(1, "Buy milk and eggs", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
 		Edit tester = new Edit(0,testTask);
 		tester.execute();
 		assertEquals("\"Buy milk and eggs\" has been reverted to \"Buy milk\"",tester.undo());
@@ -73,12 +73,12 @@ public class EditTest {
 		ArrayList<String> _tags = new ArrayList<String>();
 		MultipleSlot slot = null;
 		LocalDateTime notime = null;
-		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
-		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, slot);
+		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADINE", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, slot);
 		_tasks.add(obj);
 		_tasks.add(obj2);
 		_data.setDisplays(_tasks);
-		Task testTask = new Task(1, "Buy milk and eggs", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task testTask = new Task(1, "Buy milk and eggs", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
 		Edit tester = new Edit(0,testTask);
 		tester.execute();
 		tester.undo();

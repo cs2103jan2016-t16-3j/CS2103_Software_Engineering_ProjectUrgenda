@@ -217,16 +217,12 @@ public class LogicDataTest {
 		_test.setDisplays(_tasks);
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task("Internship interview", "", LocalDateTime.of(2016, Month.APRIL, 4, 13, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00), _tags);
-		Task obj2 = new Task("Jojo 21st", "", LocalDateTime.of(2016, Month.JANUARY, 15, 19, 00),
-				LocalDateTime.of(2016, Month.JANUARY, 15, 21, 00), _tags);
-		Task obj3 = new Task("Dental Appointment", "", LocalDateTime.of(2016, Month.APRIL, 4, 10, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00), _tags);
-		Task obj4 = new Task("IE2100 Midterm", "", LocalDateTime.of(2016, Month.MARCH, 2, 13, 00),
-				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
-		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 2, 17, 00), _tags);
-		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags);
+		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, null);
+		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADLINE", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, null);
+		Task obj3 = new Task(3, "Submit ie2100 hw3", "DEADLINE", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime, _tags, null);
+		Task obj4 = new Task(4, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,  _tags, null);
+		Task obj5 = new Task(5, "Travel to Sweden", "EVENT", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,  _tags, null);
+		Task obj6 = new Task(1, "Mop floor", "FLOATING", "", true, false, false, notime, notime, LocalDateTime.now(), notime, _tags, null);
 
 		_tasks.add(obj);
 		_tasks.add(obj2);
@@ -236,12 +232,12 @@ public class LogicDataTest {
 		_tasks.add(obj6);
 
 		ArrayList<Task> _output = new ArrayList<Task>();
-		_output.add(obj);
 		_output.add(obj3);
-		assertEquals(_output, _test.findMatchingDates(LocalDate.of(2016, Month.APRIL, 4))); //test multiple matches
+		_output.add(obj4);
+		assertEquals(_output, _test.findMatchingDates(LocalDateTime.now().toLocalDate())); //test multiple matches
 		_output.clear();
 		_output.add(obj2);
-		assertEquals(_output, _test.findMatchingDates(LocalDate.of(2016, Month.JANUARY, 15))); //test single match
+		assertEquals(_output, _test.findMatchingDates(LocalDate.of(2016, Month.FEBRUARY, 24))); //test single match
 		_output.clear();
 		assertEquals(_output, _test.findMatchingDates(LocalDate.of(2016, Month.AUGUST, 17))); //test no match
 	}
