@@ -202,7 +202,7 @@ public class DisplayController extends AnchorPane {
 			double newIndexBottom = 0;
 			double heightSum = 0.0;
 			for (int i = 0; i < displayHolder.getChildren().size(); i++) {
-				heightSum += ((SimpleTaskController) displayHolder.getChildren().get(i)).getMaxHeight();
+				heightSum += ((SimpleTaskController) displayHolder.getChildren().get(i)).getHeight();
 				if (i == newIndex.intValue() - 1) {
 					newIndexTop = heightSum;
 				}

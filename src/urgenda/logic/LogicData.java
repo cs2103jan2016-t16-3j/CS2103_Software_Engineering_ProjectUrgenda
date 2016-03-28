@@ -505,6 +505,10 @@ public class LogicData {
 	public ArrayList<Task> getDisplays() {
 		return _displays;
 	}
+	
+	public ArrayList<Task> getArchives() {
+		return _archives;
+	}
 
 	public void setDisplays(ArrayList<Task> displays) {
 		_displays = displays;

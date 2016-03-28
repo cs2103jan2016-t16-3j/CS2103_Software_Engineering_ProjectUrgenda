@@ -12,7 +12,7 @@
 	-fx-background-color: -selector-color;
 }
 
-#taskIndexLabel, #taskDescLabel, #taskDateTimeLabel  {
+.label {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
 	-fx-text-fill: -label-color;

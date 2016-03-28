@@ -39,17 +39,17 @@ public class Search extends Command {
 	public Search(Month input) {
 		_searchMonth = input;
 	}
-	
-	
+
 	// TODO: Further refactoring
-	public String execute() { 
+	public String execute() {
 		LogicData data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		String feedback = null;
 		data.clearShowMoreTasks();
 
 		if (_searchDesc != null) {
-			String copy = _searchDesc; // copy of _searchDesc for modification, trimming and caseignore
+			String copy = _searchDesc; // copy of _searchDesc for modification,
+										// trimming and caseignore
 			if (copy.trim().charAt(0) == '#') {
 				String input = copy.replaceFirst("#", "").trim();
 				matches = data.findMatchingHashtags(input);
@@ -59,6 +59,24 @@ public class Search extends Command {
 					matches = data.findMatchingDesc(_searchDesc);
 					for (Task task : data.getDisplays()) {
 						if (task.isOverdue() && !matches.contains(task)) {
+							matches.add(task);
+						}
+					}
+					for (Task task : data.getArchives()) {
+						if (task.isOverdue() && !matches.contains(task)) {
+							matches.add(task);
+						}
+					}
+					break;
+				case "completed":
+					matches = data.findMatchingDesc(_searchDesc);
+					for (Task task : data.getDisplays()) {
+						if (task.isCompleted() && !matches.contains(task)) {
+							matches.add(task);
+						}
+					}
+					for (Task task : data.getArchives()) {
+						if (task.isCompleted() && !matches.contains(task)) {
 							matches.add(task);
 						}
 					}
