@@ -55,13 +55,33 @@ public class LogicData {
 		// sets the next id to be used for future labelling of tasks
 		_currentId = _tasks.size() + 1;
 	}
+	
+	// alternative constructor for testing
+	private LogicData(boolean isTest) {
+		_storage = new Storage(isTest);
+		_tasks = _storage.updateCurrentTaskList();
+		_archives = _storage.updateArchiveTaskList();
+		_currState = DisplayState.ALL_TASKS;
+		_displays = new ArrayList<Task>();
+		_showMoreTasks = new ArrayList<Task>();
+		_currentId = _tasks.size() + 1;
+	}
 
+	// singleton instantiation
 	public static LogicData getInstance() {
 		if (_logicData == null) {
 			logger.getLogger().info("creating instance of logicData");
 			_logicData = new LogicData();
 		}
 		logger.getLogger().info("retrieving prev instance of logicData");
+		return _logicData;
+	}
+	
+	// instantiation for testing
+	public static LogicData getInstance(boolean isTest) {
+		if (_logicData == null) {
+			_logicData = new LogicData(isTest);
+		}
 		return _logicData;
 	}
 

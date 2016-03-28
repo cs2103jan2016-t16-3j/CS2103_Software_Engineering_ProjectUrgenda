@@ -29,6 +29,9 @@ public class Storage {
 
 	}
 	
+	public Storage(boolean isTest) {
+		
+	}
 
 	public Storage(String path, String name){
 		logger.getLogger().info("constructing Storage Object");
