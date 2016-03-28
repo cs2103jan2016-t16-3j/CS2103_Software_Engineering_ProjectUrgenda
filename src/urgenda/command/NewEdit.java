@@ -34,7 +34,7 @@ public class NewEdit extends TaskCommand {
 			logger.getLogger().severe("Exception(No edit match) thrown");
 			throw new Exception(MESSAGE_NO_EDIT_MATCH);
 		} else {
-			if (_newTask.getSlot().isEmpty()) {
+			if ( _newTask.getSlot().isEmpty() || _newTask.getSlot().equals(null)) {
 				_newTask.setSlot(null);
 			}
 			if (isRemoveOnce) {
