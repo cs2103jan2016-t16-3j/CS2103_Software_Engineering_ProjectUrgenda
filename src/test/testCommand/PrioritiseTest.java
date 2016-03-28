@@ -37,18 +37,20 @@ public class PrioritiseTest {
 		_data.setDisplays(_tasks);
 		Prioritise tester = new Prioritise();
 		tester.setDesc("Apply Financial Aid");
-		assertEquals("\"Apply Financial Aid\" marked as important!",tester.execute());
+		assertEquals("\"Apply Financial Aid\" marked as important",tester.execute());
 		Prioritise tester2 = new Prioritise();
-		tester2.setId(2);
-		assertEquals("\"Dental Appointment\" marked as important!",tester2.execute());
+		ArrayList<Integer> range= new ArrayList<Integer>();
+		range.add(2);
+		tester2.setPositions(range);
+		assertEquals("\"Dental Appointment\" marked as important",tester2.execute());
 		Prioritise tester3 = new Prioritise();
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		id.add(0);
-		id.add(2);
-		tester3.setPositions(id);
-		StringBuilder str = new StringBuilder("2 tasks have been marked as important:\n");
-		str.append("\"Apply Financial Aid\"\n");
-		str.append("\"Dental Appointment\"\n");
+		range.clear();
+		range.add(0);
+		range.add(2);
+		tester3.setPositions(range);
+		StringBuilder str = new StringBuilder("Priority of 2 tasks have been changed:\n");
+		str.append("\"Apply Financial Aid\" unmarked as important\n");
+		str.append("\"Dental Appointment\" unmarked as important");
 		assertEquals(str.toString(), tester3.execute());
 	}
 }
