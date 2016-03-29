@@ -17,7 +17,9 @@ public class NewEdit extends TaskCommand {
 	private LogicData _data;
 	private Integer _id;
 	private Task _prevTask;
-	private Task _temp; //a copy of prevTask for edition and comparison of time so that time in prevTask will not get modified during execution
+	private Task _temp; // a copy of prevTask for edition and comparison of time
+						// so that time in prevTask will not get modified during
+						// execution
 	private Task _newTask = new Task();
 	LocalDateTime _unknown;
 	boolean isRemoveOnce = false;
@@ -47,15 +49,12 @@ public class NewEdit extends TaskCommand {
 			if (isRemoveTwice) {
 				_temp.setEndTime(null);
 			}
-			if (_newTask.getDesc() == null  || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
+			if (_newTask.getDesc() == null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
 				_newTask.setDesc(_prevTask.getDesc());
 			}
 			if (_newTask.getLocation() == null
 					|| _newTask.getLocation().equals("") && _prevTask.getLocation() != null) {
 				_newTask.setLocation(_prevTask.getLocation());
-			}
-			if (_newTask.getHashtags() == null || _newTask.getHashtags().isEmpty()) {
-				_newTask.setHashtags(_prevTask.getHashtags());
 			}
 			if (_unknown == null) {
 				if (_newTask.getStartTime() == null) {
@@ -114,13 +113,13 @@ public class NewEdit extends TaskCommand {
 		_newTask.setDateModified(LocalDateTime.now());
 		_prevTask.setDateModified(LocalDateTime.now());
 	}
-	
+
 	public String undo() {
 		updateDateModified();
 		_data.deleteTask(_newTask);
 		_data.addTask(_prevTask);
 		_data.setTaskPointer(_prevTask);
-		return taskMessageWithMulti(_newTask) + MESSAGE_REVERTED  + taskMessageWithMulti(_prevTask) ;
+		return taskMessageWithMulti(_newTask) + MESSAGE_REVERTED + taskMessageWithMulti(_prevTask);
 	}
 
 	public String redo() {

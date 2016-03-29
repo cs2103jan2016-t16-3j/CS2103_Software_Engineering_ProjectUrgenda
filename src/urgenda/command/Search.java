@@ -50,75 +50,70 @@ public class Search extends Command {
 		if (_searchDesc != null) {
 			String copy = _searchDesc; // copy of _searchDesc for modification,
 										// trimming and caseignore
-			if (copy.trim().charAt(0) == '#') {
-				String input = copy.replaceFirst("#", "").trim();
-				matches = data.findMatchingHashtags(input);
-			} else {
-				switch (copy.toLowerCase().trim()) {
-				case "overdue":
-					matches = data.findMatchingDesc(_searchDesc);
-					for (Task task : data.getDisplays()) {
-						if (task.isOverdue() && !matches.contains(task)) {
-							matches.add(task);
-						}
+			switch (copy.toLowerCase().trim()) {
+			case "overdue":
+				matches = data.findAllMatchingDesc(_searchDesc);
+				for (Task task : data.getTaskList()) {
+					if (task.isOverdue() && !matches.contains(task)) {
+						matches.add(task);
 					}
-					for (Task task : data.getArchives()) {
-						if (task.isOverdue() && !matches.contains(task)) {
-							matches.add(task);
-						}
-					}
-					break;
-				case "completed":
-					matches = data.findMatchingDesc(_searchDesc);
-					for (Task task : data.getDisplays()) {
-						if (task.isCompleted() && !matches.contains(task)) {
-							matches.add(task);
-						}
-					}
-					for (Task task : data.getArchives()) {
-						if (task.isCompleted() && !matches.contains(task)) {
-							matches.add(task);
-						}
-					}
-					break;
-				case "important": // Fallthrough
-				case "prioritise":
-					matches = data.findMatchingDesc(_searchDesc);
-					for (Task task : data.getDisplays()) {
-						if (task.isImportant() && !matches.contains(task)) {
-							matches.add(task);
-						}
-					}
-					break;
-				case "event":
-					matches = data.findMatchingDesc(_searchDesc);
-					for (Task task : data.getDisplays()) {
-						if (task.getTaskType().equals(Task.Type.EVENT) && !matches.contains(task)) {
-							matches.add(task);
-						}
-					}
-					break;
-				case "deadline":
-					matches = data.findMatchingDesc(_searchDesc);
-					for (Task task : data.getDisplays()) {
-						if (task.getTaskType().equals(Task.Type.DEADLINE) && !matches.contains(task)) {
-							matches.add(task);
-						}
-					}
-					break;
-				case "floating": // Fallthrough
-				case "untimed":
-					matches = data.findMatchingDesc(_searchDesc);
-					for (Task task : data.getDisplays()) {
-						if (task.getTaskType().equals(Task.Type.FLOATING) && !matches.contains(task)) {
-							matches.add(task);
-						}
-					}
-					break;
-				default:
-					matches = data.findMatchingDesc(_searchDesc);
-					break;
 				}
+				for (Task task : data.getArchives()) {
+					if (task.isOverdue() && !matches.contains(task)) {
+						matches.add(task);
+					}
+				}
+				break;
+			case "completed":
+				matches = data.findAllMatchingDesc(_searchDesc);
+				for (Task task : data.getTaskList()) {
+					if (task.isCompleted() && !matches.contains(task)) {
+						matches.add(task);
+					}
+				}
+				for (Task task : data.getArchives()) {
+					if (task.isCompleted() && !matches.contains(task)) {
+						matches.add(task);
+					}
+				}
+				break;
+			case "important": // Fallthrough
+			case "prioritise":
+				matches = data.findAllMatchingDesc(_searchDesc);
+				for (Task task : data.getTaskList()) {
+					if (task.isImportant() && !matches.contains(task)) {
+						matches.add(task);
+					}
+				}
+				break;
+			case "event":
+				matches = data.findAllMatchingDesc(_searchDesc);
+				for (Task task : data.getTaskList()) {
+					if (task.getTaskType().equals(Task.Type.EVENT) && !matches.contains(task)) {
+						matches.add(task);
+					}
+				}
+				break;
+			case "deadline":
+				matches = data.findAllMatchingDesc(_searchDesc);
+				for (Task task : data.getTaskList()) {
+					if (task.getTaskType().equals(Task.Type.DEADLINE) && !matches.contains(task)) {
+						matches.add(task);
+					}
+				}
+				break;
+			case "floating": // Fallthrough
+			case "untimed":
+				matches = data.findAllMatchingDesc(_searchDesc);
+				for (Task task : data.getDisplays()) {
+					if (task.getTaskType().equals(Task.Type.FLOATING) && !matches.contains(task)) {
+						matches.add(task);
+					}
+				}
+				break;
+			default:
+				matches = data.findAllMatchingDesc(_searchDesc);
+				break;
 			}
 			if (matches.isEmpty()) {
 				data.setCurrState(LogicData.DisplayState.ALL_TASKS);
