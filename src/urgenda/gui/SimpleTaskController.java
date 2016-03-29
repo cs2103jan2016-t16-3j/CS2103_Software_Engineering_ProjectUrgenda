@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -84,6 +86,13 @@ public class SimpleTaskController extends GridPane {
 			noviceHeaderPane.setVisible(false);
 		}
 		setSelected(false);
+		this.heightProperty().addListener(new ChangeListener<Number>(){
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				if(index == _displayController.getSelectedTaskIndex())
+					_displayController.checkScrollHeight();
+			}		
+		});
 	}
 
 	private void initLabels() {
