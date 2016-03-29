@@ -175,8 +175,6 @@ public class FileEditor {
 		Path source = _file.toPath();
 		_parentDir = new File(path);
 		_parentDir.mkdir();
-//		File newDir = new File(path);
-//		newDir.mkdir();
 		Path newSource = Paths.get(path);
 		try {
 			Files.move(source, newSource.resolve(source.getFileName()), REPLACE_EXISTING);
@@ -186,6 +184,15 @@ public class FileEditor {
 			e.printStackTrace();
 		}
 		_file = new File(_parentDir, source.getFileName().toString());
+	}
+	
+	public static boolean isExistingFile(String dir, String name){
+		File file = new File(dir, name);
+		if (file.exists()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public void paths(){
