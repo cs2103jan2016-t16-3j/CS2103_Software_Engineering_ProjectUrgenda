@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -31,8 +32,17 @@ public class test {
 	public static void main(String[] args) {
 		while (true) {
 			String input = getUserInput();
-			String output = PublicFunctions.reformatArgsString(input);
-			System.out.print(output + "\n");
+			
+//			PrettyTimeParser parser = new PrettyTimeParser();
+//			List<Date> dates = parser.parse(input);
+//			for (int i = 0; i < dates.size(); i++) {
+//				LocalDateTime dateTime = PublicFunctions.getLocalDateTimeFromDate(dates.get(i));
+//				System.out.print(dateTime.getNano() + "\n");
+//			}
+
+			// String output = PublicFunctions.reformatArgsString(input);
+			// System.out.print(output + "\n");
+
 			// CommandParser.parseCommand(input, 5);
 			// System.out.print("Description: " +
 			// PublicVariables.taskDescription + "\n");
