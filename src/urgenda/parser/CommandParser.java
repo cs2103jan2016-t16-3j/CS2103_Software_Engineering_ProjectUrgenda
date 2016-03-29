@@ -36,8 +36,6 @@ public class CommandParser {
 	public static Command parseCommand(String commandString, int index) {
 		PublicFunctions.reinitializePublicVariables();
 
-		commandString = reformatCommandString(commandString);
-
 		PublicVariables.commandType = CommandTypeParser.getCommandType(commandString);
 		String argsString = CommandTypeParser.getArgsString(commandString);
 		Command testReturn = generateAndReturnCommandObjects(PublicVariables.commandType, argsString, index);
@@ -107,27 +105,6 @@ public class CommandParser {
 			return postponeCommand.generateAndReturn();
 		default:
 			return null;
-		}
-	}
-
-	public static String reformatCommandString(String commandString) {
-		String reverseDateRegex = "(((\\A|\\D)([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])(([-/.])([(19)|(20)])?\\d\\d)?(\\D|\\Z)))";
-		Matcher matcher = Pattern.compile(reverseDateRegex).matcher(commandString);
-		while (matcher.find()) {
-			commandString = commandString.replace(matcher.group(), " " + reverseDateMonth(matcher.group()) + " ");
-		}
-		return commandString;
-	}
-
-	private static String reverseDateMonth(String string) {
-		String[] stringArray = string.split("([-/.])");
-		if (stringArray.length == 2) {
-			return stringArray[1].replaceAll("\\D+", "") + "/" + stringArray[0].replaceAll("\\D+", "");
-		} else if (stringArray.length == 3) {
-			return stringArray[1] + "/" + stringArray[0].replaceAll("\\D+", "") + "/"
-					+ stringArray[2].replaceAll("\\D+", "");
-		} else {
-			return string;
 		}
 	}
 }

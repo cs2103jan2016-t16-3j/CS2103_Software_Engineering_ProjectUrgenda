@@ -15,6 +15,7 @@ import urgenda.command.AddTask;
 import urgenda.command.Command;
 import urgenda.command.DeleteTask;
 import urgenda.parser.CommandParser;
+import urgenda.parser.PublicFunctions;
 import urgenda.parser.PublicVariables;
 import urgenda.util.Task;
 //import com.joestelmach.natty.*;
@@ -30,7 +31,7 @@ public class test {
 	public static void main(String[] args) {
 		while (true) {
 			String input = getUserInput();
-			String output = CommandParser.reformatCommandString(input);
+			String output = PublicFunctions.reformatArgsString(input);
 			System.out.print(output + "\n");
 			// CommandParser.parseCommand(input, 5);
 			// System.out.print("Description: " +
