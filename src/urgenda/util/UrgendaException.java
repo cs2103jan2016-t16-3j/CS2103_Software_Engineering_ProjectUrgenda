@@ -1,7 +1,7 @@
 package urgenda.util;
 
 public class UrgendaException extends Exception{
-	private static final String ERROR_MESSAGE = "file already exist, will not replace. Loading tasks from new location";
+	private static final String ERROR_MESSAGE = "File already exist. \n Loading tasks from existing file";
 	
 	private String _dir;
 	private String _name;
