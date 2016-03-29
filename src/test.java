@@ -114,6 +114,6 @@ public class test {
 	private static String getUserInput() {
 		System.out.print("Type smth: ");
 		String line = scanner.nextLine();
-		return line.trim();
+		return line;
 	}
 }

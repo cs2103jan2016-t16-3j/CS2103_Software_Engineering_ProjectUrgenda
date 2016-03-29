@@ -111,7 +111,7 @@ public class CommandParser {
 	}
 
 	public static String reformatCommandString(String commandString) {
-		String reverseDateRegex = "((\\D([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])(([-/.])([(19)|(20)])?\\d\\d)?\\D))";
+		String reverseDateRegex = "(((\\A|\\D)([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])(([-/.])([(19)|(20)])?\\d\\d)?(\\D|\\Z)))";
 		Matcher matcher = Pattern.compile(reverseDateRegex).matcher(commandString);
 		while (matcher.find()) {
 			commandString = commandString.replace(matcher.group(), " " + reverseDateMonth(matcher.group()) + " ");
