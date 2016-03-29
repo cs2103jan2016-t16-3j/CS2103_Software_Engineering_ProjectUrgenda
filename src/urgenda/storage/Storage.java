@@ -79,6 +79,9 @@ public class Storage {
 				_file.relocate(dir);
 				_file.rename(name);
 			} else {
+				_settings.setFileDir(dir);
+				_settings.setFileName(name);
+				_settings.saveSettings();
 				throw new UrgendaException(dir, name); 
 			}
 		} else {
