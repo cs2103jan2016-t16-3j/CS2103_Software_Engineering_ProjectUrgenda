@@ -110,7 +110,7 @@ public class PrioritiseTest {
 		Prioritise tester4 = new Prioritise();
 		tester4.setPositions(range);
 		try {
-			feedback = tester2.execute();
+			feedback = tester4.execute();
 		} catch (Exception e) {
 			feedback = e.getMessage();
 		}

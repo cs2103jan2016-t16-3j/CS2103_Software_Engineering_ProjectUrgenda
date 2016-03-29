@@ -38,9 +38,6 @@ public class EditTest {
 		
 		_data.setDisplays(_tasks);
 		
-		ArrayList<Task> checker = _data.getDisplays();
-		System.out.println(checker.get(0).getTaskType());
-		
 		Task testTask = new Task(1, "Buy milk and eggs", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
 		Edit tester = new Edit(0,testTask);
 		String phrase = tester.execute();
