@@ -368,7 +368,7 @@ public class LogicData {
 		if (!input.equals("")) {
 			try {
 				for (Task task : _displays) {
-					if (task.getHashtags() != null || !task.getHashtags().isEmpty()) {
+					if (task.getHashtags() != null && !task.getHashtags().isEmpty()) {
 						Iterator<String> i = task.getHashtags().iterator();
 						while (i.hasNext() && flag) {
 							if (Pattern.compile(Pattern.quote(input), Pattern.CASE_INSENSITIVE).matcher(i.next())
@@ -400,7 +400,7 @@ public class LogicData {
 				} else if (task.getStartTime().toLocalDate().isBefore(input)
 						&& task.getEndTime().toLocalDate().isAfter(input)) {
 					matches.add(task);
-				} else if (task.getSlot() != null || !task.getSlot().isEmpty()) {
+				} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
 					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
 					for (DateTimePair pair : slots) {
 						if (pair.getEarlierDateTime().toLocalDate().isEqual(input)
@@ -430,7 +430,7 @@ public class LogicData {
 					matches.add(task);
 				} else if (task.getStartTime().isBefore(input) && task.getEndTime().isAfter(input)) {
 					matches.add(task);
-				} else if (task.getSlot() != null || !task.getSlot().isEmpty()) {
+				} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
 					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
 					for (DateTimePair pair : slots) {
 						if (pair.getEarlierDateTime().isEqual(input) || pair.getLaterDateTime().isEqual(input)) {
@@ -459,7 +459,7 @@ public class LogicData {
 					matches.add(task);
 				} else if (task.getStartTime().getMonth() == input && task.getEndTime().getMonth() == input) {
 					matches.add(task);
-				} else if (task.getSlot() != null || !task.getSlot().isEmpty()) {
+				} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
 					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
 					for (DateTimePair pair : slots) {
 						if (pair.getEarlierDateTime().getMonth() == input

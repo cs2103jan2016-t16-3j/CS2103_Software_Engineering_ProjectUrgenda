@@ -2,6 +2,7 @@ package urgenda.parser.commandParser;
 
 import urgenda.command.*;
 import urgenda.parser.DateTimeParser;
+import urgenda.parser.PublicFunctions;
 import urgenda.parser.PublicVariables;
 import urgenda.parser.PublicVariables.*;
 import urgenda.util.Task;
@@ -20,7 +21,8 @@ public class AddCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			String reducedArgsString = DateTimeParser.searchTaskTimes(_argsString);
+			String reformattedString = PublicFunctions.reformatArgsString(_argsString);
+			String reducedArgsString = DateTimeParser.searchTaskTimes(reformattedString);
 			// System.out.print(reducedArgsString + "\n");
 			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
 			reducedArgsString = TaskDetailsParser.searchTaskLocation(reducedArgsString);

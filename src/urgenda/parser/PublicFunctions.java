@@ -65,4 +65,45 @@ public class PublicFunctions {
 		}
 		return temp.trim();
 	}
+	
+	public static String reformatArgsString(String argsString) {
+		String reverseDateRegex = "(((\\A|\\D)([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])(([-/.])([(19)|(20)])?\\d\\d)?(\\D|\\Z)))";
+		Matcher matcher = Pattern.compile(reverseDateRegex).matcher(argsString);
+		while (matcher.find()) {
+			argsString = argsString.replace(matcher.group(), " " + reverseDateMonth(matcher.group()) + " ");
+		}
+		return argsString;
+	}
+
+	private static String reverseDateMonth(String string) {
+		String[] stringArray = string.split("([-/.])");
+		if (stringArray.length == 2) {
+			return stringArray[1].replaceAll("\\D+", "") + "/" + stringArray[0].replaceAll("\\D+", "");
+		} else if (stringArray.length == 3) {
+			return stringArray[1] + "/" + stringArray[0].replaceAll("\\D+", "") + "/"
+					+ stringArray[2].replaceAll("\\D+", "");
+		} else {
+			return string;
+		}
+	}
+	
+	public static LocalDateTime getLocalDateTimeFromDate(Date date) {
+		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+	}
+	
+	public static LocalDateTime minTime(LocalDateTime time1, LocalDateTime time2) {
+		if (time1.isAfter(time2)) {
+			return time2;
+		} else {
+			return time1;
+		}
+	}
+	
+	public static LocalDateTime maxTime(LocalDateTime time1, LocalDateTime time2) {
+		if (time1.isAfter(time2)) {
+			return time1;
+		} else {
+			return time2;
+		}
+	}
 }

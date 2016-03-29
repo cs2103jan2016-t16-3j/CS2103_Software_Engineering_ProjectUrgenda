@@ -92,7 +92,9 @@ public class TaskDetailsParser {
 					if (!PublicVariables.positions.contains(Integer.parseInt(indexRanges[i].trim()) - 1)) {
 						PublicVariables.positions.add(Integer.parseInt(indexRanges[i].trim()) - 1);
 					}
-				}
+				} else {
+					return argsString;
+				}	
 			} catch (Exception e) {
 				return argsString;
 			}

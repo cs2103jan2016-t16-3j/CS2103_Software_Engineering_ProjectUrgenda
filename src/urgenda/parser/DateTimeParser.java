@@ -358,8 +358,8 @@ public class DateTimeParser {
 		return _argsString; // can add handler
 	}
 
-	private static LocalDateTime getLocalDateTimeFromDate(Date date) {
-		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+	public static LocalDateTime getLocalDateTimeFromDate(Date date) {
+		return PublicFunctions.getLocalDateTimeFromDate(date);
 	}
 
 	private static Date getMin(Date date1, Date date2) {

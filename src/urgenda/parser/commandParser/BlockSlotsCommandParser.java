@@ -12,7 +12,7 @@ public class BlockSlotsCommandParser {
 	private static String _argsString;
 	private static int _index;
 	private static String taskDetails;
-	private static ArrayList<String> taskTimeStrings = new ArrayList<String>();
+	private static ArrayList<String> taskTimeStrings;
 
 	public BlockSlotsCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -23,6 +23,7 @@ public class BlockSlotsCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
+			taskTimeStrings = new ArrayList<String>();
 			Boolean isConcatSuccess = concatArgsString();
 			if (isConcatSuccess) {
 				String reducedArgsString = TaskDetailsParser.searchTaskHashtags(taskDetails);
