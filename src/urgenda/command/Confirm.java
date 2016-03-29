@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 import urgenda.util.DateTimePair;
+import urgenda.util.MultipleSlot;
 
 public class Confirm extends TaskCommand {
 	
@@ -38,6 +39,7 @@ public class Confirm extends TaskCommand {
 		if (_prevTask == null) {
 			throw new Exception(MESSAGE_NO_POSITION);
 		} else if (_prevTask.getSlot() == null) {
+			_data.setTaskPointer(_prevTask);
 			throw new Exception(MESSAGE_NO_MULTIPLE);
 		}
 		
@@ -51,9 +53,10 @@ public class Confirm extends TaskCommand {
 			_data.clearShowMoreTasks();
 			return MESSAGE_CONFIRM + taskMessageWithMulti(_confirmedTask);
 		} else {
-			while (_confirmedTask.getSlot() != null && !(_confirmedTask.getSlot().isEmpty())) {
-				currPair = _confirmedTask.getSlot().getNextSlot();
-				_confirmedTask.getSlot().removeNextSlot();
+			MultipleSlot tempSlot = new MultipleSlot(_confirmedTask.getSlot());
+			while (tempSlot != null && !(tempSlot.isEmpty())) {
+				currPair = tempSlot.getNextSlot();
+				tempSlot.removeNextSlot();
 				if (currPair.equals(_confirmed)) {
 					_confirmedTask.setStartTime(currPair.getEarlierDateTime());
 					_confirmedTask.setEndTime(currPair.getLaterDateTime());
@@ -66,6 +69,7 @@ public class Confirm extends TaskCommand {
 					return MESSAGE_CONFIRM + taskMessageWithMulti(_confirmedTask);
 				}
 			}
+			_data.setTaskPointer(_prevTask);
 			throw new Exception(String.format(MESSAGE_NO_MATCH, _confirmed.getEarlierDateTime().getDayOfMonth(),
 					_confirmed.getEarlierDateTime().getMonthValue(), _confirmed.getEarlierDateTime().getHour(),
 					_confirmed.getEarlierDateTime().getMinute(), _confirmed.getLaterDateTime().getDayOfMonth(),
