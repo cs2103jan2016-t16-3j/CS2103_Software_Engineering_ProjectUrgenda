@@ -46,14 +46,14 @@ public class PostponeCommandParser {
 			return new Invalid();
 		} else {
 			reinitializeVariables();
-			
+
 			reducedArgsString = _argsString;
-			Matcher matcher2 = Pattern.compile(monthRegex).matcher(reducedArgsString);
-			if (matcher2.find()) {
-				monthString = matcher2.group();
-				reducedArgsString = reducedArgsString.replace(matcher2.group(), "");
+			Matcher matcher = Pattern.compile(monthRegex).matcher(reducedArgsString);
+			if (matcher.find()) {
+				monthString = matcher.group();
+				reducedArgsString = reducedArgsString.replace(matcher.group(), "");
 			}
-			Matcher matcher = Pattern.compile(secondRegex).matcher(reducedArgsString);
+			matcher = Pattern.compile(secondRegex).matcher(reducedArgsString);
 			if (matcher.find()) {
 				secondString = matcher.group();
 				reducedArgsString = _argsString.replace(matcher.group(), "");
@@ -79,40 +79,46 @@ public class PostponeCommandParser {
 				reducedArgsString = reducedArgsString.replace(matcher.group(), "");
 			}
 
-			if (reducedArgsString.trim().equals("")) {
-				return new Invalid();
+			Postpone postponeCommand = new Postpone();
+			if (reducedArgsString.equals("")) {
+				postponeCommand.setId(_index);
 			} else {
-				Postpone postponeCommand = new Postpone();
 				try {
-					if (secondString != null) {
-						postponeCommand.setSecond(getIntPart(secondString));
-					}
-					if (minuteString != null) {
-						postponeCommand.setMinute(getIntPart(minuteString));
-					}
-					if (hourString != null) {
-						postponeCommand.setHour(getIntPart(hourString));
-					}
-					if (dayString != null) {
-						postponeCommand.setDay(getIntPart(dayString));
-					}
-					if (monthString != null) {
-						postponeCommand.setMonth(getIntPart(monthString));
-					}
-					if (yearString != null) {
-						postponeCommand.setYear(getIntPart(yearString));
-					}
-					postponeCommand.setId(_index);
-					System.out.print("sencond: " + secondString + "\n");
-					System.out.print("minute: " + minuteString + "\n");
-					System.out.print("hour: " + hourString + "\n");
-					System.out.print("day: " + dayString + "\n");
-					System.out.print("month: " + monthString + "\n");
-					System.out.print("year: " + yearString + "\n");
-					return postponeCommand;
+					int index = Integer.parseInt(reducedArgsString.trim());
+					postponeCommand.setId(index);
 				} catch (Exception e) {
 					return new Invalid();
 				}
+			}
+			
+			try {
+				if (secondString != null) {
+					System.out.print("sencond: " + secondString + "\n");
+					postponeCommand.setSecond(getIntPart(secondString));
+				}
+				if (minuteString != null) {
+					System.out.print("minute: " + minuteString + "\n");
+					postponeCommand.setMinute(getIntPart(minuteString));
+				}
+				if (hourString != null) {
+					System.out.print("hour: " + hourString + "\n");
+					postponeCommand.setHour(getIntPart(hourString));
+				}
+				if (dayString != null) {
+					System.out.print("day: " + dayString + "\n");
+					postponeCommand.setDay(getIntPart(dayString));
+				}
+				if (monthString != null) {
+					System.out.print("month: " + monthString + "\n");
+					postponeCommand.setMonth(getIntPart(monthString));
+				}
+				if (yearString != null) {
+					System.out.print("year: " + yearString + "\n");
+					postponeCommand.setYear(getIntPart(yearString));
+				}
+				return postponeCommand;
+			} catch (Exception e) {
+				return new Invalid();
 			}
 		}
 	}
