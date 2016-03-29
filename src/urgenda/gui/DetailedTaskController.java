@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import urgenda.gui.DisplayController.Direction;
@@ -39,6 +40,8 @@ public class DetailedTaskController extends SimpleTaskController {
 	private Label taskLocationLabel;
 	@FXML
 	private VBox dateTimesHolder;
+	@FXML
+	private HBox locationHolder;
 	
 	public DetailedTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		super(task, index, taskDisplayType, showHeader);
@@ -53,10 +56,9 @@ public class DetailedTaskController extends SimpleTaskController {
 		dateModifiedLabel.setText(formatDetailsDateTime(_task.getDateModified()));
 		if(_task.getLocation() != null) {
 			taskLocationLabel.setText(_task.getLocation());
-		} 
+		}
 		if(_task.getLocation() == null || _task.getLocation().equals("")) {
-			taskLocationLabel.setText("");
-			locationIcon.setVisible(false);
+			locationHolder.setVisible(false);
 		}
 		if (_task.getSlot() != null) { //task has multiple time slots
 			taskDateTimeLabel.setText(formatDateTime(_multipleSlotList.get(0).getEarlierDateTime(), _multipleSlotList.get(0).getLaterDateTime()));

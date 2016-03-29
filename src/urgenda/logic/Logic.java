@@ -12,7 +12,7 @@ import urgenda.util.UrgendaLogger;
 
 public class Logic {
 	
-	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use. \nPress ALT + F1 if you need help.";
+	private static final String MESSAGE_WELCOME = "Welcome to Urgenda! Your task manager is ready for use. \nPress ALT + F1 or type \"help\" if you need help.";
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static Logic _logic;
 	private LogicData _logicData;
