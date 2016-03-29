@@ -30,42 +30,58 @@ public class test {
 	public static void main(String[] args) {
 		while (true) {
 			String input = getUserInput();
-			CommandParser.parseCommand(input, 5);
-			System.out.print("Description: " + PublicVariables.taskDescription + "\n");
-			System.out.print("Index: " + PublicVariables.taskIndex + "\n");
-			System.out.print("Location: " + PublicVariables.taskLocation + "\n");
-			System.out.print("Start Time: " + PublicVariables.taskStartTime + "\n");
-			System.out.print("End Time: " + PublicVariables.taskEndTime + "\n");
-			System.out.print("Hashtags: " + PublicVariables.taskHashtags + "\n");
-			System.out.print("TaskType: " + PublicVariables.taskType + "\n");
-			System.out.print("CmdType: " + PublicVariables.commandType + "\n");
-			if (!PublicVariables.positions.isEmpty()) {
-				for (int i = 0; i < PublicVariables.positions.size(); i++) {
-					System.out.print("Index " + i + ": " + PublicVariables.positions.get(i).toString() + " and " + PublicVariables.positions.get(i).toString() + "\n");
-				}
-			}
-			if (!PublicVariables.taskSlots.getSlots().isEmpty()) {
-				for (int i = 0; i < PublicVariables.taskSlots.getSlots().size(); i++) {
-					System.out.print("Slot " + i + ": " + PublicVariables.taskSlots.getSlots().get(i).getDateTime1().toString() + " and " + PublicVariables.taskSlots.getSlots().get(i).getDateTime2().toString() + "\n");
-				}
-			}
-//			 PrettyTimeParser p = new PrettyTimeParser();
-//			 List<Date> dateTimes = p.parse(input);
-//			 for (Date test : dateTimes) {
-//			 System.out.println(test + "\nEnd\n");
-//			 }
-//			
-//			 List<DateGroup> parse = new PrettyTimeParser().parseSyntax(input);
-//			 for (int i = 0; i < parse.size(); i++) {
-//			 for (int j = 0; j < parse.get(i).getDates().size(); j++) {
-//			 String formatted = new
-//			 PrettyTime().format(parse.get(i).getDates().get(j));
-//			 System.out.print(parse.get(i).getDates().get(j) + "\n");
-//			 System.out.print(formatted + "\n");
-//			 }
-//			 System.out.print(parse.get(i).getText() + "\n");
-//			 System.out.print(parse.get(i).getPosition() + "\n");
-//			 }
+			String output = CommandParser.reformatCommandString(input);
+			System.out.print(output + "\n");
+			// CommandParser.parseCommand(input, 5);
+			// System.out.print("Description: " +
+			// PublicVariables.taskDescription + "\n");
+			// System.out.print("Index: " + PublicVariables.taskIndex + "\n");
+			// System.out.print("Location: " + PublicVariables.taskLocation +
+			// "\n");
+			// System.out.print("Start Time: " + PublicVariables.taskStartTime +
+			// "\n");
+			// System.out.print("End Time: " + PublicVariables.taskEndTime +
+			// "\n");
+			// System.out.print("Hashtags: " + PublicVariables.taskHashtags +
+			// "\n");
+			// System.out.print("TaskType: " + PublicVariables.taskType + "\n");
+			// System.out.print("CmdType: " + PublicVariables.commandType +
+			// "\n");
+			// if (!PublicVariables.positions.isEmpty()) {
+			// for (int i = 0; i < PublicVariables.positions.size(); i++) {
+			// System.out.print("Index " + i + ": " +
+			// PublicVariables.positions.get(i).toString() + " and " +
+			// PublicVariables.positions.get(i).toString() + "\n");
+			// }
+			// }
+			// if (!PublicVariables.taskSlots.getSlots().isEmpty()) {
+			// for (int i = 0; i < PublicVariables.taskSlots.getSlots().size();
+			// i++) {
+			// System.out.print("Slot " + i + ": " +
+			// PublicVariables.taskSlots.getSlots().get(i).getDateTime1().toString()
+			// + " and " +
+			// PublicVariables.taskSlots.getSlots().get(i).getDateTime2().toString()
+			// + "\n");
+			// }
+			// }
+			// PrettyTimeParser p = new PrettyTimeParser();
+			// List<Date> dateTimes = p.parse(input);
+			// for (Date test : dateTimes) {
+			// System.out.println(test + "\nEnd\n");
+			// }
+			//
+			// List<DateGroup> parse = new
+			// PrettyTimeParser().parseSyntax(input);
+			// for (int i = 0; i < parse.size(); i++) {
+			// for (int j = 0; j < parse.get(i).getDates().size(); j++) {
+			// String formatted = new
+			// PrettyTime().format(parse.get(i).getDates().get(j));
+			// System.out.print(parse.get(i).getDates().get(j) + "\n");
+			// System.out.print(formatted + "\n");
+			// }
+			// System.out.print(parse.get(i).getText() + "\n");
+			// System.out.print(parse.get(i).getPosition() + "\n");
+			// }
 		}
 	}
 
