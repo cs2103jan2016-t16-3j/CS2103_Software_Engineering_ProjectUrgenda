@@ -28,7 +28,7 @@ public class ConfirmCommandParser {
 		String remainingPhrase = PublicFunctions.removeFirstWord(_argsString);
 
 		PrettyTimeParser parser = new PrettyTimeParser();
-		List<Date> dateTimes = parser.parse(remainingPhrase);
+		List<Date> dateTimes = parser.parse(_argsString);
 
 		if (dateTimes.size() == 2) {
 			try {
@@ -40,20 +40,15 @@ public class ConfirmCommandParser {
 				confirmCommand.setTimeSlot(PublicFunctions.minTime(time1, time2), PublicFunctions.maxTime(time1, time2));				
 				return confirmCommand;
 			} catch (Exception e) {
-				return new Invalid();
-			}
-		} else {
-			dateTimes = parser.parse(_argsString);
-			if (dateTimes.size() == 2) {
 				confirmCommand.setId(_index);
 				
 				LocalDateTime time1 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(0));
 				LocalDateTime time2 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(1));
 				confirmCommand.setTimeSlot(PublicFunctions.minTime(time1, time2), PublicFunctions.maxTime(time1, time2));				
 				return confirmCommand;
-			} else {
-				return new Invalid();
 			}
+		} else {
+			return new Invalid();
 		}
 	}
 }
