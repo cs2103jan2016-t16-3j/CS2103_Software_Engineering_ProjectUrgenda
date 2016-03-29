@@ -17,6 +17,7 @@ public class Prioritise extends TaskCommand {
 	private static final String MESSAGE_NO_MATCH = "No matches found to prioritise";
 	private static final String MESSAGE_NUM = "Priority of %1$s tasks have been changed:\n";
 	private static final String MESSAGE_TASK_DESC = "\"%1$s\", ";
+	private static final String COMMA_DELIMITER = ",";
 
 	private String _desc;
 	private ArrayList<Integer> _positions;
@@ -74,7 +75,7 @@ public class Prioritise extends TaskCommand {
 
 	// pre condition the string contains the extra ", "
 	private String formatFeedbackWithImportance(String feedback) {
-		feedback = feedback.substring(0, feedback.length() - 2);
+		feedback = feedback.substring(0, feedback.lastIndexOf(COMMA_DELIMITER));
 		feedback += getTaskImportance(_tasks.get(0));
 		return feedback;
 	}

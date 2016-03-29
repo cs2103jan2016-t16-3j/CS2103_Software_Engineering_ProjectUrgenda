@@ -99,22 +99,22 @@ public class Postpone extends TaskCommand {
 	private void addTime() {
 		if (_task.getTaskType() == Task.Type.EVENT) {
 			LocalDateTime start = _task.getStartTime();
-			start.plusYears(_year);
-			start.plusMonths(_month);
-			start.plusDays(_day);
-			start.plusHours(_hour);
-			start.plusMinutes(_minute);
-			start.plusSeconds(_second);
+			start = start.plusYears(_year);
+			start = start.plusMonths(_month);
+			start = start.plusDays(_day);
+			start = start.plusHours(_hour);
+			start = start.plusMinutes(_minute);
+			start = start.plusSeconds(_second);
 			_task.setStartTime(start);
 		}		
 
 		LocalDateTime end = _task.getEndTime();
-		end.plusYears(_year);
-		end.plusMonths(_month);
-		end.plusDays(_day);
-		end.plusHours(_hour);
-		end.plusMinutes(_minute);
-		end.plusSeconds(_second);
+		end = end.plusYears(_year);
+		end = end.plusMonths(_month);
+		end = end.plusDays(_day);
+		end = end.plusHours(_hour);
+		end = end.plusMinutes(_minute);
+		end = end.plusSeconds(_second);
 		_task.setEndTime(end);
 	}
 
@@ -129,22 +129,22 @@ public class Postpone extends TaskCommand {
 	private void minusTime() {
 		if (_task.getTaskType() == Task.Type.EVENT) {
 			LocalDateTime start = _task.getStartTime();
-			start.minusYears(_year);
-			start.minusMonths(_month);
-			start.minusDays(_day);
-			start.minusHours(_hour);
-			start.minusMinutes(_minute);
-			start.minusSeconds(_second);
+			start = start.minusYears(_year);
+			start = start.minusMonths(_month);
+			start = start.minusDays(_day);
+			start = start.minusHours(_hour);
+			start = start.minusMinutes(_minute);
+			start = start.minusSeconds(_second);
 			_task.setStartTime(start);
 		}		
 
 		LocalDateTime end = _task.getEndTime();
-		end.minusYears(_year);
-		end.minusMonths(_month);
-		end.minusDays(_day);
-		end.minusHours(_hour);
-		end.minusMinutes(_minute);
-		end.minusSeconds(_second);
+		end = end.minusYears(_year);
+		end = end.minusMonths(_month);
+		end = end.minusDays(_day);
+		end = end.minusHours(_hour);
+		end = end.minusMinutes(_minute);
+		end = end.minusSeconds(_second);
 		_task.setEndTime(end);
 	}
 

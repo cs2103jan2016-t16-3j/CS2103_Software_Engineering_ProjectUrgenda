@@ -61,7 +61,7 @@
                         <Insets left="3.0" right="5.0" />
                      </VBox.margin>
                   </Label>
-                  <HBox prefHeight="20.0" prefWidth="190.0">
+                  <HBox fx:id="locationHolder" prefHeight="20.0" prefWidth="190.0">
                      <children>
                         <ImageView fx:id="locationIcon" fitHeight="16.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -109,6 +109,9 @@
                   <Label fx:id="dateModifiedHeader" alignment="CENTER_RIGHT" minWidth="140.0" text="Date Modified: " />
                   <Label fx:id="dateModifiedLabel" text="DATE MODIFIED" />
                </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
             </HBox>
          </children>
          <GridPane.margin>

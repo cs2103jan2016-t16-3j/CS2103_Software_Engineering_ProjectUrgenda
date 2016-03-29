@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 import org.ocpsoft.prettytime.nlp.parse.DateGroup;
+import org.ocpsoft.prettytime.shade.net.fortuna.ical4j.model.DateTime;
 
 import urgenda.util.MultipleSlot;
 
@@ -54,6 +55,7 @@ public class DateTimeParser {
 				}
 			}
 		}
+		
 		return dateWithoutTime;
 	}
 

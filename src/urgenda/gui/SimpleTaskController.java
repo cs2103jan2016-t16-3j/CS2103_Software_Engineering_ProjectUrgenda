@@ -105,7 +105,6 @@ public class SimpleTaskController extends GridPane {
 			_multipleSlotList.add(new DateTimePair(_task.getStartTime(), _task.getEndTime()));
 			_multipleSlotList.addAll(_task.getSlot().getSlots());
 			taskDateTimeLabel.setText(formatMultipleSlotDateTime());
-			taskDateTimeLabel.setFont(Main.LIGHT_FONT);
 		} else {
 			_multipleSlotIndex = -1; //task has no multiple slots
 			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));

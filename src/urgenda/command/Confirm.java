@@ -11,7 +11,8 @@ public class Confirm extends TaskCommand {
 	private static final String MESSAGE_NO_POSITION = "Invalid position to confirm";
 	private static final String MESSAGE_INVALID_TIME = "Invalid confirm time";
 	private static final String MESSAGE_NO_MULTIPLE = "Task does not have multiple slots";
-	private static final String MESSAGE_NO_MATCH = "No matches found for %1$02d:%2$02d - %3$02d:%4$02d";
+	private static final String MESSAGE_NO_MATCH = "No matches found for %1$d/%2$d, %3$02d:%4$02d - "
+			+ "%5$d/%6$d, %7$02d:%8$02d";
 	private static final String MESSAGE_CONFIRM = "Confirmed ";
 	private static final String MESSAGE_BLOCK = "Blocked ";
 	
@@ -66,8 +67,10 @@ public class Confirm extends TaskCommand {
 				}
 			}
 			throw new Exception(String.format(MESSAGE_NO_MATCH, _confirmed.getEarlierDateTime().getDayOfMonth(),
-					_confirmed.getEarlierDateTime().getMonthValue(), _confirmed.getLaterDateTime().getDayOfMonth(),
-					_confirmed.getLaterDateTime().getMonthValue()));
+					_confirmed.getEarlierDateTime().getMonthValue(), _confirmed.getEarlierDateTime().getHour(),
+					_confirmed.getEarlierDateTime().getMinute(), _confirmed.getLaterDateTime().getDayOfMonth(),
+					_confirmed.getLaterDateTime().getMonthValue(), _confirmed.getLaterDateTime().getHour(),
+					_confirmed.getLaterDateTime().getMinute()));
 		}
 	}
 

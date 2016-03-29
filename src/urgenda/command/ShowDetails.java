@@ -37,6 +37,7 @@ public class ShowDetails extends Command {
 	private String toggleTasks() {
 		if (_tasks.size() == 1) {
 			_data.toggleShowMoreTasks(_tasks.get(0));
+			return showMoreFeedback();
 		} else if (!isAllShowMore()) { // remove tasks that are already showing more
 			removeShowMoreTasks();
 		} // else all other cases will be toggled to the required states
