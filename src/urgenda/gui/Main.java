@@ -27,9 +27,9 @@ public class Main extends Application {
 	private static final String APP_NAME = "Urgenda";
 	private static final String PATH_GUI_FXML = "MainView.fxml";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
-	private static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
-	private static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
-	private static final String PATH_LIGHT_FONT = new String("../../resources/Montserrat-UltraLight.ttf");
+	public static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
+	public static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
+	public static final String PATH_LIGHT_FONT = new String("../../resources/Montserrat-UltraLight.ttf");
 	
 	private static final String HEADER_ALL_TASKS = "Showing ALL TASKS";
 	private static final String HEADER_ALL_WITH_COMPLETED_TASKS = "Showing ALL TASKS WITH COMPLETED TASKS";

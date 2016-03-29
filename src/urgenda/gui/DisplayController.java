@@ -291,19 +291,15 @@ public class DisplayController extends AnchorPane {
 		return _selectedTaskIndex.getValue();
 	}
 
-	public void setMain(Main main) {
-		_main = main;
-	}
-	
 	public int getDisplayedTasksCount() {
 		return _displayedTasks.size();
-	}
-	
-	public double getDisplayVvalue() {
-		return displayArea.getVvalue();
 	}
 
 	public void setSetup(boolean setup) {
 		_setup = setup;
+	}
+
+	public void setMain(Main main) {
+		_main = main;
 	}
 }
