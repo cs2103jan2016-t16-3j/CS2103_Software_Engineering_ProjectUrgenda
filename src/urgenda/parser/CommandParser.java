@@ -23,6 +23,7 @@ import urgenda.parser.commandParser.ExitCommandParser;
 import urgenda.parser.commandParser.FindFreeCommandParser;
 import urgenda.parser.commandParser.HomeCommandParser;
 import urgenda.parser.commandParser.InvalidCommandParser;
+import urgenda.parser.commandParser.PostponeCommandParser;
 import urgenda.parser.commandParser.PrioritiseCommandParser;
 import urgenda.parser.commandParser.RedoCommandParser;
 import urgenda.parser.commandParser.SearchCommandParser;
@@ -34,7 +35,9 @@ import urgenda.util.*;
 public class CommandParser {
 	public static Command parseCommand(String commandString, int index) {
 		PublicFunctions.reinitializePublicVariables();
-
+		
+		commandString = reformatCommandString(commandString);
+		
 		PublicVariables.commandType = CommandTypeParser.getCommandType(commandString);
 		String argsString = CommandTypeParser.getArgsString(commandString);
 		Command testReturn = generateAndReturnCommandObjects(PublicVariables.commandType, argsString, index);
@@ -99,8 +102,15 @@ public class CommandParser {
 		case UNDO:
 			UndoCommandParser undoCommand = new UndoCommandParser(argsString, index);
 			return undoCommand.generateAndReturn();
+		case POSTPONE:
+			PostponeCommandParser postponeCommand = new PostponeCommandParser(argsString, index);
+			return postponeCommand.generateAndReturn();
 		default:
 			return null;
 		}
+	}
+	
+	private static String reformatCommandString(String commandString) {
+		
 	}
 }

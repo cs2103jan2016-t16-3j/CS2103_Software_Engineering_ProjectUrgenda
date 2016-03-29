@@ -11,7 +11,7 @@ import urgenda.util.MultipleSlot;
 
 public class PublicVariables {
 	public static enum COMMAND_TYPE {
-		ADD, DELETE, ALLOCATE, COMPLETE, EDIT, SEARCH, SHOW_DETAILS, BLOCK, FIND_FREE, HOME, UNDO, REDO, SHOW_ARCHIVE, PRIORITISE, INVALID, EXIT
+		ADD, DELETE, ALLOCATE, COMPLETE, EDIT, SEARCH, SHOW_DETAILS, BLOCK, FIND_FREE, HOME, UNDO, REDO, SHOW_ARCHIVE, PRIORITISE, POSTPONE, INVALID, EXIT
 	}
 
 	public static enum TASK_TYPE {
@@ -37,8 +37,7 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "find", "show", "view", "list", "search", "#\\w+" }));
 	public static final Set<String> showDetailsKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "showmore" }));
-	public static final Set<String> homeKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "home" }));
+	public static final Set<String> homeKeyWords = new HashSet<String>(Arrays.asList(new String[] { "home" }));
 	public static final Set<String> blockKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "block", "rev", "reserve" }));
 	public static final Set<String> findFreeKeyWords = new HashSet<String>(
@@ -48,6 +47,8 @@ public class PublicVariables {
 	public static final Set<String> archiveKeyWords = new HashSet<String>(Arrays.asList(new String[] { "archive" }));
 	public static final Set<String> prioritiseKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "urgent", "important", "pri", "impt" }));
+	public static final Set<String> postponeKeyWords = new HashSet<String>(
+			Arrays.asList(new String[] { "postpone", "delay", "move" }));
 	public static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(new String[] { "exit", "quit" }));
 
 	public static final Set<String> janWords = new HashSet<String>(Arrays.asList(new String[] { "jan", "january" }));
