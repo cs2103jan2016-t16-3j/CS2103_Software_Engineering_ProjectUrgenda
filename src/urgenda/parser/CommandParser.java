@@ -17,6 +17,7 @@ import urgenda.parser.PublicVariables.*;
 import urgenda.parser.commandParser.AddCommandParser;
 import urgenda.parser.commandParser.BlockSlotsCommandParser;
 import urgenda.parser.commandParser.CompleteCommandParser;
+import urgenda.parser.commandParser.ConfirmCommandParser;
 import urgenda.parser.commandParser.DeleteCommandParser;
 import urgenda.parser.commandParser.EditCommandParser;
 import urgenda.parser.commandParser.ExitCommandParser;
@@ -27,6 +28,7 @@ import urgenda.parser.commandParser.PostponeCommandParser;
 import urgenda.parser.commandParser.PrioritiseCommandParser;
 import urgenda.parser.commandParser.RedoCommandParser;
 import urgenda.parser.commandParser.SearchCommandParser;
+import urgenda.parser.commandParser.SetDirectoryCommandParser;
 import urgenda.parser.commandParser.ShowArchiveCommandParser;
 import urgenda.parser.commandParser.ShowDetailsCommandParser;
 import urgenda.parser.commandParser.UndoCommandParser;
@@ -103,6 +105,12 @@ public class CommandParser {
 		case POSTPONE:
 			PostponeCommandParser postponeCommand = new PostponeCommandParser(argsString, index);
 			return postponeCommand.generateAndReturn();
+		case CONFIRM:
+			ConfirmCommandParser confirmCommand = new ConfirmCommandParser(argsString, index);
+			return confirmCommand.generateAndReturn();
+		case SET_DIRECTORY:
+			SetDirectoryCommandParser setDirectoryCommand = new SetDirectoryCommandParser(argsString, index);
+			return setDirectoryCommand.generateAndReturn();
 		default:
 			return null;
 		}
