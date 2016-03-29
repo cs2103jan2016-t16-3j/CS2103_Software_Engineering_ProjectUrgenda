@@ -17,7 +17,7 @@ import urgenda.util.Task;
 import urgenda.util.DateTimePair;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class JsonEncryptionDecryptionTest {
+public class JsonCipherTest {
 	
 	@Test
 	public void test008GetterSetters(){

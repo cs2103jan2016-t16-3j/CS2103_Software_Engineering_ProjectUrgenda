@@ -114,11 +114,11 @@ public class Task {
 	}
 
 	private void setType(String type) {
-		if (type.equals(TASK_TYPE_EVENT)) {
+		if (type.equalsIgnoreCase(TASK_TYPE_EVENT)) {
 			_taskType = Type.EVENT;
-		} else if (type.equals(TASK_TYPE_DEADLINE)) {
+		} else if (type.equalsIgnoreCase(TASK_TYPE_DEADLINE)) {
 			_taskType = Type.DEADLINE;
-		} else if (type.equals(TASK_TYPE_FLOATING)) {
+		} else if (type.equalsIgnoreCase(TASK_TYPE_FLOATING)) {
 			_taskType = Type.FLOATING;
 		}
 	}
