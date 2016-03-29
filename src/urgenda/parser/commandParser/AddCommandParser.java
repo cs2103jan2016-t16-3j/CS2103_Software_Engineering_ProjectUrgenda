@@ -50,7 +50,7 @@ public class AddCommandParser {
 		if (!PublicVariables.taskHashtags.isEmpty()) {
 			newTask.setHashtags(PublicVariables.taskHashtags);
 		}
-		if (PublicVariables.taskSlots != null) {
+		if (!PublicVariables.taskSlots.isEmpty()) {
 			newTask.setSlot(PublicVariables.taskSlots);
 		}
 		switch (PublicVariables.taskType) {

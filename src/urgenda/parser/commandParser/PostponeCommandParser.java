@@ -80,6 +80,7 @@ public class PostponeCommandParser {
 			}
 
 			Postpone postponeCommand = new Postpone();
+			reducedArgsString = reducedArgsString.replace("by", "").trim();
 			if (reducedArgsString.equals("")) {
 				postponeCommand.setId(_index);
 			} else {
