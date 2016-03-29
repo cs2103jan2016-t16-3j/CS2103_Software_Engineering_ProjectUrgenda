@@ -17,7 +17,7 @@ public class PostponeCommandParser {
 	private static String secondRegex = "((\\d+)( )?((second(s)?)|s|(sec(s)?)))";
 	private static String minuteRegex = "((\\d+)( )?((minute(s)?)|(min(s)?)|m))";
 	private static String hourRegex = "((\\d+)( )?((hour(s)?)|(hr(s)?)|h))";
-	private static String dayRegex = "((\\d+)( )?([(day(s)?)|d]))";
+	private static String dayRegex = "((\\d+)( )?((day(s)?)|d))";
 	private static String monthRegex = "((\\d+)( )?((month(s)?)|(mth(s)?)))";
 	private static String yearRegex = "((\\d+)( )?((year(s)?)|(yr(s)?)|y))";
 
@@ -116,6 +116,12 @@ public class PostponeCommandParser {
 					System.out.print("year: " + yearString + "\n");
 					postponeCommand.setYear(getIntPart(yearString));
 				}
+				System.out.print("Second :" + secondString + "\n");
+				System.out.print("Minute :" + minuteString + "\n");
+				System.out.print("Hour :" + hourString + "\n");
+				System.out.print("Day :" + dayString + "\n");
+				System.out.print("Month :" + monthString + "\n");
+				System.out.print("Year :" + yearString + "\n");
 				return postponeCommand;
 			} catch (Exception e) {
 				return new Invalid();
