@@ -86,4 +86,24 @@ public class PublicFunctions {
 			return string;
 		}
 	}
+	
+	public static LocalDateTime getLocalDateTimeFromDate(Date date) {
+		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+	}
+	
+	public static LocalDateTime minTime(LocalDateTime time1, LocalDateTime time2) {
+		if (time1.isAfter(time2)) {
+			return time2;
+		} else {
+			return time1;
+		}
+	}
+	
+	public static LocalDateTime maxTime(LocalDateTime time1, LocalDateTime time2) {
+		if (time1.isAfter(time2)) {
+			return time1;
+		} else {
+			return time2;
+		}
+	}
 }

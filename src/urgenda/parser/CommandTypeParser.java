@@ -36,13 +36,17 @@ public class CommandTypeParser {
 			return COMMAND_TYPE.HOME;
 		} else if (PublicVariables.postponeKeyWords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.POSTPONE;
+		} else if (PublicVariables.confirmKeyWords.contains(lowerCaseFirstWord)) {
+			return COMMAND_TYPE.CONFIRM;
+		} else if (PublicVariables.setDirectoryKeyWords.contains(lowerCaseFirstWord)) {
+			return COMMAND_TYPE.SET_DIRECTORY;
 		} else if (PublicVariables.exitKeyWords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.EXIT;
 		} else {
 			return COMMAND_TYPE.INVALID;
 		}
 	}
-	
+
 	public static String getArgsString(String commandString) {
 		return PublicFunctions.removeFirstWord(commandString);
 	}

@@ -89,8 +89,10 @@ public class SimpleTaskController extends GridPane {
 		this.heightProperty().addListener(new ChangeListener<Number>(){
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if(index == _displayController.getSelectedTaskIndex())
-					_displayController.checkScrollHeight();
+				if(index == _displayController.getDisplayedTasksCount() - 1) {	//invoke when height of all tasks panels are set
+					_displayController.setDisplayScrollHeight();
+					_displayController.setSetup(false);
+				}
 			}		
 		});
 	}

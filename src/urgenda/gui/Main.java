@@ -147,6 +147,7 @@ public class Main extends Application {
 		case ALL_TASK_AND_COMPLETED:
 			display = HEADER_ALL_WITH_COMPLETED_TASKS;
 			break;
+			//TODO review
 //		case DISPLAY:
 //			break;
 		case SHOW_HELP:

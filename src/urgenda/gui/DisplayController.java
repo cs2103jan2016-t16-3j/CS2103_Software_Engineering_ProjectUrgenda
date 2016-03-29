@@ -52,18 +52,26 @@ public class DisplayController extends AnchorPane {
 	private ArrayList<Task> _displayedTasks;
 	private ArrayDeque<Integer> _detailedIndexes;
 	private IntegerProperty _selectedTaskIndex;
+	private boolean _setup;
 	private boolean _allowChangeScroll;
 	private Main _main;
 
 	public DisplayController() {
+		_setup = true;
 		_selectedTaskIndex = new SimpleIntegerProperty(-1);
 		_selectedTaskIndex.addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> value, Number oldIndex, Number newIndex) {
-				setDisplayScrollHeight(oldIndex, newIndex);
-				boolean isMultipleSlotTask = ((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot();
-				boolean isDetailed = (displayHolder.getChildren().get(_selectedTaskIndex.getValue())).getClass().equals(DetailedTaskController.class);
-				_main.getController().showMultipleSlotMenuOption(!isDetailed && isMultipleSlotTask);
+				if(!_setup) {
+					setDisplayScrollHeight();
+				}
+				if (((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot()) {
+					boolean isMultipleSlotTask = ((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot();
+					boolean isDetailed = (displayHolder.getChildren().get(_selectedTaskIndex.getValue())).getClass().equals(DetailedTaskController.class);
+					_main.getController().showMultipleSlotMenuOption(!isDetailed && isMultipleSlotTask);
+				} else {
+					_main.getController().showMultipleSlotMenuOption(false);
+				}
 			}
 		});
 		_displayedTasks = new ArrayList<Task>();
@@ -96,6 +104,7 @@ public class DisplayController extends AnchorPane {
 
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
 			int modifiedTaskIndex, boolean showNoviceHeaders, boolean isShowFreeTime) {
+		_setup = true;
 		_allowChangeScroll = false;
 		displayHolder.getChildren().clear();
 		_displayedTasks.clear();
@@ -151,7 +160,6 @@ public class DisplayController extends AnchorPane {
 		}
 		if (displayHeader != null) { // display header needs to be changed
 			setDisplayHeader(displayHeader);
-		
 		}
 	}
 
@@ -190,7 +198,7 @@ public class DisplayController extends AnchorPane {
 		emptyDisplay.setFont(Main.BOLD_FONT);
 		displayHolder.getChildren().add(emptyDisplay);
 	}
-
+	
 	private void initSelectedTask(int index) {
 		if (!_displayedTasks.isEmpty()) {
 			_selectedTaskIndex.set(index);
@@ -199,32 +207,28 @@ public class DisplayController extends AnchorPane {
 			_selectedTaskIndex.set(-1);
 		}
 	}
-
-	private void setDisplayScrollHeight(Number oldIndex, Number newIndex) {
-		if (newIndex.intValue() >= 0) {
-			double newIndexTop = 0;
-			double newIndexBottom = 0;
-			double heightSum = 0.0;
-			for (int i = 0; i < displayHolder.getChildren().size(); i++) {
-				heightSum += ((SimpleTaskController) displayHolder.getChildren().get(i)).getHeight();
-				if (i == newIndex.intValue() - 1) {
-					newIndexTop = heightSum;
-				}
-				if (i == newIndex.intValue()) {
-					newIndexBottom = heightSum;
-				}
+	
+	protected void setDisplayScrollHeight() {
+		double selectedIndexTop = 0.0;
+		double selectedIndexBottom = 0.0;
+		double heightSum = 0.0;
+		for (int i = 0; i < displayHolder.getChildren().size(); i++) {
+			heightSum += ((SimpleTaskController) displayHolder.getChildren().get(i)).getHeight();
+			if (i == _selectedTaskIndex.intValue() - 1) {
+				selectedIndexTop = heightSum;
 			}
-			displayArea.setVmax(heightSum - displayArea.getHeight());
-			double oldScrollHeightTop = displayArea.getVvalue();
-			if (!isFullyWithinRange(oldScrollHeightTop, oldScrollHeightTop + displayArea.getHeight(), newIndexTop,
-					newIndexBottom)) { // new selected task is not fully visible
-				if (oldIndex.intValue() < 0) { // originally no tasks
-					changeDisplayVvalue(newIndexTop);
-				} else if (newIndex.intValue() > oldIndex.intValue()) { // task below screen
-					changeDisplayVvalue(newIndexBottom - displayArea.getHeight());
-				} else if (newIndex.intValue() < oldIndex.intValue()) { // task above screen
-					changeDisplayVvalue(newIndexTop);
-				}
+			if (i == _selectedTaskIndex.intValue()) {
+				selectedIndexBottom = heightSum;
+			}
+		}
+		displayArea.setVmax(heightSum - displayArea.getHeight());
+		double oldScrollHeightTop = displayArea.getVvalue();
+		if (!isFullyWithinRange(oldScrollHeightTop, oldScrollHeightTop + displayArea.getViewportBounds().getHeight(), selectedIndexTop,
+				selectedIndexBottom)) { // new selected task is not fully visible
+			if (selectedIndexTop > oldScrollHeightTop) { //task below screen
+				changeDisplayVvalue(selectedIndexBottom - displayArea.getViewportBounds().getHeight());
+			} else if (selectedIndexBottom < (oldScrollHeightTop + displayArea.getViewportBounds().getHeight())) { //task above screen
+				changeDisplayVvalue(selectedIndexTop);
 			}
 		}
 	}
@@ -266,7 +270,6 @@ public class DisplayController extends AnchorPane {
 		if (index != _selectedTaskIndex.getValue()) {
 			((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
 			_selectedTaskIndex.set(index);
-			setDisplayScrollHeight(-1, _selectedTaskIndex.getValue());
 		}
 	}
 
@@ -278,7 +281,7 @@ public class DisplayController extends AnchorPane {
 		displayHeader.setText(displayed);
 	}
 
-	private void changeDisplayVvalue(double value) {
+	void changeDisplayVvalue(double value) {
 		_allowChangeScroll = true;
 		displayArea.setVvalue(value);
 		_allowChangeScroll = false;
@@ -291,8 +294,16 @@ public class DisplayController extends AnchorPane {
 	public void setMain(Main main) {
 		_main = main;
 	}
+	
+	public int getDisplayedTasksCount() {
+		return _displayedTasks.size();
+	}
+	
+	public double getDisplayVvalue() {
+		return displayArea.getVvalue();
+	}
 
-	public void checkScrollHeight() {
-		setDisplayScrollHeight(-1, _selectedTaskIndex.getValue());		
+	public void setSetup(boolean setup) {
+		_setup = setup;
 	}
 }

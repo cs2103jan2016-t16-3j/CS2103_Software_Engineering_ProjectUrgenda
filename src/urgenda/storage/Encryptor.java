@@ -19,7 +19,6 @@ public class Encryptor extends JsonCipher {
 			convertToString();
 			stringList.add(_detailsString);
 		}
-		assert(stringList.size() == taskList.size());
 		return stringList;
 	}
 	

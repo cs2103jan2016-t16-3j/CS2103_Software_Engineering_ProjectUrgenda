@@ -85,7 +85,7 @@ public class PostponeCommandParser {
 			} else {
 				try {
 					int index = Integer.parseInt(reducedArgsString.trim());
-					postponeCommand.setId(index);
+					postponeCommand.setId(index - 1);
 				} catch (Exception e) {
 					return new Invalid();
 				}
