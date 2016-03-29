@@ -666,4 +666,10 @@ public class LogicData {
 		}
 	}
 
+	public void reinitialiseStorage() {
+		_storage = new Storage();
+		_tasks = _storage.updateCurrentTaskList();
+		_archives = _storage.updateArchiveTaskList();
+	}
+
 }

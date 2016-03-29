@@ -1,6 +1,7 @@
 package urgenda.command;
 
 import urgenda.logic.LogicData;
+import urgenda.util.UrgendaException;
 
 public class SetDirectory extends Command {
 	
@@ -15,12 +16,16 @@ public class SetDirectory extends Command {
 
 	public String execute() {
 		LogicData data = LogicData.getInstance();
+		data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_newPath == null || _newPath.equals("")) {
-			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			return MESSAGE_INVALID_DIRECTORY;
 		}
-		data.changeDirectory(_newPath);
-		data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		try {
+			data.changeDirectory(_newPath);
+		} catch (UrgendaException e) {
+			data.reinitialiseStorage();
+			return e.getMessage();
+		}
 		return String.format(MESSAGE_CHANGED_DIRECTORY, _newPath.toUpperCase());
 	}
 	
