@@ -15,7 +15,8 @@ public class Prioritise extends TaskCommand {
 	private static final String MESSAGE_UNIMPORTANT = " unmarked as important";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	private static final String MESSAGE_NO_MATCH = "No matches found to prioritise";
-	private static final String MESSAGE_NUM = "Priority of %1$s tasks have been changed:";
+	private static final String MESSAGE_NUM = "Priority of %1$s tasks have been changed:\n";
+	private static final String MESSAGE_TASK_DESC = "\"%1$s\", ";
 
 	private String _desc;
 	private ArrayList<Integer> _positions;
@@ -55,31 +56,37 @@ public class Prioritise extends TaskCommand {
 
 	private String toggleTasks() {
 		if (_tasks.size() == 1) {
-			return toggleTaskImportance(_tasks.get(0));
-		} else if (isAllImportant()) {
-			String feedback = String.format(MESSAGE_NUM, _tasks.size());
-			for (Task task : _tasks) {
-				feedback += "\n" + toggleTaskImportance(task);
-			}
-			return feedback;
-		} else {
+			String feedback = String.format(MESSAGE_TASK_DESC, _tasks.get(0).getDesc());
+			_tasks.get(0).toggleImportant();
+			return formatFeedbackWithImportance(feedback);
+		} else if (!isAllImportant()) {
 			filterImportantTasks();
-			String feedback = String.format(MESSAGE_NUM, _tasks.size());
-			for (Task task : _tasks) {
-				feedback += "\n" + toggleTaskImportance(task);
-			}
-			return feedback;
 		}
+		String feedback = String.format(MESSAGE_NUM, _tasks.size());
+		for (Task task : _tasks) {
+			feedback += String.format(MESSAGE_TASK_DESC, task.getDesc());
+			task.toggleImportant();
+		}
+		feedback = formatFeedbackWithImportance(feedback);
+		return feedback;
+
+	}
+
+	// pre condition the string contains the extra ", "
+	private String formatFeedbackWithImportance(String feedback) {
+		feedback = feedback.substring(0, feedback.length() - 2);
+		feedback += getTaskImportance(_tasks.get(0));
+		return feedback;
 	}
 
 	private void filterImportantTasks() {
-		ArrayList<Task> removalList = new ArrayList<Task>();
+		ArrayList<Task> removeTasks = new ArrayList<Task>();
 		for (Task task : _tasks) {
 			if (task.isImportant()) {
-				removalList.add(task);
+				removeTasks.add(task);
 			}
 		}
-		_tasks.removeAll(removalList);
+		_tasks.removeAll(removeTasks);
 	}
 
 	private boolean isAllImportant() {
@@ -105,17 +112,16 @@ public class Prioritise extends TaskCommand {
 		return feedback;
 	}
 
-	public String toggleTaskImportance(Task task) {
+	public String getTaskImportance(Task task) {
 		String feedback;
 		if (task.isImportant()) {
-			feedback = taskMessageWithMulti(task) + MESSAGE_UNIMPORTANT;
+			feedback = MESSAGE_IMPORTANT;
 		} else {
-			feedback = taskMessageWithMulti(task) + MESSAGE_IMPORTANT;
+			feedback = MESSAGE_UNIMPORTANT;
 		}
-		task.toggleImportant();
 		return feedback;
 	}
-	
+
 	public void updateDateModified(ArrayList<Task> tasks) {
 		LocalDateTime now = LocalDateTime.now();
 		for (Task task : tasks) {
