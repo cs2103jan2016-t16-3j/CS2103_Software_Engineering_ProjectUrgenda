@@ -3,9 +3,12 @@ package urgenda.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.logging.Level;
 
 public class DateTimePair {
 
+	private static final String LOGGER_NULL_VALUE = "DateTimePair instance contains one or more null values";
+	
 	private LocalDateTime _dateTime1;
 	private LocalDateTime _dateTime2;
 	private boolean _firstIsBefore;
@@ -41,44 +44,64 @@ public class DateTimePair {
 	}
 	
 	public void addToEarlierDateTime(int number, ChronoUnit chronoUnit) {
-		if (_firstIsBefore) {
-			_dateTime1 = _dateTime1.plus(number, chronoUnit);
+		if (_dateTime1 != null && _dateTime2 != null) {
+			if (_firstIsBefore) {
+				_dateTime1 = _dateTime1.plus(number, chronoUnit);
+			} else {
+				_dateTime2 = _dateTime2.plus(number, chronoUnit);
+			}
+			checkRelativeDateTimes();
 		} else {
-			_dateTime2 = _dateTime2.plus(number, chronoUnit);
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, LOGGER_NULL_VALUE);
 		}
-		checkRelativeDateTimes();
 	}
 
 
 	public void minusFromEarlierDateTime(int number, ChronoUnit chronoUnit) {
-		if (_firstIsBefore) {
-			_dateTime1 = _dateTime1.minus(number, chronoUnit);
+		if (_dateTime1 != null && _dateTime2 != null) {
+			if (_firstIsBefore) {
+				_dateTime1 = _dateTime1.minus(number, chronoUnit);
+			} else {
+				_dateTime2 = _dateTime2.minus(number, chronoUnit);
+			}
+			checkRelativeDateTimes();
 		} else {
-			_dateTime2 = _dateTime2.minus(number, chronoUnit);
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, LOGGER_NULL_VALUE);
 		}
-		checkRelativeDateTimes();
 	}
 
 	public void addToLaterDateTime(int number, ChronoUnit chronoUnit) {
-		if (!_firstIsBefore) {
-			_dateTime1 = _dateTime1.plus(number, chronoUnit);
+		if (_dateTime1 != null && _dateTime2 != null) {
+			if (!_firstIsBefore) {
+				_dateTime1 = _dateTime1.plus(number, chronoUnit);
+			} else {
+				_dateTime2 = _dateTime2.plus(number, chronoUnit);
+			}
+			checkRelativeDateTimes();
 		} else {
-			_dateTime2 = _dateTime2.plus(number, chronoUnit);
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, LOGGER_NULL_VALUE);
 		}
-		checkRelativeDateTimes();
 	}
 
 	public void minusFromLaterDateTime(int number, ChronoUnit chronoUnit) {
-		if (!_firstIsBefore) {
-			_dateTime1 = _dateTime1.minus(number, chronoUnit);
+		if (_dateTime1 != null && _dateTime2 != null) {
+			if (!_firstIsBefore) {
+				_dateTime1 = _dateTime1.minus(number, chronoUnit);
+			} else {
+				_dateTime2 = _dateTime2.minus(number, chronoUnit);
+			}
+			checkRelativeDateTimes();
 		} else {
-			_dateTime2 = _dateTime2.minus(number, chronoUnit);
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, LOGGER_NULL_VALUE);
 		}
-		checkRelativeDateTimes();
 	}
 	public boolean equals(DateTimePair d) {
-		if(d.getEarlierDateTime().equals(this.getEarlierDateTime()) && d.getLaterDateTime().equals(this.getLaterDateTime())) {
+		if (_dateTime1 != null && _dateTime2 != null) {
+			if(d.getEarlierDateTime().equals(this.getEarlierDateTime()) && d.getLaterDateTime().equals(this.getLaterDateTime())) {
 				return true;
+			}
+		} else {
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, LOGGER_NULL_VALUE);
 		}
 		return false;
 	}
@@ -101,10 +124,14 @@ public class DateTimePair {
 	}
 	
 	private void checkRelativeDateTimes() {
-		if(_dateTime1.isBefore(_dateTime2)) {
-			_firstIsBefore = true;
-		} else if(_dateTime1.isAfter(_dateTime2)) {
-			_firstIsBefore = false;
+		if(_dateTime1 != null && _dateTime2 != null) {
+			if(_dateTime1.isBefore(_dateTime2)) {
+				_firstIsBefore = true;
+			} else if(_dateTime1.isAfter(_dateTime2)) {
+				_firstIsBefore = false;
+			}
+		} else {
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, LOGGER_NULL_VALUE);
 		}
 	}
 }
