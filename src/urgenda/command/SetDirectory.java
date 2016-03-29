@@ -21,7 +21,7 @@ public class SetDirectory extends Command {
 		}
 		data.changeDirectory(_newPath);
 		data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-		return String.format(MESSAGE_CHANGED_DIRECTORY, _newPath);
+		return String.format(MESSAGE_CHANGED_DIRECTORY, _newPath.toUpperCase());
 	}
 	
 	public void setPath(String path) {
