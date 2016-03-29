@@ -25,7 +25,7 @@ public class MainController {
 	private static final String KEYWORD_REDO = "redo";
 	private static final String KEYWORD_SHOW_ALL = "home";
 	private static final String KEYWORD_DELETE = "delete";
-	private static final String KEYWORD_CHANGE_SAVE_PATH = "cd ";
+	private static final String KEYWORD_CHANGE_SAVE_PATH = "saveto ";
 	private static final String KEYWORD_DEMO = "demo";
 	private static final String KEYWORD_SHOWMORE = "showmore";
 
