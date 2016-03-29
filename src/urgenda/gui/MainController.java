@@ -9,6 +9,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -25,6 +27,7 @@ public class MainController {
 	private static final String KEYWORD_DELETE = "delete";
 	private static final String KEYWORD_CHANGE_SAVE_PATH = "cd ";
 	private static final String KEYWORD_DEMO = "demo";
+	private static final String KEYWORD_SHOWMORE = "showmore";
 
 	// Elements loaded using FXML
 	@FXML
@@ -33,6 +36,12 @@ public class MainController {
 	private TextArea feedbackArea;
 	@FXML
 	private Parent displayArea;
+	@FXML
+	private SeparatorMenuItem multipleSlotSeparator;
+	@FXML
+	private MenuItem menuPrevMultipleSlot;
+	@FXML
+	private MenuItem menuNextMultipleSlot;
 	@FXML
 	private DisplayController displayAreaController;
 
@@ -143,6 +152,11 @@ public class MainController {
 	private void multipleSlotToggleRightListener(ActionEvent e) {
 		displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 	}
+	
+	@FXML
+	private void showmoreMenuListener (ActionEvent e) {
+		_main.handleCommandLine(KEYWORD_SHOWMORE);
+	}
 
 	@FXML
 	private void showAllTasks(ActionEvent e) {
@@ -182,6 +196,12 @@ public class MainController {
 			_helpController.showHelpStage();
 		}
 	}
+	
+	public void showMultipleSlotMenuOption(boolean show) {
+		multipleSlotSeparator.setVisible(show);
+		menuPrevMultipleSlot.setVisible(show);
+		menuNextMultipleSlot.setVisible(show);
+	}
 
 	@FXML
 	private void exit(ActionEvent e) {
@@ -195,6 +215,7 @@ public class MainController {
 
 	public void setMain(Main main) {
 		_main = main;
+		displayAreaController.setMain(_main);
 	}
 
 	public DisplayController getDisplayController() {

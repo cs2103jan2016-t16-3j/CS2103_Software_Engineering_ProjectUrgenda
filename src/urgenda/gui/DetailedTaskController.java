@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import urgenda.gui.DisplayController.Direction;
 import urgenda.gui.DisplayController.TaskDisplayType;
 import urgenda.util.Task;
 
@@ -44,7 +44,7 @@ public class DetailedTaskController extends SimpleTaskController {
 		super(task, index, taskDisplayType, showHeader);
 		initDetailedLabels();
 		if(!showHeader) {
-			taskPane.setMaxHeight(HEIGHT_DEFAULT_DETAILEDTASK);
+			taskPane.setPrefHeight(HEIGHT_DEFAULT_DETAILEDTASK);
 		}
 	}
 
@@ -101,5 +101,10 @@ public class DetailedTaskController extends SimpleTaskController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void traverseMultipleSlot(Direction direction) {
+		//disable traverses for detailed tasks
 	}
 }

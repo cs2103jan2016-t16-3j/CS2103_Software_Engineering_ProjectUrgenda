@@ -80,7 +80,7 @@ public class SimpleTaskController extends GridPane {
 		}
 		if(!showHeader) {
 			taskPane.getRowConstraints().set(0, new RowConstraints(0));
-			taskPane.setMaxHeight(HEIGHT_DEFAULT_TASK);
+			taskPane.setPrefHeight(HEIGHT_DEFAULT_TASK);
 			noviceHeaderPane.setVisible(false);
 		}
 		setSelected(false);
@@ -225,5 +225,13 @@ public class SimpleTaskController extends GridPane {
 
 	private String formatMultipleSlotDateTime() {
 		return "(" + (_multipleSlotIndex + 1) + "/" + _multipleSlotList.size() + ") " + formatDateTime(_multipleSlotList.get(_multipleSlotIndex).getEarlierDateTime(), _multipleSlotList.get(_multipleSlotIndex).getLaterDateTime());
+	}
+	
+	public boolean isMultipleSlot() {
+		if (_multipleSlotIndex >= 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
