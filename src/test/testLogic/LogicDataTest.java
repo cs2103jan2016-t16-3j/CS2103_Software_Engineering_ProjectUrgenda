@@ -239,7 +239,7 @@ public class LogicDataTest {
 		_output.add(obj2);
 		assertEquals(_output, _test.findMatchingDates(LocalDate.of(2016, Month.FEBRUARY, 24))); //test single match
 		_output.clear();
-		assertEquals(_output, _test.findMatchingDates(LocalDate.of(2016, Month.AUGUST, 17))); //test no match
+		assertEquals(_output, _test.findMatchingDates(LocalDate.of(2016, Month.AUGUST, 29))); //test no match
 	}
 
 	//this fn is to find task based on input datetime

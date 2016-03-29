@@ -1,7 +1,7 @@
 package urgenda.util;
 
 public class UrgendaException extends Exception{
-	private static final String ERROR_MESSAGE = "File already exist. \n Loading tasks from existing file";
+	private static final String ERROR_MESSAGE = "%1$s already exist in %2$s. \nLoading tasks from existing file";
 	
 	private String _dir;
 	private String _name;
@@ -20,6 +20,7 @@ public class UrgendaException extends Exception{
 	}
 	
 	public String getMessage(){
-		return ERROR_MESSAGE;
+		String error = String.format(ERROR_MESSAGE, _name, _dir.toUpperCase());
+		return error;
 	}
 }
