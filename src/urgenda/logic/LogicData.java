@@ -15,6 +15,7 @@ import urgenda.util.MultipleSlot;
 import urgenda.util.UrgendaLogger;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
+import urgenda.util.UrgendaException;
 import urgenda.util.DateTimePair;
 
 public class LogicData {
@@ -612,8 +613,8 @@ public class LogicData {
 		return _storage.getDirPath();
 	}
 
-	public void changeDirectory(String path) {
-		_storage.changeFilePath(path);
+	public void changeDirectory(String path) throws UrgendaException {
+		_storage.changeFileSettings(path);
 	}
 
 	public ArrayList<Task> overlappingTasks(Task newTask) {
