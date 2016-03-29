@@ -15,7 +15,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import urgenda.logic.Logic;
-import urgenda.util.DateTimePair;
 import urgenda.util.MultipleSlot;
 import urgenda.util.StateFeedback;
 import urgenda.util.StateFeedback.State;
@@ -94,20 +93,19 @@ public class Main extends Application {
 		StateFeedback state = retrieveStartupState();
 		//TODO implement check settings for showing novice headers, change boolean below
 		_displayController.initDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
-		_displayController.setMain(this);
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of display view");
 	}
 
 	private void initStage(Stage primaryStage) {
 		_scene = new Scene(_rootLayout);
 		_primaryStage = primaryStage;
-		primaryStage.initStyle(StageStyle.DECORATED);
-		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
-		primaryStage.setTitle(APP_NAME);
-		primaryStage.setResizable(false);
-		primaryStage.setScene(_scene);
-		primaryStage.sizeToScene();
-		primaryStage.show();
+		_primaryStage.initStyle(StageStyle.DECORATED);
+		_primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
+		_primaryStage.setTitle(APP_NAME);
+		_primaryStage.setResizable(false);
+		_primaryStage.setScene(_scene);
+		_primaryStage.sizeToScene();
+		_primaryStage.show();
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of Urgenda window");
 	}
 
@@ -195,7 +193,7 @@ public class Main extends Application {
 	protected String setupDummyList() {
 		Task taskOverdue = new Task("Complete tutorial", null, null, LocalDateTime.now().minusDays(1).withHour(23).withMinute(59),
 				new ArrayList<String>(), false);
-		Task taskTodayImportant = new Task("Breakfast with mum and dad", null, LocalDateTime.now().withHour(8).withMinute(0), LocalDateTime.now().withHour(9).withMinute(0),
+		Task taskTodayImportant = new Task("Breakfast with mum and dad", null, LocalDateTime.now().withHour(7).withMinute(0), LocalDateTime.now().withHour(8).withMinute(0),
 				new ArrayList<String>(), true);
 		taskTodayImportant.setIsCompleted(true);
 		Task taskToday1 = new Task("NUS Overseas Colleges Workshop", null, LocalDateTime.now().minusDays(1).withHour(10).withMinute(0), LocalDateTime.now().plusDays(1).withHour(22).withMinute(0),
@@ -207,8 +205,11 @@ public class Main extends Application {
 		taskImportant.setSlot(new MultipleSlot());
 		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(11).withMinute(0), LocalDateTime.now().plusDays(6).withHour(12).withMinute(0));
 		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(12).withMinute(0), LocalDateTime.now().plusDays(6).withHour(13).withMinute(0));
-		Task taskOverrun = new Task("Buy milk, eggs, correction tape, eraser", "Supermarket", null, null, new ArrayList<String>(),
+		Task taskOverrun = new Task("Get groceries", "Supermarket", LocalDateTime.now().plusDays(2).withHour(17).withMinute(0), LocalDateTime.now().plusDays(2).withHour(18).withMinute(0), new ArrayList<String>(),
 				false);
+		taskOverrun.setSlot(new MultipleSlot());
+		taskOverrun.getSlot().addTimeSlot(LocalDateTime.now().plusDays(3).withHour(17).withMinute(0), LocalDateTime.now().plusDays(3).withHour(18).withMinute(0));
+		taskOverrun.getSlot().addTimeSlot(LocalDateTime.now().plusDays(4).withHour(17).withMinute(0), LocalDateTime.now().plusDays(4).withHour(18).withMinute(0));
 		Task taskDetailedLong = new Task("Success is the sum of small efforts, repeated day in and day out. - Robert Collier", null, null, null,
 				new ArrayList<String>(), false);
 		Task taskC = new Task("Submit Project Report", null, null, LocalDateTime.now().minusDays(4).withHour(23).withMinute(59),
@@ -241,5 +242,9 @@ public class Main extends Application {
 	public File getSaveDirectory() {
 		File file = new File(_logic.getCurrentSaveDirectory());
 		return file;
+	}
+
+	public void setMultipleSlotMenuForSelected(boolean show) {
+		_mainController.showMultipleSlotMenuOption(show);
 	}
 }

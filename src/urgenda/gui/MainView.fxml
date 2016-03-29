@@ -54,7 +54,12 @@
                               <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
-                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="menuShowmore" mnemonicParsing="false" onAction="#showmoreMenuListener" text="Toggle Details for Selected Task">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="SLASH" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <SeparatorMenuItem fx:id="multipleSlotSeparator" mnemonicParsing="false" />
                         <MenuItem fx:id="menuPrevMultipleSlot" mnemonicParsing="false" onAction="#multipleSlotToggleLeftListener" text="Previous Blocked Timeslot">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="LEFT" control="DOWN" meta="UP" shift="UP" shortcut="UP" />

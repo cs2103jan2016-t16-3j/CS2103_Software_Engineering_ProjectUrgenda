@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,10 +82,17 @@ public class SimpleTaskController extends GridPane {
 		}
 		if(!showHeader) {
 			taskPane.getRowConstraints().set(0, new RowConstraints(0));
-			taskPane.setMaxHeight(HEIGHT_DEFAULT_TASK);
+			taskPane.setPrefHeight(HEIGHT_DEFAULT_TASK);
 			noviceHeaderPane.setVisible(false);
 		}
 		setSelected(false);
+		this.heightProperty().addListener(new ChangeListener<Number>(){
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				if(index == _displayController.getSelectedTaskIndex())
+					_displayController.checkScrollHeight();
+			}		
+		});
 	}
 
 	private void initLabels() {
@@ -225,5 +234,13 @@ public class SimpleTaskController extends GridPane {
 
 	private String formatMultipleSlotDateTime() {
 		return "(" + (_multipleSlotIndex + 1) + "/" + _multipleSlotList.size() + ") " + formatDateTime(_multipleSlotList.get(_multipleSlotIndex).getEarlierDateTime(), _multipleSlotList.get(_multipleSlotIndex).getLaterDateTime());
+	}
+	
+	public boolean isMultipleSlot() {
+		if (_multipleSlotIndex >= 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
