@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import urgenda.command.*;
 import urgenda.parser.DateTimeParser;
+import urgenda.parser.PublicFunctions;
 import urgenda.parser.PublicVariables;
 import urgenda.parser.TaskDetailsParser;
 import urgenda.util.Task;
@@ -23,6 +24,7 @@ public class BlockSlotsCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
+			_argsString = PublicFunctions.reformatArgsString(_argsString);
 			taskTimeStrings = new ArrayList<String>();
 			Boolean isConcatSuccess = concatArgsString();
 			if (isConcatSuccess) {
