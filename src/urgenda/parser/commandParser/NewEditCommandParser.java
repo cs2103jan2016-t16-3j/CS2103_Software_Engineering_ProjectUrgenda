@@ -130,7 +130,7 @@ public class NewEditCommandParser {
 						|| preceedingWord.equals("by")) {
 					endTime = parseEndTime(stringArray[i].trim());
 				} else {
-					unknownTime = parseUnknownTime(stringArray[i].trim());
+					unknownTime = parseUnknownTime(stringArray[i].replaceAll("((-rm)|(-r))","").trim());
 					if (i==0 && unknownTime == null) {
 						descString = stringArray[i].replaceAll("((-rm)|(-r))","").trim();
 					}
