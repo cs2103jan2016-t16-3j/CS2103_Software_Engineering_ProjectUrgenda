@@ -21,7 +21,7 @@ public class NewEditCommandParser {
 
 	private static String startFlagRegex = "(-s)|(-s:)|(from)";
 	private static String endFlagRegex = "(-e)|(-e:)|(to)|(by)";
-	private static String removeFlagRegex = "(-r)|(-rm)";
+	private static String removeFlagRegex = "((-r)|(-rm))";
 	private static String combinedRegex = "(\\A|\\D)(" + startFlagRegex + "|" + endFlagRegex + ")(\\Z|\\D)";
 
 	private static LocalDateTime startTime;
@@ -130,9 +130,19 @@ public class NewEditCommandParser {
 						|| preceedingWord.equals("by")) {
 					endTime = parseEndTime(stringArray[i].trim());
 				} else {
-					unknownTime = parseUnknownTime(stringArray[i].replaceAll("((-rm)|(-r))","").trim());
+					unknownTime = parseUnknownTime(stringArray[i].replaceAll("(\\A|\\D)((-rm)|(-r))(\\Z|\\D)","").trim());
 					if (i==0 && unknownTime == null) {
-						descString = stringArray[i].replaceAll("((-rm)|(-r))","").trim();
+						String[] array = stringArray[i].split(removeFlagRegex);
+						if (array.length == 2) {
+							unknownTime = parseUnknownTime(array[1].trim());
+							if (unknownTime != null) {
+								descString = array[0];
+							} else {
+								descString = stringArray[i].trim();							
+							}
+						} else {
+							descString = stringArray[i].replaceAll("((-rm)|(-r))","").trim();
+						}
 					}
 				}
 			}
