@@ -22,7 +22,7 @@ public class NewEditCommandParser {
 	private static String startFlagRegex = "(-s)|(-s:)|(from)";
 	private static String endFlagRegex = "(-e)|(-e:)|(to)|(by)";
 	private static String removeFlagRegex = "(-r)|(-rm)";
-	private static String combinedRegex = startFlagRegex + "|" + endFlagRegex;
+	private static String combinedRegex = "(" + startFlagRegex + "|" + endFlagRegex + ")";
 
 	private static LocalDateTime startTime;
 	private static LocalDateTime endTime;
@@ -44,6 +44,12 @@ public class NewEditCommandParser {
 			String reducedString = searchIndex();
 			searchDetails(reducedString);
 			int numberOfRmFlag = countRmFlag(reducedString);
+			
+			System.out.print(startTime + "\n");
+			System.out.print(endTime + "\n");
+			System.out.print(unknownTime + "\n");
+			System.out.print(numberOfRmFlag + "\n");
+			
 			NewEdit editCommand = new NewEdit();
 			Task newTask = new Task();
 			if (startTime != null) {
@@ -99,7 +105,7 @@ public class NewEditCommandParser {
 	private static String searchIndex() {
 		String firstWord = PublicFunctions.getFirstWord(_argsString);
 		try {
-			index = Integer.parseInt(firstWord);
+			index = Integer.parseInt(firstWord) - 1;
 			return PublicFunctions.removeFirstWord(_argsString);
 		} catch (Exception e) {
 			return _argsString;
@@ -107,20 +113,21 @@ public class NewEditCommandParser {
 	}
 
 	private static void searchDetails(String argsString) {
-		String[] stringArray = argsString.split(combinedRegex);
+		String[] stringArray = argsString.trim().split(combinedRegex);
 		if (stringArray.length == 0) {
 			unknownTime = parseUnknownTime(argsString);
 		} else {
 			for (int i = 0; i < stringArray.length; i++) {
-				int position = argsString.indexOf(stringArray[i]);
+				System.out.print(stringArray[i] + "\n");
+				int position = argsString.indexOf(stringArray[i].trim());
 				String preceedingWord = PublicFunctions.getPreceedingWord(position, argsString);
 				if (preceedingWord.equals("-s") || preceedingWord.equals("-s:") || preceedingWord.equals("from")) {
-					startTime = parseStartTime(stringArray[i]);
+					startTime = parseStartTime(stringArray[i].trim());
 				} else if (preceedingWord.equals("-e") || preceedingWord.equals("-e:") || preceedingWord.equals("to")
 						|| preceedingWord.equals("by")) {
-					endTime = parseEndTime(stringArray[i]);
+					endTime = parseEndTime(stringArray[i].trim());
 				} else {
-					unknownTime = parseUnknownTime(stringArray[i]);
+					unknownTime = parseUnknownTime(stringArray[i].trim());
 				}
 			}
 		}
