@@ -80,6 +80,7 @@ public class Search extends Command {
 				}
 				break;
 			case "important": // Fallthrough
+			case "impt": //Fallthrough	
 			case "prioritise":
 				matches = data.findMatchingDesc(_searchDesc);
 				for (Task task : data.getTaskList()) {
@@ -88,6 +89,7 @@ public class Search extends Command {
 					}
 				}
 				break;
+			case "twotime": //Fallthrough
 			case "event":
 				matches = data.findMatchingDesc(_searchDesc);
 				for (Task task : data.getTaskList()) {
@@ -96,7 +98,9 @@ public class Search extends Command {
 					}
 				}
 				break;
-			case "deadline":
+			case "onetime": //Fallthrough
+			case "duedate": //Fallthrough
+			case "deadline": //Fallthrough
 				matches = data.findMatchingDesc(_searchDesc);
 				for (Task task : data.getTaskList()) {
 					if (task.getTaskType().equals(Task.Type.DEADLINE) && !matches.contains(task)) {
