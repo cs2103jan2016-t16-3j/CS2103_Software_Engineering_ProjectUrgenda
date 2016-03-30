@@ -271,13 +271,17 @@ public class LogicData {
 		if (task.getStartTime() == null || task.getEndTime() == null) {
 			return;
 		}
+		
+		task.getSlot().addTimeSlot(task.getStartTime(), task.getEndTime());
+		task.getSlot().sortSlots();
 
-		while (task.getEndTime().isBefore(now) && !(task.getSlot().isEmpty())) {
+		do {
 			DateTimePair newTime = task.getSlot().getNextSlot();
 			task.setStartTime(newTime.getEarlierDateTime());
 			task.setEndTime(newTime.getLaterDateTime());
 			task.getSlot().removeNextSlot();
-		}
+		} while (task.getEndTime().isBefore(now) && !(task.getSlot().isEmpty()));
+		
 		// sets multipleslots to empty when latest timing is the current timing
 		// makes block type to normal task event
 		if (task.getSlot().isEmpty()) {

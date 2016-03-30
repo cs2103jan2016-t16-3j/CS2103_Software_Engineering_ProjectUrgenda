@@ -3,6 +3,7 @@ package urgenda.command;
 import java.time.LocalDateTime;
 
 import urgenda.logic.LogicData;
+import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
@@ -10,6 +11,7 @@ public class Postpone extends TaskCommand {
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_NO_MATCH = "Invalid task number. No matches found to postpone";
+	private static final String MESSAGE_NO_TIME = "Invalid time entered";
 	private static final String MESSAGE_POSTPONE_FLOATING = "Task has no time to postpone";
 	private static final String MESSAGE_POSTPONED_TASK = "\"%1$s\" postponed by ";
 	private static final String MESSAGE_YEARS = " year(s) ";
@@ -19,7 +21,8 @@ public class Postpone extends TaskCommand {
 	private static final String MESSAGE_MINUTES = " minute(s) ";
 	private static final String MESSAGE_SECONDS = " second(s) ";
 	
-	private Task _task;
+	private Task _prevTask;
+	private Task _newTask;
 	private Integer _id;
 	private LogicData _data;
 	
@@ -51,30 +54,51 @@ public class Postpone extends TaskCommand {
 	public String execute() throws Exception {
 		_data = LogicData.getInstance();
 		if (_id != null && _id.intValue() != -1) {
-			_task = _data.findMatchingPosition(_id.intValue());
+			_prevTask = _data.findMatchingPosition(_id.intValue());
 		}
-		if (_task == null) {
+		if (!isValidPostpone()) {
+			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+			logger.getLogger().severe("Exception no postpone time thrown");
+			throw new Exception(MESSAGE_NO_TIME);
+		} else if (_prevTask == null) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			logger.getLogger().severe("Exception(No postpone match) thrown");
 			throw new Exception(MESSAGE_NO_MATCH);
-		} else if (_task.getTaskType() == Task.Type.FLOATING){
+		} else if (_prevTask.getTaskType() == Task.Type.FLOATING){
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			logger.getLogger().severe("Exception postpone of floating thrown");
 			throw new Exception(MESSAGE_POSTPONE_FLOATING);
 		} else {
-			addTime();
-			_task.setDateModified(LocalDateTime.now());
+			_prevTask.setDateModified(LocalDateTime.now());
+			_newTask = new Task(_prevTask);
+			checkSlots();
+			addTime(_newTask);
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			_data.deleteTask(_task);
-			_data.addTask(_task);
-			_data.setTaskPointer(_task);
+			_data.deleteTask(_prevTask);
+			_data.addTask(_newTask);
+			_data.setTaskPointer(_newTask);
 			_data.clearShowMoreTasks();
 		}
 		return generateFeedback();
 	}
 
+	private boolean isValidPostpone() {
+		if (_year == 0 && _month == 0 && _day == 0 && _hour == 0 && _minute == 0 && _second == 0) {
+			return false;
+		} else {
+			return true;			
+		}
+	}
+
+	private void checkSlots() {
+		if (_prevTask.getSlot() != null) {
+			_newTask.setSlot(new MultipleSlot(_prevTask.getSlot()));
+		}
+		
+	}
+
 	private String generateFeedback() {
-		String feedback = String.format(MESSAGE_POSTPONED_TASK, _task.getDesc());
+		String feedback = String.format(MESSAGE_POSTPONED_TASK, _prevTask.getDesc());
 		if (_year > 0) {
 			feedback += _year + MESSAGE_YEARS;
 		}
@@ -96,65 +120,68 @@ public class Postpone extends TaskCommand {
 		return feedback;
 	}
 
-	private void addTime() {
-		if (_task.getTaskType() == Task.Type.EVENT) {
-			LocalDateTime start = _task.getStartTime();
+	private void addTime(Task task) {
+		if (task.getTaskType() == Task.Type.EVENT) {
+			LocalDateTime start = task.getStartTime();
 			start = start.plusYears(_year);
 			start = start.plusMonths(_month);
 			start = start.plusDays(_day);
 			start = start.plusHours(_hour);
 			start = start.plusMinutes(_minute);
 			start = start.plusSeconds(_second);
-			_task.setStartTime(start);
+			task.setStartTime(start);
 		}		
 
-		LocalDateTime end = _task.getEndTime();
+		LocalDateTime end = task.getEndTime();
 		end = end.plusYears(_year);
 		end = end.plusMonths(_month);
 		end = end.plusDays(_day);
 		end = end.plusHours(_hour);
 		end = end.plusMinutes(_minute);
 		end = end.plusSeconds(_second);
-		_task.setEndTime(end);
+		task.setEndTime(end);
 	}
 
 	public String undo() {
-		minusTime();
-		_task.setDateModified(LocalDateTime.now());
+		_prevTask.setDateModified(LocalDateTime.now());
+		_newTask.setDateModified(LocalDateTime.now());
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-		_data.setTaskPointer(_task);
+		_data.deleteTask(_newTask);
+		_data.addTask(_prevTask);
+		_data.setTaskPointer(_prevTask);
 		return generateFeedback();
 	}
 
+	// TODO remove if not needed
 	private void minusTime() {
-		if (_task.getTaskType() == Task.Type.EVENT) {
-			LocalDateTime start = _task.getStartTime();
+		if (_prevTask.getTaskType() == Task.Type.EVENT) {
+			LocalDateTime start = _prevTask.getStartTime();
 			start = start.minusYears(_year);
 			start = start.minusMonths(_month);
 			start = start.minusDays(_day);
 			start = start.minusHours(_hour);
 			start = start.minusMinutes(_minute);
 			start = start.minusSeconds(_second);
-			_task.setStartTime(start);
+			_prevTask.setStartTime(start);
 		}		
 
-		LocalDateTime end = _task.getEndTime();
+		LocalDateTime end = _prevTask.getEndTime();
 		end = end.minusYears(_year);
 		end = end.minusMonths(_month);
 		end = end.minusDays(_day);
 		end = end.minusHours(_hour);
 		end = end.minusMinutes(_minute);
 		end = end.minusSeconds(_second);
-		_task.setEndTime(end);
+		_prevTask.setEndTime(end);
 	}
 
 	public String redo() {
-		addTime();
-		_task.setDateModified(LocalDateTime.now());
+		_prevTask.setDateModified(LocalDateTime.now());
+		_newTask.setDateModified(LocalDateTime.now());
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-		_data.deleteTask(_task);
-		_data.addTask(_task);
-		_data.setTaskPointer(_task);
+		_data.deleteTask(_prevTask);
+		_data.addTask(_newTask);
+		_data.setTaskPointer(_newTask);
 		return generateFeedback();
 	}
 
