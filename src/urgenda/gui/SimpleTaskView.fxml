@@ -4,12 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
 <fx:root fx:id="taskPane" maxHeight="70.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" type="GridPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
@@ -36,25 +36,19 @@
             <Insets top="1.0" />
          </GridPane.margin>
       </Pane>
-      <Label fx:id="taskIndexLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="30.0" text="Idx" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="10.0" top="7.0" />
-         </GridPane.margin>
-      </Label>
       <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets top="1.0" />
          </GridPane.margin></Pane>
+      <Text fx:id="taskIndexText" strokeType="OUTSIDE" strokeWidth="0.0" text="Idx" wrappingWidth="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Text>
       <BorderPane GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
-         <center>
-                  <Label fx:id="taskDescLabel" contentDisplay="CENTER" prefHeight="20.0" prefWidth="280.0" text="Task Name" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets left="5.0" right="5.0" />
-               </BorderPane.margin></Label>
-         </center>
          <left>
             <ImageView fx:id="importantIndicator" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_LEFT">
                <image>
@@ -65,10 +59,14 @@
                </BorderPane.margin>
             </ImageView>
          </left>
+         <center>
+            <Text fx:id="taskDescText" strokeType="OUTSIDE" strokeWidth="0.0" text="Task Name" wrappingWidth="220.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
+            </Text>
+         </center>
       </BorderPane>
-            <Label fx:id="taskDateTimeLabel" prefHeight="20.0" prefWidth="290.0" text="Start Time to End Time / by Deadline" GridPane.columnIndex="3" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets top="8.0" />
-         </GridPane.margin></Label>
+      <Text fx:id="taskDateTimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time to End Time / by Deadline" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       </children>
 </fx:root>

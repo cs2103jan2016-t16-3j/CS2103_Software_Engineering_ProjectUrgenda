@@ -171,7 +171,6 @@ public class DisplayController extends AnchorPane {
 						currIndex, taskDisplayType, showHeader);
 				newDetailedTaskView.setDisplayController(this);
 				displayHolder.getChildren().add(newDetailedTaskView);
-				newDetailedTaskView.resizeOverrunDescLabel();
 			} else {
 				SimpleTaskController newTaskView = new SimpleTaskController(_displayedTasks.get(currIndex), currIndex,
 						taskDisplayType, showHeader);
