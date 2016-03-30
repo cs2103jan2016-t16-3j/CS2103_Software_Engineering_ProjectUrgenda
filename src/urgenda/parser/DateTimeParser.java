@@ -539,14 +539,14 @@ public class DateTimeParser {
 		}
 	}
 	
-	private static LocalDateTime adjustedDateDeadline(LocalDateTime date) {
+	public static LocalDateTime adjustedDateDeadline(LocalDateTime date) {
 		date = date.withHour(23);
 		date = date.withMinute(59);
 		date = date.withSecond(0);
 		return date;
 	}
 	
-	private static LocalDateTime adjustedDateEvent(LocalDateTime date) {
+	public static LocalDateTime adjustedDateEvent(LocalDateTime date) {
 		date = date.withHour(date.getHour()+1);
 		date = date.withMinute(0);
 		date = date.withSecond(0);
