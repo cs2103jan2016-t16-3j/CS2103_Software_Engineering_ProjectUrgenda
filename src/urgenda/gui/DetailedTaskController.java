@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -19,25 +18,21 @@ public class DetailedTaskController extends SimpleTaskController {
 	
 	private static final String PATH_DETAILEDTASKVIEW_FXML = "DetailedTaskView.fxml";
 
-	private static final double WIDTH_TASK_LABEL_EXPAND_BENCHMARK = 2.5;
-	private static final double HEIGHT_DEFAULT_DETAILEDTASK = 70;
-	private static final double HEIGHT_MULTILINE_EXPAND = 70;
-	private static final double HEIGHT_DETAILED_TASK_EXPAND = 35;
 	
 	@FXML
-	private Label dateCreatedHeader;
+	private Text dateCreatedHeader;
 	@FXML
-	private Label dateModifiedHeader;
+	private Text dateModifiedHeader;
 	@FXML
-	private Label dateCreatedLabel;
+	private Text dateCreatedText;
 	@FXML
-	private Label dateModifiedLabel;
+	private Text dateModifiedText;
 	@FXML
 	private VBox detailsDisplayArea;
 	@FXML
 	private ImageView locationIcon;
 	@FXML
-	private Label taskLocationLabel;
+	private Text taskLocationText;
 	@FXML
 	private VBox dateTimesHolder;
 	@FXML
@@ -46,46 +41,24 @@ public class DetailedTaskController extends SimpleTaskController {
 	public DetailedTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		super(task, index, taskDisplayType, showHeader);
 		initDetailedLabels();
-		if(!showHeader) {
-			taskPane.setPrefHeight(HEIGHT_DEFAULT_DETAILEDTASK);
-		}
 	}
 
 	private void initDetailedLabels() {
-		dateCreatedLabel.setText(formatDetailsDateTime(_task.getDateAdded()));
-		dateModifiedLabel.setText(formatDetailsDateTime(_task.getDateModified()));
+		dateCreatedText.setText(formatDetailsDateTime(_task.getDateAdded()));
+		dateModifiedText.setText(formatDetailsDateTime(_task.getDateModified()));
 		if(_task.getLocation() != null) {
-			taskLocationLabel.setText(_task.getLocation());
+			taskLocationText.setText(_task.getLocation());
 		}
 		if(_task.getLocation() == null || _task.getLocation().equals("")) {
 			locationHolder.setVisible(false);
 		}
 		if (_task.getSlot() != null) { //task has multiple time slots
-			taskDateTimeLabel.setText(formatDateTime(_multipleSlotList.get(0).getEarlierDateTime(), _multipleSlotList.get(0).getLaterDateTime()));
+			taskDateTimeText.setText(formatDateTime(_multipleSlotList.get(0).getEarlierDateTime(), _multipleSlotList.get(0).getLaterDateTime()));
 			for(int i = 1; i < _multipleSlotList.size(); i++) {
-				Label newLabel = new Label(formatDateTime(_multipleSlotList.get(i).getEarlierDateTime(), _multipleSlotList.get(i).getLaterDateTime()));
-				dateTimesHolder.getChildren().add(i, newLabel);	
+				Text newText = new Text(formatDateTime(_multipleSlotList.get(i).getEarlierDateTime(), _multipleSlotList.get(i).getLaterDateTime()));
+				dateTimesHolder.getChildren().add(i, newText);	
 			}
 		}
-	}
-	
-	public void resizeOverrunDescLabel() {
-		Text text = new Text(taskDescLabel.getText());
-		switch(_taskDisplayType) {
-		case OVERDUE:
-			text.setFont(Main.BOLD_FONT);
-			break;
-		case FREE_TIME: //fall-through
-		case TODAY: //fall-through
-		case NORMAL: //fall-through
-		case ARCHIVE:
-			text.setFont(Main.REGULAR_FONT);
-			break;
-		}
-		if(text.getLayoutBounds().getWidth() >= taskDescLabel.getPrefWidth() * WIDTH_TASK_LABEL_EXPAND_BENCHMARK) {
-			taskDescLabel.setMinHeight(HEIGHT_MULTILINE_EXPAND);
-			taskPane.setMaxHeight(taskPane.getMaxHeight() + HEIGHT_DETAILED_TASK_EXPAND);
-		} 
 	}
 
 	private String formatDetailsDateTime(LocalDateTime dateTime) {

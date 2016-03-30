@@ -55,7 +55,14 @@ public class Main extends Application {
 	private DisplayController _displayController;
 	private Logic _logic;
 	private static Stage _primaryStage;
-
+	private boolean _isTestMode = false;
+	
+	//TODO gui testing
+	public void configureTestMode(boolean isTestMode, String testFilePath) {
+		_isTestMode = isTestMode;
+		Logic.getInstance().setTestFilePath(testFilePath);
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		initLogger();
@@ -201,7 +208,7 @@ public class Main extends Application {
 				new ArrayList<String>(), false);
 		Task taskTodayDetailed = new Task("Finish writing testimonial for scholarship application", "", null, LocalDateTime.now().withHour(23).withMinute(59),
 				new ArrayList<String>(), false);
-		Task taskImportant = new Task("Internship interview w/ Google", null, LocalDateTime.now().plusDays(6).withHour(10).withMinute(0), LocalDateTime.now().plusDays(6).withHour(11).withMinute(0),
+		Task taskImportant = new Task("Internship interview", null, LocalDateTime.now().plusDays(6).withHour(10).withMinute(0), LocalDateTime.now().plusDays(6).withHour(11).withMinute(0),
 				new ArrayList<String>(), true);
 		taskImportant.setSlot(new MultipleSlot());
 		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(11).withMinute(0), LocalDateTime.now().plusDays(6).withHour(12).withMinute(0));
@@ -215,7 +222,7 @@ public class Main extends Application {
 				new ArrayList<String>(), false);
 		Task taskC = new Task("Submit Project Report", null, null, LocalDateTime.now().minusDays(4).withHour(23).withMinute(59),
 				new ArrayList<String>(), false);
-		Task taskC2 = new Task("Dental Appointment", null, LocalDateTime.now().minusDays(8).withHour(10).withMinute(30), LocalDateTime.now().minusDays(8).withHour(12).withMinute(00), new ArrayList<String>(),
+		Task taskC2 = new Task("Dental Appointment", "Hougang Polyclinic", LocalDateTime.now().minusDays(8).withHour(10).withMinute(30), LocalDateTime.now().minusDays(8).withHour(12).withMinute(00), new ArrayList<String>(),
 				false);
 		
 		ArrayList<Task> tasks = new ArrayList<Task>();
@@ -235,6 +242,7 @@ public class Main extends Application {
 		state.addDetailedTaskIdx(3);
 		state.addDetailedTaskIdx(5);
 		state.addDetailedTaskIdx(6);
+		state.addDetailedTaskIdx(8);
 		state.setState(StateFeedback.State.ALL_TASKS);
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0, true, false);
 		return state.getFeedback();

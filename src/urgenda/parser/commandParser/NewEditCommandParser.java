@@ -27,8 +27,7 @@ public class NewEditCommandParser {
 	private static LocalDateTime startTime;
 	private static LocalDateTime endTime;
 	private static LocalDateTime unknownTime;
-	private static String removeString1;
-	private static String removeString2;
+	private static String descString;
 	private static Integer index;
 
 	public NewEditCommandParser(String argsString, int index) {
@@ -41,6 +40,7 @@ public class NewEditCommandParser {
 			return new Invalid();
 		} else {
 			_argsString = PublicFunctions.reformatArgsString(_argsString);
+			reinitializeVariables();
 			String reducedString = searchIndex();
 			searchDetails(reducedString);
 			int numberOfRmFlag = countRmFlag(reducedString);
@@ -48,6 +48,7 @@ public class NewEditCommandParser {
 			System.out.print(startTime + "\n");
 			System.out.print(endTime + "\n");
 			System.out.print(unknownTime + "\n");
+			System.out.print(descString + "\n");
 			System.out.print(numberOfRmFlag + "\n");
 			
 			NewEdit editCommand = new NewEdit();
@@ -57,6 +58,9 @@ public class NewEditCommandParser {
 			}
 			if (endTime != null) {
 				newTask.setEndTime(endTime);
+			}
+			if (descString != null) {
+				newTask.setDesc(descString);
 			}
 			if (unknownTime != null) {
 				editCommand.setUnknown(unknownTime);
@@ -117,8 +121,7 @@ public class NewEditCommandParser {
 		if (stringArray.length == 0) {
 			unknownTime = parseUnknownTime(argsString);
 		} else {
-			for (int i = 0; i < stringArray.length; i++) {
-				System.out.print(stringArray[i] + "\n");
+			for (int i = 0; i < stringArray.length; i++) {				
 				int position = argsString.indexOf(stringArray[i].trim());
 				String preceedingWord = PublicFunctions.getPreceedingWord(position, argsString);
 				if (preceedingWord.equals("-s") || preceedingWord.equals("-s:") || preceedingWord.equals("from")) {
@@ -128,6 +131,9 @@ public class NewEditCommandParser {
 					endTime = parseEndTime(stringArray[i].trim());
 				} else {
 					unknownTime = parseUnknownTime(stringArray[i].trim());
+					if (i==0 && unknownTime == null) {
+						descString = stringArray[i].replaceAll("((-rm)|(-r))","").trim();
+					}
 				}
 			}
 		}
@@ -183,5 +189,13 @@ public class NewEditCommandParser {
 			}
 		}
 		return null;
+	}
+	
+	private static void reinitializeVariables() {
+		startTime = null;
+		endTime = null;
+		unknownTime = null;
+		descString = null;
+		index = null;
 	}
 }

@@ -17,24 +17,16 @@
 	-fx-background-color: -selector-color;
 }
 
-.label {
+Text, #noviceHeaderLabel {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
-	-fx-text-fill: -label-color;
+	-fx-fill: -label-color;
 }
 
-#taskDescLabel .text, #taskDateTimeLabel .text {
+#taskLocationText, #dateCreatedHeader, #dateModifiedHeader, #dateCreatedText, #dateModifiedText {
+	-fx-font-size: 12px;
+}
+
+#taskDescText, #taskDateTimeText .text {
 	-fx-strikethrough: true;
-}
-
-#taskLocationLabel {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 12px;
-	-fx-text-fill: -label-color;
-}
-
-#dateCreatedHeader, #dateModifiedHeader, #dateCreatedLabel, #dateModifiedLabel {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 12px;
-	-fx-text-fill: -label-color;
 }

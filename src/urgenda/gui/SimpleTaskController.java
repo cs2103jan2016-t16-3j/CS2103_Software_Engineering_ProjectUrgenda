@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Text;
 import urgenda.gui.DisplayController.Direction;
 import urgenda.gui.DisplayController.TaskDisplayType;
 import urgenda.util.DateTimePair;
@@ -45,13 +46,13 @@ public class SimpleTaskController extends GridPane {
 	@FXML
 	protected Pane selector;
 	@FXML
-	protected Label taskIndexLabel;
+	protected Text taskIndexText;
 	@FXML
 	protected ImageView importantIndicator;
 	@FXML
-	protected Label taskDescLabel;
+	protected Text taskDescText;
 	@FXML
-	protected Label taskDateTimeLabel;
+	protected Text taskDateTimeText;
 	@FXML
 	protected BorderPane noviceHeaderPane;
 	@FXML
@@ -98,16 +99,16 @@ public class SimpleTaskController extends GridPane {
 	}
 
 	private void initLabels() {
-		taskIndexLabel.setText(String.valueOf(_index + 1));
-		taskDescLabel.setText(_task.getDesc());
+		taskIndexText.setText(String.valueOf(_index + 1));
+		taskDescText.setText(_task.getDesc());
 		if (_task.getSlot() != null) { //task has multiple time slots
 			_multipleSlotIndex = 0;
 			_multipleSlotList.add(new DateTimePair(_task.getStartTime(), _task.getEndTime()));
 			_multipleSlotList.addAll(_task.getSlot().getSlots());
-			taskDateTimeLabel.setText(formatMultipleSlotDateTime());
+			taskDateTimeText.setText(formatMultipleSlotDateTime());
 		} else {
 			_multipleSlotIndex = -1; //task has no multiple slots
-			taskDateTimeLabel.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
+			taskDateTimeText.setText(formatDateTime(_task.getStartTime(), _task.getEndTime()));
 		}
 		switch (_taskDisplayType) {
 		case FREE_TIME:
@@ -217,13 +218,13 @@ public class SimpleTaskController extends GridPane {
 			case LEFT:
 				if (_multipleSlotIndex > 0) {
 					_multipleSlotIndex--;
-					taskDateTimeLabel.setText(formatMultipleSlotDateTime());
+					taskDateTimeText.setText(formatMultipleSlotDateTime());
 				}
 				break;
 			case RIGHT:
 				if (_multipleSlotIndex < _multipleSlotList.size() - 1) {
 					_multipleSlotIndex++;
-					taskDateTimeLabel.setText(formatMultipleSlotDateTime());
+					taskDateTimeText.setText(formatMultipleSlotDateTime());
 				}
 				break;
 			default:
