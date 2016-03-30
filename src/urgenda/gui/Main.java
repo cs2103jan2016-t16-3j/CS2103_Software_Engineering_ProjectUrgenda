@@ -55,13 +55,6 @@ public class Main extends Application {
 	private DisplayController _displayController;
 	private Logic _logic;
 	private static Stage _primaryStage;
-	private boolean _isTestMode = false;
-	
-	//TODO gui testing
-	public void configureTestMode(boolean isTestMode, String testFilePath) {
-		_isTestMode = isTestMode;
-		Logic.getInstance().setTestFilePath(testFilePath);
-	}
 	
 	@Override
 	public void start(Stage primaryStage) {
