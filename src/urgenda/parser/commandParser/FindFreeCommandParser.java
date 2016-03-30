@@ -4,6 +4,7 @@ import urgenda.command.Command;
 import urgenda.command.FindFree;
 import urgenda.command.Invalid;
 import urgenda.parser.DateTimeParser;
+import urgenda.parser.PublicFunctions;
 import urgenda.parser.PublicVariables;
 
 public class FindFreeCommandParser {
@@ -19,6 +20,7 @@ public class FindFreeCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
+			_argsString = PublicFunctions.reformatArgsString(_argsString);
 			DateTimeParser.searchTaskTimes(_argsString);
 			if (PublicVariables.taskStartTime != null && PublicVariables.taskEndTime != null) {
 				FindFree findFreeCommand = new FindFree(PublicVariables.taskStartTime, PublicVariables.taskEndTime);

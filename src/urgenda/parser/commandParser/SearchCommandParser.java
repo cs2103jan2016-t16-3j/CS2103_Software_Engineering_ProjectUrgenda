@@ -6,6 +6,7 @@ import java.time.Month;
 
 import urgenda.command.*;
 import urgenda.parser.DateTimeParser;
+import urgenda.parser.PublicFunctions;
 import urgenda.parser.PublicVariables;
 import urgenda.parser.TaskDetailsParser;
 
@@ -22,13 +23,14 @@ public class SearchCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
+			_argsString = PublicFunctions.reformatArgsString(_argsString);
 			Search searchCommand = new Search();
 			Month testMonth = DateTimeParser.tryParseMonth(_argsString);
 			LocalDateTime testTime = DateTimeParser.tryParseTime(_argsString);
 			LocalDate testDate = DateTimeParser.tryParseDate(_argsString);
 			if (testMonth != null) {
 				searchCommand.setSearchMonth(testMonth);
-			}else if (testTime != null) {
+			} else if (testTime != null) {
 				searchCommand.setSearchDateTime(testTime);
 			} else if (testDate != null) {
 				searchCommand.setSearchDate(testDate);
