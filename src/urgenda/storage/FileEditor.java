@@ -216,4 +216,9 @@ public class FileEditor {
 		_file.delete();
 		_parentDir.delete();
 	}
+	
+	public void deleteOnExit(){
+		_file.deleteOnExit();
+		_parentDir.deleteOnExit();
+	}
 }

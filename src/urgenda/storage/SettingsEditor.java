@@ -71,6 +71,11 @@ public class SettingsEditor {
 	public void delete(){
 		_settings.delete();
 	}
+
+	public void deleteOnExit() {
+		_settings.deleteOnExit();
+		
+	}
 	
 	
 }

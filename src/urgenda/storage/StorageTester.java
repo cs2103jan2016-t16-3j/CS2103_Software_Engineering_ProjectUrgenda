@@ -9,10 +9,14 @@ public class StorageTester extends Storage{
 	public StorageTester(String filePath, String fileName){
 		super(filePath, fileName);
 		_settings = new SettingsEditor(TEST_SETTINGS_DIRECTORY, TEST_SETTINGS_NAME);
+		_file.deleteOnExit();
+		_settings.deleteOnExit();
 	}
 	
 	public StorageTester(){
 		super(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		_settings = new SettingsEditor(TEST_SETTINGS_DIRECTORY, TEST_SETTINGS_NAME);
+		_file.deleteOnExit();
+		_settings.deleteOnExit();
 	}
 }
