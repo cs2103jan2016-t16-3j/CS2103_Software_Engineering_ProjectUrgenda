@@ -6,19 +6,29 @@ import java.util.ArrayList;
 import urgenda.logic.LogicData;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
+import urgenda.util.UrgendaLogger;
 
 public class Recurrence extends TaskCommand {
-	
+
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
+	private static final String MESSAGE_NO_RECURR_MATCH = "Invalid task number. No matches found to set as recurring";
+	private static final String MESSAGE_ERROR = "ERROR:";
 	private static final String MESSAGE_INVALID = "Insufficient reccurrence info entered";
-	private static final String MESSAGE_ERROR = "ERROR: Invalid Task Type for recurrence";
+	private static final String MESSAGE_TYPE_ERROR = "ERROR: Invalid Task Type for recurrence";
 	private static final String MESSAGE_RECURR = " has been set as recurring task";
 	private static final String MESSAGE_RECURR_TASK = "Recurring task ";
 	private static final String MESSAGE_REMOVED = " removed";
 	private static final String MESSAGE_ADDED = " added";
-	
+	private static final String MESSAGE_EVENT_PASSED = "\nWarning: Event added has already passed";
+	private static final String MESSAGE_DEADLINE_PASSED = "\nWarning: Deadline added has already passed";
+	private static final String MESSAGE_OVERLAP = "\nWarning: Overlaps with ";
+	private static final String MESSAGE_NONRECURR = " has been reverted to non-recurring";
+
 	private MultipleSlot _recurr;
 	private LogicData _data;
 	private Task _newTask;
+	private Task _recurrTask;
+	private Integer _id;
 	private Integer _minutes;
 	private Integer _hours;
 	private Integer _days;
@@ -31,9 +41,19 @@ public class Recurrence extends TaskCommand {
 	}
 
 	public String execute() throws Exception {
-		_recurr = _newTask.getSlot();
 		_data = LogicData.getInstance();
-		if(_length == null) {
+		if (_id != null && _id.intValue() > -1) {
+			_recurrTask = _data.findMatchingPosition(_id.intValue());
+		}
+		if (_recurrTask == null) {
+			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+			logger.getLogger().severe("Exception(No edit match) thrown");
+			throw new Exception(MESSAGE_NO_RECURR_MATCH);
+		} else {
+			_newTask = new Task(_recurrTask);
+		}
+		_recurr = _newTask.getSlot();
+		if (_length == null) {
 			_length = Integer.MAX_VALUE;
 		}
 		switch (_newTask.getTaskType()) {
@@ -60,9 +80,6 @@ public class Recurrence extends TaskCommand {
 					end = end.plusYears(_years);
 				}
 				_recurr.addTimeSlot(start, end);
-			}
-			if(_recurr.isEmpty() || _recurr.equals(null)) {
-				throw new Exception(MESSAGE_INVALID);
 			}
 			break;
 		case EVENT:
@@ -95,45 +112,110 @@ public class Recurrence extends TaskCommand {
 				}
 				_recurr.addTimeSlot(start, end);
 			}
-			if(_recurr.isEmpty() || _recurr.equals(null)) {
-				throw new Exception(MESSAGE_INVALID);
-			}
 			break;
-			default:
-				throw new Exception (MESSAGE_ERROR);
+		default:
+			throw new Exception(MESSAGE_TYPE_ERROR);
 		}
-		//_newTask.toggleRecurring();   to be added 
-		_newTask.updateTaskType();
-		_newTask.setId(_data.getCurrentId());
-		_data.updateCurrentId();
+		if (_recurr.isEmpty() || _recurr.equals(null)) {
+			throw new Exception(MESSAGE_INVALID);
+		}
+
+		// _newTask.toggleRecurring(); to be added
+		_newTask.setSlot(_recurr);
 		LocalDateTime now = LocalDateTime.now();
-		_newTask.setDateAdded(now);
+		if (_id != null) {
+			_newTask.setId(_data.getCurrentId());
+			_newTask.setDateAdded(now);
+			_data.updateCurrentId();
+		}
 		_newTask.setDateModified(now);
-		_data.updateMultipleSlot(_newTask);
-		_data.addTask(_newTask);
-		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-		_data.setTaskPointer(_newTask);
-		return taskMessage(_newTask) + MESSAGE_RECURR;
-		
+		_newTask.updateTaskType();
+		String feedback = "";
+		try {
+			checkTaskValidity(_newTask);
+			_data.addTask(_newTask);
+			if (_id != null) {
+				_data.deleteTask(_recurrTask);
+			}
+			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+			_data.setTaskPointer(_newTask);
+			_data.clearShowMoreTasks();
+			if (_id == null) {
+				feedback = checkPassed();
+				feedback += findOverlaps();
+			}
+		} catch (Exception e) {
+			logger.getLogger().severe("Exception occurred" + e);
+			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
+			// throws exception to prevent AddTask being added to undo stack
+			throw new Exception(MESSAGE_ERROR + e.getMessage());
+		}
+		return taskMessage(_newTask) + MESSAGE_RECURR + feedback;
 	}
 
+	private String checkPassed() {
+		if (_newTask.getTaskType() == Task.Type.EVENT) {
+			if (_newTask.getEndTime().isBefore(LocalDateTime.now())) {
+				return MESSAGE_EVENT_PASSED;
+			}
+		} else if (_newTask.getTaskType() == Task.Type.DEADLINE) {
+			if (_newTask.getEndTime().isBefore(LocalDateTime.now())) {
+				return MESSAGE_DEADLINE_PASSED;
+			}
+		}
+		return "";
+	}
+
+	private String findOverlaps() {
+		ArrayList<Task> overlaps;
+		overlaps = _data.overlappingTasks(_newTask);
+
+		if (overlaps.size() == 0) {
+			return "";
+		} else {
+			String feedback = MESSAGE_OVERLAP + taskMessage(overlaps.get(0));
+			overlaps.remove(0);
+			for (Task task : overlaps) {
+				feedback += ", " + taskMessage(task);
+			}
+			return feedback;
+		}
+	}
 
 	@Override
 	public String undo() {
+		String feedback;
+		if (_id != null) {
+			_data.addTask(_recurrTask);
+			feedback = taskMessage(_newTask) + MESSAGE_NONRECURR;
+		} else {
+			feedback = MESSAGE_RECURR_TASK + taskMessage(_newTask) + MESSAGE_REMOVED;
+		}
 		_data.deleteTask(_newTask);
-		return MESSAGE_RECURR_TASK + taskMessage(_newTask) + MESSAGE_REMOVED;
+		return feedback;
 	}
 
 	@Override
 	public String redo() {
+		String feedback;
+		if (_id != null) {
+			_data.deleteTask(_recurrTask);
+			feedback = taskMessage(_recurrTask) + MESSAGE_RECURR;
+		} else {
+			feedback = MESSAGE_RECURR_TASK + taskMessage(_newTask) + MESSAGE_ADDED;
+		}
 		_newTask.setDateModified(LocalDateTime.now());
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
-		return MESSAGE_RECURR_TASK + taskMessage(_newTask) + MESSAGE_ADDED;
+		return feedback;
 	}
-	
+
 	public void setNewTask(Task newTask) {
 		_newTask = newTask;
+	}
+
+	public void setId(int id) {
+		_id = Integer.valueOf(id);
 	}
 
 	public void setMins(int input) {
@@ -159,7 +241,7 @@ public class Recurrence extends TaskCommand {
 	public void setYears(int input) {
 		_years = input;
 	}
-	
+
 	public void updateDateModified(ArrayList<Task> tasks) {
 		LocalDateTime now = LocalDateTime.now();
 		for (Task task : tasks) {
