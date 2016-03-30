@@ -27,7 +27,7 @@ public class NewEdit extends TaskCommand {
 
 	public String execute() throws Exception {
 		_data = LogicData.getInstance();
-		if (_id != null && _id.intValue() != -1) {
+		if (_id != null && _id.intValue() > -1) {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
 			_temp = new Task(_prevTask);
 		}
