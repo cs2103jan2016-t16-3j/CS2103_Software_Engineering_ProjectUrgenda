@@ -3,6 +3,7 @@ package urgenda.logic;
 import urgenda.command.AddTask;
 import urgenda.command.BlockSlots;
 import urgenda.command.Command;
+import urgenda.command.Complete;
 import urgenda.command.Invalid;
 import urgenda.command.ShowDetails;
 import urgenda.command.TaskCommand;
@@ -99,6 +100,9 @@ public class Logic {
 			}
 		} else if (_logicData.getCurrState() == LogicData.DisplayState.ARCHIVE) {
 			// TODO settle archive cases
+			if (currCmd instanceof Complete) {
+				currCmd = new Invalid(LogicData.DisplayState.ARCHIVE);
+			}
 		}
 		
 		return currCmd;

@@ -89,7 +89,7 @@ public class DetailedTaskController extends SimpleTaskController {
 	}
 
 	private String formatDetailsDateTime(LocalDateTime dateTime) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy hh:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
 		return dateTime.format(formatter);
 	}
 	
