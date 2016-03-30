@@ -10,6 +10,7 @@ public class Storage {
 	private static final String SETTINGS_DIRECTORY = "settings";
 
 	private static final String DELIMITER_FILE_TYPE = "\\";
+	private static final String DESC_INTRO_TASK = "Add your first Task! Press Help or Alt + F1 for guidance";
 
 	protected FileEditor _file;
 	protected FileEditor _help;
@@ -27,7 +28,25 @@ public class Storage {
 		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
+		checkIfEmptyFile();
+	}
 
+	private void checkIfEmptyFile() {
+		if (_fileDataStringArr.isEmpty() && _archiveStringArr.isEmpty()) {
+			createIntroTask();
+		}
+		
+	}
+
+	private void createIntroTask() {
+		Task introTask = new Task();
+		introTask.setDesc(DESC_INTRO_TASK);
+		introTask.updateTaskType();
+		ArrayList<Task> introList = new ArrayList<Task>();
+		ArrayList<Task> introArchive = new ArrayList<Task>();
+		introList.add(introTask);
+		save(introList, introArchive);
+		
 	}
 
 	public Storage(String path, String name) {

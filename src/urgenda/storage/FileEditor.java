@@ -43,6 +43,7 @@ public class FileEditor {
 		if (_file.exists() == false) {
 			try {
 				_file.createNewFile();
+				setUpFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -50,6 +51,12 @@ public class FileEditor {
 	}
 
 	
+	private void setUpFile() {
+		ArrayList<String> create = new ArrayList<String>();
+		writeToFile(create, create);
+		
+	}
+
 	public String retrieveFromFile() {
 		String phrase = null;
 		try {

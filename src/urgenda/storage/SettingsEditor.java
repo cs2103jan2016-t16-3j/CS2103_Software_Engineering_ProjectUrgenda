@@ -32,6 +32,7 @@ public class SettingsEditor {
 		if (_cipher.isEmptyMap()) {
 			_cipher.setDirectory(DEFAULT_FILE_LOCATION);
 			_cipher.setFileName(DEFAULT_FILE_NAME);
+			saveSettings();
 		}
 	}
 	
