@@ -671,5 +671,12 @@ public class LogicData {
 		_tasks = _storage.updateCurrentTaskList();
 		_archives = _storage.updateArchiveTaskList();
 	}
+	
+	public void reinitialiseStorageTester() {
+		_storage.delete();
+		_storage = new StorageTester();
+		_tasks = _storage.updateCurrentTaskList();
+		_archives = _storage.updateArchiveTaskList();
+	}
 
 }

@@ -141,4 +141,9 @@ public class Logic {
 		logger.getLogger().info("Retrieving current help directory");
 		return _logicData.retrieveCurrentDirectory();
 	}
+	
+	// clear storage for testing purposes
+	public void clearStorageTester() {
+		_logicData.reinitialiseStorageTester();
+	}
 }
