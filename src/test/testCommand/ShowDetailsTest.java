@@ -20,7 +20,7 @@ public class ShowDetailsTest {
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task(1, "But new specs", "floating", "", false, false, false, notime, notime,
+		Task obj = new Task(1, "Buy new specs", "floating", "", false, false, false, notime, notime,
 				LocalDateTime.now(), notime, _tags, null);
 		Task obj2 = new Task(2, "Submit cs2103 v0.1", "deadline", "", true, false, true, notime,
 				LocalDateTime.of(2016, Month.FEBRUARY, 14, 23, 59), LocalDateTime.now(), notime, _tags, null);
@@ -61,7 +61,7 @@ public class ShowDetailsTest {
 		range.add(_tasks.size()-1); //test max acceptable boundary
 		test2.setPosition(range);
 		assertEquals("Changed showing details for 2 tasks\n" +
-				"Showing more details for \"But new specs\", \"Do survey\"", test2.execute());
+				"Showing more details for \"Buy new specs\", \"Do survey\"", test2.execute());
 		ShowDetails test3 = new ShowDetails();
 		range.clear();
 		range.add(-6);
@@ -90,7 +90,19 @@ public class ShowDetailsTest {
 		test5.setPosition(range);
 		assertEquals("Changed showing details for 2 tasks\n" +
 				"Showing more details for \"Submit admission application\", \"Travel to Sweden\"", test5.execute());
-		
+		ShowDetails test6 = new ShowDetails();
+		range.clear();
+		range.add(7);
+		range.add(8);
+		test6.setPosition(range);
+		assertEquals("Showing less details for \"Do survey\"", test6.execute());
+		ShowDetails test7 = new ShowDetails();
+		range.clear();
+		range.add(0);
+		range.add(3);
+		test7.setPosition(range);
+		assertEquals("Changed showing details for 2 tasks\n" +
+				"Showing less details for \"Buy new specs\", \"Dinner w relatives\"", test7.execute());
 		
 	}
 }
