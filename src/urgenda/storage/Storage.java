@@ -54,16 +54,10 @@ public class Storage {
 		_file.writeToFile(_fileDataStringArr, _archiveStringArr);
 	}
 
-	public void changeFilePath(String path) {
+	private void changeFilePath(String path) {
 		_settings.setFileDir(path);
 		_settings.saveSettings();
 		_file.relocate(path);
-	}
-
-	public void changeFileName(String name) {
-		_settings.setFileName(name);
-		_settings.saveSettings();
-		_file.rename(name);
 	}
 
 	public void changeFileSettings(String path) throws UrgendaException {
@@ -72,7 +66,6 @@ public class Storage {
 			String dir = path.trim().substring(0, path.lastIndexOf(DELIMITER_FILE_TYPE));
 			String name = path.trim().substring(path.lastIndexOf(DELIMITER_FILE_TYPE) + 1, path.length());
 			if (!FileEditor.isExistingFile(dir, name)) {
-				System.out.println("file does not exist, will create");
 				_settings.setFileDir(dir);
 				_settings.setFileName(name);
 				_settings.saveSettings();
