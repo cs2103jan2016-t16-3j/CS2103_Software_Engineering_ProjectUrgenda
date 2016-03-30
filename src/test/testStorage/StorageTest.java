@@ -4,12 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 
 import org.junit.Test;
 
+import urgenda.storage.Storage;
 import urgenda.storage.StorageTester;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
@@ -24,17 +26,70 @@ public class StorageTest {
 	private static final String TEST_FILE_LOCATION_2 = "testfiles\\test3";
 	private static final String TEST_FILE_NAME_2 = "test2.txt";
 
+	private static final String EXCEPTION_ERROR_MESSAGE_2 = "test2.txt already exist in TESTFILES\\TEST3. \nLoading tasks from existing file";
+
 	/*
-	 * Tests file manipulation given a string with file name specified, and exists in new location.
+	 * Tests file manipulation given a string with file name specified, and
+	 * exists in new location. Tests UrgendaException for existing file.
 	 */
 	@Test
-	public void test003FileManipulationExist(){
+	public void test004FileManipulationExist() throws IOException {
 		StorageTester store = new StorageTester();
-		
+
 		File existingFile = new File(TEST_FILE_NEW_LOCATION);
+		File dir = new File(TEST_FILE_LOCATION_2);
+		dir.mkdir();
 		existingFile.createNewFile();
+
+		try {
+			store.changeFileSettings(TEST_FILE_LOCATION_2);
+		} catch (UrgendaException e) {
+			
+		}
+
+		File file = new File(TEST_FILE_LOCATION_2, TEST_FILE_NAME);
+		assertTrue(file.exists());
+		assertEquals(TEST_FILE_LOCATION_2, file.getParent());
+		assertEquals(TEST_FILE_NAME, file.getName());
+
+		file.delete();
+		existingFile.delete();
+		dir.delete();
+		store.delete();
 	}
 	
+	/*
+	 * Tests file manipulation given a string with file name specified, and
+	 * exists in new location. Tests UrgendaException for existing file.
+	 */
+	@Test
+	public void test003FileManipulationExist() throws IOException {
+		StorageTester store = new StorageTester();
+
+		File existingFile = new File(TEST_FILE_NEW_LOCATION);
+		File dir = new File(TEST_FILE_LOCATION_2);
+		dir.mkdir();
+		existingFile.createNewFile();
+
+		try {
+			store.changeFileSettings(TEST_FILE_NEW_LOCATION);
+		} catch (UrgendaException e) {
+			assertEquals(TEST_FILE_LOCATION_2, e.getDir());
+			assertEquals(TEST_FILE_NAME_2, e.getName());
+			assertEquals(EXCEPTION_ERROR_MESSAGE_2, e.getMessage());
+		}
+
+		File file = new File(TEST_FILE_LOCATION_2, TEST_FILE_NAME_2);
+		assertTrue(file.exists());
+		assertEquals(TEST_FILE_LOCATION_2, file.getParent());
+		assertEquals(TEST_FILE_NAME_2, file.getName());
+
+		file.delete();
+		existingFile.delete();
+		dir.delete();
+		store.delete();
+	}
+
 	/*
 	 * Tests file manipulation given a string with file name specified, and
 	 * doesn't exist in new location
@@ -55,6 +110,7 @@ public class StorageTest {
 		assertEquals(TEST_FILE_NAME_2, file.getName());
 
 		file.delete();
+		store.delete();
 	}
 
 	/*
@@ -99,7 +155,7 @@ public class StorageTest {
 
 		for (int i = 0; i < actlTasks.size(); i++) {
 			Task exTask = tasks.get(i);
-			Task actlTask = tasks.get(i);
+			Task actlTask = actlTasks.get(i);
 			assertEquals(exTask.getDesc(), actlTask.getDesc());
 			assertEquals(exTask.getLocation(), actlTask.getLocation());
 			assertEquals(exTask.isCompleted(), actlTask.isCompleted());
@@ -129,6 +185,14 @@ public class StorageTest {
 
 		store.delete();
 
+	}
+	
+	@Test
+	public void test00Constructing(){
+		Storage store = new Storage();
+		String fullDir = store.getDirPath();
+		String dir = fullDir.trim().substring(fullDir.lastIndexOf("\\") + 1, fullDir.length());
+		assertEquals("settings", dir);
 	}
 
 }

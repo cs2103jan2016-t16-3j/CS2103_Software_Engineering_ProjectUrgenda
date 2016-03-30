@@ -63,7 +63,6 @@ public class FileEditor {
 			logger.getLogger().info("successful retrieval of data");
 		} catch (FileNotFoundException e) {
 			logger.getLogger().info("no such file found" + e);
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -90,7 +89,6 @@ public class FileEditor {
 			logger.getLogger().info("successful retrieval of data");
 		} catch (FileNotFoundException e) {
 			logger.getLogger().info("no such file found");
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -138,7 +136,6 @@ public class FileEditor {
 			writer.close();
 		} catch (FileNotFoundException e) {
 			logger.getLogger().info("no such file found");
-			e.printStackTrace();
 		}
 	}
 
@@ -148,7 +145,7 @@ public class FileEditor {
 			writer.println(phrase);
 			writer.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			logger.getLogger().info("no such file found");
 		}
 	}
 	
@@ -157,7 +154,7 @@ public class FileEditor {
 			PrintWriter writer = new PrintWriter(_file);
 			writer.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			logger.getLogger().info("no such file found");
 		}
 	}
 	
@@ -179,7 +176,7 @@ public class FileEditor {
 		try {
 			Files.move(source, newSource.resolve(source.getFileName()), REPLACE_EXISTING);
 		} catch (NoSuchFileException e) {
-			System.out.println(source + " does not exist, unable to proceed with file relocation");
+			logger.getLogger().info(source + " does not exist, unable to proceed with file relocation");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

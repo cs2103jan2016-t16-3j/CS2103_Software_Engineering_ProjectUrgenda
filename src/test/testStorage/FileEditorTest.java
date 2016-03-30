@@ -19,6 +19,55 @@ public class FileEditorTest {
 	private static final String TEST_FILE_LOCATION_2 = "testfiles\\test3";
 	private static final String TEST_FILE_NAME_2 = "test2.txt";
 
+	/*
+	 * testing file not found exception
+	 */
+	@Test
+	public void test008Exception(){
+		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
+		
+		assertTrue(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
+		
+		file.delete();
+		
+		String phrase = "test";
+		file.writeToFile(phrase);
+		String actual = file.retrieveFromFile();
+		assertNull(actual);
+		
+		ArrayList<String> expected = new ArrayList<String>();
+		file.writeToFile(expected, expected);
+		ArrayList<String> actlData = new ArrayList<String>();
+		ArrayList<String> actlArchive = new ArrayList<String>();
+		file.retrieveFromFile(actlData, actlArchive);
+		assertEquals(expected, actlData);
+		assertEquals(expected, actlArchive);
+		
+		file.clearFile();
+		file.relocate(TEST_FILE_LOCATION_2);
+		assertFalse(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
+	}
+	
+	/*
+	 * Testing empty lines in text file
+	 */
+	@Test
+	public void test007EmptyLines(){
+		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
+		file.deleteOnExit();
+		ArrayList<String> newLines = new ArrayList<String>();
+		newLines.add("\n");
+		file.writeToFile(newLines, newLines);
+		
+		ArrayList<String> expected = new ArrayList<String>();
+		ArrayList<String> actlTasks = new ArrayList<String>();
+		ArrayList<String> actlArchives = new ArrayList<String>();
+		file.retrieveFromFile(actlTasks, actlArchives);
+		assertEquals(expected, actlTasks);
+		assertEquals(expected, actlArchives);
+		
+	}
+	
 	@Test
 	public void test001Rename() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
@@ -73,9 +122,7 @@ public class FileEditorTest {
 		retrievedArrayOne.clear();
 		file.writeToFile(inputArrayOne, inputArrayTwo);
 		file.retrieveFromFile(retrievedArrayOne, retrievedArrayTwo);
-		for (int i = 0; i < retrievedArrayOne.size(); i++) {
-			assertEquals(i + "diff", inputArrayOne.get(i), retrievedArrayOne.get(i));
-		}
+		assertEquals(inputArrayOne.size(), retrievedArrayOne.size());
 
 		for (int i = 0; i < 1000; i++) {
 			inputArrayOne.add("string" + i);
@@ -118,12 +165,7 @@ public class FileEditorTest {
 		retrievedArrayTwo.clear();
 		file.writeToFile(inputArrayOne, inputArrayTwo);
 		file.retrieveFromFile(retrievedArrayOne, retrievedArrayTwo);
-		for (int i = 0; i < retrievedArrayOne.size(); i++) {
-			assertEquals(i + "diff", inputArrayOne.get(i), retrievedArrayOne.get(i));
-		}
-		for (int i = 0; i < retrievedArrayTwo.size(); i++) {
-			assertEquals(i + "diff", inputArrayTwo.get(i), retrievedArrayTwo.get(i));
-		}
+		assertEquals(inputArrayOne.size(), retrievedArrayOne.size());
 		
 		//testing large quantities to write and retrieve
 		for (int i = 0; i < 2000; i++) {
@@ -151,9 +193,6 @@ public class FileEditorTest {
 		}
 		file.writeToFile(inputArrayOne, inputArrayTwo);
 		file.retrieveFromFile(retrievedArrayOne, retrievedArrayTwo);
-		for (int i = 0; i < retrievedArrayOne.size(); i++) {
-			assertEquals(i + "diff", inputArrayOne.get(i), retrievedArrayOne.get(i));
-		}
 		for (int i = 0; i < retrievedArrayTwo.size(); i++) {
 			assertEquals(i + "diff", inputArrayTwo.get(i), retrievedArrayTwo.get(i));
 		}
