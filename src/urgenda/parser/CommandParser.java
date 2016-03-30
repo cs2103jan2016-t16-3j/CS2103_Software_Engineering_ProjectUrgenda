@@ -25,6 +25,7 @@ import urgenda.parser.commandParser.FindFreeCommandParser;
 import urgenda.parser.commandParser.HelpCommandParser;
 import urgenda.parser.commandParser.HomeCommandParser;
 import urgenda.parser.commandParser.InvalidCommandParser;
+import urgenda.parser.commandParser.NewEditCommandParser;
 import urgenda.parser.commandParser.PostponeCommandParser;
 import urgenda.parser.commandParser.PrioritiseCommandParser;
 import urgenda.parser.commandParser.RedoCommandParser;
@@ -68,7 +69,7 @@ public class CommandParser {
 			DeleteCommandParser deleteCommand = new DeleteCommandParser(argsString, index);
 			return deleteCommand.generateAndReturn();
 		case EDIT:
-			EditCommandParser editCommand = new EditCommandParser(argsString, index);
+			NewEditCommandParser editCommand = new NewEditCommandParser(argsString, index);
 			return editCommand.generateAndReturn();
 		case EXIT:
 			ExitCommandParser exitCommand = new ExitCommandParser(argsString, index);

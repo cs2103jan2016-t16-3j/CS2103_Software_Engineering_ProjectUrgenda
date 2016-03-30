@@ -22,7 +22,7 @@ public class NewEditCommandParser {
 	private static String startFlagRegex = "(-s)|(-s:)|(from)";
 	private static String endFlagRegex = "(-e)|(-e:)|(to)|(by)";
 	private static String removeFlagRegex = "(-r)|(-rm)";
-	private static String combinedRegex = startFlagRegex + "|" + endFlagRegex;
+	private static String combinedRegex = "(" + startFlagRegex + "|" + endFlagRegex + ")";
 
 	private static LocalDateTime startTime;
 	private static LocalDateTime endTime;
@@ -44,6 +44,12 @@ public class NewEditCommandParser {
 			String reducedString = searchIndex();
 			searchDetails(reducedString);
 			int numberOfRmFlag = countRmFlag(reducedString);
+			
+			System.out.print(startTime + "\n");
+			System.out.print(endTime + "\n");
+			System.out.print(unknownTime + "\n");
+			System.out.print(numberOfRmFlag + "\n");
+			
 			NewEdit editCommand = new NewEdit();
 			Task newTask = new Task();
 			if (startTime != null) {
@@ -99,7 +105,7 @@ public class NewEditCommandParser {
 	private static String searchIndex() {
 		String firstWord = PublicFunctions.getFirstWord(_argsString);
 		try {
-			index = Integer.parseInt(firstWord);
+			index = Integer.parseInt(firstWord) - 1;
 			return PublicFunctions.removeFirstWord(_argsString);
 		} catch (Exception e) {
 			return _argsString;
@@ -107,20 +113,21 @@ public class NewEditCommandParser {
 	}
 
 	private static void searchDetails(String argsString) {
-		String[] stringArray = argsString.split(combinedRegex);
+		String[] stringArray = argsString.trim().split(combinedRegex);
 		if (stringArray.length == 0) {
 			unknownTime = parseUnknownTime(argsString);
 		} else {
 			for (int i = 0; i < stringArray.length; i++) {
-				int position = argsString.indexOf(stringArray[i]);
+				System.out.print(stringArray[i] + "\n");
+				int position = argsString.indexOf(stringArray[i].trim());
 				String preceedingWord = PublicFunctions.getPreceedingWord(position, argsString);
 				if (preceedingWord.equals("-s") || preceedingWord.equals("-s:") || preceedingWord.equals("from")) {
-					startTime = parseStartTime(stringArray[i]);
+					startTime = parseStartTime(stringArray[i].trim());
 				} else if (preceedingWord.equals("-e") || preceedingWord.equals("-e:") || preceedingWord.equals("to")
 						|| preceedingWord.equals("by")) {
-					endTime = parseEndTime(stringArray[i]);
+					endTime = parseEndTime(stringArray[i].trim());
 				} else {
-					unknownTime = parseUnknownTime(stringArray[i]);
+					unknownTime = parseUnknownTime(stringArray[i].trim());
 				}
 			}
 		}
@@ -176,49 +183,5 @@ public class NewEditCommandParser {
 			}
 		}
 		return null;
-	}
-
-	private static Command generateEditCommandAndReturn() {
-		if (PublicVariables.commandType == COMMAND_TYPE.INVALID) {
-			return new Invalid();
-		} else {
-			Task newTask = new Task();
-			if (!PublicVariables.taskLocation.equals("")) {
-				newTask.setLocation(PublicVariables.taskLocation);
-			}
-			if (PublicVariables.taskStartTime != null) {
-				newTask.setStartTime(PublicVariables.taskStartTime);
-			}
-			if (PublicVariables.taskEndTime != null) {
-				newTask.setEndTime(PublicVariables.taskEndTime);
-			}
-			if (!PublicVariables.taskHashtags.isEmpty()) {
-				newTask.setHashtags(PublicVariables.taskHashtags);
-			}
-			if (PublicVariables.taskSlots != null) {
-				newTask.setSlot(PublicVariables.taskSlots);
-			}
-			if (!PublicVariables.taskDescription.equals("")) {
-				newTask.setDesc(PublicVariables.taskDescription);
-			}
-			switch (PublicVariables.taskType) {
-			case EVENT:
-				newTask.setTaskType(Task.Type.EVENT);
-				break;
-			case DEADLINE:
-				newTask.setTaskType(Task.Type.DEADLINE);
-				break;
-			case FLOATING:
-				newTask.setTaskType(Task.Type.FLOATING);
-				break;
-			default:
-				return new Invalid();
-			}
-			if (PublicVariables.taskIndex != -10) {
-				return new Edit(PublicVariables.taskIndex, newTask);
-			} else {
-				return new Edit(_index, newTask);
-			}
-		}
 	}
 }

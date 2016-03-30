@@ -7,6 +7,7 @@ public class Invalid extends Command {
 	
 	private static final String MESSAGE_INVALID_COMMAND = "\"%1$s\" is not a valid command";
 	private static final String MESSAGE_INVALID_FINDFREE = "Invalid command for available time";
+	private static final String MESSAGE_INVALID_ARCHIVE = "Invalid command for archived task";
 	
 	private String _command;
 	private LogicData.DisplayState _state;
@@ -29,6 +30,8 @@ public class Invalid extends Command {
 		data.setCurrState(LogicData.DisplayState.INVALID_COMMAND);
 		if (_state == LogicData.DisplayState.FIND_FREE) {
 			return MESSAGE_INVALID_FINDFREE;
+		} else if (_state == LogicData.DisplayState.ARCHIVE) {
+			return MESSAGE_INVALID_ARCHIVE;
 		} else if (_command.equals("")) {
 			return null;
 		} else {

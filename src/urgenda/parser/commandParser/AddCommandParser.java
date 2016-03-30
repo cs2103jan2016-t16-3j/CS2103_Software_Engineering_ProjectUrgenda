@@ -22,6 +22,7 @@ public class AddCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
+			descPlaceHolder = null;
 			String reformattedString = checkSpecialDesc();
 			reformattedString = PublicFunctions.reformatArgsString(_argsString);
 			String reducedArgsString = DateTimeParser.searchTaskTimes(reformattedString);
