@@ -183,7 +183,11 @@ public class SimpleTaskController extends GridPane {
 				formattedDate += "Yesterday";
 			}
 		} else {
-			formattedDate += timeLeft.getDateTime2().format(DateTimeFormatter.ofPattern("dd MMM"));
+			if (dateTime.getYear() != LocalDateTime.now().getYear()) {
+				formattedDate += timeLeft.getDateTime2().format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
+			} else {				
+				formattedDate += timeLeft.getDateTime2().format(DateTimeFormatter.ofPattern("dd MMM"));
+			}
 		}
 		return formattedDate;
 	}
