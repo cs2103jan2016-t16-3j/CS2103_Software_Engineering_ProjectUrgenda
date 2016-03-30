@@ -177,48 +177,4 @@ public class NewEditCommandParser {
 		}
 		return null;
 	}
-
-	private static Command generateEditCommandAndReturn() {
-		if (PublicVariables.commandType == COMMAND_TYPE.INVALID) {
-			return new Invalid();
-		} else {
-			Task newTask = new Task();
-			if (!PublicVariables.taskLocation.equals("")) {
-				newTask.setLocation(PublicVariables.taskLocation);
-			}
-			if (PublicVariables.taskStartTime != null) {
-				newTask.setStartTime(PublicVariables.taskStartTime);
-			}
-			if (PublicVariables.taskEndTime != null) {
-				newTask.setEndTime(PublicVariables.taskEndTime);
-			}
-			if (!PublicVariables.taskHashtags.isEmpty()) {
-				newTask.setHashtags(PublicVariables.taskHashtags);
-			}
-			if (PublicVariables.taskSlots != null) {
-				newTask.setSlot(PublicVariables.taskSlots);
-			}
-			if (!PublicVariables.taskDescription.equals("")) {
-				newTask.setDesc(PublicVariables.taskDescription);
-			}
-			switch (PublicVariables.taskType) {
-			case EVENT:
-				newTask.setTaskType(Task.Type.EVENT);
-				break;
-			case DEADLINE:
-				newTask.setTaskType(Task.Type.DEADLINE);
-				break;
-			case FLOATING:
-				newTask.setTaskType(Task.Type.FLOATING);
-				break;
-			default:
-				return new Invalid();
-			}
-			if (PublicVariables.taskIndex != -10) {
-				return new Edit(PublicVariables.taskIndex, newTask);
-			} else {
-				return new Edit(_index, newTask);
-			}
-		}
-	}
 }
