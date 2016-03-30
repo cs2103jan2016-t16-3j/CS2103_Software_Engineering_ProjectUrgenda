@@ -42,6 +42,8 @@ public class CommandTypeParser {
 			return COMMAND_TYPE.SET_DIRECTORY;
 		} else if (PublicVariables.exitKeyWords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.EXIT;
+		} else if (PublicVariables.helpKeyWords.contains(lowerCaseFirstWord)) {
+			return COMMAND_TYPE.HELP;
 		} else {
 			return COMMAND_TYPE.INVALID;
 		}

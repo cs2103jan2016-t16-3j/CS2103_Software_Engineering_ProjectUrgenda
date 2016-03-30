@@ -23,32 +23,36 @@ public class ConfirmCommandParser {
 	}
 
 	public static Command generateAndReturn() {
-		Confirm confirmCommand = new Confirm();
-		String firstWord = PublicFunctions.getFirstWord(_argsString);
-		String remainingPhrase = PublicFunctions.removeFirstWord(_argsString);
-
-		PrettyTimeParser parser = new PrettyTimeParser();
-		List<Date> dateTimes = parser.parse(_argsString);
-
-		if (dateTimes.size() == 2) {
-			try {
-				int index = Integer.parseInt(firstWord);
-				confirmCommand.setId(index - 1);
-				
-				LocalDateTime time1 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(0));
-				LocalDateTime time2 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(1));
-				confirmCommand.setTimeSlot(PublicFunctions.minTime(time1, time2), PublicFunctions.maxTime(time1, time2));				
-				return confirmCommand;
-			} catch (Exception e) {
-				confirmCommand.setId(_index);
-				
-				LocalDateTime time1 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(0));
-				LocalDateTime time2 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(1));
-				confirmCommand.setTimeSlot(PublicFunctions.minTime(time1, time2), PublicFunctions.maxTime(time1, time2));				
-				return confirmCommand;
-			}
-		} else {
+		if (_argsString == null) {
 			return new Invalid();
+		} else {
+			Confirm confirmCommand = new Confirm();
+			String firstWord = PublicFunctions.getFirstWord(_argsString);
+			
+
+			PrettyTimeParser parser = new PrettyTimeParser();
+			List<Date> dateTimes = parser.parse(_argsString);
+
+			if (dateTimes.size() == 2) {
+				try {
+					int index = Integer.parseInt(firstWord);
+					confirmCommand.setId(index - 1);
+					
+					LocalDateTime time1 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(0));
+					LocalDateTime time2 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(1));
+					confirmCommand.setTimeSlot(PublicFunctions.minTime(time1, time2), PublicFunctions.maxTime(time1, time2));				
+					return confirmCommand;
+				} catch (Exception e) {
+					confirmCommand.setId(_index);
+					
+					LocalDateTime time1 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(0));
+					LocalDateTime time2 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(1));
+					confirmCommand.setTimeSlot(PublicFunctions.minTime(time1, time2), PublicFunctions.maxTime(time1, time2));				
+					return confirmCommand;
+				}
+			} else {
+				return new Invalid();
+			}
 		}
 	}
 }
