@@ -67,6 +67,9 @@
             </Text>
          </center>
       </BorderPane>
-      <Text fx:id="taskDateTimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time to End Time / by Deadline" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Text fx:id="taskDateTimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time to End Time / by Deadline" wrappingWidth="285.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </GridPane.margin></Text>
       </children>
 </fx:root>
