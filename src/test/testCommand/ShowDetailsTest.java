@@ -91,5 +91,6 @@ public class ShowDetailsTest {
 		assertEquals("Changed showing details for 2 tasks\n" +
 				"Showing more details for \"Submit admission application\", \"Travel to Sweden\"", test5.execute());
 		
+		
 	}
 }
