@@ -34,6 +34,11 @@ public class ShowDetailsTest {
 				LocalDateTime.now(), notime, _tags, null);
 		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
 				notime, _tags, null);
+		Task obj7 = new Task(1, "Wash car", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
+				notime, _tags, null);
+		Task obj8 = new Task(1, "Do survey", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
+				notime, _tags, null);
+
 
 		_tasks.add(obj);
 		_tasks.add(obj2);
@@ -41,6 +46,8 @@ public class ShowDetailsTest {
 		_tasks.add(obj4);
 		_tasks.add(obj5);
 		_tasks.add(obj6);
+		_tasks.add(obj7);
+		_tasks.add(obj8);
 
 		_data.setDisplays(_tasks);
 		ShowDetails test = new ShowDetails();
@@ -54,6 +61,35 @@ public class ShowDetailsTest {
 		range.add(_tasks.size()-1); //test max acceptable boundary
 		test2.setPosition(range);
 		assertEquals("Changed showing details for 2 tasks\n" +
-				"Showing more details for \"But new specs\", \"Mop floor\"", test2.execute());
+				"Showing more details for \"But new specs\", \"Do survey\"", test2.execute());
+		ShowDetails test3 = new ShowDetails();
+		range.clear();
+		range.add(-6);
+		test3.setPosition(range);
+		String feedback;
+		try {
+			feedback = test3.execute();
+		} catch (Exception e) {
+			feedback = e.getMessage();
+		}
+		assertEquals("Invalid position(s) to showmore details", feedback); // test negative
+		ShowDetails test4 = new ShowDetails();																	// boundary
+		range.clear();
+		test4.setPosition(range);
+		try {
+			feedback = test4.execute();
+		} catch (Exception e) {
+			feedback = e.getMessage();
+		}
+		assertEquals("Invalid position(s) to showmore details", feedback); // test empty positions
+		ShowDetails test5 = new ShowDetails();
+		range.clear();
+		range.add(0);
+		range.add(2);
+		range.add(4);
+		test5.setPosition(range);
+		assertEquals("Changed showing details for 2 tasks\n" +
+				"Showing more details for \"Submit admission application\", \"Travel to Sweden\"", test5.execute());
+		
 	}
 }
