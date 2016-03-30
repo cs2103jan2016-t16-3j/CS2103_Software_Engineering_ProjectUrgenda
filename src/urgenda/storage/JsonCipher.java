@@ -196,7 +196,6 @@ public class JsonCipher {
 	}
 
 	public void setType(Task task) {
-		assert (task.getTaskType() != null);
 		if (task.getTaskType().toString().equals(TASKTYPE_EVENT)) {
 			_detailsMap.put(HASHMAP_KEY_TYPE, TASKTYPE_EVENT);
 		} else if (task.getTaskType().toString().equals(TASKTYPE_DEADLINE)) {
@@ -300,10 +299,6 @@ public class JsonCipher {
 
 	public LinkedHashMap<String, String> getDetailsMap() {
 		return _detailsMap;
-	}
-
-	public String getMultipleString() {
-		return _detailsMap.get(HASHMAP_KEY_MULTIPLE_DESC);
 	}
 
 	public void setHashTags(Task task) {

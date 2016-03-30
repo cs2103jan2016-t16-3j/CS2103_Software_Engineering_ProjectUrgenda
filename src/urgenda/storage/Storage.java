@@ -89,10 +89,6 @@ public class Storage {
 		return help;
 	}
 
-	public String getFilePath() {
-		return _file.getAbsolutePath();
-	}
-
 	public String getDirPath() {
 		return _file.getDirAbsolutePath();
 	}
