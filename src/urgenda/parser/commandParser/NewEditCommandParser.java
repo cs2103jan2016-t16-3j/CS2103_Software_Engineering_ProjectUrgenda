@@ -22,7 +22,7 @@ public class NewEditCommandParser {
 	private static String startFlagRegex = "(-s)|(-s:)|(from)";
 	private static String endFlagRegex = "(-e)|(-e:)|(to)|(by)";
 	private static String removeFlagRegex = "(-r)|(-rm)";
-	private static String combinedRegex = "(" + startFlagRegex + "|" + endFlagRegex + ")";
+	private static String combinedRegex = "(\\A|\\D)(" + startFlagRegex + "|" + endFlagRegex + ")(\\Z|\\D)";
 
 	private static LocalDateTime startTime;
 	private static LocalDateTime endTime;
