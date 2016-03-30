@@ -76,6 +76,7 @@ public class NewEditCommandParser {
 				return new Invalid();
 			}
 		}
+		return new Invalid();
 	}
 
 	private static int countRmFlag(String reducedString) {
