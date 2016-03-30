@@ -9,6 +9,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextArea;
@@ -82,7 +84,7 @@ public class MainController {
 				_prevCommandLines.addFirst(inputBar.getText());
 				String feedback;
 				if (inputBar.getText().equalsIgnoreCase(KEYWORD_DEMO)) {
-					feedback = _main.setupDummyList();
+					feedback = _main.runDemoScreen();
 				} else {
 					feedback = _main.handleCommandLine(inputBar.getText());
 				}

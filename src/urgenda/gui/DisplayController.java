@@ -41,7 +41,7 @@ public class DisplayController extends AnchorPane {
 	 * gray: B2B2B2 178, 178, 178, 666666, 102, 102, 102
 	 */
 
-	// FXML attributes
+	// Elements loaded using FXML
 	@FXML
 	private Label displayHeader;
 	@FXML

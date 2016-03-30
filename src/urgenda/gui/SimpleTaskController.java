@@ -41,6 +41,7 @@ public class SimpleTaskController extends GridPane {
 
 	private static final double HEIGHT_DEFAULT_TASK = 35;
 
+	// Elements loaded using FXML
 	@FXML
 	protected GridPane taskPane;
 	@FXML

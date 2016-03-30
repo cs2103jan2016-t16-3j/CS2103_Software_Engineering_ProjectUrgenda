@@ -2,8 +2,6 @@ package urgenda.gui;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javafx.application.Application;
@@ -15,11 +13,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import urgenda.logic.Logic;
-import urgenda.util.MultipleSlot;
 import urgenda.util.StateFeedback;
 import urgenda.util.StateFeedback.State;
-import urgenda.util.Task;
-import urgenda.util.TaskList;
 import urgenda.util.UrgendaLogger;
 
 public class Main extends Application {
@@ -55,7 +50,7 @@ public class Main extends Application {
 	private DisplayController _displayController;
 	private Logic _logic;
 	private static Stage _primaryStage;
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		initLogger();
@@ -179,6 +174,21 @@ public class Main extends Application {
 		return _primaryStage;
 	}
 
+	public String runDemoScreen() {
+		StateFeedback state = new DemoStateFeedback();
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
+		return state.getFeedback();
+	}
+
+	public File getSaveDirectory() {
+		File file = new File(_logic.getCurrentSaveDirectory());
+		return file;
+	}
+	
+	public void setMultipleSlotMenuForSelected(boolean show) {
+		_mainController.showMultipleSlotMenuOption(show);
+	}
+
 	private void quit() {
 		if(_mainController.getHelpController() != null) {
 			_mainController.getHelpController().closeHelpWindow();
@@ -189,64 +199,5 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	//dummy method to create dummy list of tasks
-	protected String setupDummyList() {
-		Task taskOverdue = new Task("Complete tutorial", null, null, LocalDateTime.now().minusDays(1).withHour(23).withMinute(59),
-				new ArrayList<String>(), false);
-		Task taskTodayImportant = new Task("Breakfast with mum and dad", null, LocalDateTime.now().withHour(7).withMinute(0), LocalDateTime.now().withHour(8).withMinute(0),
-				new ArrayList<String>(), true);
-		taskTodayImportant.setIsCompleted(true);
-		Task taskToday1 = new Task("NUS Overseas Colleges Workshop", null, LocalDateTime.now().minusDays(1).withHour(10).withMinute(0), LocalDateTime.now().plusDays(1).withHour(22).withMinute(0),
-				new ArrayList<String>(), false);
-		Task taskTodayDetailed = new Task("Finish writing testimonial for scholarship application", "", null, LocalDateTime.now().withHour(23).withMinute(59),
-				new ArrayList<String>(), false);
-		Task taskImportant = new Task("Internship interview", null, LocalDateTime.now().plusDays(6).withHour(10).withMinute(0), LocalDateTime.now().plusDays(6).withHour(11).withMinute(0),
-				new ArrayList<String>(), true);
-		taskImportant.setSlot(new MultipleSlot());
-		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(11).withMinute(0), LocalDateTime.now().plusDays(6).withHour(12).withMinute(0));
-		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(12).withMinute(0), LocalDateTime.now().plusDays(6).withHour(13).withMinute(0));
-		Task taskOverrun = new Task("Get groceries", "Supermarket", LocalDateTime.now().plusDays(2).withHour(17).withMinute(0), LocalDateTime.now().plusDays(2).withHour(18).withMinute(0), new ArrayList<String>(),
-				false);
-		taskOverrun.setSlot(new MultipleSlot());
-		taskOverrun.getSlot().addTimeSlot(LocalDateTime.now().plusDays(3).withHour(17).withMinute(0), LocalDateTime.now().plusDays(3).withHour(18).withMinute(0));
-		taskOverrun.getSlot().addTimeSlot(LocalDateTime.now().plusDays(4).withHour(17).withMinute(0), LocalDateTime.now().plusDays(4).withHour(18).withMinute(0));
-		Task taskDetailedLong = new Task("Success is the sum of small efforts, repeated day in and day out. - Robert Collier", null, null, null,
-				new ArrayList<String>(), false);
-		Task taskC = new Task("Submit Project Report", null, null, LocalDateTime.now().minusDays(4).withHour(23).withMinute(59),
-				new ArrayList<String>(), false);
-		Task taskC2 = new Task("Dental Appointment", "Hougang Polyclinic", LocalDateTime.now().minusDays(8).withHour(10).withMinute(30), LocalDateTime.now().minusDays(8).withHour(12).withMinute(00), new ArrayList<String>(),
-				false);
-		
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		ArrayList<Task> archives = new ArrayList<Task>();
-		tasks.add(taskOverdue);
-		tasks.add(taskTodayImportant);
-		tasks.add(taskToday1);
-		tasks.add(taskTodayDetailed);
-		tasks.add(taskImportant);
-		tasks.add(taskOverrun);
-		tasks.add(taskDetailedLong);
-		archives.add(taskC);
-		archives.add(taskC2);
-		StateFeedback state = new StateFeedback();
-		state.setAllTasks(new TaskList(tasks, archives, 1, 3, 3, 2));
-		state.setFeedback("Welcome to Urgenda! Your task manager is ready for use.\nPress ALT + F1 for help.");
-		state.addDetailedTaskIdx(3);
-		state.addDetailedTaskIdx(5);
-		state.addDetailedTaskIdx(6);
-		state.addDetailedTaskIdx(8);
-		state.setState(StateFeedback.State.ALL_TASKS);
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), 0, true, false);
-		return state.getFeedback();
-	}
 
-	public File getSaveDirectory() {
-		File file = new File(_logic.getCurrentSaveDirectory());
-		return file;
-	}
-
-	public void setMultipleSlotMenuForSelected(boolean show) {
-		_mainController.showMultipleSlotMenuOption(show);
-	}
 }
