@@ -95,7 +95,7 @@ public class Main extends Application {
 		_scene = new Scene(_rootLayout);
 		_primaryStage = primaryStage;
 		_primaryStage.initStyle(StageStyle.DECORATED);
-		_primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
+		//_primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		_primaryStage.setTitle(APP_NAME);
 		_primaryStage.setResizable(false);
 		_primaryStage.setScene(_scene);

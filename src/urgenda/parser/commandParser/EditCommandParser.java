@@ -74,9 +74,11 @@ public class EditCommandParser {
 				return new Invalid();
 			}
 			if (PublicVariables.taskIndex != -10) {
-				return new Edit(PublicVariables.taskIndex, newTask);
+//				return new Edit(PublicVariables.taskIndex, newTask);
+				return null;
 			} else {
-				return new Edit(_index, newTask);
+//				return new Edit(_index, newTask);
+				return null;
 			}
 		}
 	}
