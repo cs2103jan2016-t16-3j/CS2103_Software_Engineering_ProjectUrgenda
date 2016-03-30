@@ -117,13 +117,14 @@ public class NewEditCommandParser {
 	}
 
 	private static void searchDetails(String argsString) {
-		String[] stringArray = argsString.trim().split(combinedRegex);
+		String temp = argsString;
+		String[] stringArray = temp.trim().split(combinedRegex);
 		if (stringArray.length == 0) {
-			unknownTime = parseUnknownTime(argsString);
+			unknownTime = parseUnknownTime(temp);
 		} else {
 			for (int i = 0; i < stringArray.length; i++) {				
-				int position = argsString.indexOf(stringArray[i].trim());
-				String preceedingWord = PublicFunctions.getPreceedingWord(position, argsString);
+				int position = temp.indexOf(stringArray[i].trim());
+				String preceedingWord = PublicFunctions.getPreceedingWord(position, temp);
 				if (preceedingWord.equals("-s") || preceedingWord.equals("-s:") || preceedingWord.equals("from")) {
 					startTime = parseStartTime(stringArray[i].trim());
 				} else if (preceedingWord.equals("-e") || preceedingWord.equals("-e:") || preceedingWord.equals("to")
