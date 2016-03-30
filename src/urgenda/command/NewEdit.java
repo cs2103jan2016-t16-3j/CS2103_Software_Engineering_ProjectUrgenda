@@ -52,6 +52,7 @@ public class NewEdit extends TaskCommand {
 			if (_newTask.getDesc() == null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
 				_newTask.setDesc(_prevTask.getDesc());
 			}
+			_temp.updateTaskType();
 			if (_newTask.getLocation() == null
 					|| _newTask.getLocation().equals("") && _prevTask.getLocation() != null) {
 				_newTask.setLocation(_prevTask.getLocation());
