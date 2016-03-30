@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import urgenda.logic.Logic;
 
 public class UiTest extends GuiTest {
 	
@@ -48,15 +49,12 @@ public class UiTest extends GuiTest {
 
 	@After
 	public void cleanUp() {
-		File f = new File(TEST_FILE_PATH + "data.txt");
-		if (f.exists()) {
-			f.delete();
-		}
+		Logic.getInstance(true).clearStorageTester();
 	}
 
 	@Override
 	public void setupStage() throws Throwable {
-		GraphicalUserInterface.configureTestMode(true, TEST_FILE_PATH);
+		Logic.getInstance(true);
 
 		new Thread(() -> {
 			urgenda.gui.Main.launch();
