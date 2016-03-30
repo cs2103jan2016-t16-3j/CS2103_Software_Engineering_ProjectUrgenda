@@ -22,6 +22,7 @@ import urgenda.parser.commandParser.DeleteCommandParser;
 import urgenda.parser.commandParser.EditCommandParser;
 import urgenda.parser.commandParser.ExitCommandParser;
 import urgenda.parser.commandParser.FindFreeCommandParser;
+import urgenda.parser.commandParser.HelpCommandParser;
 import urgenda.parser.commandParser.HomeCommandParser;
 import urgenda.parser.commandParser.InvalidCommandParser;
 import urgenda.parser.commandParser.PostponeCommandParser;
@@ -111,6 +112,9 @@ public class CommandParser {
 		case SET_DIRECTORY:
 			SetDirectoryCommandParser setDirectoryCommand = new SetDirectoryCommandParser(argsString, index);
 			return setDirectoryCommand.generateAndReturn();
+		case HELP:
+			HelpCommandParser helpCommand = new HelpCommandParser(argsString, index);
+			return helpCommand.generateAndReturn();
 		default:
 			return null;
 		}

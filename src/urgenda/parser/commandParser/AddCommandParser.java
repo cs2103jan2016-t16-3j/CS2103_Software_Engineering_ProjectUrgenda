@@ -11,6 +11,7 @@ import urgenda.parser.TaskDetailsParser;
 public class AddCommandParser {
 	private static String _argsString;
 	private static int _index;
+	private static String descPlaceHolder;
 
 	public AddCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -21,7 +22,8 @@ public class AddCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			String reformattedString = PublicFunctions.reformatArgsString(_argsString);
+			String reformattedString = checkSpecialDesc();
+			reformattedString = PublicFunctions.reformatArgsString(_argsString);
 			String reducedArgsString = DateTimeParser.searchTaskTimes(reformattedString);
 			// System.out.print(reducedArgsString + "\n");
 			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
@@ -35,8 +37,12 @@ public class AddCommandParser {
 
 	private static Command generateAddCommandAndReturn() {
 		Task newTask = new Task();
-		if (!PublicVariables.taskDescription.equals("")) {
-			newTask.setDesc(PublicVariables.taskDescription);
+		if (descPlaceHolder != null && !descPlaceHolder.equals("\"\"")) {
+			newTask.setDesc(descPlaceHolder.substring(1,descPlaceHolder.length()));
+		} else {
+			if (!PublicVariables.taskDescription.equals("")) {
+				newTask.setDesc(PublicVariables.taskDescription);
+			}
 		}
 		if (!PublicVariables.taskLocation.equals("")) {
 			newTask.setLocation(PublicVariables.taskLocation);
@@ -67,6 +73,21 @@ public class AddCommandParser {
 			return new Invalid();
 		}
 		return new AddTask(newTask);
-
+	}
+	public static String checkSpecialDesc() {
+		int counter = 0;
+		for( int i=0; i<_argsString.length(); i++ ) {
+		    if( _argsString.charAt(i) == '\"' ) {
+		        counter++;
+		    } 
+		}
+		if (counter!= 2) {
+			return _argsString;
+		} else {
+			int firstOccurence = _argsString.indexOf('\"');
+			int secondOccurence = _argsString.indexOf('\"', firstOccurence + 1);
+			descPlaceHolder = _argsString.substring(firstOccurence,secondOccurence);
+			return _argsString.replace(descPlaceHolder, "");
+		}
 	}
 }
