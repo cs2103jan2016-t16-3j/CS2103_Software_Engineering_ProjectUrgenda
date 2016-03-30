@@ -117,6 +117,9 @@ public class Search extends Command {
 					}
 				}
 				break;
+			case "archive":
+				matches = data.getArchives();
+				break;
 			default:
 				matches = data.findMatchingDesc(_searchDesc);
 				break;
