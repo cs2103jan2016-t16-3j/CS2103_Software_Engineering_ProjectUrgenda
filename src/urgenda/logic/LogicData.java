@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -208,6 +209,35 @@ public class LogicData {
 		return matches;
 	}
 
+	public ArrayList<Task> findRefinedMatchingDesc(String desc) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		if (!desc.equals("")) {
+			String[] substr = desc.split("\\s+");
+			ArrayList<String> substr2 = new ArrayList<String>(Arrays.asList(substr));
+			if (substr2.size() > 1) {
+				for (Task task : _displays) {
+					boolean flag = true;
+					for (String s : substr2) {
+						if (!(Pattern.compile(Pattern.quote(s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc())
+								.find()) && flag) {
+							flag = false;
+						}
+					}
+					if (flag) {
+						matches.add(task);
+					}
+				}
+			} else {
+				for (Task task : _displays) {
+					if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
+						matches.add(task);
+					}
+				}
+			}
+		}
+		return matches;
+	}
+
 	public boolean isTaskToday(Task task) {
 		LocalDate now = LocalDate.now();
 		if (task.getTaskType() == Task.Type.DEADLINE) {
@@ -271,7 +301,7 @@ public class LogicData {
 		if (task.getStartTime() == null || task.getEndTime() == null) {
 			return;
 		}
-		
+
 		task.getSlot().addTimeSlot(task.getStartTime(), task.getEndTime());
 		task.getSlot().sortSlots();
 
@@ -281,7 +311,7 @@ public class LogicData {
 			task.setEndTime(newTime.getLaterDateTime());
 			task.getSlot().removeNextSlot();
 		} while (task.getEndTime().isBefore(now) && !(task.getSlot().isEmpty()));
-		
+
 		// sets multipleslots to empty when latest timing is the current timing
 		// makes block type to normal task event
 		if (task.getSlot().isEmpty()) {
@@ -675,7 +705,7 @@ public class LogicData {
 		_tasks = _storage.updateCurrentTaskList();
 		_archives = _storage.updateArchiveTaskList();
 	}
-	
+
 	public void reinitialiseStorageTester() {
 		_storage.delete();
 		_storage = new StorageTester();

@@ -121,7 +121,7 @@ public class Search extends Command {
 				matches = data.getArchives();
 				break;
 			default:
-				matches = data.findMatchingDesc(_searchDesc);
+				matches = data.findRefinedMatchingDesc(_searchDesc);
 				break;
 			}
 			if (matches.isEmpty()) {
