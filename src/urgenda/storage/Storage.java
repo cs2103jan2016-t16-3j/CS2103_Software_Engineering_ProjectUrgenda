@@ -25,7 +25,7 @@ public class Storage {
 		_settings = new SettingsEditor();
 		String path = _settings.getFileDir();
 		String name = _settings.getFileName();
-		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
+		_help = new FileEditor();
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 		checkIfEmptyFile();

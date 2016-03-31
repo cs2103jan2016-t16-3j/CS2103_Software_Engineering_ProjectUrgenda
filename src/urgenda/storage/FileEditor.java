@@ -5,13 +5,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import urgenda.gui.Main;
 import urgenda.util.UrgendaLogger;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -19,6 +23,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class FileEditor {
 	private static final String LIST_SEPARATOR_ARCHIVE = "archive";
+	private static final String PATH_HELP_TEXT = "../../resources/help.txt";
 
 	private File _file;
 	private File _parentDir;
@@ -28,6 +33,10 @@ public class FileEditor {
 		initParentDir(path);
 		initFile(name);
 		checkIfFileExist();
+	}
+	
+	public FileEditor(){
+		_file = new File(FileEditor.class.getResource(PATH_HELP_TEXT).getFile());
 	}
 
 	private void initFile(String name) {
@@ -225,4 +234,5 @@ public class FileEditor {
 		_file.deleteOnExit();
 		_parentDir.deleteOnExit();
 	}
+
 }
