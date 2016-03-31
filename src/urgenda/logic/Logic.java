@@ -9,6 +9,8 @@ import urgenda.command.ShowDetails;
 import urgenda.command.TaskCommand;
 import urgenda.parser.CommandParser;
 import urgenda.util.StateFeedback;
+import urgenda.util.SuggestCommand;
+import urgenda.util.SuggestFeedback;
 import urgenda.util.UrgendaLogger;
 
 public class Logic {
@@ -18,16 +20,19 @@ public class Logic {
 	private static Logic _logic;
 	private LogicData _logicData;
 	private LogicCommand _logicCommand;
+	private LogicSuggester _logicSuggestion;
 	
 	// Default constructor for Logic
 	private Logic() {
 		_logicData = LogicData.getInstance();
 		_logicCommand = new LogicCommand();
+		_logicSuggestion = new LogicSuggester();
 	}
 	
 	private Logic(boolean isTest) {
 		_logicData = LogicData.getInstance(isTest);
 		_logicCommand = new LogicCommand();
+		_logicSuggestion = new LogicSuggester();
 	}
 	
 	// Implementation of Singleton pattern for Logic
@@ -144,6 +149,11 @@ public class Logic {
 	public String getCurrentSaveDirectory() {
 		logger.getLogger().info("Retrieving current help directory");
 		return _logicData.retrieveCurrentDirectory();
+	}
+	
+	public SuggestFeedback getSuggestions(String currCmd) {
+		SuggestCommand suggCmd = CommandParser.parseCommandWord(currCmd);
+		return _logicSuggestion.processSuggestions(suggCmd);
 	}
 	
 	// clear storage for testing purposes
