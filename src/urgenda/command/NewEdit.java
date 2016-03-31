@@ -49,10 +49,10 @@ public class NewEdit extends TaskCommand {
 			if (isRemoveTwice) {
 				_temp.setEndTime(null);
 			}
+			_temp.updateTaskType();
 			if (_newTask.getDesc() == null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
 				_newTask.setDesc(_prevTask.getDesc());
 			}
-			_temp.updateTaskType();
 			if (_newTask.getLocation() == null
 					|| _newTask.getLocation().equals("") && _prevTask.getLocation() != null) {
 				_newTask.setLocation(_prevTask.getLocation());
@@ -68,15 +68,31 @@ public class NewEdit extends TaskCommand {
 				switch (_temp.getTaskType()) {
 				case FLOATING: // Fallthrough
 				case DEADLINE:
-					_newTask.setEndTime(_unknown);
-					break;
-				default:
-					if (_unknown.isBefore(_temp.getStartTime())) {
-						_newTask.setStartTime(_unknown);
-					} else if (_unknown.isAfter(_temp.getEndTime())) {
+					if (_newTask.getStartTime() == null && _newTask.getEndTime() == null) {
 						_newTask.setEndTime(_unknown);
 					} else {
-						_newTask.setStartTime(_unknown);
+						if (_newTask.getEndTime() == null) {
+							_newTask.setEndTime(_unknown);
+						} else {
+							_newTask.setStartTime(_unknown);
+						}
+					}
+					break;
+				default:
+					if (_newTask.getStartTime() == null && _newTask.getEndTime() == null) {
+						if (_unknown.isBefore(_temp.getStartTime())) {
+							_newTask.setStartTime(_unknown);
+						} else if (_unknown.isAfter(_temp.getEndTime())) {
+							_newTask.setEndTime(_unknown);
+						} else {
+							_newTask.setStartTime(_unknown);
+						}
+					} else {
+						if (_newTask.getEndTime() == null) {
+							_newTask.setEndTime(_unknown);
+						} else {
+							_newTask.setStartTime(_unknown);
+						}
 					}
 					break;
 				}
