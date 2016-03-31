@@ -543,6 +543,7 @@ public class DateTimeParser {
 		date = date.withHour(23);
 		date = date.withMinute(59);
 		date = date.withSecond(0);
+		date = date.withNano(0);
 		return date;
 	}
 	
@@ -550,6 +551,7 @@ public class DateTimeParser {
 		date = date.withHour(date.getHour()+1);
 		date = date.withMinute(0);
 		date = date.withSecond(0);
+		date = date.withNano(0);
 		return date;
 	}
 	
