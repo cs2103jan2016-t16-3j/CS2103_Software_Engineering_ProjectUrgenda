@@ -1,6 +1,7 @@
 package urgenda.command;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
@@ -12,6 +13,9 @@ public class NewEdit extends TaskCommand {
 	private static final String MESSAGE_EDIT = " has been edited to ";
 	private static final String MESSAGE_REVERTED = " has been reverted to ";
 	private static final String MESSAGE_ERROR = "Error: ";
+	private static final String MESSAGE_OVERLAP = " Warning: Overlaps with ";
+	private static final String MESSAGE_EVENT_PASSED = " Warning: Event added has already passed";
+	private static final String MESSAGE_DEADLINE_PASSED = " Warning: Deadline added has already passed";
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private LogicData _data;
@@ -110,25 +114,58 @@ public class NewEdit extends TaskCommand {
 			_newTask.setDateAdded(_prevTask.getDateAdded());
 			_newTask.updateTaskType();
 			updateDateModified();
+			String feedback;
 			try {
 				checkTaskValidity(_newTask);
 				_data.deleteTask(_prevTask);
 				_data.addTask(_newTask);
 				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 				_data.setTaskPointer(_newTask);
+				_data.clearShowMoreTasks();
+				feedback = checkPassed();
+				feedback += findOverlaps();
 			} catch (Exception e) {
 				logger.getLogger().severe("Exception occured: " + e);
 				_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 				// throws exception to prevent Edit being added to undo stack
 				throw new Exception(MESSAGE_ERROR + e.getMessage());
 			}
-			return taskMessageWithMulti(_prevTask) + MESSAGE_EDIT + taskMessageWithMulti(_newTask);
+			return taskMessageWithMulti(_prevTask) + MESSAGE_EDIT + taskMessageWithMulti(_newTask) + feedback;
 		}
 	}
 
 	private void updateDateModified() {
 		_newTask.setDateModified(LocalDateTime.now());
 		_prevTask.setDateModified(LocalDateTime.now());
+	}
+	
+	private String checkPassed() {
+		if (_newTask.getTaskType() == Task.Type.EVENT) {
+			if (_newTask.getEndTime().isBefore(LocalDateTime.now())) {
+				return MESSAGE_EVENT_PASSED;				
+			}
+		} else if (_newTask.getTaskType() == Task.Type.DEADLINE) {
+			if (_newTask.getEndTime().isBefore(LocalDateTime.now())) {
+				return MESSAGE_DEADLINE_PASSED;
+			}
+		}
+		return "";
+	}
+
+	private String findOverlaps() {
+		ArrayList<Task> overlaps;
+		overlaps = _data.overlappingTasks(_newTask);
+		
+		if (overlaps.size() == 0) {
+			return "";
+		} else {
+			String feedback = MESSAGE_OVERLAP + taskMessage(overlaps.get(0));
+			overlaps.remove(0);
+			for (Task task : overlaps) {
+				feedback += ", " + taskMessage(task);
+			}
+			return feedback;
+		}
 	}
 
 	public String undo() {
