@@ -9,8 +9,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextArea;
@@ -134,7 +132,12 @@ public class MainController {
 			inputBar.clear();
 		}
 	}
-
+	
+	@FXML
+	private void minimiseWindowListener(ActionEvent e) {
+		_main.getPrimaryStage().setIconified(true);
+	}
+	
 	@FXML
 	private void taskToggleDownListener(ActionEvent e) {
 		displayAreaController.executeTraverse(DisplayController.Direction.DOWN);

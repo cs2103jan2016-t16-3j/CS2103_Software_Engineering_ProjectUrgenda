@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -21,7 +20,6 @@ public class Main extends Application {
 	
 	private static final String APP_NAME = "Urgenda";
 	private static final String PATH_GUI_FXML = "MainView.fxml";
-	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	public static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
 	public static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
 	public static final String PATH_LIGHT_FONT = new String("../../resources/Montserrat-UltraLight.ttf");
@@ -95,7 +93,6 @@ public class Main extends Application {
 		_scene = new Scene(_rootLayout);
 		_primaryStage = primaryStage;
 		_primaryStage.initStyle(StageStyle.DECORATED);
-		//_primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		_primaryStage.setTitle(APP_NAME);
 		_primaryStage.setResizable(false);
 		_primaryStage.setScene(_scene);
@@ -122,6 +119,9 @@ public class Main extends Application {
 		case FIND_FREE:
 			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, true);
 			break;
+		case HIDE:
+			_primaryStage.setIconified(true);
+			//fall-through
 		default:
 			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
 			break;

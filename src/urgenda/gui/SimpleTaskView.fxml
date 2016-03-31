@@ -36,7 +36,7 @@
             <Insets top="1.0" />
          </GridPane.margin>
       </Pane>
-      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets top="1.0" />
          </GridPane.margin></Pane>

@@ -7,7 +7,7 @@ public class StateFeedback {
 	
 	public enum State {
 		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, DISPLAY, ERROR, SHOW_HELP, EXIT, 
-		ARCHIVE, FIND_FREE
+		ARCHIVE, FIND_FREE, HIDE
 	}
 	
 	private State _state;
