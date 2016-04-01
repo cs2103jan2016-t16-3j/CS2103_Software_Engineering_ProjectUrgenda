@@ -9,12 +9,14 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -42,6 +44,10 @@ public class MainController {
 	private MenuItem menuPrevMultipleSlot;
 	@FXML
 	private MenuItem menuNextMultipleSlot;
+	@FXML
+	private Label overdueIndicatorLabel;
+	@FXML
+	private Circle overdueIndicatorCircle;
 	@FXML
 	private DisplayController displayAreaController;
 
@@ -229,5 +235,21 @@ public class MainController {
 
 	public HelpController getHelpController() {
 		return _helpController;
+	}
+
+	public void updateOverdueCount(int overdueCount) {
+		if (overdueCount <= 0) {
+			overdueIndicatorCircle.setVisible(false);
+			overdueIndicatorLabel.setVisible(false);
+		} else {
+			overdueIndicatorCircle.setVisible(true);
+			overdueIndicatorLabel.setVisible(true);
+			if (overdueCount <= 99) {
+			overdueIndicatorLabel.setText(String.valueOf(overdueCount));
+			} else {
+			overdueIndicatorLabel.setText("99+");
+			}
+		}
+		
 	}
 }
