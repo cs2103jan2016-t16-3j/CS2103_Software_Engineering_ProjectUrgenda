@@ -1,8 +1,9 @@
 * {
-	-taskBackgroundPane-color: rgb(255, 153, 153, 0.7);
-	-noviceHeaderPane-color: rgb(255, 153, 153, 1.0);
-	-selector-color: rgb(255, 76, 76, 1.0);
-	-label-color: rgb(0, 0, 0, 1.0);
+	-taskBackgroundPane-color: #FFA3A3;
+	-noviceHeaderPane-color: transparent;
+	-selector-color: #ED4242;
+	-selectorPane-color: #FA6969;
+	-label-color: #313745;
 }
 
 #taskBackgroundPane {
@@ -13,8 +14,20 @@
 	-fx-background-color: -noviceheaderPane-color;
 }
 
+#noviceHeaderLabel {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 14px;
+	-fx-fill: -selectorPane-color;
+}
+
 #selector {
 	-fx-background-color: -selector-color;
+	-fx-border-color: white;
+	-fx-border-width: 0 1 0 0;
+}
+
+#selectorPane {
+	-fx-background-color: -selectorPane-color;
 }
 
 Text {
@@ -23,10 +36,14 @@ Text {
 	-fx-fill: -label-color;
 }
 
-#noviceHeaderLabel {
-	-fx-font-family: "Montserrat";
-	-fx-font-size: 14px;
-	-fx-text-fill: -label-color;
+#multipleSlotPane {
+	-fx-background-color: -selector-color;
+}
+
+#multipleSlotCounter {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 12px;
+	-fx-text-fill: white;
 }
 
 #taskLocationText, #dateCreatedHeader, #dateModifiedHeader, #dateCreatedText, #dateModifiedText {

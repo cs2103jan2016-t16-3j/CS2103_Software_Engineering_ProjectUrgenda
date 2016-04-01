@@ -47,6 +47,8 @@ public class SimpleTaskController extends GridPane {
 	@FXML
 	protected Pane selector;
 	@FXML
+	protected Pane selectorPane;
+	@FXML
 	protected Text taskIndexText;
 	@FXML
 	protected ImageView importantIndicator;
@@ -57,7 +59,11 @@ public class SimpleTaskController extends GridPane {
 	@FXML
 	protected BorderPane noviceHeaderPane;
 	@FXML
-	protected Label noviceHeaderLabel;
+	protected Text noviceHeaderLabel;
+	@FXML
+	protected Pane multipleSlotPane;
+	@FXML
+	protected Label multipleSlotCounter;
 
 	protected int _index;
 	protected Task _task;
@@ -87,6 +93,13 @@ public class SimpleTaskController extends GridPane {
 			taskPane.setPrefHeight(HEIGHT_DEFAULT_TASK);
 			noviceHeaderPane.setVisible(false);
 		}
+		if(_task.getSlot() != null) {
+			multipleSlotPane.setVisible(true);
+			multipleSlotCounter.setText(countMultipleSlots());
+		} else {
+			multipleSlotPane.setVisible(false);
+			multipleSlotCounter.setVisible(false);
+		}
 		setSelected(false);
 		this.heightProperty().addListener(new ChangeListener<Number>(){
 			@Override
@@ -97,6 +110,15 @@ public class SimpleTaskController extends GridPane {
 				}
 			}		
 		});
+	}
+
+	private String countMultipleSlots() {
+		int count = _task.getSlot().getSlots().size() + 1;
+		if (count <= 9) {//TODO magic number
+			return String.valueOf(count);
+		} else {
+			return "9+";
+		}
 	}
 
 	private void initLabels() {
@@ -211,6 +233,7 @@ public class SimpleTaskController extends GridPane {
 	public void setSelected(boolean isSelected) {
 		_isSelected = isSelected;
 		selector.setVisible(_isSelected);
+		selectorPane.setVisible(_isSelected);
 	}
 
 	public void setDisplayController(DisplayController displayController) {
@@ -240,7 +263,7 @@ public class SimpleTaskController extends GridPane {
 	}
 
 	private String formatMultipleSlotDateTime() {
-		return "(" + (_multipleSlotIndex + 1) + "/" + _multipleSlotList.size() + ") " + formatDateTime(_multipleSlotList.get(_multipleSlotIndex).getEarlierDateTime(), _multipleSlotList.get(_multipleSlotIndex).getLaterDateTime());
+		return formatDateTime(_multipleSlotList.get(_multipleSlotIndex).getEarlierDateTime(), _multipleSlotList.get(_multipleSlotIndex).getLaterDateTime());
 	}
 	
 	public boolean isMultipleSlot() {

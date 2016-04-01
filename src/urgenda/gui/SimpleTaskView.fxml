@@ -15,8 +15,9 @@
    <columnConstraints>
       <ColumnConstraints hgrow="NEVER" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
      <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
-            <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="290.0" prefWidth="290.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="300.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="195.0" prefWidth="195.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
       <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
@@ -27,19 +28,30 @@
    </rowConstraints>
    <children>   
          <BorderPane fx:id="noviceHeaderPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets top="1.0" />
+         </GridPane.margin>
          <center>
-            <Label fx:id="noviceHeaderLabel" text="Task Type Header for Novices" BorderPane.alignment="CENTER" />
+            <Text fx:id="noviceHeaderLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Task Type Header for Novices" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
-      <Pane fx:id="taskBackgroundPane" prefHeight="35.0" prefWidth="11.0" GridPane.columnSpan="4" GridPane.rowIndex="1">
+      <Pane fx:id="taskBackgroundPane" prefHeight="35.0" prefWidth="11.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets top="1.0" />
          </GridPane.margin>
       </Pane>
-      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+      <Pane fx:id="selectorPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets top="1.0" />
          </GridPane.margin></Pane>
+      <Pane fx:id="selector" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets top="1.0" />
+         </GridPane.margin>
+      </Pane>
       <Text fx:id="taskIndexText" strokeType="OUTSIDE" strokeWidth="0.0" text="Idx" wrappingWidth="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" top="7.0" />
@@ -60,16 +72,24 @@
             </ImageView>
          </left>
          <center>
-            <Text fx:id="taskDescText" strokeType="OUTSIDE" strokeWidth="0.0" text="Task Name" wrappingWidth="220.0" BorderPane.alignment="CENTER">
+            <Text fx:id="taskDescText" strokeType="OUTSIDE" strokeWidth="0.0" text="Task Name" wrappingWidth="295.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </BorderPane.margin>
             </Text>
          </center>
       </BorderPane>
-      <Text fx:id="taskDateTimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time to End Time / by Deadline" wrappingWidth="285.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <Text fx:id="taskDateTimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time to End Time/by Deadline" wrappingWidth="190.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets bottom="5.0" top="5.0" />
          </GridPane.margin></Text>
+      <Pane fx:id="multipleSlotPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+         <children>
+            <Label fx:id="multipleSlotCounter" alignment="CENTER" prefHeight="35.0" prefWidth="20.0" text="9+" />
+         </children>
+         <GridPane.margin>
+            <Insets top="1.0" />
+         </GridPane.margin>
+      </Pane>
       </children>
 </fx:root>

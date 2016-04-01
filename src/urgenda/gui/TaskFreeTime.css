@@ -1,14 +1,14 @@
 * {
-	-taskBackgroundPane-color: rgb(134, 224, 134, 0.7);
+	-taskBackgroundPane-color: #86E086;
 	-selector-color: transparent;
-	-label-color: rgb(0, 0, 0, 1.0);
+	-label-color: #313745;
 }
 
 #taskBackgroundPane {
 	-fx-background-color: -taskBackgroundPane-color;
 }
 
-#selector {
+#selector, #selectorPane {
 	-fx-background-color: -selector-color;
 }
 

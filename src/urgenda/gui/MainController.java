@@ -97,11 +97,10 @@ public class MainController {
 		_popupInputSuggestions.show(_main.getPrimaryStage());
 		_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
 		_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
-		anchorSuggestionsToPrimaryStage();
-		setInputBarListener();
+		setListeners();
 	}
 
-	private void setInputBarListener() {
+	private void setListeners() {
 		inputBar.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -111,12 +110,13 @@ public class MainController {
 					_popupInputSuggestions.hide();
 				}
 			}
-			
 		});
-		
-	}
-
-	private void anchorSuggestionsToPrimaryStage() {
+		inputBar.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				_popupController.updateSuggestions(_main.retriveSuggestions(inputBar.getText()));
+			}		
+		});
 		_main.getPrimaryStage().xProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -196,7 +196,6 @@ public class MainController {
 		} else if (code == KeyCode.RIGHT && event.isControlDown()) { //hard-coded since FXML accelerator doesn't work
 			displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 		}
-		_popupController.updateSuggestions(_main.retriveSuggestions(inputBar.getText()));
 	}
 
 	@FXML

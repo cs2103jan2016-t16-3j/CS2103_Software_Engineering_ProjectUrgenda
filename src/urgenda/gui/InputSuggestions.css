@@ -1,0 +1,19 @@
+#typeSuggestionsPane {
+	-fx-background-color: #474E60;
+	-fx-background-radius: 5px;
+	-fx-border-color: white;
+	-fx-border-width: 2px;
+	-fx-border-radius: 4px;
+}
+
+#commandWordText {
+	-fx-font-family: "Montserrat Light";
+	-fx-fill: white;
+	-fx-font-size: 15px;
+}
+
+#userSuggestionText {
+	-fx-font-family: "Montserrat Ultra Light";
+	-fx-fill: white;
+	-fx-font-size: 14px;
+}

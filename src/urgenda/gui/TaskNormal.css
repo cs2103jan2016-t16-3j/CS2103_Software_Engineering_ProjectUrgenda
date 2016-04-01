@@ -1,8 +1,9 @@
 * {
-	-taskBackgroundPane-color: rgb(150, 178, 255, 0.7);
-	-noviceHeaderPane-color: rgb(150, 178, 255, 1.0);
-	-selector-color: rgb(76, 124, 255, 1.0);
-	-label-color: rgb(0, 0, 0, 1.0);
+	-taskBackgroundPane-color: #ADC3FF;
+	-noviceHeaderPane-color: transparent;
+	-selector-color: #0A75D5;
+	-selectorPane-color: #559BFF;
+	-label-color: #313745;
 }
 
 #taskBackgroundPane {
@@ -13,11 +14,33 @@
 	-fx-background-color: -noviceheaderPane-color;
 }
 
+#noviceHeaderLabel {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 14px;
+	-fx-fill: -selectorPane-color;
+}
+
 #selector {
+	-fx-background-color: -selector-color;
+	-fx-border-color: white;
+	-fx-border-width: 0 1 0 0;
+}
+
+#selectorPane {
+	-fx-background-color: -selectorPane-color;
+}
+
+#multipleSlotPane {
 	-fx-background-color: -selector-color;
 }
 
-Text, #noviceHeaderLabel {
+#multipleSlotCounter {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 12px;
+	-fx-text-fill: white;
+}
+
+Text {
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
 	-fx-fill: -label-color;

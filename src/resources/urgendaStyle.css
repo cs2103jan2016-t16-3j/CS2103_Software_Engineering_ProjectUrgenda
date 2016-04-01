@@ -53,10 +53,16 @@
 
 #displayArea {
 	-fx-background-insets: 0px;
+	-fx-background-color: #313745;
 }
 
-#feedbackPane {
+#displayArea .viewport{
 	-fx-background-color: #313745;
+
+} 
+
+#feedbackPane {
+	-fx-background-color: #474E60;
 }
 
 #feedbackArea {
@@ -116,25 +122,12 @@
 	-fx-border-color: transparent;
 }
 
-#helpContentPane .scroll-pane:fitToWidth .viewport .content, #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical .track-background {
+#helpContentPane .scroll-pane:fitToWidth .viewport .content, #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical .track-background, #helpPrev, #helpNext {
+	-fx-background-radius: 0.0;
 	-fx-background-color: #474E60;
 }
 
 #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical{
 	-fx-max-width: 10px;
 	-fx-pref-width: 10px;
-}
-
-#typeSuggestionsPane {
-	-fx-background-color: #474E60;
-	-fx-background-radius: 5px;
-	-fx-border-color: white;
-	-fx-border-width: 2px;
-	-fx-border-radius: 4px;
-}
-
-#commandWordText {
-	-fx-font-family: "Montserrat Light";
-	-fx-fill: white;
-	-fx-font-size: 15px;
 }
