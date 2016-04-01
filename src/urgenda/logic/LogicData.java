@@ -139,7 +139,7 @@ public class LogicData {
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
 		}
-
+		//TODO count number of overdue tasks and set inside statefeedback
 		return state;
 	}
 
@@ -230,8 +230,8 @@ public class LogicData {
 				for (Task task : _displays) {
 					boolean flag = true;
 					for (String s : substr2) {
-						if (!(Pattern.compile(Pattern.quote(s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc())
-								.find()) && flag) {
+						if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
+								&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) && flag) {
 							flag = false;
 						}
 					}

@@ -55,6 +55,7 @@ public class DemoStateFeedback extends StateFeedback{
 		this.addDetailedTaskIdx(5);
 		this.addDetailedTaskIdx(6);
 		this.addDetailedTaskIdx(8);
+		this.setOverdueCount(1);
 		this.setState(StateFeedback.State.ALL_TASKS);
 	}
 }

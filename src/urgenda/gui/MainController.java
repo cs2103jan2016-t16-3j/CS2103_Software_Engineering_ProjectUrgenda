@@ -4,20 +4,39 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.logging.Level;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.PopupControl;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
+import javafx.stage.PopupWindow.AnchorLocation;
+import urgenda.util.UrgendaLogger;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -26,10 +45,10 @@ public class MainController {
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
 	private static final String KEYWORD_SHOW_ALL = "home";
-	private static final String KEYWORD_DELETE = "delete";
 	private static final String KEYWORD_CHANGE_SAVE_PATH = "saveto ";
 	private static final String KEYWORD_DEMO = "demo";
 	private static final String KEYWORD_SHOWMORE = "showmore";
+	private static final String PATH_TYPESUGGESTIONS_FXML = "InputSuggestionsView.fxml";
 
 	// Elements loaded using FXML
 	@FXML
@@ -55,24 +74,67 @@ public class MainController {
 	private Deque<String> _prevCommandLines;
 	private Deque<String> _nextCommandLines;
 	private HelpController _helpController;
+	private Popup _popupInputSuggestions;
+	private InputSuggestionsPopupController _popupController;
 
 	public MainController() {
 		_prevCommandLines = new ArrayDeque<String>();
 		_nextCommandLines = new ArrayDeque<String>();
 	}
+	
+	public void setupTypeSuggestions() {	
+		_popupInputSuggestions = new Popup();
+		_popupController = new InputSuggestionsPopupController();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_TYPESUGGESTIONS_FXML));
+		loader.setController(_popupController);
+		try {
+			_popupInputSuggestions.getContent().add((Parent)loader.load());
+		} catch (IOException e) {
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, "Error setting up type suggestions popup");
+			e.printStackTrace();
+		}
+		_popupInputSuggestions.show(_main.getPrimaryStage());
+		_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
+		_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
+		anchorSuggestionsToPrimaryStage();
+		setInputBarListener();
+	}
 
+	private void setInputBarListener() {
+		inputBar.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(newValue) {
+					_popupInputSuggestions.show(_main.getPrimaryStage());
+				} else {
+					_popupInputSuggestions.hide();
+				}
+			}
+			
+		});
+		
+	}
+
+	private void anchorSuggestionsToPrimaryStage() {
+		_main.getPrimaryStage().xProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				_popupInputSuggestions.setX((double) newValue);
+			}		
+		});	
+		_main.getPrimaryStage().yProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				_popupInputSuggestions.setY((double) newValue + _main.getPrimaryStage().getHeight());
+			}	
+		});
+	}
+	
 	@FXML
 	private void sceneListener(KeyEvent event) {
 		KeyCode code = event.getCode();
 		if (code == KeyCode.TAB && !inputBar.isFocused()) {
 			inputBar.requestFocus();
-		}
-		if (code == KeyCode.DELETE && event.isControlDown()) {
-			String feedback = _main.handleCommandLine(KEYWORD_DELETE);
-			if (feedback != null) { // null feedback do not change feedback text
-				displayFeedback(feedback);
-			}
-			inputBar.clear();
 		}
 	}
 
@@ -102,7 +164,8 @@ public class MainController {
 			}
 		} else if (code == KeyCode.UP && !event.isControlDown()) {
 			if (!_prevCommandLines.isEmpty()) {
-				if (inputBar.getText().equals(_prevCommandLines.peekFirst()) && _prevCommandLines.size() > 1) {
+				if (inputBar.getText().equals(_prevCommandLines.peekFirst())
+						&& _prevCommandLines.size() > 1) {
 					_nextCommandLines.addFirst(_prevCommandLines.getFirst());
 					_prevCommandLines.removeFirst();
 				}
@@ -121,6 +184,7 @@ public class MainController {
 		} else if (code == KeyCode.RIGHT && event.isControlDown()) { //hard-coded since FXML accelerator doesn't work
 			displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 		}
+		_popupController.updateSuggestions(_main.retriveSuggestions(inputBar.getText()));
 	}
 
 	@FXML
