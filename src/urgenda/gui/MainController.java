@@ -14,6 +14,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -119,13 +120,24 @@ public class MainController {
 		_main.getPrimaryStage().xProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				_popupInputSuggestions.setX((double) newValue);
+				if(_main.getPrimaryStage().getX() < 0 || _main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight() < 0) {
+					_popupInputSuggestions.hide();
+				} else {
+					_popupInputSuggestions.show(_main.getPrimaryStage());
+					_popupInputSuggestions.setX(newValue.doubleValue());
+				}
 			}		
 		});	
 		_main.getPrimaryStage().yProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				_popupInputSuggestions.setY((double) newValue + _main.getPrimaryStage().getHeight());
+				Bounds allScreenBounds = _main.computeAllScreenBounds();
+				if(windowOutOfBounds()) { //TODO
+					_popupInputSuggestions.hide();
+				} else {
+					_popupInputSuggestions.show(_main.getPrimaryStage());
+					_popupInputSuggestions.setY(newValue.doubleValue() + _main.getPrimaryStage().getHeight());
+				}
 			}	
 		});
 	}

@@ -8,7 +8,7 @@ import urgenda.util.SuggestFeedback;
 
 public class InputSuggestionsPopupController extends BorderPane {
 
-	private static final String PATH_INPUT_SUGGESTIONS_CSS = "InputSuggestions.css";
+	private static final String PATH_INPUT_SUGGESTIONS_CSS = "../../resources/urgendaStyle.css";
 	
 	@FXML
 	private BorderPane typeSuggestionsPane;

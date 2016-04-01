@@ -10,21 +10,22 @@
 
 <AnchorPane fx:id="displayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.DisplayController">
                <children>
-                  <Label fx:id="displayHeader" prefHeight="25.0" text="Display Header" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+                  <Label fx:id="displayHeader" layoutX="141.0" prefHeight="26.0" text="Display Header" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="5.0">
          <font>
             <Font name="Montserrat Light" size="15.0" />
-         </font></Label>
-      <BorderPane maxHeight="420.0" maxWidth="600.0" prefHeight="420.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+         </font>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding></Label>
+      <BorderPane prefHeight="410.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <center>
-            <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+            <ScrollPane fx:id="displayArea" fitToWidth="true" hbarPolicy="NEVER" prefHeight="400.0" prefWidth="600.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                <content>
                   <VBox fx:id="displayHolder" alignment="TOP_CENTER" prefWidth="545.0" />
                </content>
-               <padding>
-                  <Insets left="-1.0" right="-1.0" />
-               </padding>
             </ScrollPane>
          </center>
       </BorderPane>
+      <Label fx:id="displayHeaderPrefix" text="Showing" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>

@@ -30,7 +30,7 @@ Text {
 }
 
 #taskLocationText, #dateCreatedHeader, #dateModifiedHeader, #dateCreatedText, #dateModifiedText {
-	-fx-font-family: "Montserrat Light";
+	-fx-font-family: "Montserrat Ultra Light";
 	-fx-font-size: 12px;
 }
 

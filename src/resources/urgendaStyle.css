@@ -27,10 +27,18 @@
 	-fx-text-fill: white;
 }
 
-#displayHeader {
+#displayHeaderPrefix {
 	-fx-font-family: "Montserrat Ultra Light";
 	-fx-font-size: 20px;
 	-fx-text-fill: white;
+}
+
+#displayHeader {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 16px;
+	-fx-text-fill: #474E60;
+	-fx-background-color: grey;
+	-fx-background-radius: 5px;
 }
 
 #overdueIndicatorLabel {
@@ -41,6 +49,10 @@
 
 #displayPane {
 	-fx-background-color: #474E60;
+}
+
+#displayArea {
+	-fx-background-insets: 0px;
 }
 
 #feedbackPane {
@@ -111,4 +123,18 @@
 #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical{
 	-fx-max-width: 10px;
 	-fx-pref-width: 10px;
+}
+
+#typeSuggestionsPane {
+	-fx-background-color: #474E60;
+	-fx-background-radius: 5px;
+	-fx-border-color: white;
+	-fx-border-width: 2px;
+	-fx-border-radius: 4px;
+}
+
+#commandWordText {
+	-fx-font-family: "Montserrat Light";
+	-fx-fill: white;
+	-fx-font-size: 15px;
 }
