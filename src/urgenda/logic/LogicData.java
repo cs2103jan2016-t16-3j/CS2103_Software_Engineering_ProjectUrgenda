@@ -147,9 +147,20 @@ public class LogicData {
 		clearDisplays();
 		_displays.addAll(sortArchive(displayList));
 		StateFeedback state = new StateFeedback(_displays, _displays.size());
+		setOverdueCount(state);
 		setFeedbackDisplayPosition(state);
 		setShowMorePositions(state);
 		return state;
+	}
+
+	private void setOverdueCount(StateFeedback state) {
+		int count = 0;
+		for (Task task : _tasks) {
+			if (task.isOverdue()) {
+				count++;
+			}
+		}
+		// TODO set count to state
 	}
 
 	public StateFeedback displayAllTasks(ArrayList<Task> displayList) {
@@ -171,6 +182,7 @@ public class LogicData {
 		_displays.addAll(sortList(otherTasks));
 
 		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
+		setOverdueCount(state);
 		setFeedbackDisplayPosition(state);
 		setShowMorePositions(state);
 		return state;
@@ -218,8 +230,8 @@ public class LogicData {
 				for (Task task : _displays) {
 					boolean flag = true;
 					for (String s : substr2) {
-						if (!(Pattern.compile(Pattern.quote(s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc())
-								.find()) && flag) {
+						if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
+								&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) && flag) {
 							flag = false;
 						}
 					}

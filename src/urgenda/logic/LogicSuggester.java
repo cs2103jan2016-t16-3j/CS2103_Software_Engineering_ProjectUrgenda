@@ -8,8 +8,18 @@ import urgenda.util.SuggestFeedback;
 
 public class LogicSuggester {
 	
+	private static final String ADD_EVENT = "[desc] [start] to [end] @[location](optional) ";
+	private static final String ADD_DEADLINE = "[desc] by [deadline] @[location](optional)";
+	private static final String ADD_FLOATING = "[desc] @[location](optional)";
+	private static final String ADD_EVENT_MESSAGE = "Adds a task spanning across a time period";
+	private static final String ADD_DEADLINE_MESSAGE = "Adds a task with a deadline";
+	private static final String ADD_FLOATING_MESSAGE = "Adds an untimed task";
+	
+	private static final String DEL_TASK = "[task no] | [task no]-[task no] (optional) | [desc]";
+	
+	
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
-		ArrayList<String> suggestions = new ArrayList<String>();
+		ArrayList<String> suggestions;
 		boolean isCommand = false;
 		String currCmd = suggCmd.getCurrCmd();
 		if(suggCmd.getConfirmedCommand() != null && currCmd != null 
@@ -32,6 +42,8 @@ public class LogicSuggester {
 
 	private ArrayList<String> specialAddCommand() {
 		// TODO Auto-generated method stub
+		ArrayList<String> suggestions = new ArrayList<String>();
+		suggestions.add(ADD_EVENT);
 		return null;
 	}
 
