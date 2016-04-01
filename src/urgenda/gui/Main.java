@@ -2,6 +2,7 @@ package urgenda.gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javafx.application.Application;
@@ -162,7 +163,7 @@ public class Main extends Application {
 		return display;
 	}
 	
-	public String getHelpText() {
+	public ArrayList<String> getHelpText() {
 		return _logic.displayHelp();
 	}
 

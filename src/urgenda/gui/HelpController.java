@@ -2,6 +2,7 @@ package urgenda.gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -23,7 +24,8 @@ public class HelpController implements Initializable {
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	
 	static Stage _helpStage;
-	private static String _helpText;
+	static Scene _helpScene;
+	private static ArrayList<String> _helpText;
 	
 	@FXML
 	private TextArea helpContentPane;
@@ -42,15 +44,16 @@ public class HelpController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {	
-		helpContentPane.setText(_helpText);
+		helpContentPane.setText(_helpText.get(0));
 		helpContentPane.setEditable(false);
 	}
 	
-	public void setupHelpStage(String helpText) throws IOException {		
-		_helpText = helpText;
+	public void setupHelpStage(ArrayList<String> arrayList) throws IOException {		
+		_helpText = arrayList;
 		Parent help = FXMLLoader.load(Main.class.getResource("HelpSplash.fxml"));
 		_helpStage = new Stage();
-		_helpStage.setScene(new Scene(help));
+		_helpScene = new Scene(help);
+		_helpStage.setScene(_helpScene);
 		_helpStage.initStyle(StageStyle.DECORATED);
 		_helpStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		_helpStage.setTitle(HELP_NAME);
