@@ -16,6 +16,8 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="600.0" onKeyPressed="#sceneListener" prefHeight="650.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
          <top>
@@ -108,7 +110,13 @@
                         <Image url="@../../resources/urgenda_icon.png" />
                      </image>
                   </ImageView>
-            <Label fx:id="logoLabel" layoutX="70.0" layoutY="40.0" text="Urgenda" />
+            <Label fx:id="logoLabel" layoutX="80.0" layoutY="40.0" text="Urgenda" />
+            <Circle fx:id="overdueIndicatorCircle" fill="RED" layoutX="60.0" layoutY="50.0" radius="12.0" stroke="#ffffff00" strokeType="INSIDE" />
+            <Label fx:id="overdueIndicatorLabel" alignment="CENTER" layoutX="48.0" layoutY="40.0" prefHeight="18.0" prefWidth="24.0" text="99+" textFill="WHITE">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
                </children>
             </AnchorPane>
          </top>

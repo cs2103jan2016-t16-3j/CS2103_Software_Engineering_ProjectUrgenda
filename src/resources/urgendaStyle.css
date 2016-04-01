@@ -33,6 +33,12 @@
 	-fx-text-fill: white;
 }
 
+#overdueIndicatorLabel {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 12px;
+	-fx-text-fill: white;
+}
+
 #displayPane {
 	-fx-background-color: #474E60;
 }
