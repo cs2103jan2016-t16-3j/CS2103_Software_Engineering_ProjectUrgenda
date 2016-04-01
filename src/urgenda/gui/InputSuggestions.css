@@ -1,0 +1,10 @@
+#typeSuggestionsPane {
+	-fx-background-color: #474E60;
+	-fx-background-radius: 5px;
+}
+
+#commandWordText {
+	-fx-font-family: "Montserrat Light";
+	-fx-fill: white;
+	-fx-font-size: 15px;
+}

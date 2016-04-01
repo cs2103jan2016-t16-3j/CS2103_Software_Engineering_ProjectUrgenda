@@ -2,7 +2,7 @@
 	-taskBackgroundPane-color: rgb(255, 153, 153, 0.7);
 	-noviceHeaderPane-color: rgb(255, 153, 153, 1.0);
 	-selector-color: rgb(255, 76, 76, 1.0);
-	-label-color: rgb(255, 255, 255, 1.0);
+	-label-color: rgb(0, 0, 0, 1.0);
 }
 
 #taskBackgroundPane {
@@ -18,7 +18,7 @@
 }
 
 Text {
-	-fx-font-family: "Montserrat";
+	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 14px;
 	-fx-fill: -label-color;
 }

@@ -15,6 +15,7 @@ import javafx.stage.StageStyle;
 import urgenda.logic.Logic;
 import urgenda.util.StateFeedback;
 import urgenda.util.StateFeedback.State;
+import urgenda.util.SuggestFeedback;
 import urgenda.util.UrgendaLogger;
 
 public class Main extends Application {
@@ -49,6 +50,7 @@ public class Main extends Application {
 	private DisplayController _displayController;
 	private Logic _logic;
 	private static Stage _primaryStage;
+	private StateFeedback _currState;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -57,6 +59,7 @@ public class Main extends Application {
 		initRootLayout();
 		initDisplay();
 		initStage(primaryStage);
+		initFeatures();
 	}
 
 	private void initLogger() {
@@ -84,10 +87,9 @@ public class Main extends Application {
 
 	private void initDisplay() {
 		_displayController = _mainController.getDisplayController();
-		StateFeedback state = retrieveStartupState();
+		_currState = retrieveStartupState();
 		//TODO implement check settings for showing novice headers, change boolean below
-		_displayController.initDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
-		_mainController.updateOverdueCount(state.getOverdueCount());
+		_displayController.initDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true);
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of display view");
 	}
 
@@ -103,6 +105,11 @@ public class Main extends Application {
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of Urgenda window");
 	}
 
+	private void initFeatures() {
+		_mainController.updateOverdueCount(_currState.getOverdueCount());
+		_mainController.setupTypeSuggestions();
+	}
+	
 	private StateFeedback retrieveStartupState() {
 		StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback());
@@ -110,26 +117,26 @@ public class Main extends Application {
 	}
 	
 	protected String handleCommandLine(String commandLine) {
-		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
-		if(state.getState() == State.SHOW_HELP) {
+		_currState = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
+		if(_currState.getState() == State.SHOW_HELP) {
 			_mainController.showHelp();
-		} else if(state.getState() == State.EXIT) {
+		} else if(_currState.getState() == State.EXIT) {
 			quit();
 		}
 		//TODO implement check settings for showing novice headers, change boolean below
-		switch(state.getState()) {
+		switch(_currState.getState()) {
 		case FIND_FREE:
-			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, true);
+			_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, true);
 			break;
 		case HIDE:
 			_primaryStage.setIconified(true);
 			//fall-through
 		default:
-			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
+			_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, false);
 			break;
 		}
-		_mainController.updateOverdueCount(state.getOverdueCount());
-		return state.getFeedback();
+		_mainController.updateOverdueCount(_currState.getOverdueCount());
+		return _currState.getFeedback();
 	}
 	
 
@@ -180,6 +187,7 @@ public class Main extends Application {
 	public String runDemoScreen() {
 		StateFeedback state = new DemoStateFeedback();
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
+		_mainController.updateOverdueCount(state.getOverdueCount());
 		return state.getFeedback();
 	}
 
@@ -201,6 +209,10 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	public SuggestFeedback retriveSuggestions(String text) {
+		return null;
 	}
 
 }

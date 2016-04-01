@@ -30,7 +30,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#savePathChangeListener" text="Change Save Directory..." />
                         <MenuItem fx:id="menuHide" mnemonicParsing="false" onAction="#minimiseWindowListener" text="Hide Window">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="M" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
                           <MenuItem fx:id="menuFileExit" mnemonicParsing="false" onAction="#exit" text="Exit">

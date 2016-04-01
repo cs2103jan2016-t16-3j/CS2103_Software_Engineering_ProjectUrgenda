@@ -14,6 +14,7 @@ public class StateFeedback {
 	private TaskList _allTasks;
 	private String _feedback;
 	private int _displayPosition = 0;
+	private int _overdueCount = 0;
 	private ArrayList<Integer> _showMoreIndexes; //index of tasks to show details for
 	
 	// default constructor
@@ -80,10 +81,12 @@ public class StateFeedback {
 	public void setDisplayPosition(int displayPosition) {
 		_displayPosition = displayPosition;
 	}
-
+	
+	public void setOverdueCount(int overdueCount) {
+		_overdueCount = overdueCount;
+	}
 	public int getOverdueCount() {
-		// TODO return the number of overdue tasks to put in the logo indicator
-		return 1;
+		return _overdueCount;
 	}
 	
 }
