@@ -1,5 +1,7 @@
 package urgenda.logic;
 
+import java.util.ArrayList;
+
 import urgenda.command.AddTask;
 import urgenda.command.BlockSlots;
 import urgenda.command.Command;
@@ -120,7 +122,7 @@ public class Logic {
 	 */
 	
 	
-	public String displayHelp() {
+	public ArrayList<String> displayHelp() {
 		logger.getLogger().info("Help fn has been called");
 		
 		return _logicData.generateHelpManual();

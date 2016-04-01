@@ -613,7 +613,7 @@ public class LogicData {
 		_tasks.clear();
 	}
 
-	public String generateHelpManual() {
+	public ArrayList<String> generateHelpManual() {
 		return _storage.retrieveHelp();
 	}
 
