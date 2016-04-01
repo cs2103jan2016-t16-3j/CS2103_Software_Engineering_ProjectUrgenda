@@ -90,27 +90,30 @@
       <VBox fx:id="dateTimesHolder" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
          <children>
             <Text fx:id="taskDateTimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time to End Time / by Deadline" wrappingWidth="285.0" />
-            <HBox prefHeight="12.0" prefWidth="280.0">
+            <HBox alignment="TOP_RIGHT" prefHeight="12.0" prefWidth="253.0">
                <children>
-                  <Text fx:id="dateCreatedHeader" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Added: ">
-                     <HBox.margin>
-                        <Insets left="12.0" />
-                     </HBox.margin>
-                  </Text>
-                  <Text fx:id="dateCreatedText" strokeType="OUTSIDE" strokeWidth="0.0" text="DATE ADDED" />
+                  <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text fx:id="dateCreatedHeader" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Added: " />
+                        <Text fx:id="dateModifiedHeader" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Modified: " />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text fx:id="dateCreatedText" strokeType="OUTSIDE" strokeWidth="0.0" text="DATE ADDED" />
+                        <Text fx:id="dateModifiedText" strokeType="OUTSIDE" strokeWidth="0.0" text="DATE MODIFIED" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
                </children>
                <VBox.margin>
-                  <Insets top="5.0" />
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
                </VBox.margin>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Text fx:id="dateModifiedHeader" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Modified: " />
-                  <Text fx:id="dateModifiedText" strokeType="OUTSIDE" strokeWidth="0.0" text="DATE MODIFIED" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </HBox>
          </children>
          <GridPane.margin>

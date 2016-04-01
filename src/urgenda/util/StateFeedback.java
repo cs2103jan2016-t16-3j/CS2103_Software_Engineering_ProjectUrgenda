@@ -80,5 +80,10 @@ public class StateFeedback {
 	public void setDisplayPosition(int displayPosition) {
 		_displayPosition = displayPosition;
 	}
+
+	public int getOverdueCount() {
+		// TODO return the number of overdue tasks to put in the logo indicator
+		return 1;
+	}
 	
 }

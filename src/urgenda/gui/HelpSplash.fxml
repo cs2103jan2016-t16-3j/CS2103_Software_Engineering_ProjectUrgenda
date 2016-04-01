@@ -21,9 +21,23 @@
             </Label>
          </top>
          <center>
-            <TextArea fx:id="helpContentPane" prefHeight="343.0" prefWidth="369.0" wrapText="true" BorderPane.alignment="CENTER">
+            <TextArea fx:id="helpContentPane" prefHeight="340.0" prefWidth="360.0" wrapText="true" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets left="5.0" right="5.0" />
          </BorderPane.margin></TextArea>
          </center>
+   <left>
+      <Button fx:id="helpPrev" mnemonicParsing="false" onAction="#togglePrevHelp" prefHeight="340.0" prefWidth="35.0" style="-fx-background-color: #313745;" text="&lt;" textFill="WHITE" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="5.0" />
+         </BorderPane.margin>
+      </Button>
+   </left>
+   <right>
+      <Button fx:id="helpNext" mnemonicParsing="false" onAction="#toggleNextHelp" prefHeight="340.0" prefWidth="35.0" style="-fx-background-color: #313745;" text="&gt;" textFill="WHITE" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets right="5.0" />
+         </BorderPane.margin>
+      </Button>
+   </right>
       </BorderPane>

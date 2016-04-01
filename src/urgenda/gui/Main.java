@@ -87,6 +87,7 @@ public class Main extends Application {
 		StateFeedback state = retrieveStartupState();
 		//TODO implement check settings for showing novice headers, change boolean below
 		_displayController.initDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
+		_mainController.updateOverdueCount(state.getOverdueCount());
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of display view");
 	}
 
@@ -127,6 +128,7 @@ public class Main extends Application {
 			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
 			break;
 		}
+		_mainController.updateOverdueCount(state.getOverdueCount());
 		return state.getFeedback();
 	}
 	
