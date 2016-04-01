@@ -1,4 +1,4 @@
-package testUrgenda;
+package test.testUrgenda;
 
 import static org.junit.Assert.*;
 

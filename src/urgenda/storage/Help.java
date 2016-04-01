@@ -5,22 +5,29 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.ocpsoft.prettytime.shade.edu.emory.mathcs.backport.java.util.Arrays;
 
 import urgenda.util.UrgendaLogger;
 
 public class Help {
 	private static final String SETTINGS_HELP = "help.txt";
 	private static final String SETTINGS_DIRECTORY = "settings";
-	
+
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
-	
+
 	private String _help;
 	private File _parentDir;
 	private File _file;
-	
-	public Help(){
+	private ArrayList<String> _manual = new ArrayList<String>();
+
+	public Help() {
 		_parentDir = new File(SETTINGS_DIRECTORY);
 		_parentDir.mkdir();
 		_file = new File(_parentDir, SETTINGS_HELP);
@@ -33,11 +40,84 @@ public class Help {
 			_help = retrieveFromFile();
 		}
 	}
-	
-	public String getHelp(){
-		return _help;
+
+	public Help(boolean test) {
+		logger.getLogger().info("constructing Help object");
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream("resources/help.txt");
+		String result = getStringFromInputStream(is);
+//		System.out.println(result);
+		logger.getLogger().info(result);
+		String[] manual = result.split("\n\n");
+//		System.out.println(manual.length);
+//		for (int i = 0; i < manual.length; i++){
+//			System.out.println("index number: " + i);
+//			System.out.println(manual[i]);
+//		}
+		for (int i = 0; i < manual.length; i++){
+//			System.out.println("from array" + manual[i]);
+			String help = manual[i].trim();
+			_manual.add(help);
+//			System.out.println("from arraylist" + _manual.get(i));
+		}
+		
+//		addToManual(is);
+		for (int i = 0; i < _manual.size(); i++) {
+			System.out.println("index number: " + i);
+			System.out.println(_manual.get(i));
+		}
+		logger.getLogger().info("retrieved helpfile.");
 	}
-	
+
+	private void addToManual(InputStream is) {
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		StringBuilder sb = new StringBuilder();
+		String line;
+		try {
+			while ((line = br.readLine()) != null) {
+				_manual.add(line);
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private static String getStringFromInputStream(InputStream is) {
+
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+
+		String line;
+		try {
+
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append("\n");
+				sb.append(line);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return sb.toString();
+
+	}
+
+	public ArrayList<String> getHelp() {
+		return _manual;
+	}
+
 	private void writeToFile(ArrayList<String> fileDataStringArr) {
 		try {
 			PrintWriter writer = new PrintWriter(_file);
@@ -49,7 +129,7 @@ public class Help {
 			logger.getLogger().info("no such file found");
 		}
 	}
-	
+
 	private void addToHelp(ArrayList<String> a) {
 		a.add("Adding Tasks:");
 		a.add("Simply type your task description with or without dates and times. A task will then be separated into 3 types:");
@@ -105,8 +185,7 @@ public class Help {
 		a.add("Command word - Block / Confirm(confirms a timeslot)");
 		a.add("This feature allows you to add more than one timeslot to a task, and when you want to confirm what which timeslot it is, just type confirm");
 		a.add("Example: \"Block Dinner with Mum at Monday 6pm to 7pm, Wednesday 7pm to 9pm\"\n");
-		
-		
+
 	}
 
 	private String retrieveFromFile() {
@@ -135,5 +214,5 @@ public class Help {
 		}
 		return phrase;
 	}
-	
+
 }

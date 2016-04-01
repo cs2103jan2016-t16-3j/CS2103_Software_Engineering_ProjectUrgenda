@@ -13,7 +13,7 @@ public class Storage {
 	private static final String DESC_INTRO_TASK = "Add your first Task! Press Help or Alt + F1 for guidance";
 
 	protected FileEditor _file;
-	protected FileEditor _help;
+	protected Help _help;
 	protected SettingsEditor _settings;
 	protected ArrayList<String> _fileDataStringArr = new ArrayList<String>();
 	protected ArrayList<String> _archiveStringArr = new ArrayList<String>();
@@ -25,10 +25,13 @@ public class Storage {
 		_settings = new SettingsEditor();
 		String path = _settings.getFileDir();
 		String name = _settings.getFileName();
-		_help = new FileEditor();
+		logger.getLogger().info("retrieved file specs from settings. Creating help");
+		_help = new Help(true);
+		logger.getLogger().info("help created. creating datafiles");
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 		checkIfEmptyFile();
+		logger.getLogger().info("Storage object created.");
 	}
 
 	private void checkIfEmptyFile() {
@@ -52,7 +55,7 @@ public class Storage {
 	public Storage(String path, String name) {
 		logger.getLogger().info("constructing Storage Object");
 		_settings = new SettingsEditor();
-		_help = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_HELP);
+		_help = new Help(true);
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 	}
@@ -102,9 +105,11 @@ public class Storage {
 
 	}
 
-	public String retrieveHelp() {
-		String help;
-		help = _help.retrieveFromFile();
+	public ArrayList<String> retrieveHelp() {
+		logger.getLogger().info("inside retrieveHelp function");
+		ArrayList<String> help;
+		help = _help.getHelp();
+		logger.getLogger().info("retrieved from file. ");
 		return help;
 	}
 

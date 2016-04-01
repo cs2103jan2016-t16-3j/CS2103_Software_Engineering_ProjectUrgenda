@@ -2,8 +2,10 @@ package urgenda.storage;
 
 import java.util.LinkedHashMap;
 
-public class SettingsEditor {
+import urgenda.util.UrgendaLogger;
 
+public class SettingsEditor {
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String SETTINGS_DIRECTORY = "settings";
 	private static final String SETTINGS_FILENAME = "settings.txt";
 
@@ -15,6 +17,7 @@ public class SettingsEditor {
 	private String _settingsString;
 	
 	public SettingsEditor(){
+		logger.getLogger().info("constructing SettingsEditor Object");
 		_settings = new FileEditor(SETTINGS_DIRECTORY, SETTINGS_FILENAME);
 		_settingsString = _settings.retrieveFromFile();
 		_cipher = new JsonCipher(_settingsString);
@@ -30,6 +33,7 @@ public class SettingsEditor {
 
 	public void checkIfEmptyMap() {
 		if (_cipher.isEmptyMap()) {
+			logger.getLogger().info("Empty cipher map. adding default locations.");
 			_cipher.setDirectory(DEFAULT_FILE_LOCATION);
 			_cipher.setFileName(DEFAULT_FILE_NAME);
 			saveSettings();
@@ -37,6 +41,7 @@ public class SettingsEditor {
 	}
 	
 	public void saveSettings() {
+		logger.getLogger().info("Saving settings.");
 		_cipher.convertToString();
 		_settingsString = _cipher.getDetailsString();
 		_settings.writeToFile(_settingsString);
