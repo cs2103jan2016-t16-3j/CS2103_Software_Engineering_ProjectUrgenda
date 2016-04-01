@@ -218,8 +218,8 @@ public class LogicData {
 				for (Task task : _displays) {
 					boolean flag = true;
 					for (String s : substr2) {
-						if (!(Pattern.compile(Pattern.quote(s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc())
-								.find()) && flag) {
+						if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
+								&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) && flag) {
 							flag = false;
 						}
 					}
