@@ -160,7 +160,7 @@ public class LogicData {
 				count++;
 			}
 		}
-		// TODO set count to state
+		state.setOverdueCount(count);
 	}
 
 	public StateFeedback displayAllTasks(ArrayList<Task> displayList) {
