@@ -71,9 +71,19 @@
 }
 
 #inputBar {
-	-fx-background-radius: 0, 0;
+	-fx-background-radius: 0;
+	-fx-background-insets: 0;
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 17px;
+}
+
+#inputBar .arrow-button .arrow, #inputBar .arrow-button {
+	-fx-cursor: text;
+	-fx-padding: 0;
+}
+
+#inputBar .list-view {
+	-fx-background-color: white;
 }
 
 #helpPane {
