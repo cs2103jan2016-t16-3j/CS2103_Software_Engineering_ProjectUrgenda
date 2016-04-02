@@ -11,6 +11,9 @@ public class InputSuggestionsPopupController extends BorderPane {
 
 	private static final String PATH_INPUT_SUGGESTIONS_CSS = "InputSuggestions.css";
 	//private static final Color COLOR_INDEX = Color.web("");
+	//private static final Color COLOR_DATE_TIME = Color.web("");
+	//private static final Color COLOR_DESC = Color.web("");
+	//private static final Color COLOR_SELECTED_TASK = Color.web("");
 	
 	
 	@FXML
@@ -30,12 +33,14 @@ public class InputSuggestionsPopupController extends BorderPane {
 
 	public void updateSuggestions(SuggestFeedback retrieveSuggestions) {
 		System.out.println("update suggestions");
-		_currSuggestions = retrieveSuggestions;
+//		_currSuggestions = retrieveSuggestions;
 //		if (_currSuggestions.isCommand()) {
 //			commandWordText.setText(_currSuggestions.getCurrCmd());
 //		} else {
 //			commandWordText.setText("");
 //		}
-		
+//		for(String suggestString : _currSuggestions.getSuggestions()) {
+//			//TODO format strings by type using above colors
+//		}
 	}
 }
