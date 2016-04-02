@@ -83,8 +83,10 @@ public class CommandParser {
 			}
 			if (PublicVariables.taskType == TASK_TYPE.DEADLINE) {
 				suggestCommand.setIsDeadline(true);
+				suggestCommand.setIsEvent(false);
 			} else if (PublicVariables.taskType == TASK_TYPE.EVENT) {
 				suggestCommand.setIsEvent(true);
+				suggestCommand.setIsDeadline(false);
 			}
 			return suggestCommand;
 		}
