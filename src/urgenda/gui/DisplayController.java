@@ -14,7 +14,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
@@ -194,7 +193,7 @@ public class DisplayController extends AnchorPane {
 	private void showZeroTasksFeedback() {
 		Text emptyDisplay = new Text(MESSAGE_ZERO_TASKS);
 		emptyDisplay.setFont(Main.BOLD_FONT);
-		emptyDisplay.setFill(Color.WHITE);
+		//emptyDisplay.setFill(Color.WHITE);
 		displayHolder.getChildren().add(emptyDisplay);
 	}
 	

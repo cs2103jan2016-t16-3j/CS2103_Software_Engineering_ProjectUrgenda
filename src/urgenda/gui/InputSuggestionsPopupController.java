@@ -54,16 +54,20 @@ public class InputSuggestionsPopupController extends BorderPane {
 		suggestionsArea.getChildren().clear();
 		//System.out.println("update suggestions");
 		if (suggestFeedback.isCommand()) {
-			commandWordText.setText(suggestFeedback.getCurrCmd());
+			commandWordText.setText(suggestFeedback.getCurrCmd() + " ");
+			commandWordText.setVisible(true);
 		} else {
 			commandWordText.setText("");
+			commandWordText.setVisible(false);
 		}
 		for(String suggestionString : suggestFeedback.getSuggestions()) {
 			suggestionsArea.getChildren().add(formatSingleSuggestion(suggestionString));
 		}
 		//remove last delimiter
-		HBox lastItem = (HBox) suggestionsArea.getChildren().get(suggestionsArea.getChildren().size() - 1);
-		lastItem.getChildren().remove(lastItem.getChildren().size() - 1);
+		if (suggestionsArea.getChildren().size() > 0) {
+			HBox lastItem = (HBox) suggestionsArea.getChildren().get(suggestionsArea.getChildren().size() - 1);
+			lastItem.getChildren().remove(lastItem.getChildren().size() - 1);
+		}
 		userSuggestionText.setText(suggestFeedback.getUserInstructionsPrompt());
 	}
 	
@@ -76,12 +80,10 @@ public class InputSuggestionsPopupController extends BorderPane {
 			Text tokenizedText;
 			switch(tokenized) {
 			case SUBSTRING_SELECTED_TASK:
-				System.out.println("selectedtask");
 				tokenizedText = new Text("<" + tokenized + ">");
 				tokenizedText.setFill(COLOR_SELECTED_TASK);
 				break;
 			case SUBSTRING_INDEX:
-				System.out.println("index");
 				tokenizedText = new Text("[" + tokenized + "]");
 				tokenizedText.setFill(COLOR_INDEX);
 				break;
@@ -110,7 +112,6 @@ public class InputSuggestionsPopupController extends BorderPane {
 				tokenizedText.setFill(COLOR_PATH_DIRECTORY);
 				break;
 			default:
-				System.out.println("default " + tokenized);
 				tokenizedText = new Text(tokenized);
 				tokenizedText.setFill(COLOR_DEFAULT);
 				break;

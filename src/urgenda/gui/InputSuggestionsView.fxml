@@ -9,12 +9,18 @@
    <center>
       <FlowPane fx:id="suggestionsArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets left="3.0" />
+            <Insets />
          </BorderPane.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </FlowPane>
    </center>
    <left>
-      <Text fx:id="commandWordText" strokeType="OUTSIDE" strokeWidth="0.0" text="Command Word" BorderPane.alignment="TOP_LEFT" />
+      <Text fx:id="commandWordText" strokeType="OUTSIDE" strokeWidth="0.0" text="Command Word" BorderPane.alignment="TOP_LEFT">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin></Text>
    </left>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
