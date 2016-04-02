@@ -45,11 +45,11 @@ public class NewEditCommandParser {
 			searchDetails(reducedString);
 			int numberOfRmFlag = countRmFlag(reducedString);
 			
-			System.out.print(startTime + "\n");
-			System.out.print(endTime + "\n");
-			System.out.print(unknownTime + "\n");
-			System.out.print(descString + "\n");
-			System.out.print(numberOfRmFlag + "\n");
+//			System.out.print(startTime + "\n");
+//			System.out.print(endTime + "\n");
+//			System.out.print(unknownTime + "\n");
+//			System.out.print(descString + "\n");
+//			System.out.print(numberOfRmFlag + "\n");
 			
 			Edit editCommand = new Edit();
 			Task newTask = new Task();

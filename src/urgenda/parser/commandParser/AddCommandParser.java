@@ -1,5 +1,9 @@
 package urgenda.parser.commandParser;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import urgenda.command.*;
 import urgenda.parser.DateTimeParser;
 import urgenda.parser.PublicFunctions;
@@ -23,9 +27,11 @@ public class AddCommandParser {
 			return new Invalid();
 		} else {
 			descPlaceHolder = null;
+			ArrayList<String> reservedWords = getReservedWords();
 			String reformattedString = checkSpecialDesc();
 			reformattedString = PublicFunctions.reformatArgsString(_argsString);
 			String reducedArgsString = DateTimeParser.searchTaskTimes(reformattedString);
+			reducedArgsString = undoReserveWords(reservedWords, reducedArgsString);
 			// System.out.print(reducedArgsString + "\n");
 			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
 			reducedArgsString = TaskDetailsParser.searchTaskLocation(reducedArgsString);
@@ -90,5 +96,23 @@ public class AddCommandParser {
 			descPlaceHolder = _argsString.substring(firstOccurence,secondOccurence);
 			return _argsString.replace(descPlaceHolder, "");
 		}
+	}
+	
+	private static ArrayList<String> getReservedWords() {
+		ArrayList<String> array = new ArrayList<String>();
+		Matcher matcher = Pattern.compile("([^\\d+\\s+]+)(\\d+)").matcher(_argsString);
+		while (matcher.find()) {
+			_argsString = _argsString.replace(matcher.group(), "<" + matcher.group() + ">");
+			array.add("<" + matcher.group() + ">");
+		}
+		
+		return array;
+	}
+	
+	private static String undoReserveWords(ArrayList<String> array, String string) {
+		for (String arrayString:array) {
+			string = string.replace(arrayString, arrayString.substring(1,arrayString.length()-1));
+		}
+		return string;
 	}
 }

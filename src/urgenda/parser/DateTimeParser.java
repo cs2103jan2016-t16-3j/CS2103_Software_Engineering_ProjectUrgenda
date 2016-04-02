@@ -55,7 +55,7 @@ public class DateTimeParser {
 				}
 			}
 		}
-		
+
 		return dateWithoutTime;
 	}
 
@@ -76,7 +76,7 @@ public class DateTimeParser {
 		case 1:
 			timeInDate = dateGroups.get(0).getDates().get(0);
 			LocalDateTime dateTime = getLocalDateTimeFromDate(timeInDate);
-			
+
 			if (PublicVariables.startTimeWords.contains(preceedingWord)) {
 				if (isDateOnly(timeInDate)) {
 					dateTime = adjustedDateEvent(dateTime);
@@ -104,7 +104,7 @@ public class DateTimeParser {
 			if (isDateOnly(timeInDate)) {
 				dateTime1 = adjustedDateEvent(dateTime1);
 			}
-			
+
 			timeInDate = dateGroups.get(0).getDates().get(1);
 			LocalDateTime dateTime2 = getLocalDateTimeFromDate(timeInDate);
 			if (isDateOnly(timeInDate)) {
@@ -130,14 +130,14 @@ public class DateTimeParser {
 				Date maxDate = getMax(time1, time3);
 				LocalDateTime minDateTime = getLocalDateTimeFromDate(minDate);
 				LocalDateTime maxDateTime = getLocalDateTimeFromDate(maxDate);
-				
+
 				if (isDateOnly(minDate)) {
 					minDateTime = adjustedDateEvent(minDateTime);
-				}			
+				}
 				if (isDateOnly(maxDate)) {
 					maxDateTime = adjustedDateEvent(maxDateTime);
 				}
-				
+
 				setTaskStartTime(minDateTime);
 				setTaskEndTime(maxDateTime);
 			} else if (time2.equals(time3)) {
@@ -145,10 +145,10 @@ public class DateTimeParser {
 				Date maxDate = getMax(time1, time2);
 				LocalDateTime minDateTime = getLocalDateTimeFromDate(minDate);
 				LocalDateTime maxDateTime = getLocalDateTimeFromDate(maxDate);
-				
+
 				if (isDateOnly(minDate)) {
 					minDateTime = adjustedDateEvent(minDateTime);
-				}			
+				}
 				if (isDateOnly(maxDate)) {
 					maxDateTime = adjustedDateEvent(maxDateTime);
 				}
@@ -159,10 +159,10 @@ public class DateTimeParser {
 				Date maxDate = getMax(time3, time2);
 				LocalDateTime minDateTime = getLocalDateTimeFromDate(minDate);
 				LocalDateTime maxDateTime = getLocalDateTimeFromDate(maxDate);
-				
+
 				if (isDateOnly(minDate)) {
 					minDateTime = adjustedDateEvent(minDateTime);
-				}			
+				}
 				if (isDateOnly(maxDate)) {
 					maxDateTime = adjustedDateEvent(maxDateTime);
 				}
@@ -188,13 +188,13 @@ public class DateTimeParser {
 		int parsePositionGroup1 = dateGroups.get(0).getPosition();
 		String dateStringGroup1 = dateGroups.get(0).getText();
 		String preceedingWordGroup1 = PublicFunctions.getPreceedingWord(parsePositionGroup1, _argsString);
-//		 System.out.print(numberOfDatesInGroup1 + "\n");
+		// System.out.print(numberOfDatesInGroup1 + "\n");
 
 		int numberOfDatesInGroup2 = dateGroups.get(1).getDates().size();
 		int parsePositionGroup2 = dateGroups.get(1).getPosition();
 		String dateStringGroup2 = dateGroups.get(1).getText();
 		String preceedingWordGroup2 = PublicFunctions.getPreceedingWord(parsePositionGroup2, _argsString);
-//		 System.out.print(numberOfDatesInGroup2 + "\n");
+		// System.out.print(numberOfDatesInGroup2 + "\n");
 
 		if (numberOfDatesInGroup1 == 1 && numberOfDatesInGroup2 == 2) {
 			// System.out.print("here" + "\n");
@@ -351,7 +351,7 @@ public class DateTimeParser {
 				} else {
 					setTaskStartTime(taskDateTime);
 					setTaskEndTime(taskDateTime.plusHours(1));
-					
+
 					String reducedArgsString;
 
 					if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
@@ -518,7 +518,7 @@ public class DateTimeParser {
 		}
 		return null;
 	}
-	
+
 	public static void searchTaskSlots(ArrayList<String> taskTimeStrings) {
 		PublicVariables.taskSlots = new MultipleSlot();
 		try {
@@ -531,14 +531,14 @@ public class DateTimeParser {
 				}
 			}
 		} catch (Exception e) {
-			
+
 		}
 
 		if (PublicVariables.taskSlots.isEmpty()) {
 			PublicVariables.taskSlots = null;
 		}
 	}
-	
+
 	public static LocalDateTime adjustedDateDeadline(LocalDateTime date) {
 		date = date.withHour(23);
 		date = date.withMinute(59);
@@ -546,15 +546,21 @@ public class DateTimeParser {
 		date = date.withNano(0);
 		return date;
 	}
-	
+
 	public static LocalDateTime adjustedDateEvent(LocalDateTime date) {
-		date = date.withHour(date.getHour()+1);
+		try {
+			date = date.withHour(date.getHour() + 1);
+		} catch (Exception e) {
+			date = date.withDayOfMonth(date.getDayOfMonth() + 1);
+			date = date.withHour((date.getHour() + 1) % 24);
+		}
+
 		date = date.withMinute(0);
 		date = date.withSecond(0);
 		date = date.withNano(0);
 		return date;
 	}
-	
+
 	private static ArrayList<LocalDateTime> checkAndRoundUpEventDatePair(Date date1, Date date2) {
 		return null;
 	}
