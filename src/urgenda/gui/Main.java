@@ -217,6 +217,7 @@ public class Main extends Application {
 	}
 
 	public SuggestFeedback retriveSuggestions(String text) {
+		_logic.getSuggestions(text);
 		return null;
 	}
 
