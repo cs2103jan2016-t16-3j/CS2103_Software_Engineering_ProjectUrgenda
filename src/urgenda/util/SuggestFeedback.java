@@ -6,6 +6,7 @@ public class SuggestFeedback {
 
 	private ArrayList<String> _suggestions;
 	private String _currCmd;
+	// isCommand is true only if the entire command is detected. else is either partial commands/add 
 	private boolean _isCommand;
 	
 	public SuggestFeedback(ArrayList<String> suggestions, String currCmd, boolean isCommand) {
