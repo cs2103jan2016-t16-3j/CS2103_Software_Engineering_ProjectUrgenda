@@ -146,19 +146,6 @@
             </AnchorPane>
          </bottom>
          <center>
-            <StackPane>
-               <children>
                   <fx:include fx:id="displayArea" source="DisplayView.fxml" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <BorderPane fx:id="demoPane" layoutX="175.0" layoutY="150.0" prefHeight="150.0" prefWidth="250.0" visible="false">
-                     <center>
-                        <Text fx:id="demoText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Urgenda! This automated demo will showcase the features of Urgenda that will help you manage your tasks more effectively than ever!" textAlignment="CENTER" wrappingWidth="230.0" BorderPane.alignment="CENTER" />
-                     </center>
-                  </BorderPane>
-               </children>
-            </AnchorPane>
-               </children>
-            </StackPane>
          </center>
       </BorderPane>

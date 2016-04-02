@@ -66,10 +66,8 @@ public class MainController {
 	private HelpController _helpController;
 	private Popup _popupInputSuggestions;
 	private InputSuggestionsPopupController _popupController;
-	private boolean _isDemo;
 
 	public MainController() {
-		_isDemo = false;
 		_prevCommandLines = new ArrayDeque<String>();
 		_nextCommandLines = new ArrayDeque<String>();
 	}
@@ -181,7 +179,6 @@ public class MainController {
 				String feedback;
 				if (inputBar.getText().equalsIgnoreCase(KEYWORD_DEMO)) {
 					feedback = _main.activateDemoScreen();
-					_isDemo = true;
 				} else {
 					feedback = _main.handleCommandLine(inputBar.getText());
 				}
@@ -215,16 +212,6 @@ public class MainController {
 		} else if (code == KeyCode.RIGHT && event.isControlDown()) { //hard-coded since FXML accelerator doesn't work
 			displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 		}
-		if(_isDemo) {
-			runDemo();
-			_isDemo = false;
-			inputBar.setText(KEYWORD_SHOW_ALL);
-			commandLineListener(new KeyEvent(null, null, null, KeyCode.ENTER, false, false, false, false));
-		}
-	}
-
-	private void runDemo() {
-		//TODO DEMO
 	}
 
 	@FXML
