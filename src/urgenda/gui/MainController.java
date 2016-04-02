@@ -108,7 +108,7 @@ public class MainController {
 		inputBar.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				_popupController.updateSuggestions(_main.retriveSuggestions(inputBar.getText()));
+				_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
 				if(!windowOutOfBounds()) {
 					_popupInputSuggestions.show(_main.getPrimaryStage());
 					_popupInputSuggestions.setX(_main.getPrimaryStage().getX());

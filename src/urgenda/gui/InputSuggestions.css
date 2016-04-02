@@ -7,13 +7,16 @@
 }
 
 #commandWordText {
-	-fx-font-family: "Montserrat Light";
 	-fx-fill: white;
-	-fx-font-size: 15px;
 }
 
 #userSuggestionText {
 	-fx-font-family: "Montserrat Ultra Light";
 	-fx-fill: white;
 	-fx-font-size: 14px;
+}
+
+Text {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 15px;
 }

@@ -216,9 +216,8 @@ public class Main extends Application {
 		launch(args);
 	}
 
-	public SuggestFeedback retriveSuggestions(String text) {
-		_logic.getSuggestions(text);
-		return null;
+	public SuggestFeedback retrieveSuggestions(String text) {
+		return _logic.getSuggestions(text);
 	}
 
 	public Bounds computeAllScreenBounds() {

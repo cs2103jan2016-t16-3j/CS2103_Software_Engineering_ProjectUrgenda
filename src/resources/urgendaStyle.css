@@ -53,11 +53,11 @@
 
 #displayArea {
 	-fx-background-insets: 0px;
-	-fx-background-color: #313745;
+	-fx-background-color: #45495B;
 }
 
 #displayArea .viewport{
-	-fx-background-color: #313745;
+	-fx-background-color: #45495B;
 
 } 
 
