@@ -25,7 +25,7 @@ public class LogicSuggester {
 	private static final String EDIT = "<selected task> | [task no] [new desc] ";
 	private static final String EDIT_MESSAGE = "Edits description, date(s) and timing(s), and/or location of selected task";
 	
-	private static final String SEARCH_TASK = "[desc] | [date/day/time] | [task type]";
+	private static final String SEARCH_TASK = "[desc] | [date/month/day/time] | [task type]";
 	private static final String SEARCH_MESSAGE = "Searches for task(s) displayed that matches the given input";
 	
 	private static final String EXIT = "";
