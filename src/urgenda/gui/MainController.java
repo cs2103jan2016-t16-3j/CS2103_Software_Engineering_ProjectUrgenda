@@ -10,38 +10,27 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.PopupControl;
-import javafx.scene.control.SelectionModel;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
-import javafx.stage.PopupWindow.AnchorLocation;
 import urgenda.util.UrgendaLogger;
 import javafx.stage.Stage;
 
 public class MainController {
 
+	private static final int WINDOWS_TASKBAR_HEIGHT = 30;
+	
 	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
@@ -90,13 +79,14 @@ public class MainController {
 		loader.setController(_popupController);
 		try {
 			_popupInputSuggestions.getContent().add((Parent)loader.load());
+			UrgendaLogger.getInstance().getLogger().log(Level.INFO, "setup of type suggestions popup successful");
 		} catch (IOException e) {
 			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, "Error setting up type suggestions popup");
 			e.printStackTrace();
 		}
-		_popupInputSuggestions.show(_main.getPrimaryStage());
 		_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
 		_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
+		_popupInputSuggestions.show(_main.getPrimaryStage());
 		setListeners();
 	}
 
@@ -105,7 +95,11 @@ public class MainController {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if(newValue) {
-					_popupInputSuggestions.show(_main.getPrimaryStage());
+					if(!windowOutOfBounds()) {
+						_popupInputSuggestions.show(_main.getPrimaryStage());
+						_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
+						_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
+					}
 				} else {
 					_popupInputSuggestions.hide();
 				}
@@ -115,32 +109,42 @@ public class MainController {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				_popupController.updateSuggestions(_main.retriveSuggestions(inputBar.getText()));
-			}		
-		});
-		_main.getPrimaryStage().xProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if(_main.getPrimaryStage().getX() < 0 || _main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight() < 0) {
-					_popupInputSuggestions.hide();
-				} else {
+				if(!windowOutOfBounds()) {
 					_popupInputSuggestions.show(_main.getPrimaryStage());
-					_popupInputSuggestions.setX(newValue.doubleValue());
+					_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
+					_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());		
 				}
 			}		
-		});	
-		_main.getPrimaryStage().yProperty().addListener(new ChangeListener<Number>() {
+		});
+		ChangeListener<Number> windowPosChangeListener = new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				Bounds allScreenBounds = _main.computeAllScreenBounds();
-				if(windowOutOfBounds()) { //TODO
 					_popupInputSuggestions.hide();
-				} else {
-					_popupInputSuggestions.show(_main.getPrimaryStage());
-					_popupInputSuggestions.setY(newValue.doubleValue() + _main.getPrimaryStage().getHeight());
-				}
-			}	
-		});
+			}		
+		};
+		_main.getPrimaryStage().xProperty().addListener(windowPosChangeListener);	
+		_main.getPrimaryStage().yProperty().addListener(windowPosChangeListener);
 	}
+
+	private boolean windowOutOfBounds() {
+		Bounds bounds = _main.computeAllScreenBounds();
+		double x = _main.getPrimaryStage().getX();
+		double y = _main.getPrimaryStage().getY();
+		double width = _main.getPrimaryStage().getWidth();
+		double height = _main.getPrimaryStage().getHeight() + _popupInputSuggestions.getHeight() + WINDOWS_TASKBAR_HEIGHT;
+		
+		if (x < bounds.getMinX()) {
+			return true;
+		}
+		if (x + width > bounds.getMaxX()) {
+			return true;
+		}
+		if (y + height > bounds.getMaxY()) {
+			return true;
+		}
+		return false;
+	}
+
 	
 	@FXML
 	private void sceneListener(KeyEvent event) {

@@ -6,8 +6,6 @@ import urgenda.util.*;
 
 public class Storage {
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
-	private static final String SETTINGS_HELP = "help.txt";
-	private static final String SETTINGS_DIRECTORY = "settings";
 
 	private static final String DELIMITER_FILE_TYPE = "\\";
 	private static final String DESC_INTRO_TASK = "Add your first Task! Press Help or Alt + F1 for guidance";

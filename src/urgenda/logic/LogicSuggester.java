@@ -16,14 +16,14 @@ public class LogicSuggester {
 	private static final String ADD_FLOATING_MESSAGE = "Adds an untimed task";
 	
 	private static final String DEL_TASK = "<selected task> | [task no] | [task no]-[task no] | [desc]";
-	private static final String DEL_MESSAGE = "Deletes the task(s) selected by index or description";
+	private static final String DEL_MESSAGE = "Deletes selected task(s) by index or description";
 	
 	private static final String DONE_TASK = "<selected task> | [task no] | [task no]-[task no] | [desc]";
-	private static final String DONE_MESSAGE = "Marks the task(s) selected by index or description as done";
+	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
 	
 	// TODO feedback for edit
 	private static final String EDIT = "<selected task> | [task no]  [new desc] ";
-	private static final String EDIT_MESSAGE = "Edits the task selected by index";
+	private static final String EDIT_MESSAGE = "Edits description, date(s) and timing(s), and/or location of selected task";
 	
 	private static final String SEARCH_TASK = "[desc] | [date/day/time] | [task type]";
 	private static final String SEARCH_MESSAGE = "Searches for task(s) displayed that matches the given input";
@@ -32,10 +32,10 @@ public class LogicSuggester {
 	private static final String EXIT_MESSAGE = "Saves and exits Urgenda";
 	
 	private static final String SHOWMORE = "<selected task> | [task no] | [task no]-[task no]";
-	private static final String SHOWMORE_MESSAGE = "Shows more details for selected task(s)";
+	private static final String SHOWMORE_MESSAGE = "Toggle details of selected task(s)";
 	
 	private static final String ARCHIVE = "";
-	private static final String ARCHIVE_MESSAGE = "Shows all completed task(s) archived";
+	private static final String ARCHIVE_MESSAGE = "Show all tasks marked as completed";
 	
 	private static final String UNDO = "";
 	private static final String UNDO_MESSAGE = "Undo changes done by previous command";
@@ -44,7 +44,7 @@ public class LogicSuggester {
 	private static final String REDO_MESSAGE = "Redo changes done by previous undo";
 	
 	private static final String PRI = "<selected task> | [task no] | [task no]-[task no] | [desc]";
-	private static final String PRI_MESSAGE = "Prioritises the task(s) selected as important";
+	private static final String PRI_MESSAGE = "Toggle the importance for selected task(s)";
 	
 	private static final String BLOCK = "[desc] from [start] to [end], (multiple) [start] to [end]  "
 			+ "optional: @[location]";
@@ -54,20 +54,21 @@ public class LogicSuggester {
 	private static final String CONFIRM_MESSAGE = "Confirms the inputted slot for the timing of task selected";
 	
 	private static final String FIND_FREE = "[start] to [end]";
-	private static final String FIND_FREE_MESSAGE = "Finds all available timeslots between start and end";
+	private static final String FIND_FREE_MESSAGE = "Finds all available timeslots within given time range";
 	
 	private static final String HOME = "";
-	private static final String HOME_MESSAGE = "Returns to main page of Urgenda showing all outstanding tasks";
+	private static final String HOME_MESSAGE = "Displays default view of all tasks";
 	
 	private static final String POSTPONE = "<selected task> | [task no]  "
 			+ "[duration] (in years/months/days/hours/minutes/seconds)";
-	private static final String POSTPONE_MESSAGE = "Postpones the selected task by the duration";
+	private static final String POSTPONE_MESSAGE = "Postpones the selected task by given duration";
 	
 	private static final String HELP = "";
 	private static final String HELP_MESSAGE = "Displays the help manual for Urgenda";
 	
 	private static final String SAVETO = "[path directory]";
-	private static final String SAVETO_MESSAGE = "Changes the saving location of Urgenda to given directory";
+	private static final String SAVETO_MESSAGE = "Change the save directory of Urgenda";
+	
 	
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
 		ArrayList<String> suggestions;
@@ -222,5 +223,5 @@ public class LogicSuggester {
 		}
 		return suggestions;
 	}
-	
+
 }

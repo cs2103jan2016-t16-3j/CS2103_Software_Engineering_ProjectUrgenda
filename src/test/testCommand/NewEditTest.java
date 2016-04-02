@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import urgenda.command.NewEdit;
+import urgenda.command.Edit;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
@@ -36,12 +36,12 @@ public class NewEditTest {
 		
 		_data.setDisplays(_tasks);
 		Task testTask = new Task(1, "Buy milk and eggs", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, null);
-		NewEdit tester = new NewEdit();
+		Edit tester = new Edit();
 		tester.setId(0);
 		tester.setNewTask(testTask);
 		assertEquals("\"Buy milk\" has been edited to \"Buy milk and eggs\"",tester.execute());
 		Task testTask2 = new Task(2, null, "EVENT", "", true, false, true, LocalDateTime.of(2016, Month.APRIL, 5, 10, 00), LocalDateTime.of(2016, Month.APRIL, 5, 12, 00), LocalDateTime.now(), notime, _tags, null);
-		NewEdit tester2 = new NewEdit();
+		Edit tester2 = new Edit();
 		tester2.setNewTask(testTask2);
 		tester2.setId(1);
 		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute());
@@ -72,7 +72,7 @@ public class NewEditTest {
 		_tasks.add(obj2);
 		_data.setDisplays(_tasks);
 		Task testTask = new Task(1, "Buy milk and eggs", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, null);
-		NewEdit tester = new NewEdit();
+		Edit tester = new Edit();
 		tester.setId(0);
 		tester.setNewTask(testTask);
 		tester.execute();
@@ -89,7 +89,7 @@ public class NewEditTest {
 		_tasks.add(obj);
 		_data.setDisplays(_tasks);
 		Task testTask = new Task(1, "Buy milk and eggs", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, null);
-		NewEdit tester = new NewEdit();
+		Edit tester = new Edit();
 		tester.setId(0);
 		tester.setNewTask(testTask);
 		tester.execute();

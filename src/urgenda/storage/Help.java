@@ -45,26 +45,24 @@ public class Help {
 		logger.getLogger().info("constructing Help object");
 		InputStream is = this.getClass().getClassLoader().getResourceAsStream("resources/help.txt");
 		String result = getStringFromInputStream(is);
-//		System.out.println(result);
-		logger.getLogger().info(result);
 		String[] manual = result.split("\n\n");
+		for (int i = 0; i < manual.length; i++){
+			String help = manual[i].trim();
+			_manual.add(help);
+		}
+//		System.out.println(result);
+//		logger.getLogger().info(result);
 //		System.out.println(manual.length);
 //		for (int i = 0; i < manual.length; i++){
 //			System.out.println("index number: " + i);
 //			System.out.println(manual[i]);
 //		}
-		for (int i = 0; i < manual.length; i++){
-//			System.out.println("from array" + manual[i]);
-			String help = manual[i].trim();
-			_manual.add(help);
-//			System.out.println("from arraylist" + _manual.get(i));
-		}
 		
 //		addToManual(is);
-		for (int i = 0; i < _manual.size(); i++) {
+//		for (int i = 0; i < _manual.size(); i++) {
 //			System.out.println("index number: " + i);
 //			System.out.println(_manual.get(i));
-		}
+//		}
 		logger.getLogger().info("retrieved helpfile.");
 	}
 

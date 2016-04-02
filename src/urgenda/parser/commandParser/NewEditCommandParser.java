@@ -51,7 +51,7 @@ public class NewEditCommandParser {
 			System.out.print(descString + "\n");
 			System.out.print(numberOfRmFlag + "\n");
 			
-			NewEdit editCommand = new NewEdit();
+			Edit editCommand = new Edit();
 			Task newTask = new Task();
 			if (startTime != null) {
 				newTask.setStartTime(startTime);

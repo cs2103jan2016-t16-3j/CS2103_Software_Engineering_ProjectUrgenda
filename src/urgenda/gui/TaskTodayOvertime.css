@@ -51,6 +51,6 @@ Text {
 	-fx-font-size: 12px;
 }
 
-#taskDescText, #taskDateTimeText .text {
+#taskDescText, #taskDateTimeText {
 	-fx-strikethrough: true;
 }
