@@ -60,34 +60,49 @@ public class CommandParser {
 		COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
 		if (commandType == COMMAND_TYPE.INVALID) {
 			int numberOfWords = PublicFunctions.getNumberOfWords(commandString);
+			SuggestCommand suggestCommand;
 			if (numberOfWords == 1) {
 				String firstWord = PublicFunctions.getFirstWord(commandString).trim();
 				ArrayList<String> possibleCommands = getPossibleCommands(firstWord);
 				if (!possibleCommands.isEmpty()) {
-					return new SuggestCommand(null, possibleCommands, null);
+					suggestCommand = new SuggestCommand(null, possibleCommands, null);
 				} else {
-					return new SuggestCommand(null, null, null);
+					suggestCommand = new SuggestCommand(null, null, null);
 				}
+				boolean isDeadline = isDeadline(commandString);
+				boolean isEvent = isEvent(commandString);
+				suggestCommand.setIsDeadline(isDeadline);
+				suggestCommand.setIsEvent(isEvent);
+				return suggestCommand;
 			} else {
-				return new SuggestCommand(null, null, null);
+				suggestCommand = new SuggestCommand(null, null, null);
+				boolean isDeadline = isDeadline(commandString);
+				boolean isEvent = isEvent(commandString);
+				suggestCommand.setIsDeadline(isDeadline);
+				suggestCommand.setIsEvent(isEvent);
+				return suggestCommand;
 			}
 		} else {
 			SuggestCommand.Command command = convertCommandType(commandType);
-			DateTimeParser.searchTaskTimes(commandString);
-			TaskDetailsParser.searchTaskType();
+//			DateTimeParser.searchTaskTimes(commandString);
+//			TaskDetailsParser.searchTaskType();
 			SuggestCommand suggestCommand;
 			if (command != null) {
 				suggestCommand = new SuggestCommand(command, null, PublicFunctions.getFirstWord(commandString));
 			} else {
 				suggestCommand = new SuggestCommand(null, null, null);
 			}
-			if (PublicVariables.taskType == TASK_TYPE.DEADLINE) {
-				suggestCommand.setIsDeadline(true);
-				suggestCommand.setIsEvent(false);
-			} else if (PublicVariables.taskType == TASK_TYPE.EVENT) {
-				suggestCommand.setIsEvent(true);
-				suggestCommand.setIsDeadline(false);
-			}
+//			if (PublicVariables.taskType == TASK_TYPE.DEADLINE) {
+//				suggestCommand.setIsDeadline(true);
+//				suggestCommand.setIsEvent(false);
+//			} else if (PublicVariables.taskType == TASK_TYPE.EVENT) {
+//				suggestCommand.setIsEvent(true);
+//				suggestCommand.setIsDeadline(false);
+//			}
+			boolean isDeadline = isDeadline(commandString);
+			boolean isEvent = isEvent(commandString);
+			suggestCommand.setIsDeadline(isDeadline);
+			suggestCommand.setIsEvent(isEvent);
 			return suggestCommand;
 		}
 	}
@@ -253,6 +268,29 @@ public class CommandParser {
 			return helpCommand.generateAndReturn();
 		default:
 			return null;
+		}
+	}
+	
+	private static boolean isDeadline(String string) {
+		String lastWord = PublicFunctions.getLastWord(string);
+		if (PublicVariables.endTimeWords.contains(lastWord)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private static boolean isEvent(String string) {
+		String lastWord = PublicFunctions.getLastWord(string);
+		if (PublicVariables.startTimeWords.contains(lastWord) || PublicVariables.periodWords.contains(lastWord)) {
+			return true;
+		} else {
+			DateTimeParser.searchTaskTimes(string);
+			if (PublicVariables.taskStartTime != null) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 }

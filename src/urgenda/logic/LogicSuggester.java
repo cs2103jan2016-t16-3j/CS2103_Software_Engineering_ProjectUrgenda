@@ -22,10 +22,10 @@ public class LogicSuggester {
 	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
 	
 	// TODO feedback for edit
-	private static final String EDIT = "<selected task> | [task no] [new desc] ";
-	private static final String EDIT_MESSAGE = "Edits description, date(s) and timing(s), and/or location of selected task";
+	private static final String EDIT = "(<selected task> | [task no])  ([new desc] | @[location] | -r/-rm (remove a time) | from/-s [start] | to/by/-e [end])";
+	private static final String EDIT_MESSAGE = "Edits desc, date(s) and timing(s), and/or location of selected task";
 	
-	private static final String SEARCH_TASK = "[desc] | [date/day/time] | [task type]";
+	private static final String SEARCH_TASK = "[desc] | [date/month/day/time] | [task type]";
 	private static final String SEARCH_MESSAGE = "Searches for task(s) displayed that matches the given input";
 	
 	private static final String EXIT = "";
@@ -67,7 +67,7 @@ public class LogicSuggester {
 	private static final String SAVETO = "[path directory]";
 	private static final String SAVETO_MESSAGE = "Change the save directory of Urgenda";
 	
-	private static final String SUGGESTION_MESSAGE = "Matching commands to use";
+	private static final String SUGGESTION_MESSAGE = "Matching command(s) to use";
 	
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
 		ArrayList<String> suggestions;

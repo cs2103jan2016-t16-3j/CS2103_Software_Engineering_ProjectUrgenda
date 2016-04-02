@@ -115,4 +115,13 @@ public class PublicFunctions {
 			return array.length;
 		}
 	}
+	
+	public static String getLastWord(String string) {
+		if (string == null) {
+			return null;
+		} else {
+			String[] array = string.split("\\s+");
+			return array[array.length-1].trim();
+		}
+	}
 }
