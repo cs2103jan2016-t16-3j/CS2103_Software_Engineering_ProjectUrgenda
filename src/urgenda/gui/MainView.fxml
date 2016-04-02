@@ -16,8 +16,10 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="600.0" onKeyPressed="#sceneListener" prefHeight="650.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
          <top>
@@ -61,7 +63,7 @@
                               <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
-                        <MenuItem fx:id="menuShowmore" mnemonicParsing="false" onAction="#showmoreMenuListener" text="Toggle Details for Selected Task">
+                        <MenuItem fx:id="menuShowmore" mnemonicParsing="false" onAction="#showmoreListener" text="Toggle Details for Selected Task">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="SLASH" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
@@ -144,6 +146,19 @@
             </AnchorPane>
          </bottom>
          <center>
-         <fx:include fx:id="displayArea" source="DisplayView.fxml" />
+            <StackPane>
+               <children>
+                  <fx:include fx:id="displayArea" source="DisplayView.fxml" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <BorderPane fx:id="demoPane" layoutX="175.0" layoutY="150.0" prefHeight="150.0" prefWidth="250.0" visible="false">
+                     <center>
+                        <Text fx:id="demoText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Urgenda! This automated demo will showcase the features of Urgenda that will help you manage your tasks more effectively than ever!" textAlignment="CENTER" wrappingWidth="230.0" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+               </children>
+            </StackPane>
          </center>
       </BorderPane>

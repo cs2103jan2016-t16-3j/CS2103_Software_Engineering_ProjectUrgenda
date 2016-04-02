@@ -23,7 +23,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String SUBSTRING_DATE_TIME_END = "end";
 	private static final String SUBSTRING_DATE_TIME_DURATION = "duration";
 	private static final String SUBSTRING_DATE_TIME_DEADLINE = "deadline";
-	private static final String SUBSTRING_DATE_TIME_SEARCH = "date/day/time";
+	private static final String SUBSTRING_DATE_TIME_SEARCH = "date/month/day/time";
 	private static final String SUBSTRING_TASK_TYPE_SEARCH = "task type";
 	private static final String SUBSTRING_LOCATION = "location";
 	private static final String SUBSTRING_PATH_DIRECTORY = "path directory";
@@ -33,7 +33,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final Color COLOR_INDEX = Color.web("#FFAF4B"); //orange
 	private static final Color COLOR_DESC = Color.web("#FF7FB6"); //pink
 	private static final Color COLOR_DATE_TIME = Color.web("#86E086"); //green
-	private static final Color COLOR_TASK_TYPE = Color.web("#86E086"); //green
+	private static final Color COLOR_TASK_TYPE = Color.web("#559BFF"); //blue
 	private static final Color COLOR_LOCATION = Color.web("#000000"); //black
 	private static final Color COLOR_PATH_DIRECTORY = Color.web("#B5B5B5"); //grey
 	private static final Color COLOR_SUGGESTED_COMMANDS = Color.web("#B5B5B5"); //grey
@@ -129,7 +129,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 		if(isSuggestion) {
 			delimiter.setText(" | ");
 		} else {
-			delimiter.setText("|");
+			delimiter.setText("/");
 		}
 		delimiter.setFill(COLOR_DEFAULT);
 		singleSuggestion.getChildren().add(delimiter);

@@ -189,7 +189,7 @@ public class Main extends Application {
 		return _primaryStage;
 	}
 
-	public String runDemoScreen() {
+	public String activateDemoScreen() {
 		StateFeedback state = new DemoStateFeedback();
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
 		_mainController.updateOverdueCount(state.getOverdueCount());
