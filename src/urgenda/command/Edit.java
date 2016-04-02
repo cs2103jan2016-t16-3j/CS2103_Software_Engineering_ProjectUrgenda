@@ -7,7 +7,7 @@ import urgenda.logic.LogicData;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
-public class NewEdit extends TaskCommand {
+public class Edit extends TaskCommand {
 
 	private static final String MESSAGE_NO_EDIT_MATCH = "Invalid task number. No matches found to edit";
 	private static final String MESSAGE_EDIT = " has been edited to ";
