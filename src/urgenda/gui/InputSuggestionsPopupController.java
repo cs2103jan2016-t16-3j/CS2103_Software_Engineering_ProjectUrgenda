@@ -10,7 +10,7 @@ import urgenda.util.SuggestFeedback;
 public class InputSuggestionsPopupController extends BorderPane {
 
 	private static final String PATH_INPUT_SUGGESTIONS_CSS = "InputSuggestions.css";
-	private static final Color COLOR_INDEX = Color.web("");
+	//private static final Color COLOR_INDEX = Color.web("");
 	
 	
 	@FXML
@@ -31,11 +31,11 @@ public class InputSuggestionsPopupController extends BorderPane {
 	public void updateSuggestions(SuggestFeedback retrieveSuggestions) {
 		System.out.println("update suggestions");
 		_currSuggestions = retrieveSuggestions;
-		if (_currSuggestions.isCommand()) {
-			commandWordText.setText(_currSuggestions.getCurrCmd());
-		} else {
-			commandWordText.setText("");
-		}
+//		if (_currSuggestions.isCommand()) {
+//			commandWordText.setText(_currSuggestions.getCurrCmd());
+//		} else {
+//			commandWordText.setText("");
+//		}
 		
 	}
 }
