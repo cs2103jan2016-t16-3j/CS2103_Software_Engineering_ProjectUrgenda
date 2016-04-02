@@ -16,8 +16,10 @@ public class Complete extends TaskCommand {
 	private static final String MESSAGE_UNDONE = "To do ";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	private static final String MESSAGE_NO_COMPLETE_MATCH = "No matches found to complete";
-	private static final String MESSAGE_NUM_DONE = "%1$s tasks have been done:";
-	private static final String MESSAGE_NUM_UNDONE = "%1$s tasks to be done:";
+	private static final String MESSAGE_NUM_DONE = "%1$s tasks have been marked as done: ";
+	private static final String MESSAGE_NUM_UNDONE = "%1$s tasks to be done: ";
+	private static final String MESSAGE_TASK_DESC = "\"%1$s\", ";
+	private static final String COMMA_DELIMITER = ",";
 
 	// for undo of completed task
 	private String _desc;
@@ -71,8 +73,9 @@ public class Complete extends TaskCommand {
 	private String multipleTaskFeedback() {
 		String feedback = "";
 		for (Task task : _completedTasks) {
-			feedback += "\n" + taskMessageWithMulti(task);
+			feedback += String.format(MESSAGE_TASK_DESC, task.getDesc());
 		}
+		feedback = feedback.substring(0, feedback.lastIndexOf(COMMA_DELIMITER));
 		return feedback;
 	}
 

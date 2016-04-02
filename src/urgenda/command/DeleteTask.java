@@ -16,8 +16,10 @@ public class DeleteTask extends TaskCommand {
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_NO_DELETE_MATCH = "No matches found to delete";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
-	private static final String MESSAGE_NUM_REMOVED = "%1$s tasks have been removed:";
-	private static final String MESSAGE_NUM_ADDED = "%1$s tasks have been added:";
+	private static final String MESSAGE_NUM_REMOVED = "%1$s tasks have been removed: ";
+	private static final String MESSAGE_NUM_ADDED = "%1$s tasks have been added: ";
+	private static final String MESSAGE_TASK_DESC = "\"%1$s\", ";
+	private static final String COMMA_DELIMITER = ",";
 
 	// desc will be entered if there was a description for deletion
 	// else one or more integers will be indicated
@@ -73,8 +75,9 @@ public class DeleteTask extends TaskCommand {
 	private String multipleTaskFeedback() {
 		String feedback = "";
 		for (Task task : _deletedTasks) {
-			feedback += "\n" + taskMessageWithMulti(task);
+			feedback += String.format(MESSAGE_TASK_DESC, task.getDesc());
 		}
+		feedback = feedback.substring(0, feedback.lastIndexOf(COMMA_DELIMITER));
 		return feedback;
 	}
 
