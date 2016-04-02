@@ -55,6 +55,7 @@ public class CommandParser {
 	}
 
 	public static SuggestCommand parseRuntimeInput(String commandString) {
+		PublicFunctions.reinitializePublicVariables();
 		commandString = commandString.toLowerCase();
 		COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
 		if (commandType == COMMAND_TYPE.INVALID) {
@@ -72,12 +73,20 @@ public class CommandParser {
 			}
 		} else {
 			SuggestCommand.Command command = convertCommandType(commandType);
-
+			DateTimeParser.searchTaskTimes(commandString);
+			TaskDetailsParser.searchTaskType();
+			SuggestCommand suggestCommand;
 			if (command != null) {
-				return new SuggestCommand(command, null, PublicFunctions.getFirstWord(commandString));
+				suggestCommand = new SuggestCommand(command, null, PublicFunctions.getFirstWord(commandString));
 			} else {
-				return new SuggestCommand(null, null, null);
+				suggestCommand = new SuggestCommand(null, null, null);
 			}
+			if (PublicVariables.taskType == TASK_TYPE.DEADLINE) {
+				suggestCommand.setIsDeadline(true);
+			} else if (PublicVariables.taskType == TASK_TYPE.EVENT) {
+				suggestCommand.setIsEvent(true);
+			}
+			return suggestCommand;
 		}
 	}
 
