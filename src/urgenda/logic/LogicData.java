@@ -16,7 +16,7 @@ import urgenda.util.MultipleSlot;
 import urgenda.util.UrgendaLogger;
 import urgenda.util.StateFeedback;
 import urgenda.util.Task;
-import urgenda.util.UrgendaException;
+import urgenda.util.StorageException;
 import urgenda.util.DateTimePair;
 
 public class LogicData {
@@ -659,7 +659,7 @@ public class LogicData {
 		return _storage.getDirPath();
 	}
 
-	public void changeDirectory(String path) throws UrgendaException {
+	public void changeDirectory(String path) throws StorageException {
 		_storage.changeFileSettings(path);
 	}
 

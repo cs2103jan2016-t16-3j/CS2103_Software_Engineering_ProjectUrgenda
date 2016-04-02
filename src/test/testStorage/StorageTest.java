@@ -15,7 +15,7 @@ import urgenda.storage.Storage;
 import urgenda.storage.StorageTester;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
-import urgenda.util.UrgendaException;
+import urgenda.util.StorageException;
 
 public class StorageTest {
 	private static final String TEST_FILE_LOCATION = "testfiles";
@@ -43,7 +43,7 @@ public class StorageTest {
 
 		try {
 			store.changeFileSettings(TEST_FILE_LOCATION_2);
-		} catch (UrgendaException e) {
+		} catch (StorageException e) {
 			
 		}
 
@@ -73,7 +73,7 @@ public class StorageTest {
 
 		try {
 			store.changeFileSettings(TEST_FILE_NEW_LOCATION);
-		} catch (UrgendaException e) {
+		} catch (StorageException e) {
 			assertEquals(TEST_FILE_LOCATION_2, e.getDir());
 			assertEquals(TEST_FILE_NAME_2, e.getName());
 			assertEquals(EXCEPTION_ERROR_MESSAGE_2, e.getMessage());
@@ -100,7 +100,7 @@ public class StorageTest {
 
 		try {
 			store.changeFileSettings(TEST_FILE_NEW_LOCATION);
-		} catch (UrgendaException e) {
+		} catch (StorageException e) {
 
 		}
 

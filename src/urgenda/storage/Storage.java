@@ -80,7 +80,7 @@ public class Storage {
 		_file.relocate(path);
 	}
 
-	public void changeFileSettings(String path) throws UrgendaException {
+	public void changeFileSettings(String path) throws StorageException {
 		String fileType = path.trim().substring(path.length() - 4);
 		if (fileType.equals(".txt")) {
 			String dir = path.trim().substring(0, path.lastIndexOf(DELIMITER_FILE_TYPE));
@@ -95,7 +95,7 @@ public class Storage {
 				_settings.setFileDir(dir);
 				_settings.setFileName(name);
 				_settings.saveSettings();
-				throw new UrgendaException(dir, name); 
+				throw new StorageException(dir, name); 
 			}
 		} else {
 			changeFilePath(path);

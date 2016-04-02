@@ -1,12 +1,12 @@
 package urgenda.util;
 
-public class UrgendaException extends Exception{
+public class StorageException extends Exception{
 	private static final String ERROR_MESSAGE = "%1$s already exist in %2$s. \nLoading tasks from existing file";
 	
 	private String _dir;
 	private String _name;
 	
-	public UrgendaException(String dir, String name){
+	public StorageException(String dir, String name){
 		_dir = dir;
 		_name = name;
 	}

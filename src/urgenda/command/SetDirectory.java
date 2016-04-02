@@ -1,7 +1,7 @@
 package urgenda.command;
 
 import urgenda.logic.LogicData;
-import urgenda.util.UrgendaException;
+import urgenda.util.StorageException;
 
 public class SetDirectory extends Command {
 	
@@ -22,7 +22,7 @@ public class SetDirectory extends Command {
 		}
 		try {
 			data.changeDirectory(_newPath);
-		} catch (UrgendaException e) {
+		} catch (StorageException e) {
 			data.reinitialiseStorage();
 			return e.getMessage();
 		}
