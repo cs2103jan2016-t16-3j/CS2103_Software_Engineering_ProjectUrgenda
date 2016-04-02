@@ -54,22 +54,22 @@ public class CommandParser {
 		}
 	}
 
-	public static SuggestCommand parseRuntimeInput(String commandString, int index) {
-		commandString = commandString.trim().toLowerCase();
-		int numberOfWords = PublicFunctions.getNumberOfWords(commandString);
-		if (numberOfWords > 1 || (numberOfWords == 1 && commandString.charAt(commandString.length() - 1) == ' ')) {
-			COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
-			SuggestCommand.Command command = convertCommandType(commandType);
-
-			if (command != null) {
-				return new SuggestCommand(command, null, PublicFunctions.getFirstWord(commandString));
+	public static SuggestCommand parseRuntimeInput(String commandString) {
+		commandString = commandString.toLowerCase();
+		COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
+		if (commandType == COMMAND_TYPE.INVALID) {
+			String firstWord = PublicFunctions.getFirstWord(commandString).trim();
+			ArrayList<String> possibleCommands = getPossibleCommands(firstWord);
+			if (!possibleCommands.isEmpty()) {
+				return new SuggestCommand(null, possibleCommands, null);
 			} else {
 				return new SuggestCommand(null, null, null);
 			}
 		} else {
-			ArrayList<String> possibleCommands = getPossibleCommands(commandString);
-			if (!possibleCommands.isEmpty()) {
-				return new SuggestCommand(null, possibleCommands, null);
+			SuggestCommand.Command command = convertCommandType(commandType);
+
+			if (command != null) {
+				return new SuggestCommand(command, null, PublicFunctions.getFirstWord(commandString));
 			} else {
 				return new SuggestCommand(null, null, null);
 			}
@@ -162,15 +162,17 @@ public class CommandParser {
 		commandSet.add(PublicVariables.showDetailsKeyWords);
 		commandSet.add(PublicVariables.archiveKeyWords);
 		commandSet.add(PublicVariables.findFreeKeyWords);
-		
+
 		for (Set<String> setString : commandSet) {
 			for (String string : setString) {
-				if (string.substring(0, commandString.length()-1).equals(commandString)) {
-					returnedArray.add(string);
+				if (string.length() > commandString.length() && commandString.length() != 0) {
+					if (string.substring(0, commandString.length() - 1).equals(commandString)) {
+						returnedArray.add(string);
+					}
 				}
 			}
 		}
-		
+
 		return returnedArray;
 	}
 
