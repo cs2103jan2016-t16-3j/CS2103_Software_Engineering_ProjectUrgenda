@@ -51,7 +51,7 @@ public class PublicVariables {
 	public static final Set<String> postponeKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "postpone", "delay", "move" }));
 	public static final Set<String> confirmKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "confirm", "cmf" }));
+			Arrays.asList(new String[] { "confirm", "cfm" }));
 	public static final Set<String> setDirectoryKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "saveto", "cd" }));
 	public static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(new String[] { "exit", "quit" }));

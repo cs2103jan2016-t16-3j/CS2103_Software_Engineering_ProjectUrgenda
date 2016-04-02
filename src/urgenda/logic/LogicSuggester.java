@@ -67,7 +67,7 @@ public class LogicSuggester {
 	private static final String SAVETO = "[path directory]";
 	private static final String SAVETO_MESSAGE = "Change the save directory of Urgenda";
 	
-	private static final String SUGGESTION_MESSAGE = "Matching commands to use";
+	private static final String SUGGESTION_MESSAGE = "Matching command(s) to use";
 	
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
 		ArrayList<String> suggestions;
