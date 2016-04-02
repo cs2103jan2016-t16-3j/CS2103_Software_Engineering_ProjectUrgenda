@@ -106,4 +106,13 @@ public class PublicFunctions {
 			return time2;
 		}
 	}
+	
+	public static int getNumberOfWords(String string) {
+		if (string == null) {
+			return 0;
+		} else {
+			String[] array = string.split("\\s+");
+			return array.length;
+		}
+	}
 }

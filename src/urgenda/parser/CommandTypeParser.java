@@ -10,8 +10,6 @@ public class CommandTypeParser {
 			return COMMAND_TYPE.DELETE;
 		} else if (PublicVariables.addKeyWords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.ADD;
-		} else if (PublicVariables.allocateKeyWords.contains(lowerCaseFirstWord)) {
-			return COMMAND_TYPE.ALLOCATE;
 		} else if (PublicVariables.doneKeyWords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.COMPLETE;
 		} else if (PublicVariables.updateKeyWords.contains(lowerCaseFirstWord)) {

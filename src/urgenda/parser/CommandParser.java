@@ -54,14 +54,131 @@ public class CommandParser {
 		}
 	}
 
+	public static SuggestCommand parseRuntimeInput(String commandString, int index) {
+		commandString = commandString.trim().toLowerCase();
+		int numberOfWords = PublicFunctions.getNumberOfWords(commandString);
+		if (numberOfWords > 1 || (numberOfWords == 1 && commandString.charAt(commandString.length() - 1) == ' ')) {
+			COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
+			SuggestCommand.Command command = convertCommandType(commandType);
+
+			if (command != null) {
+				return new SuggestCommand(command, null, PublicFunctions.getFirstWord(commandString));
+			} else {
+				return new SuggestCommand(null, null, null);
+			}
+		} else {
+			ArrayList<String> possibleCommands = getPossibleCommands(commandString);
+			if (!possibleCommands.isEmpty()) {
+				return new SuggestCommand(null, possibleCommands, null);
+			} else {
+				return new SuggestCommand(null, null, null);
+			}
+		}
+	}
+
+	private static SuggestCommand.Command convertCommandType(COMMAND_TYPE commandType) {
+		SuggestCommand.Command command = null;
+		switch (commandType) {
+		case ADD:
+			command = SuggestCommand.Command.ADD;
+			break;
+		case COMPLETE:
+			command = SuggestCommand.Command.DONE;
+			break;
+		case DELETE:
+			command = SuggestCommand.Command.DELETE;
+			break;
+		case EDIT:
+			command = SuggestCommand.Command.EDIT;
+			break;
+		case EXIT:
+			command = SuggestCommand.Command.EXIT;
+			break;
+		case PRIORITISE:
+			command = SuggestCommand.Command.PRIORITISE;
+			break;
+		case REDO:
+			command = SuggestCommand.Command.REDO;
+			break;
+		case SEARCH:
+			command = SuggestCommand.Command.SEARCH;
+			break;
+		case SHOW_ARCHIVE:
+			command = SuggestCommand.Command.ARCHIVE;
+			break;
+		case SHOW_DETAILS:
+			command = SuggestCommand.Command.SHOWMORE;
+			break;
+		case BLOCK:
+			command = SuggestCommand.Command.BLOCK;
+			break;
+		case FIND_FREE:
+			command = SuggestCommand.Command.FIND_FREE;
+			break;
+		case HOME:
+			command = SuggestCommand.Command.HOME;
+			break;
+		case UNDO:
+			command = SuggestCommand.Command.UNDO;
+			break;
+		case POSTPONE:
+			command = SuggestCommand.Command.POSTPONE;
+			break;
+		case CONFIRM:
+			command = SuggestCommand.Command.CONFIRM;
+			break;
+		case SET_DIRECTORY:
+			command = SuggestCommand.Command.SAVETO;
+			break;
+		case HELP:
+			command = SuggestCommand.Command.HELP;
+			break;
+		default:
+			break;
+		}
+		return command;
+	}
+
+	private static ArrayList<String> getPossibleCommands(String commandString) {
+		ArrayList<String> returnedArray = new ArrayList<String>();
+
+		Set<Set<String>> commandSet = new HashSet<Set<String>>();
+		commandSet.add(PublicVariables.addKeyWords);
+		commandSet.add(PublicVariables.deleteKeyWords);
+		commandSet.add(PublicVariables.doneKeyWords);
+		commandSet.add(PublicVariables.updateKeyWords);
+		commandSet.add(PublicVariables.exitKeyWords);
+		commandSet.add(PublicVariables.prioritiseKeyWords);
+		commandSet.add(PublicVariables.redoKeywords);
+		commandSet.add(PublicVariables.undoKeywords);
+		commandSet.add(PublicVariables.searchKeyWords);
+		commandSet.add(PublicVariables.undoKeywords);
+		commandSet.add(PublicVariables.helpKeyWords);
+		commandSet.add(PublicVariables.homeKeyWords);
+		commandSet.add(PublicVariables.blockKeyWords);
+		commandSet.add(PublicVariables.confirmKeyWords);
+		commandSet.add(PublicVariables.postponeKeyWords);
+		commandSet.add(PublicVariables.setDirectoryKeyWords);
+		commandSet.add(PublicVariables.showDetailsKeyWords);
+		commandSet.add(PublicVariables.archiveKeyWords);
+		commandSet.add(PublicVariables.findFreeKeyWords);
+		
+		for (Set<String> setString : commandSet) {
+			for (String string : setString) {
+				if (string.contains(commandString)) {
+					returnedArray.add(string);
+				}
+			}
+		}
+		
+		return returnedArray;
+	}
+
 	private static Command generateAndReturnCommandObjects(COMMAND_TYPE commandType, String argsString, int index) {
 		switch (commandType) {
 		case ADD:
 			AddCommandParser addCommand = new AddCommandParser(argsString, index);
 			return addCommand.generateAndReturn();
-		case ALLOCATE:
-			BlockSlotsCommandParser blockSlotsCommand = new BlockSlotsCommandParser(argsString, index);
-			return blockSlotsCommand.generateAndReturn();
 		case COMPLETE:
 			CompleteCommandParser completeCommand = new CompleteCommandParser(argsString, index);
 			return completeCommand.generateAndReturn();

@@ -11,7 +11,7 @@ import urgenda.util.MultipleSlot;
 
 public class PublicVariables {
 	public static enum COMMAND_TYPE {
-		ADD, DELETE, ALLOCATE, COMPLETE, EDIT, HELP, SEARCH, SHOW_DETAILS, BLOCK, 
+		ADD, DELETE, COMPLETE, EDIT, HELP, SEARCH, SHOW_DETAILS, BLOCK, 
 		FIND_FREE, HOME, UNDO, REDO, SHOW_ARCHIVE, CONFIRM, SET_DIRECTORY, PRIORITISE, 
 		POSTPONE, INVALID, EXIT
 	}
@@ -29,8 +29,6 @@ public class PublicVariables {
 	public static final Set<String> deleteKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "delete", "del", "erase", "remove" }));
 	public static final Set<String> addKeyWords = new HashSet<String>(Arrays.asList(new String[] { "add", "create" }));
-	public static final Set<String> allocateKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "block", "reserve", "alloc", "comfirm", "cmf" }));
 	public static final Set<String> doneKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "done", "complete", "completed", "mark", "finish", "fin" }));
 	public static final Set<String> updateKeyWords = new HashSet<String>(
@@ -41,7 +39,7 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "showmore" }));
 	public static final Set<String> homeKeyWords = new HashSet<String>(Arrays.asList(new String[] { "home" }));
 	public static final Set<String> blockKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "block", "rev", "reserve" }));
+			Arrays.asList(new String[] { "block", "rev", "reserve", "alloc" }));
 	public static final Set<String> findFreeKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "findfree", "free", "checkfree" }));
 	public static final Set<String> undoKeywords = new HashSet<String>(Arrays.asList(new String[] { "undo" }));
