@@ -14,6 +14,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
 
@@ -27,10 +29,8 @@ public class DisplayController extends AnchorPane {
 		DOWN, UP, LEFT, RIGHT
 	}
 
-	private static final String MESSAGE_ZERO_TASKS = "You have no tasks to display!";
+	private static final String MESSAGE_ZERO_TASKS = "\nYou have no tasks to display!";
 	private static final String KEYWORD_SHOWMORE = "showmore";
-
-	private static final double DEFAULT_EMPTY_TASKS_DISPLAY_HEIGHT = 100;
 
 	/*
 	 * COLORS 
@@ -192,9 +192,9 @@ public class DisplayController extends AnchorPane {
 	}
 
 	private void showZeroTasksFeedback() {
-		Label emptyDisplay = new Label(MESSAGE_ZERO_TASKS);
-		emptyDisplay.setPrefHeight(DEFAULT_EMPTY_TASKS_DISPLAY_HEIGHT);
+		Text emptyDisplay = new Text(MESSAGE_ZERO_TASKS);
 		emptyDisplay.setFont(Main.BOLD_FONT);
+		emptyDisplay.setFill(Color.WHITE);
 		displayHolder.getChildren().add(emptyDisplay);
 	}
 	

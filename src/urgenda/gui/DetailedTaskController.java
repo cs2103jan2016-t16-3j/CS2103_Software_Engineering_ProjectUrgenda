@@ -40,6 +40,7 @@ public class DetailedTaskController extends SimpleTaskController {
 	
 	public DetailedTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		super(task, index, taskDisplayType, showHeader);
+		multipleSlotCounter.setVisible(false);
 		initDetailedLabels();
 	}
 

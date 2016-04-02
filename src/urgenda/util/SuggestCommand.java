@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SuggestCommand {
 
 	public enum Command {
-		ADD, BLOCK, DONE, CONFIRM, DELETE, EXIT, FIND_FERE, HELP, HOME, EDIT,
+		ADD, BLOCK, DONE, CONFIRM, DELETE, EXIT, FIND_FREE, HELP, HOME, EDIT,
 		POSTPONE, PRIORITISE, REDO, SEARCH, SAVETO, ARCHIVE, SHOWMORE, UNDO
 	}
 	// AL of possible FULL versions of command IN STRING (since each type has diff variations)
@@ -17,6 +17,11 @@ public class SuggestCommand {
 	// String of current command (use only if command is confirmed)
 	private String _currCmd;
 	
+	// two booleans for detecting whether the keywords "by" (deadline = true)
+	// or if a timing has been detected (event = true)
+	private boolean _isDeadline = false;
+	private boolean _isEvent = false;
+	
 	public SuggestCommand(Command confirmed, ArrayList<String> possibleCommands, String currCmd) {
 		_confirmedCommand = confirmed;
 		_possibleCommands = possibleCommands;
@@ -27,6 +32,14 @@ public class SuggestCommand {
 		_confirmedCommand = confirmed;
 		_possibleCommands = possibleCommands;
 		_currCmd = null;
+	}
+	
+	public void setIsDeadline(boolean isDeadline) {
+		_isDeadline = isDeadline;
+	}
+	
+	public void setIsEvent(boolean isEvent) {
+		_isEvent = isEvent;
 	}
 	
 	public Command getConfirmedCommand() {

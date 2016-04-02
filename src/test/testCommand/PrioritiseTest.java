@@ -1,4 +1,4 @@
-package test.testCommand;
+package testCommand;
 
 import static org.junit.Assert.assertEquals;
 

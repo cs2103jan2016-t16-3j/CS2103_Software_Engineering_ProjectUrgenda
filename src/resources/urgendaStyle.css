@@ -27,10 +27,18 @@
 	-fx-text-fill: white;
 }
 
-#displayHeader {
+#displayHeaderPrefix {
 	-fx-font-family: "Montserrat Ultra Light";
 	-fx-font-size: 20px;
 	-fx-text-fill: white;
+}
+
+#displayHeader {
+	-fx-font-family: "Montserrat";
+	-fx-font-size: 16px;
+	-fx-text-fill: #474E60;
+	-fx-background-color: grey;
+	-fx-background-radius: 5px;
 }
 
 #overdueIndicatorLabel {
@@ -43,8 +51,18 @@
 	-fx-background-color: #474E60;
 }
 
-#feedbackPane {
+#displayArea {
+	-fx-background-insets: 0px;
 	-fx-background-color: #313745;
+}
+
+#displayArea .viewport{
+	-fx-background-color: #313745;
+
+} 
+
+#feedbackPane {
+	-fx-background-color: #474E60;
 }
 
 #feedbackArea {
@@ -71,9 +89,19 @@
 }
 
 #inputBar {
-	-fx-background-radius: 0, 0;
+	-fx-background-radius: 0;
+	-fx-background-insets: 0;
 	-fx-font-family: "Montserrat Light";
 	-fx-font-size: 17px;
+}
+
+#inputBar .arrow-button .arrow, #inputBar .arrow-button {
+	-fx-cursor: text;
+	-fx-padding: 0;
+}
+
+#inputBar .list-view {
+	-fx-background-color: white;
 }
 
 #helpPane {
@@ -94,7 +122,8 @@
 	-fx-border-color: transparent;
 }
 
-#helpContentPane .scroll-pane:fitToWidth .viewport .content, #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical .track-background {
+#helpContentPane .scroll-pane:fitToWidth .viewport .content, #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical .track-background, #helpPrev, #helpNext {
+	-fx-background-radius: 0.0;
 	-fx-background-color: #474E60;
 }
 

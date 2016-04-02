@@ -7,14 +7,19 @@ import java.util.logging.Level;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import urgenda.logic.Logic;
 import urgenda.util.StateFeedback;
 import urgenda.util.StateFeedback.State;
+import urgenda.util.SuggestFeedback;
 import urgenda.util.UrgendaLogger;
 
 public class Main extends Application {
@@ -25,11 +30,12 @@ public class Main extends Application {
 	public static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
 	public static final String PATH_LIGHT_FONT = new String("../../resources/Montserrat-UltraLight.ttf");
 	
-	private static final String HEADER_ALL_TASKS = "Showing ALL TASKS";
-	private static final String HEADER_ALL_WITH_COMPLETED_TASKS = "Showing ALL TASKS WITH COMPLETED TASKS";
-	private static final String HEADER_FREE_TIME = "Showing AVAILABLE TIME PERIODS";
-	private static final String HEADER_SEARCH_RESULTS = "Showing SEARCH RESULTS";
-	private static final String HEADER_MULTIPLE_MATCHES = "Showing MULTIPLE MATCHES";
+	private static final String HEADER_ALL_TASKS = "ALL TASKS";
+	private static final String HEADER_ALL_WITH_COMPLETED_TASKS = "ALL TASKS WITH COMPLETED TASKS";
+	private static final String HEADER_FREE_TIME = "AVAILABLE TIME PERIODS";
+	private static final String HEADER_SEARCH_RESULTS = "SEARCH RESULTS";
+	private static final String HEADER_ARCHIVE_TASKS = "ARCHIVE TASKS";
+	private static final String HEADER_MULTIPLE_MATCHES = "MULTIPLE MATCHES";
 
 	private static final int DEFAULT_REGULAR_FONT_SIZE = 20;
 	private static final int DEFAULT_BOLD_FONT_SIZE = 20;
@@ -49,6 +55,7 @@ public class Main extends Application {
 	private DisplayController _displayController;
 	private Logic _logic;
 	private static Stage _primaryStage;
+	private StateFeedback _currState;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -57,6 +64,7 @@ public class Main extends Application {
 		initRootLayout();
 		initDisplay();
 		initStage(primaryStage);
+		initFeatures();
 	}
 
 	private void initLogger() {
@@ -84,10 +92,9 @@ public class Main extends Application {
 
 	private void initDisplay() {
 		_displayController = _mainController.getDisplayController();
-		StateFeedback state = retrieveStartupState();
+		_currState = retrieveStartupState();
 		//TODO implement check settings for showing novice headers, change boolean below
-		_displayController.initDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true);
-		_mainController.updateOverdueCount(state.getOverdueCount());
+		_displayController.initDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true);
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of display view");
 	}
 
@@ -103,6 +110,11 @@ public class Main extends Application {
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of Urgenda window");
 	}
 
+	private void initFeatures() {
+		_mainController.updateOverdueCount(_currState.getOverdueCount());
+		_mainController.setupTypeSuggestions();
+	}
+	
 	private StateFeedback retrieveStartupState() {
 		StateFeedback state = _logic.retrieveStartupState();
 		_mainController.displayFeedback(state.getFeedback());
@@ -110,26 +122,26 @@ public class Main extends Application {
 	}
 	
 	protected String handleCommandLine(String commandLine) {
-		StateFeedback state = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
-		if(state.getState() == State.SHOW_HELP) {
+		_currState = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
+		if(_currState.getState() == State.SHOW_HELP) {
 			_mainController.showHelp();
-		} else if(state.getState() == State.EXIT) {
+		} else if(_currState.getState() == State.EXIT) {
 			quit();
 		}
 		//TODO implement check settings for showing novice headers, change boolean below
-		switch(state.getState()) {
+		switch(_currState.getState()) {
 		case FIND_FREE:
-			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, true);
+			_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, true);
 			break;
 		case HIDE:
 			_primaryStage.setIconified(true);
 			//fall-through
 		default:
-			_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
+			_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, false);
 			break;
 		}
-		_mainController.updateOverdueCount(state.getOverdueCount());
-		return state.getFeedback();
+		_mainController.updateOverdueCount(_currState.getOverdueCount());
+		return _currState.getFeedback();
 	}
 	
 
@@ -155,7 +167,7 @@ public class Main extends Application {
 			display = HEADER_FREE_TIME;
 			break;
 		case ARCHIVE:
-			display = "Showing ARCHIVE TASKS";
+			display = HEADER_ARCHIVE_TASKS;
 			break;
 		case ALL_TASKS: //fall-through
 		default:
@@ -180,6 +192,7 @@ public class Main extends Application {
 	public String runDemoScreen() {
 		StateFeedback state = new DemoStateFeedback();
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
+		_mainController.updateOverdueCount(state.getOverdueCount());
 		return state.getFeedback();
 	}
 
@@ -203,4 +216,30 @@ public class Main extends Application {
 		launch(args);
 	}
 
+	public SuggestFeedback retriveSuggestions(String text) {
+		return null;
+	}
+
+	public Bounds computeAllScreenBounds() {
+        double minX = Double.POSITIVE_INFINITY ;
+        double minY = Double.POSITIVE_INFINITY ;
+        double maxX = Double.NEGATIVE_INFINITY ;
+        double maxY = Double.NEGATIVE_INFINITY ;
+        for (Screen screen : Screen.getScreens()) {
+            Rectangle2D screenBounds = screen.getBounds();
+            if (screenBounds.getMinX() < minX) {
+                minX = screenBounds.getMinX();
+            }
+            if (screenBounds.getMinY() < minY) {
+                minY = screenBounds.getMinY() ;
+            }
+            if (screenBounds.getMaxX() > maxX) {
+                maxX = screenBounds.getMaxX();
+            }
+            if (screenBounds.getMaxY() > maxY) {
+                maxY = screenBounds.getMaxY() ;
+            }
+        }
+        return new BoundingBox(minX, minY, maxX-minX, maxY-minY);
+    }
 }

@@ -8,8 +8,50 @@ import urgenda.util.SuggestFeedback;
 
 public class LogicSuggester {
 	
+	private static final String ADD_EVENT = "[desc] [start] to [end] @[location](optional)";
+	private static final String ADD_EVENT_MESSAGE = "Adds a task spanning across a time period";
+	private static final String ADD_DEADLINE = "[desc] by [deadline] @[location](optional)";
+	private static final String ADD_DEADLINE_MESSAGE = "Adds a task with a deadline";
+	private static final String ADD_FLOATING = "[desc] @[location](optional)";
+	private static final String ADD_FLOATING_MESSAGE = "Adds an untimed task";
+	
+	private static final String BLOCK_MESSAGE = "Blocks input dates and timings for task selected by index or description";
+	
+	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
+	
+	private static final String CONFIRM_MESSAGE = "Confirms a date and timing for a task with multiple dates and timings";
+	
+	private static final String DEL_TASK = "<selected task> | [task no] | [task no]-[task no] | [desc]";
+	private static final String DEL_MESSAGE = "Deletes selected task(s) by index or description";
+	
+	private static final String EXIT_MESSAGE = "Exits Urgenda. Are you sure you want to exit Urgenda?";
+	
+	private static final String FIND_FREE_MESSAGE = "Finds all available timeslots within given time range";
+	
+	private static final String HELP_MESSAGE = "Shows the help window";
+	
+	private static final String HOME_MESSAGE = "Displays default view of all tasks";
+	
+	private static final String EDIT_MESSAGE = "Edits description, date(s) and timing(s), and/or location of selected task";
+	
+	private static final String POSTPONE_MESSAGE = "Postpone selected task by given time period";
+	
+	private static final String PRI_MESSAGE = "Toggle marking of importance for selected task(s)";
+	
+	private static final String REDO_MESSAGE = "Redo next most recent action";
+	
+	private static final String SEARCH_MESSAGE = "Search by description, task type, or keywords"; //TODO
+	
+	private static final String SAVETO_MESSAGE = "Change the save directory of Urgenda";
+	
+	private static final String ARCHIVE_MESSAGE = "Show all tasks marked as completed";
+	
+	private static final String SHOWMORE_MESSAGE = "Toggle details of selected task(s)";
+	
+	private static final String UNDO_MESSAGE = "Undo previous most recent action";
+	
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
-		ArrayList<String> suggestions = new ArrayList<String>();
+		ArrayList<String> suggestions;
 		boolean isCommand = false;
 		String currCmd = suggCmd.getCurrCmd();
 		if(suggCmd.getConfirmedCommand() != null && currCmd != null 
@@ -32,6 +74,8 @@ public class LogicSuggester {
 
 	private ArrayList<String> specialAddCommand() {
 		// TODO Auto-generated method stub
+		ArrayList<String> suggestions = new ArrayList<String>();
+		suggestions.add(ADD_EVENT);
 		return null;
 	}
 
@@ -53,7 +97,7 @@ public class LogicSuggester {
 				break;
 			case EXIT :
 				break;
-			case FIND_FERE :
+			case FIND_FREE :
 				break;
 			case HELP :
 				break;
