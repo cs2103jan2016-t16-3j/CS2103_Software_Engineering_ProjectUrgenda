@@ -61,7 +61,7 @@ public class CommandParser {
 			int numberOfWords = PublicFunctions.getNumberOfWords(commandString);
 			if (numberOfWords == 1) {
 				String firstWord = PublicFunctions.getFirstWord(commandString).trim();
-				ArrayList<String> possibleCommands = getPossibleCommands(firstWord);	
+				ArrayList<String> possibleCommands = getPossibleCommands(firstWord);
 				if (!possibleCommands.isEmpty()) {
 					return new SuggestCommand(null, possibleCommands, null);
 				} else {
@@ -171,7 +171,7 @@ public class CommandParser {
 		for (Set<String> setString : commandSet) {
 			for (String string : setString) {
 				if (string.length() > commandString.length() && commandString.length() != 0) {
-					if (string.substring(0, commandString.length() - 1).equals(commandString)) {
+					if (string.substring(0, commandString.length()).equals(commandString)) {
 						returnedArray.add(string);
 					}
 				}
