@@ -22,7 +22,7 @@ public class LogicSuggester {
 	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
 	
 	// TODO feedback for edit
-	private static final String EDIT = "<selected task> | [task no]  [new desc] ";
+	private static final String EDIT = "<selected task> | [task no] [new desc] ";
 	private static final String EDIT_MESSAGE = "Edits description, date(s) and timing(s), and/or location of selected task";
 	
 	private static final String SEARCH_TASK = "[desc] | [date/day/time] | [task type]";
@@ -46,8 +46,7 @@ public class LogicSuggester {
 	private static final String PRI = "<selected task> | [task no] | [task no]-[task no] | [desc]";
 	private static final String PRI_MESSAGE = "Toggle the importance for selected task(s)";
 	
-	private static final String BLOCK = "[desc] at [start] to [end], (multiple) [start] to [end]  "
-			+ "optional: @[location]";
+	private static final String BLOCK = "[desc] at [start] to [end], (multiple) [start] to [end] @[location]";
 	private static final String BLOCK_MESSAGE = "Blocks multiple timeslots for single task";
 	
 	private static final String CONFIRM = "<selected task> | [task no]  [start] to [end]";
@@ -59,8 +58,7 @@ public class LogicSuggester {
 	private static final String HOME = "";
 	private static final String HOME_MESSAGE = "Displays default view of all tasks";
 	
-	private static final String POSTPONE = "<selected task> | [task no]  "
-			+ "[duration] (in years/months/days/hours/minutes/seconds)";
+	private static final String POSTPONE = "<selected task> | [task no] [duration]";
 	private static final String POSTPONE_MESSAGE = "Postpones the selected task by given duration";
 	
 	private static final String HELP = "";
