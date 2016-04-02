@@ -82,12 +82,14 @@ public class LogicSuggester {
 		} else if (suggCmd.getPossibleCommands() != null && !suggCmd.getPossibleCommands().isEmpty()) {
 			// possible commands only give list of possible commands
 			suggestions = suggCmd.getPossibleCommands();
+			SuggestFeedback feedback = new SuggestFeedback(suggestions, isCommand);
+			feedback.setIsSuggestion(true);
+			return feedback;
 		} else {
 			// both empty means add
 			suggestions = addCommand(suggCmd.isDeadline(), suggCmd.isEvent());
-		}
-		
-		return new SuggestFeedback(suggestions, isCommand);
+			return new SuggestFeedback(suggestions, isCommand);
+		}		
 	}
 
 	private ArrayList<String> filterCommand(Command confirmedCommand, boolean isDeadline, boolean isEvent) {

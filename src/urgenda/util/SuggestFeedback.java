@@ -9,7 +9,8 @@ public class SuggestFeedback {
 	private String _currCmd;
 	private String _userInstructionsPrompt;
 	// isCommand is true only if the entire command is detected. else is either partial commands/add 
-	private boolean _isCommand;
+	private boolean _isCommand = false;
+	private boolean _isSuggestion = false;
 	
 	public SuggestFeedback(ArrayList<String> suggestions, String currCmd, boolean isCommand) {
 		_currCmd = currCmd;
@@ -48,6 +49,14 @@ public class SuggestFeedback {
 	
 	public String getUserInstructionsPrompt() {
 		return _userInstructionsPrompt;
+	}
+	
+	public void setIsSuggestion(boolean isSuggestion) {
+		_isSuggestion = isSuggestion;
+	}
+	
+	public boolean isSuggestion() {
+		return _isSuggestion;
 	}
 	
 }
