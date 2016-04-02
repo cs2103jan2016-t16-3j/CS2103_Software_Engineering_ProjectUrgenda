@@ -27,6 +27,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String SUBSTRING_TASK_TYPE_SEARCH = "task type";
 	private static final String SUBSTRING_LOCATION = "location";
 	private static final String SUBSTRING_PATH_DIRECTORY = "path directory";
+	private static final String SUBSTRING_REMOVE_TIME = "remove 1 timing";
 
 	private static final Color COLOR_DEFAULT = Color.web("#FFFFFF"); //white
 	private static final Color COLOR_SELECTED_TASK = Color.web("#559BFF"); //blue
@@ -75,7 +76,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private HBox formatSingleSuggestion(String suggestionString, boolean isSuggestion) {
 		HBox singleSuggestion = new HBox();
 		ArrayList<Text> suggestionsTokenisedList = new ArrayList<Text>();
-		StringTokenizer suggestionsTokeniser = new StringTokenizer(suggestionString, "[]<>");
+		StringTokenizer suggestionsTokeniser = new StringTokenizer(suggestionString, "[]<>()");
 		while (suggestionsTokeniser.hasMoreElements()) {
 			String tokenized = suggestionsTokeniser.nextElement().toString();
 			Text tokenizedText;
@@ -113,6 +114,10 @@ public class InputSuggestionsPopupController extends BorderPane {
 				tokenizedText = new Text("[" + tokenized + "]");
 				tokenizedText.setFill(COLOR_PATH_DIRECTORY);
 				break;
+			case SUBSTRING_REMOVE_TIME:
+				tokenizedText = new Text("(" + tokenized + ")");
+				tokenizedText.setFill(COLOR_PATH_DIRECTORY);
+				break;
 			default:
 				tokenizedText = new Text(tokenized);
 				if(isSuggestion) {
@@ -129,7 +134,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 		if(isSuggestion) {
 			delimiter.setText(" | ");
 		} else {
-			delimiter.setText("/");
+			delimiter.setText("|");
 		}
 		delimiter.setFill(COLOR_DEFAULT);
 		singleSuggestion.getChildren().add(delimiter);

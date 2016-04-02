@@ -65,7 +65,7 @@
          <left>
             <ImageView fx:id="importantIndicator" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_LEFT">
                <image>
-                  <Image url="@../../resources/important_indicator.png" />
+                  <Image url="@../../../resources/important_indicator.png" />
                </image>
                <BorderPane.margin>
                   <Insets left="5.0" top="6.0" />
@@ -84,7 +84,7 @@
                      <children>
                         <ImageView fx:id="locationIcon" fitHeight="16.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../resources/location_icon.png" />
+                              <Image url="@../../../resources/location_icon.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="taskLocationText" strokeType="OUTSIDE" strokeWidth="0.0" text="Location">

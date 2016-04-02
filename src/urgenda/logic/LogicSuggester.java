@@ -22,7 +22,7 @@ public class LogicSuggester {
 	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
 	
 	// TODO feedback for edit
-	private static final String EDIT = "(<selected task> | [task no])  ([new desc] | @[location] | -r/-rm (remove a time) | from/-s [start] | to/by/-e [end])";
+	private static final String EDIT = "<selected task> | [task no] | [desc] |[]| [new desc] | @[location] | -r (remove 1 timing) | from [start] to [end] | by [deadline]";
 	private static final String EDIT_MESSAGE = "Edits desc, date(s) and timing(s), and/or location of selected task";
 	
 	private static final String SEARCH_TASK = "[desc] | [date/month/day/time] | [task type]";
@@ -49,7 +49,7 @@ public class LogicSuggester {
 	private static final String BLOCK = "[desc] at [start] to [end], (multiple) [start] to [end] @[location]";
 	private static final String BLOCK_MESSAGE = "Blocks multiple timeslots for single task";
 	
-	private static final String CONFIRM = "<selected task> | [task no]  [start] to [end]";
+	private static final String CONFIRM = "<selected task> | [task no] [start] to [end]";
 	private static final String CONFIRM_MESSAGE = "Confirms the inputted slot for the timing of task selected";
 	
 	private static final String FIND_FREE = "[start] to [end]";
