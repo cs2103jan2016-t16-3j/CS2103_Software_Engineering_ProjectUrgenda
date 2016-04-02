@@ -62,8 +62,8 @@ public class Help {
 		
 //		addToManual(is);
 		for (int i = 0; i < _manual.size(); i++) {
-			System.out.println("index number: " + i);
-			System.out.println(_manual.get(i));
+//			System.out.println("index number: " + i);
+//			System.out.println(_manual.get(i));
 		}
 		logger.getLogger().info("retrieved helpfile.");
 	}
