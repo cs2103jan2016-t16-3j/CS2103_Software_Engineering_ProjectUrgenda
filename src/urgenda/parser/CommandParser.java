@@ -165,7 +165,7 @@ public class CommandParser {
 		
 		for (Set<String> setString : commandSet) {
 			for (String string : setString) {
-				if (string.contains(commandString)) {
+				if (string.substring(0, commandString.length()-1) == commandString) {
 					returnedArray.add(string);
 				}
 			}
