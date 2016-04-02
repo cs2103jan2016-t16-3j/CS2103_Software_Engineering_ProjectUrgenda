@@ -76,7 +76,7 @@ public class LogicSuggester {
 		String currCmd = suggCmd.getCurrCmd();
 		
 		if(suggCmd.getConfirmedCommand() != null && currCmd != null 
-				&& !currCmd.isEmpty() && currCmd.equals("")) {
+				&& !currCmd.isEmpty() && !currCmd.equals("")) {
 			// confirmed command filter possible formats
 			suggestions = filterCommand(suggCmd.getConfirmedCommand(), suggCmd.isDeadline(), suggCmd.isEvent());
 			isCommand = true;

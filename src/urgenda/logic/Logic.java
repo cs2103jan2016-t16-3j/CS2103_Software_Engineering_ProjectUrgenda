@@ -158,7 +158,7 @@ public class Logic {
 	 * @return SuggestFeedback including strings of suggestions to user
 	 */
 	public SuggestFeedback getSuggestions(String currCmd) {
-		SuggestCommand suggCmd = CommandParser.parseCommandWord(currCmd);
+		SuggestCommand suggCmd = CommandParser.parseRuntimeInput(currCmd);
 		return _logicSuggestion.processSuggestions(suggCmd);
 	}
 
