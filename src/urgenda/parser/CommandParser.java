@@ -58,10 +58,15 @@ public class CommandParser {
 		commandString = commandString.toLowerCase();
 		COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
 		if (commandType == COMMAND_TYPE.INVALID) {
-			String firstWord = PublicFunctions.getFirstWord(commandString).trim();
-			ArrayList<String> possibleCommands = getPossibleCommands(firstWord);
-			if (!possibleCommands.isEmpty()) {
-				return new SuggestCommand(null, possibleCommands, null);
+			int numberOfWords = PublicFunctions.getNumberOfWords(commandString);
+			if (numberOfWords == 1) {
+				String firstWord = PublicFunctions.getFirstWord(commandString).trim();
+				ArrayList<String> possibleCommands = getPossibleCommands(firstWord);	
+				if (!possibleCommands.isEmpty()) {
+					return new SuggestCommand(null, possibleCommands, null);
+				} else {
+					return new SuggestCommand(null, null, null);
+				}
 			} else {
 				return new SuggestCommand(null, null, null);
 			}
