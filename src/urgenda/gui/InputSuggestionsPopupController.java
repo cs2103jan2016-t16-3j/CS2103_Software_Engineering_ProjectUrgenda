@@ -35,6 +35,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final Color COLOR_TASK_TYPE = Color.web("#86E086"); //green
 	private static final Color COLOR_LOCATION = Color.web("#000000"); //black
 	private static final Color COLOR_PATH_DIRECTORY = Color.web("#B5B5B5"); //grey
+	private static final Color COLOR_SUGGESTED_COMMANDS = Color.web("#B5B5B5"); //grey
 
 	@FXML
 	private BorderPane typeSuggestionsPane;
@@ -60,7 +61,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 			commandWordText.setVisible(false);
 		}
 		for (String suggestionString : suggestFeedback.getSuggestions()) {
-			suggestionsArea.getChildren().add(formatSingleSuggestion(suggestionString));
+			suggestionsArea.getChildren().add(formatSingleSuggestion(suggestionString, suggestFeedback.isSuggestion()));
 		}
 		// remove last delimiter
 		if (suggestionsArea.getChildren().size() > 0) {
@@ -70,7 +71,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 		userSuggestionText.setText(suggestFeedback.getUserInstructionsPrompt());
 	}
 
-	private HBox formatSingleSuggestion(String suggestionString) {
+	private HBox formatSingleSuggestion(String suggestionString, boolean isSuggestion) {
 		HBox singleSuggestion = new HBox();
 		ArrayList<Text> suggestionsTokenisedList = new ArrayList<Text>();
 		StringTokenizer suggestionsTokeniser = new StringTokenizer(suggestionString, "[]<>");
@@ -112,13 +113,22 @@ public class InputSuggestionsPopupController extends BorderPane {
 				break;
 			default:
 				tokenizedText = new Text(tokenized);
-				tokenizedText.setFill(COLOR_DEFAULT);
+				if(isSuggestion) {
+					tokenizedText.setFill(COLOR_SUGGESTED_COMMANDS);
+				} else {
+					tokenizedText.setFill(COLOR_DEFAULT);
+				}
 				break;
 			}
 			suggestionsTokenisedList.add(tokenizedText);
 		}
 		singleSuggestion.getChildren().addAll(suggestionsTokenisedList);
-		Text delimiter = new Text("|");
+		Text delimiter = new Text();
+		if(isSuggestion) {
+			delimiter.setText(" | ");
+		} else {
+			delimiter.setText("|");
+		}
 		delimiter.setFill(COLOR_DEFAULT);
 		singleSuggestion.getChildren().add(delimiter);
 		return singleSuggestion;
