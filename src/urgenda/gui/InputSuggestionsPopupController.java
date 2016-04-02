@@ -27,14 +27,14 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String SUBSTRING_LOCATION = "location";
 	private static final String SUBSTRING_PATH_DIRECTORY = "path directory";
 		
-	private static final Color COLOR_DEFAULT = Color.web("#FFFFFF");
-	private static final Color COLOR_SELECTED_TASK = Color.web("#559BFF");
-	private static final Color COLOR_INDEX = Color.web("#FFAF4B");
-	private static final Color COLOR_DESC = Color.web("#000000");
-	private static final Color COLOR_DATE_TIME = Color.web("#86E086");
-	private static final Color COLOR_TASK_TYPE = Color.web("#000000");
-	private static final Color COLOR_LOCATION = Color.web("#000000");
-	private static final Color COLOR_PATH_DIRECTORY = Color.web("#B5B5B5");
+	private static final Color COLOR_DEFAULT = Color.web("#FFFFFF"); //white
+	private static final Color COLOR_SELECTED_TASK = Color.web("#559BFF"); //blue
+	private static final Color COLOR_INDEX = Color.web("#FFAF4B"); //orange
+	private static final Color COLOR_DESC = Color.web("#FF7FB6"); //pink 
+	private static final Color COLOR_DATE_TIME = Color.web("#86E086"); //green
+	private static final Color COLOR_TASK_TYPE = Color.web("#000000"); //
+	private static final Color COLOR_LOCATION = Color.web("#000000"); //black
+	private static final Color COLOR_PATH_DIRECTORY = Color.web("#B5B5B5"); //grey
 	
 	@FXML
 	private BorderPane typeSuggestionsPane;
@@ -61,6 +61,9 @@ public class InputSuggestionsPopupController extends BorderPane {
 		for(String suggestionString : suggestFeedback.getSuggestions()) {
 			suggestionsArea.getChildren().add(formatSingleSuggestion(suggestionString));
 		}
+		//remove last delimiter
+		HBox lastItem = (HBox) suggestionsArea.getChildren().get(suggestionsArea.getChildren().size() - 1);
+		lastItem.getChildren().remove(lastItem.getChildren().size() - 1);
 		userSuggestionText.setText(suggestFeedback.getUserInstructionsPrompt());
 	}
 	

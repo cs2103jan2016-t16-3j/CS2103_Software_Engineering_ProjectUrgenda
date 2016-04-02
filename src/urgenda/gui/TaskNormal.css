@@ -1,6 +1,6 @@
 * {
 	-taskBackgroundPane-color: #ADC3FF;
-	-noviceHeaderPane-color: transparent;
+	-noviceHeaderPane-color: #45495B;
 	-selector-color: #0A75D5;
 	-selectorPane-color: #559BFF;
 	-label-color: #313745;
@@ -17,7 +17,7 @@
 #noviceHeaderLabel {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 14px;
-	-fx-fill: -selectorPane-color;
+	-fx-fill: -taskBackgroundPane-color;
 }
 
 #selector {

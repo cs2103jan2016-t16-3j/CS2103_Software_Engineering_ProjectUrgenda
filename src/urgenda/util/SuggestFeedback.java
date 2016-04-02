@@ -12,15 +12,20 @@ public class SuggestFeedback {
 	private boolean _isCommand;
 	
 	public SuggestFeedback(ArrayList<String> suggestions, String currCmd, boolean isCommand) {
-		_suggestions = new ArrayList<String>();
-		StringTokenizer tk = new StringTokenizer(suggestions.get(0), "|");
-		while (tk.hasMoreElements()) {
-			String next = tk.nextElement().toString();
-			_suggestions.add(next);
-		}
-		_userInstructionsPrompt = suggestions.get(1);
 		_currCmd = currCmd;
 		_isCommand = isCommand;
+		_suggestions = new ArrayList<String>();
+		if (isCommand) {
+			StringTokenizer tk = new StringTokenizer(suggestions.get(0), "|");
+			while (tk.hasMoreElements()) {
+				String next = tk.nextElement().toString();
+				_suggestions.add(next);
+			}
+			_userInstructionsPrompt = suggestions.get(1);
+		} else {
+			_suggestions.addAll(suggestions);
+			_userInstructionsPrompt = "test incomplete command"; //TODO
+		}
 	}
 	
 	public SuggestFeedback(ArrayList<String> suggestions, boolean isCommand) {

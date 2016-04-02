@@ -87,6 +87,7 @@ public class MainController {
 		_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
 		_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
 		_popupInputSuggestions.show(_main.getPrimaryStage());
+		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
 		setListeners();
 	}
 

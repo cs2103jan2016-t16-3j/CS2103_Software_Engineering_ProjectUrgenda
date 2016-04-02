@@ -8,11 +8,11 @@ import urgenda.util.SuggestFeedback;
 
 public class LogicSuggester {
 	
-	private static final String ADD_EVENT = "[desc] [start] to [end]  optional: @[location]";
+	private static final String ADD_EVENT = "[desc] [start] to [end] @[location]";
 	private static final String ADD_EVENT_MESSAGE = "Adds a task spanning across a time period";
-	private static final String ADD_DEADLINE = "[desc] by [deadline]  optional: @[location]";
+	private static final String ADD_DEADLINE = "[desc] by [deadline] @[location]";
 	private static final String ADD_DEADLINE_MESSAGE = "Adds a task with a deadline";
-	private static final String ADD_FLOATING = "[desc]  optional: @[location]";
+	private static final String ADD_FLOATING = "[desc] @[location]";
 	private static final String ADD_FLOATING_MESSAGE = "Adds an untimed task";
 	
 	private static final String DEL_TASK = "<selected task> | [task no] | [task no]-[task no] | [desc]";

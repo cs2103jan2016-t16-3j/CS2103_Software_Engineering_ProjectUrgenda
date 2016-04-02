@@ -1,8 +1,8 @@
 #typeSuggestionsPane {
 	-fx-background-color: #474E60;
-	-fx-background-radius: 5px;
+	-fx-background-radius: 7px;
 	-fx-border-color: white;
-	-fx-border-width: 2px;
+	-fx-border-width: 3px;
 	-fx-border-radius: 4px;
 }
 
