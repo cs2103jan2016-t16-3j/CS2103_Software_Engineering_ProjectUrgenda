@@ -33,6 +33,8 @@ public class SuggestFeedback {
 		_suggestions = suggestions;
 		_isCommand = isCommand;
 		_currCmd = null;
+		_userInstructionsPrompt = suggestions.get(suggestions.size() - 1);
+		_suggestions.remove(_suggestions.size() - 1);
 	}
 
 	public ArrayList<String> getSuggestions() {

@@ -86,7 +86,11 @@ public class MainController {
 		}
 		_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
 		_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
-		_popupInputSuggestions.show(_main.getPrimaryStage());
+		if(inputBar.getText().isEmpty()) {
+			_popupInputSuggestions.hide();
+		} else {
+			_popupInputSuggestions.show(_main.getPrimaryStage());
+		}
 		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
 		setListeners();
 	}
@@ -97,7 +101,11 @@ public class MainController {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if(newValue) {
 					if(!windowOutOfBounds()) {
-						_popupInputSuggestions.show(_main.getPrimaryStage());
+						if(inputBar.getText().isEmpty()) {
+							_popupInputSuggestions.hide();
+						} else {
+							_popupInputSuggestions.show(_main.getPrimaryStage());
+						}
 						_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
 						_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
 					}
@@ -111,7 +119,11 @@ public class MainController {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
 				if(!windowOutOfBounds()) {
-					_popupInputSuggestions.show(_main.getPrimaryStage());
+					if(inputBar.getText().isEmpty()) {
+						_popupInputSuggestions.hide();
+					} else {
+						_popupInputSuggestions.show(_main.getPrimaryStage());
+					}
 					_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
 					_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());		
 				}
