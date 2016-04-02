@@ -46,7 +46,7 @@ public class LogicSuggester {
 	private static final String PRI = "<selected task> | [task no] | [task no]-[task no] | [desc]";
 	private static final String PRI_MESSAGE = "Toggle the importance for selected task(s)";
 	
-	private static final String BLOCK = "[desc] from [start] to [end], (multiple) [start] to [end]  "
+	private static final String BLOCK = "[desc] at [start] to [end], (multiple) [start] to [end]  "
 			+ "optional: @[location]";
 	private static final String BLOCK_MESSAGE = "Blocks multiple timeslots for single task";
 	
