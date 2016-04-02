@@ -16,12 +16,10 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="600.0" onKeyPressed="#sceneListener" prefHeight="650.0" prefWidth="600.0" stylesheets="@../../resources/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
+<BorderPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="600.0" onKeyPressed="#sceneListener" prefHeight="650.0" prefWidth="600.0" stylesheets="@../styles/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
          <top>
             <AnchorPane fx:id="titlePane" prefHeight="100.0" prefWidth="600.0">
                <children>
@@ -109,7 +107,7 @@
                   </MenuBar>
                   <ImageView fx:id="urgendaIcon" fitHeight="86.0" fitWidth="53.0" layoutX="15.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="37.0">
                      <image>
-                        <Image url="@../../resources/urgenda_icon.png" />
+                        <Image url="@../../../resources/urgenda_icon.png" />
                      </image>
                   </ImageView>
             <Label fx:id="logoLabel" layoutX="75.0" layoutY="40.0" text="Urgenda" />

@@ -1,16 +1,16 @@
 @font-face {
 	font-family: 'Montserrat';
-	src: url('../resources/Montserrat-Regular.otf');
+	src: url('../../../resources/Montserrat-Regular.otf');
 }
 
 @font-face {
 	font-family: 'Montserrat Light';
-	src: url('../resources/Montserrat-Light.otf');
+	src: url('../../../resources/Montserrat-Light.otf');
 }
 
 @font-face {
 	font-family: 'Montserrat Ultra Light';
-	src: url('../resources/Montserrat-UltraLight.otf');
+	src: url('../../../resources/Montserrat-UltraLight.otf');
 }
 
 #titlePane {
@@ -18,7 +18,7 @@
 }
 
 #urgendaIcon {
-	-fx-image: url('../resources/urgenda_icon.png');
+	-fx-image: url('../../../resources/urgenda_icon.png');
 }
 
 #logoLabel {
@@ -72,7 +72,6 @@
 
 #displayArea .viewport{
 	-fx-background-color: white;
-
 } 
 
 #feedbackPane {

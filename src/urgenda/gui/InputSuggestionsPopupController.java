@@ -13,7 +13,7 @@ import urgenda.util.SuggestFeedback;
 
 public class InputSuggestionsPopupController extends BorderPane {
 
-	private static final String PATH_INPUT_SUGGESTIONS_CSS = "InputSuggestions.css";
+	private static final String PATH_INPUT_SUGGESTIONS_CSS = "styles/InputSuggestions.css";
 
 	private static final String SUBSTRING_SELECTED_TASK = "selected task";
 	private static final String SUBSTRING_INDEX = "task no";

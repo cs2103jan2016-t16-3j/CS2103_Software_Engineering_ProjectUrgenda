@@ -31,13 +31,13 @@ public class SimpleTaskController extends GridPane {
 	private static final String HEADER_TODAY_TASK = "Today's Tasks";
 	private static final String HEADER_OTHER_TASK = "Other Tasks";
 	private static final String HEADER_ARCHIVE_TASK = "Completed Tasks";
-	private static final String PATH_TASK_FREETIME_CSS = "TaskFreeTime.css";
-	private static final String PATH_TASK_OVERDUE_CSS = "TaskOverdue.css";
-	private static final String PATH_TASK_TODAY_CSS = "TaskToday.css";
-	private static final String PATH_TASK_TODAY_OVERTIME_CSS = "TaskTodayOvertime.css";
-	private static final String PATH_TASK_NORMAL_CSS = "TaskNormal.css";
-	private static final String PATH_TASK_ARCHIVE_CSS = "TaskArchive.css";
-	private static final String PATH_SIMPLETASKVIEW_FXML = "SimpleTaskView.fxml";
+	private static final String PATH_TASK_FREETIME_CSS = "styles/TaskFreeTime.css";
+	private static final String PATH_TASK_OVERDUE_CSS = "styles/TaskOverdue.css";
+	private static final String PATH_TASK_TODAY_CSS = "styles/TaskToday.css";
+	private static final String PATH_TASK_TODAY_OVERTIME_CSS = "styles/TaskTodayOvertime.css";
+	private static final String PATH_TASK_NORMAL_CSS = "styles/TaskNormal.css";
+	private static final String PATH_TASK_ARCHIVE_CSS = "styles/TaskArchive.css";
+	private static final String PATH_SIMPLETASKVIEW_FXML = "fxml/SimpleTaskView.fxml";
 
 	private static final double HEIGHT_DEFAULT_TASK = 35;
 

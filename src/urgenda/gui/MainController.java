@@ -38,7 +38,7 @@ public class MainController {
 	private static final String KEYWORD_CHANGE_SAVE_PATH = "saveto ";
 	private static final String KEYWORD_DEMO = "demo";
 	private static final String KEYWORD_SHOWMORE = "showmore";
-	private static final String PATH_TYPESUGGESTIONS_FXML = "InputSuggestionsView.fxml";
+	private static final String PATH_TYPESUGGESTIONS_FXML = "fxml/InputSuggestionsView.fxml";
 
 	// Elements loaded using FXML
 	@FXML

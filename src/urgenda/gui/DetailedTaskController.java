@@ -16,7 +16,7 @@ import urgenda.util.Task;
 
 public class DetailedTaskController extends SimpleTaskController {
 	
-	private static final String PATH_DETAILEDTASKVIEW_FXML = "DetailedTaskView.fxml";
+	private static final String PATH_DETAILEDTASKVIEW_FXML = "fxml/DetailedTaskView.fxml";
 
 	// Elements loaded using FXML
 	@FXML
