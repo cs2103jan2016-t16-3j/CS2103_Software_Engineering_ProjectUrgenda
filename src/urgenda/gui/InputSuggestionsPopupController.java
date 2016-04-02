@@ -21,6 +21,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String SUBSTRING_DESC_EDIT = "new desc";
 	private static final String SUBSTRING_DATE_TIME_START = "start";
 	private static final String SUBSTRING_DATE_TIME_END = "end";
+	private static final String SUBSTRING_DATE_TIME_DURATION = "duration";
 	private static final String SUBSTRING_DATE_TIME_DEADLINE = "deadline";
 	private static final String SUBSTRING_DATE_TIME_SEARCH = "date/day/time";
 	private static final String SUBSTRING_TASK_TYPE_SEARCH = "task type";
@@ -95,6 +96,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 			case SUBSTRING_DATE_TIME_START: // fall-through
 			case SUBSTRING_DATE_TIME_END: // fall-through
 			case SUBSTRING_DATE_TIME_DEADLINE: // fall-through
+			case SUBSTRING_DATE_TIME_DURATION: //fall-through
 			case SUBSTRING_DATE_TIME_SEARCH:
 				tokenizedText = new Text("[" + tokenized + "]");
 				tokenizedText.setFill(COLOR_DATE_TIME);
