@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
+import urgenda.util.LogicException;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
@@ -29,7 +30,7 @@ public class Edit extends TaskCommand {
 	boolean isRemoveOnce = false;
 	boolean isRemoveTwice = false;
 
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		_data = LogicData.getInstance();
 		if (_id != null && _id.intValue() > -1) {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
@@ -38,7 +39,7 @@ public class Edit extends TaskCommand {
 		if (_prevTask == null) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			logger.getLogger().severe("Exception(No edit match) thrown");
-			throw new Exception(MESSAGE_NO_EDIT_MATCH);
+			throw new LogicException(MESSAGE_NO_EDIT_MATCH);
 		} else {
 			if (_newTask.getSlot() == null || _newTask.getSlot().isEmpty()) {
 				_newTask.setSlot(null);
@@ -124,11 +125,11 @@ public class Edit extends TaskCommand {
 				_data.clearShowMoreTasks();
 				feedback = checkPassed();
 				feedback += findOverlaps();
-			} catch (Exception e) {
+			} catch (LogicException e) {
 				logger.getLogger().severe("Exception occured: " + e);
 				_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 				// throws exception to prevent Edit being added to undo stack
-				throw new Exception(MESSAGE_ERROR + e.getMessage());
+				throw new LogicException(MESSAGE_ERROR + e.getMessage());
 			}
 			return taskMessageWithMulti(_prevTask) + MESSAGE_EDIT + taskMessageWithMulti(_newTask) + feedback;
 		}

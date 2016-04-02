@@ -8,6 +8,7 @@ import java.util.Deque;
 import urgenda.command.Command;
 import urgenda.command.Redo;
 import urgenda.command.Undo;
+import urgenda.util.LogicException;
 import urgenda.util.UrgendaLogger;
 import urgenda.command.TaskCommand;
 
@@ -32,17 +33,15 @@ public class LogicCommand {
 		
 		String feedback;
 		try {
-			if (currCmd instanceof Undo){ // TODO merge if doesnt compromise on readability
-				feedback = currCmd.execute();
+			feedback = currCmd.execute();
+			if (currCmd instanceof Undo){
 				feedback = undoCommand(feedback);
 			} else if (currCmd instanceof Redo) {
-				feedback = currCmd.execute();
 				feedback = redoCommand(feedback);
 			} else {
-				feedback = currCmd.execute();
 				addUndo(currCmd);
 			}
-		} catch (Exception e) { // TODO might need to upgrade exceptions without affecting the command execute header
+		} catch (LogicException e) {
 			logger.getLogger().severe("Exception occured"+ e);
 			return e.getMessage();
 		}

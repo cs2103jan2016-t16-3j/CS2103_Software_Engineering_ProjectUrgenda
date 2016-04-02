@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
+import urgenda.util.LogicException;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
@@ -40,7 +41,7 @@ public class Recurrence extends TaskCommand {
 	public Recurrence() {
 	}
 
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		_data = LogicData.getInstance();
 		if (_id != null && _id.intValue() > -1) {
 			_recurrTask = _data.findMatchingPosition(_id.intValue());
@@ -48,7 +49,7 @@ public class Recurrence extends TaskCommand {
 		if (_recurrTask == null) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			logger.getLogger().severe("Exception(No edit match) thrown");
-			throw new Exception(MESSAGE_NO_RECURR_MATCH);
+			throw new LogicException(MESSAGE_NO_RECURR_MATCH);
 		} else {
 			_newTask = new Task(_recurrTask);
 		}
@@ -114,10 +115,10 @@ public class Recurrence extends TaskCommand {
 			}
 			break;
 		default:
-			throw new Exception(MESSAGE_TYPE_ERROR);
+			throw new LogicException(MESSAGE_TYPE_ERROR);
 		}
 		if (_recurr.isEmpty() || _recurr.equals(null)) {
-			throw new Exception(MESSAGE_INVALID);
+			throw new LogicException(MESSAGE_INVALID);
 		}
 
 		// _newTask.toggleRecurring(); to be added
@@ -144,11 +145,11 @@ public class Recurrence extends TaskCommand {
 				feedback = checkPassed();
 				feedback += findOverlaps();
 			}
-		} catch (Exception e) {
+		} catch (LogicException e) {
 			logger.getLogger().severe("Exception occurred" + e);
 			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 			// throws exception to prevent AddTask being added to undo stack
-			throw new Exception(MESSAGE_ERROR + e.getMessage());
+			throw new LogicException(MESSAGE_ERROR + e.getMessage());
 		}
 		return taskMessage(_newTask) + MESSAGE_RECURR + feedback;
 	}

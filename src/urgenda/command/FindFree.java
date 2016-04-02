@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Deque;
 
 import urgenda.logic.LogicData;
+import urgenda.util.LogicException;
 import urgenda.util.Task;
 
 public class FindFree extends Command {
@@ -40,13 +41,13 @@ public class FindFree extends Command {
 		_endOfRange = end;
 	}
 
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		LogicData data = LogicData.getInstance();
 		// TODO show warning then flip range
 		LocalDateTime now = LocalDateTime.now();
 		if (!_startOfRange.isBefore(_endOfRange) || _endOfRange.isBefore(now)) {
 			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			throw new Exception(MESSAGE_INVALID_TIME_RANGE);
+			throw new LogicException(MESSAGE_INVALID_TIME_RANGE);
 		} else if (_startOfRange.isBefore(now)) {
 			_startOfRange = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(),
 					now.getHour(), now.getMinute());

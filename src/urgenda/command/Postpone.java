@@ -3,6 +3,7 @@ package urgenda.command;
 import java.time.LocalDateTime;
 
 import urgenda.logic.LogicData;
+import urgenda.util.LogicException;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
@@ -51,7 +52,7 @@ public class Postpone extends TaskCommand {
 		_second = second;
 	}
 
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		_data = LogicData.getInstance();
 		if (_id != null && _id.intValue() != -1) {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
@@ -59,15 +60,15 @@ public class Postpone extends TaskCommand {
 		if (!isValidPostpone()) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			logger.getLogger().severe("Exception no postpone time thrown");
-			throw new Exception(MESSAGE_NO_TIME);
+			throw new LogicException(MESSAGE_NO_TIME);
 		} else if (_prevTask == null) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			logger.getLogger().severe("Exception(No postpone match) thrown");
-			throw new Exception(MESSAGE_NO_MATCH);
+			throw new LogicException(MESSAGE_NO_MATCH);
 		} else if (_prevTask.getTaskType() == Task.Type.FLOATING){
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			logger.getLogger().severe("Exception postpone of floating thrown");
-			throw new Exception(MESSAGE_POSTPONE_FLOATING);
+			throw new LogicException(MESSAGE_POSTPONE_FLOATING);
 		} else {
 			_prevTask.setDateModified(LocalDateTime.now());
 			_newTask = new Task(_prevTask);

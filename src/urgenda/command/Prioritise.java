@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import urgenda.logic.LogicData;
+import urgenda.util.LogicException;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
@@ -25,7 +26,7 @@ public class Prioritise extends TaskCommand {
 	private ArrayList<Task> _tasks;
 	private LogicData _data;
 
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		_data = LogicData.getInstance();
 		ArrayList<Task> matches;
 		if (_desc != null) {
@@ -37,7 +38,7 @@ public class Prioritise extends TaskCommand {
 				_data.setDisplays(matches);
 				_data.setCurrState(LogicData.DisplayState.MULTIPLE_PRIORITISE);
 				logger.getLogger().severe("Exception(Multi-pri) thrown");
-				throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
+				throw new LogicException(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
 			} // else matches has no match hence _tasks remains null
 		} else if (_positions != null && _positions.size() != 0) {
 			Collections.sort(_positions);
@@ -46,7 +47,7 @@ public class Prioritise extends TaskCommand {
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_tasks == null || _tasks.isEmpty()) {
 			logger.getLogger().severe("Exception(Pri no match) thrown");
-			throw new Exception(MESSAGE_NO_MATCH);
+			throw new LogicException(MESSAGE_NO_MATCH);
 		} else {
 			String feedback = toggleTasks();
 			updateDateModified(_tasks);

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
 import urgenda.util.UrgendaLogger;
+import urgenda.util.LogicException;
 import urgenda.util.Task;
 
 public class AddTask extends TaskCommand {
@@ -31,7 +32,7 @@ public class AddTask extends TaskCommand {
 	}
 	
 	
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		logger.getLogger().warning("Can cause exception");
 		
 		_data = LogicData.getInstance();
@@ -52,11 +53,11 @@ public class AddTask extends TaskCommand {
 			_data.clearShowMoreTasks();
 			feedback = checkPassed();
 			feedback += findOverlaps();
-		} catch (Exception e) {
+		} catch (LogicException e) {
 			logger.getLogger().severe("Exception occurred" + e);			
 			_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 			// throws exception to prevent AddTask being added to undo stack
-			throw new Exception(MESSAGE_ERROR + e.getMessage());
+			throw new LogicException(MESSAGE_ERROR + e.getMessage());
 		}
 		return taskMessageWithMulti(_newTask) + MESSAGE_ADDED + feedback;
 	}

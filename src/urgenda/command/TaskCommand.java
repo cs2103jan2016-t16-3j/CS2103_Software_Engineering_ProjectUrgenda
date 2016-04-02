@@ -2,6 +2,7 @@ package urgenda.command;
 
 import java.time.LocalDateTime;
 
+import urgenda.util.LogicException;
 import urgenda.util.Task;
 
 /**
@@ -24,38 +25,38 @@ public abstract class TaskCommand extends Command{
 	public abstract String redo();
 	
 	// function to check validity of task object being passed, throws exception if task is invalid
-	public void checkTaskValidity(Task task) throws Exception {
+	public void checkTaskValidity(Task task) throws LogicException {
 		if (task.getDesc() == null || task.getDesc().equals("")) {
-			throw new Exception(ERROR_NO_DESC);
+			throw new LogicException(ERROR_NO_DESC);
 		}
 		LocalDateTime start = task.getStartTime();
 		LocalDateTime end = task.getEndTime();
 		if (task.getTaskType() == Task.Type.DEADLINE) {
 			if (start != null) {
-				throw new Exception(ERROR_EXTRA_START_TIME);
+				throw new LogicException(ERROR_EXTRA_START_TIME);
 			}
 			if (end == null) {
-				throw new Exception(ERROR_MISSING_END_TIME);
+				throw new LogicException(ERROR_MISSING_END_TIME);
 			}
 		} else if (task.getTaskType() == Task.Type.EVENT) {
 			if (start == null) {
-				throw new Exception(ERROR_MISSING_START_TIME);
+				throw new LogicException(ERROR_MISSING_START_TIME);
 			} else if (end == null) {
-				throw new Exception(ERROR_MISSING_END_TIME);
+				throw new LogicException(ERROR_MISSING_END_TIME);
 			} else if (end.isBefore(start)) {
-				throw new Exception(ERROR_END_BEFORE_START);
+				throw new LogicException(ERROR_END_BEFORE_START);
 			} else if (end.equals(start)) {
-				throw new Exception(ERROR_SAME_START_END);
+				throw new LogicException(ERROR_SAME_START_END);
 			}
 		} else if (task.getTaskType() == Task.Type.FLOATING){
 			if (start != null) {
-				throw new Exception(ERROR_EXTRA_START_TIME);
+				throw new LogicException(ERROR_EXTRA_START_TIME);
 			}
 			if (end != null) {
-				throw new Exception(ERROR_EXTRA_END_TIME);
+				throw new LogicException(ERROR_EXTRA_END_TIME);
 			}
 		} else { // Invalid task type
-			throw new Exception(ERROR_INVALID_TASK_TYPE);
+			throw new LogicException(ERROR_INVALID_TASK_TYPE);
 		}
 	}
 }

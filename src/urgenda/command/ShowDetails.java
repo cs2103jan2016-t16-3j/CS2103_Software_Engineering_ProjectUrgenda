@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import urgenda.logic.LogicData;
+import urgenda.util.LogicException;
 import urgenda.util.Task;
 
 public class ShowDetails extends Command {
@@ -19,7 +20,7 @@ public class ShowDetails extends Command {
 	private ArrayList<Task> _tasks;
 	private LogicData _data;
 
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		_data = LogicData.getInstance();
 		if (_positions != null && _positions.size() != 0) {
 			Collections.sort(_positions);
@@ -27,7 +28,7 @@ public class ShowDetails extends Command {
 		}
 		// Does not change the previous state
 		if (_tasks == null || _tasks.isEmpty()) {
-			throw new Exception(MESSAGE_NO_SHOW_MATCH);
+			throw new LogicException(MESSAGE_NO_SHOW_MATCH);
 		} else {
 			_data.setTaskPointer(_tasks.get(0));
 			return toggleTasks();			

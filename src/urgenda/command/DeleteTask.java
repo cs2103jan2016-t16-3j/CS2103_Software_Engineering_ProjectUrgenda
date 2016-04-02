@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import urgenda.logic.LogicData;
+import urgenda.util.LogicException;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
@@ -27,7 +28,7 @@ public class DeleteTask extends TaskCommand {
 	private ArrayList<Task> _deletedTasks;
 	private LogicData _data;
 
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		logger.getLogger().warning("Can cause exception");
 
 		_data = LogicData.getInstance();
@@ -41,7 +42,7 @@ public class DeleteTask extends TaskCommand {
 				_data.setDisplays(matches);
 				_data.setCurrState(LogicData.DisplayState.MULTIPLE_DELETE);
 				logger.getLogger().severe("Exception(Multiple delete) thrown");
-				throw new Exception(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
+				throw new LogicException(String.format(MESSAGE_MULTIPLE_FOUND, _desc));
 			} // else matches has no match hence _deletedTasks remains null
 		} else if (_positions != null && _positions.size() != 0) {
 			Collections.sort(_positions);
@@ -50,7 +51,7 @@ public class DeleteTask extends TaskCommand {
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		if (_deletedTasks == null || _deletedTasks.isEmpty()) {
 			logger.getLogger().severe("Exception(No del match) thrown");
-			throw new Exception(MESSAGE_NO_DELETE_MATCH);
+			throw new LogicException(MESSAGE_NO_DELETE_MATCH);
 		}
 		updateDateModified(_deletedTasks);
 		_data.deleteTasks(_deletedTasks);

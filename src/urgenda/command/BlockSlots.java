@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import urgenda.logic.LogicData;
 import urgenda.util.DateTimePair;
+import urgenda.util.LogicException;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
@@ -32,26 +33,26 @@ public class BlockSlots extends TaskCommand {
 	}
 
 	// throws exception to ensure that block is not stored in undo stack
-	public String execute() throws Exception {
+	public String execute() throws LogicException {
 		_block = _newTask.getSlot();
 		if (_block == null || _block.isEmpty()) {
-			throw new Exception(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
+			throw new LogicException(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
 		} else if (!isValidBlock(_block)) {
-			throw new Exception(MESSAGE_ERROR + MESSAGE_INVALID_SLOTS);
+			throw new LogicException(MESSAGE_ERROR + MESSAGE_INVALID_SLOTS);
 		}
 		// TODO test if sorting works
 		_block.sortSlots();
 		DateTimePair time = _block.getNextSlot();
 		_block.removeNextSlot();
 		if (_block.isEmpty()) {
-			throw new Exception(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
+			throw new LogicException(MESSAGE_ERROR + MESSAGE_INSUFFICIENT_SLOTS);
 		}
 		_newTask.setStartTime(time.getDateTime1());
 		_newTask.setEndTime(time.getDateTime2());
 		_newTask.updateTaskType();
 		_data = LogicData.getInstance();
 		if (_newTask.getTaskType() != Task.Type.EVENT) {
-			throw new Exception(MESSAGE_ERROR + MESSAGE_INVALID_TYPE);
+			throw new LogicException(MESSAGE_ERROR + MESSAGE_INVALID_TYPE);
 		}
 		_newTask.setId(_data.getCurrentId());
 		_data.updateCurrentId();
