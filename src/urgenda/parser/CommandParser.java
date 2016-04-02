@@ -276,7 +276,12 @@ public class CommandParser {
 		if (PublicVariables.endTimeWords.contains(lastWord)) {
 			return true;
 		} else {
-			return false;
+			Matcher matcher = Pattern.compile("\\s+by(\\s+|\\Z)").matcher(string);
+			if (matcher.find()) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 	
