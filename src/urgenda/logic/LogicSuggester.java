@@ -67,6 +67,7 @@ public class LogicSuggester {
 	private static final String SAVETO = "[path directory]";
 	private static final String SAVETO_MESSAGE = "Change the save directory of Urgenda";
 	
+	private static final String SUGGESTION_MESSAGE = "Matching commands to use";
 	
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
 		ArrayList<String> suggestions;
@@ -82,6 +83,7 @@ public class LogicSuggester {
 		} else if (suggCmd.getPossibleCommands() != null && !suggCmd.getPossibleCommands().isEmpty()) {
 			// possible commands only give list of possible commands
 			suggestions = suggCmd.getPossibleCommands();
+			suggestions.add(SUGGESTION_MESSAGE);
 			SuggestFeedback feedback = new SuggestFeedback(suggestions, isCommand);
 			feedback.setIsSuggestion(true);
 			return feedback;
