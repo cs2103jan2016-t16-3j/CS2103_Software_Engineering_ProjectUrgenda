@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class SuggestCommand {
 
 	public enum Command {
-		ADD, BLOCK, DONE, CONFIRM, DELETE, EXIT, FIND_FREE, HELP, HOME, EDIT,
-		POSTPONE, PRIORITISE, REDO, SEARCH, SAVETO, ARCHIVE, SHOWMORE, UNDO
+		ADD, ARCHIVE, BLOCK, CONFIRM, DELETE, DONE, EDIT, EXIT, FIND_FREE, 
+		HELP, HOME, POSTPONE, PRIORITISE, REDO, SAVETO, SEARCH, SHOWMORE, UNDO
 	}
 	// AL of possible FULL versions of command IN STRING (since each type has diff variations)
 	private ArrayList<String> _possibleCommands;

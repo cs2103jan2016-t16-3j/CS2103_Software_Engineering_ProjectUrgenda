@@ -121,4 +121,45 @@ public class LogicSuggester {
 		return null;
 	}
 	
+	private String filterUserMessage(Command confirmedCommand) {
+		switch(confirmedCommand) {
+			case ADD :
+				break;
+			case ARCHIVE :
+				return ARCHIVE_MESSAGE;
+			case BLOCK :
+				return BLOCK_MESSAGE;
+			case CONFIRM :
+				return CONFIRM_MESSAGE;
+			case DELETE :
+				return DEL_MESSAGE;
+			case DONE :
+				return DONE_MESSAGE;
+			case EDIT :
+				return EDIT_MESSAGE;
+			case EXIT :
+				return EXIT_MESSAGE;
+			case FIND_FREE :
+				return FIND_FREE_MESSAGE;
+			case HELP :
+				return HELP_MESSAGE;
+			case HOME :
+				return HOME_MESSAGE;
+			case POSTPONE :
+				return POSTPONE_MESSAGE;
+			case PRIORITISE :
+				return PRI_MESSAGE;
+			case REDO :
+				return REDO_MESSAGE;
+			case SAVETO :
+				return SAVETO_MESSAGE;
+			case SEARCH :
+				return SEARCH_MESSAGE;
+			case SHOWMORE :
+				return SHOWMORE_MESSAGE;
+			case UNDO :
+				return UNDO_MESSAGE;
+		}
+		return null;
+	}
 }
