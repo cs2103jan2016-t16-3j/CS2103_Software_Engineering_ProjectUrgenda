@@ -70,6 +70,9 @@ public class LogicSuggester {
 	private static final String DEMO = "";
 	private static final String DEMO_MESSAGE = "Gives a demonstration of using Urgenda";
 	
+	private static final String HIDE = "";
+	private static final String HIDE_MESSAGE = "Minimise Urgenda";
+	
 	private static final String SUGGESTION_MESSAGE = "Matching command(s) to use";
 	
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
@@ -121,6 +124,8 @@ public class LogicSuggester {
 				return findFreeCommand();
 			case HELP :
 				return helpCommand();
+			case HIDE :
+				return hideCommand();
 			case HOME :
 				return homeCommand();
 			case POSTPONE :
@@ -141,6 +146,10 @@ public class LogicSuggester {
 		return null;
 	}
 	
+	private ArrayList<String> hideCommand() {
+		return generateMessage(HIDE, HIDE_MESSAGE);
+	}
+
 	private ArrayList<String> demoCommand() {
 		return generateMessage(DEMO, DEMO_MESSAGE);
 	}

@@ -22,7 +22,8 @@ import urgenda.util.DateTimePair;
 public class LogicData {
 
 	public enum DisplayState {
-		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, 
+		INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE, DEMO, HIDE
 	}
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
@@ -134,12 +135,19 @@ public class LogicData {
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.FIND_FREE);
 			break;
+		case DEMO :
+			state = displayAllTasks(_displays);
+			state.setState(StateFeedback.State.DEMO);
+			break;
+		case HIDE :
+			state = displayAllTasks(_displays);
+			state.setState(StateFeedback.State.HIDE);
+			break;			
 		default:
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
 		}
-		//TODO count number of overdue tasks and set inside statefeedback
 		return state;
 	}
 

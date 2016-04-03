@@ -6,7 +6,7 @@ public class SuggestCommand {
 
 	public enum Command {
 		ADD, ARCHIVE, BLOCK, CONFIRM, DELETE, DEMO, DONE, EDIT, EXIT, FIND_FREE, 
-		HELP, HOME, POSTPONE, PRIORITISE, REDO, SAVETO, SEARCH, SHOWMORE, UNDO
+		HELP, HIDE, HOME, POSTPONE, PRIORITISE, REDO, SAVETO, SEARCH, SHOWMORE, UNDO
 	}
 	// AL of possible FULL versions of command IN STRING (since each type has diff variations)
 	private ArrayList<String> _possibleCommands;
