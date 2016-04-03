@@ -32,7 +32,7 @@
             <Insets />
          </opaqueInsets>
          <GridPane.margin>
-            <Insets top="1.0" />
+            <Insets />
          </GridPane.margin>
          <center>
             <Text fx:id="noviceHeaderLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Task Type Header for Novices" BorderPane.alignment="CENTER" />
