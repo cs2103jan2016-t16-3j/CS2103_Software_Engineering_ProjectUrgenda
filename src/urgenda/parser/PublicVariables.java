@@ -11,7 +11,7 @@ import urgenda.util.MultipleSlot;
 
 public class PublicVariables {
 	public static enum COMMAND_TYPE {
-		ADD, DELETE, COMPLETE, EDIT, HELP, SEARCH, SHOW_DETAILS, BLOCK, 
+		ADD, DELETE, COMPLETE, EDIT, HELP, SEARCH, SHOW_DETAILS, BLOCK, DEMO, HIDE,
 		FIND_FREE, HOME, UNDO, REDO, SHOW_ARCHIVE, CONFIRM, SET_DIRECTORY, PRIORITISE, 
 		POSTPONE, INVALID, EXIT
 	}
@@ -55,7 +55,11 @@ public class PublicVariables {
 	public static final Set<String> setDirectoryKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "saveto", "cd" }));
 	public static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(new String[] { "exit", "quit" }));
-
+	public static final Set<String> demoKeyWords = new HashSet<String>(
+			Arrays.asList(new String[] { "demo" }));
+	public static final Set<String> hideKeyWords = new HashSet<String>(
+			Arrays.asList(new String[] { "hide" }));
+	
 	public static final Set<String> janWords = new HashSet<String>(Arrays.asList(new String[] { "jan", "january" }));
 	public static final Set<String> febWords = new HashSet<String>(Arrays.asList(new String[] { "feb", "february" }));
 	public static final Set<String> marWords = new HashSet<String>(Arrays.asList(new String[] { "mar", "march" }));
