@@ -272,7 +272,7 @@ public class DisplayController extends AnchorPane {
 	}
 
 	protected void toggleSelectedDetailsOnClick() {
-		_main.handleCommandLine(KEYWORD_SHOWMORE);
+		_main.handleCommandLine(KEYWORD_SHOWMORE, false);
 	}
 
 	public void setDisplayHeader(String displayed) {
