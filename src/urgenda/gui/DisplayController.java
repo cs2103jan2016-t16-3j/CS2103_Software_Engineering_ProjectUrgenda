@@ -80,7 +80,7 @@ public class DisplayController extends AnchorPane {
 
 	public void initDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
 			int modifiedTaskIndex, boolean showNoviceHeaders) {
-		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex, showNoviceHeaders, false);
+		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex, showNoviceHeaders, false, false);
 		displayArea.vvalueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
@@ -102,7 +102,7 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
-			int modifiedTaskIndex, boolean showNoviceHeaders, boolean isShowFreeTime) {
+			int modifiedTaskIndex, boolean showNoviceHeaders, boolean isShowFreeTime, boolean isDemo) {
 		_setup = true;
 		_allowChangeScroll = false;
 		displayHolder.getChildren().clear();
@@ -155,7 +155,11 @@ public class DisplayController extends AnchorPane {
 		if (updatedTasks.getArchiveCount() + updatedTasks.getUncompletedCount() == 0) {
 			showZeroTasksFeedback();
 		} else {
-			initSelectedTask(modifiedTaskIndex);
+			if(!isDemo) {
+				initSelectedTask(modifiedTaskIndex);				
+			} else {
+				initSelectedTask(_selectedTaskIndex.get());
+			}
 		}
 		if (displayHeader != null) { // display header needs to be changed
 			setDisplayHeader(displayHeader);
@@ -242,33 +246,35 @@ public class DisplayController extends AnchorPane {
 	}
 
 	public void executeTraverse(Direction direction) {
-		switch(direction) {
-		case DOWN:
-			if (_selectedTaskIndex.getValue() < _displayedTasks.size() - 1) {
-				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
-				_selectedTaskIndex.set(_selectedTaskIndex.getValue() + 1);
-				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
+		if(!_main.getController().isDemo()) {
+			switch(direction) {
+			case DOWN:
+				if (_selectedTaskIndex.getValue() < _displayedTasks.size() - 1) {
+					((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
+					_selectedTaskIndex.set(_selectedTaskIndex.getValue() + 1);
+					((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
+				}
+				break;
+			case UP:
+				if (_selectedTaskIndex.getValue() != 0) {
+					((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
+					_selectedTaskIndex.set(_selectedTaskIndex.getValue() - 1);
+					((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
+				}
+				break;
+			case LEFT: //fall-through
+			case RIGHT:
+				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).traverseMultipleSlot(direction);
+				break;
 			}
-			break;
-		case UP:
-			if (_selectedTaskIndex.getValue() != 0) {
-				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
-				_selectedTaskIndex.set(_selectedTaskIndex.getValue() - 1);
-				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(true);
-			}
-			break;
-		case LEFT: //fall-through
-		case RIGHT:
-			((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).traverseMultipleSlot(direction);
-			break;
 		}
 	}
 
-	protected void setSelectedIndexOnClick(int index) {
-		if (index != _selectedTaskIndex.getValue()) {
+	protected void setSelectedTaskByCall(int index) {
+		if (_selectedTaskIndex.get() >= 0 && index != _selectedTaskIndex.getValue()) {
 			((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
-			_selectedTaskIndex.set(index);
 		}
+		_selectedTaskIndex.set(index);
 	}
 
 	protected void toggleSelectedDetailsOnClick() {
@@ -299,5 +305,9 @@ public class DisplayController extends AnchorPane {
 
 	public void setMain(Main main) {
 		_main = main;
+	}
+	
+	public Main getMain() {
+		return _main;
 	}
 }

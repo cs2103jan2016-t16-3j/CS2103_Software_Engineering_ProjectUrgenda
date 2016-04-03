@@ -43,19 +43,6 @@ Text {
 	-fx-text-fill: white;
 }
 
-#demoPane {
-	-fx-background-color: -fx-base-color;
-	-fx-background-radius: 7px;
-	-fx-border-radius: 5px;
-	-fx-border-width: 2px;
-	-fx-border-color: white;
-}
-
-#demoText {
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 13px;
-	-fx-fill: white;
-}
 
 #displayHeader {
 	-fx-font-family: "Montserrat";
@@ -119,6 +106,20 @@ Text {
 
 #inputBar .list-view {
 	-fx-background-color: white;
+}
+
+#demoHeaderPane {
+	-fx-background-color: -fx-base-color;
+}
+
+#demoPane {
+	-fx-background-color: white;
+}
+
+#demoText {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 13px;
+	-fx-fill: white;
 }
 
 #helpPane {

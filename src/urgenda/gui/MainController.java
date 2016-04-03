@@ -27,6 +27,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -40,15 +41,15 @@ public class MainController {
 
 	//constants for MainController
 	private static final int WINDOWS_TASKBAR_HEIGHT = 30;
-	private static final int DEMO_SCREEN_COUNT = 10; //TODO
+	private static final double DEMO_WINDOW_WIDTH = 805;
 	
 	private static final String PATH_TYPESUGGESTIONS_FXML = "fxml/InputSuggestionsView.fxml";
+	private static final String PATH_DEMOTEXT_FXML = "fxml/DemoTextView.fxml";
 	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
 	public static final String KEYWORD_SHOW_ALL = "home";
 	private static final String KEYWORD_CHANGE_SAVE_PATH = "saveto ";
-	private static final String KEYWORD_DEMO = "demo";
 	private static final String KEYWORD_SHOWMORE = "showmore";
 	private static final String MESSAGE_WARNING = "Warning: ";
 	private static final String DELIMITER_WARNING = "Warning: ";
@@ -59,6 +60,8 @@ public class MainController {
 	private static final Color COLOR_WARNING = Color.web("#FFFF00");
 
 	// Elements loaded using FXML
+	@FXML
+	private BorderPane backgroundPane;
 	@FXML
 	private TextField inputBar;
 	@FXML
@@ -79,22 +82,20 @@ public class MainController {
 	private DisplayController displayAreaController;
 
 	private Main _main;
-	private Deque<String> _prevCommandLines;
-	private Deque<String> _nextCommandLines;
-	private HelpController _helpController;
+	private Deque<String> _prevCommandLines = new ArrayDeque<String>();
+	private Deque<String> _nextCommandLines = new ArrayDeque<String>();
+	private BooleanProperty _isDemo = new SimpleBooleanProperty(false);
 	private Popup _popupInputSuggestions;
 	private InputSuggestionsPopupController _popupController;
-	private BooleanProperty _isDemo;
-	private IntegerProperty _demoIndex;
+	private BorderPane _demoTextPane;
+	private DemoController _demoController;
+	private HelpController _helpController;
 	
 	public MainController() {
-		_isDemo = new SimpleBooleanProperty(false);
-		_demoIndex = new SimpleIntegerProperty(-1);
-		_prevCommandLines = new ArrayDeque<String>();
-		_nextCommandLines = new ArrayDeque<String>();
+		//default constructor
 	}
 	
-	public void setupTypeSuggestions() {	
+	public void initTypeSuggestions() {	
 		_popupInputSuggestions = new Popup();
 		_popupController = new InputSuggestionsPopupController();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_TYPESUGGESTIONS_FXML));
@@ -116,6 +117,20 @@ public class MainController {
 		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
 		setListeners();
 	}
+	
+	private void initDemoPane() {	
+		_demoController = new DemoController();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_DEMOTEXT_FXML));
+		loader.setController(_demoController);
+		try {
+			_demoTextPane = loader.load();
+			UrgendaLogger.getInstance().getLogger().log(Level.INFO, "setup of demo text pane successful");
+		} catch (IOException e) {
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, "Error setting up demo text pane");
+			e.printStackTrace();
+		}
+		backgroundPane.setRight(_demoTextPane);
+	}	
 
 	private void setListeners() {
 		//listeners for demo view
@@ -124,25 +139,15 @@ public class MainController {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if (!newValue.equals(oldValue)) { //check change
 					if (newValue.equals(true)) {
+						initDemoPane();
 						_popupInputSuggestions.hide();
-						_demoIndex.set(0);
+						_main.getPrimaryStage().setWidth(DEMO_WINDOW_WIDTH);
 					} else {
-						//TODO set demo text not visible
-						_demoIndex.set(-1);
+						_demoController = null;
+						backgroundPane.getChildren().remove(_demoTextPane);
+						_main.getPrimaryStage().setWidth(backgroundPane.getPrefWidth());
+						displayFeedback(_main.handleCommandLine(KEYWORD_SHOW_ALL, _isDemo.get()));	//return to all tasks view
 					}
-				}
-			}
-		});
-		_demoIndex.addListener(new ChangeListener<Number>(){
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if (newValue.intValue() < 0 && _isDemo.get()) {
-					_demoIndex.set(0);
-				} else if (newValue.intValue() > DEMO_SCREEN_COUNT) { //reached past last page of demo
-					_isDemo.set(false);
-					displayFeedback(_main.handleCommandLine(KEYWORD_SHOW_ALL, _isDemo.get()));	//return to all tasks view
-				} else {					
-					setDemoPage(newValue.intValue());
 				}
 			}
 		});
@@ -167,12 +172,8 @@ public class MainController {
 		_main.getPrimaryStage().xProperty().addListener(windowPosChangeListener);	
 		_main.getPrimaryStage().yProperty().addListener(windowPosChangeListener);
 	}
-	
-	protected void setDemoPage(int page) {
-		// TODO Auto-generated method stub
-	}
 
-	private void showSuggestionsPopup() {
+	public void showSuggestionsPopup() {
 		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText().trim()));
 		if(!windowOutOfBounds()) {
 			if(inputBar.getText().isEmpty()) {
@@ -183,6 +184,10 @@ public class MainController {
 			_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
 			_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
 		}
+	}
+	
+	public void hideSuggestionsPopup() {
+		_popupInputSuggestions.hide();
 	}
 	
 	private boolean windowOutOfBounds() {
@@ -213,17 +218,11 @@ public class MainController {
 			}
 			if(_isDemo.get()) {
 				if(event.isShiftDown()) {
-					if(_demoIndex.intValue() > 0) {						
-						_demoIndex.set(_demoIndex.get() - 1);
-					}
+					_demoController.nextPart();
 				} else {
-					_demoIndex.set(_demoIndex.get() + 1);
+					_demoController.prevPart();
 				}
 			} 
-		} else if (code == KeyCode.LEFT && event.isControlDown()) {
-			displayAreaController.executeTraverse(DisplayController.Direction.LEFT);
-		} else if (code == KeyCode.RIGHT && event.isControlDown()) {
-			displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 		}
 	}
 
@@ -232,8 +231,6 @@ public class MainController {
 		KeyCode code = event.getCode();
 		if(code == KeyCode.TAB) {
 			sceneListener(event); //pass control to scene
-		} else if ((code == KeyCode.LEFT || code == KeyCode.RIGHT) && event.isControlDown()) {
-			sceneListener(event); //pass control to scene
 		} else if (code == KeyCode.ENTER) {
 			if (!inputBar.getText().trim().equals("") && !inputBar.getText().equals("")) {
 				while (!_nextCommandLines.isEmpty()) {
@@ -241,13 +238,7 @@ public class MainController {
 					_nextCommandLines.removeFirst();
 				}
 				_prevCommandLines.addFirst(inputBar.getText());
-				String feedback;
-				if (inputBar.getText().equalsIgnoreCase(KEYWORD_DEMO)) {
-					_isDemo.set(true);
-					feedback = _main.activateDemoScreen();
-				} else {
-					feedback = _main.handleCommandLine(inputBar.getText(),_isDemo.get());
-				}
+				String feedback = _main.handleCommandLine(inputBar.getText(),_isDemo.get());
 				if (feedback != null) { // null does not change feedback text
 					displayFeedback(feedback);
 				}
@@ -298,12 +289,16 @@ public class MainController {
 	
 	@FXML
 	private void taskToggleDownListener(ActionEvent e) {
-		displayAreaController.executeTraverse(DisplayController.Direction.DOWN);
+		//if(!_isDemo.get()){			
+			displayAreaController.executeTraverse(DisplayController.Direction.DOWN);
+		//}
 	}
 
 	@FXML
 	private void taskToggleUpListener(ActionEvent e) {
-		displayAreaController.executeTraverse(DisplayController.Direction.UP);
+		//if(!_isDemo.get()){	
+			displayAreaController.executeTraverse(DisplayController.Direction.UP);
+		//}
 	}
 
 	@FXML
@@ -445,5 +440,9 @@ public class MainController {
 	
 	public void setDemo(boolean demo) {
 		_isDemo.set(demo);
+	}
+
+	public boolean isDemo() {
+		return _isDemo.get();
 	}
 }

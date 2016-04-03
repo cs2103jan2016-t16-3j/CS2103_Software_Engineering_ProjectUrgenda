@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane fx:id="demoPane" prefWidth="200.0" stylesheets="@../styles/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TextFlow fx:id="demoTextArea" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Urgenda's demo! Use TAB to move to the next part of the demo. If you wish to see the previous part of the demo, press SHIFT + TAB." />
+         </children>
+         <padding>
+            <Insets right="3.0" top="5.0" />
+         </padding>
+      </TextFlow>
+   </center>
+   <top>
+      <Pane fx:id="demoHeaderPane" prefHeight="40.0" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <AnchorPane prefHeight="410.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+   </left>
+</BorderPane>
