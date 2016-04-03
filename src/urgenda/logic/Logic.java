@@ -6,6 +6,9 @@ import urgenda.command.AddTask;
 import urgenda.command.BlockSlots;
 import urgenda.command.Command;
 import urgenda.command.Complete;
+import urgenda.command.Demo;
+import urgenda.command.Exit;
+import urgenda.command.Home;
 import urgenda.command.Invalid;
 import urgenda.command.ShowDetails;
 import urgenda.command.TaskCommand;
@@ -111,6 +114,13 @@ public class Logic {
 			// TODO settle archive cases
 			if (currCmd instanceof Complete) {
 				currCmd = new Invalid(LogicData.DisplayState.ARCHIVE);
+			}
+		} else if (_logicData.getCurrState() == LogicData.DisplayState.DEMO) {
+			if (currCmd instanceof Home || currCmd instanceof Exit) {
+				// allow home
+			} else {
+				// continues as demo
+				currCmd = new Demo();
 			}
 		}
 
