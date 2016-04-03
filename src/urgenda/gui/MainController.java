@@ -40,6 +40,7 @@ public class MainController {
 
 	//constants for MainController
 	private static final int WINDOWS_TASKBAR_HEIGHT = 30;
+	private static final int DEMO_SCREEN_COUNT = 10; //TODO
 	
 	private static final String PATH_TYPESUGGESTIONS_FXML = "fxml/InputSuggestionsView.fxml";
 	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
@@ -56,8 +57,6 @@ public class MainController {
 
 	private static final Color COLOR_ERROR = Color.web("#FA6969");
 	private static final Color COLOR_WARNING = Color.web("#FFFF00");
-
-	private static final int DEMO_SCREEN_COUNT = 10; //TODO
 
 	// Elements loaded using FXML
 	@FXML
@@ -174,7 +173,7 @@ public class MainController {
 	}
 
 	private void showSuggestionsPopup() {
-		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
+		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText().trim()));
 		if(!windowOutOfBounds()) {
 			if(inputBar.getText().isEmpty()) {
 				_popupInputSuggestions.hide();
@@ -221,6 +220,10 @@ public class MainController {
 					_demoIndex.set(_demoIndex.get() + 1);
 				}
 			} 
+		} else if (code == KeyCode.LEFT && event.isControlDown()) {
+			displayAreaController.executeTraverse(DisplayController.Direction.LEFT);
+		} else if (code == KeyCode.RIGHT && event.isControlDown()) {
+			displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 		}
 	}
 
@@ -228,6 +231,8 @@ public class MainController {
 	private void commandLineListener(KeyEvent event) {
 		KeyCode code = event.getCode();
 		if(code == KeyCode.TAB) {
+			sceneListener(event); //pass control to scene
+		} else if ((code == KeyCode.LEFT || code == KeyCode.RIGHT) && event.isControlDown()) {
 			sceneListener(event); //pass control to scene
 		} else if (code == KeyCode.ENTER) {
 			if (!inputBar.getText().trim().equals("") && !inputBar.getText().equals("")) {
@@ -267,10 +272,6 @@ public class MainController {
 			} else {
 				inputBar.clear();
 			}
-		} else if (code == KeyCode.LEFT && event.isControlDown()) {	//hard-coded since FXML accelerator doesn't work
-			displayAreaController.executeTraverse(DisplayController.Direction.LEFT);
-		} else if (code == KeyCode.RIGHT && event.isControlDown()) { //hard-coded since FXML accelerator doesn't work
-			displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 		}
 	}
 	
