@@ -67,6 +67,9 @@ public class LogicSuggester {
 	private static final String SAVETO = "[path directory]";
 	private static final String SAVETO_MESSAGE = "Change the save directory of Urgenda";
 	
+	private static final String DEMO = "";
+	private static final String DEMO_MESSAGE = "Gives a demonstration of using Urgenda";
+	
 	private static final String SUGGESTION_MESSAGE = "Matching command(s) to use";
 	
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
@@ -106,6 +109,8 @@ public class LogicSuggester {
 				return confirmCommand();
 			case DELETE :
 				return deleteCommand();
+			case DEMO :
+				return demoCommand();
 			case DONE :
 				return doneCommand();
 			case EDIT :
@@ -136,6 +141,10 @@ public class LogicSuggester {
 		return null;
 	}
 	
+	private ArrayList<String> demoCommand() {
+		return generateMessage(DEMO, DEMO_MESSAGE);
+	}
+
 	private ArrayList<String> undoCommand() {
 		return generateMessage(UNDO, UNDO_MESSAGE);
 	}
