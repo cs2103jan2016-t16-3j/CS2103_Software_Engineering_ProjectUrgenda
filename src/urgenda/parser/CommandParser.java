@@ -19,10 +19,12 @@ import urgenda.parser.commandParser.BlockSlotsCommandParser;
 import urgenda.parser.commandParser.CompleteCommandParser;
 import urgenda.parser.commandParser.ConfirmCommandParser;
 import urgenda.parser.commandParser.DeleteCommandParser;
+import urgenda.parser.commandParser.DemoCommandParser;
 import urgenda.parser.commandParser.EditCommandParser;
 import urgenda.parser.commandParser.ExitCommandParser;
 import urgenda.parser.commandParser.FindFreeCommandParser;
 import urgenda.parser.commandParser.HelpCommandParser;
+import urgenda.parser.commandParser.HideCommandParser;
 import urgenda.parser.commandParser.HomeCommandParser;
 import urgenda.parser.commandParser.InvalidCommandParser;
 import urgenda.parser.commandParser.NewEditCommandParser;
@@ -193,6 +195,8 @@ public class CommandParser {
 		commandSet.add(PublicVariables.showDetailsKeyWords);
 		commandSet.add(PublicVariables.archiveKeyWords);
 		commandSet.add(PublicVariables.findFreeKeyWords);
+		commandSet.add(PublicVariables.hideKeyWords);
+		commandSet.add(PublicVariables.demoKeyWords);
 
 		for (Set<String> setString : commandSet) {
 			for (String string : setString) {
@@ -266,6 +270,12 @@ public class CommandParser {
 		case HELP:
 			HelpCommandParser helpCommand = new HelpCommandParser(argsString, index);
 			return helpCommand.generateAndReturn();
+		case DEMO:
+			DemoCommandParser demoCommand = new DemoCommandParser(argsString, index);
+			return demoCommand.generateAndReturn();
+		case HIDE:
+			HideCommandParser hideCommand = new HideCommandParser(argsString, index);
+			return hideCommand.generateAndReturn();
 		default:
 			return null;
 		}

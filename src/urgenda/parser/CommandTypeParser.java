@@ -42,6 +42,10 @@ public class CommandTypeParser {
 			return COMMAND_TYPE.EXIT;
 		} else if (PublicVariables.helpKeyWords.contains(lowerCaseFirstWord)) {
 			return COMMAND_TYPE.HELP;
+		} else if (PublicVariables.demoKeyWords.contains(lowerCaseFirstWord)) {
+			return COMMAND_TYPE.DEMO;
+		} else if (PublicVariables.hideKeyWords.contains(lowerCaseFirstWord)) {
+			return COMMAND_TYPE.HIDE;
 		} else {
 			return COMMAND_TYPE.INVALID;
 		}
