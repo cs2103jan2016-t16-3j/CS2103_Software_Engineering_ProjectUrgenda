@@ -10,6 +10,10 @@ import java.util.logging.Level;
 import org.ocpsoft.prettytime.shade.edu.emory.mathcs.backport.java.util.Arrays;
 
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -33,7 +37,7 @@ import urgenda.util.UrgendaLogger;
 import javafx.stage.Stage;
 
 public class MainController {
-	
+
 	//constants for MainController
 	private static final int WINDOWS_TASKBAR_HEIGHT = 30;
 	
@@ -41,7 +45,7 @@ public class MainController {
 	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
-	private static final String KEYWORD_SHOW_ALL = "home";
+	public static final String KEYWORD_SHOW_ALL = "home";
 	private static final String KEYWORD_CHANGE_SAVE_PATH = "saveto ";
 	private static final String KEYWORD_DEMO = "demo";
 	private static final String KEYWORD_SHOWMORE = "showmore";
@@ -52,6 +56,8 @@ public class MainController {
 
 	private static final Color COLOR_ERROR = Color.web("#FA6969");
 	private static final Color COLOR_WARNING = Color.web("#FFFF00");
+
+	private static final int DEMO_SCREEN_COUNT = 10; //TODO
 
 	// Elements loaded using FXML
 	@FXML
@@ -79,8 +85,12 @@ public class MainController {
 	private HelpController _helpController;
 	private Popup _popupInputSuggestions;
 	private InputSuggestionsPopupController _popupController;
+	private BooleanProperty _isDemo;
+	private IntegerProperty _demoIndex;
 	
 	public MainController() {
+		_isDemo = new SimpleBooleanProperty(false);
+		_demoIndex = new SimpleIntegerProperty(-1);
 		_prevCommandLines = new ArrayDeque<String>();
 		_nextCommandLines = new ArrayDeque<String>();
 	}
@@ -109,22 +119,60 @@ public class MainController {
 	}
 
 	private void setListeners() {
+		//listeners for demo view
+		_isDemo.addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (!newValue.equals(oldValue)) { //check change
+					if (newValue.equals(true)) {
+						_popupInputSuggestions.hide();
+						_demoIndex.set(0);
+					} else {
+						//TODO set demo text not visible
+						_demoIndex.set(-1);
+					}
+				}
+			}
+		});
+		_demoIndex.addListener(new ChangeListener<Number>(){
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				if (newValue.intValue() < 0 && _isDemo.get()) {
+					_demoIndex.set(0);
+				} else if (newValue.intValue() > DEMO_SCREEN_COUNT) { //reached past last page of demo
+					_isDemo.set(false);
+					displayFeedback(_main.handleCommandLine(KEYWORD_SHOW_ALL, _isDemo.get()));	//return to all tasks view
+				} else {					
+					setDemoPage(newValue.intValue());
+				}
+			}
+		});
+		
+		//listeners for suggestions popup
 		inputBar.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				showSuggestionsPopup();
+				if (!_isDemo.get()) {
+					showSuggestionsPopup();
+				} else {
+					_popupInputSuggestions.hide();
+				}
 			}		
 		});
 		ChangeListener<Number> windowPosChangeListener = new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-					_popupInputSuggestions.hide();
+				_popupInputSuggestions.hide();
 			}		
 		};
 		_main.getPrimaryStage().xProperty().addListener(windowPosChangeListener);	
 		_main.getPrimaryStage().yProperty().addListener(windowPosChangeListener);
 	}
 	
+	protected void setDemoPage(int page) {
+		// TODO Auto-generated method stub
+	}
+
 	private void showSuggestionsPopup() {
 		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
 		if(!windowOutOfBounds()) {
@@ -160,15 +208,28 @@ public class MainController {
 	@FXML
 	private void sceneListener(KeyEvent event) {
 		KeyCode code = event.getCode();
-		if (code == KeyCode.TAB && !inputBar.isFocused()) {
-			inputBar.requestFocus();
+		if (code == KeyCode.TAB) {
+			if (!inputBar.isFocused()) {
+				inputBar.requestFocus();
+			}
+			if(_isDemo.get()) {
+				if(event.isShiftDown()) {
+					if(_demoIndex.intValue() > 0) {						
+						_demoIndex.set(_demoIndex.get() - 1);
+					}
+				} else {
+					_demoIndex.set(_demoIndex.get() + 1);
+				}
+			} 
 		}
 	}
 
 	@FXML
 	private void commandLineListener(KeyEvent event) {
 		KeyCode code = event.getCode();
-		if (code == KeyCode.ENTER) {
+		if(code == KeyCode.TAB) {
+			sceneListener(event); //pass control to scene
+		} else if (code == KeyCode.ENTER) {
 			if (!inputBar.getText().trim().equals("") && !inputBar.getText().equals("")) {
 				while (!_nextCommandLines.isEmpty()) {
 					_prevCommandLines.addFirst(_nextCommandLines.getFirst());
@@ -177,12 +238,12 @@ public class MainController {
 				_prevCommandLines.addFirst(inputBar.getText());
 				String feedback;
 				if (inputBar.getText().equalsIgnoreCase(KEYWORD_DEMO)) {
+					_isDemo.set(true);
 					feedback = _main.activateDemoScreen();
 				} else {
-					feedback = _main.handleCommandLine(inputBar.getText());
+					feedback = _main.handleCommandLine(inputBar.getText(),_isDemo.get());
 				}
-				if (feedback != null) { // null feedback do not change feedback
-										// text
+				if (feedback != null) { // null does not change feedback text
 					displayFeedback(feedback);
 				}
 				inputBar.clear();
@@ -212,7 +273,7 @@ public class MainController {
 			displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 		}
 	}
-
+	
 	@FXML
 	private void savePathChangeListener(ActionEvent e) {
 		String feedback;
@@ -223,7 +284,7 @@ public class MainController {
 		fileChooser.setInitialDirectory(_main.getSaveDirectory());
 		File selectedFileDirectory = fileChooser.showSaveDialog(new Stage());
 		if (selectedFileDirectory != null) {
-			feedback = _main.handleCommandLine(KEYWORD_CHANGE_SAVE_PATH + selectedFileDirectory.getAbsolutePath());
+			feedback = _main.handleCommandLine(KEYWORD_CHANGE_SAVE_PATH + selectedFileDirectory.getAbsolutePath(), _isDemo.get());
 			displayFeedback(feedback);
 			inputBar.clear();
 		}
@@ -256,26 +317,26 @@ public class MainController {
 	
 	@FXML
 	private void showmoreListener (ActionEvent e) {
-		_main.handleCommandLine(KEYWORD_SHOWMORE);
+		_main.handleCommandLine(KEYWORD_SHOWMORE, _isDemo.get());
 	}
 
 	@FXML
 	private void showAllTasks(ActionEvent e) {
-		String feedback = _main.handleCommandLine(KEYWORD_SHOW_ALL);
+		String feedback = _main.handleCommandLine(KEYWORD_SHOW_ALL, _isDemo.get());
 		displayFeedback(feedback);
 		inputBar.clear();
 	}
 
 	@FXML
 	private void handleUndo(ActionEvent e) {
-		String feedback = _main.handleCommandLine(KEYWORD_UNDO);
+		String feedback = _main.handleCommandLine(KEYWORD_UNDO, _isDemo.get());
 		displayFeedback(feedback);
 		inputBar.clear();
 	}
 
 	@FXML
 	private void handleRedo(ActionEvent e) {
-		String feedback = _main.handleCommandLine(KEYWORD_REDO);
+		String feedback = _main.handleCommandLine(KEYWORD_REDO, _isDemo.get());
 		displayFeedback(feedback);
 		inputBar.clear();
 	}
@@ -379,5 +440,9 @@ public class MainController {
 
 	public HelpController getHelpController() {
 		return _helpController;
+	}
+	
+	public void setDemo(boolean demo) {
+		_isDemo.set(demo);
 	}
 }

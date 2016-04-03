@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
@@ -121,27 +124,34 @@ public class Main extends Application {
 		return state;
 	}
 	
-	protected String handleCommandLine(String commandLine) {
-		_currState = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
-		if(_currState.getState() == State.SHOW_HELP) {
-			_mainController.showHelp();
-		} else if(_currState.getState() == State.EXIT) {
-			quit();
+	protected String handleCommandLine(String commandLine, boolean isDemo) {
+		if(!isDemo || commandLine.equals(MainController.KEYWORD_SHOW_ALL)) {
+			_currState = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
+			if(_currState.getState() == State.SHOW_HELP) {
+				_mainController.showHelp();
+			} else if(_currState.getState() == State.EXIT) {
+				quit();
+			}
+			//TODO implement check settings for showing novice headers, change boolean below
+			switch(_currState.getState()) {
+			case FIND_FREE:
+				_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, true);
+				break;
+			case HIDE:
+				_primaryStage.setIconified(true);
+				//fall-through
+			default:
+				_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, false);
+				break;
+			}
+			_mainController.updateOverdueCount(_currState.getOverdueCount());
+			if (commandLine.equals(MainController.KEYWORD_SHOW_ALL)) {
+				_mainController.setDemo(false);
+			}
+			return _currState.getFeedback();
+		} else {
+			return null;
 		}
-		//TODO implement check settings for showing novice headers, change boolean below
-		switch(_currState.getState()) {
-		case FIND_FREE:
-			_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, true);
-			break;
-		case HIDE:
-			_primaryStage.setIconified(true);
-			//fall-through
-		default:
-			_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, false);
-			break;
-		}
-		_mainController.updateOverdueCount(_currState.getOverdueCount());
-		return _currState.getFeedback();
 	}
 	
 
