@@ -3,8 +3,11 @@ package urgenda.gui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.logging.Level;
+
+import org.ocpsoft.prettytime.shade.edu.emory.mathcs.backport.java.util.Arrays;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -17,20 +20,24 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import urgenda.util.UrgendaLogger;
 import javafx.stage.Stage;
 
 public class MainController {
-
+	
+	//constants for MainController
 	private static final int WINDOWS_TASKBAR_HEIGHT = 30;
 	
+	private static final String PATH_TYPESUGGESTIONS_FXML = "fxml/InputSuggestionsView.fxml";
 	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
@@ -38,13 +45,19 @@ public class MainController {
 	private static final String KEYWORD_CHANGE_SAVE_PATH = "saveto ";
 	private static final String KEYWORD_DEMO = "demo";
 	private static final String KEYWORD_SHOWMORE = "showmore";
-	private static final String PATH_TYPESUGGESTIONS_FXML = "fxml/InputSuggestionsView.fxml";
+	private static final String MESSAGE_WARNING = "Warning: ";
+	private static final String DELIMITER_WARNING = "Warning: ";
+	private static final String MESSAGE_ERROR = "ERROR: ";
+	private static final String DELIMITER_ERROR = "Error: ";
+
+	private static final Color COLOR_ERROR = Color.web("#FA6969");
+	private static final Color COLOR_WARNING = Color.web("#FFFF00");
 
 	// Elements loaded using FXML
 	@FXML
 	private TextField inputBar;
 	@FXML
-	private TextArea feedbackArea;
+	private TextFlow feedbackArea;
 	@FXML
 	private Parent displayArea;
 	@FXML
@@ -66,7 +79,7 @@ public class MainController {
 	private HelpController _helpController;
 	private Popup _popupInputSuggestions;
 	private InputSuggestionsPopupController _popupController;
-
+	
 	public MainController() {
 		_prevCommandLines = new ArrayDeque<String>();
 		_nextCommandLines = new ArrayDeque<String>();
@@ -96,37 +109,10 @@ public class MainController {
 	}
 
 	private void setListeners() {
-		inputBar.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if(newValue) {
-					if(!windowOutOfBounds()) {
-						if(inputBar.getText().isEmpty()) {
-							_popupInputSuggestions.hide();
-						} else {
-							_popupInputSuggestions.show(_main.getPrimaryStage());
-						}
-						_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
-						_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
-					}
-				} else {
-					_popupInputSuggestions.hide();
-				}
-			}
-		});
 		inputBar.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
-				if(!windowOutOfBounds()) {
-					if(inputBar.getText().isEmpty()) {
-						_popupInputSuggestions.hide();
-					} else {
-						_popupInputSuggestions.show(_main.getPrimaryStage());
-					}
-					_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
-					_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());		
-				}
+				showSuggestionsPopup();
 			}		
 		});
 		ChangeListener<Number> windowPosChangeListener = new ChangeListener<Number>() {
@@ -138,7 +124,20 @@ public class MainController {
 		_main.getPrimaryStage().xProperty().addListener(windowPosChangeListener);	
 		_main.getPrimaryStage().yProperty().addListener(windowPosChangeListener);
 	}
-
+	
+	private void showSuggestionsPopup() {
+		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
+		if(!windowOutOfBounds()) {
+			if(inputBar.getText().isEmpty()) {
+				_popupInputSuggestions.hide();
+			} else {
+				_popupInputSuggestions.show(_main.getPrimaryStage());
+			}
+			_popupInputSuggestions.setX(_main.getPrimaryStage().getX());
+			_popupInputSuggestions.setY(_main.getPrimaryStage().getY() + _main.getPrimaryStage().getHeight());
+		}
+	}
+	
 	private boolean windowOutOfBounds() {
 		Bounds bounds = _main.computeAllScreenBounds();
 		double x = _main.getPrimaryStage().getX();
@@ -299,7 +298,7 @@ public class MainController {
 		}
 	}
 	
-	public void showMultipleSlotMenuOption(boolean show) {
+	public void toggleMultipleSlotMenuOption(boolean show) {
 		multipleSlotSeparator.setVisible(show);
 		menuPrevMultipleSlot.setVisible(show);
 		menuNextMultipleSlot.setVisible(show);
@@ -312,9 +311,63 @@ public class MainController {
 	}
 
 	public void displayFeedback(String feedback) {
-		feedbackArea.setText(feedback);
+		Text feedbackText = null;
+		ArrayList<Text> warningTexts = new ArrayList<Text>();
+		ArrayList<Text> errorTexts = new ArrayList<Text>();
+		if (feedback.contains(DELIMITER_WARNING)) {
+			String delim = DELIMITER_WARNING;
+			@SuppressWarnings("unchecked")
+			ArrayList<String> delimitedFeedback  = new ArrayList<String>(Arrays.asList(feedback.split(delim)));
+			feedbackText = new Text(delimitedFeedback.get(0));
+			for (int i = 1; i < delimitedFeedback.size(); i++) {
+				Text warningText = new Text(MESSAGE_WARNING + delimitedFeedback.get(i));
+				warningText.setFill(COLOR_WARNING);
+				warningTexts.add(warningText);
+			}
+		} else if (feedback.contains("Error:")) {
+			String delim = DELIMITER_ERROR;
+			@SuppressWarnings("unchecked")
+			ArrayList<String> delimitedFeedback  = new ArrayList<String>(Arrays.asList(feedback.split(delim)));
+			feedbackText = new Text(delimitedFeedback.get(0));
+			for (int i = 1; i < delimitedFeedback.size(); i++) {
+				Text errorText = new Text(MESSAGE_ERROR + delimitedFeedback.get(i));
+				errorText.setFill(COLOR_ERROR);
+				errorTexts.add(errorText);
+			}
+		} else {
+			feedbackText = new Text(feedback);
+			
+		}
+		feedbackText.setFill(Color.WHITE);
+		feedbackArea.getChildren().clear();
+		feedbackArea.getChildren().add(feedbackText);
+		if (warningTexts.size() > 0) {
+			for(Text text: warningTexts) {
+				feedbackArea.getChildren().add(text);
+			}
+		}
+		if (errorTexts.size() > 0) {
+			for(Text text: errorTexts) {
+				feedbackArea.getChildren().add(text);
+			}
+		}
 	}
 
+	public void updateOverdueCount(int overdueCount) {
+		if (overdueCount <= 0) {
+			overdueIndicatorCircle.setVisible(false);
+			overdueIndicatorLabel.setVisible(false);
+		} else {
+			overdueIndicatorCircle.setVisible(true);
+			overdueIndicatorLabel.setVisible(true);
+			if (overdueCount <= 99) {
+				overdueIndicatorLabel.setText(String.valueOf(overdueCount));
+			} else {
+				overdueIndicatorLabel.setText("99+");
+			}
+		}
+	}
+	
 	public void setMain(Main main) {
 		_main = main;
 		displayAreaController.setMain(_main);
@@ -326,21 +379,5 @@ public class MainController {
 
 	public HelpController getHelpController() {
 		return _helpController;
-	}
-
-	public void updateOverdueCount(int overdueCount) {
-		if (overdueCount <= 0) {
-			overdueIndicatorCircle.setVisible(false);
-			overdueIndicatorLabel.setVisible(false);
-		} else {
-			overdueIndicatorCircle.setVisible(true);
-			overdueIndicatorLabel.setVisible(true);
-			if (overdueCount <= 99) {
-			overdueIndicatorLabel.setText(String.valueOf(overdueCount));
-			} else {
-			overdueIndicatorLabel.setText("99+");
-			}
-		}
-		
 	}
 }

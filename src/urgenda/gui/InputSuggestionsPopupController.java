@@ -27,7 +27,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String SUBSTRING_TASK_TYPE_SEARCH = "task type";
 	private static final String SUBSTRING_LOCATION = "location";
 	private static final String SUBSTRING_PATH_DIRECTORY = "path directory";
-	private static final String SUBSTRING_REMOVE_TIME = "remove 1 timing";
+	private static final String SUBSTRING_REMOVE_TIME = "remove one timing";
 
 	private static final Color COLOR_DEFAULT = Color.web("#FFFFFF"); //white
 	private static final Color COLOR_SELECTED_TASK = Color.web("#559BFF"); //blue

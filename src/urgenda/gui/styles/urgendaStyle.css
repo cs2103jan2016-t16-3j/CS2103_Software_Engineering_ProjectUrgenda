@@ -13,8 +13,18 @@
 	src: url('../../../resources/Montserrat-UltraLight.otf');
 }
 
+* {
+	-fx-base-color: #474E60;
+	-fx-base-color-dark: #45495B;
+}
+
+Text {
+	-fx-font-family: "Montserrat Light";
+	-fx-font-size: 16px;
+}
+
 #titlePane {
-	-fx-background-color: #474E60;
+	-fx-background-color: -fx-base-color;
 }
 
 #urgendaIcon {
@@ -34,7 +44,7 @@
 }
 
 #demoPane {
-	-fx-background-color: #474E60;
+	-fx-background-color: -fx-base-color;
 	-fx-background-radius: 7px;
 	-fx-border-radius: 5px;
 	-fx-border-width: 2px;
@@ -50,7 +60,7 @@
 #displayHeader {
 	-fx-font-family: "Montserrat";
 	-fx-font-size: 16px;
-	-fx-text-fill: #474E60;
+	-fx-text-fill: -fx-base-color;
 	-fx-background-color: grey;
 	-fx-background-radius: 5px;
 }
@@ -62,40 +72,34 @@
 }
 
 #displayPane {
-	-fx-background-color: #474E60;
+	-fx-background-color: -fx-base-color;
 }
 
 #displayArea {
 	-fx-background-insets: 0px;
-	-fx-background-color: #45495B;
+	-fx-background-color: -fx-base-color-dark;
 }
 
 #displayArea .viewport{
 	-fx-background-color: white;
 } 
 
-#feedbackPane {
-	-fx-background-color: #474E60;
-}
-
 #feedbackArea {
 	-fx-background-color: transparent;
 	-fx-border-width: 0, 0, 0, 0;
-	-fx-font-family: "Montserrat Light";
-	-fx-font-size: 16px;
-	-fx-text-fill: white;
-	
 }
 
-#feedbackArea .scroll-pane .viewport, #feedbackArea .scroll-pane .content{
+#feedbackPane {
+	-fx-background-color: -fx-base-color;
+	-fx-vbar-policy: ALWAYS;
+	-fx-hbar-policy: NEVER;
+}
+
+#feedbackPane .viewport, #feedbackArea .content{
     -fx-background-color: transparent;
 }
 
-#feedbackArea .scroll-pane {
-	-fx-vbar-policy: always;
-}
-
-#feedbackArea .scroll-pane .scroll-bar:vertical{
+#feedbackPane .scroll-bar:vertical{
 	-fx-background-color: transparent;
 	-fx-unit-increment: 15px;
 	-fx-block-increment: 15px;
@@ -118,7 +122,7 @@
 }
 
 #helpPane {
-	-fx-background-color: #474E60;
+	-fx-background-color: -fx-base-color;
 }
 
 #helpHeader {
@@ -137,7 +141,7 @@
 
 #helpContentPane .scroll-pane:fitToWidth .viewport .content, #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical .track-background, #helpPrev, #helpNext {
 	-fx-background-radius: 0.0;
-	-fx-background-color: #474E60;
+	-fx-background-color: -fx-base-color;
 }
 
 #helpContentPane .scroll-pane:fitToWidth .scroll-bar:vertical{

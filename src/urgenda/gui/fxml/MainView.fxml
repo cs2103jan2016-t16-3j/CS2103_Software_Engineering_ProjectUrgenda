@@ -6,8 +6,8 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <BorderPane fx:id="backgroundPane" maxHeight="650.0" maxWidth="600.0" onKeyPressed="#sceneListener" prefHeight="650.0" prefWidth="600.0" stylesheets="@../styles/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.MainController">
          <top>
@@ -121,14 +122,21 @@
             </AnchorPane>
          </top>
          <bottom>
-            <AnchorPane fx:id="feedbackPane" maxHeight="100.0" prefHeight="100.0" prefWidth="398.0" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="feedbackPane" prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextArea fx:id="feedbackArea" editable="false" focusTraversable="false" prefHeight="55.0" prefWidth="584.0" text="Feedback Message" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0">
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
-                  </TextArea>
-                  <TextField fx:id="inputBar" minHeight="45.0" onKeyReleased="#commandLineListener" prefHeight="0.0" promptText="Type your to-do here!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <ScrollPane fx:id="feedbackPane" prefHeight="60.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <content>
+                  <TextFlow fx:id="feedbackArea" prefHeight="60.0" prefWidth="580.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </TextFlow>
+               </content>
+            </ScrollPane>
+                  <TextField fx:id="inputBar" onKeyReleased="#commandLineListener" prefHeight="40.0" promptText="Type your to-do here!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>

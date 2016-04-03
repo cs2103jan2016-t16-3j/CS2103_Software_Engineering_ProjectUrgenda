@@ -202,7 +202,7 @@ public class Main extends Application {
 	}
 	
 	public void setMultipleSlotMenuForSelected(boolean show) {
-		_mainController.showMultipleSlotMenuOption(show);
+		_mainController.toggleMultipleSlotMenuOption(show);
 	}
 
 	private void quit() {

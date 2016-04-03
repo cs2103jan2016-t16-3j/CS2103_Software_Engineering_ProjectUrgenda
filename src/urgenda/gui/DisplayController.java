@@ -67,9 +67,9 @@ public class DisplayController extends AnchorPane {
 				if (((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot()) {
 					boolean isMultipleSlotTask = ((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot();
 					boolean isDetailed = (displayHolder.getChildren().get(_selectedTaskIndex.getValue())).getClass().equals(DetailedTaskController.class);
-					_main.getController().showMultipleSlotMenuOption(!isDetailed && isMultipleSlotTask);
+					_main.getController().toggleMultipleSlotMenuOption(!isDetailed && isMultipleSlotTask);
 				} else {
-					_main.getController().showMultipleSlotMenuOption(false);
+					_main.getController().toggleMultipleSlotMenuOption(false);
 				}
 			}
 		});
