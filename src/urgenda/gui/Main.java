@@ -6,20 +6,20 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import urgenda.logic.Logic;
+import urgenda.util.DemoStateFeedback;
 import urgenda.util.StateFeedback;
 import urgenda.util.StateFeedback.State;
 import urgenda.util.SuggestFeedback;
@@ -110,12 +110,23 @@ public class Main extends Application {
 		_primaryStage.setScene(_scene);
 		_primaryStage.sizeToScene();
 		_primaryStage.show();
+		_primaryStage.showingProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(newValue) {
+					_mainController.showSuggestionsPopup();
+				} else {
+					_mainController.hideSuggestionsPopup();
+				}	
+				
+			}
+		});
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of Urgenda window");
 	}
 
 	private void initFeatures() {
 		_mainController.updateOverdueCount(_currState.getOverdueCount());
-		_mainController.setupTypeSuggestions();
+		_mainController.initTypeSuggestions();
 	}
 	
 	private StateFeedback retrieveStartupState() {
@@ -125,35 +136,40 @@ public class Main extends Application {
 	}
 	
 	protected String handleCommandLine(String commandLine, boolean isDemo) {
-		if(!isDemo || commandLine.equals(MainController.KEYWORD_SHOW_ALL)) {
-			_currState = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
-			if(_currState.getState() == State.SHOW_HELP) {
-				_mainController.showHelp();
-			} else if(_currState.getState() == State.EXIT) {
-				quit();
-			}
-			//TODO implement check settings for showing novice headers, change boolean below
-			switch(_currState.getState()) {
-			case FIND_FREE:
-				_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, true);
-				break;
-			case HIDE:
-				_primaryStage.setIconified(true);
-				//fall-through
-			default:
-				_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, false);
-				break;
-			}
-			_mainController.updateOverdueCount(_currState.getOverdueCount());
-			if (commandLine.equals(MainController.KEYWORD_SHOW_ALL)) {
-				_mainController.setDemo(false);
-			}
-			return _currState.getFeedback();
-		} else {
-			return null;
+		_currState = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
+		if(_currState.getState() == State.SHOW_HELP) {
+			_mainController.showHelp();
+		} else if(_currState.getState() == State.EXIT) {
+			quit();
 		}
+		//TODO implement check settings for showing novice headers, change boolean below
+		switch(_currState.getState()) {
+		case FIND_FREE:
+			_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, true, false);
+			break;
+		case DEMO:
+			return activateDemoScreen();
+		case HIDE:
+			_primaryStage.setIconified(true);
+			//fall-through
+		case ALL_TASKS:
+			_mainController.setDemo(false);
+			//fall-through
+		default:
+			_displayController.setDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true, false, false);
+			break;
+		}
+		_mainController.updateOverdueCount(_currState.getOverdueCount());
+		return _currState.getFeedback();
 	}
 	
+	private String activateDemoScreen() {
+		_mainController.setDemo(true);
+		StateFeedback state = new DemoStateFeedback();
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false, true);
+		_mainController.updateOverdueCount(state.getOverdueCount());
+		return state.getFeedback();
+	}
 
 	private String createDisplayHeader(StateFeedback state) {
 		String display = "";
@@ -199,13 +215,6 @@ public class Main extends Application {
 		return _primaryStage;
 	}
 
-	public String activateDemoScreen() {
-		StateFeedback state = new DemoStateFeedback();
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false);
-		_mainController.updateOverdueCount(state.getOverdueCount());
-		return state.getFeedback();
-	}
-
 	public File getSaveDirectory() {
 		File file = new File(_logic.getCurrentSaveDirectory());
 		return file;
@@ -229,7 +238,7 @@ public class Main extends Application {
 	public SuggestFeedback retrieveSuggestions(String text) {
 		return _logic.getSuggestions(text);
 	}
-
+	
 	public Bounds computeAllScreenBounds() {
         double minX = Double.POSITIVE_INFINITY ;
         double minY = Double.POSITIVE_INFINITY ;
