@@ -22,9 +22,13 @@ public class LogicSuggester {
 	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
 
 	// TODO feedback for edit
-	private static final String EDIT = "[task no] [new desc] | @[location] (optional) | "
-			+ "-r (remove one timing) | from [start time] to [end time] | by [deadline]";
-	private static final String EDIT_MESSAGE = "Edits desc, date(s) and timing(s), and/or location of selected task";
+	private static final String EDIT_FLOATING = "[task no] | [new desc] | [new timing(s)] | [-r] (removes a timing) | @[location]";
+	private static final String EDIT_FLOATING_1 = "[task no] [new desc] | [use at/from/on/by for timings] | [-r] (remove a timing) | @[location]";
+	private static final String EDIT_FLOATING_MESSAGE = "Edits desc, date(s) and timing(s), and/or location of selected task";
+	private static final String EDIT_EVENT = "[task no] [new desc] | from [start time] to [end time] | @[location] (optional)";
+	private static final String EDIT_EVENT_MESSAGE = "Edits task into an event";
+	private static final String EDIT_DEADLINE = "[task no] [new desc] | by [deadline] | @[location] (optional)";
+	private static final String EDIT_DEADLINE_MESSAGE = "Edits task into deadline task";
 
 	private static final String SEARCH_TASK = "[desc] | [date/month/day/time] | [task type]";
 	private static final String SEARCH_MESSAGE = "Searches for task(s) displayed that matches the given input";
@@ -227,13 +231,12 @@ public class LogicSuggester {
 	
 	private ArrayList<String> editCommand(boolean isDeadline, boolean isEvent) {
 		if (isDeadline) {
-			// TODO when ks done
+			return generateMessage(EDIT_DEADLINE, EDIT_DEADLINE_MESSAGE);
 		} else if (isEvent) {
-			
+			return generateMessage(EDIT_EVENT, EDIT_EVENT_MESSAGE);
 		} else {
-			
+			return generateMessage(EDIT_FLOATING, EDIT_FLOATING_MESSAGE);			
 		}
-		return generateMessage(EDIT, EDIT_MESSAGE);
 	}
 
 	private ArrayList<String> addCommand(boolean isDeadline, boolean isEvent) {
