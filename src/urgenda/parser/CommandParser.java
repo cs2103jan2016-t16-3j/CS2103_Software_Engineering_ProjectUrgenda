@@ -86,7 +86,6 @@ public class CommandParser {
 			}
 		} else {
 			SuggestCommand.Command command = convertCommandType(commandType);
-			System.out.print(command + "\n");
 //			DateTimeParser.searchTaskTimes(commandString);
 //			TaskDetailsParser.searchTaskType();
 			SuggestCommand suggestCommand;
