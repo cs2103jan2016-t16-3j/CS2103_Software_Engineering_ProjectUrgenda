@@ -39,7 +39,7 @@ public class RunTest {
 		
 		Logic logic = Logic.getInstance(true);
 		StateFeedback actualOutput = logic.executeCommand(ADD_COMMAND + desc + timing, ADD_INDEX);
-		Task newTask = new Task(desc, null, start, end, null);
+		Task newTask = new Task(desc, null, start, end);
 		ArrayList<Task> expectedTasks = new ArrayList<Task>();
 		expectedTasks.add(newTask);
 		ArrayList<Task> expectedArchives = new ArrayList<Task>();
@@ -65,7 +65,7 @@ public class RunTest {
 		
 		Logic logic = Logic.getInstance(true);
 		StateFeedback actualOutput = logic.executeCommand(ADD_COMMAND + desc + timing, ADD_INDEX);
-		Task newTask = new Task(desc, null, start, end, null);
+		Task newTask = new Task(desc, null, start, end);
 		ArrayList<Task> expectedTasks = new ArrayList<Task>();
 		expectedTasks.add(newTask);
 		ArrayList<Task> expectedArchives = new ArrayList<Task>();
@@ -92,7 +92,7 @@ public class RunTest {
 		
 		Logic logic = Logic.getInstance(true);
 		StateFeedback actualOutput = logic.executeCommand(ADD_COMMAND + desc + timing, ADD_INDEX);
-		Task newTask = new Task(desc, null, start, end, null);
+		Task newTask = new Task(desc, null, start, end);
 		ArrayList<Task> expectedTasks = new ArrayList<Task>();
 		expectedTasks.add(newTask);
 		ArrayList<Task> expectedArchives = new ArrayList<Task>();
@@ -132,7 +132,7 @@ public class RunTest {
 		Logic logic = Logic.getInstance(true);
 		
 		StateFeedback actualOutput = logic.executeCommand(ADD_COMMAND + desc1 + timing1, ADD_INDEX);
-		Task newTask = new Task(desc1, null, start1, end1, null);
+		Task newTask = new Task(desc1, null, start1, end1);
 		ArrayList<Task> expectedTasks = new ArrayList<Task>();
 		expectedTasks.add(newTask);
 		ArrayList<Task> expectedArchives = new ArrayList<Task>();
@@ -148,7 +148,7 @@ public class RunTest {
 		assertEquals(actualOutput.getFeedback(), expectedFeedback);
 		
 		actualOutput = logic.executeCommand(ADD_COMMAND + desc2 + timing2, ADD_INDEX);
-		newTask = new Task(desc2, null, start2, end2, null);
+		newTask = new Task(desc2, null, start2, end2);
 		// inserts at the front due to sorting
 		expectedTasks.add(0, newTask);
 		expectedList = new TaskList(expectedTasks, expectedArchives, 0, 0, 2, 0);
@@ -163,7 +163,7 @@ public class RunTest {
 		assertEquals(actualOutput.getFeedback(), expectedFeedback);
 		
 		actualOutput = logic.executeCommand(ADD_COMMAND + desc3 + timing3, ADD_INDEX);
-		newTask = new Task(desc3, null, start3, end3, null);
+		newTask = new Task(desc3, null, start3, end3);
 		// inserts at the front due to sorting
 		expectedTasks.add(newTask);
 		expectedList = new TaskList(expectedTasks, expectedArchives, 0, 0, 3, 0);
@@ -179,7 +179,7 @@ public class RunTest {
 		assertEquals(actualOutput.getFeedback(), expectedFeedback);
 		
 		actualOutput = logic.executeCommand(ADD_COMMAND + desc4 + timing4, ADD_INDEX);
-		newTask = new Task(desc4, null, start4, end4, null);
+		newTask = new Task(desc4, null, start4, end4);
 		// inserts at the front due to sorting
 		expectedTasks.add(2, newTask);
 		expectedList = new TaskList(expectedTasks, expectedArchives, 0, 0, 4, 0);
@@ -206,7 +206,7 @@ public class RunTest {
 		
 		Logic logic = Logic.getInstance(true);
 		StateFeedback actualOutput = logic.executeCommand(ADD_COMMAND + desc + timing, ADD_INDEX);
-		Task newTask = new Task(desc, null, start, end, null);
+		Task newTask = new Task(desc, null, start, end);
 		ArrayList<Task> expectedTasks = new ArrayList<Task>();
 		expectedTasks.add(newTask);
 		ArrayList<Task> expectedArchives = new ArrayList<Task>();

@@ -23,24 +23,23 @@ public class LogicDataTest {
 	public void testSortList() { 
 		LogicData _test = LogicData.getInstance();;
 		ArrayList<Task> _testinput = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task("Buy milk", "", notime, notime, _tags, false);
+		Task obj = new Task("Buy milk", "", notime, notime,  false);
 		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59),
-				_tags, true);
+				 true);
 		Task obj3 = new Task("Dental Appointment", "", LocalDateTime.of(2016, Month.APRIL, 4, 10, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00), _tags, false);
+				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00),  false);
 		Task obj4 = new Task("Travel to Sweden", "", LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags, false);
-		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 3, 17, 00), _tags, true);
-		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags, false);
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59),  false);
+		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 3, 17, 00),  true);
+		Task obj6 = new Task("Housekeeping", "", notime, notime,  false);
 		Task obj7 = new Task("Dinner w mum", "", LocalDateTime.of(2016, Month.JANUARY, 8, 19, 00),
-				LocalDateTime.of(2016, Month.JANUARY, 8, 20, 00), _tags, false);
+				LocalDateTime.of(2016, Month.JANUARY, 8, 20, 00),  false);
 		Task obj8 = new Task("Project Presentation", "", LocalDateTime.of(2016, Month.MAY, 8, 10, 00),
-				LocalDateTime.of(2016, Month.MAY, 8, 12, 00), _tags, false);
+				LocalDateTime.of(2016, Month.MAY, 8, 12, 00),  false);
 		Task obj9 = new Task("Bro Birthday Dinner", "", LocalDateTime.of(2016, Month.AUGUST, 21, 20, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 21, 21, 00), _tags, false);
-		Task obj10 = new Task("CS2103 V0.1", "", notime, LocalDateTime.of(2016, Month.MARCH, 10, 17, 00), _tags, true);
+				LocalDateTime.of(2016, Month.AUGUST, 21, 21, 00),  false);
+		Task obj10 = new Task("CS2103 V0.1", "", notime, LocalDateTime.of(2016, Month.MARCH, 10, 17, 00),  true);
 
 		_testinput.add(obj);
 		_testinput.add(obj2);
@@ -96,20 +95,19 @@ public class LogicDataTest {
 		LogicData _test = LogicData.getInstance();;
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		_test.setDisplays(_testinput);
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task("Buy milk", "", notime, notime, _tags);
-		Task obj2 = new Task("Buy Book", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), _tags);
+		Task obj = new Task("Buy milk", "", notime, notime);
+		Task obj2 = new Task("Buy Book", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59));
 		Task obj3 = new Task("Dental Appointment", "", LocalDateTime.of(2016, Month.APRIL, 4, 10, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00), _tags);
+				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00));
 		Task obj4 = new Task("Travel to Sweden", "", LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags);
-		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 3, 17, 00), _tags);
-		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags);
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59));
+		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 3, 17, 00));
+		Task obj6 = new Task("Housekeeping", "", notime, notime);
 		Task obj7 = new Task("Submit ie2150 project draft", "", notime,
-				LocalDateTime.of(2016, Month.JANUARY, 8, 20, 00), _tags);
+				LocalDateTime.of(2016, Month.JANUARY, 8, 20, 00));
 		Task obj8 = new Task("Project Presentation", "", LocalDateTime.of(2016, Month.MAY, 8, 10, 00),
-				LocalDateTime.of(2016, Month.MAY, 8, 12, 00), _tags);
+				LocalDateTime.of(2016, Month.MAY, 8, 12, 00));
 
 		_testinput.add(obj);
 		_testinput.add(obj2);
@@ -148,15 +146,13 @@ public class LogicDataTest {
 	public void testIsTaskToday() {
 		LogicData _test = LogicData.getInstance();;
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task("Buy milk", "", notime, notime, _tags);
-		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59),
-				_tags);
-		Task obj3 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.now(), _tags);
-		Task obj4 = new Task("Dental Appointment", "", LocalDateTime.now(), LocalDateTime.now().plusHours(2), _tags);
+		Task obj = new Task("Buy milk", "", notime, notime);
+		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59));
+		Task obj3 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.now());
+		Task obj4 = new Task("Dental Appointment", "", LocalDateTime.now(), LocalDateTime.now().plusHours(2));
 		Task obj5 = new Task("Travel to Sweden", "", LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags);
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59));
 
 		_tasks.add(obj);
 		_tasks.add(obj2);
@@ -180,17 +176,16 @@ public class LogicDataTest {
 		LogicData _test = LogicData.getInstance();;
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		_test.setDisplays(_testinput);
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task("Cut hair", "", notime, notime, _tags);
+		Task obj = new Task("Cut hair", "", notime, notime);
 		Task obj2 = new Task("Bro's Birthday Dinner", "", LocalDateTime.of(2016, Month.AUGUST, 31, 19, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 31, 21, 00), _tags);
+				LocalDateTime.of(2016, Month.AUGUST, 31, 21, 00));
 		Task obj3 = new Task("Dental Appointment", "", LocalDateTime.of(2016, Month.APRIL, 4, 10, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00), _tags);
+				LocalDateTime.of(2016, Month.APRIL, 4, 12, 00));
 		Task obj4 = new Task("IE2100 Midterm", "", LocalDateTime.of(2016, Month.MARCH, 2, 13, 00),
-				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
-		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 9, 17, 00), _tags);
-		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags);
+				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45));
+		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 9, 17, 00));
+		Task obj6 = new Task("Housekeeping", "", notime, notime);
 
 		_testinput.add(obj);
 		_testinput.add(obj2);
@@ -215,14 +210,13 @@ public class LogicDataTest {
 		LogicData _test = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, null);
-		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADLINE", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, null);
-		Task obj3 = new Task(3, "Submit ie2100 hw3", "DEADLINE", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime, _tags, null);
-		Task obj4 = new Task(4, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,  _tags, null);
-		Task obj5 = new Task(5, "Travel to Sweden", "EVENT", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,  _tags, null);
-		Task obj6 = new Task(1, "Mop floor", "FLOATING", "", true, false, false, notime, notime, LocalDateTime.now(), notime, _tags, null);
+		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime,  null);
+		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADLINE", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime,  null);
+		Task obj3 = new Task(3, "Submit ie2100 hw3", "DEADLINE", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime,  null);
+		Task obj4 = new Task(4, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,   null);
+		Task obj5 = new Task(5, "Travel to Sweden", "EVENT", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,   null);
+		Task obj6 = new Task(1, "Mop floor", "FLOATING", "", true, false, false, notime, notime, LocalDateTime.now(), notime,  null);
 
 		_tasks.add(obj);
 		_tasks.add(obj2);
@@ -249,18 +243,17 @@ public class LogicDataTest {
 		LogicData _test = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task("Internship interview", "", LocalDateTime.of(2016, Month.APRIL, 4, 13, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00), _tags);
+				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00));
 		Task obj2 = new Task("Bae's 21st", "", LocalDateTime.of(2016, Month.JANUARY, 15, 19, 00),
-				LocalDateTime.of(2016, Month.JANUARY, 15, 21, 00), _tags);
+				LocalDateTime.of(2016, Month.JANUARY, 15, 21, 00));
 		Task obj3 = new Task("Valentine's dinner", "", LocalDateTime.of(2016, Month.FEBRUARY, 14, 10, 00),
-				LocalDateTime.of(2016, Month.FEBRUARY, 14, 12, 00), _tags);
+				LocalDateTime.of(2016, Month.FEBRUARY, 14, 12, 00));
 		Task obj4 = new Task("IE2100 Midterm", "", LocalDateTime.of(2016, Month.MARCH, 2, 13, 00),
-				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
-		Task obj5 = new Task("Renew pass port", "", notime, LocalDateTime.of(2016, Month.MARCH, 2, 13, 00), _tags);
-		Task obj6 = new Task("Level up pokemon", "", notime, notime, _tags);
+				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45));
+		Task obj5 = new Task("Renew pass port", "", notime, LocalDateTime.of(2016, Month.MARCH, 2, 13, 00));
+		Task obj6 = new Task("Level up pokemon", "", notime, notime);
 
 		_tasks.add(obj);
 		_tasks.add(obj2);
@@ -288,18 +281,17 @@ public class LogicDataTest {
 		LogicData _test = LogicData.getInstance();
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		_test.setDisplays(_testinput);
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task("Internship interview", "", LocalDateTime.of(2016, Month.APRIL, 4, 13, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00), _tags);
+				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00));
 		Task obj2 = new Task("Bae's 21st", "", LocalDateTime.of(2016, Month.JANUARY, 15, 19, 00),
-				LocalDateTime.of(2016, Month.JANUARY, 15, 21, 00), _tags);
+				LocalDateTime.of(2016, Month.JANUARY, 15, 21, 00));
 		Task obj3 = new Task("Good Friday Holi", "", LocalDateTime.of(2016, Month.MARCH, 18, 00, 00),
-				LocalDateTime.of(2016, Month.MARCH, 18, 23, 59), _tags);
+				LocalDateTime.of(2016, Month.MARCH, 18, 23, 59));
 		Task obj4 = new Task("IE2100 Midterm", "", LocalDateTime.of(2016, Month.MARCH, 2, 13, 00),
-				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
-		Task obj5 = new Task("Pay bills", "", notime, LocalDateTime.of(2016, Month.MARCH, 16, 17, 00), _tags);
-		Task obj6 = new Task("Housewarming", "", notime, notime, _tags);
+				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45));
+		Task obj5 = new Task("Pay bills", "", notime, LocalDateTime.of(2016, Month.MARCH, 16, 17, 00));
+		Task obj6 = new Task("Housewarming", "", notime, notime);
 
 		_testinput.add(obj);
 		_testinput.add(obj2);
@@ -327,7 +319,6 @@ public class LogicDataTest {
 	@Test
 	public void testFindBlocks() {
 		LogicData _test = LogicData.getInstance();
-		ArrayList<String> _tags = new ArrayList<String>();
 		MultipleSlot block = new MultipleSlot();
 		block.addTimeSlot(LocalDateTime.of(2016, Month.MAY, 15, 19, 00), LocalDateTime.of(2016, Month.MAY, 15, 21, 00));
 		MultipleSlot block2 = new MultipleSlot();
@@ -335,13 +326,13 @@ public class LogicDataTest {
 		MultipleSlot block3 = new MultipleSlot();
 		block3.addTimeSlot(LocalDateTime.of(2016, Month.JULY, 4, 19, 00), LocalDateTime.of(2016, Month.JULY, 4, 21, 00));
 		Task obj = new Task("Internship interview", "", LocalDateTime.of(2016, Month.APRIL, 4, 13, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00), _tags);
+				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00));
 		Task obj2 = new Task("Bae's 21st", "", LocalDateTime.of(2016, Month.JANUARY, 15, 19, 00),
-				LocalDateTime.of(2016, Month.JANUARY, 15, 21, 00), _tags);
+				LocalDateTime.of(2016, Month.JANUARY, 15, 21, 00));
 		Task obj3 = new Task("Good Friday Holi", "", LocalDateTime.of(2016, Month.MARCH, 18, 00, 00),
-				LocalDateTime.of(2016, Month.MARCH, 18, 23, 59), _tags);
+				LocalDateTime.of(2016, Month.MARCH, 18, 23, 59));
 		Task obj4 = new Task("IE2100 Midterm", "", LocalDateTime.of(2016, Month.MARCH, 2, 13, 00),
-				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
+				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45));
 		obj.setSlot(block);
 		obj2.setSlot(block2);
 		obj4.setSlot(block);
@@ -366,16 +357,14 @@ public class LogicDataTest {
 	@Test
 	public void testIsShowingMore() {
 		LogicData _test = LogicData.getInstance();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
-		Task obj = new Task("Buy milk", "", notime, notime, _tags);
-		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59),
-				_tags);
-		Task obj3 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.now(), _tags);
-		Task obj4 = new Task("Dental Appointment", "", LocalDateTime.now(), LocalDateTime.now().plusHours(2), _tags);
+		Task obj = new Task("Buy milk", "", notime, notime);
+		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59));
+		Task obj3 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.now());
+		Task obj4 = new Task("Dental Appointment", "", LocalDateTime.now(), LocalDateTime.now().plusHours(2));
 		Task obj5 = new Task("Travel to Sweden", "", LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
-				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), _tags);
-		Task obj6 = new Task("Housekeeping", "", notime, notime, _tags);
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59));
+		Task obj6 = new Task("Housekeeping", "", notime, notime);
 		_test.toggleShowMoreTasks(obj);
 		_test.toggleShowMoreTasks(obj2);
 		_test.toggleShowMoreTasks(obj4);

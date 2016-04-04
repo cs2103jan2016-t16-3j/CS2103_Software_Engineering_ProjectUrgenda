@@ -665,7 +665,7 @@ public class LogicData {
 						DateTimePair pair = slot.getNextSlot();
 						slot.removeNextSlot();
 						Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(),
-								pair.getDateTime2(), task.getHashtags());
+								pair.getDateTime2());
 						if (currTask.isOverlapping(newTask)) {
 							overlaps.add(currTask);
 						}

@@ -3,31 +3,40 @@ package urgenda.util;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class DemoStateFeedback extends StateFeedback{
-	
+public class DemoStateFeedback extends StateFeedback {
+
 	public DemoStateFeedback() {
 		super();
-		Task taskOverdue = new Task("Complete tutorial", null, null, LocalDateTime.now().minusDays(1).withHour(23).withMinute(59),
-				new ArrayList<String>(), false);
-		Task taskTodayImportant = new Task("Breakfast with mum and dad", null, LocalDateTime.now().withHour(7).withMinute(0), LocalDateTime.now().withHour(8).withMinute(0),
-				new ArrayList<String>(), false);
+		Task taskOverdue = new Task("Complete tutorial", null, null,
+				LocalDateTime.now().minusDays(1).withHour(23).withMinute(59), false);
+		Task taskTodayImportant = new Task("Breakfast with mum and dad", null,
+				LocalDateTime.now().withHour(7).withMinute(0), LocalDateTime.now().withHour(8).withMinute(0),
+				 false);
 		taskTodayImportant.setIsCompleted(true);
-		Task taskToday1 = new Task("NUS Overseas Colleges Workshop", null, LocalDateTime.now().minusDays(1).withHour(10).withMinute(0), LocalDateTime.now().plusDays(1).withHour(22).withMinute(0),
-				new ArrayList<String>(), false);
-		Task taskImportant = new Task("Internship interview", null, LocalDateTime.now().plusDays(6).withHour(10).withMinute(0), LocalDateTime.now().plusDays(6).withHour(11).withMinute(0),
-				new ArrayList<String>(), true);
+		Task taskToday1 = new Task("NUS Overseas Colleges Workshop", null,
+				LocalDateTime.now().minusDays(1).withHour(10).withMinute(0),
+				LocalDateTime.now().plusDays(1).withHour(22).withMinute(0), false);
+		Task taskImportant = new Task("Internship interview", null,
+				LocalDateTime.now().plusDays(6).withHour(10).withMinute(0),
+				LocalDateTime.now().plusDays(6).withHour(11).withMinute(0), true);
 		taskImportant.setSlot(new MultipleSlot());
-		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(11).withMinute(0), LocalDateTime.now().plusDays(6).withHour(12).withMinute(0));
-		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(12).withMinute(0), LocalDateTime.now().plusDays(6).withHour(13).withMinute(0));
-		Task taskOverrun = new Task("Get groceries", "Supermarket", LocalDateTime.now().plusDays(2).withHour(17).withMinute(0), LocalDateTime.now().plusDays(2).withHour(18).withMinute(0), new ArrayList<String>(),
-				false);
+		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(11).withMinute(0),
+				LocalDateTime.now().plusDays(6).withHour(12).withMinute(0));
+		taskImportant.getSlot().addTimeSlot(LocalDateTime.now().plusDays(6).withHour(12).withMinute(0),
+				LocalDateTime.now().plusDays(6).withHour(13).withMinute(0));
+		Task taskOverrun = new Task("Get groceries", "Supermarket",
+				LocalDateTime.now().plusDays(2).withHour(17).withMinute(0),
+				LocalDateTime.now().plusDays(2).withHour(18).withMinute(0), false);
 		taskOverrun.setSlot(new MultipleSlot());
-		taskOverrun.getSlot().addTimeSlot(LocalDateTime.now().plusDays(3).withHour(17).withMinute(0), LocalDateTime.now().plusDays(3).withHour(18).withMinute(0));
-		Task taskDetailedLong = new Task("Success is the sum of small efforts, repeated day in and day out. - Robert Collier", null, null, null,
-				new ArrayList<String>(), false);
-		Task taskCompleted = new Task("Dental Appointment", "Hougang Polyclinic", LocalDateTime.now().minusDays(8).withHour(10).withMinute(30), LocalDateTime.now().minusDays(8).withHour(12).withMinute(00), new ArrayList<String>(),
-				false);
-		
+		taskOverrun.getSlot().addTimeSlot(LocalDateTime.now().plusDays(3).withHour(17).withMinute(0),
+				LocalDateTime.now().plusDays(3).withHour(18).withMinute(0));
+		Task taskDetailedLong = new Task(
+				"Success is the sum of small efforts, repeated day in and day out. - Robert Collier", null, null, null,
+				 false);
+		Task taskCompleted = new Task("Dental Appointment", "Hougang Polyclinic",
+				LocalDateTime.now().minusDays(8).withHour(10).withMinute(30),
+				LocalDateTime.now().minusDays(8).withHour(12).withMinute(00), false);
+
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Task> archives = new ArrayList<Task>();
 		tasks.add(taskOverdue);

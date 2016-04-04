@@ -123,23 +123,22 @@ public class StorageTest {
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Task> archives = new ArrayList<Task>();
 
-		ArrayList<String> _tags = new ArrayList<String>();
 		MultipleSlot slot = null;
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(),
-				notime, _tags, slot);
+				notime, slot);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADLINE", "", true, false, true, notime,
-				LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, slot);
+				LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, slot);
 		Task obj3 = new Task(3, "Submit ie2100 hw3", "DEADLINE", "", false, false, false, notime, LocalDateTime.now(),
-				LocalDateTime.now(), notime, _tags, slot);
+				LocalDateTime.now(), notime, slot);
 		Task obj4 = new Task(4, "Dental Appointment", "EVENT", " ", true, false, false,
-				LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime, _tags,
+				LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,
 				slot);
 		Task obj5 = new Task(5, "Travel to Sweden", "EVENT", " ", false, false, false,
 				LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59),
-				LocalDateTime.now(), notime, _tags, slot);
+				LocalDateTime.now(), notime, slot);
 		Task obj6 = new Task(1, "Mop floor", "FLOATING", "", true, false, false, notime, notime, LocalDateTime.now(),
-				notime, _tags, slot);
+				notime, slot);
 
 		tasks.add(obj);
 		tasks.add(obj2);
