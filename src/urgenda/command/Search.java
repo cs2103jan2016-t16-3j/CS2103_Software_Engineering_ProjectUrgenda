@@ -12,8 +12,8 @@ public class Search extends Command {
 
 	private static final String MESSAGE_SHOWING = "Showing: ";
 	private static final String MESSAGE_PROGRESSIVE_SEARCH = "PROGRESSIVE SEARCH: %1$s  based on the current view. Enter home to show all tasks";
-	private static final String MESSAGE_SEARCH_DESC = "%1$s task(s) found containing \"%2$s\"";
-	private static final String MESSAGE_SEARCH_TYPE = "%1$s task(s) found of type \"%2$s\"";
+	private static final String MESSAGE_SEARCH_DESC = "all task(s) found containing \"%1$s\"";
+	private static final String MESSAGE_SEARCH_TYPE = "all task(s) found of type \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TIME = "These are all the task(s) falling on \"%1$s\"";
 	private static final String MESSAGE_REFINE_SEARCH_TIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s\" based on the current view. Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
@@ -164,24 +164,24 @@ public class Search extends Command {
 				data.setDisplays(matches);
 				if (data.getCurrState().equals(LogicData.DisplayState.ALL_TASKS)) {
 					if (descCount != 0 && typeCount != 0) {
-						feedback = MESSAGE_SHOWING + String.format(MESSAGE_SEARCH_DESC, descCount, _searchDesc) + " and "
-								+ String.format(MESSAGE_SEARCH_TYPE, typeCount, _searchDesc);
+						feedback = MESSAGE_SHOWING + String.format(MESSAGE_SEARCH_DESC, _searchDesc) + " and "
+								+ String.format(MESSAGE_SEARCH_TYPE, _searchDesc);
 					} else if (descCount == 0) {
-						feedback = MESSAGE_SHOWING + String.format(MESSAGE_SEARCH_TYPE, typeCount, _searchDesc);
+						feedback = MESSAGE_SHOWING + String.format(MESSAGE_SEARCH_TYPE, _searchDesc);
 					} else {
-						feedback = MESSAGE_SHOWING + String.format(MESSAGE_SEARCH_DESC, descCount, _searchDesc);
+						feedback = MESSAGE_SHOWING + String.format(MESSAGE_SEARCH_DESC, _searchDesc);
 					}
 				} else {
 					if (descCount != 0 && typeCount != 0) {
-						String substr = String.format(MESSAGE_SEARCH_DESC, descCount, _searchDesc) + " and "
-								+ String.format(MESSAGE_SEARCH_TYPE, typeCount, _searchDesc);
+						String substr = String.format(MESSAGE_SEARCH_DESC, _searchDesc) + " and "
+								+ String.format(MESSAGE_SEARCH_TYPE, _searchDesc);
 						feedback = String.format(MESSAGE_PROGRESSIVE_SEARCH, substr);
 					} else if (descCount == 0) {
 						feedback = String.format(MESSAGE_PROGRESSIVE_SEARCH,
-								String.format(MESSAGE_SEARCH_TYPE, typeCount, _searchDesc));
+								String.format(MESSAGE_SEARCH_TYPE, _searchDesc));
 					} else {
 						feedback = String.format(MESSAGE_PROGRESSIVE_SEARCH,
-								String.format(MESSAGE_SEARCH_DESC, descCount, _searchDesc));
+								String.format(MESSAGE_SEARCH_DESC, _searchDesc));
 					}
 				}
 				data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
