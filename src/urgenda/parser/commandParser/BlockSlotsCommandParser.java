@@ -68,9 +68,6 @@ public class BlockSlotsCommandParser {
 		if (PublicVariables.taskEndTime != null) {
 			newTask.setEndTime(PublicVariables.taskEndTime);
 		}
-		if (!PublicVariables.taskHashtags.isEmpty()) {
-			newTask.setHashtags(PublicVariables.taskHashtags);
-		}
 		if (PublicVariables.taskSlots != null) {
 			newTask.setSlot(PublicVariables.taskSlots);
 		} else {

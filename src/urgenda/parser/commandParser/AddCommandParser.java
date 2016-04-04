@@ -60,9 +60,6 @@ public class AddCommandParser {
 		if (PublicVariables.taskEndTime != null) {
 			newTask.setEndTime(PublicVariables.taskEndTime);
 		}
-		if (!PublicVariables.taskHashtags.isEmpty()) {
-			newTask.setHashtags(PublicVariables.taskHashtags);
-		}
 		if (!PublicVariables.taskSlots.isEmpty()) {
 			newTask.setSlot(PublicVariables.taskSlots);
 		}

@@ -64,12 +64,14 @@ public class DisplayController extends AnchorPane {
 				if(!_setup) {
 					setDisplayScrollHeight();
 				}
-				if (((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot()) {
-					boolean isMultipleSlotTask = ((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot();
-					boolean isDetailed = (displayHolder.getChildren().get(_selectedTaskIndex.getValue())).getClass().equals(DetailedTaskController.class);
-					_main.getController().toggleMultipleSlotMenuOption(!isDetailed && isMultipleSlotTask);
-				} else {
-					_main.getController().toggleMultipleSlotMenuOption(false);
+				if(displayHolder.getChildren().get(_selectedTaskIndex.getValue()).getClass().equals(SimpleTaskController.class)) {					
+					if (((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot()) {
+						boolean isMultipleSlotTask = ((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).isMultipleSlot();
+						boolean isDetailed = (displayHolder.getChildren().get(_selectedTaskIndex.getValue())).getClass().equals(DetailedTaskController.class);
+						_main.getController().toggleMultipleSlotMenuOption(!isDetailed && isMultipleSlotTask);
+					} else {
+						_main.getController().toggleMultipleSlotMenuOption(false);
+					}
 				}
 			}
 		});
@@ -274,7 +276,9 @@ public class DisplayController extends AnchorPane {
 		if (_selectedTaskIndex.get() >= 0 && index != _selectedTaskIndex.getValue()) {
 			((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
 		}
-		((SimpleTaskController) displayHolder.getChildren().get(index)).setSelected(true);
+		if(displayHolder.getChildren().get(index).getClass().equals(SimpleTaskController.class)) {
+			((SimpleTaskController) displayHolder.getChildren().get(index)).setSelected(true);
+		}
 		_selectedTaskIndex.set(index);
 	}
 

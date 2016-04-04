@@ -129,7 +129,6 @@ public class MainController {
 			e.printStackTrace();
 		}
 		backgroundPane.setRight(_demoTextPane);
-		_demoController.init();
 	}	
 
 	private void setListeners() {
