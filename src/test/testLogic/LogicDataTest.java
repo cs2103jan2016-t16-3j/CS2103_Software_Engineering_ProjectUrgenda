@@ -320,37 +320,7 @@ public class LogicDataTest {
 		assertEquals(_output, _test.findMatchingMonths(Month.DECEMBER)); //test multiple matches
 	}
 	
-	@Test
-	public void testFindMatchingHashtags() {
-		LogicData _test = LogicData.getInstance();
-		ArrayList<Task> _testinput = new ArrayList<Task>();
-		_test.setDisplays(_testinput);
-		ArrayList<String> _tags = new ArrayList<String>();
-		LocalDateTime notime = null;
-		Task obj = new Task("Internship interview", "", LocalDateTime.of(2016, Month.APRIL, 4, 13, 00),
-				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00), _tags);
-		Task obj2 = new Task("Bae's 21st", "", LocalDateTime.of(2016, Month.JANUARY, 15, 19, 00),
-				LocalDateTime.of(2016, Month.JANUARY, 15, 21, 00), _tags);
-		Task obj3 = new Task("Good Friday Holi", "", LocalDateTime.of(2016, Month.MARCH, 18, 00, 00),
-				LocalDateTime.of(2016, Month.MARCH, 18, 23, 59), _tags);
-		Task obj4 = new Task("IE2100 Midterm", "", LocalDateTime.of(2016, Month.MARCH, 2, 13, 00),
-				LocalDateTime.of(2016, Month.MARCH, 2, 13, 45), _tags);
-		Task obj5 = new Task("Pay bills", "", notime, LocalDateTime.of(2016, Month.MARCH, 16, 17, 00), _tags);
-		Task obj6 = new Task("Housewarming", "", notime, notime, _tags);
-		Task obj7 = new Task();
-
-		_testinput.add(obj);
-		_testinput.add(obj2);
-		_testinput.add(obj3);
-		_testinput.add(obj4);
-		_testinput.add(obj5);
-		_testinput.add(obj6);
-		_testinput.add(obj7);
-
-		ArrayList<Task> _output = new ArrayList<Task>();
-		assertEquals(_output, _test.findMatchingHashtags("abc"));
-		
-	}
+	
 	
 	//this fn is to find task that has a specified blockslot
 	//Equivalence partition. Boundary values: no match, single match, multiple matches

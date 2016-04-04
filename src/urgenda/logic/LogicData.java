@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import urgenda.storage.Storage;
@@ -416,29 +415,6 @@ public class LogicData {
 		}
 	}
 
-	public ArrayList<Task> findMatchingHashtags(String input) {
-		logger.getLogger().info("Find matching hashtags, " + input);
-		ArrayList<Task> matches = new ArrayList<Task>();
-		boolean flag = true;
-		if (!input.equals("")) {
-			try {
-				for (Task task : _displays) {
-					if (task.getHashtags() != null && !task.getHashtags().isEmpty()) {
-						Iterator<String> i = task.getHashtags().iterator();
-						while (i.hasNext() && flag) {
-							if (Pattern.compile(Pattern.quote(input), Pattern.CASE_INSENSITIVE).matcher(i.next())
-									.find()) {
-								matches.add(task);
-								flag = false;
-							}
-						}
-					}
-				}
-			} catch (NullPointerException e) {
-			}
-		}
-		return matches;
-	}
 
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
 		logger.getLogger().info("Find matching dates, " + input);
