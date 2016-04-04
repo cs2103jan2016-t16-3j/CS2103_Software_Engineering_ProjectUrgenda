@@ -28,7 +28,7 @@ public class Storage {
 		logger.getLogger().info("help created. creating datafiles");
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
-		checkIfEmptyFile();
+		//checkIfEmptyFile();
 		logger.getLogger().info("Storage object created.");
 	}
 

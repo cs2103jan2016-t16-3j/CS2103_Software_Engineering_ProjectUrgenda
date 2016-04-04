@@ -12,6 +12,7 @@ public class SuggestFeedback {
 	private boolean _isCommand = false;
 	private boolean _isSuggestion = false;
 	
+	//constructor for complete command feedback
 	public SuggestFeedback(ArrayList<String> suggestions, String currCmd, boolean isCommand) {
 		_currCmd = currCmd;
 		_isCommand = isCommand;
@@ -23,12 +24,10 @@ public class SuggestFeedback {
 				_suggestions.add(next);
 			}
 			_userInstructionsPrompt = suggestions.get(1);
-		} else {
-			_suggestions.addAll(suggestions);
-			_userInstructionsPrompt = "test incomplete command"; //TODO
 		}
 	}
 	
+	//constructor for incomplete command feedback
 	public SuggestFeedback(ArrayList<String> suggestions, boolean isCommand) {
 		_suggestions = suggestions;
 		_isCommand = isCommand;
