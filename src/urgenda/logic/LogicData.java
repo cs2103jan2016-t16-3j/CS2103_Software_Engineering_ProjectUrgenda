@@ -11,45 +11,58 @@ import java.util.regex.Pattern;
 
 import urgenda.storage.Storage;
 import urgenda.storage.StorageTester;
-import urgenda.util.MultipleSlot;
-import urgenda.util.UrgendaLogger;
-import urgenda.util.StateFeedback;
-import urgenda.util.Task;
-import urgenda.util.StorageException;
 import urgenda.util.DateTimePair;
+import urgenda.util.MultipleSlot;
+import urgenda.util.StateFeedback;
+import urgenda.util.StorageException;
+import urgenda.util.Task;
+import urgenda.util.UrgendaLogger;
 
+/**
+ * LogicData class of the Logic component in Urgenda.
+ * Responsible for the handling of the different tasks of the user.
+ * Main class where all the manipulation of the task objects are carried out.
+ * Also responsible for storing of all the tasks.
+ *
+ */
 public class LogicData {
 
+	/**
+	 * Different DisplayState for LogicData which represents the state of display 
+	 * given to the user 
+	 *
+	 */
 	public enum DisplayState {
 		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, 
 		INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE, DEMO, HIDE
 	}
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
-	// Singleton pattern to ensure that there is only one logicData
 	private static LogicData _logicData;
 
+	// storage object for retrieval and storing of tasks to data format
+	private Storage _storage;
+	
 	// for storage of full lists of tasks
 	private ArrayList<Task> _tasks;
 	// for storage of all completed tasks
 	private ArrayList<Task> _archives;
 	// for storage of tasks being displayed to user by last command
 	private ArrayList<Task> _displays;
-
-	private Storage _storage;
-
-	private DisplayState _currState;
+	// for storage of tasks to have more details to be displayed
 	private ArrayList<Task> _showMoreTasks;
+	
 	private Task _taskPointer;
-
+	private DisplayState _currState;
 	private int _currentId;
 
-	// default constructor where singleton pattern is applied
+	/*
+	 * Default constructor where singleton pattern is applied.
+	 * To initialise the variables within LogicData.
+	 */
 	private LogicData() {
 		logger.getLogger().info("constructing LogicData Object");
 		_storage = new Storage();
-		// updates arraylists from stored task objects into respective
-		// arraylists
 		_tasks = _storage.updateCurrentTaskList();
 		_archives = _storage.updateArchiveTaskList();
 		_currState = DisplayState.ALL_TASKS;
@@ -59,8 +72,12 @@ public class LogicData {
 		_currentId = _tasks.size() + 1;
 	}
 
-	// alternative constructor for testing
+	/*
+	 * Alternative constructor where singleton pattern is applied.
+	 * To initialise the variables within LogicData when doing testing.
+	 */
 	private LogicData(boolean isTest) {
+		// stubs storage with storagetester
 		_storage = new StorageTester();
 		_tasks = _storage.updateCurrentTaskList();
 		_archives = _storage.updateArchiveTaskList();
@@ -70,7 +87,12 @@ public class LogicData {
 		_currentId = _tasks.size() + 1;
 	}
 
-	// singleton instantiation
+	/**
+	 * Singleton pattern method for instantiation of LogicData to 
+	 * avoid multiple copies of tasks for the user
+	 * 
+	 * @return LogicData object that is used currently or created
+	 */
 	public static LogicData getInstance() {
 		if (_logicData == null) {
 			logger.getLogger().info("creating instance of logicData");
@@ -80,7 +102,14 @@ public class LogicData {
 		return _logicData;
 	}
 
-	// instantiation for testing
+	/**
+	 * Alternate constructor for singleton pattern for stubbing of storage when
+	 * testing
+	 * 
+	 * @param isTest
+	 *            boolean of checking if the current mode is in testing
+	 * @return LogicData object that is used currently or created
+	 */
 	public static LogicData getInstance(boolean isTest) {
 		if (_logicData == null) {
 			_logicData = new LogicData(isTest);
@@ -88,14 +117,25 @@ public class LogicData {
 		return _logicData;
 	}
 
+	/**
+	 * Method used for saving all current contents into the data file for 
+	 * usage in the future.
+	 */
 	public void saveContents() {
 		logger.getLogger().info("Saving contents to storage");
 		_storage.save(_tasks, _archives);
 	}
 
+	/**
+	 * Method to retrieve the current state of LogicData into a StateFeedback
+	 * object for packaging all required information. Different sets of lists
+	 * are used for different states that it is currently in.
+	 * 
+	 * @return StateFeedback object that holds all the required information
+	 */
 	// TODO: refactor function
 	public StateFeedback getState() {
-		StateFeedback state = null;
+		StateFeedback state;
 		switch (_currState) {
 		case ALL_TASKS:
 			// TODO update diagram
@@ -150,6 +190,13 @@ public class LogicData {
 		return state;
 	}
 
+	/**
+	 * Method for setting the display list to show archive tasks
+	 * 
+	 * @param displayList
+	 *            Archive list for putting as display
+	 * @return StateFeedback object containing the list given
+	 */
 	public StateFeedback displayArchiveTasks(ArrayList<Task> displayList) {
 		clearDisplays();
 		_displays.addAll(sortArchive(displayList));
@@ -160,6 +207,44 @@ public class LogicData {
 		return state;
 	}
 
+	/**
+	 * Method for setting the display list to show the current list given.
+	 * Sorts the list according to Overdue, Today, Others.
+	 * 
+	 * @param displayList Display List given for putting as display
+	 * @return StateFeedback object containing the list given
+	 */
+	public StateFeedback displayAllTasks(ArrayList<Task> displayList) {
+		ArrayList<Task> overdueTasks = new ArrayList<Task>();
+		ArrayList<Task> todayTasks = new ArrayList<Task>();
+		ArrayList<Task> otherTasks = new ArrayList<Task>();
+		sortTasksIntoList(displayList, overdueTasks, todayTasks, otherTasks);
+		clearDisplays();
+		_displays.addAll(sortList(overdueTasks));
+		_displays.addAll(sortList(todayTasks));
+		_displays.addAll(sortList(otherTasks));
+
+		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), 
+				otherTasks.size());
+		setOverdueCount(state);
+		setFeedbackDisplayPosition(state);
+		setShowMorePositions(state);
+		return state;
+	}
+
+	private void sortTasksIntoList(ArrayList<Task> displayList, ArrayList<Task> overdueTasks,
+			ArrayList<Task> todayTasks, ArrayList<Task> otherTasks) {
+		for (Task task : displayList) {
+			if (task.isOverdue()) {
+				overdueTasks.add(task);
+			} else if (isTaskToday(task)) {
+				todayTasks.add(task);
+			} else { // remaining tasks and floating tasks
+				otherTasks.add(task);
+			}
+		}
+	}
+	
 	private void setOverdueCount(StateFeedback state) {
 		int count = 0;
 		for (Task task : _tasks) {
@@ -170,32 +255,7 @@ public class LogicData {
 		state.setOverdueCount(count);
 	}
 
-	public StateFeedback displayAllTasks(ArrayList<Task> displayList) {
-		ArrayList<Task> overdueTasks = new ArrayList<Task>();
-		ArrayList<Task> todayTasks = new ArrayList<Task>();
-		ArrayList<Task> otherTasks = new ArrayList<Task>();
-		for (Task task : displayList) {
-			if (task.isOverdue()) {
-				overdueTasks.add(task);
-			} else if (isTaskToday(task)) {
-				todayTasks.add(task);
-			} else { // remaining tasks and floating tasks
-				otherTasks.add(task);
-			}
-		}
-		clearDisplays();
-		_displays.addAll(sortList(overdueTasks));
-		_displays.addAll(sortList(todayTasks));
-		_displays.addAll(sortList(otherTasks));
-
-		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
-		setOverdueCount(state);
-		setFeedbackDisplayPosition(state);
-		setShowMorePositions(state);
-		return state;
-	}
-
-	public void setShowMorePositions(StateFeedback state) {
+	private void setShowMorePositions(StateFeedback state) {
 		for (Task task : _showMoreTasks) {
 			if (_displays.contains(task)) {
 				state.addDetailedTaskIdx(_displays.indexOf(task));
@@ -204,11 +264,11 @@ public class LogicData {
 	}
 
 	// sets the position if the pointer matches the display
-	public void setFeedbackDisplayPosition(StateFeedback state) {
+	private void setFeedbackDisplayPosition(StateFeedback state) {
 		if (_taskPointer != null && _displays.contains(_taskPointer)) {
 			state.setDisplayPosition(_displays.indexOf(_taskPointer));
-		} else { // sets to 0 as default if no specific task is required to be
-					// pointed at
+		} else {
+			// sets to 0 (default) if no specific task to pointed at
 			state.setDisplayPosition(0);
 		}
 		// clears task pointer for next iteration

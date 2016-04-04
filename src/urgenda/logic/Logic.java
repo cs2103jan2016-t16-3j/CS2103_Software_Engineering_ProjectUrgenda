@@ -1,3 +1,4 @@
+//@@author A0080436
 package urgenda.logic;
 
 import java.util.ArrayList;
@@ -18,9 +19,15 @@ import urgenda.util.SuggestCommand;
 import urgenda.util.SuggestFeedback;
 import urgenda.util.UrgendaLogger;
 
+/**
+ * Logic class for the Logic component Urgenda.
+ * Acts as the facade for the numerous functionality of the Logic Component
+ * 
+ */
 public class Logic {
 
-	private static final String MESSAGE_WELCOME = "Welcome to Urgenda!\nType \"demo\" for a simple demo, type \"help\" for the help menu.";
+	private static final String MESSAGE_WELCOME = "Welcome to Urgenda!\nType \"demo\" for a simple demo, "
+			+ "type \"help\" for the help menu.";
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static Logic _logic;
 	private LogicData _logicData;
@@ -34,13 +41,19 @@ public class Logic {
 		_logicSuggestion = new LogicSuggester();
 	}
 
+	// Constructor for testing
 	private Logic(boolean isTest) {
 		_logicData = LogicData.getInstance(isTest);
 		_logicCommand = new LogicCommand();
 		_logicSuggestion = new LogicSuggester();
 	}
 
-	// Implementation of Singleton pattern for Logic
+	/**
+	 * Singleton pattern constructor for logic where object is created if does
+	 * not exist
+	 * 
+	 * @return the logic object that is used currently or created
+	 */
 	public static Logic getInstance() {
 		if (_logic == null) {
 			logger.getLogger().info("creating instance of logic");
@@ -50,7 +63,14 @@ public class Logic {
 		return _logic;
 	}
 
-	// alternative constructor for testing purposes
+	/**
+	 * Alternate constructor for singleton pattern for stubbing of storage when
+	 * testing
+	 * 
+	 * @param isTest
+	 *            boolean of checking if the current mode is in testing
+	 * @return the logic object that is used currently or created
+	 */
 	public static Logic getInstance(boolean isTest) {
 		if (_logic == null) {
 			_logic = new Logic(isTest);
@@ -62,23 +82,23 @@ public class Logic {
 	 * Executes the command given in string format, taking the relevant position
 	 * if required
 	 * 
-	 * @param command input string by the user
-	 * @param index current index pointed at by the user
+	 * @param command
+	 *            input string by the user
+	 * @param index
+	 *            current index pointed at by the user
 	 * @return StateFeedback which includes the current state of tasks as well
 	 *         as feedback line
 	 */
 	public StateFeedback executeCommand(String command, int index) {
-
 		logger.getLogger().info("executing user input: " + command);
-
-		assert (index >= -1); // asserts that given index is non-negative OR -1(case when there is no tasks)
+		// asserts that given index is non-negative OR -1(case when there is no tasks)
+		assert (index >= -1); 
 		logger.getLogger().info("Checking index: " + index + " >= -1 ");
 
-		// parser take in a string and return it in its corresponding class obj
 		Command currCmd = CommandParser.parseCommand(command, index);
-		assert (currCmd != null); // asserts that parser returns a command object
+		// asserts that parser returns a valid command object
+		assert (currCmd != null); 
 		logger.getLogger().info("Checking cmd obj: " + currCmd + " is non null");
-
 		// To ensure that the command is applicable to the state
 		currCmd = checkAndFilterCommand(currCmd);
 
@@ -86,11 +106,9 @@ public class Logic {
 		// To update if there are any deadlines that turned overdue
 		_logicData.updateState();
 		feedback = _logicCommand.processCommand(currCmd);
-
 		// To update after the command has been processed to ensure that the
 		// newly edited tasks are updated
 		_logicData.updateState();
-
 		// To check and change accordingly if the pointer is pointed towards an
 		// archived task after the state is updated
 		_logicData.checkPointer();
@@ -104,7 +122,7 @@ public class Logic {
 		if (_logicData.getCurrState() == LogicData.DisplayState.FIND_FREE) {
 			if (currCmd instanceof TaskCommand || currCmd instanceof ShowDetails) {
 				if (currCmd instanceof AddTask || currCmd instanceof BlockSlots) {
-					// allow the addition of tasks
+					// allows the addition of tasks
 				} else {
 					currCmd = new Invalid(LogicData.DisplayState.FIND_FREE);
 				}
@@ -117,13 +135,11 @@ public class Logic {
 			}
 		} else if (_logicData.getCurrState() == LogicData.DisplayState.DEMO) {
 			if (currCmd instanceof Home || currCmd instanceof Exit) {
-				// allow home
+				// allows home or exiting in demo mode
 			} else {
-				// continues as demo
 				currCmd = new Demo();
 			}
 		}
-
 		return currCmd;
 	}
 
@@ -134,10 +150,9 @@ public class Logic {
 	 */
 	public ArrayList<String> displayHelp() {
 		logger.getLogger().info("Help fn has been called");
-
 		return _logicData.generateHelpManual();
 	}
-	
+
 	/**
 	 * Retrieves the demo text for Urgenda for demo mode
 	 * 
@@ -146,16 +161,18 @@ public class Logic {
 	public ArrayList<String> getDemoText() {
 		return _logicData.generateDemoText();
 	}
-	
-	/** 
-	 * Retrieves the corresponding selector index for demonstration purposes in demo mode
+
+	/**
+	 * Retrieves the corresponding selector index for demonstration purposes in
+	 * demo mode
 	 * 
-	 * @return ArrayList of indexes that is selected for each state in demo modes
+	 * @return ArrayList of indexes that is selected for each state in demo
+	 *         modes
 	 */
 	public ArrayList<Integer> getDemoSelectionIndexes() {
 		return _logicData.generateDemoSelectionIndexes();
 	}
-	
+
 	/**
 	 * Initialization of Logic upon launch of the program
 	 * 
@@ -182,7 +199,8 @@ public class Logic {
 	/**
 	 * Enable suggestion of the command while user is typing
 	 * 
-	 * @param currCmd current string that the user is typing
+	 * @param currCmd
+	 *            current string that the user is typing
 	 * @return SuggestFeedback including strings of suggestions to user
 	 */
 	public SuggestFeedback getSuggestions(String currCmd) {
@@ -190,7 +208,10 @@ public class Logic {
 		return _logicSuggestion.processSuggestions(suggCmd);
 	}
 
-	// clear storage for testing purposes
+	/**
+	 * Clears the content stored in storage after testing to revert the tasks
+	 * inside
+	 */
 	public void clearStorageTester() {
 		_logicData.reinitialiseStorageTester();
 	}
