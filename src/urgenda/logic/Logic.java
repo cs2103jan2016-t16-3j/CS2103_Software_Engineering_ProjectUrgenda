@@ -138,12 +138,20 @@ public class Logic {
 		return _logicData.generateHelpManual();
 	}
 	
-	//TODO
+	/**
+	 * Retrieves the demo text for Urgenda for demo mode
+	 * 
+	 * @return ArrayList of text containing instructions for demo mode
+	 */
 	public ArrayList<String> getDemoText() {
 		return _logicData.generateDemoText();
 	}
 	
-	//TODO
+	/** 
+	 * Retrieves the corresponding selector index for demonstration purposes in demo mode
+	 * 
+	 * @return ArrayList of indexes that is selected for each state in demo modes
+	 */
 	public ArrayList<Integer> getDemoSelectionIndexes() {
 		return _logicData.generateDemoSelectionIndexes();
 	}
