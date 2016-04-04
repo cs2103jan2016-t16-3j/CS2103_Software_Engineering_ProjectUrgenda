@@ -301,24 +301,4 @@ public class JsonCipher {
 		return _detailsMap;
 	}
 
-	public void setHashTags(Task task) {
-		if (task.getHashtags() == null) {
-			_detailsMap.put(HASHMAP_KEY_TAGS, null);
-		} else {
-			_detailsMap.put(HASHMAP_KEY_TAGS, String.join(DELIMITER_HASHTAG, task.getHashtags()));
-		}
-	}
-
-	public ArrayList<String> getHashTags() {
-		ArrayList<String> hashTags;
-		if (_detailsMap.get(HASHMAP_KEY_TAGS) == null) {
-			hashTags = null;
-		} else {
-			String tagString = _detailsMap.get(HASHMAP_KEY_TAGS);
-			String[] tagsArray = tagString.split(DELIMITER_HASHTAG);
-			hashTags = new ArrayList<String>(Arrays.asList(tagsArray));
-		}
-		return hashTags;
-	}
-
 }

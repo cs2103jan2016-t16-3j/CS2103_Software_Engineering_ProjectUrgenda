@@ -56,10 +56,9 @@ public class Decryptor extends JsonCipher {
 		LocalDateTime endTime = getEndTime();
 		LocalDateTime dateAdded = getDateAdded();
 		LocalDateTime dateModified = getDateModified();
-		ArrayList<String> hashTags = getHashTags();
 		MultipleSlot newSlot = getMultiple();
 		Task newTask = new Task(id, desc, type, location, isCompleted, isImportant, isOverdue, startTime, endTime,
-				dateAdded, dateModified, hashTags, newSlot);
+				dateAdded, dateModified, newSlot);
 		return newTask;
 	}
 

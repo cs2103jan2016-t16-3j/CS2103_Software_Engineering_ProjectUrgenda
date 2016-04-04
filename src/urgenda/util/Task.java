@@ -25,7 +25,6 @@ public class Task {
 	private String _location;
 	private LocalDateTime _startTime;
 	private LocalDateTime _endTime;
-	private ArrayList<String> _hashtags;
 	private LocalDateTime _dateAdded;
 	private LocalDateTime _dateModified;
 	private boolean _isCompleted = false;
@@ -45,27 +44,25 @@ public class Task {
 	}
 
 	// constructor for inclusion of details if there is priority
-	public Task(String desc, String location, LocalDateTime start, LocalDateTime end, ArrayList<String> tags,
+	public Task(String desc, String location, LocalDateTime start, LocalDateTime end,
 			boolean isImportant) {
 		_desc = desc;
 		_location = location;
 		updateTaskType(start, end);
 		_startTime = start;
 		_endTime = end;
-		_hashtags = tags;
 		_dateAdded = LocalDateTime.now();
 		_dateModified = LocalDateTime.now();
 		_isImportant = isImportant;
 	}
 
 	// constructor for inclusion of details without priority
-	public Task(String desc, String location, LocalDateTime start, LocalDateTime end, ArrayList<String> tags) {
+	public Task(String desc, String location, LocalDateTime start, LocalDateTime end) {
 		_desc = desc;
 		_location = location;
 		updateTaskType(start, end);
 		_startTime = start;
 		_endTime = end;
-		_hashtags = tags;
 		_dateAdded = LocalDateTime.now();
 		_dateModified = LocalDateTime.now();
 	}
@@ -78,7 +75,6 @@ public class Task {
 		setLocation(originalTask.getLocation());
 		setStartTime(originalTask.getStartTime());
 		setEndTime(originalTask.getEndTime());
-		setHashtags(originalTask.getHashtags());
 		setDateAdded(originalTask.getDateAdded());
 		setDateModified(originalTask.getDateModified());
 		setIsCompleted(originalTask.isCompleted());
@@ -96,7 +92,7 @@ public class Task {
 	 */
 	public Task(int id, String desc, String type, String location, boolean isCompleted, boolean isImportant,
 			boolean isOverdue, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime dateAdded,
-			LocalDateTime dateModified, ArrayList<String> hashTags, MultipleSlot slot) {
+			LocalDateTime dateModified, MultipleSlot slot) {
 		_id = id;
 		_desc = desc;
 		setType(type);
@@ -108,7 +104,6 @@ public class Task {
 		_endTime = endTime;
 		_dateAdded = dateAdded;
 		_dateModified = dateModified;
-		_hashtags = hashTags;
 		_slot = slot;
 
 	}
@@ -167,9 +162,6 @@ public class Task {
 		return _endTime;
 	}
 
-	public ArrayList<String> getHashtags() {
-		return _hashtags;
-	}
 
 	public LocalDateTime getDateAdded() {
 		return _dateAdded;
@@ -218,11 +210,7 @@ public class Task {
 	public void setEndTime(LocalDateTime endTime) {
 		_endTime = endTime;
 	}
-
-	public void setHashtags(ArrayList<String> hashtags) {
-		_hashtags = hashtags;
-	}
-
+	
 	public void setDateAdded(LocalDateTime dateAdded) {
 		_dateAdded = dateAdded;
 	}
