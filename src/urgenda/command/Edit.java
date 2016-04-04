@@ -115,7 +115,7 @@ public class Edit extends TaskCommand {
 			_newTask.setDateAdded(_prevTask.getDateAdded());
 			_newTask.updateTaskType();
 			updateDateModified();
-			String feedback;
+			String warning;
 			try {
 				checkTaskValidity(_newTask);
 				_data.deleteTask(_prevTask);
@@ -123,15 +123,15 @@ public class Edit extends TaskCommand {
 				_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 				_data.setTaskPointer(_newTask);
 				_data.clearShowMoreTasks();
-				feedback = checkPassed();
-				feedback += findOverlaps();
+				warning = checkPassed();
+				warning += findOverlaps();
 			} catch (LogicException e) {
 				logger.getLogger().severe("Exception occured: " + e);
 				_data.setCurrState(LogicData.DisplayState.INVALID_TASK);
 				// throws exception to prevent Edit being added to undo stack
 				throw new LogicException(MESSAGE_ERROR + e.getMessage());
 			}
-			return taskMessageWithMulti(_prevTask) + MESSAGE_EDIT + taskMessageWithMulti(_newTask) + feedback;
+			return taskMessageWithLocation(_prevTask) + MESSAGE_EDIT + taskMessageWithLocation(_newTask) + warning;
 		}
 	}
 
@@ -174,7 +174,7 @@ public class Edit extends TaskCommand {
 		_data.deleteTask(_newTask);
 		_data.addTask(_prevTask);
 		_data.setTaskPointer(_prevTask);
-		return taskMessageWithMulti(_newTask) + MESSAGE_REVERTED + taskMessageWithMulti(_prevTask);
+		return taskMessageWithLocation(_newTask) + MESSAGE_REVERTED + taskMessageWithLocation(_prevTask);
 	}
 
 	public String redo() {
@@ -182,7 +182,7 @@ public class Edit extends TaskCommand {
 		_data.deleteTask(_prevTask);
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
-		return taskMessageWithMulti(_prevTask) + MESSAGE_EDIT + taskMessageWithMulti(_newTask);
+		return taskMessageWithLocation(_prevTask) + MESSAGE_EDIT + taskMessageWithLocation(_newTask) + findOverlaps();
 	}
 
 	public void setId(int id) {

@@ -13,11 +13,11 @@ public class Complete extends TaskCommand {
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 	private static final String MESSAGE_DONE = "Done ";
-	private static final String MESSAGE_UNDONE = "To do ";
+	private static final String MESSAGE_UNDONE = " unmarked from done";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";
 	private static final String MESSAGE_NO_COMPLETE_MATCH = "No matches found to complete";
 	private static final String MESSAGE_NUM_DONE = "%1$s tasks have been marked as done: ";
-	private static final String MESSAGE_NUM_UNDONE = "%1$s tasks to be done: ";
+	private static final String MESSAGE_NUM_UNDONE = "%1$s have been unmarked from done: ";
 	private static final String MESSAGE_TASK_DESC = "\"%1$s\", ";
 	private static final String COMMA_DELIMITER = ",";
 
@@ -97,7 +97,7 @@ public class Complete extends TaskCommand {
 
 	private String uncompletedFeedback() {
 		if (_completedTasks.size() == 1) {
-			return MESSAGE_UNDONE + taskMessageWithMulti(_completedTasks.get(0)) + "!";
+			return taskMessageWithMulti(_completedTasks.get(0)) + MESSAGE_UNDONE + "!";
 		} else {
 			String feedback = String.format(MESSAGE_NUM_UNDONE, _completedTasks.size());
 			feedback += multipleTaskFeedback();
