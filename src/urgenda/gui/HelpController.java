@@ -22,6 +22,7 @@ import javafx.stage.StageStyle;
 
 public class HelpController implements Initializable {
 	
+	private static final String PATH_HELP_SPLASH_FXML = "fxml/HelpSplash.fxml";
 	private static final String HELP_NAME = "Help";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	
@@ -39,7 +40,7 @@ public class HelpController implements Initializable {
 	
 	@FXML
 	public void handleEscPressed(KeyEvent event) {
-		if (event.getCode() == KeyCode.ESCAPE) {
+		if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.ESCAPE) {
 			_helpStage.close();
 		}
 	}
@@ -58,7 +59,7 @@ public class HelpController implements Initializable {
 	
 	public void setupHelpStage(ArrayList<String> arrayList) throws IOException {		
 		_helpText = arrayList;
-		Parent help = FXMLLoader.load(Main.class.getResource("HelpSplash.fxml"));
+		Parent help = FXMLLoader.load(Main.class.getResource(PATH_HELP_SPLASH_FXML));
 		_helpStage = new Stage();
 		_helpScene = new Scene(help);
 		_helpStage.setScene(_helpScene);
@@ -87,7 +88,6 @@ public class HelpController implements Initializable {
 	private void helpPrev() {
 		if(_helpTextPos > 0) {
 			_helpTextPos--;
-			helpContentPane.setVisible(true);
 			helpContentPane.setText(_helpText.get(_helpTextPos));
 		}
 	}
@@ -95,7 +95,6 @@ public class HelpController implements Initializable {
 	private void helpNext() {
 		if(_helpTextPos < _helpText.size() - 1) {
 			_helpTextPos++;
-			helpContentPane.setVisible(true);
 			helpContentPane.setText(_helpText.get(_helpTextPos));
 		}
 	}

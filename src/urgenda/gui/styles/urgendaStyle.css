@@ -112,6 +112,12 @@ Text {
 	-fx-background-color: -fx-base-color;
 }
 
+#demoPrevButton, #demoNextButton {
+	-fx-text-fill: white;
+	-fx-background-color: -fx-base-color-dark;
+	-fx-background-radius: 10 10 0 0;
+}
+
 #demoPane {
 	-fx-background-color: white;
 }

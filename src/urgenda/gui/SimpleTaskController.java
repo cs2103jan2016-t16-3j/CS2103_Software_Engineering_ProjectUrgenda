@@ -165,7 +165,6 @@ public class SimpleTaskController extends GridPane {
 			@Override
 			public void handle(MouseEvent e) {
 				if(!_displayController.getMain().getController().isDemo()) {
-					setSelected(true);
 					_displayController.setSelectedTaskByCall(_index);
 				}
 				if(e.getClickCount() == 2) { //double click

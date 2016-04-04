@@ -39,7 +39,8 @@ public class MainController {
 
 	//constants for MainController
 	private static final int WINDOWS_TASKBAR_HEIGHT = 30;
-	private static final double DEMO_WINDOW_WIDTH = 805;
+	private static final double DEMO_WINDOW_WIDTH = 800;
+	private static final double ALLOWANCE_WINDOW_WIDTH = 5;
 	
 	private static final String PATH_TYPESUGGESTIONS_FXML = "fxml/InputSuggestionsView.fxml";
 	private static final String PATH_DEMOTEXT_FXML = "fxml/DemoTextView.fxml";
@@ -117,7 +118,7 @@ public class MainController {
 	}
 	
 	private void initDemoPane() {	
-		_demoController = new DemoController(this, _main.getDemoText());
+		_demoController = new DemoController(this, _main.getDemoText(), _main.getDemoSelectionIndexes());
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_DEMOTEXT_FXML));
 		loader.setController(_demoController);
 		try {
@@ -140,11 +141,11 @@ public class MainController {
 					if (newValue.equals(true)) {
 						initDemoPane();
 						_popupInputSuggestions.hide();
-						_main.getPrimaryStage().setWidth(DEMO_WINDOW_WIDTH);
+						_main.getPrimaryStage().setWidth(DEMO_WINDOW_WIDTH + ALLOWANCE_WINDOW_WIDTH);
 					} else {
 						_demoController = null;
 						backgroundPane.getChildren().remove(_demoTextPane);
-						_main.getPrimaryStage().setWidth(backgroundPane.getPrefWidth());
+						_main.getPrimaryStage().setWidth(backgroundPane.getPrefWidth() + ALLOWANCE_WINDOW_WIDTH);
 						displayFeedback(_main.handleCommandLine(KEYWORD_SHOW_ALL, newValue));	//return to all tasks view
 					}
 				}
@@ -216,7 +217,6 @@ public class MainController {
 				inputBar.requestFocus();
 			}
 			if(_isDemo.get()) {
-				System.out.println("tab" + _demoController.getDemoIndex());
 				if(event.isShiftDown()) {
 					_demoController.prevPart();
 				} else {
@@ -360,7 +360,7 @@ public class MainController {
 		menuPrevMultipleSlot.setVisible(show);
 		menuNextMultipleSlot.setVisible(show);
 	}
-
+	
 	@FXML
 	private void exit(ActionEvent e) {
 		Platform.exit();

@@ -132,9 +132,9 @@ public class InputSuggestionsPopupController extends BorderPane {
 		singleSuggestion.getChildren().addAll(suggestionsTokenisedList);
 		Text delimiter = new Text();
 		if(isSuggestion) {
-			delimiter.setText(" | ");
+			delimiter.setText(" / ");
 		} else {
-			delimiter.setText("|");
+			delimiter.setText("/");
 		}
 		delimiter.setFill(COLOR_DEFAULT);
 		singleSuggestion.getChildren().add(delimiter);

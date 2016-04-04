@@ -215,6 +215,15 @@ public class Main extends Application {
 		temp.add("DEMO PART 3");
 		return temp;
 	}
+	
+	public ArrayList<Integer> getDemoSelectionIndexes() {
+		// TODO Auto-generated method stub
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		temp.add(0);
+		temp.add(1);
+		temp.add(2);
+		return temp;
+	}
 
 	public File getSaveDirectory() {
 		File file = new File(_logic.getCurrentSaveDirectory());

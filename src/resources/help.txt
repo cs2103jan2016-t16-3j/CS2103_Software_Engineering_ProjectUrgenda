@@ -1,8 +1,9 @@
 Adding Tasks:
 Simply type your task description with or without dates and times. A task will then be separated into 3 types:
-Event: A task with start and end time.
-Deadline: A task with only an end time.
-Untimed: A task with no start or end time.
+Event tasks: A task with start and end time.
+Deadline tasks: A task with only an end time.
+Untimed tasks: A task with no start or end time.
+Example: "Dinner with Mum today from 7pm to 8pm"
 
 Deleting Tasks:
 Command words - Delete / Del / Erase / Remove
