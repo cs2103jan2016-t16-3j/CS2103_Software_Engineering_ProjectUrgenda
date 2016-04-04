@@ -166,6 +166,7 @@ public class Main extends Application {
 	private String activateDemoScreen() {
 		_mainController.setDemo(true);
 		StateFeedback state = new DemoStateFeedback();
+		_displayController.setSelectedTaskByCall(0);
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false, true);
 		_mainController.updateOverdueCount(state.getOverdueCount());
 		return state.getFeedback();
@@ -214,6 +215,7 @@ public class Main extends Application {
 		temp.add("DEMO PART 2");
 		temp.add("DEMO PART 3");
 		return temp;
+		//return _logic.getDemoText();
 	}
 	
 	public ArrayList<Integer> getDemoSelectionIndexes() {
@@ -223,6 +225,7 @@ public class Main extends Application {
 		temp.add(1);
 		temp.add(2);
 		return temp;
+		//return _logic.getDemoSelectionIndexes();
 	}
 
 	public File getSaveDirectory() {
