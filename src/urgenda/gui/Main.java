@@ -110,6 +110,15 @@ public class Main extends Application {
 		_primaryStage.setScene(_scene);
 		_primaryStage.sizeToScene();
 		_primaryStage.show();
+		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of Urgenda window");
+	}
+
+	private void initFeatures() {
+		//setup overdue indicator
+		_mainController.updateOverdueCount(_currState.getOverdueCount());
+		//setup type suggestions
+		_mainController.initTypeSuggestions();
+		//setup window focused listener 
 		_primaryStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -121,12 +130,6 @@ public class Main extends Application {
 				
 			}
 		});
-		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of Urgenda window");
-	}
-
-	private void initFeatures() {
-		_mainController.updateOverdueCount(_currState.getOverdueCount());
-		_mainController.initTypeSuggestions();
 	}
 	
 	private StateFeedback retrieveStartupState() {
