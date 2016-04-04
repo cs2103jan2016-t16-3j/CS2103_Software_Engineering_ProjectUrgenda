@@ -118,7 +118,7 @@ public class LogicSuggester {
 			case DONE :
 				return doneCommand();
 			case EDIT :
-				return editCommand();
+				return editCommand(isDeadline, isEvent);
 			case EXIT :
 				return exitCommand();
 			case FIND_FREE :
@@ -199,10 +199,6 @@ public class LogicSuggester {
 		return generateMessage(EXIT, EXIT_MESSAGE);
 	}
 
-	private ArrayList<String> editCommand() {
-		return generateMessage(EDIT, EDIT_MESSAGE);
-	}
-
 	private ArrayList<String> archiveCommand() {
 		return generateMessage(ARCHIVE, ARCHIVE_MESSAGE);
 	}
@@ -229,20 +225,26 @@ public class LogicSuggester {
 		suggestions.add(message);
 		return suggestions;
 	}
+	
+	private ArrayList<String> editCommand(boolean isDeadline, boolean isEvent) {
+		if (isDeadline) {
+			// TODO when ks done
+		} else if (isEvent) {
+			
+		} else {
+			
+		}
+		return generateMessage(EDIT, EDIT_MESSAGE);
+	}
 
 	private ArrayList<String> addCommand(boolean isDeadline, boolean isEvent) {
-		ArrayList<String> suggestions = new ArrayList<String>();
 		if (isDeadline) {
-			suggestions.add(ADD_DEADLINE);
-			suggestions.add(ADD_DEADLINE_MESSAGE);
+			return generateMessage(ADD_DEADLINE, ADD_DEADLINE_MESSAGE);
 		} else if (isEvent) {
-			suggestions.add(ADD_EVENT);
-			suggestions.add(ADD_EVENT_MESSAGE);
+			return generateMessage(ADD_EVENT, ADD_EVENT_MESSAGE);
 		} else {
-			suggestions.add(ADD_FLOATING);
-			suggestions.add(ADD_FLOATING_MESSAGE);
+			return generateMessage(ADD_FLOATING, ADD_FLOATING_MESSAGE);
 		}
-		return suggestions;
 	}
 
 }
