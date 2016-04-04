@@ -137,7 +137,17 @@ public class Logic {
 
 		return _logicData.generateHelpManual();
 	}
-
+	
+	//TODO
+	public ArrayList<String> getDemoText() {
+		return _logicData.generateDemoText();
+	}
+	
+	//TODO
+	public ArrayList<Integer> getDemoSelectionIndexes() {
+		return _logicData.generateDemoSelectionIndexes();
+	}
+	
 	/**
 	 * Initialization of Logic upon launch of the program
 	 * 

@@ -209,23 +209,21 @@ public class Main extends Application {
 	}
 
 	public ArrayList<String> getDemoText() {
-		// TODO Auto-generated method stub
 		ArrayList<String> temp = new ArrayList<String>();
 		temp.add("DEMO PART 1");
 		temp.add("DEMO PART 2");
 		temp.add("DEMO PART 3");
 		return temp;
-		//return _logic.getDemoText();
+		//TODO return _logic.getDemoText();
 	}
 	
 	public ArrayList<Integer> getDemoSelectionIndexes() {
-		// TODO Auto-generated method stub
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		temp.add(0);
 		temp.add(1);
 		temp.add(2);
 		return temp;
-		//return _logic.getDemoSelectionIndexes();
+		//TODO return _logic.getDemoSelectionIndexes();
 	}
 
 	public File getSaveDirectory() {

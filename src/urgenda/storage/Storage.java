@@ -122,4 +122,14 @@ public class Storage {
 		_file.delete();
 		_settings.delete();
 	}
+
+	public ArrayList<String> getDemoText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Integer> getDemoSelectionIndexes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

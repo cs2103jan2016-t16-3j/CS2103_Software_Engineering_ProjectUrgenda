@@ -709,4 +709,12 @@ public class LogicData {
 		_archives = _storage.updateArchiveTaskList();
 	}
 
+	public ArrayList<String> generateDemoText() {
+		return _storage.getDemoText();
+	}
+
+	public ArrayList<Integer> generateDemoSelectionIndexes() {
+		return _storage.getDemoSelectionIndexes();
+	}
+
 }
