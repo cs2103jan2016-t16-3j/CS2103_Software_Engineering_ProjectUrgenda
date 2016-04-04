@@ -86,6 +86,7 @@ public class CommandParser {
 			}
 		} else {
 			SuggestCommand.Command command = convertCommandType(commandType);
+			System.out.print(command + "\n");
 //			DateTimeParser.searchTaskTimes(commandString);
 //			TaskDetailsParser.searchTaskType();
 			SuggestCommand suggestCommand;
@@ -168,8 +169,10 @@ public class CommandParser {
 			break;
 		case DEMO:
 			command = SuggestCommand.Command.DEMO;
+			break;
 		case HIDE:
 			command = SuggestCommand.Command.HIDE;
+			break;
 		default:
 			break;
 		}
