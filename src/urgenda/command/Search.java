@@ -17,6 +17,7 @@ public class Search extends Command {
 	private static final String MESSAGE_SEARCH_TIME = "These are all the task(s) falling on \"%1$s\"";
 	private static final String MESSAGE_REFINE_SEARCH_TIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s\" based on the current view. Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
+	private static final String MESSAGE_SEARCH_INT = "Showing detailed info of task no. %1$s";
 
 	private String _searchDesc;
 	private LocalDate _searchDate;
@@ -238,6 +239,7 @@ public class Search extends Command {
 			data.toggleShowMoreTasks(task);
 			data.setTaskPointer(task);
 			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+			feedback = String.format(MESSAGE_SEARCH_INT, _searchId);
 			} else {
 				data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 				feedback = String.format(MESSAGE_SEARCH_NOT_FOUND, _searchId);
