@@ -18,15 +18,14 @@ public class TaskTest {
 	//also test empty task
 	@Test
 	public void testIsCompleted() {
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		MultipleSlot slot = null;
-		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
-		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, slot);
-		Task obj3 = new Task(3, "Submit ie2100 hw3", "deadline", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime, _tags, slot);
-		Task obj4 = new Task(4, "Dental Appointment", "event", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,  _tags, slot);
-		Task obj5 = new Task(5, "Travel to Sweden", "event", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,  _tags, slot);
-		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime,  slot);
+		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime,  slot);
+		Task obj3 = new Task(3, "Submit ie2100 hw3", "deadline", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime,  slot);
+		Task obj4 = new Task(4, "Dental Appointment", "event", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,   slot);
+		Task obj5 = new Task(5, "Travel to Sweden", "event", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,   slot);
+		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(), notime,  slot);
 		Task obj7 = new Task();
 		
 		assertFalse(obj.isCompleted()); //test floating no
@@ -44,15 +43,14 @@ public class TaskTest {
 	//also test empty task
 	@Test
 	public void testIsImportant() {
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		MultipleSlot slot = null;
-		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
-		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, true, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, slot);
-		Task obj3 = new Task(3, "Submit ie2100 hw3", "deadline", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime, _tags, slot);
-		Task obj4 = new Task(4, "Dental Appointment", "event", " ", true, true, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,  _tags, slot);
-		Task obj5 = new Task(5, "Travel to Sweden", "event", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,  _tags, slot);
-		Task obj6 = new Task(1, "Renew pastport", "floating", "", true, true, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
+		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime,  slot);
+		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, true, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime,  slot);
+		Task obj3 = new Task(3, "Submit ie2100 hw3", "deadline", "", false, false, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime,  slot);
+		Task obj4 = new Task(4, "Dental Appointment", "event", " ", true, true, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,   slot);
+		Task obj5 = new Task(5, "Travel to Sweden", "event", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,   slot);
+		Task obj6 = new Task(1, "Renew pastport", "floating", "", true, true, false, notime, notime, LocalDateTime.now(), notime,  slot);
 		Task obj7 = new Task();
 		
 		assertFalse(obj.isImportant()); //test floating no
@@ -68,13 +66,12 @@ public class TaskTest {
 	//test cases partition into 2 main types: yes or no; deadline can be yes or no, floating, event and empty will always be no
 	@Test
 	public void testIsOverdue() {
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		MultipleSlot slot = null;
-		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
-		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, _tags, slot);
-		Task obj3 = new Task(3, "Submit ie2100 hw3", "deadline", "", false, true, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime, _tags, slot);
-		Task obj4 = new Task(4, "Dental Appointment", "event", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,  _tags, slot);
+		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime,  slot);
+		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime,  slot);
+		Task obj3 = new Task(3, "Submit ie2100 hw3", "deadline", "", false, true, false, notime, LocalDateTime.now(), LocalDateTime.now(), notime,  slot);
+		Task obj4 = new Task(4, "Dental Appointment", "event", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,   slot);
 		Task obj5 = new Task();
 		
 		assertFalse(obj.isOverdue()); //test floating
@@ -127,13 +124,12 @@ public class TaskTest {
 	//Equivalence partition: yes, no, no(not an event), no(empty task)
 	@Test
 	public void testIsOverlapping() {
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		MultipleSlot slot = null;
-		Task compare = new Task(4, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,  _tags, slot);
-		Task test1 = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, _tags, slot);
-		Task test2 = new Task(2, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(2), LocalDateTime.now(), LocalDateTime.now(), notime,  _tags, slot);
-		Task test3 = new Task(3, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(5), LocalDateTime.now(), notime,  _tags, slot);
+		Task compare = new Task(4, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,   slot);
+		Task test1 = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime,  slot);
+		Task test2 = new Task(2, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().minusHours(2), LocalDateTime.now(), LocalDateTime.now(), notime,   slot);
+		Task test3 = new Task(3, "Dental Appointment", "EVENT", " ", true, false, false, LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(5), LocalDateTime.now(), notime,   slot);
 		Task test4 = new Task();
 		
 		assertFalse(compare.isOverlapping(test1)); //no (non-event)

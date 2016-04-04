@@ -21,23 +21,23 @@ public class ShowDetailsTest {
 		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy new specs", "floating", "", false, false, false, notime, notime,
-				LocalDateTime.now(), notime, _tags, null);
+				LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit cs2103 v0.1", "deadline", "", true, false, true, notime,
-				LocalDateTime.of(2016, Month.FEBRUARY, 14, 23, 59), LocalDateTime.now(), notime, _tags, null);
+				LocalDateTime.of(2016, Month.FEBRUARY, 14, 23, 59), LocalDateTime.now(), notime, null);
 		Task obj3 = new Task(3, "Submit admission application", "deadline", "", false, false, false, notime,
-				LocalDateTime.of(2016, Month.AUGUST, 31, 23, 59), LocalDateTime.now(), notime, _tags, null);
+				LocalDateTime.of(2016, Month.AUGUST, 31, 23, 59), LocalDateTime.now(), notime, null);
 		Task obj4 = new Task(4, "Dinner w relatives", "event", " ", false, false, false,
 				LocalDateTime.of(2016, Month.JUNE, 14, 18, 00), LocalDateTime.of(2016, Month.JUNE, 14, 20, 30),
-				LocalDateTime.now(), notime, _tags, null);
+				LocalDateTime.now(), notime, null);
 		Task obj5 = new Task(5, "Travel to Sweden", "event", " ", false, false, false,
 				LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59),
-				LocalDateTime.now(), notime, _tags, null);
+				LocalDateTime.now(), notime, null);
 		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
-				notime, _tags, null);
+				notime, null);
 		Task obj7 = new Task(1, "Wash car", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
-				notime, _tags, null);
+				notime, null);
 		Task obj8 = new Task(1, "Do survey", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
-				notime, _tags, null);
+				notime, null);
 
 
 		_tasks.add(obj);
