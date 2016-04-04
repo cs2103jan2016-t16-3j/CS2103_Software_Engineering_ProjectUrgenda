@@ -110,7 +110,7 @@ public class Main extends Application {
 		_primaryStage.setScene(_scene);
 		_primaryStage.sizeToScene();
 		_primaryStage.show();
-		_primaryStage.showingProperty().addListener(new ChangeListener<Boolean>() {
+		_primaryStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if(newValue) {
@@ -166,7 +166,7 @@ public class Main extends Application {
 	private String activateDemoScreen() {
 		_mainController.setDemo(true);
 		StateFeedback state = new DemoStateFeedback();
-		_displayController.setSelectedTaskByCall(0);
+		_displayController.setSelectedTaskByCall(0, true);
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state), state.getDetailedIndexes(), state.getDisplayPosition(), true, false, true);
 		_mainController.updateOverdueCount(state.getOverdueCount());
 		return state.getFeedback();
