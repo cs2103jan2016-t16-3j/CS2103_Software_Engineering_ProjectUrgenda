@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
 
 import org.junit.Test;
 
