@@ -140,13 +140,13 @@
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0">
-                           <input>
-                              <InnerShadow />
-                           </input>
-                        </DropShadow>
-                     </effect>
+               <effect>
+                  <DropShadow height="10.0" radius="4.5" width="10.0">
+                     <input>
+                        <InnerShadow />
+                     </input>
+                  </DropShadow>
+               </effect>
                   </TextField>
                </children>
             </AnchorPane>

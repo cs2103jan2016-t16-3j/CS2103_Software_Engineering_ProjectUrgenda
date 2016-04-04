@@ -12,9 +12,9 @@
 }
 
 #userSuggestionText {
-	-fx-font-family: "Montserrat Ultra Light";
+	-fx-font-family: "Montserrat Light";
 	-fx-fill: white;
-	-fx-font-size: 14px;
+	-fx-font-size: 13px;
 }
 
 Text {
