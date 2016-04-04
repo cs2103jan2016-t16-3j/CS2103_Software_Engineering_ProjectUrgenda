@@ -39,7 +39,7 @@ public class PublicVariables {
 			Arrays.asList(new String[] { "showmore" }));
 	public static final Set<String> homeKeyWords = new HashSet<String>(Arrays.asList(new String[] { "home" }));
 	public static final Set<String> blockKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "block", "rev", "reserve", "alloc" }));
+			Arrays.asList(new String[] { "block", "res", "reserve", "alloc", "allocate", "rsv"}));
 	public static final Set<String> findFreeKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "findfree", "free", "checkfree" }));
 	public static final Set<String> undoKeywords = new HashSet<String>(Arrays.asList(new String[] { "undo" }));

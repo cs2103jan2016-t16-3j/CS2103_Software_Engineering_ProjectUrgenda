@@ -168,8 +168,10 @@ public class CommandParser {
 			break;
 		case DEMO:
 			command = SuggestCommand.Command.DEMO;
+			break;
 		case HIDE:
 			command = SuggestCommand.Command.HIDE;
+			break;
 		default:
 			break;
 		}
