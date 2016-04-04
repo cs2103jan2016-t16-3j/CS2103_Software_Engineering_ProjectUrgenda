@@ -3,6 +3,7 @@ package urgenda.gui;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 public class DemoController {
@@ -10,24 +11,40 @@ public class DemoController {
 	@FXML
 	private TextFlow demoTextArea;
 	
-	private ArrayList<String> demoText = new ArrayList<String>();
+	private ArrayList<String> _demoText = new ArrayList<String>();
 	private MainController _mainController;
-	private int _demoIndex;
+	private int _demoIndex = 0;
 	
-	public DemoController() {
-		
+	public DemoController(MainController mainController, ArrayList<String> demoText) {
+		_mainController = mainController;
+		if (demoText != null) {
+			_demoText.addAll(demoText);
+		}
+	}
+	
+	public void init() {
+		showDemoPart(_demoIndex);
+	}
+	
+	private void showDemoPart(int index) {
+		demoTextArea.getChildren().clear();
+		demoTextArea.getChildren().add(new Text(_demoText.get(index)));
 	}
 
 	public void nextPart() {
-		// TODO Auto-generated method stub
+			if (_demoIndex < _demoText.size() - 1) {
+				_demoIndex++;
+				showDemoPart(_demoIndex);
+			} else if (_demoIndex >= _demoText.size() - 1) {
+				_mainController.setDemo(false);
+			}
 	}
 
 	public void prevPart() {
-		// TODO Auto-generated method stub
-	}
-
-	public void setMainController(MainController mainController) {
-		_mainController = mainController;
+			if (_demoIndex > 0) {
+				_demoIndex--;
+				showDemoPart(_demoIndex);
+			}
 	}
 	
 	public int getDemoIndex() {

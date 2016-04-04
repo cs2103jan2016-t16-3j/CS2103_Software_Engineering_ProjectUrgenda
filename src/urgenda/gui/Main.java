@@ -207,12 +207,13 @@ public class Main extends Application {
 		return _logic.displayHelp();
 	}
 
-	public MainController getController() {
-		return _mainController;
-	}
-	
-	public Stage getPrimaryStage() {
-		return _primaryStage;
+	public ArrayList<String> getDemoText() {
+		// TODO Auto-generated method stub
+		ArrayList<String> temp = new ArrayList<String>();
+		temp.add("DEMO PART 1");
+		temp.add("DEMO PART 2");
+		temp.add("DEMO PART 3");
+		return temp;
 	}
 
 	public File getSaveDirectory() {
@@ -222,17 +223,6 @@ public class Main extends Application {
 	
 	public void setMultipleSlotMenuForSelected(boolean show) {
 		_mainController.toggleMultipleSlotMenuOption(show);
-	}
-
-	private void quit() {
-		if(_mainController.getHelpController() != null) {
-			_mainController.getHelpController().closeHelpWindow();
-		}
-		System.exit(0);
-	}
-	
-	public static void main(String[] args) {
-		launch(args);
 	}
 
 	public SuggestFeedback retrieveSuggestions(String text) {
@@ -261,4 +251,23 @@ public class Main extends Application {
         }
         return new BoundingBox(minX, minY, maxX-minX, maxY-minY);
     }
+	
+	private void quit() {
+		if(_mainController.getHelpController() != null) {
+			_mainController.getHelpController().closeHelpWindow();
+		}
+		System.exit(0);
+	}
+	
+	public MainController getController() {
+		return _mainController;
+	}
+	
+	public Stage getPrimaryStage() {
+		return _primaryStage;
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
 }

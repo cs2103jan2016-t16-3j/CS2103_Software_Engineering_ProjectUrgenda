@@ -11,9 +11,7 @@ import org.ocpsoft.prettytime.shade.edu.emory.mathcs.backport.java.util.Arrays;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -119,7 +117,7 @@ public class MainController {
 	}
 	
 	private void initDemoPane() {	
-		_demoController = new DemoController();
+		_demoController = new DemoController(this, _main.getDemoText());
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_DEMOTEXT_FXML));
 		loader.setController(_demoController);
 		try {
@@ -130,6 +128,7 @@ public class MainController {
 			e.printStackTrace();
 		}
 		backgroundPane.setRight(_demoTextPane);
+		_demoController.init();
 	}	
 
 	private void setListeners() {
@@ -146,7 +145,7 @@ public class MainController {
 						_demoController = null;
 						backgroundPane.getChildren().remove(_demoTextPane);
 						_main.getPrimaryStage().setWidth(backgroundPane.getPrefWidth());
-						displayFeedback(_main.handleCommandLine(KEYWORD_SHOW_ALL, _isDemo.get()));	//return to all tasks view
+						displayFeedback(_main.handleCommandLine(KEYWORD_SHOW_ALL, newValue));	//return to all tasks view
 					}
 				}
 			}
@@ -217,10 +216,11 @@ public class MainController {
 				inputBar.requestFocus();
 			}
 			if(_isDemo.get()) {
+				System.out.println("tab" + _demoController.getDemoIndex());
 				if(event.isShiftDown()) {
-					_demoController.nextPart();
-				} else {
 					_demoController.prevPart();
+				} else {
+					_demoController.nextPart();
 				}
 			} 
 		}
