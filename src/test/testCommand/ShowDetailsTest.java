@@ -18,7 +18,6 @@ public class ShowDetailsTest {
 	public void testExecute() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy new specs", "floating", "", false, false, false, notime, notime,
 				LocalDateTime.now(), notime, null);

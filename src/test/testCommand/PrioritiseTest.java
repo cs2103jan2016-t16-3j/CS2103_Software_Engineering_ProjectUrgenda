@@ -20,7 +20,6 @@ public class PrioritiseTest {
 	public void testExecuteDesc() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -64,7 +63,6 @@ public class PrioritiseTest {
 	public void testExecutePositions() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -121,7 +119,6 @@ public class PrioritiseTest {
 	public void testUndo() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -141,7 +138,7 @@ public class PrioritiseTest {
 		Prioritise tester = new Prioritise();
 		tester.setDesc("Sweden");
 		tester.execute();
-		assertEquals("\"Travel to Sweden\" unmarked as important", tester.undo());
+		assertEquals("\"Travel to Sweden\" unmarked from important", tester.undo());
 		ArrayList<Integer> range = new ArrayList<Integer>();
 		range.clear();
 		range.add(0);
@@ -149,14 +146,13 @@ public class PrioritiseTest {
 		Prioritise tester2 = new Prioritise();
 		tester2.setPositions(range);
 		tester2.execute();
-		assertEquals("Priority of 2 tasks have been changed:\n" + "\"Buy milk\", \"Submit ie2150 draft\" unmarked as important", tester2.undo());
+		assertEquals("Priority of 2 tasks have been changed:\n" + "\"Buy milk\", \"Submit ie2150 draft\" unmarked from important", tester2.undo());
 	}
 	
 	@Test
 	public void testRedo() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);

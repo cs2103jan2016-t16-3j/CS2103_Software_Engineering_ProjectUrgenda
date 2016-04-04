@@ -22,7 +22,7 @@ public class LogicSuggester {
 	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
 
 	// TODO feedback for edit
-	private static final String EDIT_FLOATING = "[task no] | [new desc] | [new timing(s)] | [-r] (removes a timing) | @[location]";
+	private static final String EDIT_FLOATING = "[task no] [new desc] | [new timing(s)] | [-r] (removes a timing) | @[location]";
 	private static final String EDIT_FLOATING_1 = "[task no] [new desc] | [use at/from/on/by for timings] | [-r] (remove a timing) | @[location]";
 	private static final String EDIT_FLOATING_MESSAGE = "Edits desc, date(s) and timing(s), and/or location of selected task";
 	private static final String EDIT_EVENT = "[task no] [new desc] | from [start time] to [end time] | @[location] (optional)";

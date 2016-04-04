@@ -19,7 +19,6 @@ public class CompleteTest {
 	public void testExecuteDesc() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),
 				notime,  null);
@@ -46,7 +45,7 @@ public class CompleteTest {
 		_data.setDisplays(_tasks);
 		Complete tester = new Complete();
 		tester.setDesc("Sweden");
-		assertEquals("Done \"Travel to Sweden\" on 26/7, 00:00 - 23:59!", tester.execute()); // test
+		assertEquals("Done \"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59!", tester.execute()); // test
 																								// done
 																								// by
 																								// desc
@@ -81,7 +80,6 @@ public class CompleteTest {
 	public void testExecutePositions() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),
 				notime, null);
@@ -112,8 +110,7 @@ public class CompleteTest {
 		range.add(2);
 		range.add(_tasks.size() - 1); // test max acceptable boundary
 		tester.setPositions(range);
-		assertEquals("3 tasks have been done:\n" + "\"Buy milk\"\n" + "\"Submit ie2100 hw3\" by 4/8, 23:59\n"
-				+ "\"Mop floor\"", tester.execute()); // test pri by positions
+		assertEquals("3 tasks have been marked as done: \"Buy milk\", \"Submit ie2100 hw3\", \"Mop floor\"", tester.execute()); // test pri by positions
 		range.clear();
 		range.add(-6);
 		Complete tester2 = new Complete();
@@ -142,7 +139,6 @@ public class CompleteTest {
 	public void testUndo() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),
 				notime, null);
@@ -170,7 +166,7 @@ public class CompleteTest {
 		Complete tester = new Complete();
 		tester.setDesc("Sweden");
 		tester.execute();
-		assertEquals("To do \"Travel to Sweden\" on 26/7, 00:00 - 23:59!", tester.undo()); //test undo of a complete by desc
+		assertEquals("\"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59 unmarked from done!", tester.undo()); //test undo of a complete by desc
 		ArrayList<Integer> range = new ArrayList<Integer>();
 		range.clear();
 		range.add(0);
@@ -178,14 +174,13 @@ public class CompleteTest {
 		Complete tester2 = new Complete();
 		tester2.setPositions(range);
 		tester2.execute();
-		assertEquals("2 tasks to be done:\n" + "\"Buy milk\"\n" + "\"Submit ie2150 draft\" by 24/2, 23:59", tester2.undo()); //test undo of a complete by positions
+		assertEquals("2 have been unmarked from done: \"Buy milk\", \"Submit ie2150 draft\"", tester2.undo()); //test undo of a complete by positions
 	}
 	
 	@Test
 	public void testRedo() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -206,7 +201,7 @@ public class CompleteTest {
 		tester.setDesc("Sweden");
 		tester.execute();
 		tester.undo();
-		assertEquals("Done \"Travel to Sweden\" on 26/7, 00:00 - 23:59!", tester.redo());
+		assertEquals("Done \"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59!", tester.redo());
 	}
 	
 }

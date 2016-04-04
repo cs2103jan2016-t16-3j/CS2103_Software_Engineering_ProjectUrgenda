@@ -18,7 +18,6 @@ public class NewEditTest {
 	public void testExecute() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADLINE", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -44,7 +43,7 @@ public class NewEditTest {
 		Edit tester2 = new Edit();
 		tester2.setNewTask(testTask2);
 		tester2.setId(1);
-		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4, 10:00 - 12:00",tester2.execute());
+		assertEquals("\"Submit ie2150 draft\" by 24/2, 23:59 has been edited to \"Submit ie2150 draft\" on 5/4 10:00 - 5/4 12:00",tester2.execute());
 		/*Task testTask3 = new Task();
 		NewEdit tester3 = new NewEdit();
 		tester3.setNewTask(testTask3);
@@ -64,7 +63,6 @@ public class NewEditTest {
 	public void testUndo() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADLINE", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -83,7 +81,6 @@ public class NewEditTest {
 	public void testRedo() throws Exception {
 		LogicData _data = LogicData.getInstance();
 		ArrayList<Task> _tasks = new ArrayList<Task>();
-		ArrayList<String> _tags = new ArrayList<String>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		_tasks.add(obj);
