@@ -103,14 +103,9 @@ public class Logic {
 		currCmd = checkAndFilterCommand(currCmd);
 
 		String feedback;
-		// To update if there are any deadlines that turned overdue
 		_logicData.updateState();
 		feedback = _logicCommand.processCommand(currCmd);
-		// To update after the command has been processed to ensure that the
-		// newly edited tasks are updated
 		_logicData.updateState();
-		// To check and change accordingly if the pointer is pointed towards an
-		// archived task after the state is updated
 		_logicData.checkPointer();
 		StateFeedback state = _logicData.getState();
 		state.setFeedback(feedback);
@@ -118,6 +113,14 @@ public class Logic {
 		return state;
 	}
 
+	/*
+	 * Filters the given command to ensure that the command is valid for the current state
+	 * of Urgenda.
+	 * 
+	 * FindFree only allows adding of new tasks as well as non task related commands
+	 * Archive prevents completed an already completed task
+	 * Demo only allows the home and exit commands
+	 */
 	private Command checkAndFilterCommand(Command currCmd) {
 		if (_logicData.getCurrState() == LogicData.DisplayState.FIND_FREE) {
 			if (currCmd instanceof TaskCommand || currCmd instanceof ShowDetails) {

@@ -1,3 +1,4 @@
+//@@author A0080436
 package urgenda.logic;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import urgenda.util.SuggestFeedback;
 
 public class LogicSuggester {
 
+	// TODO rescale to 110 char
 	private static final String ADD_EVENT = "[desc] [start time] to [end time] @[location] (optional)";
 	private static final String ADD_EVENT_MESSAGE = "Adds a task spanning across a time period";
 	private static final String ADD_DEADLINE = "[desc] by [deadline] @[location] (optional)";
@@ -80,11 +82,26 @@ public class LogicSuggester {
 
 	private static final String SUGGESTION_MESSAGE = "Matching command(s) to use";
 
+	/**
+	 * Method for processing the parsed suggestion into the required format for
+	 * display to the user when the user is typing
+	 * 
+	 * @param suggCmd
+	 *            parsed suggestion of the current user input
+	 * @return SuggestFeedback object containing all the suggestions to user
+	 */
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
-		ArrayList<String> suggestions;
 		boolean isCommand = false;
 		String currCmd = suggCmd.getCurrCmd();
+		return filterSuggestionType(suggCmd, isCommand, currCmd);
+	}
 
+	/*
+	 * Method for separating of the different types of suggestion state such as
+	 * suggested possible commands and also confirmed command type
+	 */
+	private SuggestFeedback filterSuggestionType(SuggestCommand suggCmd, boolean isCommand, String currCmd) {
+		ArrayList<String> suggestions;
 		if (suggCmd.getConfirmedCommand() != null && currCmd != null && !currCmd.isEmpty() && !currCmd.equals("")) {
 			// confirmed command filter possible formats
 			suggestions = filterCommand(suggCmd.getConfirmedCommand(), suggCmd.isDeadline(), suggCmd.isEvent());
@@ -104,6 +121,9 @@ public class LogicSuggester {
 		}
 	}
 
+	/*
+	 * Filters the command based on the given command detected and generates the feedback
+	 */
 	private ArrayList<String> filterCommand(Command confirmedCommand, boolean isDeadline, boolean isEvent) {
 		switch(confirmedCommand) {
 			case ADD :
@@ -235,7 +255,7 @@ public class LogicSuggester {
 		} else if (isEvent) {
 			return generateMessage(EDIT_EVENT, EDIT_EVENT_MESSAGE);
 		} else {
-			return generateMessage(EDIT_FLOATING, EDIT_FLOATING_MESSAGE);			
+			return generateMessage(EDIT_FLOATING, EDIT_FLOATING_MESSAGE);
 		}
 	}
 

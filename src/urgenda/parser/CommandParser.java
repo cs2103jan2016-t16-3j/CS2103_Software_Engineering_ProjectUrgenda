@@ -74,15 +74,15 @@ public class CommandParser {
 					}
 					boolean isDeadline = isDeadline(commandString);
 					boolean isEvent = isEvent(commandString);
-					suggestCommand.setIsDeadline(isDeadline);
-					suggestCommand.setIsEvent(isEvent);
+					suggestCommand.setDeadline(isDeadline);
+					suggestCommand.setEvent(isEvent);
 					return suggestCommand;
 				} else {
 					suggestCommand = new SuggestCommand(null, null, null);
 					boolean isDeadline = isDeadline(commandString);
 					boolean isEvent = isEvent(commandString);
-					suggestCommand.setIsDeadline(isDeadline);
-					suggestCommand.setIsEvent(isEvent);
+					suggestCommand.setDeadline(isDeadline);
+					suggestCommand.setEvent(isEvent);
 					return suggestCommand;
 				}
 			} else {
@@ -104,8 +104,8 @@ public class CommandParser {
 				// }
 				boolean isDeadline = isDeadline(commandString);
 				boolean isEvent = isEvent(commandString);
-				suggestCommand.setIsDeadline(isDeadline);
-				suggestCommand.setIsEvent(isEvent);
+				suggestCommand.setDeadline(isDeadline);
+				suggestCommand.setEvent(isEvent);
 				return suggestCommand;
 			}
 		} else {

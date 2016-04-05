@@ -12,6 +12,7 @@ public class SuggestFeedback {
 	private boolean _isCommand = false;
 	private boolean _isSuggestion = false;
 	
+	// TODO ks tag
 	//constructor for complete command feedback
 	public SuggestFeedback(ArrayList<String> suggestions, String currCmd, boolean isCommand) {
 		_currCmd = currCmd;
