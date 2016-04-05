@@ -21,7 +21,7 @@ public class Search extends Command {
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
 	private static final String MESSAGE_SEARCH_INT = "Showing detailed info of task no. %1$s";
 	private static final String MESSAGE_NEAR_MATCH = "%1$s near match(es)";
-	private static final String MESSAGE_NEAR_MATCH_DESC = " for \"%1$s\"";
+	private static final String MESSAGE_SEARCH_NO_EXACT = "No exact match found for \"%1$s\". ";
 
 	private String _searchDesc;
 	private LocalDate _searchDate;
@@ -135,7 +135,7 @@ public class Search extends Command {
 	private String getNearMatchFeedback(int nearMatchCount, int descCount, int typeCount) {
 		if (nearMatchCount != 0) {
 			if (descCount == 0 && typeCount == 0) {
-				return MESSAGE_SHOWING + String.format(MESSAGE_NEAR_MATCH, nearMatchCount) + String.format(MESSAGE_NEAR_MATCH_DESC, _searchDesc);
+				return String.format(MESSAGE_SEARCH_NO_EXACT, _searchDesc) + MESSAGE_SHOWING + String.format(MESSAGE_NEAR_MATCH, nearMatchCount);
 			} else {
 				return " and " + String.format(MESSAGE_NEAR_MATCH, nearMatchCount);
 			}
