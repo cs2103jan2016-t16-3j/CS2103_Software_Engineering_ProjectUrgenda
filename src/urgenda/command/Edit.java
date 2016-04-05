@@ -1,3 +1,4 @@
+//@@author A0127358Y
 package urgenda.command;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,11 @@ import urgenda.util.LogicException;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
+/**
+ * 
+ * Edit is the command object used for editing of task in Urgenda.
+ * 
+ */
 public class Edit extends TaskCommand {
 
 	private static final String MESSAGE_NO_EDIT_MATCH = "Invalid task number. No matches found to edit";

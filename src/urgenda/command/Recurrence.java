@@ -1,3 +1,7 @@
+//@@author A0127358Y
+//Unused feature due to change of additional special feature towards the end. Decided to go for nicer and 
+//more rewarding feature Good Gui rather than recurring task. Hence this feature has not been fully tested, implemented
+//and refactored. Left it here for the effort spent, probably deleting it in the end.
 package urgenda.command;
 
 import java.time.LocalDateTime;
@@ -9,6 +13,11 @@ import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
+/**
+ * 
+ * Recurrence command object used for performing recurring tasks in Urgenda
+ *
+ */
 public class Recurrence extends TaskCommand {
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();

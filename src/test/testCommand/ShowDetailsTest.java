@@ -17,7 +17,6 @@ public class ShowDetailsTest {
 	@Test
 	public void testExecute() throws Exception {
 		LogicData _data = LogicData.getInstance();
-		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy new specs", "floating", "", false, false, false, notime, notime,
 				LocalDateTime.now(), notime, null);
@@ -39,16 +38,17 @@ public class ShowDetailsTest {
 				notime, null);
 
 
-		_tasks.add(obj);
-		_tasks.add(obj2);
-		_tasks.add(obj3);
-		_tasks.add(obj4);
-		_tasks.add(obj5);
-		_tasks.add(obj6);
-		_tasks.add(obj7);
-		_tasks.add(obj8);
+		_data.clearTasks();
+		_data.addTask(obj);
+		_data.addTask(obj2);
+		_data.addTask(obj3);
+		_data.addTask(obj4);
+		_data.addTask(obj5);
+		_data.addTask(obj6);
+		_data.addTask(obj7);
+		_data.addTask(obj8);
 
-		_data.setDisplays(_tasks);
+		_data.setDisplays(_data.getTaskList());
 		ShowDetails test = new ShowDetails();
 		ArrayList<Integer> range = new ArrayList<Integer>();
 		range.add(3);
@@ -57,7 +57,7 @@ public class ShowDetailsTest {
 		ShowDetails test2 = new ShowDetails();
 		range.clear();
 		range.add(0); //test min acceptable boundary
-		range.add(_tasks.size()-1); //test max acceptable boundary
+		range.add(_data.getDisplays().size()-1); //test max acceptable boundary
 		test2.setPosition(range);
 		assertEquals("Changed showing details for 2 tasks\n" +
 				"Showing more details for \"Buy new specs\", \"Do survey\"", test2.execute());

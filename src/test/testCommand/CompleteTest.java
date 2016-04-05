@@ -18,7 +18,6 @@ public class CompleteTest {
 	@Test
 	public void testExecuteDesc() throws Exception {
 		LogicData _data = LogicData.getInstance();
-		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),
 				notime,  null);
@@ -35,14 +34,15 @@ public class CompleteTest {
 		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
 				notime, null);
 
-		_tasks.add(obj);
-		_tasks.add(obj2);
-		_tasks.add(obj3);
-		_tasks.add(obj4);
-		_tasks.add(obj5);
-		_tasks.add(obj6);
+		_data.clearTasks();
+		_data.addTask(obj);
+		_data.addTask(obj2);
+		_data.addTask(obj3);
+		_data.addTask(obj4);
+		_data.addTask(obj5);
+		_data.addTask(obj6);
 
-		_data.setDisplays(_tasks);
+		_data.setDisplays(_data.getTaskList());
 		Complete tester = new Complete();
 		tester.setDesc("Sweden");
 		assertEquals("Done \"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59!", tester.execute()); // test
@@ -79,7 +79,6 @@ public class CompleteTest {
 	@Test
 	public void testExecutePositions() throws Exception {
 		LogicData _data = LogicData.getInstance();
-		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),
 				notime, null);
@@ -96,19 +95,20 @@ public class CompleteTest {
 		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
 				notime, null);
 
-		_tasks.add(obj);
-		_tasks.add(obj2);
-		_tasks.add(obj3);
-		_tasks.add(obj4);
-		_tasks.add(obj5);
-		_tasks.add(obj6);
+		_data.clearTasks();
+		_data.addTask(obj);
+		_data.addTask(obj2);
+		_data.addTask(obj3);
+		_data.addTask(obj4);
+		_data.addTask(obj5);
+		_data.addTask(obj6);
 
-		_data.setDisplays(_tasks);
+		_data.setDisplays(_data.getTaskList());
 		Complete tester = new Complete();
 		ArrayList<Integer> range = new ArrayList<Integer>();
 		range.add(0); // test min acceptable boundary
 		range.add(2);
-		range.add(_tasks.size() - 1); // test max acceptable boundary
+		range.add(_data.getDisplays().size() - 1); // test max acceptable boundary
 		tester.setPositions(range);
 		assertEquals("3 tasks have been marked as done: \"Buy milk\", \"Submit ie2100 hw3\", \"Mop floor\"", tester.execute()); // test pri by positions
 		range.clear();
@@ -138,7 +138,6 @@ public class CompleteTest {
 	@Test
 	public void testUndo() throws Exception {
 		LogicData _data = LogicData.getInstance();
-		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),
 				notime, null);
@@ -155,14 +154,15 @@ public class CompleteTest {
 		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(),
 				notime, null);
 
-		_tasks.add(obj);
-		_tasks.add(obj2);
-		_tasks.add(obj3);
-		_tasks.add(obj4);
-		_tasks.add(obj5);
-		_tasks.add(obj6);
+		_data.clearTasks();
+		_data.addTask(obj);
+		_data.addTask(obj2);
+		_data.addTask(obj3);
+		_data.addTask(obj4);
+		_data.addTask(obj5);
+		_data.addTask(obj6);
 
-		_data.setDisplays(_tasks);
+		_data.setDisplays(_data.getTaskList());
 		Complete tester = new Complete();
 		tester.setDesc("Sweden");
 		tester.execute();
@@ -180,7 +180,6 @@ public class CompleteTest {
 	@Test
 	public void testRedo() throws Exception {
 		LogicData _data = LogicData.getInstance();
-		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -189,19 +188,21 @@ public class CompleteTest {
 		Task obj5 = new Task(5, "Travel to Sweden", "event", " ", false, false, false, LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime,  null);
 		Task obj6 = new Task(1, "Mop floor", "floating", "", true, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		
-		_tasks.add(obj);
-		_tasks.add(obj2);
-		_tasks.add(obj3);
-		_tasks.add(obj4);
-		_tasks.add(obj5);
-		_tasks.add(obj6);
-		
-		_data.setDisplays(_tasks);
+		_data.clearTasks();
+		_data.addTask(obj);
+		_data.addTask(obj2);
+		_data.addTask(obj3);
+		_data.addTask(obj4);
+		_data.addTask(obj5);
+		_data.addTask(obj6);
+
+		_data.setDisplays(_data.getTaskList());
 		Complete tester = new Complete();
 		tester.setDesc("Sweden");
 		tester.execute();
 		tester.undo();
 		assertEquals("Done \"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59!", tester.redo());
+		_data.clearTasks();
 	}
 	
 }
