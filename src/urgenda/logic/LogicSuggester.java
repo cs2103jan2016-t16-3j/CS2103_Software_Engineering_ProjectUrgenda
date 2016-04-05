@@ -84,11 +84,11 @@ public class LogicSuggester {
 
 	/**
 	 * Method for processing the parsed suggestion into the required format for
-	 * display to the user when the user is typing
+	 * display to the user when the user is typing.
 	 * 
 	 * @param suggCmd
-	 *            parsed suggestion of the current user input
-	 * @return SuggestFeedback object containing all the suggestions to user
+	 *            parsed suggestion of the current user input.
+	 * @return SuggestFeedback object containing all the suggestions to user.
 	 */
 	public SuggestFeedback processSuggestions(SuggestCommand suggCmd) {
 		boolean isCommand = false;
@@ -98,7 +98,7 @@ public class LogicSuggester {
 
 	/*
 	 * Method for separating of the different types of suggestion state such as
-	 * suggested possible commands and also confirmed command type
+	 * suggested possible commands and also confirmed command type.
 	 */
 	private SuggestFeedback filterSuggestionType(SuggestCommand suggCmd, boolean isCommand, String currCmd) {
 		ArrayList<String> suggestions;
@@ -122,7 +122,7 @@ public class LogicSuggester {
 	}
 
 	/*
-	 * Filters the command based on the given command detected and generates the feedback
+	 * Filters the command based on the given command detected and generates the feedback.
 	 */
 	private ArrayList<String> filterCommand(Command confirmedCommand, boolean isDeadline, boolean isEvent) {
 		switch(confirmedCommand) {

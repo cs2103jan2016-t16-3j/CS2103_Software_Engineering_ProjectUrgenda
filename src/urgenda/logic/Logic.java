@@ -21,7 +21,7 @@ import urgenda.util.UrgendaLogger;
 
 /**
  * Logic class for the Logic component Urgenda.
- * Acts as the facade for the numerous functionality of the Logic Component
+ * Acts as the facade for the numerous functionality of the Logic Component.
  * 
  */
 public class Logic {
@@ -50,9 +50,9 @@ public class Logic {
 
 	/**
 	 * Singleton pattern constructor for logic where object is created if does
-	 * not exist
+	 * not exist.
 	 * 
-	 * @return the logic object that is used currently or created
+	 * @return Logic object that is used currently or created.
 	 */
 	public static Logic getInstance() {
 		if (_logic == null) {
@@ -65,11 +65,11 @@ public class Logic {
 
 	/**
 	 * Alternate constructor for singleton pattern for stubbing of storage when
-	 * testing
+	 * testing.
 	 * 
 	 * @param isTest
-	 *            boolean of checking if the current mode is in testing
-	 * @return the logic object that is used currently or created
+	 *            boolean of checking if the current mode is in testing.
+	 * @return Logic object that is used currently or created.
 	 */
 	public static Logic getInstance(boolean isTest) {
 		if (_logic == null) {
@@ -80,14 +80,14 @@ public class Logic {
 
 	/**
 	 * Executes the command given in string format, taking the relevant position
-	 * if required
+	 * if required.
 	 * 
 	 * @param command
-	 *            input string by the user
+	 *            input string by the user.
 	 * @param index
-	 *            current index pointed at by the user
+	 *            current index pointed at by the user.
 	 * @return StateFeedback which includes the current state of tasks as well
-	 *         as feedback line
+	 *         as feedback line.
 	 */
 	public StateFeedback executeCommand(String command, int index) {
 		logger.getLogger().info("executing user input: " + command);
@@ -117,9 +117,9 @@ public class Logic {
 	 * Filters the given command to ensure that the command is valid for the current state
 	 * of Urgenda.
 	 * 
-	 * FindFree only allows adding of new tasks as well as non task related commands
-	 * Archive prevents completed an already completed task
-	 * Demo only allows the home and exit commands
+	 * FindFree only allows adding of new tasks as well as non task related commands.
+	 * Archive prevents completed an already completed task.
+	 * Demo only allows the home and exit commands.
 	 */
 	private Command checkAndFilterCommand(Command currCmd) {
 		if (_logicData.getCurrState() == LogicData.DisplayState.FIND_FREE) {
@@ -147,9 +147,9 @@ public class Logic {
 	}
 
 	/**
-	 * Generates the help manual when requested by the user
+	 * Generates the help manual when requested by the user.
 	 * 
-	 * @return String containing the help manual
+	 * @return String containing the help manual.
 	 */
 	public ArrayList<String> displayHelp() {
 		logger.getLogger().info("Help fn has been called");
@@ -157,9 +157,9 @@ public class Logic {
 	}
 
 	/**
-	 * Retrieves the demo text for Urgenda for demo mode
+	 * Retrieves the demo text for Urgenda for demo mode.
 	 * 
-	 * @return ArrayList of text containing instructions for demo mode
+	 * @return ArrayList of text containing instructions for demo mode.
 	 */
 	public ArrayList<String> getDemoText() {
 		return _logicData.generateDemoText();
@@ -167,19 +167,19 @@ public class Logic {
 
 	/**
 	 * Retrieves the corresponding selector index for demonstration purposes in
-	 * demo mode
+	 * demo mode.
 	 * 
 	 * @return ArrayList of indexes that is selected for each state in demo
-	 *         modes
+	 *         modes.
 	 */
 	public ArrayList<Integer> getDemoSelectionIndexes() {
 		return _logicData.generateDemoSelectionIndexes();
 	}
 
 	/**
-	 * Initialization of Logic upon launch of the program
+	 * Initialization of Logic upon launch of the program.
 	 * 
-	 * @return StateFeedback containing the previously stored state
+	 * @return StateFeedback containing the previously stored state.
 	 */
 	public StateFeedback retrieveStartupState() {
 		logger.getLogger().info("Retrieving prev launched info");
@@ -190,9 +190,9 @@ public class Logic {
 	}
 
 	/**
-	 * Retrieval of current directory where the data is stored
+	 * Retrieval of current directory where the data is stored.
 	 * 
-	 * @return String of location of current directory
+	 * @return String of location of current directory.
 	 */
 	public String getCurrentSaveDirectory() {
 		logger.getLogger().info("Retrieving current help directory");
@@ -200,11 +200,11 @@ public class Logic {
 	}
 
 	/**
-	 * Enable suggestion of the command while user is typing
+	 * Enable suggestion of the command while user is typing.
 	 * 
 	 * @param currCmd
-	 *            current string that the user is typing
-	 * @return SuggestFeedback including strings of suggestions to user
+	 *            current string that the user is typing.
+	 * @return SuggestFeedback including strings of suggestions to user.
 	 */
 	public SuggestFeedback getSuggestions(String currCmd) {
 		SuggestCommand suggCmd = CommandParser.parseRuntimeInput(currCmd);
@@ -213,7 +213,7 @@ public class Logic {
 
 	/**
 	 * Clears the content stored in storage after testing to revert the tasks
-	 * inside
+	 * inside.
 	 */
 	public void clearStorageTester() {
 		_logicData.reinitialiseStorageTester();

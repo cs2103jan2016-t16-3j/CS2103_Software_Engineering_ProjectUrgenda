@@ -10,7 +10,7 @@ import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
 /**
- * AddTask is the command object used for adding of tasks to Urgenda
+ * AddTask is the command object used for adding of tasks to Urgenda.
  *
  */
 public class AddTask extends TaskCommand {
@@ -28,7 +28,7 @@ public class AddTask extends TaskCommand {
 	private LogicData _data;
 
 	/**
-	 * Default constructor for creating a new AddTask command object
+	 * Default constructor for creating a new AddTask command object.
 	 */
 	public AddTask() {
 		_newTask = new Task();
@@ -36,17 +36,17 @@ public class AddTask extends TaskCommand {
 
 	/**
 	 * Alternative constructor for AddTask command object with the new task to
-	 * be added
+	 * be added.
 	 * 
 	 * @param newTask
-	 *            New Task object that is to be added
+	 *            New Task object that is to be added.
 	 */
 	public AddTask(Task newTask) {
 		_newTask = newTask;
 	}
 
 	/**
-	 * Execute command of AddTask which adds newTask to Urgenda
+	 * Execute command of AddTask which adds newTask to Urgenda.
 	 * 
 	 */
 	public String execute() throws LogicException {
@@ -57,7 +57,7 @@ public class AddTask extends TaskCommand {
 	}
 
 	/*
-	 * Adds newTask to LogicData of Urgenda. Checks if the task is valid
+	 * Adds newTask to LogicData of Urgenda. Checks if the task is valid.
 	 */
 	private String addNewTask() throws LogicException {
 		String feedback;
@@ -80,7 +80,7 @@ public class AddTask extends TaskCommand {
 
 	/*
 	 * Updates all the attributes of newTask according to current time and new
-	 * task id
+	 * task id.
 	 */
 	private void updateNewTask() {
 		LocalDateTime now = LocalDateTime.now();
@@ -92,7 +92,7 @@ public class AddTask extends TaskCommand {
 	}
 
 	/*
-	 * Checks if newTask has already passed based on current time
+	 * Checks if newTask has already passed based on current time.
 	 */
 	private String checkPassed() {
 		if (_newTask.getTaskType() == Task.Type.EVENT) {
@@ -109,7 +109,7 @@ public class AddTask extends TaskCommand {
 
 	/*
 	 * Finds all overlapping task with newTask and returns task message of
-	 * overlaps
+	 * overlaps.
 	 */
 	private String findOverlaps() {
 		ArrayList<Task> overlaps;
@@ -122,7 +122,7 @@ public class AddTask extends TaskCommand {
 	}
 
 	/*
-	 * Generates all the message of tasks that overlap with the newTask
+	 * Generates all the message of tasks that overlap with the newTask.
 	 */
 	private String generateOverlapMessage(ArrayList<Task> overlaps) {
 		String feedback = MESSAGE_OVERLAP + taskMessage(overlaps.get(0));
@@ -134,7 +134,7 @@ public class AddTask extends TaskCommand {
 	}
 
 	/**
-	 * Undo method of AddTask which undos the adding of the task into task list
+	 * Undo method of AddTask which undos the adding of the task into task list.
 	 */
 	public String undo() {
 		_data.deleteTask(_newTask);
@@ -142,7 +142,7 @@ public class AddTask extends TaskCommand {
 	}
 
 	/**
-	 * Redo method of AddTask which redo the action and adds the task back
+	 * Redo method of AddTask which redo the action and adds the task back.
 	 */
 	public String redo() {
 		_newTask.setDateModified(LocalDateTime.now());
@@ -152,10 +152,10 @@ public class AddTask extends TaskCommand {
 	}
 
 	/**
-	 * Setter for the newTask
+	 * Setter for the newTask.
 	 * 
 	 * @param newTask
-	 *            New Task that is to be added to Urgenda
+	 *            New Task that is to be added to Urgenda.
 	 */
 	public void setNewTask(Task newTask) {
 		_newTask = newTask;

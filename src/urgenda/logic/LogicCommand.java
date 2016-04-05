@@ -26,7 +26,7 @@ public class LogicCommand {
 	private Deque<TaskCommand> _redos;
 
 	/**
-	 * Default constructor for LogicCommand
+	 * Default constructor for LogicCommand.
 	 */
 	public LogicCommand() {
 		_undos = new ArrayDeque<TaskCommand>();
@@ -34,11 +34,11 @@ public class LogicCommand {
 	}
 
 	/**
-	 * Processes the given command to execute changes on the tasks involved
+	 * Processes the given command to execute changes on the tasks involved.
 	 * 
 	 * @param currCmd
-	 *            Current command that requires to be carried out
-	 * @return Feedback message for user display on the processing of command
+	 *            Current command that requires to be carried out.
+	 * @return Feedback message for user display on the processing of command.
 	 */
 	public String processCommand(Command currCmd) {
 		logger.getLogger().warning("Exception can occur");
@@ -61,10 +61,10 @@ public class LogicCommand {
 
 	/**
 	 * Adds the currCmd given to the undo stack if the command is a task command
-	 * type which can be undone
+	 * type which can be undone.
 	 * 
 	 * @param currCmd
-	 *            Current command being executed by the program
+	 *            Current command being executed by the program.
 	 */
 	public void addUndo(Command currCmd) {
 		if (currCmd instanceof TaskCommand) {
@@ -76,11 +76,11 @@ public class LogicCommand {
 
 	/**
 	 * The undo command calls the undo method from the latest task command in
-	 * the undo stack
+	 * the undo stack.
 	 * 
 	 * @param feedback
-	 *            Current feedback string to the user
-	 * @return Updated feedback string with the specific task undone
+	 *            Current feedback string to the user.
+	 * @return Updated feedback string with the specific task undone.
 	 */
 	private String undoCommand(String feedback) {
 		if (!_undos.isEmpty()) {
@@ -97,11 +97,11 @@ public class LogicCommand {
 
 	/**
 	 * The redo command calls the redo method from the latest task command in
-	 * the redo stack
+	 * the redo stack.
 	 * 
 	 * @param feedback
-	 *            Current feedback string to the user
-	 * @return Updated feedback string with the specific task done again
+	 *            Current feedback string to the user.
+	 * @return Updated feedback string with the specific task done again.
 	 */
 	private String redoCommand(String feedback) {
 		if (!_redos.isEmpty()) {
