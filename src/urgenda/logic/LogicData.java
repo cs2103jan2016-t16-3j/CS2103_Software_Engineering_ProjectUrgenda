@@ -133,8 +133,8 @@ public class LogicData {
 	 * 
 	 * @return StateFeedback object that holds all the required information
 	 */
-	// TODO: refactor function
 	public StateFeedback getState() {
+		// TODO: refactor function
 		StateFeedback state;
 		switch (_currState) {
 		case ALL_TASKS:
@@ -275,48 +275,6 @@ public class LogicData {
 		_taskPointer = null;
 	}
 
-	public ArrayList<Task> findMatchingDesc(String desc) {
-		ArrayList<Task> matches = new ArrayList<Task>();
-		if (!desc.equals("")) {
-			for (Task task : _displays) {
-				if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
-					matches.add(task);
-				}
-			}
-		}
-		logger.getLogger().info("Find matching desc: " + desc);
-		return matches;
-	}
-
-	public ArrayList<Task> findRefinedMatchingDesc(String desc) {
-		ArrayList<Task> matches = new ArrayList<Task>();
-		if (!desc.equals("")) {
-			String[] substr = desc.split("\\s+");
-			ArrayList<String> substr2 = new ArrayList<String>(Arrays.asList(substr));
-			if (substr2.size() > 1) {
-				for (Task task : _displays) {
-					boolean flag = true;
-					for (String s : substr2) {
-						if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
-								&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) && flag) {
-							flag = false;
-						}
-					}
-					if (flag) {
-						matches.add(task);
-					}
-				}
-			} else {
-				for (Task task : _displays) {
-					if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
-						matches.add(task);
-					}
-				}
-			}
-		}
-		return matches;
-	}
-
 	public boolean isTaskToday(Task task) {
 		LocalDate now = LocalDate.now();
 		if (task.getTaskType() == Task.Type.DEADLINE) {
@@ -396,6 +354,48 @@ public class LogicData {
 		if (task.getSlot().isEmpty()) {
 			task.setSlot(null);
 		}
+	}
+
+	public ArrayList<Task> findMatchingDesc(String desc) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		if (!desc.equals("")) {
+			for (Task task : _displays) {
+				if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
+					matches.add(task);
+				}
+			}
+		}
+		logger.getLogger().info("Find matching desc: " + desc);
+		return matches;
+	}
+
+	public ArrayList<Task> findRefinedMatchingDesc(String desc) {
+		ArrayList<Task> matches = new ArrayList<Task>();
+		if (!desc.equals("")) {
+			String[] substr = desc.split("\\s+");
+			ArrayList<String> substr2 = new ArrayList<String>(Arrays.asList(substr));
+			if (substr2.size() > 1) {
+				for (Task task : _displays) {
+					boolean flag = true;
+					for (String s : substr2) {
+						if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
+								&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) && flag) {
+							flag = false;
+						}
+					}
+					if (flag) {
+						matches.add(task);
+					}
+				}
+			} else {
+				for (Task task : _displays) {
+					if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
+						matches.add(task);
+					}
+				}
+			}
+		}
+		return matches;
 	}
 
 	public void addArchive(Task task) {
