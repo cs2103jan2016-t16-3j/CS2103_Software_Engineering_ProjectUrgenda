@@ -275,23 +275,41 @@ public class LogicData {
 		_taskPointer = null;
 	}
 
+	/**
+	 * Method for checking whether the task falls on today (calendar time).
+	 * @param task
+	 * @return boolean true or false
+	 */
 	public boolean isTaskToday(Task task) {
 		LocalDate now = LocalDate.now();
 		if (task.getTaskType() == Task.Type.DEADLINE) {
-			if (task.getEndTime().toLocalDate().isEqual(now)) {
-				return true;
-			} else {
-				return false;
-			}
+			return verifyEndTime(task, now);
 		} else if (task.getTaskType() == Task.Type.EVENT) {
-			if (task.getStartTime().toLocalDate().isEqual(now) || task.getEndTime().toLocalDate().isEqual(now)
-					|| task.getStartTime().toLocalDate().isBefore(now)
-							&& task.getEndTime().toLocalDate().isAfter(now)) {
-				return true;
-			} else {
-				return false;
-			}
+			//check whether any of the time within the time span of the event falls on today
+			return verifyTimeSpan(task, now);
 		} else { // Type is floating
+			return false;
+		}
+	}
+
+	/*
+	 * method for checking whether an event falls on today (including consideration of tasks that spans
+	 * multiple days
+	 */
+	private boolean verifyTimeSpan(Task task, LocalDate now) {
+		if (task.getStartTime().toLocalDate().isEqual(now) || task.getEndTime().toLocalDate().isEqual(now)
+				|| task.getStartTime().toLocalDate().isBefore(now)
+						&& task.getEndTime().toLocalDate().isAfter(now)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean verifyEndTime(Task task, LocalDate now) {
+		if (task.getEndTime().toLocalDate().isEqual(now)) {
+			return true;
+		} else {
 			return false;
 		}
 	}
@@ -356,96 +374,161 @@ public class LogicData {
 		}
 	}
 
+	/**
+	 * Method for finding tasks w desc that matches input (in same order) regardless of case.
+	 * e.g. for input of abc, Abc and ABCDDD will all be returned.
+	 * @param desc
+	 * @return ArrayList containing all matching tasks
+	 */
 	public ArrayList<Task> findMatchingDesc(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
 		if (!desc.equals("")) {
-			for (Task task : _displays) {
-				if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
-					matches.add(task);
-				}
-			}
+			searchForMatchingDescInDisplayList(desc, matches);
 		}
 		logger.getLogger().info("Find matching desc: " + desc);
 		return matches;
 	}
 
+	private void searchForMatchingDescInDisplayList(String desc, ArrayList<Task> matches) {
+		for (Task task : _displays) {
+			if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
+				matches.add(task);
+			}
+		}
+	}
+
+	/**
+	 * Method for finding tasks w desc that matches input (more than one word) (words dont need be in same order) regardless of case.
+	 * e.g. for input of Sweden Holiday, Holiday to Swenden and Sweden Public Holiday will both be returned.
+	 * @param desc
+	 * @return ArrayList containing all the tasks with matching desc
+	 */
 	public ArrayList<Task> findRefinedMatchingDesc(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
 		if (!desc.equals("")) {
 			String[] substr = desc.split("\\s+");
 			ArrayList<String> substr2 = new ArrayList<String>(Arrays.asList(substr));
 			if (substr2.size() > 1) {
-				for (Task task : _displays) {
-					boolean flag = true;
-					for (String s : substr2) {
-						if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
-								&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) && flag) {
-							flag = false;
-						}
-					}
-					if (flag) {
-						matches.add(task);
-					}
-				}
+				searchForNonOrderedDesc(matches, substr2);
 			} else {
-				for (Task task : _displays) {
-					if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
-						matches.add(task);
-					}
-				}
+				searchForMatchingDescInDisplayList(desc, matches);
 			}
 		}
 		return matches;
 	}
 
+	private void searchForNonOrderedDesc(ArrayList<Task> matches, ArrayList<String> substr2) {
+		for (Task task : _displays) {
+			boolean flag = true;
+			for (String s : substr2) {
+				if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
+						&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) && flag) {
+					flag = false;
+				}
+			}
+			if (flag) {
+				matches.add(task);
+			}
+		}
+	}
+
+	/**
+	 * Method for adding a completed task to archive.
+	 * @param task
+	 */
 	public void addArchive(Task task) {
 		logger.getLogger().info("adding task " + task + " to archive");
 		_archives.add(task);
 	}
 
+	/**
+	 * Method for adding multiple completed tasks to archive at once.
+	 * @param tasks
+	 */
 	public void addArchive(ArrayList<Task> tasks) {
 		logger.getLogger().info("adding task multiple tasks to archive");
 		_archives.addAll(tasks);
 	}
 
+	/**
+	 * Method for removing a task from archive.
+	 * @param tasks
+	 */
 	public void removeArchive(Task task) {
 		_archives.remove(task);
 	}
 
+	/**
+	 * Method for removing multiple tasks from archive at once.
+	 * @param tasks
+	 */
 	public void removeArchive(ArrayList<Task> tasks) {
 		_archives.removeAll(tasks);
 	}
-
+	
+	/**
+	 * Getter for getting the private attribute _tasks in logicData.
+	 * @return _task, the list containing all current tasks.
+	 */
 	public ArrayList<Task> getTaskList() {
 		return _tasks;
 	}
 
+	/**
+	 * Getter for getting the latest id assigned to a new task.
+	 * @return _currentId
+	 */
 	public int getCurrentId() {
 		return _currentId;
 	}
 
+	/**
+	 * Method for updating the id of task list to the most recent number in logicData.
+	 */
 	public void updateCurrentId() {
 		_currentId++;
 	}
 
+	/**
+	 * Method for adding a new Task into the taskList in LogicData.
+	 * @param newTask
+	 */
 	public void addTask(Task newTask) {
 		_tasks.add(newTask);
 	}
 
+	/**
+	 * Method for adding multiple new Tasks into the taskList in LogicData.
+	 * @param tasks
+	 */
 	public void addTasks(ArrayList<Task> tasks) {
 		_tasks.addAll(tasks);
 	}
 
+	/**
+	 * Method for removing a task from the taskList in LogicData.
+	 * @param task
+	 */
 	public void deleteTask(Task task) {
 		_tasks.remove(task);
 		_archives.remove(task);
 	}
 
+	/**
+	 * Method for removing a task from the taskList in LogicData.
+	 * @param tasks
+	 */
 	public void deleteTasks(ArrayList<Task> tasks) {
 		_tasks.removeAll(tasks);
 		_archives.removeAll(tasks);
 	}
 
+	/**
+	 * Method for retrieving a task based on specified id (position in task list _tasks).
+	 * @param id
+	 * @return the task which corresponds to the position in _tasks(id)
+	 *or null if couldn,t find a valid match.
+	 */
 	public Task findMatchingPosition(int id) {
 		logger.getLogger().info("Find matching position, " + id);
 		if (id >= 0 && id < _displays.size()) {
@@ -457,9 +540,11 @@ public class LogicData {
 		}
 	}
 
-	// overloaded function for finding matching positions with arraylists of
-	// positions
-	// returns only matching positions that are valid else ignored
+	/**
+	 * Overloaded method for finding matching positions w arraylists of id given as input.
+	 * @param idPositions
+	 * @return ArrayList of task which corresponds to the idpositions, none valid id will just be ignored
+	 */
 	public ArrayList<Task> findMatchingPosition(ArrayList<Integer> idPositions) {
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Integer i : idPositions) {
@@ -476,97 +561,153 @@ public class LogicData {
 	}
 
 
+	/**
+	 * Method for retrieving tasks that matches date specified by input.
+	 * @param input
+	 * @return Arraylist of tasks that matches input date.
+	 */
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
 		logger.getLogger().info("Find matching dates, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
 			if (task.getTaskType() == Task.Type.DEADLINE) {
-				if (task.getEndTime().toLocalDate().isEqual(input)) {
-					matches.add(task);
-				}
+				getDeadLineWithMatchingDate(input, matches, task);
 			} else if (task.getTaskType() == Task.Type.EVENT) {
-				if (task.getStartTime().toLocalDate().isEqual(input)
-						|| task.getEndTime().toLocalDate().isEqual(input)) {
-					matches.add(task);
-				} else if (task.getStartTime().toLocalDate().isBefore(input)
-						&& task.getEndTime().toLocalDate().isAfter(input)) {
-					matches.add(task);
-				} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
-					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
-					for (DateTimePair pair : slots) {
-						if (pair.getEarlierDateTime().toLocalDate().isEqual(input)
-								|| pair.getLaterDateTime().toLocalDate().isEqual(input)) {
-							matches.add(task);
-						} else if (pair.getEarlierDateTime().toLocalDate().isBefore(input)
-								&& pair.getLaterDateTime().toLocalDate().isAfter(input)) {
-							matches.add(task);
-						}
-					}
-				}
+				getEventWithMatchingDate(input, matches, task);
 			}
 		}
 		return matches;
 	}
 
+	private void getEventWithMatchingDate(LocalDate input, ArrayList<Task> matches, Task task) {
+		if (task.getStartTime().toLocalDate().isEqual(input)
+				|| task.getEndTime().toLocalDate().isEqual(input)) {
+			matches.add(task);
+		} else if (task.getStartTime().toLocalDate().isBefore(input)
+				&& task.getEndTime().toLocalDate().isAfter(input)) {
+			matches.add(task);
+		} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
+			checkForMatchingDateWithinSlots(input, matches, task);
+		}
+	}
+
+	private void checkForMatchingDateWithinSlots(LocalDate input, ArrayList<Task> matches, Task task) {
+		ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+		for (DateTimePair pair : slots) {
+			if (pair.getEarlierDateTime().toLocalDate().isEqual(input)
+					|| pair.getLaterDateTime().toLocalDate().isEqual(input)) {
+				matches.add(task);
+			} else if (pair.getEarlierDateTime().toLocalDate().isBefore(input)
+					&& pair.getLaterDateTime().toLocalDate().isAfter(input)) {
+				matches.add(task);
+			}
+		}
+	}
+
+	private void getDeadLineWithMatchingDate(LocalDate input, ArrayList<Task> matches, Task task) {
+		if (task.getEndTime().toLocalDate().isEqual(input)) {
+			matches.add(task);
+		}
+	}
+
+	/**
+	 * Method for retrieving tasks that matches both date and time specified by input.
+	 * @param input
+	 * @return Arraylist of tasks that matches input datetime.
+	 */
 	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
 		logger.getLogger().info("Find matching datetime, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
 			if (task.getTaskType() == Task.Type.DEADLINE) {
-				if (task.getEndTime().isEqual(input)) {
-					matches.add(task);
-				}
+				getDeadLineWithMatchingDateTime(input, matches, task);
 			} else if (task.getTaskType() == Task.Type.EVENT) {
-				if (task.getStartTime().isEqual(input) || task.getEndTime().isEqual(input)) {
-					matches.add(task);
-				} else if (task.getStartTime().isBefore(input) && task.getEndTime().isAfter(input)) {
-					matches.add(task);
-				} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
-					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
-					for (DateTimePair pair : slots) {
-						if (pair.getEarlierDateTime().isEqual(input) || pair.getLaterDateTime().isEqual(input)) {
-							matches.add(task);
-						} else if (pair.getEarlierDateTime().isBefore(input)
-								&& pair.getLaterDateTime().isAfter(input)) {
-							matches.add(task);
-						}
-					}
-				}
+				getEventWithMatchingDateTime(input, matches, task);
 			}
 		}
 		return matches;
 	}
 
+	private void getEventWithMatchingDateTime(LocalDateTime input, ArrayList<Task> matches, Task task) {
+		if (task.getStartTime().isEqual(input) || task.getEndTime().isEqual(input)) {
+			matches.add(task);
+		} else if (task.getStartTime().isBefore(input) && task.getEndTime().isAfter(input)) {
+			matches.add(task);
+		} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
+			getMatchingDateTimeWithinSlots(input, matches, task);
+		}
+	}
+
+	private void getMatchingDateTimeWithinSlots(LocalDateTime input, ArrayList<Task> matches, Task task) {
+		ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+		for (DateTimePair pair : slots) {
+			if (pair.getEarlierDateTime().isEqual(input) || pair.getLaterDateTime().isEqual(input)) {
+				matches.add(task);
+			} else if (pair.getEarlierDateTime().isBefore(input)
+					&& pair.getLaterDateTime().isAfter(input)) {
+				matches.add(task);
+			}
+		}
+	}
+
+	private void getDeadLineWithMatchingDateTime(LocalDateTime input, ArrayList<Task> matches, Task task) {
+		if (task.getEndTime().isEqual(input)) {
+			matches.add(task);
+		}
+	}
+
+	/**
+	 * Method for retrieving tasks that falls on the month specified by input.
+	 * @param input
+	 * @return Arraylist of tasks that matches input month.
+	 */
 	public ArrayList<Task> findMatchingMonths(Month input) {
 		logger.getLogger().info("Find matching months, " + input);
 		ArrayList<Task> matches = new ArrayList<Task>();
 		for (Task task : _displays) {
 			if (task.getTaskType() == Task.Type.DEADLINE) {
-				if (task.getEndTime().getMonth() == input) {
-					matches.add(task);
-				}
+				getDeadLineWithMatchingMonth(input, matches, task);
 			} else if (task.getTaskType() == Task.Type.EVENT) {
-				if (task.getStartTime().getMonth() == input || task.getEndTime().getMonth() == input) {
-					matches.add(task);
-				} else if (task.getStartTime().getMonth() == input && task.getEndTime().getMonth() == input) {
-					matches.add(task);
-				} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
-					ArrayList<DateTimePair> slots = task.getSlot().getSlots();
-					for (DateTimePair pair : slots) {
-						if (pair.getEarlierDateTime().getMonth() == input
-								|| pair.getLaterDateTime().getMonth() == input) {
-							matches.add(task);
-						} else if (pair.getEarlierDateTime().getMonth() == input
-								&& pair.getLaterDateTime().getMonth() == input) {
-							matches.add(task);
-						}
-					}
-				}
+				getEventWithMatchingMonth(input, matches, task);
 			}
 		}
 		return matches;
 	}
 
+	private void getEventWithMatchingMonth(Month input, ArrayList<Task> matches, Task task) {
+		if (task.getStartTime().getMonth() == input || task.getEndTime().getMonth() == input) {
+			matches.add(task);
+		} else if (task.getStartTime().getMonth() == input && task.getEndTime().getMonth() == input) {
+			matches.add(task);
+		} else if (task.getSlot() != null && !task.getSlot().isEmpty()) {
+			getMatchingMonthWithinSlots(input, matches, task);
+		}
+	}
+
+	private void getMatchingMonthWithinSlots(Month input, ArrayList<Task> matches, Task task) {
+		ArrayList<DateTimePair> slots = task.getSlot().getSlots();
+		for (DateTimePair pair : slots) {
+			if (pair.getEarlierDateTime().getMonth() == input
+					|| pair.getLaterDateTime().getMonth() == input) {
+				matches.add(task);
+			} else if (pair.getEarlierDateTime().getMonth() == input
+					&& pair.getLaterDateTime().getMonth() == input) {
+				matches.add(task);
+			}
+		}
+	}
+
+	private void getDeadLineWithMatchingMonth(Month input, ArrayList<Task> matches, Task task) {
+		if (task.getEndTime().getMonth() == input) {
+			matches.add(task);
+		}
+	}
+	
+	/**
+	 * Method for finding task that has the same multipleslot as given input.
+	 * @param block
+	 * @return ArrayList of task that matches block.
+	 */
 	public ArrayList<Task> findBlocks(MultipleSlot block) {
 		ArrayList<Task> _blocks = new ArrayList<Task>();
 		for (Task task : _tasks) {
@@ -579,6 +720,12 @@ public class LogicData {
 		return _blocks;
 	}
 
+	/**
+	 * Method for sorting of list of task according to datetime and priority and alpha order
+	 * for tasks w/o datetime (floating).
+	 * @param list
+	 * @return sorted list
+	 */
 	public ArrayList<Task> sortList(ArrayList<Task> list) {
 		Collections.sort(list, comparator);
 		Collections.sort(list, imptComparator);
@@ -627,6 +774,11 @@ public class LogicData {
 		}
 	};
 
+	/**
+	 * Method for sorting list of tasks in archive according to date modified.
+	 * @param list
+	 * @return sorted list
+	 */
 	public ArrayList<Task> sortArchive(ArrayList<Task> list) {
 		Collections.sort(list, archiveComparator);
 		return list;
@@ -639,52 +791,102 @@ public class LogicData {
 		}
 	};
 
+	/**
+	 *Getter for retrieving display list (all tasks currently displayed to user),
+	 *the private attribute in LogicData.
+	 * @return _displays
+	 */
 	public ArrayList<Task> getDisplays() {
 		return _displays;
 	}
 
+	/**
+	 * Getter for retrieving archive list (all tasks currently displayed to user),
+	 * the private attribute in LogicData.
+	 * @return _archives
+	 */
 	public ArrayList<Task> getArchives() {
 		return _archives;
 	}
 
+	/**
+	 * Setter for setting the attribute _display in logicData as the specified
+	 * ArrayList<Task> input.
+	 * @param displays
+	 */
 	public void setDisplays(ArrayList<Task> displays) {
 		_displays = displays;
 	}
 
+	/**
+	 * Getter for getting the currState of the program e.g. the state shown by ui.
+	 * @return _currState, a DisplayState private attribute in LogicData
+	 */
 	public DisplayState getCurrState() {
 		return _currState;
 	}
 
+	/**
+	 * Setter for setting currState of program to a specified Display State given by input
+	 * e.g. indicating to UI the state of the system after a command is executed.
+	 * @param currState
+	 */
 	public void setCurrState(DisplayState currState) {
 		_currState = currState;
 	}
 
+	/**
+	 * Method for clearing display list.
+	 */
 	public void clearDisplays() {
 		_displays.clear();
 	}
 
-	// for testing purposes only. delete if necessary. Can be found in
-	// FreeTimeTest.java
+	/**
+	 * Method for testing purposes only. Use in FreeTimeTest.java
+	 * for clearing of entire tasklist.
+	 */
 	public void clearTasks() {
 		_tasks.clear();
 	}
 
+	/**
+	 * Method for retrieving userguide (help for user).
+	 * @return _storage.retrieveHelp, the help file stored in storage.
+	 */
 	public ArrayList<String> generateHelpManual() {
 		return _storage.retrieveHelp();
 	}
 
+	/**
+	 * Getter for getting the selector position of the program e.g. the task that is currently pointing at. 
+	 * @return _taskPointer
+	 */
 	public Task getTaskPointer() {
 		return _taskPointer;
 	}
 
+	/**
+	 * Setter for setting the psoition of the selector, e.g. which task to point to by UI.
+	 * @param taskPointer
+	 */
 	public void setTaskPointer(Task taskPointer) {
 		_taskPointer = taskPointer;
 	}
 
+	/**
+	 * Method for getting the showmore status of a given task.
+	 * @param task
+	 * @return true if status isShowingMore, false otherwise.
+	 */
 	public boolean isShowingMore(Task task) {
 		return _showMoreTasks.contains(task);
 	}
 
+	/**
+	 * Method to toggle showmore status of a specified task.
+	 * @param task
+	 */
 	public void toggleShowMoreTasks(Task task) {
 		logger.getLogger().info("toggle showmore status of " + task);
 		if (_showMoreTasks.contains(task)) {
@@ -694,19 +896,35 @@ public class LogicData {
 		}
 	}
 
-	// TODO command that clears all showmore
+	/**
+	 * Method for setting status of all task to not showing more.
+	 */
 	public void clearShowMoreTasks() {
 		_showMoreTasks.clear();
 	}
 
+	/**
+	 * Method to get current file directory.
+	 * @return _storage.getDirPath
+	 */
 	public String retrieveCurrentDirectory() {
 		return _storage.getDirPath();
 	}
 
+	/**
+	 * Method for changing file directory of where task is saved to.
+	 * @param path
+	 * @throws StorageException
+	 */
 	public void changeDirectory(String path) throws StorageException {
 		_storage.changeFileSettings(path);
 	}
 
+	/**
+	 * Method for retrieving all the tasks in tasklist that a specified task overlaps with. 
+	 * @param newTask
+	 * @return ArrayList of overlapping tasks
+	 */
 	public ArrayList<Task> overlappingTasks(Task newTask) {
 		ArrayList<Task> overlaps = new ArrayList<Task>();
 
@@ -720,16 +938,7 @@ public class LogicData {
 				// case when there are multiple slots, multiple copies of
 				// overlaps are added
 				if (task.getSlot() != null && !task.getSlot().isEmpty()) {
-					MultipleSlot slot = new MultipleSlot(task.getSlot());
-					while (!slot.isEmpty()) {
-						DateTimePair pair = slot.getNextSlot();
-						slot.removeNextSlot();
-						Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(),
-								pair.getDateTime2());
-						if (currTask.isOverlapping(newTask)) {
-							overlaps.add(currTask);
-						}
-					}
+					getOverlapsWithinSlots(newTask, overlaps, task);
 				}
 			}
 		}
@@ -737,7 +946,22 @@ public class LogicData {
 		return overlaps;
 	}
 
-	// removes archived tasks that are beyond one month old
+	private void getOverlapsWithinSlots(Task newTask, ArrayList<Task> overlaps, Task task) {
+		MultipleSlot slot = new MultipleSlot(task.getSlot());
+		while (!slot.isEmpty()) {
+			DateTimePair pair = slot.getNextSlot();
+			slot.removeNextSlot();
+			Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(),
+					pair.getDateTime2());
+			if (currTask.isOverlapping(newTask)) {
+				overlaps.add(currTask);
+			}
+		}
+	}
+
+	/**
+	 * Method for removing archived tasks that are beyond one month old
+	 */
 	public void clearOldArchive() {
 		ArrayList<Task> outdatedTasks = new ArrayList<Task>();
 		for (Task task : _archives) {
@@ -748,6 +972,10 @@ public class LogicData {
 		_archives.removeAll(outdatedTasks);
 	}
 
+	/**
+	 * Method for checking whether taskpointer is currently pointing to an archived
+	 * task. If yes, set Displaystate as archive.
+	 */
 	public void checkPointer() {
 		if (_taskPointer != null) {
 			if (_archives.contains(_taskPointer)) {
@@ -756,12 +984,18 @@ public class LogicData {
 		}
 	}
 
+	/**
+	 * Method to reinitialise Storage, called upon very launch of program.
+	 */
 	public void reinitialiseStorage() {
 		_storage = new Storage();
 		_tasks = _storage.updateCurrentTaskList();
 		_archives = _storage.updateArchiveTaskList();
 	}
 
+	/**
+	 * Method for to reinitialise Storage for integration testing.
+	 */
 	public void reinitialiseStorageTester() {
 		_storage.delete();
 		_storage = new StorageTester();
@@ -769,10 +1003,18 @@ public class LogicData {
 		_archives = _storage.updateArchiveTaskList();
 	}
 
+	/**
+	 * Method for retrieving demo file stored in storage
+	 * @return _storage.getDemoText().
+	 */
 	public ArrayList<String> generateDemoText() {
 		return _storage.getDemoText();
 	}
 
+	/**
+	 * Method for retrieving Indexes selected for demo
+	 * @return _storage.getDemoSelectionIndexes().
+	 */
 	public ArrayList<Integer> generateDemoSelectionIndexes() {
 		return _storage.getDemoSelectionIndexes();
 	}
