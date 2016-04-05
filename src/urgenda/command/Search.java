@@ -145,7 +145,7 @@ public class Search extends Command {
 
 	private int findNearMatch(LogicData data, ArrayList<Task> matches, int nearMatchCount) {
 		for (Task task : data.getDisplays()) {
-			if(StringUtils.getJaroWinklerDistance(_searchDesc, task.getDesc()) > 0.75 && !matches.contains(task)) {
+			if(StringUtils.getJaroWinklerDistance(_searchDesc, task.getDesc()) >= 0.8 && !matches.contains(task)) {
 				matches.add(task);
 				nearMatchCount++;
 			}
