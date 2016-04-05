@@ -72,7 +72,7 @@ public class PublicFunctions {
 		while (matcher.find()) {
 			argsString = argsString.replace(matcher.group(), " " + reverseDateMonth(matcher.group()) + " ");
 		}
-		return argsString;
+		return argsString.trim();
 	}
 
 	private static String reverseDateMonth(String string) {
@@ -122,6 +122,19 @@ public class PublicFunctions {
 		} else {
 			String[] array = string.split("\\s+");
 			return array[array.length-1].trim();
+		}
+	}
+	
+	public static String getSecondLastWord(String string) {
+		if (string == null) {
+			return null;
+		} else {
+			String[] array = string.split("\\s+");
+			if (array.length >= 2) {
+				return array[array.length-2].trim();
+			} else {
+				return null;
+			}
 		}
 	}
 }
