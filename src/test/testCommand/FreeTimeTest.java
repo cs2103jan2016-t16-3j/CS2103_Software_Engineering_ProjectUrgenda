@@ -1,3 +1,4 @@
+//@@author A0126888L
 package test.testCommand;
 
 import static org.junit.Assert.*;
@@ -169,11 +170,6 @@ public class FreeTimeTest {
 		assertEquals(expectedPhrase, actualPhrase);
 		ArrayList<Task> actualList = data.getDisplays();
 
-		/*
-		 * TODO: Why is everything still running fine when test.execute() is
-		 * supposed to throw an exception and not have executed everything
-		 * below?
-		 */
 		// comparing expected and actual free time range
 		assertEquals(expectedList.size(), actualList.size());
 		for (int i = 0; i < expectedList.size(); i++) {

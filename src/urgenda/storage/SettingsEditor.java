@@ -79,6 +79,31 @@ public class SettingsEditor {
 	}
 
 	/**
+	 * Resets all settings to default. Used for testing purposes to ensure less
+	 * messy file directories when testing.
+	 */
+	public void resetDefault() {
+		_cipher.reset();
+		setAllFieldsAsDefaultSettings();
+		saveSettings();
+	}
+
+	private void setAllFieldsAsDefaultSettings() {
+		_cipher.setDirectory(DEFAULT_FILE_LOCATION);
+		_cipher.setFileName(DEFAULT_FILE_NAME);
+		_cipher.setNoviceSettings(DEFAULT_NOVICE_SETTINGS);
+	}
+
+	public void setNoviceSettings(boolean isNovice) {
+		_cipher.setNoviceSettings(isNovice);
+		saveSettings();
+	}
+
+	public boolean getNoviceSettings() {
+		return _cipher.getNoviceSettings();
+	}
+
+	/**
 	 * Returns the directory where the main data file is stored.
 	 * 
 	 * @return String value of the File Directory.
@@ -128,22 +153,6 @@ public class SettingsEditor {
 	}
 
 	/**
-	 * Resets all settings to default. Used for testing purposes to ensure less
-	 * messy file directories when testing.
-	 */
-	public void resetDefault() {
-		_cipher.reset();
-		setAllFieldsAsDefaultSettings();
-		saveSettings();
-	}
-
-	private void setAllFieldsAsDefaultSettings() {
-		_cipher.setDirectory(DEFAULT_FILE_LOCATION);
-		_cipher.setFileName(DEFAULT_FILE_NAME);
-		_cipher.setNoviceSettings(DEFAULT_NOVICE_SETTINGS);
-	}
-
-	/**
 	 * Used for testing purposes to delete additional files and directories
 	 * created for testing.
 	 */
@@ -157,16 +166,7 @@ public class SettingsEditor {
 	 */
 	public void deleteOnExit() {
 		_settings.deleteOnExit();
-
-	}
-
-	public void setNoviceSettings(boolean isNovice) {
-		_cipher.setNoviceSettings(isNovice);
-		saveSettings();
-	}
-
-	public boolean getNoviceSettings() {
-		return _cipher.getNoviceSettings();
+	
 	}
 
 }
