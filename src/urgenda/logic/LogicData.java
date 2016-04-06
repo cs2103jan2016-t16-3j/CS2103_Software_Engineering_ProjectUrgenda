@@ -1116,7 +1116,7 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for retrieving demo file stored in storage
+	 * Method for retrieving demo file stored in storage.
 	 * 
 	 * @return _storage.getDemoText().
 	 */
@@ -1125,16 +1125,30 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for retrieving Indexes selected for demo
+	 * Method for retrieving Indexes selected for demo.
 	 * 
 	 * @return _storage.getDemoSelectionIndexes().
 	 */
 	public ArrayList<Integer> generateDemoSelectionIndexes() {
 		return _storage.getDemoSelectionIndexes();
 	}
-
+	
+	/**
+	 * Method for retrieving settings for novice view.
+	 * 
+	 * @return _storage.getNoviceSettings();
+	 */
 	public boolean getNoviceSettings() {
 		return _storage.getNoviceSettings();
+	}
+	
+	/**
+	 * Sets the novice or advanced view settings.
+	 * 
+	 * @param isNovice boolean to show novice or advanced view
+	 */
+	public void setNoviceSettings(boolean isNovice) {
+		_storage.setNoviceSettings(isNovice);
 	}
 
 }

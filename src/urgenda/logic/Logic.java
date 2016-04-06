@@ -218,7 +218,21 @@ public class Logic {
 		_logicData.reinitialiseStorageTester();
 	}
 
+	/**
+	 * Method for retrieving settings for novice view.
+	 * 
+	 * @return _storage.getNoviceSettings();
+	 */
 	public boolean getNoviceSettings() {
 		return _logicData.getNoviceSettings();
+	}
+	
+	/**
+	 * Sets the novice or advanced view settings.
+	 * 
+	 * @param isNovice boolean to show novice or advanced view
+	 */
+	public void setNoviceSettings(boolean isNovice) {
+		_logicData.setNoviceSettings(isNovice);
 	}
 }
