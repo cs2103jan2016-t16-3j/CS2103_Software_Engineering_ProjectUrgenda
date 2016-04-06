@@ -105,12 +105,10 @@ public class DisplayController extends AnchorPane {
 	 *            array of indexes for all tasks to show more details for
 	 * @param modifiedTaskIndex
 	 *            index of task to be set as selected
-	 * @param isShowNoviceHeaders
-	 *            boolean to show headers of different task types
 	 */
 	public void initDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
 			int modifiedTaskIndex, boolean isShowNoviceHeaders) {
-		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex, isShowNoviceHeaders,
+		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex,
 				false, false);
 		// set listener for scrolling of pane
 		displayArea.vvalueProperty().addListener(new ChangeListener<Number>() {
@@ -147,15 +145,13 @@ public class DisplayController extends AnchorPane {
 	 *            array of indexes for all tasks to show more details for
 	 * @param modifiedTaskIndex
 	 *            index of task to be set as selected
-	 * @param isShowNoviceHeaders
-	 *            boolean to show headers of different task types
 	 * @param isShowFreeTime
 	 *            boolean indicating view is show free time or not
 	 * @param isDemo
 	 *            boolean indicating view is demo view or not
 	 */
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
-			int modifiedTaskIndex, boolean isShowNoviceHeaders, boolean isShowFreeTime, boolean isDemo) {
+			int modifiedTaskIndex, boolean isShowFreeTime, boolean isDemo) {
 		_setup = true;
 		_allowChangeScroll = false;
 		displayHolder.getChildren().clear();
@@ -165,7 +161,7 @@ public class DisplayController extends AnchorPane {
 		_detailedIndexes.clear();
 		_detailedIndexes.addAll(showmoreIndexes);
 
-		createTaskControllers(updatedTasks, isShowNoviceHeaders, isShowFreeTime);
+		createTaskControllers(updatedTasks, isShowFreeTime);
 		
 		if (updatedTasks.getArchiveCount() + updatedTasks.getUncompletedCount() == 0) {
 			showZeroTasksFeedback();
@@ -181,8 +177,7 @@ public class DisplayController extends AnchorPane {
 		}
 	}
 
-	private void createTaskControllers(TaskList updatedTasks, boolean isShowNoviceHeaders,
-			boolean isShowFreeTime) {
+	private void createTaskControllers(TaskList updatedTasks, boolean isShowFreeTime) {
 		if (_main.getController().isDemo()) {
 			_isNoviceView = true;
 		}
@@ -191,7 +186,7 @@ public class DisplayController extends AnchorPane {
 			if (isShowFreeTime) {
 				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTasks().size(),
 						TaskDisplayType.FREE_TIME, false);
-			} else if (isShowNoviceHeaders) {
+			} else if (_isNoviceView) {
 				if (updatedTasks.getOverdueCount() > 0) {
 					indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.OVERDUE, _isNoviceView);
 					indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount() - 1,
@@ -217,7 +212,7 @@ public class DisplayController extends AnchorPane {
 			}
 		}
 		if (updatedTasks.getArchiveCount() != 0) {
-			if (isShowNoviceHeaders) {
+			if (_isNoviceView) {
 				indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.ARCHIVE, _isNoviceView);
 				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getArchiveCount() - 1,
 						TaskDisplayType.ARCHIVE, false);
@@ -437,10 +432,20 @@ public class DisplayController extends AnchorPane {
 
 	/**
 	 * Toggles the novice view.
+	 * 
 	 * @param isNovice boolean to set for novice view or not
 	 */
-	public void setNovice(boolean isNovice) {
+	public void setNoviceSettings(boolean isNovice) {
 		_isNoviceView = isNovice;
+	}
+	
+	/**
+	 * Returns novice view settings.
+	 * 
+	 * @return boolean for novice view settings
+	 */
+	public boolean getNoviceSettings() {
+		return _isNoviceView;
 	}
 	
 	/**

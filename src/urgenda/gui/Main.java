@@ -107,14 +107,13 @@ public class Main extends Application {
 
 	private void initDisplay() {
 		_displayController = _mainController.getDisplayController();
-		_displayController.setNovice(_logic.getNoviceSettings());
+		_displayController.setNoviceSettings(_logic.getNoviceSettings());
 		_currState = retrieveStartupState();
 		TaskList updatedTasks = _currState.getAllTasks();
 		String displayHeader = createDisplayHeader(_currState);
 		ArrayList<Integer> detailedIndexes = _currState.getDetailedIndexes();
 		int displayPos = _currState.getDisplayPosition();
-		boolean isShowNoviceHeaders = true; // TODO implement check settings for
-											// showing novice headers
+		boolean isShowNoviceHeaders = _logic.getNoviceSettings();
 		_displayController.initDisplay(updatedTasks, displayHeader, detailedIndexes, displayPos, isShowNoviceHeaders);
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of display view");
 	}
@@ -133,10 +132,8 @@ public class Main extends Application {
 	}
 
 	private void initFeatures() {
-		// setup overdue indicator
-		_mainController.updateOverdueCount(_currState.getOverdueCount());
-		// setup listeners for main component
-		_mainController.setListeners();
+		// setup menu items and listeners for MainController
+		_mainController.setup(_currState.getOverdueCount());
 		// setup window focused listener
 		_primaryStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -175,8 +172,6 @@ public class Main extends Application {
 		String displayHeader = createDisplayHeader(_currState);
 		ArrayList<Integer> detailedIndexes = _currState.getDetailedIndexes();
 		int displayPos = _currState.getDisplayPosition();
-		boolean isShowNoviceHeaders = true; // TODO implement check settings for
-											// showing novice headers
 		boolean isShowFreeTime = false;
 		switch (_currState.getState()) {
 		case HIDE:
@@ -197,8 +192,7 @@ public class Main extends Application {
 			_mainController.setDemo(false);
 			// fall-through
 		default:
-			_displayController.setDisplay(updatedTasks, displayHeader, detailedIndexes, displayPos,
-					isShowNoviceHeaders, isShowFreeTime, false);
+			_displayController.setDisplay(updatedTasks, displayHeader, detailedIndexes, displayPos, isShowFreeTime, false);
 			break;
 		}
 		_mainController.updateOverdueCount(_currState.getOverdueCount());
@@ -240,11 +234,20 @@ public class Main extends Application {
 		StateFeedback state = new DemoStateFeedback();
 		_displayController.setSelectedTaskByCall(0, true);
 		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state),
-				state.getDetailedIndexes(), state.getDisplayPosition(), true, false, true);
+				state.getDetailedIndexes(), state.getDisplayPosition(), false, true);
 		_mainController.updateOverdueCount(state.getOverdueCount());
 		return state.getFeedback();
 	}
-
+	
+	/**
+	 * Toggles settings for novice or advanced view.
+	 * 
+	 * @param isNovice boolean for novice or advanced view
+	 */
+	public void changeNoviceSettings(boolean isNovice) {
+		_logic.setNoviceSettings(isNovice);
+	}
+	
 	/**
 	 * Retrieves text for help menu.
 	 * 

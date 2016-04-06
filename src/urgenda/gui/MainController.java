@@ -47,6 +47,10 @@ public class MainController {
 	private static final double DEMO_WINDOW_WIDTH = 800;
 	private static final double ALLOWANCE_WINDOW_WIDTH = 5;
 	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
+	private static final String MESSAGE_NOVICE_USER_VIEW = "Activated novice user view";
+	private static final String MESSAGE_ADVANCED_USER_VIEW = "Activated advanced user view";
+	private static final String MENUTEXT_ADVANCED_VIEW = "Activate Advanced View";
+	private static final String MENUTEXT_NOVICE_VIEW = "Activate Novice View";
 	
 	// File paths
 	private static final String PATH_TYPESUGGESTIONS_FXML = "fxml/InputSuggestionsView.fxml";
@@ -82,6 +86,8 @@ public class MainController {
 	private MenuItem menuPrevMultipleSlot;
 	@FXML
 	private MenuItem menuNextMultipleSlot;
+	@FXML
+	private MenuItem menuToggleAdvancedView;
 	@FXML
 	private Label overdueIndicatorLabel;
 	@FXML
@@ -144,10 +150,21 @@ public class MainController {
 	}	
 	
 	/**
-	 * Sets up listeners to create demo view or suggestions popup when required.
+	 * Setup overdue indicators, listeners and menu options at initialization.
+	 * 
+	 * @param overdueCount total number of overdue tasks
 	 */
-	public void setListeners() {
-		//listeners for demo view
+	public void setup(int overdueCount) {
+		// setup overdue indicator
+		updateOverdueCount(overdueCount);
+		// setup menu for novice and advanced option
+		boolean isNovice = _main.getController().getDisplayController().getNoviceSettings();
+		if(isNovice) {
+			menuToggleAdvancedView.setText(MENUTEXT_ADVANCED_VIEW);
+		} else {
+			menuToggleAdvancedView.setText(MENUTEXT_NOVICE_VIEW);
+		}	
+		// listeners for demo view
 		_isDemo.addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -166,7 +183,7 @@ public class MainController {
 			}
 		});
 		
-		//listeners for suggestions popup
+		// listeners for suggestions popup
 		inputBar.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -355,6 +372,25 @@ public class MainController {
 	private void handleRedo(ActionEvent e) {
 		String feedback = _main.handleCommandLine(KEYWORD_REDO);
 		displayFeedback(feedback);
+		inputBar.clear();
+	}
+	
+	@FXML
+	private void toggleAdvancedViewListener(ActionEvent e) {
+		boolean isNovice = _main.getController().getDisplayController().getNoviceSettings();
+		if(isNovice) {
+			menuToggleAdvancedView.setText(MENUTEXT_NOVICE_VIEW);
+		} else {
+			menuToggleAdvancedView.setText(MENUTEXT_ADVANCED_VIEW);
+		}
+		_main.getController().getDisplayController().setNoviceSettings(!isNovice);
+		_main.changeNoviceSettings(!isNovice);
+		_main.handleCommandLine(KEYWORD_SHOW_ALL);
+		if(isNovice) {
+			displayFeedback(MESSAGE_ADVANCED_USER_VIEW);
+		} else {
+			displayFeedback(MESSAGE_NOVICE_USER_VIEW);
+		}
 		inputBar.clear();
 	}
 
