@@ -1,4 +1,4 @@
-//@@author A0080436
+//@@author A0080436J
 package urgenda.logic;
 
 import java.util.ArrayList;
