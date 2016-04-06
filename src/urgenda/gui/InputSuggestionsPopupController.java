@@ -1,3 +1,4 @@
+//@@author A0131857B
 package urgenda.gui;
 
 import java.util.ArrayList;
@@ -12,6 +13,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import urgenda.util.SuggestFeedback;
 
+/**
+ * 
+ * @author KangSoon
+ *
+ */
 public class InputSuggestionsPopupController extends BorderPane {
 
 	private static final String PATH_INPUT_SUGGESTIONS_CSS = "styles/InputSuggestions.css";
@@ -56,7 +62,10 @@ public class InputSuggestionsPopupController extends BorderPane {
 	public InputSuggestionsPopupController() {
 		this.getStylesheets().addAll(getClass().getResource(PATH_INPUT_SUGGESTIONS_CSS).toExternalForm());
 	}
-
+	/**
+	 * TODO
+	 * @param suggestFeedback
+	 */
 	public void updateSuggestions(SuggestFeedback suggestFeedback) {
 		suggestionsArea.getChildren().clear();
 		if (suggestFeedback.isCommand()) {

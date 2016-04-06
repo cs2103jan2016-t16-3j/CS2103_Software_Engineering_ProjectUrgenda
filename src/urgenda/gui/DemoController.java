@@ -1,3 +1,4 @@
+//@@author A0131857B
 package urgenda.gui;
 
 import java.util.ArrayList;
@@ -17,12 +18,21 @@ public class DemoController {
 	private MainController _mainController;
 	private int _demoIndex = 0;
 	
+	/**
+	 * TODO
+	 * @param mainController
+	 * @param demoText
+	 * @param demoSelectionIndexes
+	 */
 	public DemoController(MainController mainController, ArrayList<String> demoText, ArrayList<Integer> demoSelectionIndexes) {
 		_mainController = mainController;
 		_demoText.addAll(demoText);
 		_demoSelectionIndexes.addAll(demoSelectionIndexes);
 	}
 	
+	/**
+	 * TODO
+	 */
 	public void init() {
 		showDemoPart(_demoIndex);
 	}
@@ -43,6 +53,9 @@ public class DemoController {
 		prevPart();
 	}
 	
+	/**
+	 * TODO
+	 */
 	public void nextPart() {
 		if (_demoIndex < _demoText.size()) {
 			_demoIndex++;
@@ -54,6 +67,9 @@ public class DemoController {
 		}
 	}
 	
+	/**
+	 * TODO
+	 */
 	public void prevPart() {
 		if (_demoIndex > 0) {
 			_demoIndex--;
@@ -61,10 +77,18 @@ public class DemoController {
 		}
 	}
 	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public int getDemoIndex() {
 		return _demoIndex;
 	}
 	
+	/**
+	 * TODO
+	 * @param _demoIndex
+	 */
 	public void setDemoIndex(int _demoIndex) {
 		this._demoIndex = _demoIndex;
 	}
