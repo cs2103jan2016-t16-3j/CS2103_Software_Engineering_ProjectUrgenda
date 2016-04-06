@@ -45,10 +45,10 @@ public class PublicFunctions {
 	}
 
 	public static String getPreceedingWord(int position, String argsString) {
-		if (position == 0) {
+		if (position == 0 || position == -1) {
 			return "";
 		} else {
-			argsString = argsString.substring(0, position - 1);
+			argsString = argsString.substring(0, position);
 			String[] splittedString = argsString.split("\\s+");
 			return splittedString[splittedString.length - 1];
 		}

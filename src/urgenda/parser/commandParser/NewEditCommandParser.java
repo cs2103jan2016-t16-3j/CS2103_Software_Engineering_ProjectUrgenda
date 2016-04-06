@@ -23,12 +23,14 @@ public class NewEditCommandParser {
 	private static String startFlagRegex = "(-s)|(-s:)|(from)";
 	private static String endFlagRegex = "(-e)|(-e:)|(to)|(by)";
 	private static String removeFlagRegex = "((-r)|(-rm))";
-	private static String combinedRegex = "(\\A|\\D)(" + startFlagRegex + "|" + endFlagRegex + ")(\\Z|\\D)";
+	private static String locationRegex = "(@)";
+	private static String combinedRegex = "((\\A|\\D)(" + startFlagRegex + "|" + endFlagRegex + ")(\\Z|\\D))|" + locationRegex;
 
 	private static LocalDateTime startTime;
 	private static LocalDateTime endTime;
 	private static LocalDateTime unknownTime;
 	private static String descString;
+	private static String location;
 	private static Integer index;
 
 	public NewEditCommandParser(String argsString, int index) {
@@ -62,6 +64,9 @@ public class NewEditCommandParser {
 			}
 			if (descString != null) {
 				newTask.setDesc(descString);
+			}
+			if (location != null) {
+				newTask.setLocation(location);
 			}
 			if (unknownTime != null) {
 				editCommand.setUnknown(unknownTime);
@@ -123,7 +128,7 @@ public class NewEditCommandParser {
 		if (stringArray.length == 0) {
 			unknownTime = parseUnknownTime(temp);
 		} else {
-			for (int i = 0; i < stringArray.length; i++) {				
+			for (int i = 0; i < stringArray.length; i++) {	
 				int position = temp.indexOf(stringArray[i].trim());
 				String preceedingWord = PublicFunctions.getPreceedingWord(position, temp);
 				if (preceedingWord.equals("-s") || preceedingWord.equals("-s:") || preceedingWord.equals("from")) {
@@ -131,6 +136,8 @@ public class NewEditCommandParser {
 				} else if (preceedingWord.equals("-e") || preceedingWord.equals("-e:") || preceedingWord.equals("to")
 						|| preceedingWord.equals("by")) {
 					endTime = parseEndTime(stringArray[i].trim());
+				} else if (preceedingWord.equals("@")) {
+					location = stringArray[i].trim();
 				} else {
 					unknownTime = parseUnknownTime(stringArray[i].replaceAll("(\\A|\\D)((-rm)|(-r))(\\Z|\\D)","").trim());
 					if (i==0 && unknownTime == null) {
@@ -203,11 +210,20 @@ public class NewEditCommandParser {
 		return null;
 	}
 	
+//	private static String searchLocation(String string) {
+//		if (string == null || string.trim().equals("")) {
+//			return "";
+//		} else {
+//			Matcher matcher = Pattern.compile("@\\")
+//		}
+//	}
+	
 	private static void reinitializeVariables() {
 		startTime = null;
 		endTime = null;
 		unknownTime = null;
 		descString = null;
+		location = null;
 		index = null;
 	}
 }

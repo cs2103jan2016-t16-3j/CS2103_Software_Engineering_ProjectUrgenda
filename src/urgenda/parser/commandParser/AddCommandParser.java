@@ -34,7 +34,7 @@ public class AddCommandParser {
 			String reducedArgsString = DateTimeParser.searchTaskTimes(reformattedString);
 			reducedArgsString = undoReserveWords(reservedWords, reducedArgsString);
 			// System.out.print(reducedArgsString + "\n");
-			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
+//			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
 			reducedArgsString = TaskDetailsParser.searchTaskLocation(reducedArgsString);
 			// System.out.print(reducedArgsString + "\n");
 			TaskDetailsParser.searchTaskDescription(reducedArgsString);
@@ -98,7 +98,7 @@ public class AddCommandParser {
 	
 	private static ArrayList<String> getReservedWords() {
 		ArrayList<String> array = new ArrayList<String>();
-		Matcher matcher = Pattern.compile("([^\\d+\\s+/-:.]+)(\\d+)").matcher(_argsString);
+		Matcher matcher = Pattern.compile("([^\\d+\\s+/-:]+)(\\d+)").matcher(_argsString);
 		while (matcher.find()) {
 			_argsString = _argsString.replace(matcher.group(), "<" + matcher.group() + ">");
 			array.add("<" + matcher.group() + ">");
