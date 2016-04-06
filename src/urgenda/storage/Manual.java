@@ -67,6 +67,13 @@ public class Manual {
 
 	}
 
+	/**
+	 * creates a manual with sections from the InputStream given.
+	 * 
+	 * @param is
+	 *            InputStream from the resources of Urgenda to construct
+	 *            manuals.
+	 */
 	public void createManual(InputStream is) {
 		_text = readFileInOneString(is);
 		String[] manual = _text.split(SEPARATOR_SECTION);
@@ -76,6 +83,9 @@ public class Manual {
 		}
 	}
 
+	/*
+	 * Creates a help manual after extracting from resources.
+	 */
 	private void createHelpManual() {
 		logger.getLogger().info("constructing Help object");
 		InputStream helpInput = this.getClass().getClassLoader().getResourceAsStream(HELP_FILE_LOCATION);
@@ -103,10 +113,22 @@ public class Manual {
 
 	}
 
+	/**
+	 * Returns the required manual. Manual is in the form of an ArrayList, with
+	 * each section being an element.
+	 * 
+	 * @return ArrayList of String as a manual.
+	 */
 	public ArrayList<String> getManual() {
 		return _manual;
 	}
 
+	/**
+	 * Returns the indexes of the demo selection for corresponding indicator to
+	 * be displayed at a particular section of the manual.
+	 * 
+	 * @return ArrayList of Integers for selection purposes. 
+	 */
 	public ArrayList<Integer> getIndexes() {
 		return _demoIndexes;
 	}
