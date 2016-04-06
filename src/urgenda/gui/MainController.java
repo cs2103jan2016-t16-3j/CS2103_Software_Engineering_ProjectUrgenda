@@ -302,17 +302,13 @@ public class MainController {
 	}
 	
 	@FXML
-	private void taskToggleDownListener(ActionEvent e) {
-		//if(!_isDemo.get()){			
-			displayAreaController.executeTraverse(DisplayController.Direction.DOWN);
-		//}
+	private void taskToggleDownListener(ActionEvent e) {			
+		displayAreaController.executeTraverse(DisplayController.Direction.DOWN);
 	}
 
 	@FXML
 	private void taskToggleUpListener(ActionEvent e) {
-		//if(!_isDemo.get()){	
-			displayAreaController.executeTraverse(DisplayController.Direction.UP);
-		//}
+		displayAreaController.executeTraverse(DisplayController.Direction.UP);
 	}
 
 	@FXML

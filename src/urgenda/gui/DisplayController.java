@@ -316,8 +316,10 @@ public class DisplayController extends AnchorPane {
 				((SimpleTaskController) displayHolder.getChildren().get(_selectedTaskIndex.getValue())).setSelected(false);
 			}
 		}
-		if(displayHolder.getChildren().get(index).getClass().equals(SimpleTaskController.class)) {
+		if (displayHolder.getChildren().get(index).getClass().equals(SimpleTaskController.class)) {
 			((SimpleTaskController) displayHolder.getChildren().get(index)).setSelected(true);
+		} else if (displayHolder.getChildren().get(index).getClass().equals(DetailedTaskController.class)) {
+			((DetailedTaskController) displayHolder.getChildren().get(index)).setSelected(true);
 		}
 		_selectedTaskIndex.set(index);
 	}
