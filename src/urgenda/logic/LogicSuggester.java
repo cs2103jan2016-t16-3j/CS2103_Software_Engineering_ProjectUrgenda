@@ -32,7 +32,7 @@ public class LogicSuggester {
 	private static final String EDIT_DEADLINE = "[task no] [new desc] | by [deadline] | @[location] (optional)";
 	private static final String EDIT_DEADLINE_MESSAGE = "Edits task into deadline task";
 
-	private static final String SEARCH_TASK = "[desc] | [date/month/day/datetime] | [task type]";
+	private static final String SEARCH_TASK = "[desc] | [date/month/day/datetime/task no.] | [task type]";
 	private static final String SEARCH_MESSAGE = "Searches for task(s) displayed that matches the given input";
 
 	private static final String EXIT = "";
