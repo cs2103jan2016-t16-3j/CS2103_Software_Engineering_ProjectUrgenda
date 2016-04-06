@@ -2,6 +2,9 @@
 //Unused feature due to change of additional special feature towards the end. Decided to go for nicer and 
 //more rewarding feature Good Gui rather than recurring task. Hence this feature has not been fully tested, implemented
 //and refactored. Left it here for the effort spent, probably deleting it in the end.
+//Unused feature due to change of additional special feature towards the end. Decided to go for nicer and 
+//more rewarding feature Good Gui rather than recurring task. Hence this feature has not been fully tested, implemented
+//and refactored. Left it here for the effort spent, probably deleting it in the end.
 package urgenda.command;
 
 import java.time.LocalDateTime;
@@ -130,7 +133,8 @@ public class Recurrence extends TaskCommand {
 			throw new LogicException(MESSAGE_INVALID);
 		}
 
-		// _newTask.toggleRecurring(); to be added
+		// _newTask.toggleRecurring(); attribute to be added to task to indicate task is of type recurring 
+		//highlight to gui to only show start time, end time and first datetimepair in multiple slot 
 		_newTask.setSlot(_recurr);
 		LocalDateTime now = LocalDateTime.now();
 		if (_id != null) {
