@@ -17,6 +17,8 @@ public class Storage {
 	private static final String HELP_TYPE = "HELP";
 	private static final String DEMO_TYPE = "DEMO";
 	private static final String TEXT_FILE_TYPE = ".txt";
+	private static final String DIRECTORY_SEPARATOR_FWD_SLASH = "/";
+	private static final String DIRECTORY_SEPARATOR_BCK_SLASH = "\\";
 	private static final String DESC_INTRO_TASK = "Add your first Task! Press Help or Alt + F1 for guidance";
 
 	private static final int FILE_TYPE_CHAR_SIZE = 4;
@@ -129,16 +131,27 @@ public class Storage {
 	 * @throws StorageException
 	 *             If such a file with the same file type, same file name exists
 	 *             in that particular file directory
+	 * @throws InvalidFolderException
+	 *             If the path given is not in the correct absolute path format.
 	 */
-	public void changeFileSettings(String path) throws StorageException {
-		String fileType = getFileTypeFromPath(path);
+	public void changeFileSettings(String path) throws StorageException, InvalidFolderException {
+		String correctPath = checkDirectorySeparator(path);
+		String fileType = getFileTypeFromPath(correctPath);
 		if (fileType.equals(TEXT_FILE_TYPE)) {
-			String dir = getDirFromPath(path);
-			String name = getNameFromPath(path);
+			String dir = getDirFromPath(correctPath);
+			String name = getNameFromPath(correctPath);
 			checkIfFileExists(dir, name);
 		} else {
-			checkIfFileExists(path, _file.getFileName());
+			checkIfFileExists(correctPath, _file.getFileName());
 		}
+	}
+
+	private String checkDirectorySeparator(String path) {
+		String newPath = path;
+		if (path.contains(DIRECTORY_SEPARATOR_FWD_SLASH)) {
+			newPath = path.replace(DIRECTORY_SEPARATOR_FWD_SLASH, DIRECTORY_SEPARATOR_BCK_SLASH);
+		}
+		return newPath;
 	}
 
 	private String getFileTypeFromPath(String path) {
@@ -157,11 +170,11 @@ public class Storage {
 	 * checks if there is an existing file with such a name in that particular
 	 * directory.
 	 */
-	private void checkIfFileExists(String dir, String name) throws StorageException {
+	private void checkIfFileExists(String dir, String name) throws StorageException, InvalidFolderException {
 		if (!FileEditor.isExistingFile(dir, name)) {
-			setFileSettings(dir, name);
 			_file.relocate(dir);
 			_file.rename(name);
+			setFileSettings(dir, name);
 		} else {
 			setFileSettings(dir, name);
 			throw new StorageException(dir, name);
@@ -173,9 +186,10 @@ public class Storage {
 		_settings.setFileName(name);
 		_settings.saveSettings();
 	}
-	
+
 	/**
 	 * Retrieves help manual
+	 * 
 	 * @return ArrayList of String for Help.
 	 */
 	public ArrayList<String> getHelp() {
@@ -185,9 +199,10 @@ public class Storage {
 		logger.getLogger().info("retrieved from file.");
 		return help;
 	}
-	
+
 	/**
-	 * Retrieves the absolute directory of the main data file. 
+	 * Retrieves the absolute directory of the main data file.
+	 * 
 	 * @return
 	 */
 	public String getDirPath() {
@@ -201,9 +216,10 @@ public class Storage {
 		_file.delete();
 		_settings.delete();
 	}
-	
+
 	/**
 	 * Retrieves demo manual
+	 * 
 	 * @return ArrayList of String for Demo.
 	 */
 	public ArrayList<String> getDemoText() {
@@ -216,6 +232,7 @@ public class Storage {
 
 	/**
 	 * Retrieves demo indexes for demo tasks selection
+	 * 
 	 * @return ArrayList of Integers consisting of Demo Indexes.
 	 */
 	public ArrayList<Integer> getDemoSelectionIndexes() {

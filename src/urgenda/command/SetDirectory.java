@@ -1,6 +1,7 @@
 package urgenda.command;
 
 import urgenda.logic.LogicData;
+import urgenda.util.InvalidFolderException;
 import urgenda.util.StorageException;
 
 public class SetDirectory extends Command {
@@ -25,7 +26,9 @@ public class SetDirectory extends Command {
 		} catch (StorageException e) {
 			data.reinitialiseStorage();
 			return e.getMessage();
-		}
+		} catch (InvalidFolderException e) {
+			return e.getMessage();
+		} 
 		return String.format(MESSAGE_CHANGED_DIRECTORY, _newPath.toUpperCase());
 	}
 	

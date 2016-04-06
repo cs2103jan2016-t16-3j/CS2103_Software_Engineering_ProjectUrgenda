@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import urgenda.storage.Storage;
 import urgenda.storage.StorageTester;
 import urgenda.util.DateTimePair;
+import urgenda.util.InvalidFolderException;
 import urgenda.util.MultipleSlot;
 import urgenda.util.StateFeedback;
 import urgenda.util.StorageException;
@@ -1018,8 +1019,9 @@ public class LogicData {
 	 *            The String path specified for changing of current directory to
 	 *            the new one.
 	 * @throws StorageException
+	 * @throws InvalidFolderException 
 	 */
-	public void changeDirectory(String path) throws StorageException {
+	public void changeDirectory(String path) throws StorageException, InvalidFolderException {
 		_storage.changeFileSettings(path);
 	}
 

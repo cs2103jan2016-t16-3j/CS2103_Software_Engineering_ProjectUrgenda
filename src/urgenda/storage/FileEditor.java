@@ -19,6 +19,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import urgenda.gui.Main;
+import urgenda.util.InvalidFolderException;
 import urgenda.util.UrgendaLogger;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -187,7 +188,7 @@ public class FileEditor {
 		initFile(name);
 	}
 	
-	public void relocate(String path){
+	public void relocate(String path) throws InvalidFolderException{
 		Path source = _file.toPath();
 		_parentDir = new File(path);
 		_parentDir.mkdir();
@@ -196,6 +197,7 @@ public class FileEditor {
 			Files.move(source, newSource.resolve(source.getFileName()), REPLACE_EXISTING);
 		} catch (NoSuchFileException e) {
 			logger.getLogger().info(source + " does not exist, unable to proceed with file relocation");
+			throw new InvalidFolderException(path);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
