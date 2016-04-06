@@ -46,7 +46,7 @@ public class StorageException extends Exception {
 	/**
 	 * Returns the error message containing the name and folder of the existing file.
 	 * 
-	 * @return String of the error message
+	 * @return String of the error message together with incorrect file dest.
 	 */
 	@Override
 	public String getMessage() {

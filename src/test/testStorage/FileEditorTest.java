@@ -8,6 +8,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import urgenda.storage.FileEditor;
+import urgenda.util.InvalidFolderException;
 
 import org.junit.runners.MethodSorters;
 
@@ -23,7 +24,7 @@ public class FileEditorTest {
 	 * testing file not found exception
 	 */
 	@Test
-	public void test008Exception(){
+	public void test008Exception() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		
 		assertTrue(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
@@ -44,7 +45,11 @@ public class FileEditorTest {
 		assertEquals(expected, actlArchive);
 		
 		file.clearFile();
-		file.relocate(TEST_FILE_LOCATION_2);
+		try {
+			file.relocate(TEST_FILE_LOCATION_2);
+		} catch (InvalidFolderException e) {
+			assertEquals("TESTFILES\\TEST3 is an invalid folder path. Please enter a valid folder path.", e.getMessage());
+		}
 		assertFalse(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
 	}
 	
@@ -77,7 +82,7 @@ public class FileEditorTest {
 	}
 
 	@Test
-	public void test002Relocate() {
+	public void test002Relocate() throws InvalidFolderException {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		file.relocate(TEST_FILE_LOCATION_2)	;
 		file.paths();

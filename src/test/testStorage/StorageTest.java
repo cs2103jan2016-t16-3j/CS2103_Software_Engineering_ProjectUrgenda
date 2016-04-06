@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import urgenda.storage.Storage;
 import urgenda.storage.StorageTester;
+import urgenda.util.InvalidFolderException;
 import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 import urgenda.util.StorageException;
@@ -33,7 +34,7 @@ public class StorageTest {
 	 * exists in new location. Tests UrgendaException for existing file.
 	 */
 	@Test
-	public void test004FileManipulationExist() throws IOException {
+	public void test004FileManipulationExist() throws IOException, InvalidFolderException {
 		StorageTester store = new StorageTester();
 
 		File existingFile = new File(TEST_FILE_NEW_LOCATION);
@@ -63,7 +64,7 @@ public class StorageTest {
 	 * exists in new location. Tests UrgendaException for existing file.
 	 */
 	@Test
-	public void test003FileManipulationExist() throws IOException {
+	public void test003FileManipulationExist() throws IOException, InvalidFolderException {
 		StorageTester store = new StorageTester();
 
 		File existingFile = new File(TEST_FILE_NEW_LOCATION);
@@ -95,7 +96,7 @@ public class StorageTest {
 	 * doesn't exist in new location
 	 */
 	@Test
-	public void test002FileManipulation() {
+	public void test002FileManipulation() throws InvalidFolderException {
 		StorageTester store = new StorageTester();
 
 		try {
