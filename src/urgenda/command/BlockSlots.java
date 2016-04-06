@@ -47,6 +47,10 @@ public class BlockSlots extends TaskCommand {
 
 	/**
 	 * Execute method for blocking of slots which adds new Task to Urgenda.
+	 * 
+	 * @throws LogicException
+	 *             Exception is thrown when the blocks added are invalid blocks
+	 *             or when task is invalid.
 	 */
 	public String execute() throws LogicException {
 		_data = LogicData.getInstance();
