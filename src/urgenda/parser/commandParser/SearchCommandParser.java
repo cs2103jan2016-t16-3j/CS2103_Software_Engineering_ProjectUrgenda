@@ -30,7 +30,7 @@ public class SearchCommandParser {
 				searchCommand.setSearchId(searchID - 1);
 				return searchCommand;
 			} catch (Exception e) {
-				_argsString = PublicFunctions.reformatArgsString(_argsString);
+				_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 				Search searchCommand = new Search();
 				Month testMonth = DateTimeParser.tryParseMonth(_argsString);
 				LocalDateTime testTime = DateTimeParser.tryParseTime(_argsString);
