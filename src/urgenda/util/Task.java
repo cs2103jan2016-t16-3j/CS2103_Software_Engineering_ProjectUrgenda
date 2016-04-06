@@ -4,14 +4,24 @@ package urgenda.util;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * 
+ * Task class of Utils Component in Urgenda.
+ * Used for storing of information related to a task e.g. timings, location, desc etc.
+ *
+ */
 public class Task {
 
 	private static final String TASK_TYPE_FLOATING = "FLOATING";
 	private static final String TASK_TYPE_EVENT = "EVENT";
 	private static final String TASK_TYPE_DEADLINE = "DEADLINE";
 
+	/**
+	 * 
+	 * Different categorisation of tasks.
+	 *
+	 */
 	public enum Type {
-
 		// Event type have start + end time
 		EVENT,
 		// Deadline type has only end time
@@ -33,12 +43,18 @@ public class Task {
 	private boolean _isOverdue = false;
 	private MultipleSlot _slot;
 
-	// default constructor
+	/**
+	 * Default constructor for creating a Task object.
+	 */
 	public Task() {
 
 	}
 
-	// constructor with only desc
+	/**
+	 * Alternative constructor for Task object with String desc specified
+	 * @param desc
+	 * The String desc of the Task.
+	 */
 	public Task(String desc) {
 		_desc = desc;
 		updateTaskType(null, null);
@@ -252,7 +268,6 @@ public class Task {
 		}
 		LocalDateTime start = task.getStartTime();
 		LocalDateTime end = task.getEndTime();
-		
 		// checks overlaps if there are multiple slots
 		if (this.getSlot() != null) {
 			ArrayList<DateTimePair> slots = this.getSlot().getSlots();
@@ -267,7 +282,6 @@ public class Task {
 	}
 
 	public boolean hasOverlap(LocalDateTime start, LocalDateTime end, LocalDateTime compareStart, LocalDateTime compareEnd) {
-		// TODO check if all cases are covered
 		if (end.isAfter(compareStart) && (end.isBefore(compareEnd) || end.isEqual(compareEnd))) {
 			return true;
 		} else if ((start.isAfter(compareStart) || start.isEqual(compareStart)) && start.isBefore(compareEnd)) {
