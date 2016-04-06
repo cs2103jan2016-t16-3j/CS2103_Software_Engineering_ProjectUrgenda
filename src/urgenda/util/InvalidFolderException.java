@@ -1,4 +1,4 @@
-//@@ author A0126888L
+//@@author A0126888L
 package urgenda.util;
 
 public class InvalidFolderException extends Exception{
