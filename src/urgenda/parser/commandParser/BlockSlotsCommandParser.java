@@ -25,7 +25,7 @@ public class BlockSlotsCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			_argsString = PublicFunctions.reformatArgsString(_argsString);
+			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 			taskTimeStrings = new ArrayList<String>();
 			Boolean isConcatSuccess = concatArgsString();
 			if (isConcatSuccess) {

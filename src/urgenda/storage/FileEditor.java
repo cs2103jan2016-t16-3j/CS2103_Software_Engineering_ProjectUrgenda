@@ -190,8 +190,8 @@ public class FileEditor {
 	
 	public void relocate(String path) throws InvalidFolderException{
 		Path source = _file.toPath();
-		_parentDir = new File(path);
-		_parentDir.mkdir();
+		File parentDir = new File(path);
+		parentDir.mkdir();
 		Path newSource = Paths.get(path);
 		try {
 			Files.move(source, newSource.resolve(source.getFileName()), REPLACE_EXISTING);
@@ -201,6 +201,7 @@ public class FileEditor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		_parentDir = parentDir;
 		_file = new File(_parentDir, source.getFileName().toString());
 	}
 	
