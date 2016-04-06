@@ -82,6 +82,10 @@ public class Postpone extends TaskCommand {
 	/**
 	 * Execution method of the Postpone command to postpone the task by the
 	 * given duration.
+	 * 
+	 * @throws LogicException
+	 *             throws exception when the timing is invalid, task is invalid,
+	 *             or task is a deadline type.
 	 */
 	public String execute() throws LogicException {
 		_data = LogicData.getInstance();

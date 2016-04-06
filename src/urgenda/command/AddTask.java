@@ -48,6 +48,8 @@ public class AddTask extends TaskCommand {
 	/**
 	 * Execute command of AddTask which adds newTask to Urgenda.
 	 * 
+	 * @throws LogicException
+	 *             When the task added is invalid.
 	 */
 	public String execute() throws LogicException {
 		logger.getLogger().warning("Can cause exception");

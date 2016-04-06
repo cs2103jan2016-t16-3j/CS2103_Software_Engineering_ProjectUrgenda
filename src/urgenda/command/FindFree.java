@@ -63,6 +63,10 @@ public class FindFree extends Command {
 
 	/**
 	 * Execute method for Finding free timings.
+	 * 
+	 * @throws LogicException
+	 *             Throws exception when the end is before start or end time has
+	 *             already passed.
 	 */
 	public String execute() throws LogicException {
 		_data = LogicData.getInstance();
