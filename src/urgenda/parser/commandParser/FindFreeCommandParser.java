@@ -21,7 +21,7 @@ public class FindFreeCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			_argsString = PublicFunctions.reformatArgsString(_argsString);
+			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 			DateTimeParser.searchTaskTimes(_argsString);
 			if (PublicVariables.taskStartTime != null && PublicVariables.taskEndTime != null) {
 				FindFree findFreeCommand = new FindFree(PublicVariables.taskStartTime, PublicVariables.taskEndTime);

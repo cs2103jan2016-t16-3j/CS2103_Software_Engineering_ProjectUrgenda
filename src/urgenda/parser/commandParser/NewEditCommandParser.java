@@ -42,7 +42,7 @@ public class NewEditCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			_argsString = PublicFunctions.reformatArgsString(_argsString);
+			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 			reinitializeVariables();
 			String reducedString = searchIndex();
 			searchDetails(reducedString);

@@ -30,13 +30,10 @@ public class AddCommandParser {
 			descPlaceHolder = null;
 			ArrayList<String> reservedWords = getReservedWords();
 			String reformattedString = checkSpecialDesc();
-			reformattedString = PublicFunctions.reformatArgsString(_argsString);
+			reformattedString = PublicFunctions.reformatArgsString(_argsString).trim();
 			String reducedArgsString = DateTimeParser.searchTaskTimes(reformattedString);
 			reducedArgsString = undoReserveWords(reservedWords, reducedArgsString);
-			// System.out.print(reducedArgsString + "\n");
-//			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
 			reducedArgsString = TaskDetailsParser.searchTaskLocation(reducedArgsString);
-			// System.out.print(reducedArgsString + "\n");
 			TaskDetailsParser.searchTaskDescription(reducedArgsString);
 			TaskDetailsParser.searchTaskType();
 			return generateAddCommandAndReturn();

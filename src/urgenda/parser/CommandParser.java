@@ -40,6 +40,8 @@ import urgenda.parser.commandParser.UndoCommandParser;
 import urgenda.util.*;
 
 public class CommandParser {
+	private static String _argsString;
+	
 	public static Command parseCommand(String commandString, int index) {
 		PublicFunctions.reinitializePublicVariables();
 
@@ -61,6 +63,10 @@ public class CommandParser {
 		if (commandString.length() > 0 && !commandString.trim().equals("")) {
 			PublicFunctions.reinitializePublicVariables();
 			commandString = commandString.toLowerCase();
+			commandString = PublicFunctions.reformatArgsString(commandString);
+			_argsString = commandString;
+			getReservedWords();
+			commandString = _argsString;
 			COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
 			if (commandType == COMMAND_TYPE.INVALID) {
 				int numberOfWords = PublicFunctions.getNumberOfWords(commandString);
@@ -333,5 +339,23 @@ public class CommandParser {
 				}
 			}
 		}
+	}
+	
+	private static ArrayList<String> getReservedWords() {
+		ArrayList<String> array = new ArrayList<String>();
+		Matcher matcher = Pattern.compile("([^\\d+\\s+/-:]+)(\\d+)").matcher(_argsString);
+		while (matcher.find()) {
+			_argsString = _argsString.replace(matcher.group(), "<" + matcher.group() + ">");
+			array.add("<" + matcher.group() + ">");
+		}
+		
+		return array;
+	}
+	
+	private static String undoReserveWords(ArrayList<String> array, String string) {
+		for (String arrayString:array) {
+			string = string.replace(arrayString, arrayString.substring(1,arrayString.length()-1));
+		}
+		return string;
 	}
 }

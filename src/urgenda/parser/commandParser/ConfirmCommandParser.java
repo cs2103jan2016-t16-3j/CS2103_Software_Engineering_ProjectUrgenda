@@ -27,7 +27,7 @@ public class ConfirmCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			_argsString = PublicFunctions.reformatArgsString(_argsString);
+			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 			Confirm confirmCommand = new Confirm();
 			String firstWord = PublicFunctions.getFirstWord(_argsString);	
 			PrettyTimeParser parser = new PrettyTimeParser();

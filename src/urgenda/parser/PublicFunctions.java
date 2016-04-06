@@ -73,7 +73,7 @@ public class PublicFunctions {
 		while (matcher.find()) {
 			argsString = argsString.replace(matcher.group(), " " + reverseDateMonth(matcher.group()) + " ");
 		}
-		return argsString.trim();
+		return argsString;
 	}
 
 	private static String reverseDateMonth(String string) {
