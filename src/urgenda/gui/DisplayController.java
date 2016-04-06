@@ -178,6 +178,7 @@ public class DisplayController extends AnchorPane {
 	}
 
 	private void createTaskControllers(TaskList updatedTasks, boolean isShowFreeTime) {
+		boolean isNoviceViewOld = _isNoviceView;
 		if (_main.getController().isDemo()) {
 			_isNoviceView = true;
 		}
@@ -221,9 +222,7 @@ public class DisplayController extends AnchorPane {
 						TaskDisplayType.ARCHIVE, false);
 			}	
 		}
-		if (_main.getController().isDemo()) {
-			_isNoviceView = false;
-		}
+		_isNoviceView = isNoviceViewOld;
 	}
 
 	// create indicated number of tasks of given type with reference to whether

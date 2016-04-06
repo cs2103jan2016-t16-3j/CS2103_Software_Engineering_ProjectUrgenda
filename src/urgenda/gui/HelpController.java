@@ -87,10 +87,10 @@ public class HelpController implements Initializable {
 			@Override
 			public void handle(KeyEvent event) {
 				if(event.getCode().equals(KeyCode.LEFT)) {
-					helpPrev();
+					helpPrev.fire();
 				}
 				if(event.getCode().equals(KeyCode.RIGHT)) {
-					helpNext();
+					helpNext.fire();
 				}
 			}	
 		});

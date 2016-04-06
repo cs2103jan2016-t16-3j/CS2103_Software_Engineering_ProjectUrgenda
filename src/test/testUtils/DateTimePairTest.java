@@ -1,3 +1,4 @@
+//@@author A0131857B
 package test.testUtils;
 
 import static org.junit.Assert.*;
@@ -9,26 +10,42 @@ import org.junit.Test;
 
 import urgenda.util.DateTimePair;
 
+/**
+ * Test cases to run for utility class DateTimePair.
+ * 
+ * @author KangSoon
+ *
+ */
 public class DateTimePairTest {
 	
 	private LocalDateTime referenceDateTime = LocalDateTime.now();
 	
+	/**
+	 * Tests the relative difference between the pair of dates and times.
+	 */
 	@Test
 	public void testRelativeDifference() {
+		// Partition: same datetime values
 		DateTimePair t1 = new DateTimePair(referenceDateTime, referenceDateTime);
 		assertEquals(t1.firstIsBefore(), false);
-		DateTimePair t2 = new DateTimePair(referenceDateTime, referenceDateTime.plusSeconds(1));
-		assertEquals(t2.firstIsBefore(), true);
-		DateTimePair t3 = new DateTimePair(referenceDateTime, referenceDateTime.minusSeconds(1));
+		// Partition: first datetime is later
+		DateTimePair t2 = new DateTimePair(referenceDateTime, referenceDateTime.minusSeconds(1));
+		assertEquals(t2.firstIsBefore(), false);
+		DateTimePair t3 = new DateTimePair(referenceDateTime.plusSeconds(1), referenceDateTime);
 		assertEquals(t3.firstIsBefore(), false);
-		DateTimePair t4 = new DateTimePair(referenceDateTime.plusSeconds(1), referenceDateTime);
-		assertEquals(t4.firstIsBefore(), false);
+		// Partition: first datetime is earlier
+		DateTimePair t4 = new DateTimePair(referenceDateTime, referenceDateTime.plusSeconds(1));
+		assertEquals(t4.firstIsBefore(), true);
 		DateTimePair t5 = new DateTimePair(referenceDateTime.minusSeconds(1), referenceDateTime);
 		assertEquals(t5.firstIsBefore(), true);
+		
 		assertEquals(t5.getEarlierDateTime(), referenceDateTime.minusSeconds(1));
 		assertEquals(t5.getLaterDateTime(), referenceDateTime);
 	}
 	
+	/**
+	 * Tests the adding and subtracting methods.
+	 */
 	@Test
 	public void testAddMinusDateTimes() {
 		DateTimePair t1 = new DateTimePair(referenceDateTime, referenceDateTime);
@@ -44,6 +61,9 @@ public class DateTimePairTest {
 		assertEquals(t2.getLaterDateTime(), referenceDateTime.plusSeconds(2));
 	}
 	
+	/**
+	 * Tests the method which checks whether two DateTimePair objects are equal.
+	 */
 	@Test
 	public void testEquals() {
 		DateTimePair t1 = new DateTimePair(referenceDateTime, referenceDateTime);
@@ -56,6 +76,9 @@ public class DateTimePairTest {
 		assertEquals(t3.equals(t4), true);
 	}
 	
+	/**
+	 * Tests the method which performs the rounding of the difference to the nearest days.
+	 */
 	@Test
 	public void testRoundedDays() {
 		LocalDateTime dt1 = LocalDateTime.of(1999, 12, 31, 23, 59);
