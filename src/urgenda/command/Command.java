@@ -10,7 +10,9 @@ import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 
 /**
- * Command interface for implementation of subsequent command classes
+ * Command abstract class for implementation of subsequent command classes. Used
+ * for the command pattern. Includes all different versions of generating task
+ * messages which can be used across all inherited classes.
  *
  */
 public abstract class Command {
@@ -23,11 +25,22 @@ public abstract class Command {
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
 	private static final String MESSAGE_DEADLINE_VENUE = "\"%1$s\" at %2$s by %3$d/%4$d, %5$02d:%6$02d";
 
-	// for execution of specific command
+	/**
+	 * Abstract method for execution of specific command.
+	 * 
+	 * @return String of the feedback to the user.
+	 * @throws LogicException
+	 *             When the command on the task is invalid.
+	 */
 	public abstract String execute() throws LogicException;
 
-	// for generation of messages of the task given as input, includes multiple
-	// tasks
+	/**
+	 * Generates a task message for the task with multiple slots.
+	 * 
+	 * @param task
+	 *            Task object for generating of message.
+	 * @return Feedback for given task.
+	 */
 	public String taskMessageWithMulti(Task task) {
 		String feedback = taskMessage(task);
 		if (task.getSlot() != null) {
@@ -36,33 +49,21 @@ public abstract class Command {
 		return feedback;
 	}
 
-	// generation of messages of task for edit fn whereby location of task may
-	// be edited
+	/**
+	 * Generate task message for the task with location. Used when location may
+	 * be edited.
+	 * 
+	 * @param task
+	 *            Task object for generating of message.
+	 * @return Feedback for given task.
+	 */
 	public String taskMessageWithLocation(Task task) {
 		Task.Type taskType = task.getTaskType();
 		String feedback = null;
 		if (task.getLocation() == null || task.getLocation().isEmpty()) {
 			feedback = taskMessage(task);
 		} else {
-			switch (taskType) {
-			case EVENT:
-				feedback = String.format(MESSAGE_EVENT_VENUE, task.getDesc(), task.getLocation(),
-						task.getStartTime().getDayOfMonth(), task.getStartTime().getMonthValue(),
-						task.getStartTime().getHour(), task.getStartTime().getMinute(), task.getEndTime().getHour(),
-						task.getEndTime().getMinute());
-				break;
-
-			case FLOATING:
-				feedback = String.format(MESSAGE_FLOAT_VENUE, task.getDesc(), task.getLocation());
-				break;
-
-			case DEADLINE:
-				feedback = String.format(MESSAGE_DEADLINE_VENUE, task.getDesc(), task.getLocation(),
-						task.getEndTime().getDayOfMonth(), task.getEndTime().getMonthValue(),
-						task.getEndTime().getHour(), task.getEndTime().getMinute());
-				break;
-
-			}
+			feedback = generateTaskMessageWithVenue(task, taskType, feedback);
 		}
 		if (task.getSlot() != null) {
 			feedback += additionalTimings(task.getSlot());
@@ -70,32 +71,63 @@ public abstract class Command {
 		return feedback;
 	}
 
+	/*
+	 * Returns the task message with location placed within.
+	 */
+	private String generateTaskMessageWithVenue(Task task, Task.Type taskType, String feedback) {
+		switch (taskType) {
+		case EVENT :
+			feedback = String.format(MESSAGE_EVENT_VENUE, task.getDesc(), task.getLocation(),
+					task.getStartTime().getDayOfMonth(), task.getStartTime().getMonthValue(),
+					task.getStartTime().getHour(), task.getStartTime().getMinute(), task.getEndTime().getHour(),
+					task.getEndTime().getMinute());
+			break;
+		case FLOATING :
+			feedback = String.format(MESSAGE_FLOAT_VENUE, task.getDesc(), task.getLocation());
+			break;
+		case DEADLINE :
+			feedback = String.format(MESSAGE_DEADLINE_VENUE, task.getDesc(), task.getLocation(),
+					task.getEndTime().getDayOfMonth(), task.getEndTime().getMonthValue(),
+					task.getEndTime().getHour(), task.getEndTime().getMinute());
+			break;
+		}
+		return feedback;
+	}
+
 	// for generation of messages of task given as input, excludes multiple
 	// tasks
+	/**
+	 * For generating of generic task message, regardless of location and
+	 * multipleslots.
+	 * 
+	 * @param task
+	 *            Task object for generating of message.
+	 * @return Feedback for given task.
+	 */
 	public String taskMessage(Task task) {
 		Task.Type taskType = task.getTaskType();
 		String feedback = null;
 		switch (taskType) {
-		case EVENT:
+		case EVENT :
 			feedback = String.format(MESSAGE_EVENT, task.getDesc(), task.getStartTime().getDayOfMonth(),
 					task.getStartTime().getMonthValue(), task.getStartTime().getHour(), task.getStartTime().getMinute(),
 					task.getEndTime().getDayOfMonth(), task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
 					task.getEndTime().getMinute());
 			break;
-
-		case FLOATING:
+		case FLOATING :
 			feedback = String.format(MESSAGE_FLOAT, task.getDesc());
 			break;
-
-		case DEADLINE:
+		case DEADLINE :
 			feedback = String.format(MESSAGE_DEADLINE, task.getDesc(), task.getEndTime().getDayOfMonth(),
 					task.getEndTime().getMonthValue(), task.getEndTime().getHour(), task.getEndTime().getMinute());
 			break;
-
 		}
 		return feedback;
 	}
 
+	/*
+	 * Generates the feedback for the block within the given block from the task.
+	 */
 	private String additionalTimings(MultipleSlot block) {
 		String feedback = "";
 		ArrayList<DateTimePair> slots = block.getSlots();
