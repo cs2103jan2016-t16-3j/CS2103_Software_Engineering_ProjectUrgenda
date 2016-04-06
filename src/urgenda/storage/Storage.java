@@ -198,7 +198,7 @@ public class Storage {
 	 * @return ArrayList of String for Demo.
 	 */
 	public ArrayList<String> getDemoText() {
-		logger.getLogger().info("inside retrieveHelp function");
+		logger.getLogger().info("inside getDemoText function");
 		ArrayList<String> demo;
 		demo = _demo.getManual();
 		logger.getLogger().info("retrieved from file. ");
@@ -206,7 +206,6 @@ public class Storage {
 	}
 
 	public ArrayList<Integer> getDemoSelectionIndexes() {
-		// TODO Auto-generated method stub
-		return null;
+		return _demo.getIndexes();
 	}
 }

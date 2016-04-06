@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import org.ocpsoft.prettytime.shade.edu.emory.mathcs.backport.java.util.Arrays;
+
 import urgenda.util.UrgendaLogger;
 
 public class Manual {
@@ -22,6 +24,7 @@ public class Manual {
 
 	private String _text;
 	private ArrayList<String> _manual = new ArrayList<String>();
+	private ArrayList<Integer> _demoIndexes = new ArrayList<Integer>();
 	
 	public Manual(String type){
 		if (type.equalsIgnoreCase(HELP_TYPE)) {
@@ -31,10 +34,18 @@ public class Manual {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createDemoManual() {
 		logger.getLogger().info("constructing Demo object");
 		InputStream demoInput = this.getClass().getClassLoader().getResourceAsStream(DEMO_FILE_LOCATION);
 		createManual(demoInput);
+		String indexes = _manual.get(0).trim();
+		_manual.remove(0);
+		String[] demoIndex = indexes.split(" ");
+		ArrayList<String> demoIndexesString = new ArrayList<String>(Arrays.asList(demoIndex));
+		for (String index: demoIndexesString) {
+			_demoIndexes.add(Integer.valueOf(index));
+		}
 		logger.getLogger().info("retrieved demofile.");
 		
 	}
@@ -77,6 +88,10 @@ public class Manual {
 
 	public ArrayList<String> getManual() {
 		return _manual;
+	}
+	
+	public ArrayList<Integer> getIndexes(){
+		return _demoIndexes;
 	}
 
 

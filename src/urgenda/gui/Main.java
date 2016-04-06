@@ -259,11 +259,7 @@ public class Main extends Application {
 	 * @return array of indexes of tasks to be selected at each step during demo mode
 	 */
 	public ArrayList<Integer> getDemoSelectionIndexes() {
-		ArrayList<Integer> temp = new ArrayList<Integer>();
-		temp.add(0);
-		temp.add(1);
-		return temp;
-		// TODO return _logic.getDemoSelectionIndexes();
+		return _logic.getDemoSelectionIndexes();
 	}
 
 	/**
