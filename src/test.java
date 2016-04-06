@@ -32,7 +32,11 @@ public class test {
 	public static void main(String[] args) {
 		while (true) {
 			String input = getUserInput();
-			
+			String input2 = getUserInput();
+			int position = input.indexOf(input2);
+			System.out.println(position);
+			String pre = PublicFunctions.getPreceedingWord(position, input);
+			System.out.println(pre);
 //			PrettyTimeParser parser = new PrettyTimeParser();
 //			List<Date> dates = parser.parse(input);
 //			for (int i = 0; i < dates.size(); i++) {
