@@ -238,4 +238,9 @@ public class Storage {
 	public ArrayList<Integer> getDemoSelectionIndexes() {
 		return _demo.getIndexes();
 	}
+
+	public boolean getNoviceSettings() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

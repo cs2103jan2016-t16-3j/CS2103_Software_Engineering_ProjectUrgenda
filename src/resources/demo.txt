@@ -1,6 +1,7 @@
-0 0 1 1 1 2 3 3 3 3 4 4 6 0
+0 0 0 1 1 1 2 3 3 3 3 4 4 6 0
 
 Welcome to Urgenda's demo! Use TAB to move to the next part of the demo. If you wish to see the previous part of the demo, press SHIFT + TAB.
+
 The first task is the task you are currently selected on, and it is also an overdue task! Overdue Tasks are colour coded as red, you need to get them completed ASAP!
 
 To key in such a task into Urgenda, simply type:

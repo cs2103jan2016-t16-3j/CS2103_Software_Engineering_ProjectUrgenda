@@ -1133,4 +1133,8 @@ public class LogicData {
 		return _storage.getDemoSelectionIndexes();
 	}
 
+	public boolean getNoviceSettings() {
+		return _storage.getNoviceSettings();
+	}
+
 }

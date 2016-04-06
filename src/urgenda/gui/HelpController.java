@@ -21,17 +21,27 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * UI components, controls the elements in help window.
+ * 
+ * @author KangSoon
+ */
 public class HelpController implements Initializable {
 	
-	private static final String PATH_HELP_SPLASH_FXML = "fxml/HelpSplash.fxml";
+	// Constants
 	private static final String HELP_NAME = "Help";
+	
+	// File paths
+	private static final String PATH_HELP_SPLASH_FXML = "fxml/HelpSplash.fxml";
 	private static final String PATH_ICON = "../../resources/urgenda_icon.png";
 	
+	// Private attributes
 	static Stage _helpStage;
 	static Scene _helpScene;
 	private static ArrayList<String> _helpText;
 	private int _helpTextPos;
 	
+	// Elements loaded using FXML
 	@FXML
 	private TextArea helpContentPane;
 	@FXML
@@ -40,14 +50,14 @@ public class HelpController implements Initializable {
 	private Button helpNext;
 	
 	@FXML
-	public void handleEscPressed(KeyEvent event) {
+	private void handleEscPressed(KeyEvent event) {
 		if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.ESCAPE) {
 			_helpStage.close();
 		}
 	}
 	
 	@FXML
-	public void handleOkAction(ActionEvent e) {
+	private void handleOkAction(ActionEvent e) {
 		_helpStage.close();
 	}
 	
@@ -58,8 +68,13 @@ public class HelpController implements Initializable {
 		helpContentPane.setEditable(false);
 	}
 	
-	public void setupHelpStage(ArrayList<String> arrayList) throws IOException {		
-		_helpText = arrayList;
+	/**
+	 * Sets up the help window.
+	 * @param helpText list of help text to display
+	 * @throws IOException 
+	 */
+	public void setupHelpStage(ArrayList<String> helpText) throws IOException {		
+		_helpText = helpText;
 		Parent help = FXMLLoader.load(Main.class.getResource(PATH_HELP_SPLASH_FXML));
 		_helpStage = new Stage();
 		_helpScene = new Scene(help);
@@ -105,14 +120,24 @@ public class HelpController implements Initializable {
 		helpNext();
 	}
 	
+	/**
+	 * Shows the help window.
+	 */
 	public void showHelpStage() {
 		_helpStage.show();
 	}
-
+	
+	/**
+	 * Closes the help window.
+	 */
 	public void closeHelpWindow() {
 		_helpStage.close();		
 	}
 	
+	/**
+	 * Gets the help stage used for the window.
+	 * @return help stage used for the window
+	 */
 	public Stage getHelpStage() {
 		return _helpStage;
 	}

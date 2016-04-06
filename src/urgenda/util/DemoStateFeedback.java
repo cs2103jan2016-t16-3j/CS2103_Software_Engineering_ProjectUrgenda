@@ -4,8 +4,16 @@ package urgenda.util;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * Utility class to create a StateFeedback object used during demo.
+ * 
+ * @author KangSoon
+ */
 public class DemoStateFeedback extends StateFeedback {
-
+	
+	/**
+	 * Creates a DemoStateFeedback instance.
+	 */
 	public DemoStateFeedback() {
 		super();
 		Task taskOverdue = new Task("Complete tutorial", null, null,

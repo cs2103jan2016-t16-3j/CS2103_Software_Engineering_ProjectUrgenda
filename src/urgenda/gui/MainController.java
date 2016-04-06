@@ -36,20 +36,23 @@ import javafx.stage.Popup;
 import urgenda.util.UrgendaLogger;
 import javafx.stage.Stage;
 /**
- * UI component that handles all user interaction regarding input and feedback
+ * UI component that handles all user interaction regarding input and feedback.
  * 
  * @author KangSoon
  */
 public class MainController {
 
-	//constants for MainController
+	// Constants
 	private static final int WINDOWS_TASKBAR_HEIGHT = 30;
 	private static final double DEMO_WINDOW_WIDTH = 800;
 	private static final double ALLOWANCE_WINDOW_WIDTH = 5;
+	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
 	
+	// File paths
 	private static final String PATH_TYPESUGGESTIONS_FXML = "fxml/InputSuggestionsView.fxml";
 	private static final String PATH_DEMOTEXT_FXML = "fxml/DemoTextView.fxml";
-	private static final String TITLE_SAVE_DIRECTORY = "Set Save Directory";
+	
+	// Command keywords
 	private static final String KEYWORD_UNDO = "undo";
 	private static final String KEYWORD_REDO = "redo";
 	public static final String KEYWORD_SHOW_ALL = "home";
@@ -59,7 +62,8 @@ public class MainController {
 	private static final String DELIMITER_WARNING = "Warning: ";
 	private static final String MESSAGE_ERROR = "ERROR: ";
 	private static final String DELIMITER_ERROR = "Error: ";
-
+	
+	// Colors for styling feedback text
 	private static final Color COLOR_ERROR = Color.web("#FA6969");
 	private static final Color COLOR_WARNING = Color.web("#FFFF00");
 
@@ -84,7 +88,8 @@ public class MainController {
 	private Circle overdueIndicatorCircle;
 	@FXML
 	private DisplayController displayAreaController;
-
+	
+	// Private attributes
 	private Main _main;
 	private Deque<String> _prevCommandLines = new ArrayDeque<String>();
 	private Deque<String> _nextCommandLines = new ArrayDeque<String>();
@@ -95,6 +100,9 @@ public class MainController {
 	private DemoController _demoController;
 	private HelpController _helpController;
 	
+	/**
+	 * Creates a MainController object.
+	 */
 	public MainController() {
 		//default constructor
 	}
@@ -136,7 +144,7 @@ public class MainController {
 	}	
 	
 	/**
-	 * TODO
+	 * Sets up listeners to create demo view or suggestions popup when required.
 	 */
 	public void setListeners() {
 		//listeners for demo view
@@ -172,14 +180,17 @@ public class MainController {
 		ChangeListener<Number> windowPosChangeListener = new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				_popupInputSuggestions.hide();
+				if(getSuggestionsPopup() != null) {
+					_popupInputSuggestions.hide();					
+				}
 			}		
 		};
 		_main.getPrimaryStage().xProperty().addListener(windowPosChangeListener);	
 		_main.getPrimaryStage().yProperty().addListener(windowPosChangeListener);
 	}
+	
 	/**
-	 * TODO
+	 * Displays popup for input suggestions.
 	 */
 	public void showSuggestionsPopup() {
 		if(_popupInputSuggestions == null) {
@@ -198,7 +209,7 @@ public class MainController {
 	}
 	
 	/**
-	 * TODO
+	 * Hides popup for input suggestions.
 	 */
 	public void hideSuggestionsPopup() {
 		_popupInputSuggestions.hide();
@@ -351,7 +362,10 @@ public class MainController {
 	private void handleHelp(ActionEvent event) {
 		showHelp();
 	}
-
+	
+	/**
+	 * Sets up and displays help window.
+	 */
 	public void showHelp() {
 		if (_helpController == null) {
 			_helpController = new HelpController();
@@ -372,8 +386,8 @@ public class MainController {
 	}
 	
 	/**
-	 * TODO
-	 * @param show
+	 * Toggles showing of multiple slot options in menu
+	 * @param show boolean to show multiple slot options or not
 	 */
 	public void toggleMultipleSlotMenuOption(boolean show) {
 		multipleSlotSeparator.setVisible(show);
@@ -381,8 +395,8 @@ public class MainController {
 		menuNextMultipleSlot.setVisible(show);
 	}
 	/**
-	 * TODO
-	 * @param feedback
+	 * Displays feedback from user interaction and styles any warnings or errors.
+	 * @param feedback feedback text
 	 */
 	public void displayFeedback(String feedback) {
 		Text feedbackText = null;
@@ -428,8 +442,9 @@ public class MainController {
 		}
 	}
 	/**
-	 * TODO
-	 * @param overdueCount
+	 * Updates the number of overdue tasks shown at the icon of Urgenda
+	 * 
+	 * @param overdueCount current total number of overdue tasks
 	 */
 	public void updateOverdueCount(int overdueCount) {
 		if (overdueCount <= 0) {
@@ -447,8 +462,8 @@ public class MainController {
 	}
 	
 	/**
-	 * TODO
-	 * @param main
+	 * Sets the reference to the Main UI object instance for this class and displayController instance.
+	 * @param main Main UI object instance
 	 */
 	public void setMain(Main main) {
 		_main = main;
@@ -456,32 +471,48 @@ public class MainController {
 	}
 	
 	/**
-	 * TODO
-	 * @return
+	 * Returns DisplayController instance.
+	 * @return DisplayController instance.
 	 */
 	public DisplayController getDisplayController() {
 		return displayAreaController;
 	}
 	
 	/**
-	 * TODO
-	 * @return
+	 * Returns HelpController instance.
+	 * @return HelpController instance.
 	 */
 	public HelpController getHelpController() {
 		return _helpController;
 	}
 	
 	/**
-	 * TODO
-	 * @param demo
+	 * Returns DemoController instance.
+	 * @return DemoController instance.
+	 */
+	public DemoController getDemoController() {
+		return _demoController;
+	}
+	
+	/**
+	 * Returns Popup instance for suggestions.
+	 * @return Popup instance for suggestions
+	 */
+	public Popup getSuggestionsPopup(){
+		return _popupInputSuggestions;
+	}
+	
+	/**
+	 * Sets the demo state.
+	 * @param demo boolean for demo state
 	 */
 	public void setDemo(boolean demo) {
 		_isDemo.set(demo);
 	}
 	
 	/**
-	 * TODO
-	 * @return
+	 * Returns whether demo state is activated or not.
+	 * @return boolean whether demo state is activated or not
 	 */
 	public boolean isDemo() {
 		return _isDemo.get();
