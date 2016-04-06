@@ -34,6 +34,7 @@ public class JsonCipher {
 	private static final String HASHMAP_KEY_MULTIPLE_DESC = "multipleDesc";
 	private static final String HASHMAP_KEY_FILE_DIRECTORY = "directory";
 	private static final String HASHMAP_KEY_FILE_NAME = "name";
+	private static final String HASHMAP_KEY_HEADER = "header";
 
 	private static final String DELIMITER_MULTIPLE_WITHIN_PAIRS = "~";
 	private static final String DELIMITER_MULTIPLE_BET_PAIRS = "`";
@@ -375,6 +376,7 @@ public class JsonCipher {
 	public void setFileName(String name) {
 		_detailsMap.put(HASHMAP_KEY_FILE_NAME, name);
 	}
+	
 	
 	/**
 	 * Retrieves the value stored in the LinkedHashMap associated with the DateModified key.
