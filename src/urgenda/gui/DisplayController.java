@@ -1,3 +1,4 @@
+//@@author A0131857B
 package urgenda.gui;
 
 import java.util.ArrayDeque;
@@ -17,9 +18,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
-
+/**
+ * TODO
+ * @author KangSoon
+ *
+ */
 public class DisplayController extends AnchorPane {
-
+	
 	public enum TaskDisplayType {
 		OVERDUE, TODAY, NORMAL, ARCHIVE, FREE_TIME
 	}
@@ -55,6 +60,9 @@ public class DisplayController extends AnchorPane {
 	private boolean _allowChangeScroll;
 	private Main _main;
 
+	/**
+	 * TODO
+	 */
 	public DisplayController() {
 		_setup = true;
 		_selectedTaskIndex = new SimpleIntegerProperty(-1);
@@ -79,10 +87,18 @@ public class DisplayController extends AnchorPane {
 		_detailedIndexes = new ArrayDeque<Integer>();
 		_allowChangeScroll = false; // set default setting to change scroll as false
 	}
-
+	
+	/**
+	 * TODO
+	 * @param updatedTasks
+	 * @param displayHeader
+	 * @param showmoreIndexes
+	 * @param modifiedTaskIndex
+	 * @param isShowNoviceHeaders
+	 */
 	public void initDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
-			int modifiedTaskIndex, boolean showNoviceHeaders) {
-		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex, showNoviceHeaders, false, false);
+			int modifiedTaskIndex, boolean isShowNoviceHeaders) {
+		setDisplay(updatedTasks, displayHeader, showmoreIndexes, modifiedTaskIndex, isShowNoviceHeaders, false, false);
 		displayArea.vvalueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
@@ -102,9 +118,19 @@ public class DisplayController extends AnchorPane {
 			}
 		});
 	}
-
+	
+	/**
+	 * TODO
+	 * @param updatedTasks
+	 * @param displayHeader
+	 * @param showmoreIndexes
+	 * @param modifiedTaskIndex
+	 * @param isShowNoviceHeaders
+	 * @param isShowFreeTime
+	 * @param isDemo
+	 */
 	public void setDisplay(TaskList updatedTasks, String displayHeader, ArrayList<Integer> showmoreIndexes,
-			int modifiedTaskIndex, boolean showNoviceHeaders, boolean isShowFreeTime, boolean isDemo) {
+			int modifiedTaskIndex, boolean isShowNoviceHeaders, boolean isShowFreeTime, boolean isDemo) {
 		_setup = true;
 		_allowChangeScroll = false;
 		displayHolder.getChildren().clear();
@@ -119,7 +145,7 @@ public class DisplayController extends AnchorPane {
 			if(isShowFreeTime) {
 				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getTasks().size(),
 						TaskDisplayType.FREE_TIME, false);
-			} else if (showNoviceHeaders) {
+			} else if (isShowNoviceHeaders) {
 				if (updatedTasks.getOverdueCount() > 0) {
 					indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.OVERDUE, true);	
 					indexCounter += showStyledTaskView(indexCounter, updatedTasks.getOverdueCount() - 1,
@@ -145,7 +171,7 @@ public class DisplayController extends AnchorPane {
 			}
 		}
 		if (updatedTasks.getArchiveCount() != 0) {
-			if (showNoviceHeaders) {
+			if (isShowNoviceHeaders) {
 				indexCounter += showStyledTaskView(indexCounter, 1, TaskDisplayType.ARCHIVE, true);
 				indexCounter += showStyledTaskView(indexCounter, updatedTasks.getArchiveCount() - 1,
 						TaskDisplayType.ARCHIVE, false);
@@ -212,6 +238,9 @@ public class DisplayController extends AnchorPane {
 		}
 	}
 	
+	/**
+	 * TODO
+	 */
 	protected void setDisplayScrollHeight() {
 		double selectedIndexTop = 0.0;
 		double selectedIndexBottom = 0.0;
@@ -246,7 +275,11 @@ public class DisplayController extends AnchorPane {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * TODO
+	 * @param direction
+	 */
 	public void executeTraverse(Direction direction) {
 		if(!_main.getController().isDemo()) {
 			switch(direction) {
@@ -271,7 +304,12 @@ public class DisplayController extends AnchorPane {
 			}
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param index
+	 * @param isInitDemo
+	 */
 	protected void setSelectedTaskByCall(int index, boolean isInitDemo) {
 		if (_selectedTaskIndex.get() >= 0 && index != _selectedTaskIndex.getValue()) {
 			if (!isInitDemo) {
@@ -284,36 +322,67 @@ public class DisplayController extends AnchorPane {
 		_selectedTaskIndex.set(index);
 	}
 
+	/**
+	 * TODO
+	 */
 	protected void toggleSelectedDetailsOnClick() {
-		_main.handleCommandLine(KEYWORD_SHOWMORE, false);
+		_main.handleCommandLine(KEYWORD_SHOWMORE);
 	}
 
+	/**
+	 * TODO
+	 * @param displayed
+	 */
 	public void setDisplayHeader(String displayed) {
 		displayHeader.setText(displayed);
 	}
 
+	/**
+	 * TODO
+	 * @param value
+	 */
 	void changeDisplayVvalue(double value) {
 		_allowChangeScroll = true;
 		displayArea.setVvalue(value);
 		_allowChangeScroll = false;
 	}
-
+	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public int getSelectedTaskIndex() {
 		return _selectedTaskIndex.getValue();
 	}
-
+	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public int getDisplayedTasksCount() {
 		return _displayedTasks.size();
 	}
-
+	
+	/**
+	 * TODO
+	 * @param setup
+	 */
 	public void setSetup(boolean setup) {
 		_setup = setup;
 	}
-
+	
+	/**
+	 * TODO
+	 * @param main
+	 */
 	public void setMain(Main main) {
 		_main = main;
 	}
 	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public Main getMain() {
 		return _main;
 	}

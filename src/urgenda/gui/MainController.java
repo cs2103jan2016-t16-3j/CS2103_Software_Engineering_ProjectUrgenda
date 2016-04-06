@@ -1,3 +1,4 @@
+//@@author A0131857B
 package urgenda.gui;
 
 import java.io.File;
@@ -34,7 +35,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import urgenda.util.UrgendaLogger;
 import javafx.stage.Stage;
-
+/**
+ * UI component that handles all user interaction regarding input and feedback
+ * 
+ * @author KangSoon
+ */
 public class MainController {
 
 	//constants for MainController
@@ -94,7 +99,7 @@ public class MainController {
 		//default constructor
 	}
 	
-	public void initTypeSuggestions() {	
+	private void initTypeSuggestions() {	
 		_popupInputSuggestions = new Popup();
 		_popupController = new InputSuggestionsPopupController();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_TYPESUGGESTIONS_FXML));
@@ -113,8 +118,6 @@ public class MainController {
 		} else {
 			_popupInputSuggestions.show(_main.getPrimaryStage());
 		}
-		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
-		setListeners();
 	}
 	
 	private void initDemoPane() {	
@@ -130,8 +133,11 @@ public class MainController {
 		}
 		backgroundPane.setRight(_demoTextPane);
 	}	
-
-	private void setListeners() {
+	
+	/**
+	 * TODO
+	 */
+	public void setListeners() {
 		//listeners for demo view
 		_isDemo.addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -145,7 +151,7 @@ public class MainController {
 						_demoController = null;
 						backgroundPane.getChildren().remove(_demoTextPane);
 						_main.getPrimaryStage().setWidth(backgroundPane.getPrefWidth() + ALLOWANCE_WINDOW_WIDTH);
-						displayFeedback(_main.handleCommandLine(KEYWORD_SHOW_ALL, newValue));	//return to all tasks view
+						displayFeedback(_main.handleCommandLine(KEYWORD_SHOW_ALL));	//return to all tasks view
 					}
 				}
 			}
@@ -171,9 +177,14 @@ public class MainController {
 		_main.getPrimaryStage().xProperty().addListener(windowPosChangeListener);	
 		_main.getPrimaryStage().yProperty().addListener(windowPosChangeListener);
 	}
-
+	/**
+	 * TODO
+	 */
 	public void showSuggestionsPopup() {
-		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText().trim()));
+		if(_popupInputSuggestions == null) {
+			initTypeSuggestions();
+		}
+		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
 		if(!windowOutOfBounds()) {
 			if(inputBar.getText().isEmpty()) {
 				_popupInputSuggestions.hide();
@@ -185,6 +196,9 @@ public class MainController {
 		}
 	}
 	
+	/**
+	 * TODO
+	 */
 	public void hideSuggestionsPopup() {
 		_popupInputSuggestions.hide();
 	}
@@ -237,7 +251,7 @@ public class MainController {
 					_nextCommandLines.removeFirst();
 				}
 				_prevCommandLines.addFirst(inputBar.getText());
-				String feedback = _main.handleCommandLine(inputBar.getText(),_isDemo.get());
+				String feedback = _main.handleCommandLine(inputBar.getText());
 				if (feedback != null) { // null does not change feedback text
 					displayFeedback(feedback);
 				}
@@ -275,7 +289,7 @@ public class MainController {
 		fileChooser.setInitialDirectory(_main.getSaveDirectory());
 		File selectedFileDirectory = fileChooser.showSaveDialog(new Stage());
 		if (selectedFileDirectory != null) {
-			feedback = _main.handleCommandLine(KEYWORD_CHANGE_SAVE_PATH + selectedFileDirectory.getAbsolutePath(), _isDemo.get());
+			feedback = _main.handleCommandLine(KEYWORD_CHANGE_SAVE_PATH + selectedFileDirectory.getAbsolutePath());
 			displayFeedback(feedback);
 			inputBar.clear();
 		}
@@ -312,26 +326,26 @@ public class MainController {
 	
 	@FXML
 	private void showmoreListener (ActionEvent e) {
-		_main.handleCommandLine(KEYWORD_SHOWMORE, _isDemo.get());
+		_main.handleCommandLine(KEYWORD_SHOWMORE);
 	}
 
 	@FXML
 	private void showAllTasks(ActionEvent e) {
-		String feedback = _main.handleCommandLine(KEYWORD_SHOW_ALL, _isDemo.get());
+		String feedback = _main.handleCommandLine(KEYWORD_SHOW_ALL);
 		displayFeedback(feedback);
 		inputBar.clear();
 	}
 
 	@FXML
 	private void handleUndo(ActionEvent e) {
-		String feedback = _main.handleCommandLine(KEYWORD_UNDO, _isDemo.get());
+		String feedback = _main.handleCommandLine(KEYWORD_UNDO);
 		displayFeedback(feedback);
 		inputBar.clear();
 	}
 
 	@FXML
 	private void handleRedo(ActionEvent e) {
-		String feedback = _main.handleCommandLine(KEYWORD_REDO, _isDemo.get());
+		String feedback = _main.handleCommandLine(KEYWORD_REDO);
 		displayFeedback(feedback);
 		inputBar.clear();
 	}
@@ -354,22 +368,30 @@ public class MainController {
 		}
 	}
 	
-	public void toggleMultipleSlotMenuOption(boolean show) {
-		multipleSlotSeparator.setVisible(show);
-		menuPrevMultipleSlot.setVisible(show);
-		menuNextMultipleSlot.setVisible(show);
-	}
-	
 	@FXML
 	private void exit(ActionEvent e) {
 		Platform.exit();
 		System.exit(0);
 	}
-
+	
+	/**
+	 * TODO
+	 * @param show
+	 */
+	public void toggleMultipleSlotMenuOption(boolean show) {
+		multipleSlotSeparator.setVisible(show);
+		menuPrevMultipleSlot.setVisible(show);
+		menuNextMultipleSlot.setVisible(show);
+	}
+	/**
+	 * TODO
+	 * @param feedback
+	 */
 	public void displayFeedback(String feedback) {
 		Text feedbackText = null;
 		ArrayList<Text> warningTexts = new ArrayList<Text>();
 		ArrayList<Text> errorTexts = new ArrayList<Text>();
+		//TODO refactor
 		if (feedback.contains(DELIMITER_WARNING)) {
 			String delim = DELIMITER_WARNING;
 			@SuppressWarnings("unchecked")
@@ -408,7 +430,10 @@ public class MainController {
 			}
 		}
 	}
-
+	/**
+	 * TODO
+	 * @param overdueCount
+	 */
 	public void updateOverdueCount(int overdueCount) {
 		if (overdueCount <= 0) {
 			overdueIndicatorCircle.setVisible(false);
@@ -424,23 +449,43 @@ public class MainController {
 		}
 	}
 	
+	/**
+	 * TODO
+	 * @param main
+	 */
 	public void setMain(Main main) {
 		_main = main;
 		displayAreaController.setMain(_main);
 	}
-
+	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public DisplayController getDisplayController() {
 		return displayAreaController;
 	}
-
+	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public HelpController getHelpController() {
 		return _helpController;
 	}
 	
+	/**
+	 * TODO
+	 * @param demo
+	 */
 	public void setDemo(boolean demo) {
 		_isDemo.set(demo);
 	}
-
+	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public boolean isDemo() {
 		return _isDemo.get();
 	}

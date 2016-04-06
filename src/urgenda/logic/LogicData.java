@@ -324,37 +324,48 @@ public class LogicData {
 	 */
 	public void updateState() {
 		logger.getLogger().info("Updating state of prog");
-
 		ArrayList<Task> completedTasks = new ArrayList<Task>();
 		LocalDateTime now = LocalDateTime.now();
 		for (Task task : _tasks) {
-			if (task.getTaskType() == Task.Type.DEADLINE) {
-				if (task.getEndTime().isBefore(now)) {
-					task.setIsOverdue(true);
-					task.setDateModified(LocalDateTime.now());
-					logger.getLogger().info("deadline task " + task + " has turned overdue");
-				} else {
-					task.setIsOverdue(false);
-				}
-			}
-			if (task.getSlot() != null) {
-				updateMultipleSlot(task);
-			}
-			if (task.getTaskType() == Task.Type.EVENT) {
-				if (task.getEndTime().isBefore(now)) {
-					task.setIsCompleted(true);
-					task.setDateModified(LocalDateTime.now());
-					logger.getLogger().info("event task" + task + " has been completed");
-					// only moves completed tasks when the day ends for that day
-					if (task.getEndTime().toLocalDate().isBefore(LocalDate.now())) {
-						completedTasks.add(task);
-						task.setDateModified(LocalDateTime.now());
-					}
-				}
-			}
+			checkDeadline(now, task);
+			checkMultipleSlot(task);
+			checkEvents(completedTasks, now, task);
 		}
 		_tasks.removeAll(completedTasks);
 		_archives.addAll(completedTasks);
+	}
+
+	private void checkEvents(ArrayList<Task> completedTasks, LocalDateTime now, Task task) {
+		if (task.getTaskType() == Task.Type.EVENT) {
+			if (task.getEndTime().isBefore(now)) {
+				task.setIsCompleted(true);
+				task.setDateModified(LocalDateTime.now());
+				logger.getLogger().info("event task" + task + " has been completed");
+				// only moves completed tasks when the day ends for that day
+				if (task.getEndTime().toLocalDate().isBefore(LocalDate.now())) {
+					completedTasks.add(task);
+					task.setDateModified(LocalDateTime.now());
+				}
+			}
+		}
+	}
+
+	private void checkMultipleSlot(Task task) {
+		if (task.getSlot() != null) {
+			updateMultipleSlot(task);
+		}
+	}
+
+	private void checkDeadline(LocalDateTime now, Task task) {
+		if (task.getTaskType() == Task.Type.DEADLINE) {
+			if (task.getEndTime().isBefore(now)) {
+				task.setIsOverdue(true);
+				task.setDateModified(LocalDateTime.now());
+				logger.getLogger().info("deadline task " + task + " has turned overdue");
+			} else {
+				task.setIsOverdue(false);
+			}
+		}
 	}
 
 	/**
@@ -365,26 +376,28 @@ public class LogicData {
 	 */
 	public void updateMultipleSlot(Task task) {
 		LocalDateTime now = LocalDateTime.now();
-
 		if (task.getStartTime() == null || task.getEndTime() == null) {
 			return;
 		}
-
 		task.getSlot().addTimeSlot(task.getStartTime(), task.getEndTime());
 		task.getSlot().sortSlots();
+		updateTimeSlots(task, now);
+		checkEmptySlot(task);
+	}
 
+	private void checkEmptySlot(Task task) {
+		if (task.getSlot().isEmpty()) {
+			task.setSlot(null);
+		}
+	}
+
+	private void updateTimeSlots(Task task, LocalDateTime now) {
 		do {
 			DateTimePair newTime = task.getSlot().getNextSlot();
 			task.setStartTime(newTime.getEarlierDateTime());
 			task.setEndTime(newTime.getLaterDateTime());
 			task.getSlot().removeNextSlot();
 		} while (task.getEndTime().isBefore(now) && !(task.getSlot().isEmpty()));
-
-		// sets multipleslots to empty when latest timing is the current timing
-		// makes block type to normal task event
-		if (task.getSlot().isEmpty()) {
-			task.setSlot(null);
-		}
 	}
 
 	/**

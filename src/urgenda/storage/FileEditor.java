@@ -1,3 +1,4 @@
+//@@author A0126888L
 package urgenda.storage;
 
 import java.io.BufferedReader;
@@ -39,62 +40,6 @@ public class FileEditor {
 		initFile(name);
 		checkIfFileExist();
 		logger.getLogger().info("FileEditor object created");
-	}
-	
-	public FileEditor(){
-		logger.getLogger().info("constructing FileEditor object for Help.");
-//		_file = new File(this.getClass().getClassLoader().getResource("help.txt").toString());
-//		File file = new File("");
-//		String path = file.getAbsolutePath();
-//		_file = new File(path + PATH_HELP_STORAGE);
-//		String lol = FileEditor.class.getResource(PATH_HELP_TEXT).getFile();
-//		logger.getLogger().info(lol);
-//		_file = new File(FileEditor.class.getResource(PATH_HELP_TEXT).getFile());
-//		InputStream is = FileEditor.class.getResourceAsStream("../../resources/help.txt");
-		InputStream is = this.getClass().getClassLoader().getResourceAsStream("resources/help.txt");
-		String result = getStringFromInputStream(is);
-		System.out.println(result);
-		logger.getLogger().info(result);
-//		_file = new File(FileEditor.class.getResourceAsStream("../../resources/help.txt"));
-//		try {
-//			JarFile jar = new JarFile("Urgenda.jar");
-//			String file = "resources\\help.txt";
-//			JarEntry entry = jar.getJarEntry(file);
-//			InputStream is = jar.getInputStream(entry);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		logger.getLogger().info("retrieved helpfile.");
-	}
-
-	private static String getStringFromInputStream(InputStream is) {
-
-		BufferedReader br = null;
-		StringBuilder sb = new StringBuilder();
-
-		String line;
-		try {
-
-			br = new BufferedReader(new InputStreamReader(is));
-			while ((line = br.readLine()) != null) {
-				sb.append("\n");
-				sb.append(line);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return sb.toString();
-
 	}
 	
 	private void initFile(String name) {

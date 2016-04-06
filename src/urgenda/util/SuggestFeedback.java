@@ -1,3 +1,4 @@
+//@@author A0131857B
 package urgenda.util;
 
 import java.util.ArrayList;
@@ -12,8 +13,12 @@ public class SuggestFeedback {
 	private boolean _isCommand = false;
 	private boolean _isSuggestion = false;
 	
-	// TODO ks tag
-	//constructor for complete command feedback
+	/**
+	 * TODO
+	 * @param suggestions
+	 * @param currCmd
+	 * @param isCommand
+	 */
 	public SuggestFeedback(ArrayList<String> suggestions, String currCmd, boolean isCommand) {
 		_currCmd = currCmd;
 		_isCommand = isCommand;
@@ -28,7 +33,11 @@ public class SuggestFeedback {
 		}
 	}
 	
-	//constructor for incomplete command feedback
+	/**
+	 * TODO
+	 * @param suggestions
+	 * @param isCommand
+	 */
 	public SuggestFeedback(ArrayList<String> suggestions, boolean isCommand) {
 		_suggestions = suggestions;
 		_isCommand = isCommand;
@@ -37,28 +46,51 @@ public class SuggestFeedback {
 		_suggestions.remove(_suggestions.size() - 1);
 	}
 
+	/**
+	 * TODO
+	 * @return
+	 */
 	public ArrayList<String> getSuggestions() {
 		return _suggestions;
 	}
 	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public String getCurrCmd() {
 		return _currCmd;
 	}
 
+	/**
+	 * TODO
+	 * @return
+	 */
 	public boolean isCommand() {
 		return _isCommand;
 	}
 	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public String getUserInstructionsPrompt() {
 		return _userInstructionsPrompt;
 	}
 	
+	/**
+	 * TODO
+	 * @param isSuggestion
+	 */
 	public void setIsSuggestion(boolean isSuggestion) {
 		_isSuggestion = isSuggestion;
 	}
 	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public boolean isSuggestion() {
 		return _isSuggestion;
 	}
-	
 }
