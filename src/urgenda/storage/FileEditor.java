@@ -220,6 +220,10 @@ public class FileEditor {
 		System.out.println("Path path " + _file.toPath());
 	}
 	
+	public String getFileName(){
+		return _file.getName();
+	}
+	
 	public String getAbsolutePath(){
 		return _file.getAbsolutePath();
 	}

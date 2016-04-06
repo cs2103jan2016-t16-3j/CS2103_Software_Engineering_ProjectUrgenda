@@ -250,12 +250,7 @@ public class Main extends Application {
 	 * @return array of text strings for each step during demo mode
 	 */
 	public ArrayList<String> getDemoText() {
-		ArrayList<String> temp = new ArrayList<String>();
-		temp.add("DEMO PART 1");
-		temp.add("DEMO PART 2");
-		temp.add("DEMO PART 3");
-		return temp;
-		// TODO return _logic.getDemoText();
+		return _logic.getDemoText();
 	}
 
 	/**
@@ -267,7 +262,6 @@ public class Main extends Application {
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		temp.add(0);
 		temp.add(1);
-		temp.add(2);
 		return temp;
 		// TODO return _logic.getDemoSelectionIndexes();
 	}

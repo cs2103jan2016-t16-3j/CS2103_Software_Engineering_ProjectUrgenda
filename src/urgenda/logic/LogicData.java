@@ -945,7 +945,7 @@ public class LogicData {
 	 * @return _storage.retrieveHelp, the help file stored in storage.
 	 */
 	public ArrayList<String> generateHelpManual() {
-		return _storage.retrieveHelp();
+		return _storage.getHelp();
 	}
 
 	/**
