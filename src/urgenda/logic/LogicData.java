@@ -225,10 +225,11 @@ public class LogicData {
 		_displays.addAll(sortList(overdueTasks));
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(otherTasks));
-		
-		assert(_displays.size() >= 0);
 
-		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
+		assert (_displays.size() >= 0);
+
+		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(),
+				otherTasks.size());
 		setOverdueCount(state);
 		setFeedbackDisplayPosition(state);
 		setShowMorePositions(state);
@@ -255,7 +256,7 @@ public class LogicData {
 				count++;
 			}
 		}
-		assert(count >= 0);
+		assert (count >= 0);
 		state.setOverdueCount(count);
 	}
 
@@ -305,7 +306,8 @@ public class LogicData {
 	 */
 	private boolean verifyTimeSpan(Task task, LocalDate now) {
 		if (task.getStartTime().toLocalDate().isEqual(now) || task.getEndTime().toLocalDate().isEqual(now)
-				|| task.getStartTime().toLocalDate().isBefore(now) && task.getEndTime().toLocalDate().isAfter(now)) {
+				|| task.getStartTime().toLocalDate().isBefore(now)
+						&& task.getEndTime().toLocalDate().isAfter(now)) {
 			return true;
 		} else {
 			return false;
@@ -324,8 +326,8 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for updating the state of the system e.g. called after every execution of command
-	 * so that GUI knows the state for display.
+	 * Method for updating the state of the system e.g. called after every
+	 * execution of command so that GUI knows the state for display.
 	 */
 	public void updateState() {
 		logger.getLogger().info("Updating state of prog");
@@ -374,10 +376,11 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for updating the Multipleslot attribute (for blocking of several timings for same task)
-	 * of a given task.
+	 * Method for updating the Multipleslot attribute (for blocking of several
+	 * timings for same task) of a given task.
+	 * 
 	 * @param task
-	 * The task specified for updating of multipleslot.
+	 *            The task specified for updating of multipleslot.
 	 */
 	public void updateMultipleSlot(Task task) {
 		LocalDateTime now = LocalDateTime.now();
@@ -425,7 +428,8 @@ public class LogicData {
 
 	private void searchForMatchingDescInDisplayList(String desc, ArrayList<Task> matches) {
 		for (Task task : _displays) {
-			if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) {
+			if (Pattern.compile(Pattern.quote(desc), Pattern.CASE_INSENSITIVE).matcher(task.getDesc())
+					.find()) {
 				matches.add(task);
 			}
 		}
@@ -460,9 +464,10 @@ public class LogicData {
 		for (Task task : _displays) {
 			boolean flag = true;
 			for (String s : substr2) {
-				if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
-						&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc())
-								.find())
+				if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE)
+						.matcher(task.getDesc()).find())
+						&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE)
+								.matcher(task.getDesc()).find())
 						&& flag) {
 					flag = false;
 				}
@@ -649,7 +654,8 @@ public class LogicData {
 	}
 
 	private void getEventWithMatchingDate(LocalDate input, ArrayList<Task> matches, Task task) {
-		if (task.getStartTime().toLocalDate().isEqual(input) || task.getEndTime().toLocalDate().isEqual(input)) {
+		if (task.getStartTime().toLocalDate().isEqual(input)
+				|| task.getEndTime().toLocalDate().isEqual(input)) {
 			matches.add(task);
 		} else if (task.getStartTime().toLocalDate().isBefore(input)
 				&& task.getEndTime().toLocalDate().isAfter(input)) {
@@ -759,9 +765,11 @@ public class LogicData {
 	private void getMatchingMonthWithinSlots(Month input, ArrayList<Task> matches, Task task) {
 		ArrayList<DateTimePair> slots = task.getSlot().getSlots();
 		for (DateTimePair pair : slots) {
-			if (pair.getEarlierDateTime().getMonth() == input || pair.getLaterDateTime().getMonth() == input) {
+			if (pair.getEarlierDateTime().getMonth() == input
+					|| pair.getLaterDateTime().getMonth() == input) {
 				matches.add(task);
-			} else if (pair.getEarlierDateTime().getMonth() == input && pair.getLaterDateTime().getMonth() == input) {
+			} else if (pair.getEarlierDateTime().getMonth() == input
+					&& pair.getLaterDateTime().getMonth() == input) {
 				matches.add(task);
 			}
 		}
@@ -957,7 +965,8 @@ public class LogicData {
 	 * Getter for getting the selector position of the program e.g. the task
 	 * that is currently pointing at.
 	 * 
-	 * @return _taskPointer, the private attribute in logicData which is the selector of Urgenda.
+	 * @return _taskPointer, the private attribute in logicData which is the
+	 *         selector of Urgenda.
 	 */
 	public Task getTaskPointer() {
 		return _taskPointer;
@@ -1023,7 +1032,7 @@ public class LogicData {
 	 *            The String path specified for changing of current directory to
 	 *            the new one.
 	 * @throws StorageException
-	 * @throws InvalidFolderException 
+	 * @throws InvalidFolderException
 	 */
 	public void changeDirectory(String path) throws StorageException, InvalidFolderException {
 		_storage.changeFileSettings(path);
@@ -1064,7 +1073,8 @@ public class LogicData {
 		while (!slot.isEmpty()) {
 			DateTimePair pair = slot.getNextSlot();
 			slot.removeNextSlot();
-			Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(), pair.getDateTime2());
+			Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(),
+					pair.getDateTime2());
 			if (currTask.isOverlapping(newTask)) {
 				overlaps.add(currTask);
 			}
@@ -1132,7 +1142,7 @@ public class LogicData {
 	public ArrayList<Integer> generateDemoSelectionIndexes() {
 		return _storage.getDemoSelectionIndexes();
 	}
-	
+
 	/**
 	 * Method for retrieving settings for novice view.
 	 * 
@@ -1141,11 +1151,12 @@ public class LogicData {
 	public boolean getNoviceSettings() {
 		return _storage.getNoviceSettings();
 	}
-	
+
 	/**
 	 * Sets the novice or advanced view settings.
 	 * 
-	 * @param isNovice boolean to show novice or advanced view
+	 * @param isNovice
+	 *            boolean to show novice or advanced view
 	 */
 	public void setNoviceSettings(boolean isNovice) {
 		_storage.setNoviceSettings(isNovice);

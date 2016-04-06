@@ -20,8 +20,8 @@ import urgenda.util.SuggestFeedback;
 import urgenda.util.UrgendaLogger;
 
 /**
- * Logic class for the Logic component Urgenda.
- * Acts as the facade for the numerous functionality of the Logic Component.
+ * Logic class for the Logic component Urgenda. Acts as the facade for the
+ * numerous functionality of the Logic Component.
  * 
  */
 public class Logic {
@@ -91,13 +91,14 @@ public class Logic {
 	 */
 	public StateFeedback executeCommand(String command, int index) {
 		logger.getLogger().info("executing user input: " + command);
-		// asserts that given index is non-negative OR -1(case when there is no tasks)
-		assert (index >= -1); 
+		// asserts that given index is non-negative OR -1(case when there is no
+		// tasks)
+		assert (index >= -1);
 		logger.getLogger().info("Checking index: " + index + " >= -1 ");
 
 		Command currCmd = CommandParser.parseCommand(command, index);
 		// asserts that parser returns a valid command object
-		assert (currCmd != null); 
+		assert (currCmd != null);
 		logger.getLogger().info("Checking cmd obj: " + currCmd + " is non null");
 		// To ensure that the command is applicable to the state
 		currCmd = checkAndFilterCommand(currCmd);
@@ -114,12 +115,12 @@ public class Logic {
 	}
 
 	/*
-	 * Filters the given command to ensure that the command is valid for the current state
-	 * of Urgenda.
+	 * Filters the given command to ensure that the command is valid for the
+	 * current state of Urgenda.
 	 * 
-	 * FindFree only allows adding of new tasks as well as non task related commands.
-	 * Archive prevents completed an already completed task.
-	 * Demo only allows the home and exit commands.
+	 * FindFree only allows adding of new tasks as well as non task related
+	 * commands. Archive prevents completed an already completed task. Demo only
+	 * allows the home and exit commands.
 	 */
 	private Command checkAndFilterCommand(Command currCmd) {
 		if (_logicData.getCurrState() == LogicData.DisplayState.FIND_FREE) {
@@ -226,11 +227,12 @@ public class Logic {
 	public boolean getNoviceSettings() {
 		return _logicData.getNoviceSettings();
 	}
-	
+
 	/**
 	 * Sets the novice or advanced view settings.
 	 * 
-	 * @param isNovice boolean to show novice or advanced view
+	 * @param isNovice
+	 *            boolean to show novice or advanced view
 	 */
 	public void setNoviceSettings(boolean isNovice) {
 		_logicData.setNoviceSettings(isNovice);
