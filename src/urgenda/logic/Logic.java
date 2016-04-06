@@ -129,7 +129,6 @@ public class Logic {
 				} else {
 					currCmd = new Invalid(LogicData.DisplayState.FIND_FREE);
 				}
-
 			}
 		} else if (_logicData.getCurrState() == LogicData.DisplayState.ARCHIVE) {
 			// TODO settle archive cases

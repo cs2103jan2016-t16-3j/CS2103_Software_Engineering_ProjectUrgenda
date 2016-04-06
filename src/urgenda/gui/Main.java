@@ -167,7 +167,7 @@ public class Main extends Application {
 		String displayHeader = createDisplayHeader(_currState);
 		ArrayList<Integer> detailedIndexes = _currState.getDetailedIndexes();
 		int displayPos = _currState.getDisplayPosition();
-		boolean isShowNoviceHeaders = false; // TODO implement check settings for showing novice headers
+		boolean isShowNoviceHeaders = true; // TODO implement check settings for showing novice headers
 		boolean isShowFreeTime = false;
 		switch (_currState.getState()) {
 		case HIDE:
