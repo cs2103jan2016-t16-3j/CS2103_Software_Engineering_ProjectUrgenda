@@ -19,22 +19,21 @@ import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
 /**
- * LogicData class of the Logic component in Urgenda.
- * Responsible for the handling of the different tasks of the user.
- * Main class where all the manipulation of the task objects are carried out.
- * Also responsible for storing of all the tasks.
+ * LogicData class of the Logic component in Urgenda. Responsible for the
+ * handling of the different tasks of the user. Main class where all the
+ * manipulation of the task objects are carried out. Also responsible for
+ * storing of all the tasks.
  *
  */
 public class LogicData {
 
 	/**
-	 * Different DisplayState for LogicData which represents the state of display 
-	 * given to the user 
+	 * Different DisplayState for LogicData which represents the state of
+	 * display given to the user
 	 *
 	 */
 	public enum DisplayState {
-		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, 
-		INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE, DEMO, HIDE
+		ALL_TASKS, MULTIPLE_DELETE, MULTIPLE_COMPLETE, MULTIPLE_PRIORITISE, SHOW_SEARCH, EXIT, INVALID_COMMAND, HELP, INVALID_TASK, ARCHIVE, FIND_FREE, DEMO, HIDE
 	}
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
@@ -42,7 +41,7 @@ public class LogicData {
 
 	// storage object for retrieval and storing of tasks to data format
 	private Storage _storage;
-	
+
 	// for storage of full lists of tasks
 	private ArrayList<Task> _tasks;
 	// for storage of all completed tasks
@@ -51,14 +50,14 @@ public class LogicData {
 	private ArrayList<Task> _displays;
 	// for storage of tasks to have more details to be displayed
 	private ArrayList<Task> _showMoreTasks;
-	
+
 	private Task _taskPointer;
 	private DisplayState _currState;
 	private int _currentId;
 
 	/*
-	 * Default constructor where singleton pattern is applied.
-	 * To initialise the variables within LogicData.
+	 * Default constructor where singleton pattern is applied. To initialise the
+	 * variables within LogicData.
 	 */
 	private LogicData() {
 		logger.getLogger().info("constructing LogicData Object");
@@ -73,8 +72,8 @@ public class LogicData {
 	}
 
 	/*
-	 * Alternative constructor where singleton pattern is applied.
-	 * To initialise the variables within LogicData when doing testing.
+	 * Alternative constructor where singleton pattern is applied. To initialise
+	 * the variables within LogicData when doing testing.
 	 */
 	private LogicData(boolean isTest) {
 		// stubs storage with storagetester
@@ -88,8 +87,8 @@ public class LogicData {
 	}
 
 	/**
-	 * Singleton pattern method for instantiation of LogicData to 
-	 * avoid multiple copies of tasks for the user
+	 * Singleton pattern method for instantiation of LogicData to avoid multiple
+	 * copies of tasks for the user
 	 * 
 	 * @return LogicData object that is used currently or created
 	 */
@@ -118,8 +117,8 @@ public class LogicData {
 	}
 
 	/**
-	 * Method used for saving all current contents into the data file for 
-	 * usage in the future.
+	 * Method used for saving all current contents into the data file for usage
+	 * in the future.
 	 */
 	public void saveContents() {
 		logger.getLogger().info("Saving contents to storage");
@@ -174,14 +173,14 @@ public class LogicData {
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.FIND_FREE);
 			break;
-		case DEMO :
+		case DEMO:
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.DEMO);
 			break;
-		case HIDE :
+		case HIDE:
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.HIDE);
-			break;			
+			break;
 		default:
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
@@ -208,10 +207,11 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for setting the display list to show the current list given.
-	 * Sorts the list according to Overdue, Today, Others.
+	 * Method for setting the display list to show the current list given. Sorts
+	 * the list according to Overdue, Today, Others.
 	 * 
-	 * @param displayList Display List given for putting as display
+	 * @param displayList
+	 *            Display List given for putting as display
 	 * @return StateFeedback object containing the list given
 	 */
 	public StateFeedback displayAllTasks(ArrayList<Task> displayList) {
@@ -224,8 +224,7 @@ public class LogicData {
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(otherTasks));
 
-		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), 
-				otherTasks.size());
+		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
 		setOverdueCount(state);
 		setFeedbackDisplayPosition(state);
 		setShowMorePositions(state);
@@ -244,7 +243,7 @@ public class LogicData {
 			}
 		}
 	}
-	
+
 	private void setOverdueCount(StateFeedback state) {
 		int count = 0;
 		for (Task task : _tasks) {
@@ -277,7 +276,9 @@ public class LogicData {
 
 	/**
 	 * Method for checking whether the task falls on today (calendar time).
+	 * 
 	 * @param task
+	 *            task given for checking if falls on today.
 	 * @return boolean true or false
 	 */
 	public boolean isTaskToday(Task task) {
@@ -285,7 +286,8 @@ public class LogicData {
 		if (task.getTaskType() == Task.Type.DEADLINE) {
 			return verifyEndTime(task, now);
 		} else if (task.getTaskType() == Task.Type.EVENT) {
-			//check whether any of the time within the time span of the event falls on today
+			// check whether any of the time within the time span of the event
+			// falls on today
 			return verifyTimeSpan(task, now);
 		} else { // Type is floating
 			return false;
@@ -293,19 +295,21 @@ public class LogicData {
 	}
 
 	/*
-	 * method for checking whether an event falls on today (including consideration of tasks that spans
-	 * multiple days
+	 * method for checking whether an event falls on today (including
+	 * consideration of tasks that spans multiple days
 	 */
 	private boolean verifyTimeSpan(Task task, LocalDate now) {
 		if (task.getStartTime().toLocalDate().isEqual(now) || task.getEndTime().toLocalDate().isEqual(now)
-				|| task.getStartTime().toLocalDate().isBefore(now)
-						&& task.getEndTime().toLocalDate().isAfter(now)) {
+				|| task.getStartTime().toLocalDate().isBefore(now) && task.getEndTime().toLocalDate().isAfter(now)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	/*
+	 * method for checking whether a deadline task falls on today
+	 */
 	private boolean verifyEndTime(Task task, LocalDate now) {
 		if (task.getEndTime().toLocalDate().isEqual(now)) {
 			return true;
@@ -314,6 +318,10 @@ public class LogicData {
 		}
 	}
 
+	/**
+	 * Method for updating the state of the system e.g. called after every execution of command
+	 * so that GUI knows the state for display.
+	 */
 	public void updateState() {
 		logger.getLogger().info("Updating state of prog");
 		ArrayList<Task> completedTasks = new ArrayList<Task>();
@@ -360,7 +368,12 @@ public class LogicData {
 		}
 	}
 
-	// assumes that the multipleslots are sorted
+	/**
+	 * Method for updating the Multipleslot attribute (for blocking of several timings for same task)
+	 * of a given task.
+	 * @param task
+	 * The task specified for updating of multipleslot.
+	 */
 	public void updateMultipleSlot(Task task) {
 		LocalDateTime now = LocalDateTime.now();
 		if (task.getStartTime() == null || task.getEndTime() == null) {
@@ -388,10 +401,13 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for finding tasks w desc that matches input (in same order) regardless of case.
-	 * e.g. for input of abc, Abc and ABCDDD will all be returned.
+	 * Method for finding tasks w desc that matches input (in same order)
+	 * regardless of case. e.g. for input of abc, Abc and ABCDDD will all be
+	 * returned.
+	 * 
 	 * @param desc
-	 * @return ArrayList containing all matching tasks
+	 *            The description given by user to find matches.
+	 * @return ArrayList containing all matching tasks.
 	 */
 	public ArrayList<Task> findMatchingDesc(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
@@ -411,10 +427,15 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for finding tasks w desc that matches input (more than one word) (words dont need be in same order) regardless of case.
-	 * e.g. for input of Sweden Holiday, Holiday to Swenden and Sweden Public Holiday will both be returned.
+	 * Method for finding tasks w desc that matches input (more than one word)
+	 * (words dont need be in same order) regardless of case. e.g. for input of
+	 * Sweden Holiday, Holiday to Swenden and Sweden Public Holiday will both be
+	 * returned.
+	 * 
 	 * @param desc
-	 * @return ArrayList containing all the tasks with matching desc
+	 *            The desc given by user for finding matches within current task
+	 *            list.
+	 * @return ArrayList containing all the tasks with matching desc.
 	 */
 	public ArrayList<Task> findRefinedMatchingDesc(String desc) {
 		ArrayList<Task> matches = new ArrayList<Task>();
@@ -435,7 +456,9 @@ public class LogicData {
 			boolean flag = true;
 			for (String s : substr2) {
 				if (!(Pattern.compile(Pattern.quote(s + " "), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find())
-						&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc()).find()) && flag) {
+						&& !(Pattern.compile(Pattern.quote(" " + s), Pattern.CASE_INSENSITIVE).matcher(task.getDesc())
+								.find())
+						&& flag) {
 					flag = false;
 				}
 			}
@@ -447,7 +470,9 @@ public class LogicData {
 
 	/**
 	 * Method for adding a completed task to archive.
+	 * 
 	 * @param task
+	 *            The task to be moved to archive
 	 */
 	public void addArchive(Task task) {
 		logger.getLogger().info("adding task " + task + " to archive");
@@ -456,7 +481,9 @@ public class LogicData {
 
 	/**
 	 * Method for adding multiple completed tasks to archive at once.
+	 * 
 	 * @param tasks
+	 *            The ArrayList of tasks to be moved to archive
 	 */
 	public void addArchive(ArrayList<Task> tasks) {
 		logger.getLogger().info("adding task multiple tasks to archive");
@@ -465,7 +492,9 @@ public class LogicData {
 
 	/**
 	 * Method for removing a task from archive.
+	 * 
 	 * @param tasks
+	 *            The task to be removed from archive.
 	 */
 	public void removeArchive(Task task) {
 		_archives.remove(task);
@@ -473,14 +502,17 @@ public class LogicData {
 
 	/**
 	 * Method for removing multiple tasks from archive at once.
+	 * 
 	 * @param tasks
+	 *            The ArrayList of tasks to be removed from archive.
 	 */
 	public void removeArchive(ArrayList<Task> tasks) {
 		_archives.removeAll(tasks);
 	}
-	
+
 	/**
 	 * Getter for getting the private attribute _tasks in logicData.
+	 * 
 	 * @return _task, the list containing all current tasks.
 	 */
 	public ArrayList<Task> getTaskList() {
@@ -489,14 +521,16 @@ public class LogicData {
 
 	/**
 	 * Getter for getting the latest id assigned to a new task.
-	 * @return _currentId
+	 * 
+	 * @return _currentId, the current id of the system.
 	 */
 	public int getCurrentId() {
 		return _currentId;
 	}
 
 	/**
-	 * Method for updating the id of task list to the most recent number in logicData.
+	 * Method for updating the id of task list to the most recent number in
+	 * logicData.
 	 */
 	public void updateCurrentId() {
 		_currentId++;
@@ -504,7 +538,9 @@ public class LogicData {
 
 	/**
 	 * Method for adding a new Task into the taskList in LogicData.
+	 * 
 	 * @param newTask
+	 *            The new task given to be added to current task list.
 	 */
 	public void addTask(Task newTask) {
 		_tasks.add(newTask);
@@ -512,15 +548,19 @@ public class LogicData {
 
 	/**
 	 * Method for adding multiple new Tasks into the taskList in LogicData.
+	 * 
 	 * @param tasks
+	 *            The ArrayList of new tasks to be added to current task list.
 	 */
 	public void addTasks(ArrayList<Task> tasks) {
 		_tasks.addAll(tasks);
 	}
 
 	/**
-	 * Method for removing a task from the taskList in LogicData.
+	 * Method for removing a task from the taskList and archive in LogicData.
+	 * 
 	 * @param task
+	 *            The task specified for the removal from Urgenda.
 	 */
 	public void deleteTask(Task task) {
 		_tasks.remove(task);
@@ -529,7 +569,9 @@ public class LogicData {
 
 	/**
 	 * Method for removing a task from the taskList in LogicData.
+	 * 
 	 * @param tasks
+	 *            The ArrayList of tasks specified for the removal from Urgenda.
 	 */
 	public void deleteTasks(ArrayList<Task> tasks) {
 		_tasks.removeAll(tasks);
@@ -537,10 +579,13 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for retrieving a task based on specified id (position in task list _tasks).
+	 * Method for retrieving a task based on specified id (position in task list
+	 * _tasks).
+	 * 
 	 * @param id
-	 * @return the task which corresponds to the position in _tasks(id)
-	 *or null if couldn,t find a valid match.
+	 *            The id (position) specified for locating of a task.
+	 * @return the task which corresponds to the position in _tasks(id) or null
+	 *         if couldn't find a valid match.
 	 */
 	public Task findMatchingPosition(int id) {
 		logger.getLogger().info("Find matching position, " + id);
@@ -554,9 +599,14 @@ public class LogicData {
 	}
 
 	/**
-	 * Overloaded method for finding matching positions w arraylists of id given as input.
+	 * Overloaded method for finding matching positions w arraylists of id given
+	 * as input.
+	 * 
 	 * @param idPositions
-	 * @return ArrayList of task which corresponds to the idpositions, none valid id will just be ignored
+	 *            The ArrayList of id (positions) specified for retrieving and
+	 *            locating of multiple tasks.
+	 * @return ArrayList of task which corresponds to the idpositions, none
+	 *         valid id will just be ignored.
 	 */
 	public ArrayList<Task> findMatchingPosition(ArrayList<Integer> idPositions) {
 		ArrayList<Task> matches = new ArrayList<Task>();
@@ -573,10 +623,11 @@ public class LogicData {
 		}
 	}
 
-
 	/**
 	 * Method for retrieving tasks that matches date specified by input.
+	 * 
 	 * @param input
+	 *            The date specified for searching of tasks falling on it.
 	 * @return Arraylist of tasks that matches input date.
 	 */
 	public ArrayList<Task> findMatchingDates(LocalDate input) {
@@ -593,8 +644,7 @@ public class LogicData {
 	}
 
 	private void getEventWithMatchingDate(LocalDate input, ArrayList<Task> matches, Task task) {
-		if (task.getStartTime().toLocalDate().isEqual(input)
-				|| task.getEndTime().toLocalDate().isEqual(input)) {
+		if (task.getStartTime().toLocalDate().isEqual(input) || task.getEndTime().toLocalDate().isEqual(input)) {
 			matches.add(task);
 		} else if (task.getStartTime().toLocalDate().isBefore(input)
 				&& task.getEndTime().toLocalDate().isAfter(input)) {
@@ -624,8 +674,11 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for retrieving tasks that matches both date and time specified by input.
+	 * Method for retrieving tasks that matches both date and time specified by
+	 * input.
+	 * 
 	 * @param input
+	 *            The DateTime specified for searching of tasks falling it.
 	 * @return Arraylist of tasks that matches input datetime.
 	 */
 	public ArrayList<Task> findMatchingDateTimes(LocalDateTime input) {
@@ -656,8 +709,7 @@ public class LogicData {
 		for (DateTimePair pair : slots) {
 			if (pair.getEarlierDateTime().isEqual(input) || pair.getLaterDateTime().isEqual(input)) {
 				matches.add(task);
-			} else if (pair.getEarlierDateTime().isBefore(input)
-					&& pair.getLaterDateTime().isAfter(input)) {
+			} else if (pair.getEarlierDateTime().isBefore(input) && pair.getLaterDateTime().isAfter(input)) {
 				matches.add(task);
 			}
 		}
@@ -671,7 +723,9 @@ public class LogicData {
 
 	/**
 	 * Method for retrieving tasks that falls on the month specified by input.
+	 * 
 	 * @param input
+	 *            The Month specified for searching of tasks falling on it.
 	 * @return Arraylist of tasks that matches input month.
 	 */
 	public ArrayList<Task> findMatchingMonths(Month input) {
@@ -700,11 +754,9 @@ public class LogicData {
 	private void getMatchingMonthWithinSlots(Month input, ArrayList<Task> matches, Task task) {
 		ArrayList<DateTimePair> slots = task.getSlot().getSlots();
 		for (DateTimePair pair : slots) {
-			if (pair.getEarlierDateTime().getMonth() == input
-					|| pair.getLaterDateTime().getMonth() == input) {
+			if (pair.getEarlierDateTime().getMonth() == input || pair.getLaterDateTime().getMonth() == input) {
 				matches.add(task);
-			} else if (pair.getEarlierDateTime().getMonth() == input
-					&& pair.getLaterDateTime().getMonth() == input) {
+			} else if (pair.getEarlierDateTime().getMonth() == input && pair.getLaterDateTime().getMonth() == input) {
 				matches.add(task);
 			}
 		}
@@ -715,10 +767,13 @@ public class LogicData {
 			matches.add(task);
 		}
 	}
-	
+
 	/**
 	 * Method for finding task that has the same multipleslot as given input.
+	 * 
 	 * @param block
+	 *            The MultipleSlot variable for searching of tasks that matches
+	 *            this block.
 	 * @return ArrayList of task that matches block.
 	 */
 	public ArrayList<Task> findBlocks(MultipleSlot block) {
@@ -734,10 +789,12 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for sorting of list of task according to datetime and priority and alpha order
-	 * for tasks w/o datetime (floating).
+	 * Method for sorting of list of task according to datetime and priority and
+	 * alpha order for tasks w/o datetime (floating).
+	 * 
 	 * @param list
-	 * @return sorted list
+	 *            The ArrayList of tasks to be sorted.
+	 * @return sorted list.
 	 */
 	public ArrayList<Task> sortList(ArrayList<Task> list) {
 		Collections.sort(list, comparator);
@@ -745,6 +802,9 @@ public class LogicData {
 		return list;
 	}
 
+	/*
+	 * comparator for comparison of timing
+	 */
 	static Comparator<Task> comparator = new Comparator<Task>() {
 		public int compare(final Task o1, final Task o2) {
 			LocalDateTime c1, c2;
@@ -773,6 +833,9 @@ public class LogicData {
 		}
 	};
 
+	/*
+	 * comparator for comparing of priority status
+	 */
 	static Comparator<Task> imptComparator = new Comparator<Task>() {
 		public int compare(final Task o1, final Task o2) {
 			int compare = 0;
@@ -789,7 +852,9 @@ public class LogicData {
 
 	/**
 	 * Method for sorting list of tasks in archive according to date modified.
+	 * 
 	 * @param list
+	 *            The ArrayList of archive tasks to be sorted.
 	 * @return sorted list
 	 */
 	public ArrayList<Task> sortArchive(ArrayList<Task> list) {
@@ -797,7 +862,9 @@ public class LogicData {
 		return list;
 	}
 
-	// new comparator for sorting archive
+	/*
+	 * new comparator for sorting of archive, compares datemodified.
+	 */
 	static Comparator<Task> archiveComparator = new Comparator<Task>() {
 		public int compare(final Task o1, final Task o2) {
 			return o2.getDateModified().compareTo(o1.getDateModified());
@@ -805,18 +872,20 @@ public class LogicData {
 	};
 
 	/**
-	 *Getter for retrieving display list (all tasks currently displayed to user),
-	 *the private attribute in LogicData.
-	 * @return _displays
+	 * Getter for retrieving display list (all tasks currently displayed to
+	 * user), the private attribute in LogicData.
+	 * 
+	 * @return _displays, the private attribute in logicData.
 	 */
 	public ArrayList<Task> getDisplays() {
 		return _displays;
 	}
 
 	/**
-	 * Getter for retrieving archive list (all tasks currently displayed to user),
-	 * the private attribute in LogicData.
-	 * @return _archives
+	 * Getter for retrieving archive list (all tasks currently displayed to
+	 * user), the private attribute in LogicData.
+	 * 
+	 * @return _archives, the private attribute in logicData.
 	 */
 	public ArrayList<Task> getArchives() {
 		return _archives;
@@ -825,14 +894,18 @@ public class LogicData {
 	/**
 	 * Setter for setting the attribute _display in logicData as the specified
 	 * ArrayList<Task> input.
+	 * 
 	 * @param displays
+	 *            The ArrayList to be set as display.
 	 */
 	public void setDisplays(ArrayList<Task> displays) {
 		_displays = displays;
 	}
 
 	/**
-	 * Getter for getting the currState of the program e.g. the state shown by ui.
+	 * Getter for getting the currState of the program e.g. the state shown by
+	 * ui.
+	 * 
 	 * @return _currState, a DisplayState private attribute in LogicData
 	 */
 	public DisplayState getCurrState() {
@@ -840,9 +913,12 @@ public class LogicData {
 	}
 
 	/**
-	 * Setter for setting currState of program to a specified Display State given by input
-	 * e.g. indicating to UI the state of the system after a command is executed.
+	 * Setter for setting currState of program to a specified Display State
+	 * given by input e.g. indicating to UI the state of the system after a
+	 * command is executed.
+	 * 
 	 * @param currState
+	 *            The DisplayState to be set as current state of the system.
 	 */
 	public void setCurrState(DisplayState currState) {
 		_currState = currState;
@@ -856,8 +932,8 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for testing purposes only. Use in FreeTimeTest.java
-	 * for clearing of entire tasklist.
+	 * Method for testing purposes only. Use in FreeTimeTest.java for clearing
+	 * of entire tasklist.
 	 */
 	public void clearTasks() {
 		_tasks.clear();
@@ -865,6 +941,7 @@ public class LogicData {
 
 	/**
 	 * Method for retrieving userguide (help for user).
+	 * 
 	 * @return _storage.retrieveHelp, the help file stored in storage.
 	 */
 	public ArrayList<String> generateHelpManual() {
@@ -872,16 +949,21 @@ public class LogicData {
 	}
 
 	/**
-	 * Getter for getting the selector position of the program e.g. the task that is currently pointing at. 
-	 * @return _taskPointer
+	 * Getter for getting the selector position of the program e.g. the task
+	 * that is currently pointing at.
+	 * 
+	 * @return _taskPointer, the private attribute in logicData which is the selector of Urgenda.
 	 */
 	public Task getTaskPointer() {
 		return _taskPointer;
 	}
 
 	/**
-	 * Setter for setting the psoition of the selector, e.g. which task to point to by UI.
+	 * Setter for setting the position of the selector, e.g. which task to point
+	 * to by UI.
+	 * 
 	 * @param taskPointer
+	 *            The Task for setting the pointer to be pointing at.
 	 */
 	public void setTaskPointer(Task taskPointer) {
 		_taskPointer = taskPointer;
@@ -889,7 +971,9 @@ public class LogicData {
 
 	/**
 	 * Method for getting the showmore status of a given task.
+	 * 
 	 * @param task
+	 *            The task specified for checking of showmore status.
 	 * @return true if status isShowingMore, false otherwise.
 	 */
 	public boolean isShowingMore(Task task) {
@@ -898,7 +982,9 @@ public class LogicData {
 
 	/**
 	 * Method to toggle showmore status of a specified task.
+	 * 
 	 * @param task
+	 *            The task specified for toggling of showmore status.
 	 */
 	public void toggleShowMoreTasks(Task task) {
 		logger.getLogger().info("toggle showmore status of " + task);
@@ -918,6 +1004,7 @@ public class LogicData {
 
 	/**
 	 * Method to get current file directory.
+	 * 
 	 * @return _storage.getDirPath
 	 */
 	public String retrieveCurrentDirectory() {
@@ -926,7 +1013,10 @@ public class LogicData {
 
 	/**
 	 * Method for changing file directory of where task is saved to.
+	 * 
 	 * @param path
+	 *            The String path specified for changing of current directory to
+	 *            the new one.
 	 * @throws StorageException
 	 */
 	public void changeDirectory(String path) throws StorageException {
@@ -934,8 +1024,12 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for retrieving all the tasks in tasklist that a specified task overlaps with. 
+	 * Method for retrieving all the tasks in tasklist that a specified task
+	 * overlaps with.
+	 * 
 	 * @param newTask
+	 *            The task used for comparing with all other tasks in LogicData
+	 *            for searching of overlap in timing.
 	 * @return ArrayList of overlapping tasks
 	 */
 	public ArrayList<Task> overlappingTasks(Task newTask) {
@@ -964,8 +1058,7 @@ public class LogicData {
 		while (!slot.isEmpty()) {
 			DateTimePair pair = slot.getNextSlot();
 			slot.removeNextSlot();
-			Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(),
-					pair.getDateTime2());
+			Task currTask = new Task(task.getDesc(), task.getLocation(), pair.getDateTime1(), pair.getDateTime2());
 			if (currTask.isOverlapping(newTask)) {
 				overlaps.add(currTask);
 			}
@@ -986,8 +1079,8 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for checking whether taskpointer is currently pointing to an archived
-	 * task. If yes, set Displaystate as archive.
+	 * Method for checking whether taskpointer is currently pointing to an
+	 * archived task. If yes, set Displaystate as archive.
 	 */
 	public void checkPointer() {
 		if (_taskPointer != null) {
@@ -1018,6 +1111,7 @@ public class LogicData {
 
 	/**
 	 * Method for retrieving demo file stored in storage
+	 * 
 	 * @return _storage.getDemoText().
 	 */
 	public ArrayList<String> generateDemoText() {
@@ -1026,6 +1120,7 @@ public class LogicData {
 
 	/**
 	 * Method for retrieving Indexes selected for demo
+	 * 
 	 * @return _storage.getDemoSelectionIndexes().
 	 */
 	public ArrayList<Integer> generateDemoSelectionIndexes() {
