@@ -24,7 +24,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String PATH_INPUT_SUGGESTIONS_CSS = "styles/InputSuggestions.css";
 	
 	// Delimiters to identify by and for replacement during formatting
-	private static final String DELIMITER_CHAR = "[]<>()";
+	private static final String DELIMITER_CHAR = "[]<>";
 	private static final String DELIMITER_NON_SUGGESTION = "or";
 	private static final String DELIMITER_SUGGESTION = " / ";
 	
@@ -32,6 +32,8 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String SUBSTRING_INDEX = "task no";
 	private static final String SUBSTRING_DESC = "desc";
 	private static final String SUBSTRING_DESC_EDIT = "new desc";
+	private static final String SUBSTRING_DATE_TIME_NEW = "new timing(s)";	
+	private static final String SUBSTRING_DATE_TIME_REMOVE = "-r";	
 	private static final String SUBSTRING_DATE_TIME_START = "start time";
 	private static final String SUBSTRING_DATE_TIME_END = "end time";
 	private static final String SUBSTRING_DATE_TIME_DURATION = "duration";
@@ -40,7 +42,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String SUBSTRING_TASK_TYPE_SEARCH = "task type";
 	private static final String SUBSTRING_LOCATION = "location";
 	private static final String SUBSTRING_PATH_DIRECTORY = "path directory";
-	private static final String SUBSTRING_INFO_REMOVE_TIME = "remove one timing";
+	private static final String SUBSTRING_INFO_REMOVE_TIME = "removes a timing";
 	private static final String SUBSTRING_INFO_TIMING = "use at/from/on/by for timings";
 	private static final String SUBSTRING_INFO_OPTIONAL = "optional";
 	private static final String SUBSTRING_INFO_MULTIPLE = "multiple";
@@ -119,9 +121,14 @@ public class InputSuggestionsPopupController extends BorderPane {
 			case SUBSTRING_DATE_TIME_END: // fall-through
 			case SUBSTRING_DATE_TIME_DEADLINE: // fall-through
 			case SUBSTRING_DATE_TIME_DURATION: //fall-through
+			case SUBSTRING_DATE_TIME_NEW: //fall-through
 			case SUBSTRING_DATE_TIME_SEARCH:
 				tokenizedText = new Text("[" + tokenized + "]");
 				tokenizedText.setFill(COLOR_DATE_TIME);
+				break;
+			case SUBSTRING_DATE_TIME_REMOVE:
+				tokenizedText = new Text(tokenized);
+				tokenizedText.setFill(COLOR_TASK_TYPE);
 				break;
 			case SUBSTRING_TASK_TYPE_SEARCH:
 				tokenizedText = new Text("[" + tokenized + "]");
