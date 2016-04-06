@@ -39,10 +39,8 @@ public class Storage {
 		_settings = new SettingsEditor();
 		String path = _settings.getFileDir();
 		String name = _settings.getFileName();
-		logger.getLogger().info("retrieved file specs from settings. Creating help");
 		_help = new Manual(HELP_TYPE);
 		_demo = new Manual(DEMO_TYPE);
-		logger.getLogger().info("help created. creating datafiles");
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
 		// checkIfEmptyFile();
@@ -133,15 +131,26 @@ public class Storage {
 	 *             in that particular file directory
 	 */
 	public void changeFileSettings(String path) throws StorageException {
-		String fileType = path.trim().substring(path.length() - FILE_TYPE_CHAR_SIZE);
+		String fileType = getFileTypeFromPath(path);
 		if (fileType.equals(TEXT_FILE_TYPE)) {
-			String dir = path.trim().substring(0, path.lastIndexOf(DELIMITER_FILE_TYPE));
-			String name = path.trim().substring(path.lastIndexOf(DELIMITER_FILE_TYPE) + 1, path.length());
+			String dir = getDirFromPath(path);
+			String name = getNameFromPath(path);
 			checkIfFileExists(dir, name);
 		} else {
 			checkIfFileExists(path, _file.getFileName());
 		}
+	}
 
+	private String getFileTypeFromPath(String path) {
+		return path.trim().substring(path.length() - FILE_TYPE_CHAR_SIZE);
+	}
+
+	private String getNameFromPath(String path) {
+		return path.trim().substring(path.lastIndexOf(DELIMITER_FILE_TYPE) + 1, path.length());
+	}
+
+	private String getDirFromPath(String path) {
+		return path.trim().substring(0, path.lastIndexOf(DELIMITER_FILE_TYPE));
 	}
 
 	/*
@@ -205,6 +214,10 @@ public class Storage {
 		return demo;
 	}
 
+	/**
+	 * Retrieves demo indexes for demo tasks selection
+	 * @return ArrayList of Integers consisting of Demo Indexes.
+	 */
 	public ArrayList<Integer> getDemoSelectionIndexes() {
 		return _demo.getIndexes();
 	}
