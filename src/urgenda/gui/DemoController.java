@@ -34,12 +34,13 @@ public class DemoController {
 	 * TODO
 	 */
 	public void init() {
+		_demoIndex = 0;
 		showDemoPart(_demoIndex);
 	}
 	
 	private void showDemoPart(int index) {
 		demoTextArea.getChildren().clear();
-		demoTextArea.getChildren().add(new Text("asda"));
+		demoTextArea.getChildren().add(new Text(_demoText.get(index)));
 		_mainController.getDisplayController().setSelectedTaskByCall(_demoSelectionIndexes.get(_demoIndex), false);
 	}
 
