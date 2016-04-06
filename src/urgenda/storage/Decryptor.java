@@ -8,6 +8,11 @@ import urgenda.util.MultipleSlot;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
+/**
+ * Decryptor class is a sub-class of JsonCipher class. It is used specifically for decrypting Strings in JSON formats to 
+ * @author User
+ *
+ */
 public class Decryptor extends JsonCipher {
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 
