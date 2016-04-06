@@ -155,4 +155,13 @@ public class SettingsEditor {
 
 	}
 
+	public void setNoviceSettings(boolean isNovice) {
+		_cipher.setNoviceSettings(isNovice);
+		saveSettings();
+	}
+
+	public boolean getNoviceSettings() {
+		return _cipher.getNoviceSettings();
+	}
+
 }

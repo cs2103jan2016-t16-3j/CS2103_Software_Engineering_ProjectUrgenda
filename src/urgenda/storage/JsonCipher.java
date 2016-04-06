@@ -34,7 +34,7 @@ public class JsonCipher {
 	private static final String HASHMAP_KEY_MULTIPLE_DESC = "multipleDesc";
 	private static final String HASHMAP_KEY_FILE_DIRECTORY = "directory";
 	private static final String HASHMAP_KEY_FILE_NAME = "name";
-	private static final String HASHMAP_KEY_HEADER = "header";
+	private static final String HASHMAP_KEY_NOVICE_SETTINGS = "novice";
 
 	private static final String DELIMITER_MULTIPLE_WITHIN_PAIRS = "~";
 	private static final String DELIMITER_MULTIPLE_BET_PAIRS = "`";
@@ -526,6 +526,15 @@ public class JsonCipher {
 	 */
 	public LinkedHashMap<String, String> getDetailsMap() {
 		return _detailsMap;
+	}
+
+	public void setNoviceSettings(boolean isNovice) {
+		_detailsMap.put(HASHMAP_KEY_NOVICE_SETTINGS, String.valueOf(isNovice));
+		
+	}
+
+	public boolean getNoviceSettings() {
+		return Boolean.parseBoolean(_detailsMap.get(HASHMAP_KEY_NOVICE_SETTINGS));
 	}
 
 }

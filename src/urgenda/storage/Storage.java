@@ -240,7 +240,12 @@ public class Storage {
 	}
 
 	public boolean getNoviceSettings() {
-		// TODO Auto-generated method stub
-		return false;
+		return _settings.getNoviceSettings();
+	}
+
+	public void setNoviceSettings(boolean isNovice) {
+		_settings.setNoviceSettings(isNovice);
+		_settings.saveSettings();
+		
 	}
 }
