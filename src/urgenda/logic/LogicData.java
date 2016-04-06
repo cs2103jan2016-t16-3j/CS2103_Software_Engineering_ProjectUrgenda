@@ -225,6 +225,8 @@ public class LogicData {
 		_displays.addAll(sortList(overdueTasks));
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(otherTasks));
+		
+		assert(_displays.size() >= 0);
 
 		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(), otherTasks.size());
 		setOverdueCount(state);
@@ -253,6 +255,7 @@ public class LogicData {
 				count++;
 			}
 		}
+		assert(count >= 0);
 		state.setOverdueCount(count);
 	}
 

@@ -131,6 +131,9 @@ public class Search extends Command {
 		return feedback;
 	}
 
+	/*
+	 * method for searching for tasks w desc and or tasktype that matches input.
+	 */
 	private String searchForDesc(LogicData data) {
 		ArrayList<Task> matches;
 		String feedback;
