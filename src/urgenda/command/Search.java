@@ -25,6 +25,7 @@ public class Search extends Command {
 	private static final String MESSAGE_SEARCH_TIME = "These are all the task(s) falling on \"%1$s\"";
 	private static final String MESSAGE_REFINE_SEARCH_TIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s\" based on the current view. Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
+	private static final String MESSAGE_SEARCH_INT_NOT_FOUND = "There is no match found for task no. %1$s";
 	private static final String MESSAGE_SEARCH_INT = "Search Result: Showing detailed info of task no. %1$s";
 	private static final String MESSAGE_NEAR_MATCH = "%1$s near match(es)";
 	private static final String MESSAGE_SEARCH_NO_EXACT = "No exact match found for \"%1$s\". ";
@@ -225,7 +226,7 @@ public class Search extends Command {
 			feedback = String.format(MESSAGE_SEARCH_INT, _searchId + 1);
 		} else {
 			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			feedback = String.format(MESSAGE_SEARCH_NOT_FOUND, _searchId + 1);
+			feedback = String.format(MESSAGE_SEARCH_INT_NOT_FOUND, _searchId + 1);
 		}
 		return feedback;
 	}
