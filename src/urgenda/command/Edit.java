@@ -66,7 +66,7 @@ public class Edit extends TaskCommand {
 	}
 
 	/*
-	 * check for warnings, start time after end time etc and set pointer to
+	 * method to check for warnings, start time after end time etc and set pointer to
 	 * edited task.
 	 */
 	private String checkValidity() throws LogicException {
@@ -90,7 +90,7 @@ public class Edit extends TaskCommand {
 	}
 
 	/*
-	 * update fields that are non-editable through edit command by users e.g.
+	 * Method to update fields that are non-editable through edit command by users e.g.
 	 * multislot, priority, datemodified etc.
 	 */
 	private void updateEdition() {
@@ -104,7 +104,7 @@ public class Edit extends TaskCommand {
 	}
 
 	/*
-	 * perform edition of prev task to new task.
+	 * Method to perform edition of prev task to new task.
 	 */
 	private void performEdition() {
 		setMultiSlots();
@@ -124,8 +124,10 @@ public class Edit extends TaskCommand {
 		}
 	}
 
-	// determine whether timing entered is for edition of start/end time if user
-	// input it w/o start &/ end flag.
+	/*
+	 * Method to determine whether timing entered is for edition of start/end time 
+	 * if user input it w/o start &/ end flag.
+	 */
 	private void determineUnclearTimings() {
 		switch (_temp.getTaskType()) {
 		case FLOATING: // Fallthrough
@@ -146,7 +148,7 @@ public class Edit extends TaskCommand {
 	 * edited(_temp) is of type event. Check if new timing entered is before
 	 * _temp start time, set new timing as starttime if new timing entered is
 	 * after _temp end time, set new timing as endtime. Else if is in btwn, take
-	 * default as changing start, set to start time
+	 * default as changing start, set to start time.
 	 */
 	private void checkStartEndAndSetUnknown() {
 		if (_newTask.getStartTime() == null && _newTask.getEndTime() == null) {
@@ -157,9 +159,9 @@ public class Edit extends TaskCommand {
 			} else {
 				_newTask.setStartTime(_unknown);
 			}
-		} else { // when user enter 2 new time to be edited, one w flag one w/o
-					// e.g.
-			// 7pm to 10pm instead of from 7pm to 10pm, the unknown non-flag one
+		} else { 
+			// when user enter 2 new time to be edited, one w flag one w/o falg
+			// e.g. 7pm to 10pm instead of from 7pm to 10pm, the unknown non-flag one
 			// could be determined
 			if (_newTask.getEndTime() == null) {
 				_newTask.setEndTime(_unknown);
@@ -181,7 +183,7 @@ public class Edit extends TaskCommand {
 		}
 	}
 
-	// when user enter timing to be edited w flag, set to _newTask accordingly
+	// when user enter timing to be edited w flag, set to _newTask accordingly.
 	private void setDefiniteTime() {
 		if (_newTask.getStartTime() == null) {
 			_newTask.setStartTime(_temp.getStartTime());
@@ -192,13 +194,15 @@ public class Edit extends TaskCommand {
 	}
 
 	private void setLocation() {
-		if (_newTask.getLocation() == null || _newTask.getLocation().equals("") && _prevTask.getLocation() != null) {
+		if (_newTask.getLocation() == null || _newTask.getLocation().equals("") 
+				&& _prevTask.getLocation() != null) {
 			_newTask.setLocation(_prevTask.getLocation());
 		}
 	}
 
 	private void setDesc() {
-		if (_newTask.getDesc() == null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
+		if (_newTask.getDesc() == null || _newTask.getDesc().equals("") 
+				&& _prevTask.getDesc() != null) {
 			_newTask.setDesc(_prevTask.getDesc());
 		}
 	}
@@ -243,6 +247,7 @@ public class Edit extends TaskCommand {
 	private String findOverlaps() {
 		ArrayList<Task> overlaps;
 		overlaps = _data.overlappingTasks(_newTask);
+		assert(overlaps.size() >= 0);
 
 		if (overlaps.size() == 0) {
 			return "";
