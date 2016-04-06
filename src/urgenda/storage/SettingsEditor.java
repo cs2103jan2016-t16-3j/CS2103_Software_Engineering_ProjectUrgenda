@@ -21,6 +21,7 @@ public class SettingsEditor {
 
 	private static final String DEFAULT_FILE_LOCATION = "settings";
 	private static final String DEFAULT_FILE_NAME = "data.txt";
+	private static final boolean DEFAULT_NOVICE_SETTINGS = true;
 
 	private JsonCipher _cipher;
 	private FileEditor _settings;
@@ -61,8 +62,7 @@ public class SettingsEditor {
 	public void checkIfEmptyMap() {
 		if (_cipher.isEmptyMap()) {
 			logger.getLogger().info("Empty cipher map. adding default locations.");
-			_cipher.setDirectory(DEFAULT_FILE_LOCATION);
-			_cipher.setFileName(DEFAULT_FILE_NAME);
+			setAllFieldsAsDefaultSettings();
 			saveSettings();
 		}
 	}
@@ -133,9 +133,14 @@ public class SettingsEditor {
 	 */
 	public void resetDefault() {
 		_cipher.reset();
+		setAllFieldsAsDefaultSettings();
+		saveSettings();
+	}
+
+	private void setAllFieldsAsDefaultSettings() {
 		_cipher.setDirectory(DEFAULT_FILE_LOCATION);
 		_cipher.setFileName(DEFAULT_FILE_NAME);
-		saveSettings();
+		_cipher.setNoviceSettings(DEFAULT_NOVICE_SETTINGS);
 	}
 
 	/**
