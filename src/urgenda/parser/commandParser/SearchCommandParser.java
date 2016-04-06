@@ -14,7 +14,7 @@ import urgenda.parser.TaskDetailsParser;
 public class SearchCommandParser {
 	private static String _argsString;
 	private static int _index;
-	
+
 	public SearchCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
@@ -24,22 +24,29 @@ public class SearchCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			_argsString = PublicFunctions.reformatArgsString(_argsString);
-			Search searchCommand = new Search();
-			Month testMonth = DateTimeParser.tryParseMonth(_argsString);
-			LocalDateTime testTime = DateTimeParser.tryParseTime(_argsString);
-			LocalDate testDate = DateTimeParser.tryParseDate(_argsString);
-			if (testMonth != null) {
-				searchCommand.setSearchMonth(testMonth);
-			} else if (testTime != null) {
-				searchCommand.setSearchDateTime(testTime);
-			} else if (testDate != null) {
-				searchCommand.setSearchDate(testDate);
-			} else {
-				TaskDetailsParser.searchTaskDescription(_argsString);
-				searchCommand.setSearchInput(PublicVariables.taskDescription);
+			try {
+				int searchID = Integer.parseInt(_argsString.trim());
+				Search searchCommand = new Search();
+				searchCommand.setSearchId(searchID - 1);
+				return searchCommand;
+			} catch (Exception e) {
+				_argsString = PublicFunctions.reformatArgsString(_argsString);
+				Search searchCommand = new Search();
+				Month testMonth = DateTimeParser.tryParseMonth(_argsString);
+				LocalDateTime testTime = DateTimeParser.tryParseTime(_argsString);
+				LocalDate testDate = DateTimeParser.tryParseDate(_argsString);
+				if (testMonth != null) {
+					searchCommand.setSearchMonth(testMonth);
+				} else if (testTime != null) {
+					searchCommand.setSearchDateTime(testTime);
+				} else if (testDate != null) {
+					searchCommand.setSearchDate(testDate);
+				} else {
+					TaskDetailsParser.searchTaskDescription(_argsString);
+					searchCommand.setSearchInput(PublicVariables.taskDescription);
+				}
+				return searchCommand;
 			}
-			return searchCommand;
 		}
 	}
 }
