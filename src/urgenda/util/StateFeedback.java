@@ -13,11 +13,13 @@ import java.util.Collections;
  */
 public class StateFeedback {
 
+	// Enumerations
 	public enum State {
 		ALL_TASKS, MULTIPLE_MATCHES, SHOW_SEARCH, ALL_TASK_AND_COMPLETED, 
 		DISPLAY, ERROR, SHOW_HELP, EXIT, ARCHIVE, FIND_FREE, HIDE, DEMO
 	}
-
+	
+	// Private attributes
 	private State _state;
 	private TaskList _allTasks;
 	private String _feedback;
@@ -26,15 +28,15 @@ public class StateFeedback {
 	private ArrayList<Integer> _showMoreIndexes; // index of tasks to show details for
 
 	/**
-	 * constructor when no parameters are passed.
+	 * Creates a StateFeedback with default private attribute values.
 	 */
 	public StateFeedback() {
 		_showMoreIndexes = new ArrayList<Integer>();
 	}
 
 	/**
-	 * constructor when the array of tasks, and count for overdue, today, and
-	 * remaining tasks are passed.
+	 * Creates a StateFeeback with array of tasks, and count for overdue, today, and
+	 * remaining tasks.
 	 * 
 	 * @param tasks
 	 *            array of tasks

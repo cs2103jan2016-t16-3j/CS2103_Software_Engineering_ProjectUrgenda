@@ -14,15 +14,21 @@ import javafx.scene.text.Text;
 import urgenda.util.SuggestFeedback;
 
 /**
+ * UI component, controls the elements that are used for the suggestions popup and styles keywords in suggestions for better readability.
  * 
  * @author KangSoon
- *
  */
 public class InputSuggestionsPopupController extends BorderPane {
 
+	// File paths
 	private static final String PATH_INPUT_SUGGESTIONS_CSS = "styles/InputSuggestions.css";
 	
-	//strings to idenify by for formatting
+	// Delimiters to identify by and for replacement during formatting
+	private static final String DELIMITER_CHAR = "[]<>()";
+	private static final String DELIMITER_NON_SUGGESTION = "or";
+	private static final String DELIMITER_SUGGESTION = " / ";
+	
+	// Strings to identify by for formatting
 	private static final String SUBSTRING_INDEX = "task no";
 	private static final String SUBSTRING_DESC = "desc";
 	private static final String SUBSTRING_DESC_EDIT = "new desc";
@@ -39,7 +45,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final String SUBSTRING_INFO_OPTIONAL = "optional";
 	private static final String SUBSTRING_INFO_MULTIPLE = "multiple";
 	
-	//colors to use for formatting
+	// Colors to use for formatting
 	private static final Color COLOR_DEFAULT = Color.web("#FFFFFF"); //white
 	private static final Color COLOR_INDEX = Color.web("#FFAF4B"); //orange
 	private static final Color COLOR_DESC = Color.web("#FFA3A3"); //pink
@@ -50,6 +56,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private static final Color COLOR_SUGGESTED_COMMANDS = Color.web("#B5B5B5"); //grey
 	private static final Paint COLOR_INFO = Color.web("#B5B5B5"); //grey
 
+	// Elements loaded using FXML
 	@FXML
 	private BorderPane typeSuggestionsPane;
 	@FXML
@@ -58,13 +65,17 @@ public class InputSuggestionsPopupController extends BorderPane {
 	private FlowPane suggestionsArea;
 	@FXML
 	private Text userSuggestionText;
-
+	
+	/**
+	 * Creates a InputSuggestionsPopupController instance.
+	 */
 	public InputSuggestionsPopupController() {
 		this.getStylesheets().addAll(getClass().getResource(PATH_INPUT_SUGGESTIONS_CSS).toExternalForm());
 	}
+	
 	/**
-	 * TODO
-	 * @param suggestFeedback
+	 * updates the suggested commands or input formats according to the current user input.
+	 * @param suggestFeedback suggestFeedback object containing suggested command words or suggested format
 	 */
 	public void updateSuggestions(SuggestFeedback suggestFeedback) {
 		suggestionsArea.getChildren().clear();
@@ -86,10 +97,11 @@ public class InputSuggestionsPopupController extends BorderPane {
 		userSuggestionText.setText(suggestFeedback.getUserInstructionsPrompt());
 	}
 
+	//identify and apply styles to keywords accordingly
 	private HBox formatSingleSuggestion(String suggestionString, boolean isSuggestion) {
 		HBox singleSuggestion = new HBox();
 		ArrayList<Text> suggestionsTokenisedList = new ArrayList<Text>();
-		StringTokenizer suggestionsTokeniser = new StringTokenizer(suggestionString, "[]<>()");
+		StringTokenizer suggestionsTokeniser = new StringTokenizer(suggestionString, DELIMITER_CHAR);
 		while (suggestionsTokeniser.hasMoreElements()) {
 			String tokenized = suggestionsTokeniser.nextElement().toString();
 			Text tokenizedText;
@@ -147,10 +159,10 @@ public class InputSuggestionsPopupController extends BorderPane {
 		singleSuggestion.getChildren().addAll(suggestionsTokenisedList);
 		Text delimiter = new Text();
 		if(isSuggestion) {
-			delimiter.setText(" / ");
+			delimiter.setText(DELIMITER_SUGGESTION);
 			delimiter.setFill(COLOR_DEFAULT);
 		} else {
-			delimiter.setText("or");
+			delimiter.setText(DELIMITER_NON_SUGGESTION);
 			delimiter.setFill(COLOR_INFO);
 		}
 		singleSuggestion.getChildren().add(delimiter);

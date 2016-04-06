@@ -26,12 +26,25 @@ import urgenda.util.DateTimePair;
 import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
+/**
+ * UI component, invoked when showing a simple task panel for a single task.
+ * 
+ * @author KangSoon
+ */
 public class SimpleTaskController extends GridPane {
+	
+	// Constants
+	private static final String COUNT_DOUBLE_DIGIT = "9+";
+	private static final double HEIGHT_DEFAULT_TASK = 35;
+	private static final int INT_DOUBLE_DIGIT = 10;
 
+	// Header texts
 	private static final String HEADER_OVERDUE_TASK = "Overdue Tasks";
 	private static final String HEADER_TODAY_TASK = "Today's Tasks";
 	private static final String HEADER_OTHER_TASK = "Other Tasks";
 	private static final String HEADER_ARCHIVE_TASK = "Completed Tasks";
+	
+	// File paths
 	private static final String PATH_TASK_FREETIME_CSS = "styles/TaskFreeTime.css";
 	private static final String PATH_TASK_OVERDUE_CSS = "styles/TaskOverdue.css";
 	private static final String PATH_TASK_TODAY_CSS = "styles/TaskToday.css";
@@ -40,8 +53,7 @@ public class SimpleTaskController extends GridPane {
 	private static final String PATH_TASK_ARCHIVE_CSS = "styles/TaskArchive.css";
 	private static final String PATH_SIMPLETASKVIEW_FXML = "fxml/SimpleTaskView.fxml";
 
-	private static final double HEIGHT_DEFAULT_TASK = 35;
-
+	
 	// Elements loaded using FXML
 	@FXML
 	protected GridPane taskPane;
@@ -66,15 +78,25 @@ public class SimpleTaskController extends GridPane {
 	@FXML
 	protected Label multipleSlotCounter;
 
+	//Private attributes
+	private int _multipleSlotIndex;
+	
+	// Attributes also inherited by DetailedTaskController
 	protected int _index;
 	protected Task _task;
 	protected TaskDisplayType _taskDisplayType;
 	protected boolean _isSelected;
 	protected boolean _showHeader;
 	protected ArrayList<DateTimePair> _multipleSlotList;
-	private int _multipleSlotIndex;
 	protected DisplayController _displayController;
 
+	/**
+	 * Creates a SimpleTaskController using the given task.
+	 * @param task task to show details for
+	 * @param index index of the task
+	 * @param taskDisplayType the enumerated type of the task
+	 * @param showHeader boolean to show headers for the task or not
+	 */
 	public SimpleTaskController(Task task, int index, TaskDisplayType taskDisplayType, boolean showHeader) {
 		_task = task;
 		_taskDisplayType = taskDisplayType;
@@ -115,13 +137,14 @@ public class SimpleTaskController extends GridPane {
 
 	private String countMultipleSlots() {
 		int count = _task.getSlot().getSlots().size() + 1;
-		if (count <= 9) {//TODO magic number
+		if (count < INT_DOUBLE_DIGIT) {
 			return String.valueOf(count);
 		} else {
-			return "9+";
+			return COUNT_DOUBLE_DIGIT;
 		}
 	}
-
+	
+	//initialize text labels
 	private void initLabels() {
 		taskIndexText.setText(String.valueOf(_index + 1));
 		taskDescText.setText(_task.getDesc());
@@ -161,6 +184,7 @@ public class SimpleTaskController extends GridPane {
 		}
 	}
 
+	//set event handler for mouse clicks on view to set as selected
 	private void setTaskClickHandler() {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
@@ -174,7 +198,13 @@ public class SimpleTaskController extends GridPane {
 			}
 		});
 	}
-
+	
+	/**
+	 * Formats dates and times of task according to number of instances of dates and times.
+	 * @param dateTime1 first date-time instance
+	 * @param dateTime2 second date-time instance
+	 * @return formatted text for dates and times
+	 */
 	protected String formatDateTime(LocalDateTime dateTime1, LocalDateTime dateTime2) {
 		String dateTimeFormatter = "";
 		if(dateTime2 != null) {
@@ -220,7 +250,10 @@ public class SimpleTaskController extends GridPane {
 	private String formatTime(LocalDateTime dateTime) {
 		return dateTime.format(DateTimeFormatter.ofPattern("h:mma"));
 	}
-
+	
+	/**
+	 * Loads FXML resources to setup view in display.
+	 */
 	protected void loadFXML() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_SIMPLETASKVIEW_FXML));
 		loader.setController(this);
@@ -232,16 +265,28 @@ public class SimpleTaskController extends GridPane {
 		}
 	}
 
+	/**
+	 * Toggles this controller as selected.
+	 * @param isSelected boolean whether this controller is selected or not
+	 */
 	public void setSelected(boolean isSelected) {
 		_isSelected = isSelected;
 		selector.setVisible(_isSelected);
 		selectorPane.setVisible(_isSelected);
 	}
-
+	
+	/**
+	 * Sets the reference for DisplayController.
+	 * @param displayController reference for DisplayController
+	 */
 	public void setDisplayController(DisplayController displayController) {
 		_displayController = displayController;
 	}
 
+	/**
+	 * Traverse multiple time slots for this controller if task has multiple slots
+	 * @param direction direction to traverse to
+	 */
 	public void traverseMultipleSlot(Direction direction) {
 		if (!_multipleSlotList.isEmpty()) {
 			switch(direction) {
@@ -268,6 +313,10 @@ public class SimpleTaskController extends GridPane {
 		return formatDateTime(_multipleSlotList.get(_multipleSlotIndex).getEarlierDateTime(), _multipleSlotList.get(_multipleSlotIndex).getLaterDateTime());
 	}
 	
+	/**
+	 * Returns whether task in this controller has multiple time slots or not.
+	 * @return boolean indicating whether task has multiple time slots
+	 */
 	public boolean isMultipleSlot() {
 		if (_multipleSlotIndex >= 0) {
 			return true;

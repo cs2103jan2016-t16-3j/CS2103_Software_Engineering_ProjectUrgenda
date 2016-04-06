@@ -217,4 +217,8 @@ public class Logic {
 	public void clearStorageTester() {
 		_logicData.reinitialiseStorageTester();
 	}
+
+	public boolean getNoviceSettings() {
+		return _logicData.getNoviceSettings();
+	}
 }

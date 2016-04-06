@@ -27,7 +27,8 @@ import urgenda.util.TaskList;
 import urgenda.util.UrgendaLogger;
 
 /**
- * The main class in the UI component. In charge of initialising the program and the sub-components of UI which are MainController and DisplayController
+ * The main class in the UI component, in charge of initializing the program and
+ * the sub-components of UI which are MainController and DisplayController.
  *
  * @author KangSoon
  */
@@ -35,13 +36,13 @@ public class Main extends Application {
 
 	private static final String APP_NAME = "Urgenda";
 
-	// file paths
+	// File paths
 	private static final String PATH_GUI_FXML = "fxml/MainView.fxml";
 	public static final String PATH_REGULAR_FONT = new String("../../resources/Montserrat-Light.otf");
 	public static final String PATH_BOLD_FONT = new String("../../resources/Montserrat-Regular.otf");
 	public static final String PATH_LIGHT_FONT = new String("../../resources/Montserrat-UltraLight.ttf");
 
-	// headers
+	// Display header texts
 	private static final String HEADER_ALL_TASKS = "ALL TASKS";
 	private static final String HEADER_ALL_WITH_COMPLETED_TASKS = "ALL TASKS WITH COMPLETED TASKS";
 	private static final String HEADER_FREE_TIME = "AVAILABLE TIME PERIODS";
@@ -53,7 +54,7 @@ public class Main extends Application {
 	private static final int DEFAULT_BOLD_FONT_SIZE = 20;
 	private static final int DEFAULT_LIGHT_FONT_SIZE = 20;
 
-	// loading of fonts
+	// Fonts
 	public static final Font REGULAR_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_REGULAR_FONT),
 			DEFAULT_REGULAR_FONT_SIZE);
 	public static final Font BOLD_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_BOLD_FONT),
@@ -61,6 +62,7 @@ public class Main extends Application {
 	public static final Font LIGHT_FONT = Font.loadFont(Main.class.getResourceAsStream(PATH_LIGHT_FONT),
 			DEFAULT_LIGHT_FONT_SIZE);
 
+	// Private attributes
 	private BorderPane _rootLayout;
 	private Scene _scene;
 	private MainController _mainController;
@@ -96,7 +98,8 @@ public class Main extends Application {
 			_mainController = loader.getController();
 			_mainController.setMain(this);
 		} catch (IOException e) {
-			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE, "Initialisation of root layout failed!");
+			UrgendaLogger.getInstance().getLogger().log(Level.SEVERE,
+					"Initialisation of root layout failed!");
 			e.printStackTrace();
 		}
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of root layout");
@@ -104,10 +107,15 @@ public class Main extends Application {
 
 	private void initDisplay() {
 		_displayController = _mainController.getDisplayController();
+		_displayController.setNovice(_logic.getNoviceSettings());
 		_currState = retrieveStartupState();
-		// TODO implement check settings for showing novice headers, change
-		// boolean below
-		_displayController.initDisplay(_currState.getAllTasks(), createDisplayHeader(_currState), _currState.getDetailedIndexes(), _currState.getDisplayPosition(), true);
+		TaskList updatedTasks = _currState.getAllTasks();
+		String displayHeader = createDisplayHeader(_currState);
+		ArrayList<Integer> detailedIndexes = _currState.getDetailedIndexes();
+		int displayPos = _currState.getDisplayPosition();
+		boolean isShowNoviceHeaders = true; // TODO implement check settings for
+											// showing novice headers
+		_displayController.initDisplay(updatedTasks, displayHeader, detailedIndexes, displayPos, isShowNoviceHeaders);
 		UrgendaLogger.getInstance().getLogger().log(Level.INFO, "Successful initialisation of display view");
 	}
 
@@ -132,11 +140,14 @@ public class Main extends Application {
 		// setup window focused listener
 		_primaryStage.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+					Boolean newValue) {
 				if (newValue) {
 					_mainController.showSuggestionsPopup();
 				} else {
-					_mainController.hideSuggestionsPopup();
+					if (_mainController.getSuggestionsPopup() != null) {
+						_mainController.hideSuggestionsPopup();
+					}
 				}
 
 			}
@@ -150,24 +161,22 @@ public class Main extends Application {
 	}
 
 	/**
-	 * calls logic component to handle user command line input
+	 * Calls the Logic component to handle user command line input.
 	 * 
 	 * @param commandLine
 	 *            registered input command line by user
-	 * 
 	 * @param isDemo
 	 *            boolean indicating whether UI is currently in demo mode or not
-	 *
 	 * @return feedback to be displayed to the user
 	 */
 	protected String handleCommandLine(String commandLine) {
-		//TODO check for the overdue indicator
 		_currState = _logic.executeCommand(commandLine, _displayController.getSelectedTaskIndex());
 		TaskList updatedTasks = _currState.getAllTasks();
 		String displayHeader = createDisplayHeader(_currState);
 		ArrayList<Integer> detailedIndexes = _currState.getDetailedIndexes();
 		int displayPos = _currState.getDisplayPosition();
-		boolean isShowNoviceHeaders = true; // TODO implement check settings for showing novice headers
+		boolean isShowNoviceHeaders = true; // TODO implement check settings for
+											// showing novice headers
 		boolean isShowFreeTime = false;
 		switch (_currState.getState()) {
 		case HIDE:
@@ -183,26 +192,17 @@ public class Main extends Application {
 			return activateDemoScreen();
 		case FIND_FREE:
 			isShowFreeTime = true;
-			//fall-through
+			// fall-through
 		case ALL_TASKS:
 			_mainController.setDemo(false);
 			// fall-through
 		default:
-			_displayController.setDisplay(updatedTasks, displayHeader, detailedIndexes, displayPos, isShowNoviceHeaders, isShowFreeTime, false);
+			_displayController.setDisplay(updatedTasks, displayHeader, detailedIndexes, displayPos,
+					isShowNoviceHeaders, isShowFreeTime, false);
 			break;
 		}
 		_mainController.updateOverdueCount(_currState.getOverdueCount());
 		return _currState.getFeedback();
-	}
-
-	private String activateDemoScreen() {
-		_mainController.setDemo(true);
-		StateFeedback state = new DemoStateFeedback();
-		_displayController.setSelectedTaskByCall(0, true);
-		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state),
-				state.getDetailedIndexes(), state.getDisplayPosition(), true, false, true);
-		_mainController.updateOverdueCount(state.getOverdueCount());
-		return state.getFeedback();
 	}
 
 	private String createDisplayHeader(StateFeedback state) {
@@ -226,7 +226,7 @@ public class Main extends Application {
 		case ARCHIVE:
 			display = HEADER_ARCHIVE_TASKS;
 			break;
-		case ALL_TASKS: 
+		case ALL_TASKS:
 			// fall-through
 		default:
 			display = HEADER_ALL_TASKS;
@@ -235,8 +235,18 @@ public class Main extends Application {
 		return display;
 	}
 
+	private String activateDemoScreen() {
+		_mainController.setDemo(true);
+		StateFeedback state = new DemoStateFeedback();
+		_displayController.setSelectedTaskByCall(0, true);
+		_displayController.setDisplay(state.getAllTasks(), createDisplayHeader(state),
+				state.getDetailedIndexes(), state.getDisplayPosition(), true, false, true);
+		_mainController.updateOverdueCount(state.getOverdueCount());
+		return state.getFeedback();
+	}
+
 	/**
-	 * retrieves text for help menu.
+	 * Retrieves text for help menu.
 	 * 
 	 * @return array containing help text
 	 */
@@ -245,7 +255,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * retrieves text to be displayed at each step during demo mode.
+	 * Retrieves text to be displayed at each step during demo mode.
 	 * 
 	 * @return array of text strings for each step during demo mode
 	 */
@@ -254,16 +264,18 @@ public class Main extends Application {
 	}
 
 	/**
-	 * retrieves the reference for which task to be selected at each step during demo mode.
+	 * Retrieves the reference for which task to be selected at each step during
+	 * demo mode.
 	 * 
-	 * @return array of indexes of tasks to be selected at each step during demo mode
+	 * @return array of indexes of tasks to be selected at each step during demo
+	 *         mode
 	 */
 	public ArrayList<Integer> getDemoSelectionIndexes() {
 		return _logic.getDemoSelectionIndexes();
 	}
 
 	/**
-	 * retrieves data file at current save directory.
+	 * Retrieves data file at current save directory.
 	 * 
 	 * @return File object referenced to the current directory of stored data
 	 */
@@ -273,19 +285,21 @@ public class Main extends Application {
 	}
 
 	/**
-	 * retrieves input format suggestions according to current input command text by user.
+	 * Retrieves input format suggestions according to current input command
+	 * text by user.
 	 * 
 	 * @param text
 	 *            current input command text by user
-	 * 
-	 * @return SuggestFeedback object containing input format suggestions for current input
+	 * @return SuggestFeedback object containing input format suggestions for
+	 *         current input
 	 */
 	public SuggestFeedback retrieveSuggestions(String text) {
 		return _logic.getSuggestions(text);
 	}
 
 	/**
-	 * calculate bound coordinates of Urgenda window with respect to the screen at time of method call.
+	 * Calculates bound coordinates of Urgenda window with respect to the screen
+	 * at time of method call.
 	 * 
 	 * @return bounds of window
 	 */
@@ -320,7 +334,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * getter for MainController instance.
+	 * Returns MainController instance.
 	 * 
 	 * @return MainController object instance
 	 */
@@ -329,14 +343,20 @@ public class Main extends Application {
 	}
 
 	/**
-	 * getter for primaryStage instance.
+	 * Returns primaryStage instance.
 	 * 
-	 * @return primaryStage object instance
+	 * @return primaryStage instance
 	 */
 	public Stage getPrimaryStage() {
 		return _primaryStage;
 	}
 
+	/**
+	 * Launches Urgenda.
+	 * 
+	 * @param args
+	 *            directory of Urgenda.
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
