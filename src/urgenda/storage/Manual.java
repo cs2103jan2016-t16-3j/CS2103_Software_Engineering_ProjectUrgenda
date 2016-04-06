@@ -22,6 +22,7 @@ public class Manual {
 	private static final String DEMO_TYPE = "DEMO";
 	private static final String SEPARATOR_SECTION = "\n\n";
 	private static final String SEPARATOR_LINES = "\n";
+	private static final String DELIMITER_INDEXES = " ";
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
 
@@ -58,7 +59,7 @@ public class Manual {
 		createManual(demoInput);
 		String indexes = _manual.get(0).trim();
 		_manual.remove(0);
-		String[] demoIndex = indexes.split(" ");
+		String[] demoIndex = indexes.split(DELIMITER_INDEXES);
 		ArrayList<String> demoIndexesString = new ArrayList<String>(Arrays.asList(demoIndex));
 		for (String index : demoIndexesString) {
 			_demoIndexes.add(Integer.valueOf(index));
