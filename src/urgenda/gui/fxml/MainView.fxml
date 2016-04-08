@@ -79,7 +79,10 @@
                            </accelerator>
                         </MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="menuToggleAdvancedView" mnemonicParsing="false" onAction="#toggleAdvancedViewListener" text="Activate Advanced View" />
+                        <MenuItem fx:id="menuToggleAdvancedView" mnemonicParsing="false" onAction="#toggleAdvancedViewListener" text="Activate Advanced View">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                      </items></Menu>
                   <Menu mnemonicParsing="false" text="Select">
                     <items>
