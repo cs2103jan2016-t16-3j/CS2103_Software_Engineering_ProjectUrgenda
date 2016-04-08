@@ -132,6 +132,7 @@ public class HelpController implements Initializable {
 	 * Shows the help window.
 	 */
 	public void showHelpStage() {
+		_helpTextPos.set(0);
 		_helpStage.show();
 	}
 	
