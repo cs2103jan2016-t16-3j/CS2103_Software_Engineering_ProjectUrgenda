@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Arrays;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -22,6 +23,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -42,7 +44,8 @@ public class HelpController implements Initializable {
 	// Private attributes
 	static Stage _helpStage;
 	static Scene _helpScene;
-	private static ArrayList<String> _helpText;
+	private static ArrayList<String> _helpText = new ArrayList<String>();
+	private static ArrayList<String> _helpTitle = new ArrayList<String>();
 	private static IntegerProperty _helpTextPos = new SimpleIntegerProperty();
 	
 	// Elements loaded using FXML
@@ -52,6 +55,8 @@ public class HelpController implements Initializable {
 	private Button helpPrev;
 	@FXML
 	private Button helpNext;
+	@FXML
+	private Text helpPageTitle;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {	
@@ -59,20 +64,35 @@ public class HelpController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
 					Number newValue) {
+				if(newValue.intValue() == 0) {
+					helpPrev.setVisible(false);
+				} else {
+					helpPrev.setVisible(true);
+				}
+				if(newValue.intValue() == _helpText.size() - 1) {
+					helpNext.setVisible(false);
+				} else {
+					helpNext.setVisible(true);
+				}
+				helpPageTitle.setText(_helpTitle.get(newValue.intValue()));
 				helpContentPane.setText(_helpText.get(newValue.intValue()));	
 			}
 		});
+		helpPageTitle.setText(_helpTitle.get(0));
 		helpContentPane.setText(_helpText.get(0));
+		helpPrev.setVisible(false);
 		helpContentPane.setEditable(false);
 	}
 	
 	/**
 	 * Sets up the help window.
-	 * @param helpText list of help text to display
+	 * @param helpTextArray list of help text to display
 	 * @throws IOException 
 	 */
-	public void setupHelpStage(ArrayList<String> helpText) throws IOException {		
-		_helpText = helpText;
+	public void setupHelpStage(ArrayList<String> helpTextArray) throws IOException {		
+		if(_helpText.isEmpty() && _helpTitle.isEmpty()) {
+			organiseHelpText(helpTextArray);
+		}
 		Parent help = FXMLLoader.load(Main.class.getResource(PATH_HELP_SPLASH_FXML));
 		_helpStage = new Stage();
 		_helpScene = new Scene(help);
@@ -92,6 +112,21 @@ public class HelpController implements Initializable {
 				}
 			}	
 		});
+	}
+
+	private void organiseHelpText(ArrayList<String> helpTextArray) {
+		for(String helpTextString : helpTextArray) {
+			String command = "";
+			String text = "";
+			ArrayList<String> sorter = new ArrayList<String>(Arrays.asList(helpTextString.split("\n")));
+			command = sorter.get(0);
+			sorter.remove(0);
+			for(String helpText : sorter) {
+				text += helpText + "\n";
+			}
+			_helpTitle.add(command);
+			_helpText.add(text);
+		}
 	}
 
 	@FXML

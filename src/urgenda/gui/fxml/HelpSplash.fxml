@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="helpPane" minHeight="400.0" minWidth="400.0" onKeyPressed="#handleEscPressed" stylesheets="@../styles/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.HelpController">
          <bottom>
@@ -21,10 +23,15 @@
             </Label>
          </top>
          <center>
-            <TextArea fx:id="helpContentPane" prefHeight="340.0" prefWidth="360.0" wrapText="true" BorderPane.alignment="CENTER">
+      <VBox BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets left="5.0" right="5.0" />
-         </BorderPane.margin></TextArea>
+         </BorderPane.margin>
+         <children>
+            <Text fx:id="helpPageTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
+                  <TextArea fx:id="helpContentPane" prefHeight="340.0" prefWidth="360.0" wrapText="true" />
+         </children>
+      </VBox>
          </center>
    <left>
       <Button fx:id="helpPrev" mnemonicParsing="false" onAction="#helpPrevListener" prefHeight="340.0" prefWidth="35.0" text="&lt;" textFill="WHITE" BorderPane.alignment="CENTER">

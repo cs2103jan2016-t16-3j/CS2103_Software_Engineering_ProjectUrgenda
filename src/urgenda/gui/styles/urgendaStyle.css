@@ -138,6 +138,12 @@ Text {
 	-fx-text-fill: white;
 }
 
+#helpPageTitle {
+	-fx-font-family: "Montserrat Ultra Light";
+	-fx-font-size: 20px;
+	-fx-fill: white;
+}
+
 #helpContentPane {
 	-fx-background-color: transparent;
 	-fx-font-family: "Montserrat Light";
