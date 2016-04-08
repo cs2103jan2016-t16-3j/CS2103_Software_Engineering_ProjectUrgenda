@@ -23,7 +23,9 @@ public class Search extends Command {
 	private static final String MESSAGE_SEARCH_DESC = "all task(s) found containing \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TYPE = "all task(s) found of type \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TIME = "These are all the task(s) falling on \"%1$s\"";
+	private static final String MESSAGE_SEARCH_DATETIME = "These are all the task(s) falling on \"%1$s, %2$s\"";
 	private static final String MESSAGE_REFINE_SEARCH_TIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s\" based on the current view. Enter home to show all tasks";
+	private static final String MESSAGE_REFINE_SEARCH_DATETIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s, %2$s\" based on the current view. Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
 	private static final String MESSAGE_SEARCH_INT_NOT_FOUND = "There is no match found for task no. %1$s";
 	private static final String MESSAGE_SEARCH_INT = "Search Result: Showing detailed info of task no. %1$s";
@@ -139,6 +141,7 @@ public class Search extends Command {
 		ArrayList<Task> matches;
 		String feedback;
 		// copy of _searchDesc for modification, trimming and caseignore
+		//and just in case prevent editing of original _searchDesc.
 		String copy = _searchDesc;
 		int descCount = 0;
 		int typeCount = 0;
@@ -209,7 +212,8 @@ public class Search extends Command {
 
 	private int findNearMatch(LogicData data, ArrayList<Task> matches, int nearMatchCount) {
 		for (Task task : data.getDisplays()) {
-			if (StringUtils.getJaroWinklerDistance(_searchDesc, task.getDesc()) >= 0.8 && !matches.contains(task)) {
+			if (StringUtils.getJaroWinklerDistance(_searchDesc, task.getDesc()) >= 0.8
+					&& !matches.contains(task)) {
 				matches.add(task);
 				nearMatchCount++;
 			}
@@ -252,13 +256,16 @@ public class Search extends Command {
 		String feedback;
 		if (matches.isEmpty()) {
 			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			feedback = String.format(MESSAGE_SEARCH_NOT_FOUND, _searchDateTime.toString());
+			feedback = String.format(MESSAGE_SEARCH_NOT_FOUND, _searchDateTime.toLocalDate().toString() + ", "
+					+ _searchDateTime.toLocalTime().toString());
 		} else {
 			data.setDisplays(matches);
 			if (data.getCurrState().equals(LogicData.DisplayState.ALL_TASKS)) {
-				feedback = String.format(MESSAGE_SEARCH_TIME, _searchDateTime.toString());
+				feedback = String.format(MESSAGE_SEARCH_DATETIME, _searchDateTime.toLocalDate().toString(),
+						_searchDateTime.toLocalTime().toString());
 			} else {
-				feedback = String.format(MESSAGE_REFINE_SEARCH_TIME, _searchDateTime.toString());
+				feedback = String.format(MESSAGE_REFINE_SEARCH_DATETIME,
+						_searchDateTime.toLocalDate().toString(), _searchDateTime.toLocalTime().toString());
 			}
 			data.setCurrState(LogicData.DisplayState.SHOW_SEARCH);
 		}
@@ -282,7 +289,8 @@ public class Search extends Command {
 		return feedback;
 	}
 
-	private String generateSearchDescFeedback(LogicData data, ArrayList<Task> matches, int descCount, int typeCount) {
+	private String generateSearchDescFeedback(LogicData data, ArrayList<Task> matches, int descCount,
+			int typeCount) {
 		String feedback;
 		if (matches.isEmpty()) {
 			data.setCurrState(LogicData.DisplayState.ALL_TASKS);
@@ -306,9 +314,11 @@ public class Search extends Command {
 					+ String.format(MESSAGE_SEARCH_TYPE, _searchDesc);
 			feedback = String.format(MESSAGE_PROGRESSIVE_SEARCH, substr);
 		} else if (descCount == 0) {
-			feedback = String.format(MESSAGE_PROGRESSIVE_SEARCH, String.format(MESSAGE_SEARCH_TYPE, _searchDesc));
+			feedback = String.format(MESSAGE_PROGRESSIVE_SEARCH,
+					String.format(MESSAGE_SEARCH_TYPE, _searchDesc));
 		} else {
-			feedback = String.format(MESSAGE_PROGRESSIVE_SEARCH, String.format(MESSAGE_SEARCH_DESC, _searchDesc));
+			feedback = String.format(MESSAGE_PROGRESSIVE_SEARCH,
+					String.format(MESSAGE_SEARCH_DESC, _searchDesc));
 		}
 		return feedback;
 	}

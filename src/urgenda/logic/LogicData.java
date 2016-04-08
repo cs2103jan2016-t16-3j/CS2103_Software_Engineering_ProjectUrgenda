@@ -135,11 +135,9 @@ public class LogicData {
 	 * @return StateFeedback object that holds all the required information
 	 */
 	public StateFeedback getState() {
-		// TODO: refactor function
 		StateFeedback state;
 		switch (_currState) {
 		case ALL_TASKS:
-			// TODO update diagram
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
@@ -268,7 +266,9 @@ public class LogicData {
 		}
 	}
 
-	// sets the position if the pointer matches the display
+	/*
+	 * sets the position if the pointer matches the display
+	 */
 	private void setFeedbackDisplayPosition(StateFeedback state) {
 		if (_taskPointer != null && _displays.contains(_taskPointer)) {
 			state.setDisplayPosition(_displays.indexOf(_taskPointer));
@@ -1031,8 +1031,8 @@ public class LogicData {
 	 * @param path
 	 *            The String path specified for changing of current directory to
 	 *            the new one.
-	 * @throws StorageException
-	 * @throws InvalidFolderException
+	 * @throws StorageException if invalid input format.
+	 * @throws InvalidFolderException if folder to be saved to does not exist.
 	 */
 	public void changeDirectory(String path) throws StorageException, InvalidFolderException {
 		_storage.changeFileSettings(path);
