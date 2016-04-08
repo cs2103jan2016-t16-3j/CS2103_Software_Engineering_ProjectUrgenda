@@ -6,6 +6,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -39,7 +43,7 @@ public class HelpController implements Initializable {
 	static Stage _helpStage;
 	static Scene _helpScene;
 	private static ArrayList<String> _helpText;
-	private int _helpTextPos;
+	private static IntegerProperty _helpTextPos = new SimpleIntegerProperty();
 	
 	// Elements loaded using FXML
 	@FXML
@@ -49,22 +53,16 @@ public class HelpController implements Initializable {
 	@FXML
 	private Button helpNext;
 	
-	@FXML
-	private void handleEscPressed(KeyEvent event) {
-		if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.ESCAPE) {
-			_helpStage.close();
-		}
-	}
-	
-	@FXML
-	private void handleOkAction(ActionEvent e) {
-		_helpStage.close();
-	}
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {	
-		_helpTextPos = 0;
-		helpContentPane.setText(_helpText.get(_helpTextPos));
+		_helpTextPos.addListener(new ChangeListener<Number>(){
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+					Number newValue) {
+				helpContentPane.setText(_helpText.get(newValue.intValue()));	
+			}
+		});
+		helpContentPane.setText(_helpText.get(0));
 		helpContentPane.setEditable(false);
 	}
 	
@@ -87,13 +85,25 @@ public class HelpController implements Initializable {
 			@Override
 			public void handle(KeyEvent event) {
 				if(event.getCode().equals(KeyCode.LEFT)) {
-					helpPrev.fire();
+					helpPrev();
 				}
 				if(event.getCode().equals(KeyCode.RIGHT)) {
-					helpNext.fire();
+					helpNext();
 				}
 			}	
 		});
+	}
+
+	@FXML
+	private void handleEscPressed(KeyEvent event) {
+		if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.ESCAPE) {
+			_helpStage.close();
+		}
+	}
+	
+	@FXML
+	private void handleOkAction(ActionEvent e) {
+		_helpStage.close();
 	}
 	
 	@FXML
@@ -102,16 +112,14 @@ public class HelpController implements Initializable {
 	}
 
 	private void helpPrev() {
-		if(_helpTextPos > 0) {
-			_helpTextPos--;
-			helpContentPane.setText(_helpText.get(_helpTextPos));
+		if(_helpTextPos.intValue() > 0) {
+			_helpTextPos.set(_helpTextPos.get() - 1);
 		}
 	}
 
 	private void helpNext() {
-		if(_helpTextPos < _helpText.size() - 1) {
-			_helpTextPos++;
-			helpContentPane.setText(_helpText.get(_helpTextPos));
+		if(_helpTextPos.get() < _helpText.size() - 1) {
+			_helpTextPos.set(_helpTextPos.get() + 1);
 		}
 	}
 	
