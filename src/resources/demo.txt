@@ -1,47 +1,42 @@
-0 0 0 1 1 1 2 3 3 3 3 4 4 6 0
+0 0 0 1 3 6 0 0 1 5 6 3 4 3 4 0
 
-Welcome to Urgenda's demo! Use TAB to move to the next part of the demo. If you wish to see the previous part of the demo, press SHIFT + TAB.
+Welcome to Urgenda's demo! Use TAB to move to the next part of the demo. If you wish to see the previous part of the demo, press SHIFT + TAB. 				You may type 'home' at any point during the demo to return to the home screen.
 
-The first task is the task you are currently selected on, and it is also an overdue task! Overdue Tasks are colour coded as red, you need to get them completed ASAP!
+Urgenda allows you to select different tasks using a selector by moving up or down. You can use CTRL + UP or CTRL + DOWN to move your selection to a task that you wish to perform a command on. Try it after the demo!
 
-To key in such a task into Urgenda, simply type:
-Complete tutorial by (enter your preferred date)
-We allow for dates to be added in DD/MM, DD MMM! Find out the other combinations as well!
+In Urgenda, we make managing different tasks effortless for you by allowing you find important tasks quickly. Tasks are colour coded to let you know which ones need to be settled first.   					
+Overdue tasks are shown in red to let you know you need to get them completed ASAP!
 
-Today's Tasks are colour coded in yellow, for you to take note of all your activities for the day!
+All tasks that are due by or happen on today are shown in yellow, for you to take note of all your activities for the day!		
+Events today that have passed are marked with a strikethrough to let you know they are over!
 
-The currently selected task, is striked through, which is very different from the rest of the list. Unlike the first overdued task, this task is an EVENT type, meaning it has a start time and end time. Once today's EVENT is over, it will be striked through all the way until the end of the day, after which the event will go straight to your archive.
+Other tasks that happen after today are shown in blue, and are shown after your tasks that are overdue or due today.
 
-If you ever overslept and missed an EVENT, worry not!! You can easily notice it on Urgenda, and reschedule it!
-To key in such a task into Urgenda, simply type:
+Tasks that are completed and marked as done are shown in grey. You can view these task by using the command 'archive'!
+
+Have an important event or deadline to jot down? Easy!
+Urgenda can detect different date formats such as "11/4", "11 Apr" or "11 April"! You can even use words like 'today', 'tonight' or 'tommorrow'!
+
+Have a deadline to meet? Add the given deadline task to Urgenda using:
+Complete tutorial by [date and time to complete task by]
+
+Got an upcoming event? Add the given event task to Urgenda using:
 Breakfast with mum and dad today from 7am to 8am
 
-This task is an EVENT too! But it doesn't happen only on today, it started since yesterday and lasts all the way till tomorrow! Because the EVENT stretches past today, it is included in Today's Tasks as well!
-To key in such a task into Urgenda, simply type:
-NUS Overseas Colleges Workshop from (1 day before) 10 am to tomorrow 10pm
+Urgenda also supports adding of tasks with no specified dates or times! To add such a task, simply type the description and press ENTER!
 
-The rest of your tasks, that are not in the Overdue or Today's section, will all fall under Others, and are colour coded blue. 
-This task has TWO NEW features!!
+When a task is completed, use "done" or "completed" to mark it as completed! The completed task will then be moved to your archive!
 
-The Star! The star before the task description indicates that the task is important and it is high on your priority list! Starred tasks will always be placed at the top of the list so that you can always see it first. You can toggle the star on/off with the word Pri
+There are also other exciting features in Urgenda that can help you manage your tasks better!
+For tasks that are important, use "Important" or "Pri" to prioritize and mark it with a star! All prioritized tasks are shown first.
 
-The Number on the right! Notice the number "3" on the right? This means that this task contains 3 time slots! EVENTS can contain multiple time slots, in case you don't have a confirmed timing just yet! 
+To add a location to a task, simply add "@" followed by the location description! For example, use "@Supermarket" to add this location!
 
-To key in a multiple time slot task into Urgenda, simply type: 
-Internship interview at 12 apr 10am to 12 apr 11am, 12 apr 1pm to 12 apr 2pm, 13 apr 9am to 13 apr 10am
-To mark a task as important:
-Important [Task no.] 
+Have an upcoming event that doesn't have a confirmed date and time yet? Urgenda allows you to reserve multiple timeslots for the same task!
+Simple use "block" or "reserve" followed by the timeslots that you wish to reserve for this event!
+The number of timeslots blocked is shown at the right side of the task!
 
-This task has two new features as well!
-Location! You need to store the location to an event? Fear not, for you can simply store it in Urgenda along with your task! 
-Need to know what the multiple time slots are? Fear not, we can expand the task for you!
+If you wish to expand a task to see its details, such as its date added and modified, the multiple reserved timeslots, or the set location, simple use "showmore"!
 
-To key in a multiple time slot task with location into Urgenda, simply type: 
-Get groceries at 8 apr 5pm to 8 apr 6pm, 9 apr 5pm to 9 apr 6pm @Supermarket
-To expand a task:
-Showmore [Task no.]
-
-Lastly, we have the archives! Is there a time when you just want to look back and feel proud of how much you have done in the past week? 
-Simply enter "Archive" to show the full list of all your completed tasks!
-
-You've come to the end of the demo. There is a lot more functions and features in Urgenda waiting for you to explore. Look around, play around to find the little secrets of Urgenda! Or simply look at our Help Section for a full guide to fully utilizing Urgenda for your maximum benefit!
+You've come to the end of the demo. There are many more functions and features in Urgenda waiting for you to explore. Do refer to our help menu for more information!
+Press TAB to return to the home menu.

@@ -222,6 +222,7 @@ public class DisplayController extends AnchorPane {
 						TaskDisplayType.ARCHIVE, false);
 			}	
 		}
+		//reset old settings for novice view if changed
 		_isNoviceView = isNoviceViewOld;
 	}
 

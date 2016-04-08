@@ -29,18 +29,28 @@ public class DateTimePairTest {
 		DateTimePair t1 = new DateTimePair(referenceDateTime, referenceDateTime);
 		assertEquals(t1.firstIsBefore(), false);
 		// Partition: first datetime is later
-		DateTimePair t2 = new DateTimePair(referenceDateTime, referenceDateTime.minusSeconds(1));
-		assertEquals(t2.firstIsBefore(), false);
-		DateTimePair t3 = new DateTimePair(referenceDateTime.plusSeconds(1), referenceDateTime);
-		assertEquals(t3.firstIsBefore(), false);
+		DateTimePair t2a = new DateTimePair(referenceDateTime.plusSeconds(1), referenceDateTime);
+		assertEquals(t2a.firstIsBefore(), false);
+		DateTimePair t2b = new DateTimePair(referenceDateTime.plusMinutes(1), referenceDateTime);
+		assertEquals(t2b.firstIsBefore(), false);
+		DateTimePair t3a = new DateTimePair(referenceDateTime, referenceDateTime.minusSeconds(1));
+		assertEquals(t3a.firstIsBefore(), false);
+		DateTimePair t3b = new DateTimePair(referenceDateTime, referenceDateTime.minusMinutes(1));
+		assertEquals(t3b.firstIsBefore(), false);
 		// Partition: first datetime is earlier
-		DateTimePair t4 = new DateTimePair(referenceDateTime, referenceDateTime.plusSeconds(1));
-		assertEquals(t4.firstIsBefore(), true);
-		DateTimePair t5 = new DateTimePair(referenceDateTime.minusSeconds(1), referenceDateTime);
-		assertEquals(t5.firstIsBefore(), true);
+		DateTimePair t4a = new DateTimePair(referenceDateTime, referenceDateTime.plusSeconds(1));
+		assertEquals(t4a.firstIsBefore(), true);
+		DateTimePair t4b = new DateTimePair(referenceDateTime, referenceDateTime.plusMinutes(1));
+		assertEquals(t4b.firstIsBefore(), true);
+		DateTimePair t5a = new DateTimePair(referenceDateTime.minusSeconds(1), referenceDateTime);
+		assertEquals(t5a.firstIsBefore(), true);
+		DateTimePair t5b = new DateTimePair(referenceDateTime.minusMinutes(1), referenceDateTime);
+		assertEquals(t5b.firstIsBefore(), true);
 		
-		assertEquals(t5.getEarlierDateTime(), referenceDateTime.minusSeconds(1));
-		assertEquals(t5.getLaterDateTime(), referenceDateTime);
+		assertEquals(t3a.getEarlierDateTime(), referenceDateTime.minusSeconds(1));
+		assertEquals(t3a.getLaterDateTime(), referenceDateTime);
+		assertEquals(t5a.getEarlierDateTime(), referenceDateTime.minusSeconds(1));
+		assertEquals(t5a.getLaterDateTime(), referenceDateTime);
 	}
 	
 	/**
@@ -70,9 +80,13 @@ public class DateTimePairTest {
 		DateTimePair t2 = new DateTimePair(referenceDateTime, referenceDateTime);
 		DateTimePair t3 = new DateTimePair(referenceDateTime, referenceDateTime.plusSeconds(1));
 		DateTimePair t4 = new DateTimePair(referenceDateTime.plusSeconds(1), referenceDateTime);
+		// Partition: same for both dates and times
 		assertEquals(t1.equals(t2), true);
+		// Partition: second datetime is same, first is different
 		assertEquals(t1.equals(t3), false);
+		// Partition: first datetime is same, second is different
 		assertEquals(t1.equals(t4), false);
+		// Partition: same for both dates and times, but different order
 		assertEquals(t3.equals(t4), true);
 	}
 	
@@ -89,6 +103,7 @@ public class DateTimePairTest {
 		DateTimePair t2 = new DateTimePair(dt1, dt2);
 		assertEquals(t2.getRoundedDays(), 1);
 		DateTimePair t3 = new DateTimePair(dt2, dt3);
+		// Partition: leap year case
 		assertEquals(t3.getRoundedDays(), 366);
 	}
 }
