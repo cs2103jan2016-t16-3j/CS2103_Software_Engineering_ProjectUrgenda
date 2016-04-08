@@ -113,7 +113,8 @@ public class HelpController implements Initializable {
 			}	
 		});
 	}
-
+	
+	//sorts the title for the page and the text
 	private void organiseHelpText(ArrayList<String> helpTextArray) {
 		for(String helpTextString : helpTextArray) {
 			String command = "";
@@ -151,16 +152,16 @@ public class HelpController implements Initializable {
 			_helpTextPos.set(_helpTextPos.get() - 1);
 		}
 	}
+	
+	@FXML
+	private void helpNextListener(ActionEvent e) {
+		helpNext();
+	}
 
 	private void helpNext() {
 		if(_helpTextPos.get() < _helpText.size() - 1) {
 			_helpTextPos.set(_helpTextPos.get() + 1);
 		}
-	}
-	
-	@FXML
-	private void helpNextListener(ActionEvent e) {
-		helpNext();
 	}
 	
 	/**
