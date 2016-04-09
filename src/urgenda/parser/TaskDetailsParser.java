@@ -9,54 +9,37 @@ import urgenda.parser.PublicVariables.COMMAND_TYPE;
 import urgenda.parser.PublicVariables.TASK_TYPE;
 
 public class TaskDetailsParser {
-	public static String searchTaskLocation(String argsString) {
-		String temp = argsString.trim();
-		try {
-			temp = temp.split("@")[1];
-			PublicVariables.taskLocation = temp.trim();
-			return argsString.replace("@" + temp.trim(), "").trim();
-		} catch (Exception e) {
-			try {
-				if (temp.substring(0, 3).equals("at ")) {
-					PublicVariables.taskLocation = temp.substring(3);
-					return argsString.replace("at " + temp.substring(3), "");
-				} else {
-					temp = temp.split(" at ")[1];
-					PublicVariables.taskLocation = temp.trim();
-					return argsString.replace(" at " + temp.trim(), "");
-				}
-			} catch (Exception ex) {
-				return argsString.trim();
-			}
-		}
-	}
+	private static String locationKeyWord1 = "@";
+	private static String locationKeyWord2 = "at";
+	private static String emptyString = "";
+	private static String whiteSpace = " ";
+	private static String rangeRegex = "((\\d+)( )?-( )?(\\d+))";
+	private static String numberRegex = "(\\d+)";
+	private static String indexDelimiterRegex = ",";
+	private static String indexRangeDelimiterRegex = "-";
 
-	public static String searchTaskHashtags(String argsString) {
-		if (argsString != null) {
-			String temp = argsString;
-			Matcher matcher = Pattern.compile("#\\S+").matcher(temp);
-			while (matcher.find()) {
-				PublicVariables.taskHashtags.add(matcher.group());
-				argsString = argsString.replace(matcher.group(), "");
-			}
+	public static String searchTaskLocation(String argsString) {
+		try {
+			return tryParseLocationByFirstKeyWord(argsString);
+		} catch (Exception e) {
+			return tryParseLocationBySecondKeyWord(argsString);
 		}
-		return argsString.trim();
 	}
 
 	public static void searchTaskDescription(String argsString) {
-		if (argsString == null || argsString.equals("")) {
-			PublicVariables.taskDescription = "";
+		if (isEmptyDesc(argsString)) {
+			PublicVariables.taskDescription = emptyString;
 		} else {
 			PublicVariables.taskDescription = argsString.trim();
 		}
 	}
 
 	public static void searchTaskType() {
-		if (PublicVariables.taskStartTime == null && PublicVariables.taskEndTime == null) {
+		if (noTaskStartTime() && noTaskEndTime()) {
 			PublicVariables.taskType = TASK_TYPE.FLOATING;
-		} else if (PublicVariables.taskStartTime != null && PublicVariables.taskEndTime != null) {
+		} else if (!noTaskStartTime() && !noTaskEndTime()) {
 			PublicVariables.taskType = TASK_TYPE.EVENT;
-		} else if (PublicVariables.taskStartTime == null && PublicVariables.taskEndTime != null) {
+		} else if (noTaskStartTime() && !noTaskEndTime()) {
 			PublicVariables.taskType = TASK_TYPE.DEADLINE;
 		} else {
 			PublicVariables.taskType = TASK_TYPE.INVALID;
@@ -75,31 +58,86 @@ public class TaskDetailsParser {
 	}
 
 	public static String searchTaskIndexRange(String argsString) {
-		String rangeRegex = "((\\d+)( )?-( )?(\\d+))";
-		String numberRegex = "(\\d+)";
-		String[] indexRanges = argsString.split(",");
+
+		String[] indexRanges = argsString.split(indexDelimiterRegex);
 
 		for (int i = 0; i < indexRanges.length; i++) {
 			try {
-				if (indexRanges[i].trim().matches(rangeRegex)) {
-					int index1 = Integer.parseInt(indexRanges[i].split("-")[0].trim());
-					int index2 = Integer.parseInt(indexRanges[i].split("-")[1].trim());
-					for (int j = Integer.min(index1, index2); j <= Integer.max(index1, index2); j++) {
-						if (!PublicVariables.positions.contains(j - 1)) {
-							PublicVariables.positions.add(j - 1);
-						}
-					}
-				} else if (indexRanges[i].trim().matches(numberRegex)) {
-					if (!PublicVariables.positions.contains(Integer.parseInt(indexRanges[i].trim()) - 1)) {
-						PublicVariables.positions.add(Integer.parseInt(indexRanges[i].trim()) - 1);
-					}
+				if (isIndexRange(indexRanges, i)) {
+					parseIndexRange(indexRanges, i);
+				} else if (isSingleIndex(indexRanges, i)) {
+					parseSingleIndex(indexRanges, i);
 				} else {
 					return argsString;
-				}	
+				}
 			} catch (Exception e) {
 				return argsString;
 			}
 		}
 		return null;
+	}
+
+	private static void parseSingleIndex(String[] indexRanges, int i) {
+		int Index = Integer.parseInt(indexRanges[i].trim()) - 1;
+		if (isNotRepeatedIndex(Index)) {
+			PublicVariables.positions.add(Index);
+		}
+	}
+
+	private static void parseIndexRange(String[] indexRanges, int i) {
+		int index1 = Integer.parseInt(indexRanges[i].split(indexRangeDelimiterRegex)[0].trim());
+		int index2 = Integer.parseInt(indexRanges[i].split(indexRangeDelimiterRegex)[1].trim());
+		for (int j = Integer.min(index1, index2); j <= Integer.max(index1, index2); j++) {
+			if (isNotRepeatedIndex(j - 1)) {
+				PublicVariables.positions.add(j - 1);
+			}
+		}
+	}
+
+	private static boolean isSingleIndex(String[] indexRanges, int i) {
+		return indexRanges[i].trim().matches(numberRegex);
+	}
+
+	private static boolean isIndexRange(String[] indexRanges, int i) {
+		return indexRanges[i].trim().matches(rangeRegex);
+	}
+
+	private static String tryParseLocationByFirstKeyWord(String argsString) {
+		String temp = argsString.trim();
+		temp = temp.split(locationKeyWord1)[1];
+		PublicVariables.taskLocation = temp.trim();
+		return argsString.replace(locationKeyWord1 + temp.trim(), emptyString).trim();
+	}
+
+	private static String tryParseLocationBySecondKeyWord(String argsString) {
+		String temp = argsString.trim();
+		try {
+			if (temp.substring(0, 3).equals(locationKeyWord2 + whiteSpace)) {
+				PublicVariables.taskLocation = temp.substring(3);
+				return argsString.replace(locationKeyWord2 + whiteSpace + temp.substring(3), emptyString);
+			} else {
+				temp = temp.split(whiteSpace + locationKeyWord2 + whiteSpace)[1];
+				PublicVariables.taskLocation = temp.trim();
+				return argsString.replace(whiteSpace + locationKeyWord2 + whiteSpace + temp.trim(), emptyString);
+			}
+		} catch (Exception ex) {
+			return argsString.trim();
+		}
+	}
+
+	private static Boolean isEmptyDesc(String argsString) {
+		return argsString == null || argsString.equals(emptyString);
+	}
+
+	private static Boolean noTaskStartTime() {
+		return PublicVariables.taskStartTime == null;
+	}
+
+	private static Boolean noTaskEndTime() {
+		return PublicVariables.taskEndTime == null;
+	}
+	
+	private static Boolean isNotRepeatedIndex(int index) {
+		return !PublicVariables.positions.contains(index);
 	}
 }
