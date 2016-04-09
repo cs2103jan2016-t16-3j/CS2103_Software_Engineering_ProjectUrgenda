@@ -17,17 +17,21 @@ public class AddCommandParser {
 	private static String _argsString;
 	private static int _index;
 	private static String descPlaceHolder;
+	
+	private static String emptyString = "";
+	private static String doubleQuotes = "\"\"";
+	private static char singleQuote ='\"';
 
 	public AddCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
+		descPlaceHolder = null;
 	}
 
 	public static Command generateAndReturn() {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			descPlaceHolder = null;
 			String reformattedString = checkSpecialDesc();
 			ArrayList<String> reservedWords = getReservedWords();
 			reformattedString = PublicFunctions.reformatArgsString(_argsString).trim();
@@ -42,25 +46,26 @@ public class AddCommandParser {
 
 	private static Command generateAddCommandAndReturn() {
 		Task newTask = new Task();
-		if (descPlaceHolder != null && !descPlaceHolder.equals("\"\"")) {
-			newTask.setDesc(descPlaceHolder.substring(1,descPlaceHolder.length()));
+		if (hasSpecialDesc()) {
+			newTask.setDesc(descPlaceHolder.substring(1, descPlaceHolder.length()));
 		} else {
-			if (!PublicVariables.taskDescription.equals("")) {
+			if (hasValidDesc()) {
 				newTask.setDesc(PublicVariables.taskDescription);
 			}
 		}
-		if (!PublicVariables.taskLocation.equals("")) {
+		if (hasValidLocation()) {
 			newTask.setLocation(PublicVariables.taskLocation);
 		}
-		if (PublicVariables.taskStartTime != null) {
+		if (hasValidStartTime()) {
 			newTask.setStartTime(PublicVariables.taskStartTime);
 		}
-		if (PublicVariables.taskEndTime != null) {
+		if (hasValidEndTime()) {
 			newTask.setEndTime(PublicVariables.taskEndTime);
 		}
-		if (!PublicVariables.taskSlots.isEmpty()) {
+		if (hasValidSlot()) {
 			newTask.setSlot(PublicVariables.taskSlots);
 		}
+
 		switch (PublicVariables.taskType) {
 		case EVENT:
 			newTask.setTaskType(Task.Type.EVENT);
@@ -76,37 +81,65 @@ public class AddCommandParser {
 		}
 		return new AddTask(newTask);
 	}
-	public static String checkSpecialDesc() {
+
+	private static boolean hasValidSlot() {
+		return !PublicVariables.taskSlots.isEmpty();
+	}
+
+	private static boolean hasValidEndTime() {
+		return PublicVariables.taskEndTime != null;
+	}
+
+	private static boolean hasValidStartTime() {
+		return PublicVariables.taskStartTime != null;
+	}
+
+	private static boolean hasValidLocation() {
+		return !PublicVariables.taskLocation.equals(emptyString);
+	}
+
+	private static boolean hasValidDesc() {
+		return !PublicVariables.taskDescription.equals(emptyString);
+	}
+
+	private static boolean hasSpecialDesc() {
+		return descPlaceHolder != null && !descPlaceHolder.equals(doubleQuotes);
+	}
+
+	private static String checkSpecialDesc() {
 		int counter = 0;
-		for( int i=0; i<_argsString.length(); i++ ) {
-		    if( _argsString.charAt(i) == '\"' ) {
-		        counter++;
-		    } 
+		for (int i = 0; i < _argsString.length(); i++) {
+			if (_argsString.charAt(i) == singleQuote) {
+				counter++;
+			}
 		}
-		if (counter!= 2) {
+		if (counter != 2) {
 			return _argsString;
 		} else {
-			int firstOccurence = _argsString.indexOf('\"');
-			int secondOccurence = _argsString.indexOf('\"', firstOccurence + 1);
-			descPlaceHolder = _argsString.substring(firstOccurence,secondOccurence);
-			return _argsString.replace(descPlaceHolder, "");
+			int firstOccurence = _argsString.indexOf(singleQuote);
+			int secondOccurence = _argsString.indexOf(singleQuote, firstOccurence + 1);
+			descPlaceHolder = _argsString.substring(firstOccurence, secondOccurence);
+			return _argsString.replace(descPlaceHolder, emptyString);
 		}
 	}
-	
+
 	private static ArrayList<String> getReservedWords() {
+		String specialDescRegex = "([^\\d+\\s+/-:]+)(\\d+)";
+		String leftDelimiter = "<";
+		String rightDelimiter = ">";
 		ArrayList<String> array = new ArrayList<String>();
-		Matcher matcher = Pattern.compile("([^\\d+\\s+/-:]+)(\\d+)").matcher(_argsString);
-		while (matcher.find()) {
-			_argsString = _argsString.replace(matcher.group(), "<" + matcher.group() + ">");
-			array.add("<" + matcher.group() + ">");
-		}
 		
+		Matcher matcher = Pattern.compile(specialDescRegex).matcher(_argsString);
+		while (matcher.find()) {
+			_argsString = _argsString.replace(matcher.group(), leftDelimiter + matcher.group() + rightDelimiter);
+			array.add(leftDelimiter + matcher.group() + rightDelimiter);
+		}
 		return array;
 	}
-	
+
 	private static String undoReserveWords(ArrayList<String> array, String string) {
-		for (String arrayString:array) {
-			string = string.replace(arrayString, arrayString.substring(1,arrayString.length()-1));
+		for (String arrayString : array) {
+			string = string.replace(arrayString, arrayString.substring(1, arrayString.length() - 1));
 		}
 		return string;
 	}
