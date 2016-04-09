@@ -196,9 +196,11 @@ public class FileEditor {
 	 */
 	public void writeToFile(String phrase) {
 		try {
-			PrintWriter writer = new PrintWriter(_file);
-			writer.println(phrase);
-			writer.close();
+			if (_file.exists()) {
+				PrintWriter writer = new PrintWriter(_file);
+				writer.println(phrase);
+				writer.close();
+			}
 		} catch (FileNotFoundException e) {
 			logger.getLogger().info("no such file found");
 		}
@@ -292,9 +294,10 @@ public class FileEditor {
 	}
 
 	/**
-	 * Returns the name of the file. This should only be the name, appended with ".txt". 
+	 * Returns the name of the file. This should only be the name, appended with
+	 * ".txt".
 	 * 
-	 * @return name of the file. 
+	 * @return name of the file.
 	 */
 	public String getFileName() {
 		return _file.getName();
@@ -313,7 +316,7 @@ public class FileEditor {
 	/**
 	 * Returns the absolut epath of the directory.
 	 * 
-	 * @return absolute path of the directory. 
+	 * @return absolute path of the directory.
 	 */
 	public String getDirAbsolutePath() {
 		return _parentDir.getAbsolutePath();

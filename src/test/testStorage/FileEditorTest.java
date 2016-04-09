@@ -30,7 +30,7 @@ public class FileEditorTest {
 		assertTrue(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
 		
 		file.delete();
-		
+		assertFalse(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
 		String phrase = "test";
 		file.writeToFile(phrase);
 		String actual = file.retrieveFromFile();
