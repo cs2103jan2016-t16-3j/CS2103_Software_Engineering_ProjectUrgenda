@@ -40,7 +40,7 @@ public class AddTaskTest {
 	
 	@Test
 	public void testUndo() throws LogicException {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),
@@ -55,7 +55,7 @@ public class AddTaskTest {
 	
 	@Test
 	public void testRedo() throws LogicException {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),

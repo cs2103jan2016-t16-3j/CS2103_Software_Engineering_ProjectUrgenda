@@ -16,7 +16,7 @@ public class ShowDetailsTest {
 
 	@Test
 	public void testExecute() throws Exception {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy new specs", "floating", "", false, false, false, notime, notime,
 				LocalDateTime.now(), notime, null);

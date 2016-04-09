@@ -21,7 +21,7 @@ public class LogicDataTest {
 	//also test that sorting of empty arraylist will return empty arraylist
 	@Test
 	public void testSortList() { 
-		LogicData _test = LogicData.getInstance();;
+		LogicData _test = LogicData.getInstance(true);;
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task("Buy milk", "", notime, notime,  false);
@@ -92,7 +92,7 @@ public class LogicDataTest {
 	//test cases also test for empty string
 	@Test
 	public void testFindMatchingDesc() { 
-		LogicData _test = LogicData.getInstance();;
+		LogicData _test = LogicData.getInstance(true);;
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		_test.setDisplays(_testinput);
 		LocalDateTime notime = null;
@@ -144,7 +144,7 @@ public class LogicDataTest {
 	// test cases partition into 5 types: floating no; event yes,no; deadline yes,no
 	@Test
 	public void testIsTaskToday() {
-		LogicData _test = LogicData.getInstance();;
+		LogicData _test = LogicData.getInstance(true);;
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task("Buy milk", "", notime, notime);
@@ -173,7 +173,7 @@ public class LogicDataTest {
 	//_tasks.size(), _tasks.size -1, a random value in btwn 0 and display size 
 	@Test
 	public void testFindMatchingPosition() {
-		LogicData _test = LogicData.getInstance();;
+		LogicData _test = LogicData.getInstance(true);
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		_test.setDisplays(_testinput);
 		LocalDateTime notime = null;
@@ -207,7 +207,7 @@ public class LogicDataTest {
 	//Equivalence partition. Boundary values: no match, single match, multiple matches
 	@Test
 	public void testFindMatchingDate() {
-		LogicData _test = LogicData.getInstance();
+		LogicData _test = LogicData.getInstance(true);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
 		LocalDateTime notime = null;
@@ -240,7 +240,7 @@ public class LogicDataTest {
 	//Equivalence partition. Boundary values: no match (totally diff), no match(only time diff),  single match, multiple matches
 	@Test
 	public void testFindMatchingDateTimes() {
-		LogicData _test = LogicData.getInstance();
+		LogicData _test = LogicData.getInstance(true);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		_test.setDisplays(_tasks);
 		LocalDateTime notime = null;
@@ -278,7 +278,7 @@ public class LogicDataTest {
 	//Equivalence partition. Boundary values: no match, single match, multiple matches
 	@Test
 	public void testFindMatchingMonths() {
-		LogicData _test = LogicData.getInstance();
+		LogicData _test = LogicData.getInstance(true);
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		_test.setDisplays(_testinput);
 		LocalDateTime notime = null;
@@ -318,7 +318,7 @@ public class LogicDataTest {
 	//Equivalence partition. Boundary values: no match, single match, multiple matches
 	@Test
 	public void testFindBlocks() {
-		LogicData _test = LogicData.getInstance();
+		LogicData _test = LogicData.getInstance(true);
 		MultipleSlot block = new MultipleSlot();
 		block.addTimeSlot(LocalDateTime.of(2016, Month.MAY, 15, 19, 00), LocalDateTime.of(2016, Month.MAY, 15, 21, 00));
 		MultipleSlot block2 = new MultipleSlot();
@@ -356,7 +356,7 @@ public class LogicDataTest {
 	// test cases partition into 2 main types: yes or no, 6 subtypes: floating yes,no ; event yes,no; deadline yes,no
 	@Test
 	public void testIsShowingMore() {
-		LogicData _test = LogicData.getInstance();
+		LogicData _test = LogicData.getInstance(true);
 		LocalDateTime notime = null;
 		Task obj = new Task("Buy milk", "", notime, notime);
 		Task obj2 = new Task("Submit ie2150 draft", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59));
