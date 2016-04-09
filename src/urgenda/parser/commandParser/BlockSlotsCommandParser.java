@@ -33,7 +33,7 @@ public class BlockSlotsCommandParser {
 			taskTimeStrings = new ArrayList<String>();
 			Boolean isConcatSuccess = concatArgsString();
 			if (isConcatSuccess) {
-				String reducedArgsString = TaskDetailsParser.searchTaskLocation(_argsString);
+				String reducedArgsString = TaskDetailsParser.searchTaskLocation(taskDetails);
 				TaskDetailsParser.searchTaskDescription(reducedArgsString);
 				TaskDetailsParser.searchTaskType();
 				DateTimeParser.searchTaskSlots(taskTimeStrings);
@@ -49,17 +49,33 @@ public class BlockSlotsCommandParser {
 	}
 
 	private static Boolean concatArgsString() {
-		try {
-			String[] splitString = _argsString.split(timeDelimiter);
-			taskDetails = splitString[0];
-			String[] timeStrings = splitString[1].split(groupDelimiter);
-			for (int i = 0; i < timeStrings.length; i++) {
-				taskTimeStrings.add(timeStrings[i]);
+		String[] splitString = _argsString.split(timeDelimiter);
+		if (splitString.length == 2) {
+			try {
+				taskDetails = splitString[0];
+				String[] timeStrings = splitString[1].split(groupDelimiter);
+				for (int i = 0; i < timeStrings.length; i++) {
+					taskTimeStrings.add(timeStrings[i]);
+				}
+				return true;
+			} catch (Exception e) {
+				return false;
 			}
-			return true;
-		} catch (Exception e) {
+		} else if (splitString.length == 3) {
+			try {
+				taskDetails = splitString[0] + timeDelimiter + splitString[1];
+				String[] timeStrings = splitString[2].split(groupDelimiter);
+				for (int i = 0; i < timeStrings.length; i++) {
+					taskTimeStrings.add(timeStrings[i]);
+				}
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		} else {
 			return false;
 		}
+
 	}
 
 	private static Command generateBlockCommandAndReturn() {

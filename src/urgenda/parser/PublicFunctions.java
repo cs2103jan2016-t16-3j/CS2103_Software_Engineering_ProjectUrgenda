@@ -73,7 +73,9 @@ public class PublicFunctions {
 	}
 
 	public static String reformatArgsString(String argsString) {
-		String reverseDateRegex = "(((\\A|\\D)([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])(([-/.])([(19)|(20)])?\\d\\d)?(\\D|\\Z)))";
+		String reverseDateRegexWithoutYear = "(((\\A|\\D)([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])(\\D|\\Z)))";
+		String reverseDateRegexWithYear = "(((\\A|\\D)([1-9]|0[1-9]|[12][0-9]|3[01])([-/.])([1-9]|0[1-9]|1[012])(([-/.])((19)|(20))?\\d\\d)(\\D|\\Z)))";
+		String reverseDateRegex = "(" + reverseDateRegexWithYear + "|" + reverseDateRegexWithoutYear + ")";
 		Matcher matcher = Pattern.compile(reverseDateRegex).matcher(argsString);
 		while (matcher.find()) {
 			argsString = argsString.replace(matcher.group(),
