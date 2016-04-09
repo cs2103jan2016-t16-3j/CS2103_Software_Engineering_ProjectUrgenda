@@ -19,7 +19,7 @@ import urgenda.util.Task;
 public class Search extends Command {
 
 	private static final String MESSAGE_SHOWING = "Showing: ";
-	private static final String MESSAGE_PROGRESSIVE_SEARCH = "PROGRESSIVE SEARCH: %1$s  based on the current view. Enter home to show all tasks";
+	private static final String MESSAGE_PROGRESSIVE_SEARCH = "PROGRESSIVE SEARCH: %1$s based on the current view. Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_DESC = "all task(s) found containing \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TYPE = "all task(s) found of type \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TIME = "These are all the task(s) falling on \"%1$s\"";
