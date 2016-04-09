@@ -16,6 +16,72 @@ public class ShowDetailsTest {
 
 	@Test
 	public void testExecute() throws Exception {
+		LogicData _data = setUpTestDisplayList();
+		_data.setDisplays(_data.getTaskList());
+		
+		ShowDetails test = new ShowDetails();
+		ArrayList<Integer> range = new ArrayList<Integer>();
+		range.add(3);
+		test.setPosition(range);
+		assertEquals("Showing more details for \"Dinner w relatives\"", test.execute()); //test single match
+		
+		ShowDetails test2 = new ShowDetails();
+		range.clear();
+		range.add(0); //test min acceptable boundary
+		range.add(_data.getDisplays().size()-1); //test max acceptable boundary
+		test2.setPosition(range);
+		assertEquals("Changed showing details for 2 tasks\n" +
+				"Showing more details for \"Buy new specs\", \"Do survey\"", test2.execute());
+		
+		ShowDetails test3 = new ShowDetails();
+		range.clear();
+		range.add(-6);
+		test3.setPosition(range);
+		String feedback;
+		try {
+			feedback = test3.execute();
+		} catch (Exception e) {
+			feedback = e.getMessage();
+		}
+		assertEquals("Invalid position(s) to showmore details", feedback); // test negative
+		
+		ShowDetails test4 = new ShowDetails();																	// boundary
+		range.clear();
+		test4.setPosition(range);
+		try {
+			feedback = test4.execute();
+		} catch (Exception e) {
+			feedback = e.getMessage();
+		}
+		assertEquals("Invalid position(s) to showmore details", feedback); // test empty positions
+		
+		ShowDetails test5 = new ShowDetails();
+		range.clear();
+		range.add(0);
+		range.add(2);
+		range.add(4);
+		test5.setPosition(range);
+		assertEquals("Changed showing details for 2 tasks\n" +
+				"Showing more details for \"Submit admission application\", \"Travel to Sweden\"", test5.execute());
+		
+		ShowDetails test6 = new ShowDetails();
+		range.clear();
+		range.add(7);
+		range.add(8);
+		test6.setPosition(range);
+		assertEquals("Showing less details for \"Do survey\"", test6.execute());
+		
+		ShowDetails test7 = new ShowDetails();
+		range.clear();
+		range.add(0);
+		range.add(3);
+		test7.setPosition(range);
+		assertEquals("Changed showing details for 2 tasks\n" +
+				"Showing less details for \"Buy new specs\", \"Dinner w relatives\"", test7.execute());
+		
+	}
+
+	private LogicData setUpTestDisplayList() {
 		LogicData _data = LogicData.getInstance(true);
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy new specs", "floating", "", false, false, false, notime, notime,
@@ -47,61 +113,6 @@ public class ShowDetailsTest {
 		_data.addTask(obj6);
 		_data.addTask(obj7);
 		_data.addTask(obj8);
-
-		_data.setDisplays(_data.getTaskList());
-		ShowDetails test = new ShowDetails();
-		ArrayList<Integer> range = new ArrayList<Integer>();
-		range.add(3);
-		test.setPosition(range);
-		assertEquals("Showing more details for \"Dinner w relatives\"", test.execute()); //test single match
-		ShowDetails test2 = new ShowDetails();
-		range.clear();
-		range.add(0); //test min acceptable boundary
-		range.add(_data.getDisplays().size()-1); //test max acceptable boundary
-		test2.setPosition(range);
-		assertEquals("Changed showing details for 2 tasks\n" +
-				"Showing more details for \"Buy new specs\", \"Do survey\"", test2.execute());
-		ShowDetails test3 = new ShowDetails();
-		range.clear();
-		range.add(-6);
-		test3.setPosition(range);
-		String feedback;
-		try {
-			feedback = test3.execute();
-		} catch (Exception e) {
-			feedback = e.getMessage();
-		}
-		assertEquals("Invalid position(s) to showmore details", feedback); // test negative
-		ShowDetails test4 = new ShowDetails();																	// boundary
-		range.clear();
-		test4.setPosition(range);
-		try {
-			feedback = test4.execute();
-		} catch (Exception e) {
-			feedback = e.getMessage();
-		}
-		assertEquals("Invalid position(s) to showmore details", feedback); // test empty positions
-		ShowDetails test5 = new ShowDetails();
-		range.clear();
-		range.add(0);
-		range.add(2);
-		range.add(4);
-		test5.setPosition(range);
-		assertEquals("Changed showing details for 2 tasks\n" +
-				"Showing more details for \"Submit admission application\", \"Travel to Sweden\"", test5.execute());
-		ShowDetails test6 = new ShowDetails();
-		range.clear();
-		range.add(7);
-		range.add(8);
-		test6.setPosition(range);
-		assertEquals("Showing less details for \"Do survey\"", test6.execute());
-		ShowDetails test7 = new ShowDetails();
-		range.clear();
-		range.add(0);
-		range.add(3);
-		test7.setPosition(range);
-		assertEquals("Changed showing details for 2 tasks\n" +
-				"Showing less details for \"Buy new specs\", \"Dinner w relatives\"", test7.execute());
-		
+		return _data;
 	}
 }

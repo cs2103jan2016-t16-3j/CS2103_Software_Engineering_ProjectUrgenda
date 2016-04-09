@@ -2,9 +2,7 @@
 //Unused feature due to change of additional special feature towards the end. Decided to go for nicer and 
 //more rewarding feature Good Gui rather than recurring task. Hence this feature has not been fully tested, implemented
 //and refactored. Left it here for the effort spent, probably deleting it in the end.
-//Unused feature due to change of additional special feature towards the end. Decided to go for nicer and 
-//more rewarding feature Good Gui rather than recurring task. Hence this feature has not been fully tested, implemented
-//and refactored. Left it here for the effort spent, probably deleting it in the end.
+
 package urgenda.command;
 
 import java.time.LocalDateTime;
@@ -18,7 +16,9 @@ import urgenda.util.UrgendaLogger;
 
 /**
  * 
- * Recurrence command object used for performing recurring tasks in Urgenda
+ * Recurrence command object used for performing recurring tasks in Urgenda.
+ * This is an unused feature due to change in special feature. Not implemented and called by other components.
+ * Tag as unused due to the effort spent ><. 
  *
  */
 public class Recurrence extends TaskCommand {
@@ -69,81 +69,25 @@ public class Recurrence extends TaskCommand {
 		if (_length == null) {
 			_length = Integer.MAX_VALUE;
 		}
-		switch (_newTask.getTaskType()) {
-		case DEADLINE:
-			LocalDateTime start = null;
-			LocalDateTime end = _newTask.getEndTime();
-			for (int i = 0; i < (_length).intValue(); i++) {
-				if (_minutes != null) {
-					end = end.plusMinutes(_minutes);
-				}
-				if (_hours != null) {
-					end = end.plusHours(_hours);
-				}
-				if (_days != null) {
-					end = end.plusDays(_days);
-				}
-				if (_weeks != null) {
-					end = end.plusWeeks(_weeks);
-				}
-				if (_months != null) {
-					end = end.plusMonths(_months);
-				}
-				if (_months != null) {
-					end = end.plusYears(_years);
-				}
-				_recurr.addTimeSlot(start, end);
-			}
-			break;
-		case EVENT:
-			start = _newTask.getStartTime();
-			end = _newTask.getEndTime();
-			for (int i = 0; i < (_length).intValue(); i++) {
-				if (_minutes != null) {
-					start = start.plusMinutes(_minutes);
-					end = end.plusMinutes(_minutes);
-				}
-				if (_hours != null) {
-					start = start.plusHours(_hours);
-					end = end.plusHours(_hours);
-				}
-				if (_days != null) {
-					start = start.plusDays(_days);
-					end = end.plusDays(_days);
-				}
-				if (_weeks != null) {
-					start = start.plusWeeks(_weeks);
-					end = end.plusWeeks(_weeks);
-				}
-				if (_months != null) {
-					start = start.plusMonths(_months);
-					end = end.plusMonths(_months);
-				}
-				if (_months != null) {
-					start = start.plusYears(_years);
-					end = end.plusYears(_years);
-				}
-				_recurr.addTimeSlot(start, end);
-			}
-			break;
-		default:
-			throw new LogicException(MESSAGE_TYPE_ERROR);
-		}
+		recurrTimeSlot();
 		if (_recurr.isEmpty() || _recurr.equals(null)) {
 			throw new LogicException(MESSAGE_INVALID);
 		}
 
-		// _newTask.toggleRecurring(); attribute to be added to task to indicate task is of type recurring 
-		//highlight to gui to only show start time, end time and first datetimepair in multiple slot 
+		// _newTask.toggleRecurring(); attribute to be added to task to indicate
+		// task is of type recurring
+		// highlight to gui to only show start time, end time and first
+		// datetimepair in multiple slot
 		_newTask.setSlot(_recurr);
 		LocalDateTime now = LocalDateTime.now();
-		if (_id != null) {
-			_newTask.setId(_data.getCurrentId());
-			_newTask.setDateAdded(now);
-			_data.updateCurrentId();
-		}
+		updateId(now);
 		_newTask.setDateModified(now);
 		_newTask.updateTaskType();
+		String feedback = checkValidity();
+		return taskMessage(_newTask) + MESSAGE_RECURR + feedback;
+	}
+
+	private String checkValidity() throws LogicException {
 		String feedback = "";
 		try {
 			checkTaskValidity(_newTask);
@@ -164,7 +108,89 @@ public class Recurrence extends TaskCommand {
 			// throws exception to prevent AddTask being added to undo stack
 			throw new LogicException(MESSAGE_ERROR + e.getMessage());
 		}
-		return taskMessage(_newTask) + MESSAGE_RECURR + feedback;
+		return feedback;
+	}
+
+	private void updateId(LocalDateTime now) {
+		if (_id != null) {
+			_newTask.setId(_data.getCurrentId());
+			_newTask.setDateAdded(now);
+			_data.updateCurrentId();
+		}
+	}
+
+	private void recurrTimeSlot() throws LogicException {
+		switch (_newTask.getTaskType()) {
+		case DEADLINE:
+			LocalDateTime start = null;
+			LocalDateTime end = _newTask.getEndTime();
+			end = updateDeadLineTimeSlot(start, end);
+			break;
+		case EVENT:
+			upDateEventTimeSlot();
+			break;
+		default:
+			throw new LogicException(MESSAGE_TYPE_ERROR);
+		}
+	}
+
+	private void upDateEventTimeSlot() {
+		LocalDateTime start;
+		LocalDateTime end;
+		start = _newTask.getStartTime();
+		end = _newTask.getEndTime();
+		for (int i = 0; i < (_length).intValue(); i++) {
+			if (_minutes != null) {
+				start = start.plusMinutes(_minutes);
+				end = end.plusMinutes(_minutes);
+			}
+			if (_hours != null) {
+				start = start.plusHours(_hours);
+				end = end.plusHours(_hours);
+			}
+			if (_days != null) {
+				start = start.plusDays(_days);
+				end = end.plusDays(_days);
+			}
+			if (_weeks != null) {
+				start = start.plusWeeks(_weeks);
+				end = end.plusWeeks(_weeks);
+			}
+			if (_months != null) {
+				start = start.plusMonths(_months);
+				end = end.plusMonths(_months);
+			}
+			if (_months != null) {
+				start = start.plusYears(_years);
+				end = end.plusYears(_years);
+			}
+			_recurr.addTimeSlot(start, end);
+		}
+	}
+
+	private LocalDateTime updateDeadLineTimeSlot(LocalDateTime start, LocalDateTime end) {
+		for (int i = 0; i < (_length).intValue(); i++) {
+			if (_minutes != null) {
+				end = end.plusMinutes(_minutes);
+			}
+			if (_hours != null) {
+				end = end.plusHours(_hours);
+			}
+			if (_days != null) {
+				end = end.plusDays(_days);
+			}
+			if (_weeks != null) {
+				end = end.plusWeeks(_weeks);
+			}
+			if (_months != null) {
+				end = end.plusMonths(_months);
+			}
+			if (_months != null) {
+				end = end.plusYears(_years);
+			}
+			_recurr.addTimeSlot(start, end);
+		}
+		return end;
 	}
 
 	private String checkPassed() {

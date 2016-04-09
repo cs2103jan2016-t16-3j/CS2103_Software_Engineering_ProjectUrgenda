@@ -8,6 +8,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * 
+ * UrgendaLogger a the class under Utils component. It is used for logging and tracking of 
+ * performance of Urgenda. It is global to all other components.
+ *
+ */
 public class UrgendaLogger {
 	
 	private final static Logger myLogger = Logger.getLogger(UrgendaLogger.class.getName());
@@ -15,6 +21,12 @@ public class UrgendaLogger {
 	
 	private static File _parentDir;
 
+	/**
+	 * Singleton constructor of UrgendaLogger so that all classes uses the same logger and 
+	 * logging could be appended to a single log file.
+	 * @return _loggerInstance
+	 * The instance of Singleton pattern UrgendaLogger.
+	 */
 	public static UrgendaLogger getInstance() {
 		if (_loggerInstance == null) {
 			setUpLogger();
@@ -23,6 +35,9 @@ public class UrgendaLogger {
 		return _loggerInstance;
 	}
 
+	/**
+	 * This method is for configuration and setting up of logger.
+	 */
 	private static void setUpLogger() {
 		try {
 			createFileSettings();
@@ -42,6 +57,11 @@ public class UrgendaLogger {
 		
 	}
 
+	/**
+	 *Getter for the private attribute of UrgendaLogger class.
+	 * @return myLogger
+	 * The logger used for logging.
+	 */
 	public Logger getLogger() {
 		return myLogger;
 	}
