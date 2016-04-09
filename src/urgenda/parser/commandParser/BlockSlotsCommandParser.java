@@ -16,6 +16,10 @@ public class BlockSlotsCommandParser {
 	private static String taskDetails;
 	private static ArrayList<String> taskTimeStrings;
 
+	private static String timeDelimiter = " at ";
+	private static String groupDelimiter = ",";
+	private static String emptyString = "";
+	
 	public BlockSlotsCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
@@ -25,7 +29,7 @@ public class BlockSlotsCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
+			reformatArgsString();
 			taskTimeStrings = new ArrayList<String>();
 			Boolean isConcatSuccess = concatArgsString();
 			if (isConcatSuccess) {
@@ -40,11 +44,15 @@ public class BlockSlotsCommandParser {
 		}
 	}
 
+	private static void reformatArgsString() {
+		_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
+	}
+
 	private static Boolean concatArgsString() {
 		try {
-			String[] splitString = _argsString.split(" at ");
+			String[] splitString = _argsString.split(timeDelimiter);
 			taskDetails = splitString[0];
-			String[] timeStrings = splitString[1].split(",");
+			String[] timeStrings = splitString[1].split(groupDelimiter);
 			for (int i = 0; i < timeStrings.length; i++) {
 				taskTimeStrings.add(timeStrings[i]);
 			}
@@ -56,23 +64,24 @@ public class BlockSlotsCommandParser {
 
 	private static Command generateBlockCommandAndReturn() {
 		Task newTask = new Task();
-		if (!PublicVariables.taskDescription.equals("")) {
+		if (hasValidDesc()) {
 			newTask.setDesc(PublicVariables.taskDescription);
 		}
-		if (!PublicVariables.taskLocation.equals("")) {
+		if (hasValidLocation()) {
 			newTask.setLocation(PublicVariables.taskLocation);
 		}
-		if (PublicVariables.taskStartTime != null) {
+		if (hasValidStartTime()) {
 			newTask.setStartTime(PublicVariables.taskStartTime);
 		}
-		if (PublicVariables.taskEndTime != null) {
+		if (hasValidEndTime()) {
 			newTask.setEndTime(PublicVariables.taskEndTime);
 		}
-		if (PublicVariables.taskSlots != null) {
+		if (hasValidSlot()) {
 			newTask.setSlot(PublicVariables.taskSlots);
 		} else {
 			return new Invalid();
 		}
+		
 		switch (PublicVariables.taskType) {
 		case EVENT:
 			newTask.setTaskType(Task.Type.EVENT);
@@ -89,5 +98,25 @@ public class BlockSlotsCommandParser {
 		
 		BlockSlots blockCommand = new BlockSlots(newTask);
 		return blockCommand;
+	}
+
+	private static boolean hasValidSlot() {
+		return PublicVariables.taskSlots != null;
+	}
+
+	private static boolean hasValidEndTime() {
+		return PublicVariables.taskEndTime != null;
+	}
+
+	private static boolean hasValidStartTime() {
+		return PublicVariables.taskStartTime != null;
+	}
+
+	private static boolean hasValidLocation() {
+		return !PublicVariables.taskLocation.equals(emptyString);
+	}
+
+	private static boolean hasValidDesc() {
+		return !PublicVariables.taskDescription.equals(emptyString);
 	}
 }

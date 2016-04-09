@@ -18,6 +18,7 @@ import urgenda.util.TaskList;
 public class UrgendaTest {
 	
 	private static final String ADD_COMMAND = "add ";
+	private static final String DELETE_COMMAND = "delete ";
 	private static final String UNDO_COMMAND = "undo";
 	private static final String REDO_COMMAND = "redo";
 	private static final String MESSAGE_ADDED = " added";
@@ -246,6 +247,109 @@ public class UrgendaTest {
 		assertEquals(actualOutput.getDisplayPosition(), 0);
 		assertEquals(actualOutput.getDetailedIndexes(), expectedIndexes);
 		assertEquals(actualOutput.getFeedback(), expectedFeedback);
+		
+		logic.clearStorageTester();
+	}
+	
+	@Test
+	public void testDelete() {
+		String desc = "event task";
+		String timing = " 31/5 10am to 1/6 9pm";
+		LocalDateTime start = LocalDateTime.of(2016, 5, 31, 10, 0);
+		LocalDateTime end = LocalDateTime.of(2016, 6, 1, 21, 0);
+		
+		Logic logic = Logic.getInstance(true);
+		StateFeedback actualOutput = logic.executeCommand(ADD_COMMAND + desc + timing, ADD_INDEX);
+		Task newTask = new Task(desc, null, start, end);
+		ArrayList<Task> expectedTasks = new ArrayList<Task>();
+		expectedTasks.add(newTask);
+		ArrayList<Task> expectedArchives = new ArrayList<Task>();
+		TaskList expectedList = new TaskList(expectedTasks, expectedArchives, 0, 0, 1, 0);
+		TaskList actualList = actualOutput.getAllTasks();
+		ArrayList<Integer> expectedIndexes = new ArrayList<Integer>();
+		String expectedFeedback = taskMessageWithMulti(newTask) + MESSAGE_ADDED;
+		
+		compareTaskList(expectedList, actualList);
+		assertEquals(actualOutput.getState(), StateFeedback.State.ALL_TASKS);
+		assertEquals(actualOutput.getDisplayPosition(), 0);
+		assertEquals(actualOutput.getDetailedIndexes(), expectedIndexes);
+		assertEquals(actualOutput.getFeedback(), expectedFeedback);
+		
+		actualOutput = logic.executeCommand(DELETE_COMMAND + "1", 0);
+		expectedTasks.remove(0);
+		expectedList = new TaskList(expectedTasks, expectedArchives, 0, 0, 0, 0);
+		actualList = actualOutput.getAllTasks();
+		expectedFeedback = taskMessageWithMulti(newTask) + MESSAGE_REMOVE;
+		
+		compareTaskList(expectedList, actualList);
+		assertEquals(actualOutput.getState(), StateFeedback.State.ALL_TASKS);
+		assertEquals(actualOutput.getDisplayPosition(), 0);
+		assertEquals(actualOutput.getDetailedIndexes(), expectedIndexes);
+		assertEquals(actualOutput.getFeedback(), expectedFeedback);
+		
+		logic.clearStorageTester();
+	}
+	
+	@Test
+	public void testDeleteMultiple() {
+		String desc1 = "deadline task";
+		String timing1 = " by 1/6 9pm";
+		LocalDateTime start1 = null;
+		LocalDateTime end1 = LocalDateTime.of(2016, 6, 1, 21, 0);
+		String desc2 = "event task";
+		String timing2 = " 31/5 10am to 1/6 9pm";
+		LocalDateTime start2 = LocalDateTime.of(2016, 5, 31, 10, 0);
+		LocalDateTime end2 = LocalDateTime.of(2016, 6, 1, 21, 0);
+		String desc3 = "floating task";
+		String timing3 = " ";
+		LocalDateTime start3 = null;
+		LocalDateTime end3 = null;
+		String desc4 = "abc task";
+		String timing4 = " ";
+		LocalDateTime start4 = null;
+		LocalDateTime end4 = null;
+		
+		Logic logic = Logic.getInstance(true);
+		
+		StateFeedback actualOutput = logic.executeCommand(ADD_COMMAND + desc1 + timing1, ADD_INDEX);
+		Task newTask = new Task(desc1, null, start1, end1);
+		ArrayList<Task> expectedTasks = new ArrayList<Task>();
+		expectedTasks.add(newTask);
+		ArrayList<Task> expectedArchives = new ArrayList<Task>();
+		ArrayList<Integer> expectedIndexes = new ArrayList<Integer>();
+		
+		actualOutput = logic.executeCommand(ADD_COMMAND + desc2 + timing2, ADD_INDEX);
+		newTask = new Task(desc2, null, start2, end2);
+		expectedTasks.add(0, newTask);
+		
+		actualOutput = logic.executeCommand(ADD_COMMAND + desc3 + timing3, ADD_INDEX);
+		newTask = new Task(desc3, null, start3, end3);
+		expectedTasks.add(newTask);
+		
+		actualOutput = logic.executeCommand(ADD_COMMAND + desc4 + timing4, ADD_INDEX);
+		newTask = new Task(desc4, null, start4, end4);
+		expectedTasks.add(2, newTask);
+		TaskList expectedList = new TaskList(expectedTasks, expectedArchives, 0, 0, 4, 0);
+		TaskList actualList = actualOutput.getAllTasks();
+		expectedIndexes = new ArrayList<Integer>();
+		String expectedFeedback = taskMessageWithMulti(newTask) + MESSAGE_ADDED;
+		
+		compareTaskList(expectedList, actualList);
+		assertEquals(actualOutput.getState(), StateFeedback.State.ALL_TASKS);
+		// position shifted to 2 due to being inserted at third position by alphabetical sort
+		assertEquals(actualOutput.getDisplayPosition(), 2);
+		assertEquals(actualOutput.getDetailedIndexes(), expectedIndexes);
+		assertEquals(actualOutput.getFeedback(), expectedFeedback);
+		
+		actualOutput = logic.executeCommand(DELETE_COMMAND + "1-4", 0);
+		expectedTasks.clear();
+		expectedList = new TaskList(expectedTasks, expectedArchives, 0, 0, 0, 0);
+		actualList = actualOutput.getAllTasks();
+		
+		compareTaskList(expectedList, actualList);
+		assertEquals(actualOutput.getState(), StateFeedback.State.ALL_TASKS);
+		assertEquals(actualOutput.getDisplayPosition(), 0);
+		assertEquals(actualOutput.getDetailedIndexes(), expectedIndexes);
 		
 		logic.clearStorageTester();
 	}
