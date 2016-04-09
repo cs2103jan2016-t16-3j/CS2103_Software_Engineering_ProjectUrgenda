@@ -1,4 +1,4 @@
-package test.testCommand;
+/*package test.testCommand;
 
 import static org.junit.Assert.*;
 
@@ -16,3 +16,4 @@ public class HomeTest {
 	}
 
 }
+*/
