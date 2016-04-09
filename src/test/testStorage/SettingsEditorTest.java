@@ -21,10 +21,11 @@ public class SettingsEditorTest {
 	
 	private static final String HASHMAP_KEY_FILE_DIRECTORY = "directory";
 	private static final String HASHMAP_KEY_FILE_NAME = "name";
+	private static final String HASHMAP_KEY_NOVICE_SETTINGS = "novice";
 	
 	private static final String DEFAULT_FILE_LOCATION = "settings";
 	private static final String DEFAULT_FILE_NAME = "data.txt";
-	
+	private static final String DEFAULT_NOVICE_SETTINGS = "true"; 
 	@Test
 	public void test001(){
 		SettingsEditor settings = new SettingsEditor(TEST_SETTINGS_DIRECTORY, TEST_SETTINGS_NAME);
@@ -42,6 +43,7 @@ public class SettingsEditorTest {
 		LinkedHashMap<String, String> expected = new LinkedHashMap<String, String>();
 		expected.put(HASHMAP_KEY_FILE_DIRECTORY, DEFAULT_FILE_LOCATION);
 		expected.put(HASHMAP_KEY_FILE_NAME, DEFAULT_FILE_NAME);
+		expected.put(HASHMAP_KEY_NOVICE_SETTINGS, DEFAULT_NOVICE_SETTINGS);
 		assertEquals(expected, settings.getMap());
 		settings.delete();
 	}

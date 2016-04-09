@@ -268,7 +268,6 @@ public class DateTimeParser {
 			dateComponent = group1LocalDate.toLocalDate();
 			timeComponent = group2LocalDate.toLocalTime();
 			taskDateTime = LocalDateTime.of(dateComponent, timeComponent);
-			System.out.print(taskDateTime + "\n");
 		} else {
 			dateComponent = group2LocalDate.toLocalDate();
 			timeComponent = group1LocalDate.toLocalTime();

@@ -1,4 +1,4 @@
-package test.testParser;
+package testParser;
 
 import static org.junit.Assert.*;
 
@@ -51,7 +51,7 @@ public class PtParser {
 	//All others correct
 	@Test
 	public void test003DeadlineTimePm() {
-		String phrase = "add test001 by 03/03/2016 2.11pm";
+		String phrase = "add test001 by 03/03/2016 2:11pm";
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String endTime = "2016-03-03T14:11";
 		CommandParser.parseCommand(phrase, 5);
@@ -233,7 +233,7 @@ public class PtParser {
 	public void test015DeadlineDay() {
 		String phrase = "add test001 by Friday at 2359";
 		ArrayList<String> testHashtags = new ArrayList<String>();
-		String endTime = "2016-03-25T23:59";
+		String endTime = "2016-04-15T23:59";
 		CommandParser.parseCommand(phrase, 5);
 		assertEquals("test001", PublicVariables.taskDescription);
 		assertEquals("",PublicVariables.taskLocation);
@@ -247,7 +247,7 @@ public class PtParser {
 	public void test016NoAddKeyWord() {
 		String phrase = "test001 by Friday at 2359";
 		ArrayList<String> testHashtags = new ArrayList<String>();
-		String endTime = "2016-03-25T23:59";
+		String endTime = "2016-04-15T23:59";
 		CommandParser.parseCommand(phrase, 5);
 		assertEquals("test001", PublicVariables.taskDescription);
 		assertEquals("",PublicVariables.taskLocation);
@@ -259,11 +259,11 @@ public class PtParser {
 	
 	@Test
 	public void test017DeadlineSeparateDateTime() {
-		String phrase = "Friday test001 by 23:59";
+		String phrase = "Friday test001 abcd by 23:59";
 		ArrayList<String> testHashtags = new ArrayList<String>();
-		String endTime = "2016-03-25T23:59";
+		String endTime = "2016-04-15T23:59";
 		CommandParser.parseCommand(phrase, 5);
-		assertEquals("test001", PublicVariables.taskDescription);
+		assertEquals("test001 abcd", PublicVariables.taskDescription);
 		assertEquals("",PublicVariables.taskLocation);
 		assertEquals(null, PublicVariables.taskStartTime);
 		assertEquals(endTime, PublicVariables.taskEndTime.toString());
@@ -317,12 +317,12 @@ public class PtParser {
 	
 	@Test
 	public void test019EventSeparateDateTimeSingleDate() {
-		String phrase = "03/25 test from 22:59 to 23:59";
+		String phrase = "03/25 test abcd from 22:59 to 23:59";
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String startTime = "2016-03-25T22:59";
 		String endTime = "2016-03-25T23:59";
 		CommandParser.parseCommand(phrase, 5);
-		assertEquals("test", PublicVariables.taskDescription);
+		assertEquals("test abcd", PublicVariables.taskDescription);
 		assertEquals("",PublicVariables.taskLocation);
 		assertEquals(startTime, PublicVariables.taskStartTime.toString());
 		assertEquals(endTime, PublicVariables.taskEndTime.toString());
@@ -332,12 +332,12 @@ public class PtParser {
 	
 	@Test
 	public void test020EventSeparateDateTimeSingleDate2() {
-		String phrase = "next wed test 22:59 - 23:59";
+		String phrase = "next wed test abcd 22:59 - 23:59";
 		ArrayList<String> testHashtags = new ArrayList<String>();
-		String startTime = "2016-03-30T22:59";
-		String endTime = "2016-03-30T23:59";
+		String startTime = "2016-04-13T22:59";
+		String endTime = "2016-04-13T23:59";
 		CommandParser.parseCommand(phrase, 5);
-		assertEquals("test", PublicVariables.taskDescription);
+		assertEquals("test abcd", PublicVariables.taskDescription);
 		assertEquals("",PublicVariables.taskLocation);
 		assertEquals(startTime, PublicVariables.taskStartTime.toString());
 		assertEquals(endTime, PublicVariables.taskEndTime.toString());
@@ -349,8 +349,8 @@ public class PtParser {
 	public void test021EventSeparateDateTimeSingleDate3() {
 		String phrase = "test next wed for abcd 22:59 - 23:59";
 		ArrayList<String> testHashtags = new ArrayList<String>();
-		String startTime = "2016-03-30T22:59";
-		String endTime = "2016-03-30T23:59";
+		String startTime = "2016-04-13T22:59";
+		String endTime = "2016-04-13T23:59";
 		CommandParser.parseCommand(phrase, 5);
 		assertEquals("test for abcd", PublicVariables.taskDescription);
 		assertEquals("",PublicVariables.taskLocation);
