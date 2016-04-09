@@ -31,24 +31,31 @@ public class ConfirmCommandParser {
 			Confirm confirmCommand = new Confirm();
 			String firstWord = PublicFunctions.getFirstWord(_argsString);
 			try {
-				int index = Integer.parseInt(firstWord);
-				confirmCommand.setId(index - 1);
-				_argsString = PublicFunctions.removeFirstWord(_argsString);
-			}
-			catch (Exception e) {
+				tryParsePassedInIndex(confirmCommand, firstWord);
+			} catch (Exception e) {
 				confirmCommand.setId(_index);
 			}
+
 			PrettyTimeParser parser = new PrettyTimeParser();
 			List<Date> dateTimes = parser.parse(_argsString);
-
 			if (dateTimes.size() == 2) {
-					LocalDateTime time1 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(0));
-					LocalDateTime time2 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(1));
-					confirmCommand.setTimeSlot(PublicFunctions.minTime(time1, time2), PublicFunctions.maxTime(time1, time2));				
-					return confirmCommand;
+				return setTimeAndReturn(confirmCommand, dateTimes);
 			} else {
 				return new Invalid();
 			}
 		}
+	}
+
+	private static Command setTimeAndReturn(Confirm confirmCommand, List<Date> dateTimes) {
+		LocalDateTime time1 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(0));
+		LocalDateTime time2 = DateTimeParser.getLocalDateTimeFromDate(dateTimes.get(1));
+		confirmCommand.setTimeSlot(PublicFunctions.minTime(time1, time2), PublicFunctions.maxTime(time1, time2));
+		return confirmCommand;
+	}
+
+	private static void tryParsePassedInIndex(Confirm confirmCommand, String firstWord) {
+		int index = Integer.parseInt(firstWord);
+		confirmCommand.setId(index - 1);
+		_argsString = PublicFunctions.removeFirstWord(_argsString);
 	}
 }
