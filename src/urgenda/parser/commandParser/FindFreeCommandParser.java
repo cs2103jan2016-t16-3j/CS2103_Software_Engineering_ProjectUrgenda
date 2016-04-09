@@ -23,12 +23,16 @@ public class FindFreeCommandParser {
 		} else {
 			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 			DateTimeParser.searchTaskTimes(_argsString);
-			if (PublicVariables.taskStartTime != null && PublicVariables.taskEndTime != null) {
+			if (hasValidStartAndEndTime()) {
 				FindFree findFreeCommand = new FindFree(PublicVariables.taskStartTime, PublicVariables.taskEndTime);
 				return findFreeCommand;
 			} else {
 				return new Invalid();
 			}
 		}
+	}
+
+	private static boolean hasValidStartAndEndTime() {
+		return PublicVariables.taskStartTime != null && PublicVariables.taskEndTime != null;
 	}
 }

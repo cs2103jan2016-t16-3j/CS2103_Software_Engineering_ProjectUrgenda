@@ -21,7 +21,11 @@ public class PostponeCommandParser {
 	private static String dayRegex = "((\\d+)( )?((day(s)?)|d))";
 	private static String monthRegex = "((\\d+)( )?((month(s)?)|(mth(s)?)))";
 	private static String yearRegex = "((\\d+)( )?((year(s)?)|(yr(s)?)|y))";
-
+	private static String nonDigitRegex = "\\D+";
+	
+	private static String emptyString = "";
+	private static String timeDelimiter = "by";
+	
 	private static String secondString;
 	private static String minuteString;
 	private static String hourString;
@@ -52,37 +56,37 @@ public class PostponeCommandParser {
 			Matcher matcher = Pattern.compile(monthRegex).matcher(reducedArgsString);
 			if (matcher.find()) {
 				monthString = matcher.group();
-				reducedArgsString = reducedArgsString.replace(matcher.group(), "");
+				reducedArgsString = reducedArgsString.replace(matcher.group(), emptyString);
 			}
 			matcher = Pattern.compile(secondRegex).matcher(reducedArgsString);
 			if (matcher.find()) {
 				secondString = matcher.group();
-				reducedArgsString = _argsString.replace(matcher.group(), "");
+				reducedArgsString = _argsString.replace(matcher.group(), emptyString);
 			}
 			matcher = Pattern.compile(minuteRegex).matcher(reducedArgsString);
 			if (matcher.find()) {
 				minuteString = matcher.group();
-				reducedArgsString = reducedArgsString.replace(matcher.group(), "");
+				reducedArgsString = reducedArgsString.replace(matcher.group(), emptyString);
 			}
 			matcher = Pattern.compile(hourRegex).matcher(reducedArgsString);
 			if (matcher.find()) {
 				hourString = matcher.group();
-				reducedArgsString = reducedArgsString.replace(matcher.group(), "");
+				reducedArgsString = reducedArgsString.replace(matcher.group(), emptyString);
 			}
 			matcher = Pattern.compile(dayRegex).matcher(reducedArgsString);
 			if (matcher.find()) {
 				dayString = matcher.group();
-				reducedArgsString = reducedArgsString.replace(matcher.group(), "");
+				reducedArgsString = reducedArgsString.replace(matcher.group(), emptyString);
 			}
 			matcher = Pattern.compile(yearRegex).matcher(reducedArgsString);
 			if (matcher.find()) {
 				yearString = matcher.group();
-				reducedArgsString = reducedArgsString.replace(matcher.group(), "");
+				reducedArgsString = reducedArgsString.replace(matcher.group(), emptyString);
 			}
 
 			Postpone postponeCommand = new Postpone();
-			reducedArgsString = reducedArgsString.replace("by", "").trim();
-			if (reducedArgsString.equals("")) {
+			reducedArgsString = reducedArgsString.replace(timeDelimiter, emptyString).trim();
+			if (reducedArgsString.equals(emptyString)) {
 				postponeCommand.setId(_index);
 			} else {
 				try {
@@ -95,35 +99,23 @@ public class PostponeCommandParser {
 			
 			try {
 				if (secondString != null) {
-					System.out.print("sencond: " + secondString + "\n");
 					postponeCommand.setSecond(getIntPart(secondString));
 				}
 				if (minuteString != null) {
-					System.out.print("minute: " + minuteString + "\n");
 					postponeCommand.setMinute(getIntPart(minuteString));
 				}
 				if (hourString != null) {
-					System.out.print("hour: " + hourString + "\n");
 					postponeCommand.setHour(getIntPart(hourString));
 				}
 				if (dayString != null) {
-					System.out.print("day: " + dayString + "\n");
 					postponeCommand.setDay(getIntPart(dayString));
 				}
 				if (monthString != null) {
-					System.out.print("month: " + monthString + "\n");
 					postponeCommand.setMonth(getIntPart(monthString));
 				}
 				if (yearString != null) {
-					System.out.print("year: " + yearString + "\n");
 					postponeCommand.setYear(getIntPart(yearString));
 				}
-				System.out.print("Second :" + secondString + "\n");
-				System.out.print("Minute :" + minuteString + "\n");
-				System.out.print("Hour :" + hourString + "\n");
-				System.out.print("Day :" + dayString + "\n");
-				System.out.print("Month :" + monthString + "\n");
-				System.out.print("Year :" + yearString + "\n");
 				return postponeCommand;
 			} catch (Exception e) {
 				return new Invalid();
@@ -132,7 +124,7 @@ public class PostponeCommandParser {
 	}
 
 	private static int getIntPart(String string) {
-		string = string.replaceAll("\\D+", "");
+		string = string.replaceAll(nonDigitRegex, emptyString);
 		return Integer.parseInt(string);
 	}
 

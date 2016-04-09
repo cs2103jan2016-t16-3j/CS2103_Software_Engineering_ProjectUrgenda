@@ -48,12 +48,6 @@ public class NewEditCommandParser {
 			searchDetails(reducedString);
 			int numberOfRmFlag = countRmFlag(reducedString);
 			
-//			System.out.print(startTime + "\n");
-//			System.out.print(endTime + "\n");
-//			System.out.print(unknownTime + "\n");
-//			System.out.print(descString + "\n");
-//			System.out.print(numberOfRmFlag + "\n");
-			
 			Edit editCommand = new Edit();
 			Task newTask = new Task();
 			if (startTime != null) {
@@ -209,14 +203,6 @@ public class NewEditCommandParser {
 		}
 		return null;
 	}
-	
-//	private static String searchLocation(String string) {
-//		if (string == null || string.trim().equals("")) {
-//			return "";
-//		} else {
-//			Matcher matcher = Pattern.compile("@\\")
-//		}
-//	}
 	
 	private static void reinitializeVariables() {
 		startTime = null;

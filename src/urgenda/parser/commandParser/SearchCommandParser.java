@@ -25,28 +25,36 @@ public class SearchCommandParser {
 			return new Invalid();
 		} else {
 			try {
-				int searchID = Integer.parseInt(_argsString.trim());
-				Search searchCommand = new Search();
-				searchCommand.setSearchId(searchID - 1);
-				return searchCommand;
+				return tryParseTaskID();
 			} catch (Exception e) {
-				_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
-				Search searchCommand = new Search();
-				Month testMonth = DateTimeParser.tryParseMonth(_argsString);
-				LocalDateTime testTime = DateTimeParser.tryParseTime(_argsString);
-				LocalDate testDate = DateTimeParser.tryParseDate(_argsString);
-				if (testMonth != null) {
-					searchCommand.setSearchMonth(testMonth);
-				} else if (testTime != null) {
-					searchCommand.setSearchDateTime(testTime);
-				} else if (testDate != null) {
-					searchCommand.setSearchDate(testDate);
-				} else {
-					TaskDetailsParser.searchTaskDescription(_argsString);
-					searchCommand.setSearchInput(PublicVariables.taskDescription);
-				}
-				return searchCommand;
+				return parseSearchCriteria();
 			}
 		}
+	}
+
+	private static Command parseSearchCriteria() {
+		_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
+		Search searchCommand = new Search();
+		Month testMonth = DateTimeParser.tryParseMonth(_argsString);
+		LocalDateTime testTime = DateTimeParser.tryParseTime(_argsString);
+		LocalDate testDate = DateTimeParser.tryParseDate(_argsString);
+		if (testMonth != null) {
+			searchCommand.setSearchMonth(testMonth);
+		} else if (testTime != null) {
+			searchCommand.setSearchDateTime(testTime);
+		} else if (testDate != null) {
+			searchCommand.setSearchDate(testDate);
+		} else {
+			TaskDetailsParser.searchTaskDescription(_argsString);
+			searchCommand.setSearchInput(PublicVariables.taskDescription);
+		}
+		return searchCommand;
+	}
+
+	private static Command tryParseTaskID() {
+		int searchID = Integer.parseInt(_argsString.trim());
+		Search searchCommand = new Search();
+		searchCommand.setSearchId(searchID - 1);
+		return searchCommand;
 	}
 }
