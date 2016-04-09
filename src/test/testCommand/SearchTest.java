@@ -14,10 +14,12 @@ import urgenda.util.Task;
 
 public class SearchTest {
 
+	//This method is for testing whether correct feedbck msg was returned when searching for tasks.
 	@Test
 	public void testExecute() {
 		LogicData _data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		Search tester = new Search();
 		tester.setSearchInput("Sweden");
 		// test search by desc
@@ -83,6 +85,7 @@ public class SearchTest {
 		tester9.setSearchInput("Buy egg");
 		//test near match
 		assertEquals("No exact match found for \"Buy egg\". Showing: 1 near match(es)", tester9.execute());
+		_data.clearTasks();
 	}
 
 	private LogicData setUpTestDisplayList() {

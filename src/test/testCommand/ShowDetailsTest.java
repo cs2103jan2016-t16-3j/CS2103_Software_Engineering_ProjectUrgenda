@@ -14,6 +14,7 @@ import urgenda.util.Task;
 
 public class ShowDetailsTest {
 
+	//This method is for testing whether correct feedback msg is return when showing more details of a task.
 	@Test
 	public void testExecute() throws Exception {
 		LogicData _data = setUpTestDisplayList();
@@ -78,6 +79,7 @@ public class ShowDetailsTest {
 		test7.setPosition(range);
 		assertEquals("Changed showing details for 2 tasks\n" +
 				"Showing less details for \"Buy new specs\", \"Dinner w relatives\"", test7.execute());
+		_data.clearTasks();
 		
 	}
 

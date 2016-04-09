@@ -15,6 +15,8 @@ import urgenda.util.Task;
 
 public class DeleteTaskTest {
 
+	// this method is for testing whether correct feedback msg is returned for
+	// deleting of tasks.
 	@Test
 	public void testExecute() throws LogicException {
 		LogicData _data = setUpTestDisplayList();
@@ -30,8 +32,8 @@ public class DeleteTaskTest {
 		range.add(0); // boundary value
 		range.add(_data.getDisplays().size() - 1); // boundary value
 		test2.setPositions(range);
-		//test delete by position
-		assertEquals("2 tasks have been removed: \"Buy milk\", \"Travel to Sweden\"", test2.execute()); 
+		// test delete by position
+		assertEquals("2 tasks have been removed: \"Buy milk\", \"Travel to Sweden\"", test2.execute());
 
 		DeleteTask test3 = new DeleteTask();
 		range.clear();
@@ -44,6 +46,7 @@ public class DeleteTaskTest {
 			feedback = e.getMessage();
 		}
 		assertEquals("No matches found to delete", feedback); // test no match
+		_data.clearTasks();
 	}
 
 	private LogicData setUpTestDisplayList() {
@@ -82,6 +85,7 @@ public class DeleteTaskTest {
 		test.setDesc("Mop Floor");
 		test.execute();
 		assertEquals("\"Mop floor\" added", test.undo()); // test undo
+		_data.clearTasks();
 	}
 
 	@Test
@@ -93,6 +97,7 @@ public class DeleteTaskTest {
 		test.execute();
 		test.undo();
 		assertEquals("\"Mop floor\" removed", test.redo()); // test redo
+		_data.clearTasks();
 	}
 
 }
