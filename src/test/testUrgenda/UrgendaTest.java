@@ -15,7 +15,7 @@ import urgenda.util.Task;
 import urgenda.util.TaskList;
 
 // test for integration across logic and parser.
-public class UrgendaIntegrationTest {
+public class UrgendaTest {
 	
 	private static final String ADD_COMMAND = "add ";
 	private static final String UNDO_COMMAND = "undo";
