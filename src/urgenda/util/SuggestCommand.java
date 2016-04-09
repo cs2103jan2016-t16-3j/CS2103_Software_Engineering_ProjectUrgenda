@@ -13,7 +13,6 @@ public class SuggestCommand {
 	/**
 	 * Command type that parser parses based on the different commands in
 	 * Urgenda.
-	 *
 	 */
 	public enum Command {
 		ADD, ARCHIVE, BLOCK, CONFIRM, DELETE, DEMO, DONE, EDIT, EXIT, FIND_FREE, 
@@ -75,7 +74,8 @@ public class SuggestCommand {
 	/**
 	 * Retrieves the possible commands.
 	 * 
-	 * @return ArrayList of strings that are possible commands for current input.
+	 * @return ArrayList of strings that are possible commands for current
+	 *         input.
 	 */
 	public ArrayList<String> getPossibleCommands() {
 		return _possibleCommands;

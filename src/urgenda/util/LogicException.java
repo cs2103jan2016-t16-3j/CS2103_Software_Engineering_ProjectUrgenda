@@ -9,7 +9,7 @@ package urgenda.util;
  */
 public class LogicException extends Exception {
 
-	/**
+	/*
 	 * System Generated serial number for LogicException.
 	 */
 	private static final long serialVersionUID = 1L;
