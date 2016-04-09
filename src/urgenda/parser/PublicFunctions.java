@@ -26,7 +26,7 @@ public class PublicFunctions {
 			String removedFirstWord = commandString.split(whiteSpaceRegex, 2)[1];
 			Matcher matcher = Pattern.compile(whiteSpaceRegex).matcher(removedFirstWord);
 			while (matcher.find()) {
-				removedFirstWord = removedFirstWord.replace(matcher.group(), emptyString);
+				removedFirstWord = removedFirstWord.replace(matcher.group(), singleSpace);
 			}
 			return removedFirstWord.trim().toLowerCase();
 		} catch (Exception e) {
