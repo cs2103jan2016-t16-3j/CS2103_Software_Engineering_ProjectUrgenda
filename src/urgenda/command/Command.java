@@ -17,8 +17,10 @@ import urgenda.util.Task;
  */
 public abstract class Command {
 
-	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d %4$02d:%5$02d - %6$d/%7$d %8$02d:%9$02d";
-	private static final String MESSAGE_EVENT_VENUE = "\"%1$s\" at %2$s on %3$d/%4$d %5$02d:%6$02d - %7$d/%8$d %9$02d:%10$02d";
+	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d %4$02d:%5$02d - "
+			+ "%6$d/%7$d %8$02d:%9$02d";
+	private static final String MESSAGE_EVENT_VENUE = "\"%1$s\" at %2$s on %3$d/%4$d %5$02d:%6$02d - "
+			+ "%7$d/%8$d %9$02d:%10$02d";
 	private static final String MESSAGE_EVENT_DATETIME = ", %1$d/%2$d, %3$02d:%4$02d - %5$02d:%6$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
 	private static final String MESSAGE_FLOAT_VENUE = "\"%1$s\" at %2$s";
@@ -79,8 +81,8 @@ public abstract class Command {
 		case EVENT :
 			feedback = String.format(MESSAGE_EVENT_VENUE, task.getDesc(), task.getLocation(),
 					task.getStartTime().getDayOfMonth(), task.getStartTime().getMonthValue(),
-					task.getStartTime().getHour(), task.getStartTime().getMinute(), task.getEndTime().getHour(),
-					task.getEndTime().getMinute());
+					task.getStartTime().getHour(), task.getStartTime().getMinute(), 
+					task.getEndTime().getHour(), task.getEndTime().getMinute());
 			break;
 		case FLOATING :
 			feedback = String.format(MESSAGE_FLOAT_VENUE, task.getDesc(), task.getLocation());
@@ -108,8 +110,9 @@ public abstract class Command {
 		switch (taskType) {
 		case EVENT :
 			feedback = String.format(MESSAGE_EVENT, task.getDesc(), task.getStartTime().getDayOfMonth(),
-					task.getStartTime().getMonthValue(), task.getStartTime().getHour(), task.getStartTime().getMinute(),
-					task.getEndTime().getDayOfMonth(), task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
+					task.getStartTime().getMonthValue(), task.getStartTime().getHour(), 
+					task.getStartTime().getMinute(), task.getEndTime().getDayOfMonth(), 
+					task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
 					task.getEndTime().getMinute());
 			break;
 		case FLOATING :
@@ -117,7 +120,8 @@ public abstract class Command {
 			break;
 		case DEADLINE :
 			feedback = String.format(MESSAGE_DEADLINE, task.getDesc(), task.getEndTime().getDayOfMonth(),
-					task.getEndTime().getMonthValue(), task.getEndTime().getHour(), task.getEndTime().getMinute());
+					task.getEndTime().getMonthValue(), task.getEndTime().getHour(), 
+					task.getEndTime().getMinute());
 			break;
 		}
 		return feedback;

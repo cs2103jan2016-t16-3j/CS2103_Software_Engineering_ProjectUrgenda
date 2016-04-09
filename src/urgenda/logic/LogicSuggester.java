@@ -29,12 +29,17 @@ public class LogicSuggester {
 	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
 
 	// TODO feedback for edit
-	private static final String EDIT_FLOATING = "[task no] [new desc] | [new timing(s)] | [-r] [removes a timing] | @[location] [optional]";
-	private static final String EDIT_FLOATING_1 = "[task no] [new desc] | [use at/from/on/by for timings] | [-r] [remove a timing] | @[location]";
-	private static final String EDIT_FLOATING_MESSAGE = "Edits desc, date(s) and timing(s), and/or location of selected task";
-	private static final String EDIT_EVENT = "[task no] [new desc] | from [start time] to [end time] | @[location] [optional]";
+	private static final String EDIT_FLOATING = "[task no] [new desc] | [new timing(s)] | "
+			+ "[-r] [removes a timing] | @[location] [optional]";
+	private static final String EDIT_FLOATING_1 = "[task no] [new desc] | [use at/from/on/by for timings] | "
+			+ "[-r] [remove a timing] | @[location]";
+	private static final String EDIT_FLOATING_MESSAGE = "Edits desc, date(s) and timing(s), "
+			+ "and/or location of selected task";
+	private static final String EDIT_EVENT = "[task no] [new desc] | from [start time] to [end time] | "
+			+ "@[location] [optional]";
 	private static final String EDIT_EVENT_MESSAGE = "Edits task into an event";
-	private static final String EDIT_DEADLINE = "[task no] [new desc] | by [deadline] | @[location] [optional]";
+	private static final String EDIT_DEADLINE = "[task no] [new desc] | by [deadline] | "
+			+ "@[location] [optional]";
 	private static final String EDIT_DEADLINE_MESSAGE = "Edits task into deadline task";
 
 	private static final String SEARCH_TASK = "[desc] | [date/month/day/datetime/task no.] | [task type]";
@@ -58,7 +63,8 @@ public class LogicSuggester {
 	private static final String PRI = "[task no] | [task no]-[task no] | [desc]";
 	private static final String PRI_MESSAGE = "Toggle the importance for selected task(s)";
 
-	private static final String BLOCK = "[desc] at [start time] to [end time], [multiple] [start time] to [end time]";
+	private static final String BLOCK = "[desc] at [start time] to [end time], "
+			+ "[multiple] [start time] to [end time]";
 	private static final String BLOCK_MESSAGE = "Blocks multiple timeslots for single task";
 
 	private static final String CONFIRM = "[task no] [start time] to [end time]";
@@ -107,7 +113,8 @@ public class LogicSuggester {
 	 */
 	private SuggestFeedback filterSuggestionType(SuggestCommand suggCmd, boolean isCommand, String currCmd) {
 		ArrayList<String> suggestions;
-		if (suggCmd.getConfirmedCommand() != null && currCmd != null && !currCmd.isEmpty() && !currCmd.equals("")) {
+		if (suggCmd.getConfirmedCommand() != null && currCmd != null &&
+				!currCmd.isEmpty() && !currCmd.equals("")) {
 			// confirmed command filter possible formats
 			suggestions = filterCommand(suggCmd.getConfirmedCommand(), suggCmd.isDeadline(), suggCmd.isEvent());
 			isCommand = true;

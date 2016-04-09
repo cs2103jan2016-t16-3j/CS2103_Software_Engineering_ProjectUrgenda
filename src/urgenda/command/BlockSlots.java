@@ -21,7 +21,8 @@ public class BlockSlots extends TaskCommand {
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_ERROR = "Error: ";
 	private static final String MESSAGE_INVALID_TYPE = "Please input an EVENT for blocking of timeslots";
-	private static final String MESSAGE_INSUFFICIENT_SLOTS = "Insufficient slots entered for blocking of timeslots";
+	private static final String MESSAGE_INSUFFICIENT_SLOTS = "Insufficient slots entered for "
+			+ "blocking of timeslots";
 	private static final String MESSAGE_INVALID_SLOTS = "Invalid slots entered for blocking of timeslots";
 
 	private MultipleSlot _block;
@@ -64,7 +65,6 @@ public class BlockSlots extends TaskCommand {
 	 * Adds the block task to Urgenda and sets necessary settings.
 	 */
 	private void addBlockTask() {
-		// TODO exception handling for user manipulation of blocking past tasks
 		_data.addTask(_newTask);
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		_data.setTaskPointer(_newTask);

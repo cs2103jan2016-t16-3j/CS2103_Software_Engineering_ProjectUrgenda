@@ -176,15 +176,13 @@ public class FindFree extends Command {
 	 * start time is before current time.
 	 */
 	private void checkAndUpdateRange() throws LogicException {
-		// TODO show warning then flip range
 		LocalDateTime now = LocalDateTime.now();
 		if (!_startOfRange.isBefore(_endOfRange) || _endOfRange.isBefore(now)) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			throw new LogicException(MESSAGE_INVALID_TIME_RANGE);
 		} else if (_startOfRange.isBefore(now)) {
-			_startOfRange = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), now.getHour(),
-					now.getMinute());
-			// TODO feedback for edited time
+			_startOfRange = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), 
+					now.getHour(), now.getMinute());
 		}
 	}
 
@@ -203,7 +201,8 @@ public class FindFree extends Command {
 		while (!freeTimes.isEmpty()) {
 			LocalDateTime start = freeTimes.removeLast();
 			LocalDateTime end = freeTimes.removeLast();
-			if (!start.toLocalDate().equals(end.toLocalDate()) && !end.toLocalTime().equals(LocalTime.of(0, 0))) {
+			if (!start.toLocalDate().equals(end.toLocalDate()) && 
+					!end.toLocalTime().equals(LocalTime.of(0, 0))) {
 				LocalDateTime split = LocalDateTime.of(start.toLocalDate().plusDays(1), LocalTime.of(0, 0));
 				forDisplay.add(createTimeTask(start, split));
 				freeTimes.addLast(end);
