@@ -28,8 +28,8 @@ public class AddCommandParser {
 			return new Invalid();
 		} else {
 			descPlaceHolder = null;
-			ArrayList<String> reservedWords = getReservedWords();
 			String reformattedString = checkSpecialDesc();
+			ArrayList<String> reservedWords = getReservedWords();
 			reformattedString = PublicFunctions.reformatArgsString(_argsString).trim();
 			String reducedArgsString = DateTimeParser.searchTaskTimes(reformattedString);
 			reducedArgsString = undoReserveWords(reservedWords, reducedArgsString);

@@ -21,7 +21,6 @@ import urgenda.parser.commandParser.CompleteCommandParser;
 import urgenda.parser.commandParser.ConfirmCommandParser;
 import urgenda.parser.commandParser.DeleteCommandParser;
 import urgenda.parser.commandParser.DemoCommandParser;
-import urgenda.parser.commandParser.EditCommandParser;
 import urgenda.parser.commandParser.ExitCommandParser;
 import urgenda.parser.commandParser.FindFreeCommandParser;
 import urgenda.parser.commandParser.HelpCommandParser;
@@ -41,7 +40,10 @@ import urgenda.util.*;
 
 public class CommandParser {
 	private static String _argsString;
-	
+
+	private static String deadlineKeyWordRegex = "\\s+by(\\s+|\\Z)";
+	private static String reservedWordsRegex = "([^\\d+\\s+/-:]+)(\\d+)";
+
 	public static Command parseCommand(String commandString, int index) {
 		PublicFunctions.reinitializePublicVariables();
 
@@ -51,73 +53,66 @@ public class CommandParser {
 
 		if (testReturn instanceof Invalid) {
 			PublicFunctions.reinitializePublicVariables();
-			PublicVariables.commandType = COMMAND_TYPE.ADD;
-			AddCommandParser addCommand = new AddCommandParser(commandString, index);
-			return addCommand.generateAndReturn();
+			return generateAddCommandAndReturn(commandString, index);
 		} else {
 			return testReturn;
 		}
 	}
 
 	public static SuggestCommand parseRuntimeInput(String commandString) {
-		if (commandString.length() > 0 && !commandString.trim().equals("")) {
+		if (isCommandStringValid(commandString)) {
 			PublicFunctions.reinitializePublicVariables();
-			commandString = commandString.toLowerCase();
-			commandString = PublicFunctions.reformatArgsString(commandString);
-			_argsString = commandString;
-			getReservedWords();
-			commandString = _argsString;
+			commandString = formatCommandString(commandString);
 			COMMAND_TYPE commandType = CommandTypeParser.getCommandType(commandString);
-			if (commandType == COMMAND_TYPE.INVALID) {
-				int numberOfWords = PublicFunctions.getNumberOfWords(commandString);
-				SuggestCommand suggestCommand;
-				if (numberOfWords == 1) {
-					String firstWord = PublicFunctions.getFirstWord(commandString).trim();
-					ArrayList<String> possibleCommands = getPossibleCommands(firstWord);
-					if (!possibleCommands.isEmpty()) {
-						suggestCommand = new SuggestCommand(null, possibleCommands, null);
-					} else {
-						suggestCommand = new SuggestCommand(null, null, null);
-					}
-					boolean isDeadline = isDeadline(commandString);
-					boolean isEvent = isEvent(commandString);
-					suggestCommand.setDeadline(isDeadline);
-					suggestCommand.setEvent(isEvent);
-					return suggestCommand;
-				} else {
-					suggestCommand = new SuggestCommand(null, null, null);
-					boolean isDeadline = isDeadline(commandString);
-					boolean isEvent = isEvent(commandString);
-					suggestCommand.setDeadline(isDeadline);
-					suggestCommand.setEvent(isEvent);
-					return suggestCommand;
-				}
-			} else {
-				SuggestCommand.Command command = convertCommandType(commandType);
-				// DateTimeParser.searchTaskTimes(commandString);
-				// TaskDetailsParser.searchTaskType();
-				SuggestCommand suggestCommand;
-				if (command != null) {
-					suggestCommand = new SuggestCommand(command, null, PublicFunctions.getFirstWord(commandString));
-				} else {
-					suggestCommand = new SuggestCommand(null, null, null);
-				}
-				// if (PublicVariables.taskType == TASK_TYPE.DEADLINE) {
-				// suggestCommand.setIsDeadline(true);
-				// suggestCommand.setIsEvent(false);
-				// } else if (PublicVariables.taskType == TASK_TYPE.EVENT) {
-				// suggestCommand.setIsEvent(true);
-				// suggestCommand.setIsDeadline(false);
-				// }
-				boolean isDeadline = isDeadline(commandString);
-				boolean isEvent = isEvent(commandString);
-				suggestCommand.setDeadline(isDeadline);
-				suggestCommand.setEvent(isEvent);
-				return suggestCommand;
-			}
+			return generateSuggestCommandAndReturn(commandString, commandType);
 		} else {
 			return new SuggestCommand(null, null, null);
 		}
+	}
+
+	private static SuggestCommand generateSuggestCommandAndReturn(String commandString, COMMAND_TYPE commandType) {
+		if (isInvalidCommandType(commandType)) {
+			return handleReturnOfInvalidCommandType(commandString);
+		} else {
+			return handleReturnOfValidCommandType(commandString, commandType);
+		}
+	}
+
+	private static SuggestCommand handleReturnOfInvalidCommandType(String commandString) {
+		int numberOfWords = PublicFunctions.getNumberOfWords(commandString);
+		if (numberOfWords == 1) {
+			return handleReturnOfOneWordString(commandString);
+		} else {
+			return handleReturnOfMultipleWordString(commandString);
+		}
+	}
+
+	private static SuggestCommand handleReturnOfValidCommandType(String commandString, COMMAND_TYPE commandType) {
+		SuggestCommand.Command command = convertCommandType(commandType);
+		SuggestCommand suggestCommand;
+		if (command != null) {
+			suggestCommand = new SuggestCommand(command, null, PublicFunctions.getFirstWord(commandString));
+		} else {
+			suggestCommand = new SuggestCommand(null, null, null);
+		}
+		return checkEventOrDeadlineAndReturn(commandString, suggestCommand);
+	}
+
+	private static SuggestCommand handleReturnOfOneWordString(String commandString) {
+		SuggestCommand suggestCommand;
+		String firstWord = PublicFunctions.getFirstWord(commandString).trim();
+		ArrayList<String> possibleCommands = getPossibleCommands(firstWord);
+		if (!possibleCommands.isEmpty()) {
+			suggestCommand = new SuggestCommand(null, possibleCommands, null);
+		} else {
+			suggestCommand = new SuggestCommand(null, null, null);
+		}
+		return checkEventOrDeadlineAndReturn(commandString, suggestCommand);
+	}
+
+	private static SuggestCommand handleReturnOfMultipleWordString(String commandString) {
+		SuggestCommand suggestCommand = new SuggestCommand(null, null, null);
+		return checkEventOrDeadlineAndReturn(commandString, suggestCommand);
 	}
 
 	private static SuggestCommand.Command convertCommandType(COMMAND_TYPE commandType) {
@@ -300,62 +295,114 @@ public class CommandParser {
 
 	private static boolean isDeadline(String string) {
 		String lastWord = PublicFunctions.getLastWord(string);
-		if (PublicVariables.endTimeWords.contains(lastWord)) {
+		if (isLastWordDeadlineKeyWord(lastWord)) {
 			return true;
 		} else {
-			Matcher matcher = Pattern.compile("\\s+by(\\s+|\\Z)").matcher(string);
-			if (matcher.find()) {
-				return true;
-			} else {
-				return false;
-			}
+			return handleDeadlineCheckForNonKeyWordLastWord(string);
 		}
 	}
 
 	private static boolean isEvent(String string) {
 		String lastWord = PublicFunctions.getLastWord(string);
-		if (PublicVariables.startTimeWords.contains(lastWord) || PublicVariables.periodWords.contains(lastWord)) {
+		if (isLastWordEventKeyWord(lastWord)) {
 			return true;
 		} else {
-			try {
-				Integer.parseInt(lastWord);
-				return false;
-			} catch (Exception e) {
-				DateTimeParser.searchTaskTimes(string);
-				if (PublicVariables.taskStartTime != null) {
-					return true;
+			return handleEventCheckForNonKeyWordLastWord(string, lastWord);
+		}
+	}
+	
+	private static boolean handleDeadlineCheckForNonKeyWordLastWord(String string) {
+		Matcher matcher = Pattern.compile(deadlineKeyWordRegex).matcher(string);
+		if (matcher.find()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private static Boolean handleEventCheckForNonKeyWordLastWord(String string, String lastWord) {
+		try {
+			Integer.parseInt(lastWord);
+			return false;
+		} catch (Exception e) {
+			DateTimeParser.searchTaskTimes(string);
+			if (PublicVariables.taskStartTime != null) {
+				return true;
+			} else {
+				if (string.charAt(string.length() - 1) == ' ') {
+					return false;
 				} else {
-					if (string.charAt(string.length() - 1) == ' ') {
-						return false;
+					String secondLastWord = PublicFunctions.getSecondLastWord(string);
+					if (PublicVariables.startTimeWords.contains(secondLastWord)
+							|| PublicVariables.periodWords.contains(secondLastWord)) {
+						return true;
 					} else {
-						String secondLastWord = PublicFunctions.getSecondLastWord(string);
-						if (PublicVariables.startTimeWords.contains(secondLastWord)
-								|| PublicVariables.periodWords.contains(secondLastWord)) {
-							return true;
-						} else {
-							return false;
-						}
+						return false;
 					}
 				}
 			}
 		}
 	}
 	
+	private static Command generateAddCommandAndReturn(String commandString, int index) {
+		PublicVariables.commandType = COMMAND_TYPE.ADD;
+		AddCommandParser addCommand = new AddCommandParser(commandString, index);
+		return addCommand.generateAndReturn();
+	}
+
 	private static ArrayList<String> getReservedWords() {
 		ArrayList<String> array = new ArrayList<String>();
-		Matcher matcher = Pattern.compile("([^\\d+\\s+/-:]+)(\\d+)").matcher(_argsString);
+		Matcher matcher = Pattern.compile(reservedWordsRegex).matcher(_argsString);
 		while (matcher.find()) {
 			_argsString = _argsString.replace(matcher.group(), "<" + matcher.group() + ">");
 			array.add("<" + matcher.group() + ">");
 		}
-		
+
 		return array;
 	}
-	
+
 	private static String undoReserveWords(ArrayList<String> array, String string) {
-		for (String arrayString:array) {
-			string = string.replace(arrayString, arrayString.substring(1,arrayString.length()-1));
+		for (String arrayString : array) {
+			string = string.replace(arrayString, arrayString.substring(1, arrayString.length() - 1));
 		}
 		return string;
+	}
+
+	private static String formatCommandString(String commandString) {
+		commandString = commandString.toLowerCase();
+		commandString = PublicFunctions.reformatArgsString(commandString);
+		commandString = reserveSpecialWords(commandString);
+		return commandString;
+	}
+
+	private static String reserveSpecialWords(String commandString) {
+		_argsString = commandString;
+		getReservedWords();
+		commandString = _argsString;
+		return commandString;
+	}
+
+	private static Boolean isCommandStringValid(String commandString) {
+		return (commandString.length() > 0 && !commandString.trim().equals(""));
+	}
+
+	private static Boolean isLastWordEventKeyWord(String lastWord) {
+		return (PublicVariables.startTimeWords.contains(lastWord) || PublicVariables.periodWords.contains(lastWord));
+	}
+	
+	private static Boolean isLastWordDeadlineKeyWord(String lastWord) {
+		return PublicVariables.endTimeWords.contains(lastWord);
+	}
+
+	private static Boolean isInvalidCommandType(COMMAND_TYPE commandType) {
+		return commandType == COMMAND_TYPE.INVALID;
+	}
+
+	private static SuggestCommand checkEventOrDeadlineAndReturn(String commandString, SuggestCommand suggestCommand) {
+		boolean isDeadline = isDeadline(commandString);
+		boolean isEvent = isEvent(commandString);
+		suggestCommand.setDeadline(isDeadline);
+		suggestCommand.setEvent(isEvent);
+		return suggestCommand;
 	}
 }
