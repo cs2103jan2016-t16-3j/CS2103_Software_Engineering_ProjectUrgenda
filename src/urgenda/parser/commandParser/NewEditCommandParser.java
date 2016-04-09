@@ -20,11 +20,16 @@ public class NewEditCommandParser {
 	private static String _argsString;
 	private static int _index;
 
+	private static enum TIME_TYPE {
+		START_TIME, END_TIME
+	}
+
 	private static String startFlagRegex = "(-s)|(-s:)|(from)";
 	private static String endFlagRegex = "(-e)|(-e:)|(to)|(by)";
 	private static String removeFlagRegex = "((-r)|(-rm))";
 	private static String locationRegex = "(@)";
-	private static String combinedRegex = "((\\A|\\D)(" + startFlagRegex + "|" + endFlagRegex + ")(\\Z|\\D))|" + locationRegex;
+	private static String combinedRegex = "((\\A|\\D)(" + startFlagRegex + "|" + endFlagRegex + ")(\\Z|\\D))|"
+			+ locationRegex;
 
 	private static LocalDateTime startTime;
 	private static LocalDateTime endTime;
@@ -42,12 +47,13 @@ public class NewEditCommandParser {
 		if (_argsString == null) {
 			return new Invalid();
 		} else {
-			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 			reinitializeVariables();
+
+			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 			String reducedString = searchIndex();
 			searchDetails(reducedString);
 			int numberOfRmFlag = countRmFlag(reducedString);
-			
+
 			Edit editCommand = new Edit();
 			Task newTask = new Task();
 			if (startTime != null) {
@@ -90,18 +96,21 @@ public class NewEditCommandParser {
 	}
 
 	private static int countRmFlag(String reducedString) {
-		int index = reducedString.indexOf("-r");
+		String removeFlagRegex1 = "-r";
+		String removeFlagRegex2 = "-rm";
+		int index = reducedString.indexOf(removeFlagRegex1);
 		int count = 0;
+
 		while (index != -1) {
-		    count++;
-		    reducedString = reducedString.substring(index + 1);
-		    index = reducedString.indexOf("-r");
+			count++;
+			reducedString = reducedString.substring(index + 1);
+			index = reducedString.indexOf(removeFlagRegex1);
 		}
-		index = reducedString.indexOf("-rm");
+		index = reducedString.indexOf(removeFlagRegex2);
 		while (index != -1) {
-		    count++;
-		    reducedString = reducedString.substring(index + 1);
-		    index = reducedString.indexOf("-rm");
+			count++;
+			reducedString = reducedString.substring(index + 1);
+			index = reducedString.indexOf(removeFlagRegex2);
 		}
 		return count;
 	}
@@ -119,76 +128,118 @@ public class NewEditCommandParser {
 	private static void searchDetails(String argsString) {
 		String temp = argsString;
 		String[] stringArray = temp.trim().split(combinedRegex);
+
 		if (stringArray.length == 0) {
-			unknownTime = parseUnknownTime(temp);
+			parseTimeWithoutKeyWord(temp);
 		} else {
-			for (int i = 0; i < stringArray.length; i++) {	
-				int position = temp.indexOf(stringArray[i].trim());
-				String preceedingWord = PublicFunctions.getPreceedingWord(position, temp);
-				if (preceedingWord.equals("-s") || preceedingWord.equals("-s:") || preceedingWord.equals("from")) {
-					startTime = parseStartTime(stringArray[i].trim());
-				} else if (preceedingWord.equals("-e") || preceedingWord.equals("-e:") || preceedingWord.equals("to")
-						|| preceedingWord.equals("by")) {
-					endTime = parseEndTime(stringArray[i].trim());
-				} else if (preceedingWord.equals("@")) {
-					location = stringArray[i].trim();
+			parseDetailsWithKeyWords(temp, stringArray);
+		}
+	}
+
+	private static void parseDetailsWithKeyWords(String temp, String[] stringArray) {
+		for (int i = 0; i < stringArray.length; i++) {
+			parseSeparatedDetailStrings(temp, stringArray, i);
+		}
+	}
+
+	private static void parseSeparatedDetailStrings(String temp, String[] stringArray, int i) {
+		int position = temp.indexOf(stringArray[i].trim());
+		String preceedingWord = PublicFunctions.getPreceedingWord(position, temp);
+
+		if (isAfterStartFlag(preceedingWord)) {
+			startTime = parseStartTime(stringArray[i].trim());
+		} else if (isAfterEndFlag(preceedingWord)) {
+			endTime = parseEndTime(stringArray[i].trim());
+		} else if (isAfterLocationFlag(preceedingWord)) {
+			location = stringArray[i].trim();
+		} else {
+			parseDetailsWithoutPreceedingKeyWord(stringArray, i);
+		}
+	}
+
+	private static void parseDetailsWithoutPreceedingKeyWord(String[] stringArray, int i) {
+		String removeFlagWithBoundsRegex = "(\\A|\\D)((-rm)|(-r))(\\Z|\\D)";
+		String removeFlagRegex = "((-rm)|(-r))";
+		String emptyString = "";
+
+		String argsStringWithoutFlags = stringArray[i].replaceAll(removeFlagWithBoundsRegex, emptyString).trim();
+		unknownTime = parseUnknownTime(argsStringWithoutFlags);
+		if (isFirstGroupOrParseUnknownFail(i)) {
+			String[] array = stringArray[i].split(removeFlagWithBoundsRegex);
+			if (array.length == 2) {
+				unknownTime = parseUnknownTime(array[1].trim());
+				if (unknownTime != null) {
+					descString = array[0];
 				} else {
-					unknownTime = parseUnknownTime(stringArray[i].replaceAll("(\\A|\\D)((-rm)|(-r))(\\Z|\\D)","").trim());
-					if (i==0 && unknownTime == null) {
-						String[] array = stringArray[i].split(removeFlagRegex);
-						if (array.length == 2) {
-							unknownTime = parseUnknownTime(array[1].trim());
-							if (unknownTime != null) {
-								descString = array[0];
-							} else {
-								descString = stringArray[i].trim();							
-							}
-						} else {
-							descString = stringArray[i].replaceAll("((-rm)|(-r))","").trim();
-						}
-					}
+					descString = stringArray[i].trim();
 				}
+			} else {
+				descString = stringArray[i].replaceAll(removeFlagRegex, emptyString).trim();
 			}
 		}
 	}
 
-	// taken from DateTimeParser, refractor later
+	private static boolean isAfterLocationFlag(String preceedingWord) {
+		String locationKeyWord = "@";
+		return preceedingWord.equals(locationKeyWord);
+	}
+
+	private static boolean isAfterEndFlag(String preceedingWord) {
+		String endFlag1 = "-e";
+		String endFlag2 = "-e:";
+		String endFlag3 = "to";
+		String endFlag4 = "by";
+		return preceedingWord.equals(endFlag1) || preceedingWord.equals(endFlag2) || preceedingWord.equals(endFlag3)
+				|| preceedingWord.equals(endFlag4);
+	}
+
+	private static boolean isAfterStartFlag(String preceedingWord) {
+		String startFlag1 = "-s";
+		String startFlag2 = "-s:";
+		String startFlag3 = "from";
+		return preceedingWord.equals(startFlag1) || preceedingWord.equals(startFlag2)
+				|| preceedingWord.equals(startFlag3);
+	}
+
+	private static boolean isFirstGroupOrParseUnknownFail(int i) {
+		return i == 0 && unknownTime == null;
+	}
+
+	private static void parseTimeWithoutKeyWord(String temp) {
+		unknownTime = parseUnknownTime(temp);
+	}
+
 	private static LocalDateTime parseStartTime(String argsString) {
-		List<DateGroup> dateGroups = new PrettyTimeParser().parseSyntax(argsString);
-		if (dateGroups.size() == 1) {
-			String parsedString = dateGroups.get(0).getText();
-			if (dateGroups.get(0).getDates().size() == 1 && parsedString.trim().equals(argsString)) {
-				List<DateGroup> dateGroups2 = new PrettyTimeParser().parseSyntax(argsString);
-				Date firstParseDate = dateGroups.get(0).getDates().get(0);
-				Date secondParseDate = dateGroups2.get(0).getDates().get(0);
-				LocalDateTime localDateTime = PublicFunctions.getLocalDateTimeFromDate(firstParseDate);
-				if (firstParseDate.equals(secondParseDate)) {
-					return localDateTime;
-				} else {
-					return DateTimeParser.adjustedDateEvent(localDateTime);
-				}
-			}
-		}
-		return null;
+		return parseTime(argsString, TIME_TYPE.START_TIME);
 	}
 
 	private static LocalDateTime parseEndTime(String argsString) {
+		return parseTime(argsString, TIME_TYPE.END_TIME);
+	}
+
+	private static LocalDateTime parseTime(String argsString, TIME_TYPE timeType) {
 		List<DateGroup> dateGroups = new PrettyTimeParser().parseSyntax(argsString);
-		if (dateGroups.size() == 1) {
-			String parsedString = dateGroups.get(0).getText();
-			if (dateGroups.get(0).getDates().size() == 1 && parsedString.trim().equals(argsString)) {
-				List<DateGroup> dateGroups2 = new PrettyTimeParser().parseSyntax(argsString);
-				Date firstParseDate = dateGroups.get(0).getDates().get(0);
-				Date secondParseDate = dateGroups2.get(0).getDates().get(0);
-				LocalDateTime localDateTime = PublicFunctions.getLocalDateTimeFromDate(firstParseDate);
-				if (firstParseDate.equals(secondParseDate)) {
-					return localDateTime;
+		if (isValidArgsStringForTimeParse(argsString, dateGroups)) {
+			Date firstParseDate = dateGroups.get(0).getDates().get(0);
+			LocalDateTime localDateTime = PublicFunctions.getLocalDateTimeFromDate(firstParseDate);
+			if (isCompleteDate(argsString, dateGroups)) {
+				return localDateTime;
+			} else {
+				if (timeType == TIME_TYPE.START_TIME) {
+					return DateTimeParser.adjustedDateEvent(localDateTime);
 				} else {
 					return DateTimeParser.adjustedDateDeadline(localDateTime);
 				}
 			}
 		}
 		return null;
+	}
+
+	private static boolean isCompleteDate(String argsString, List<DateGroup> dateGroups) {
+		List<DateGroup> dateGroups2 = new PrettyTimeParser().parseSyntax(argsString);
+		Date firstParseDate = dateGroups.get(0).getDates().get(0);
+		Date secondParseDate = dateGroups2.get(0).getDates().get(0);
+		return firstParseDate.equals(secondParseDate);
 	}
 
 	private static LocalDateTime parseUnknownTime(String argsString) {
@@ -203,7 +254,17 @@ public class NewEditCommandParser {
 		}
 		return null;
 	}
-	
+
+	private static boolean isValidArgsStringForTimeParse(String argsString, List<DateGroup> dateGroups) {
+		if (dateGroups.size() == 1) {
+			String parsedString = dateGroups.get(0).getText();
+			if (dateGroups.get(0).getDates().size() == 1 && parsedString.trim().equals(argsString)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private static void reinitializeVariables() {
 		startTime = null;
 		endTime = null;
