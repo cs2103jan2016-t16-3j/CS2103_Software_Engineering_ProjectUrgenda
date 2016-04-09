@@ -14,7 +14,8 @@ import urgenda.util.StateFeedback;
 import urgenda.util.Task;
 import urgenda.util.TaskList;
 
-public class RunTest {
+// test for integration across logic and parser.
+public class UrgendaIntegrationTest {
 	
 	private static final String ADD_COMMAND = "add ";
 	private static final String UNDO_COMMAND = "undo";
@@ -23,7 +24,8 @@ public class RunTest {
 	private static final String MESSAGE_REMOVE = " removed";
 	private static final String MESSAGE_UNDO = "Undo: ";
 	private static final String MESSAGE_REDO = "Redo: ";
-	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d, %4$02d:%5$02d - %6$02d:%7$02d";
+	private static final String MESSAGE_EVENT = "\"%1$s\" on %2$d/%3$d %4$02d:%5$02d - "
+			+ "%6$d/%7$d %8$02d:%9$02d";
 	private static final String MESSAGE_EVENT_DATETIME = ", %1$d/%2$d, %3$02d:%4$02d - %5$02d:%6$02d";
 	private static final String MESSAGE_FLOAT = "\"%1$s\"";
 	private static final String MESSAGE_DEADLINE = "\"%1$s\" by %2$d/%3$d, %4$02d:%5$02d";
@@ -300,23 +302,21 @@ public class RunTest {
 		Task.Type taskType = task.getTaskType();
 		String feedback = null;
 		switch (taskType) {
-			case EVENT :
-				feedback = String.format(MESSAGE_EVENT, task.getDesc(), task.getStartTime().getDayOfMonth(),
-						task.getStartTime().getMonthValue(), task.getStartTime().getHour(), 
-						task.getStartTime().getMinute(), task.getEndTime().getHour(), 
-						task.getEndTime().getMinute());
-				break;
-		
-			case FLOATING :
-				feedback = String.format(MESSAGE_FLOAT, task.getDesc());
-				break;
-		
-			case DEADLINE :
-				feedback = String.format(MESSAGE_DEADLINE, task.getDesc(), task.getEndTime().getDayOfMonth(),
-						task.getEndTime().getMonthValue(), task.getEndTime().getHour(), 
-						task.getEndTime().getMinute());
-				break;
-
+		case EVENT :
+			feedback = String.format(MESSAGE_EVENT, task.getDesc(), task.getStartTime().getDayOfMonth(),
+					task.getStartTime().getMonthValue(), task.getStartTime().getHour(), 
+					task.getStartTime().getMinute(), task.getEndTime().getDayOfMonth(), 
+					task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
+					task.getEndTime().getMinute());
+			break;
+		case FLOATING :
+			feedback = String.format(MESSAGE_FLOAT, task.getDesc());
+			break;
+		case DEADLINE :
+			feedback = String.format(MESSAGE_DEADLINE, task.getDesc(), task.getEndTime().getDayOfMonth(),
+					task.getEndTime().getMonthValue(), task.getEndTime().getHour(), 
+					task.getEndTime().getMinute());
+			break;
 		}
 		return feedback;
 	}

@@ -72,6 +72,7 @@ Class | Function
 `Logic` (Facade) | Main handler for external calls from other components. Also has the Singleton pattern as there should always be only one `Logic` handling the processes in Urgenda.
 `LogicData` | Class in Logic component that stores the Tasks temporarily when Urgenda is running. Most data manipulation and edits are done through `LogicData`. It is also responsible for generation of the current state. Has the Singleton pattern as well to ensure that all data manipulation is done on the only LogicData.
 `LogicCommand` | Class where the Commands are being stored in the Logic component. Execution of commands as well as undo/redo of these commands will be carried out by LogicCommand.
+`LogicSuggester` | Class where the Suggestions are being processed and returned to the user. This is to provide suggestions for guiding the user while the commands are being typed.
 
 Furthermore, the table below shows the notable API for usage of Logic:
 
@@ -81,6 +82,7 @@ Method | Return type and function
 `retrieveStartupState()` | Returns a `StateFeedback` object of the system. This method is for the initial startup of Urgenda in setting up the components as well as retrieval of previously saved tasks.
 `displayHelp()` | Returns a `String` which consists of the help manual of Urgenda. This method is used for the request of Urgenda's help manual.
 `getCurrentSaveDirectory()` | Returns a `String` of the current location where the data is being saved on the user's computer.
+`getSuggestions(String currCmd)` | Returns a `SuggestFeedback` object which consists of the possible feedback and suggestions to what the user is currently typing.
 
 ## Logic Class
 The `Logic` class contains the methods that handle the core functionality of Urgenda. It can be thought of as the "processor" of Urgenda. User inputs are passed to the `executeCommand(String, int)` to determine the corresponding command object based on the user input by the `Parser` component.
@@ -90,14 +92,22 @@ A generic example of the process flow in Logic can be seen below:
 ![Logic](/docs/UML Diagrams/Logic sequence diagram.png)
 > Figure 4: Sequence Diagram when an `add` command is given
 
-After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `UpdateSate()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added to task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facilitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
-
+After knowing the type of command, `Logic`retrieves the updated state and data per launch time from `LogicData` via the `updateState()` method call. After which the command object will be passed to `LogicCommand` for process through the `processCommand(Command)` method call. The command will then be executed, and `LogicData` will update its relevant fields. In the case of adding a task, the task will be added to task list via the `addTask(Task)` method call and the display state will be updated correspondingly.  `LogicData` maintains a temporary set of data same as that displayed to the user per launch time so as to facilitate number pointing of task and reduce dependency with `Storage` component (e.g. when user inputs delete 4, `Logic` is able to determine which is task 4 without having to call `Storage`). `Storage` component will then store the data to ensure no loss of user data upon unintentional early termination of Urgenda Program. More details of the storing procedure are mentioned in the `Storage` section.
 
 The executeCommand(String) method will then return the appropriate feedback to its caller method. The caller method can then decide how to update the user interface.
 
+Also, `Logic` is responsible for the processing of current input the user is typing and provide suggestions of possible commands and parameters for the user. 
+
+A generic example of the suggestion process in Logic can be seen below:
+
+![Logic](/docs/UML Diagrams/Suggester sequence diagram.png)
+> Figure 5: Sequence Diagram when any command is being typed by the user.
+
+As the user is typing the commands, `Logic` will parse the current string for possible commands through the `parseRuntimeInput(String)` method call. The `SuggestCommand` object returned will then be processed through `LogicSuggester` to give possible suggestions based on the parsed commands. Finally, a `SuggestFeedback` object will be returned which contains all the possible suggestions for the current command typed.
+
 # Command Component
 ![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
-> Figure 5: Structure of Command component where the Command Pattern is used
+> Figure 6: Structure of Command component where the Command Pattern is used
 
 Here is the abstract method that is present in `Command` class.
 
@@ -120,7 +130,7 @@ The structure of the Command component allows the flexibility of adding new comm
 
 # Parser Component
 ![Parser](/docs/UML Diagrams/Parser.png)
-> Figure 6: Structure of Parser component
+> Figure 7: Structure of Parser component
 
 The Parser component is accessible through the `Parser` class using the interface pattern. This component is invoked by the `Logic` component, and has the function of parsing a passed in user command string and return an appropriate Command Object. In order to do this, Parser will access different classes, each having its unique functions, as listed in the next section.
 
@@ -143,7 +153,7 @@ Method | Return type and function
 
 # Storage Component
 ![Storage](/docs/UML Diagrams/Storage.png)
-> Figure 7: Structure of Storage component
+> Figure 8: Structure of Storage component
 
 The Storage component is accessible through the `Storage` class using the facade pattern, where it handles and directs file manipulation using the respective classes. Gestalt's Principle is used in this component to enhance the cohesiveness of each class and reduce the coupling, where only necessary dependencies are utilized. The functions of each class are grouped accordingly to the very meaning that each class name suggest. 
 
@@ -177,7 +187,7 @@ These functions are catered specifically for `Logic` component as and when it is
 
 ### Sequence diagram `updateArrayList`
 ![updateArrayListSD](/docs/UML Diagrams/updateSDStorage.png)
-> Figure 8: Sequence diagram of `updateArrayList()`
+> Figure 9: Sequence diagram of `updateArrayList()`
 
 `updateArrayList()` is the generic method for `updateCurrentTaskList()` and `updateArchiveTaskList()`. With the `_fileDataStringArr` already retrieved and stored within `Storage` upon initialization, it simply has to be decrypted from JSON to actual Tasks objects. 
 
@@ -185,7 +195,7 @@ These functions are catered specifically for `Logic` component as and when it is
 
 ### Sequence diagram `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
 ![saveSD](/docs/UML Diagrams/saveSDStorage.png)
-> Figure 9: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
+> Figure 10: Sequence diagram of `save(ArrayList<Task> tasks, ArrayList<Task> archives)`
 
 `save(ArrayList<Task> tasks, ArrayList<Task> archives)` saves the current list of tasks into the specified file by writing onto it. This method can be split into two parts:
 1. Encrypting the array list of `Tasks` into JSON format and converting it to an array list of `String`. 
@@ -195,7 +205,7 @@ These functions are catered specifically for `Logic` component as and when it is
 
 ### Sequence diagram `changeFileSettings(String path, String name)`
 ![changeFileSettingsSD](/docs/UML Diagrams/changeFileSettingsSDStorage.png)
-> Figure 10: Sequence diagram of `changeFileSettings(String path, String name)`
+> Figure 11: Sequence diagram of `changeFileSettings(String path, String name)`
 
 `changeFilePath(String path)` and `changeFileName(String name)` are similar methods to `changeFileSettings(String path, String name)`, whereby the latter changes both the name and the directory the datafile is saved in.
 `changeFileSettings(String path, String name)` has two parts to it:
