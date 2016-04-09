@@ -340,6 +340,7 @@ public class LogicData {
 		}
 		_tasks.removeAll(completedTasks);
 		_archives.addAll(completedTasks);
+		assert(_archives.size() >= 0);
 	}
 
 	private void checkEvents(ArrayList<Task> completedTasks, LocalDateTime now, Task task) {
