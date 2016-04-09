@@ -29,7 +29,6 @@ public class EditCommandParser {
 				reducedArgsString = TaskDetailsParser.searchTaskIndex(_argsString);
 			}
 			reducedArgsString = DateTimeParser.searchTaskTimes(reducedArgsString);
-			reducedArgsString = TaskDetailsParser.searchTaskHashtags(reducedArgsString);
 			reducedArgsString = TaskDetailsParser.searchTaskLocation(reducedArgsString);
 			TaskDetailsParser.searchTaskDescription(reducedArgsString);
 

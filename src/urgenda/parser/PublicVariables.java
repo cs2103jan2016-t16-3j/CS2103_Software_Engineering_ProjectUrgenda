@@ -12,9 +12,7 @@ import urgenda.util.MultipleSlot;
 
 public class PublicVariables {
 	public static enum COMMAND_TYPE {
-		ADD, DELETE, COMPLETE, EDIT, HELP, SEARCH, SHOW_DETAILS, BLOCK, DEMO, HIDE,
-		FIND_FREE, HOME, UNDO, REDO, SHOW_ARCHIVE, CONFIRM, SET_DIRECTORY, PRIORITISE, 
-		POSTPONE, INVALID, EXIT
+		ADD, DELETE, COMPLETE, EDIT, HELP, SEARCH, SHOW_DETAILS, BLOCK, DEMO, HIDE, FIND_FREE, HOME, UNDO, REDO, SHOW_ARCHIVE, CONFIRM, SET_DIRECTORY, PRIORITISE, POSTPONE, INVALID, EXIT
 	}
 
 	public static enum TASK_TYPE {
@@ -35,12 +33,12 @@ public class PublicVariables {
 	public static final Set<String> updateKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "edit", "change", "update", "mod" }));
 	public static final Set<String> searchKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "find", "show", "view", "list", "search", "#\\w+" }));
+			Arrays.asList(new String[] { "find", "show", "view", "list", "search" }));
 	public static final Set<String> showDetailsKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "showmore" }));
 	public static final Set<String> homeKeyWords = new HashSet<String>(Arrays.asList(new String[] { "home" }));
 	public static final Set<String> blockKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "block", "res", "reserve", "alloc", "allocate", "rsv"}));
+			Arrays.asList(new String[] { "block", "res", "reserve", "alloc", "allocate", "rsv" }));
 	public static final Set<String> findFreeKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "findfree", "free", "checkfree" }));
 	public static final Set<String> undoKeywords = new HashSet<String>(Arrays.asList(new String[] { "undo" }));
@@ -56,11 +54,9 @@ public class PublicVariables {
 	public static final Set<String> setDirectoryKeyWords = new HashSet<String>(
 			Arrays.asList(new String[] { "saveto", "cd" }));
 	public static final Set<String> exitKeyWords = new HashSet<String>(Arrays.asList(new String[] { "exit", "quit" }));
-	public static final Set<String> demoKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "demo" }));
-	public static final Set<String> hideKeyWords = new HashSet<String>(
-			Arrays.asList(new String[] { "hide" }));
-	
+	public static final Set<String> demoKeyWords = new HashSet<String>(Arrays.asList(new String[] { "demo" }));
+	public static final Set<String> hideKeyWords = new HashSet<String>(Arrays.asList(new String[] { "hide" }));
+
 	public static final Set<String> janWords = new HashSet<String>(Arrays.asList(new String[] { "jan", "january" }));
 	public static final Set<String> febWords = new HashSet<String>(Arrays.asList(new String[] { "feb", "february" }));
 	public static final Set<String> marWords = new HashSet<String>(Arrays.asList(new String[] { "mar", "march" }));

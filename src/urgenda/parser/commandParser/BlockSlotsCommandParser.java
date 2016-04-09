@@ -29,8 +29,7 @@ public class BlockSlotsCommandParser {
 			taskTimeStrings = new ArrayList<String>();
 			Boolean isConcatSuccess = concatArgsString();
 			if (isConcatSuccess) {
-				String reducedArgsString = TaskDetailsParser.searchTaskHashtags(taskDetails);
-				reducedArgsString = TaskDetailsParser.searchTaskLocation(reducedArgsString);
+				String reducedArgsString = TaskDetailsParser.searchTaskLocation(_argsString);
 				TaskDetailsParser.searchTaskDescription(reducedArgsString);
 				TaskDetailsParser.searchTaskType();
 				DateTimeParser.searchTaskSlots(taskTimeStrings);
