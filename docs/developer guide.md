@@ -103,6 +103,8 @@ A generic example of the suggestion process in Logic can be seen below:
 ![Logic](/docs/UML Diagrams/Suggester sequence diagram.png)
 > Figure 5: Sequence Diagram when any command is being typed by the user.
 
+As the user is typing the commands, `Logic` will parse the current string for possible commands through the `parseRuntimeInput(String)` method call. The `SuggestCommand` object returned will then be processed through `LogicSuggester` to give possible suggestions based on the parsed commands. Finally, a `SuggestFeedback` object will be returned which contains all the possible suggestions for the current command typed.
+
 # Command Component
 ![Command](https://github.com/cs2103jan2016-t16-3j/main/blob/master/docs/UML%20Diagrams/Command.png?raw=true)
 > Figure 6: Structure of Command component where the Command Pattern is used
