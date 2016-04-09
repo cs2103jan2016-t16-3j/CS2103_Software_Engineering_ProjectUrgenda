@@ -21,18 +21,21 @@ public class PostponeTest {
 	public void testExecute() {
 		LogicData data = LogicData.getInstance(true);
 		
+
 		// test for event task
 		ArrayList<Task> expectedTasks = new ArrayList<Task>();
 		LocalDateTime start = LocalDateTime.of(2016, 7, 5, 0, 0);
 		LocalDateTime end = LocalDateTime.of(2016, 7, 6, 0, 0);
 		Task eventTask = new Task("event task", null, start, end, false);
 		data.addTask(eventTask);
+		data.setDisplays(data.getTaskList());
 		LocalDateTime newStart = LocalDateTime.of(2016, 7, 6, 0, 0);
 		LocalDateTime newEnd = LocalDateTime.of(2016, 7, 7, 0, 0);
 		Task expected = new Task("event task", null, newStart, newEnd, false);
 		expectedTasks.add(expected);
 		Postpone cmd = new Postpone();
 		cmd.setDay(1);
+		cmd.setId(0);
 		String feedback = null;
 		try {
 			feedback = cmd.execute();

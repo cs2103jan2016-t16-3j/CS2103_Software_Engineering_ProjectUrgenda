@@ -224,7 +224,9 @@ public class LogicData {
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(otherTasks));
 
-		assert (_displays.size() >= 0);
+		assert (overdueTasks.size() >= 0);
+		assert (todayTasks.size() >= 0);
+		assert (otherTasks.size() >= 0);
 
 		StateFeedback state = new StateFeedback(_displays, overdueTasks.size(), todayTasks.size(),
 				otherTasks.size());
