@@ -29,7 +29,7 @@ public class FreeTimeTest {
 	@Test
 	public void test016SplitTime() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 22, 23, 0);
@@ -81,7 +81,7 @@ public class FreeTimeTest {
 	@Test
 	public void test015ModifiedRange() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2016, 3, 23, 12, 0);
@@ -125,7 +125,7 @@ public class FreeTimeTest {
 	@Test
 	public void test014InvalidRange() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2016, 3, 23, 12, 0);
@@ -187,7 +187,7 @@ public class FreeTimeTest {
 	@Test
 	public void test013InvalidRange() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 18, 0);
@@ -256,7 +256,7 @@ public class FreeTimeTest {
 	@Test
 	public void test012FreeTimeMultipleTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -320,7 +320,7 @@ public class FreeTimeTest {
 	@Test
 	public void test011FreeTimeMultipleTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -383,7 +383,7 @@ public class FreeTimeTest {
 	@Test
 	public void test010FreeTimeMultipleTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -445,7 +445,7 @@ public class FreeTimeTest {
 	@Test
 	public void test009FreeTimeMultipleTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -521,7 +521,7 @@ public class FreeTimeTest {
 	@Test
 	public void test008FreeTimeNoTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -567,7 +567,7 @@ public class FreeTimeTest {
 	@Test
 	public void test007NoFreeTimeOneTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -610,7 +610,7 @@ public class FreeTimeTest {
 	@Test
 	public void test006NoFreeTimeOneTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -660,7 +660,7 @@ public class FreeTimeTest {
 	@Test
 	public void test005FreeTimeOneTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -716,7 +716,7 @@ public class FreeTimeTest {
 	@Test
 	public void test004FreeTimeOneTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -772,7 +772,7 @@ public class FreeTimeTest {
 	@Test
 	public void test003FreeTimeOneTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -828,7 +828,7 @@ public class FreeTimeTest {
 	@Test
 	public void test002FreeTimeOneTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);
@@ -884,7 +884,7 @@ public class FreeTimeTest {
 	@Test
 	public void test001FreeTimeOneTask() {
 		// setting up the test
-		LogicData data = LogicData.getInstance();
+		LogicData data = LogicData.getInstance(true);
 		data.clearTasks();
 		ArrayList<Task> expectedList = new ArrayList<Task>();
 		LocalDateTime rangeStart = LocalDateTime.of(2017, 3, 23, 12, 0);

@@ -18,7 +18,7 @@ public class PrioritiseTest {
 	//this fn is to test Prioritise by specifying task desc
 	@Test
 	public void testExecuteDesc() throws Exception {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -61,7 +61,7 @@ public class PrioritiseTest {
 	
 	@Test
 	public void testExecutePositions() throws Exception {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -117,7 +117,7 @@ public class PrioritiseTest {
 	
 	@Test
 	public void testUndo() throws Exception {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);
@@ -151,7 +151,7 @@ public class PrioritiseTest {
 	
 	@Test
 	public void testRedo() throws Exception {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, null);

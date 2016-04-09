@@ -16,7 +16,7 @@ public class NewEditTest {
 	
 	@Test
 	public void testExecute() throws Exception {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
@@ -61,7 +61,7 @@ public class NewEditTest {
 	
 	@Test
 	public void testUndo() throws Exception {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);
@@ -79,7 +79,7 @@ public class NewEditTest {
 	
 	@Test 
 	public void testRedo() throws Exception {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(), notime, null);

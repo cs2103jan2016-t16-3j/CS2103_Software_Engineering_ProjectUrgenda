@@ -17,7 +17,7 @@ public class DeleteTaskTest {
 
 	@Test
 	public void testExecute() throws LogicException {
-		LogicData _data = LogicData.getInstance();
+		LogicData _data = LogicData.getInstance(true);
 		LocalDateTime notime = null;
 		Task obj = new Task(1, "Buy milk", "floating", "", false, false, false, notime, notime, LocalDateTime.now(),
 				notime,  null);
