@@ -54,6 +54,7 @@ public class Prioritise extends TaskCommand {
 
 	/*
 	 * Checks if there are any matches for the tasks found based on the input.
+	 * Throws exception if there are no tasks.
 	 */
 	private void checkValidTask() throws LogicException {
 		if (_tasks == null || _tasks.isEmpty()) {
@@ -75,7 +76,8 @@ public class Prioritise extends TaskCommand {
 	}
 
 	/*
-	 * Finds all matching tasks based on the description.
+	 * Finds all matching tasks based on the description. Throws exception if
+	 * there are multiple matches for description found.
 	 */
 	private void matchGivenDesc() throws LogicException {
 		ArrayList<Task> matches;

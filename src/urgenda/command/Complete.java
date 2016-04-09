@@ -50,7 +50,7 @@ public class Complete extends TaskCommand {
 	}
 
 	/*
-	 * Updates the state of the task being completed.
+	 * Updates the state of the task(s) being completed.
 	 */
 	private void updateTasks() {
 		completeTasks(true);
@@ -60,7 +60,7 @@ public class Complete extends TaskCommand {
 	}
 
 	/*
-	 * Checks if the task is a valid task.
+	 * Checks if the task(s) is a valid task.
 	 */
 	private void checkForValidTask() throws LogicException {
 		if (_completedTasks == null || _completedTasks.isEmpty()) {
@@ -101,7 +101,7 @@ public class Complete extends TaskCommand {
 	}
 
 	/*
-	 * Generates the feedback for completion of task.
+	 * Generates the feedback for completion of task(s).
 	 */
 	private String completeFeedback() {
 		if (_completedTasks.size() == 1) {

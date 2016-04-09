@@ -94,15 +94,18 @@ public class Logic {
 		// asserts that given index is non-negative OR -1(case when there is no
 		// tasks)
 		assert (index >= -1);
-		logger.getLogger().info("Checking index: " + index + " >= -1 ");
-
 		Command currCmd = CommandParser.parseCommand(command, index);
 		// asserts that parser returns a valid command object
 		assert (currCmd != null);
-		logger.getLogger().info("Checking cmd obj: " + currCmd + " is non null");
-		// To ensure that the command is applicable to the state
 		currCmd = checkAndFilterCommand(currCmd);
+		return updateStateAndProcessCommand(currCmd);
+	}
 
+	/*
+	 * Ensures that the state of Urgenda is updated and processes the given
+	 * command accordingly.
+	 */
+	private StateFeedback updateStateAndProcessCommand(Command currCmd) {
 		String feedback;
 		_logicData.updateState();
 		feedback = _logicCommand.processCommand(currCmd);
@@ -124,23 +127,37 @@ public class Logic {
 	 */
 	private Command checkAndFilterCommand(Command currCmd) {
 		if (_logicData.getCurrState() == LogicData.DisplayState.FIND_FREE) {
-			if (currCmd instanceof TaskCommand || currCmd instanceof ShowDetails) {
-				if (currCmd instanceof AddTask || currCmd instanceof BlockSlots) {
-					// allows the addition of tasks
-				} else {
-					currCmd = new Invalid(LogicData.DisplayState.FIND_FREE);
-				}
-			}
+			currCmd = filterFindFree(currCmd);
 		} else if (_logicData.getCurrState() == LogicData.DisplayState.ARCHIVE) {
-			// TODO settle archive cases
-			if (currCmd instanceof Complete) {
-				currCmd = new Invalid(LogicData.DisplayState.ARCHIVE);
-			}
+			currCmd = filterArchive(currCmd);
 		} else if (_logicData.getCurrState() == LogicData.DisplayState.DEMO) {
-			if (currCmd instanceof Home || currCmd instanceof Exit) {
-				// allows home or exiting in demo mode
+			currCmd = filterDemo(currCmd);
+		}
+		return currCmd;
+	}
+
+	private Command filterDemo(Command currCmd) {
+		if (currCmd instanceof Home || currCmd instanceof Exit) {
+			// allows home or exiting in demo mode
+		} else {
+			currCmd = new Demo();
+		}
+		return currCmd;
+	}
+
+	private Command filterArchive(Command currCmd) {
+		if (currCmd instanceof Complete) {
+			currCmd = new Invalid(LogicData.DisplayState.ARCHIVE);
+		}
+		return currCmd;
+	}
+
+	private Command filterFindFree(Command currCmd) {
+		if (currCmd instanceof TaskCommand || currCmd instanceof ShowDetails) {
+			if (currCmd instanceof AddTask || currCmd instanceof BlockSlots) {
+				// allows the addition of tasks
 			} else {
-				currCmd = new Demo();
+				currCmd = new Invalid(LogicData.DisplayState.FIND_FREE);
 			}
 		}
 		return currCmd;

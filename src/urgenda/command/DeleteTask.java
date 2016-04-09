@@ -49,7 +49,7 @@ public class DeleteTask extends TaskCommand {
 	}
 
 	/*
-	 * Updates the task in Urgenda.
+	 * Updates the task(s) in Urgenda.
 	 */
 	private void updateTask() {
 		updateDateModified(_deletedTasks);
@@ -58,7 +58,7 @@ public class DeleteTask extends TaskCommand {
 	}
 
 	/*
-	 * Checks if the task is not empty and not null.
+	 * Checks if the task(s) is not empty and not null.
 	 */
 	private void checkValidTask() throws LogicException {
 		if (_deletedTasks == null || _deletedTasks.isEmpty()) {
@@ -129,7 +129,7 @@ public class DeleteTask extends TaskCommand {
 	}
 
 	/**
-	 * Undo method of delete, which restores the deleted task to Urgenda.
+	 * Undo method of delete, which restores the deleted task(s) to Urgenda.
 	 */
 	public String undo() {
 		updateDateModified(_deletedTasks);
@@ -139,7 +139,7 @@ public class DeleteTask extends TaskCommand {
 	}
 
 	/*
-	 * Feedback for re-adding of the task back into Urgenda from an undo.
+	 * Feedback for re-adding of the task(s) back into Urgenda from an undo.
 	 */
 	private String addFeedback() {
 		if (_deletedTasks.size() == 1) {
@@ -178,7 +178,7 @@ public class DeleteTask extends TaskCommand {
 	}
 
 	/**
-	 * Setter for the positions of the tasks to be deleted.
+	 * Setter for the positions of the task(s) to be deleted.
 	 * 
 	 * @param positions
 	 *            ArrayList of Integers containing all the positions for

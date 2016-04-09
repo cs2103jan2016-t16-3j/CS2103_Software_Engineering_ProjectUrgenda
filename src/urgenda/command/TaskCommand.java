@@ -36,8 +36,6 @@ public abstract class TaskCommand extends Command {
 	 */
 	public abstract String redo();
 
-	// function to check validity of task object being passed, throws exception
-	// if task is invalid
 	/**
 	 * Method for checking if the given task is valid.
 	 * 

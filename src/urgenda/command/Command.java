@@ -94,8 +94,6 @@ public abstract class Command {
 		return feedback;
 	}
 
-	// for generation of messages of task given as input, excludes multiple
-	// tasks
 	/**
 	 * For generating of generic task message, regardless of location and
 	 * multipleslots.

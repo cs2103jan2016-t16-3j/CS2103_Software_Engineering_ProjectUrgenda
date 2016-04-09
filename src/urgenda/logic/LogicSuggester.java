@@ -7,6 +7,11 @@ import urgenda.util.SuggestCommand;
 import urgenda.util.SuggestCommand.Command;
 import urgenda.util.SuggestFeedback;
 
+/**
+ * LogicSuggester is a class within the logic component that handles the suggestion provided
+ * to the user when the user is typing commands as input.
+ *
+ */
 public class LogicSuggester {
 
 	// TODO rescale to 110 char
@@ -122,7 +127,8 @@ public class LogicSuggester {
 	}
 
 	/*
-	 * Filters the command based on the given command detected and generates the feedback.
+	 * Filters the command based on the given command detected and generates the
+	 * feedback.
 	 */
 	private ArrayList<String> filterCommand(Command confirmedCommand, boolean isDeadline, boolean isEvent) {
 		switch(confirmedCommand) {
@@ -248,7 +254,7 @@ public class LogicSuggester {
 		suggestions.add(message);
 		return suggestions;
 	}
-	
+
 	private ArrayList<String> editCommand(boolean isDeadline, boolean isEvent) {
 		if (isDeadline) {
 			return generateMessage(EDIT_DEADLINE, EDIT_DEADLINE_MESSAGE);
