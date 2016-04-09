@@ -81,8 +81,7 @@ public class SearchTest {
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-		Search tester9 = new Search();
-		tester9.setSearchInput("Buy egg");
+		Search tester9 = new Search("Buy egg");
 		//test near match
 		assertEquals("No exact match found for \"Buy egg\". Showing: 1 near match(es)", tester9.execute());
 		_data.clearTasks();
