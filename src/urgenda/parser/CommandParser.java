@@ -38,12 +38,20 @@ import urgenda.parser.commandParser.ShowDetailsCommandParser;
 import urgenda.parser.commandParser.UndoCommandParser;
 import urgenda.util.*;
 
+
 public class CommandParser {
 	private static String _argsString;
 
 	private static String deadlineKeyWordRegex = "\\s+by(\\s+|\\Z)";
 	private static String reservedWordsRegex = "([^\\d+\\s+/-:]+)(\\d+)";
 
+
+	/**
+	 * This is the function to parse the commands given by logic when user hits enter
+	 * @param commandString The command string being parsed
+	 * @param index The passed in index of the currently selected task, can be used as parameter for certain commands
+	 * @return the appropriate command objects with all the parsed attributes
+	 */
 	public static Command parseCommand(String commandString, int index) {
 		PublicFunctions.reinitializePublicVariables();
 
@@ -59,6 +67,13 @@ public class CommandParser {
 		}
 	}
 
+	
+	/**
+	 * This is the function to parse the commands as they were being typed into the command line
+	 * in order to give feedback and suggestions to the user
+	 * @param commandString the command currently present on the command line when a keystroke is registered
+	 * @return the SuggestCommand object that contains relevant information, such as suggested keywords, direction of input
+	 */
 	public static SuggestCommand parseRuntimeInput(String commandString) {
 		if (isCommandStringValid(commandString)) {
 			PublicFunctions.reinitializePublicVariables();

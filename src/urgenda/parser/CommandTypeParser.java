@@ -4,6 +4,12 @@ package urgenda.parser;
 import urgenda.parser.PublicVariables.*;
 
 public class CommandTypeParser {
+	
+	/**
+	 * This function parses the command string to determine the type of command being input
+	 * @param commandString The user's input command string
+	 * @return The enum for the type of command of the input
+	 */
 	public static COMMAND_TYPE getCommandType(String commandString) {
 		String lowerCaseFirstWord = PublicFunctions.getFirstWord(commandString).toLowerCase();
 
@@ -52,6 +58,12 @@ public class CommandTypeParser {
 		}
 	}
 
+	
+	/**
+	 * Removes the first word (command word) from user's input and return the rest of the string (arguments) to be parsed
+	 * @param commandString user's input
+	 * @return the argument string with command word removed
+	 */
 	public static String getArgsString(String commandString) {
 		return PublicFunctions.removeFirstWord(commandString);
 	}
