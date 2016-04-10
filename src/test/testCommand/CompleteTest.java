@@ -95,7 +95,6 @@ public class CompleteTest {
 		tester.setPositions(range);
 		assertEquals("3 tasks have been marked as done: \"Buy milk\", \"Submit ie2100 hw3\", \"Mop floor\"",
 				tester.execute()); // test pri by positions
-
 		range.clear();
 		range.add(-6);
 		Complete tester2 = new Complete();

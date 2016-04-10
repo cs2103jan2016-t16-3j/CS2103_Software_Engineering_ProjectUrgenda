@@ -252,14 +252,14 @@ public class MainController {
 	}
 
 	@FXML
-	private void sceneListener(KeyEvent event) {
-		KeyCode code = event.getCode();
+	private void sceneListener(KeyEvent e) {
+		KeyCode code = e.getCode();
 		if (code == KeyCode.TAB) {
 			if (!inputBar.isFocused()) {
 				inputBar.requestFocus();
 			}
 			if(_isDemo.get()) {
-				if(event.isShiftDown()) {
+				if(e.isShiftDown()) {
 					_demoController.prevPart();
 				} else {
 					_demoController.nextPart();
@@ -269,10 +269,10 @@ public class MainController {
 	}
 
 	@FXML
-	private void commandLineListener(KeyEvent event) {
-		KeyCode code = event.getCode();
+	private void commandLineListener(KeyEvent e) {
+		KeyCode code = e.getCode();
 		if(code == KeyCode.TAB) {
-			sceneListener(event); //pass control to scene
+			sceneListener(e); //pass control to scene
 		} else if (code == KeyCode.ENTER) {
 			if (!inputBar.getText().trim().equals("") && !inputBar.getText().equals("")) {
 				while (!_nextCommandLines.isEmpty()) {
@@ -288,7 +288,7 @@ public class MainController {
 			} else { // inputbar has whitespaces
 				inputBar.clear();
 			}
-		} else if (code == KeyCode.UP && !event.isControlDown()) {
+		} else if (code == KeyCode.UP && !e.isControlDown()) {
 			if (!_prevCommandLines.isEmpty()) {
 				if (inputBar.getText().equals(_prevCommandLines.peekFirst())
 						&& _prevCommandLines.size() > 1) {
@@ -297,7 +297,7 @@ public class MainController {
 				}
 				inputBar.setText(_prevCommandLines.getFirst());
 			}
-		} else if (code == KeyCode.DOWN && !event.isControlDown()) {
+		} else if (code == KeyCode.DOWN && !e.isControlDown()) {
 			if (!_nextCommandLines.isEmpty()) {
 				_prevCommandLines.addFirst(_nextCommandLines.getFirst());
 				_nextCommandLines.removeFirst();
@@ -395,7 +395,8 @@ public class MainController {
 	}
 
 	@FXML
-	private void handleHelp(ActionEvent event) {
+	private void handleHelp(ActionEvent e) {
+		e.consume();
 		showHelp();
 	}
 	
@@ -422,7 +423,8 @@ public class MainController {
 	}
 	
 	/**
-	 * Toggles showing of multiple slot options in menu
+	 * Toggles showing of multiple slot options in menu.
+	 * 
 	 * @param show boolean to show multiple slot options or not
 	 */
 	public void toggleMultipleSlotMenuOption(boolean show) {
@@ -432,33 +434,17 @@ public class MainController {
 	}
 	/**
 	 * Displays feedback from user interaction and styles any warnings or errors.
+	 * 
 	 * @param feedback feedback text
 	 */
 	public void displayFeedback(String feedback) {
 		Text feedbackText = null;
 		ArrayList<Text> warningTexts = new ArrayList<Text>();
 		ArrayList<Text> errorTexts = new ArrayList<Text>();
-		//TODO refactor
 		if (feedback.contains(DELIMITER_WARNING)) {
-			String delim = DELIMITER_WARNING;
-			@SuppressWarnings("unchecked")
-			ArrayList<String> delimitedFeedback  = new ArrayList<String>(Arrays.asList(feedback.split(delim)));
-			feedbackText = new Text(delimitedFeedback.get(0));
-			for (int i = 1; i < delimitedFeedback.size(); i++) {
-				Text warningText = new Text(MESSAGE_WARNING + delimitedFeedback.get(i));
-				warningText.setFill(COLOR_WARNING);
-				warningTexts.add(warningText);
-			}
-		} else if (feedback.contains("Error:")) {
-			String delim = DELIMITER_ERROR;
-			@SuppressWarnings("unchecked")
-			ArrayList<String> delimitedFeedback  = new ArrayList<String>(Arrays.asList(feedback.split(delim)));
-			feedbackText = new Text(delimitedFeedback.get(0));
-			for (int i = 1; i < delimitedFeedback.size(); i++) {
-				Text errorText = new Text(MESSAGE_ERROR + delimitedFeedback.get(i));
-				errorText.setFill(COLOR_ERROR);
-				errorTexts.add(errorText);
-			}
+			feedbackText = styleKeywords(feedback, warningTexts, DELIMITER_WARNING, MESSAGE_WARNING, COLOR_WARNING);
+		} else if (feedback.contains(DELIMITER_ERROR)) {
+			feedbackText = styleKeywords(feedback, errorTexts, DELIMITER_ERROR, MESSAGE_ERROR, COLOR_ERROR);
 		} else {
 			feedbackText = new Text(feedback);
 			
@@ -477,8 +463,22 @@ public class MainController {
 			}
 		}
 	}
+
+	private Text styleKeywords(String feedback, ArrayList<Text> texts, String delim, String message, Color color) {
+		Text feedbackText;
+		@SuppressWarnings("unchecked")
+		ArrayList<String> delimitedFeedback  = new ArrayList<String>(Arrays.asList(feedback.split(delim)));
+		feedbackText = new Text(delimitedFeedback.get(0));
+		for (int i = 1; i < delimitedFeedback.size(); i++) {
+			Text text = new Text(message + delimitedFeedback.get(i));
+			text.setFill(color);
+			texts.add(text);
+		}
+		return feedbackText;
+	}
+
 	/**
-	 * Updates the number of overdue tasks shown at the icon of Urgenda
+	 * Updates the number of overdue tasks shown at the icon of Urgenda.
 	 * 
 	 * @param overdueCount current total number of overdue tasks
 	 */
@@ -499,6 +499,7 @@ public class MainController {
 	
 	/**
 	 * Sets the reference to the Main UI object instance for this class and displayController instance.
+	 * 
 	 * @param main Main UI object instance
 	 */
 	public void setMain(Main main) {
@@ -508,6 +509,7 @@ public class MainController {
 	
 	/**
 	 * Returns DisplayController instance.
+	 * 
 	 * @return DisplayController instance.
 	 */
 	public DisplayController getDisplayController() {
@@ -516,6 +518,7 @@ public class MainController {
 	
 	/**
 	 * Returns HelpController instance.
+	 * 
 	 * @return HelpController instance.
 	 */
 	public HelpController getHelpController() {
@@ -524,6 +527,7 @@ public class MainController {
 	
 	/**
 	 * Returns DemoController instance.
+	 * 
 	 * @return DemoController instance.
 	 */
 	public DemoController getDemoController() {
@@ -532,6 +536,7 @@ public class MainController {
 	
 	/**
 	 * Returns Popup instance for suggestions.
+	 * 
 	 * @return Popup instance for suggestions
 	 */
 	public Popup getSuggestionsPopup(){
@@ -540,6 +545,7 @@ public class MainController {
 	
 	/**
 	 * Sets the demo state.
+	 * 
 	 * @param demo boolean for demo state
 	 */
 	public void setDemo(boolean demo) {
@@ -548,6 +554,7 @@ public class MainController {
 	
 	/**
 	 * Returns whether demo state is activated or not.
+	 * 
 	 * @return boolean whether demo state is activated or not
 	 */
 	public boolean isDemo() {
