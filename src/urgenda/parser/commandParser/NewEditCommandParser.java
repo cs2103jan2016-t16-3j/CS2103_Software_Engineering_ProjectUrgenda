@@ -4,6 +4,8 @@ package urgenda.parser.commandParser;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 import org.ocpsoft.prettytime.nlp.parse.DateGroup;
@@ -37,6 +39,7 @@ public class NewEditCommandParser {
 	private static String descString;
 	private static String location;
 	private static Integer index;
+	private static int numberOfRemoveFlag = 0;
 
 	public NewEditCommandParser(String argsString, int index) {
 		_argsString = argsString;
@@ -51,8 +54,9 @@ public class NewEditCommandParser {
 
 			_argsString = PublicFunctions.reformatArgsString(_argsString).trim();
 			String reducedString = searchIndex();
+			reducedString = countRmFlag(reducedString);
 			searchDetails(reducedString);
-			int numberOfRmFlag = countRmFlag(reducedString);
+
 
 			Edit editCommand = new Edit();
 			Task newTask = new Task();
@@ -78,7 +82,7 @@ public class NewEditCommandParser {
 			}
 			editCommand.setNewTask(newTask);
 
-			switch (numberOfRmFlag) {
+			switch (numberOfRemoveFlag) {
 			case 0:
 				return editCommand;
 			case 1:
@@ -95,24 +99,38 @@ public class NewEditCommandParser {
 		return new Invalid();
 	}
 
-	private static int countRmFlag(String reducedString) {
-		String removeFlagRegex1 = "(\\A|\\D)(-r)(\\Z|\\D)";
-		String removeFlagRegex2 = "(\\A|\\D)-rm(\\Z|\\D)";
-		int index = reducedString.indexOf(removeFlagRegex1);
+	private static String countRmFlag(String reducedString) {
+		String removeFlagRegex2 = "-r";
+		String removeFlagRegex1 = "-rm";
+		String temp = reducedString;
+		String combinedRegex = "(" + removeFlagRegex2 + "|" + removeFlagRegex1 + ")";
 		int count = 0;
-
+		
+		int index = reducedString.indexOf(removeFlagRegex1);
 		while (index != -1) {
 			count++;
-			reducedString = reducedString.substring(index + 1);
+			if (reducedString.length()-1 >= index + 3) {
+				reducedString = reducedString.substring(0, index) + reducedString.substring(index + 3);
+			} else {
+				reducedString = reducedString.substring(0, index);
+			}
 			index = reducedString.indexOf(removeFlagRegex1);
 		}
+		
 		index = reducedString.indexOf(removeFlagRegex2);
 		while (index != -1) {
 			count++;
-			reducedString = reducedString.substring(index + 1);
+			if (reducedString.length()-1 >= index + 2) {
+				reducedString = reducedString.substring(0, index) + reducedString.substring(index + 2);
+			} else {
+				reducedString = reducedString.substring(0, index);
+			}
 			index = reducedString.indexOf(removeFlagRegex2);
 		}
-		return count;
+		numberOfRemoveFlag = count;
+		System.out.println(count);
+		System.out.println(reducedString);
+		return reducedString;
 	}
 
 	private static String searchIndex() {
@@ -272,5 +290,6 @@ public class NewEditCommandParser {
 		descString = null;
 		location = null;
 		index = null;
+		numberOfRemoveFlag = 0;
 	}
 }
