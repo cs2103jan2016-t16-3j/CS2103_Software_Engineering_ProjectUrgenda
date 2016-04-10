@@ -138,47 +138,47 @@ public class LogicSuggester {
 	 * feedback.
 	 */
 	private ArrayList<String> filterCommand(Command confirmedCommand, boolean isDeadline, boolean isEvent) {
-		switch(confirmedCommand) {
-			case ADD :
-				return addCommand(isDeadline, isEvent);
-			case ARCHIVE :
-				return archiveCommand();
-			case BLOCK :
-				return blockCommand();
-			case CONFIRM :
-				return confirmCommand();
-			case DELETE :
-				return deleteCommand();
-			case DEMO :
-				return demoCommand();
-			case DONE :
-				return doneCommand();
-			case EDIT :
-				return editCommand(isDeadline, isEvent);
-			case EXIT :
-				return exitCommand();
-			case FIND_FREE :
-				return findFreeCommand();
-			case HELP :
-				return helpCommand();
-			case HIDE :
-				return hideCommand();
-			case HOME :
-				return homeCommand();
-			case POSTPONE :
-				return postponeCommand();
-			case PRIORITISE :
-				return prioritiseCommand();
-			case REDO :
-				return redoCommand();
-			case SAVETO :
-				return saveCommand();
-			case SEARCH :
-				return searchCommand();
-			case SHOWMORE :
-				return showCommand();
-			case UNDO :
-				return undoCommand();
+		switch (confirmedCommand) {
+		case ADD :
+			return addCommand(isDeadline, isEvent);
+		case ARCHIVE :
+			return archiveCommand();
+		case BLOCK :
+			return blockCommand();
+		case CONFIRM :
+			return confirmCommand();
+		case DELETE :
+			return deleteCommand();
+		case DEMO :
+			return demoCommand();
+		case DONE :
+			return doneCommand();
+		case EDIT :
+			return editCommand(isDeadline, isEvent);
+		case EXIT :
+			return exitCommand();
+		case FIND_FREE :
+			return findFreeCommand();
+		case HELP :
+			return helpCommand();
+		case HIDE :
+			return hideCommand();
+		case HOME :
+			return homeCommand();
+		case POSTPONE :
+			return postponeCommand();
+		case PRIORITISE :
+			return prioritiseCommand();
+		case REDO :
+			return redoCommand();
+		case SAVETO :
+			return saveCommand();
+		case SEARCH :
+			return searchCommand();
+		case SHOWMORE :
+			return showCommand();
+		case UNDO :
+			return undoCommand();
 		}
 		return null;
 	}
