@@ -35,14 +35,18 @@ public class ConfirmCommandParser {
 			} catch (Exception e) {
 				confirmCommand.setId(_index);
 			}
-
-			PrettyTimeParser parser = new PrettyTimeParser();
-			List<Date> dateTimes = parser.parse(_argsString);
-			if (dateTimes.size() == 2) {
-				return setTimeAndReturn(confirmCommand, dateTimes);
+			if (_argsString != null) {
+				PrettyTimeParser parser = new PrettyTimeParser();
+				List<Date> dateTimes = parser.parse(_argsString);
+				if (dateTimes.size() == 2) {
+					return setTimeAndReturn(confirmCommand, dateTimes);
+				} else {
+					return new Invalid();
+				}
 			} else {
 				return new Invalid();
 			}
+
 		}
 	}
 
