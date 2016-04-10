@@ -96,8 +96,8 @@ public class NewEditCommandParser {
 	}
 
 	private static int countRmFlag(String reducedString) {
-		String removeFlagRegex1 = "-r";
-		String removeFlagRegex2 = "-rm";
+		String removeFlagRegex1 = "(\\A|\\D)(-r)(\\Z|\\D)";
+		String removeFlagRegex2 = "(\\A|\\D)-rm(\\Z|\\D)";
 		int index = reducedString.indexOf(removeFlagRegex1);
 		int count = 0;
 

@@ -421,44 +421,12 @@ public class PtParser {
 	}
 	
 	@Test
-	public void test026InsertHashtag1() {
-		String phrase = "test @headquarter 3/30 22:59 - 23:59 #impt";
-		ArrayList<String> testHashtags = new ArrayList<String>();
-		testHashtags.add("#impt");
-		String startTime = "2016-03-30T22:59";
-		String endTime = "2016-03-30T23:59";
-		CommandParser.parseCommand(phrase, 5);
-		assertEquals("test", PublicVariables.taskDescription);
-		assertEquals("headquarter", PublicVariables.taskLocation);
-		assertEquals(startTime, PublicVariables.taskStartTime.toString());
-		assertEquals(endTime, PublicVariables.taskEndTime.toString());
-		assertEquals(testHashtags, PublicVariables.taskHashtags);
-		assertEquals(TASKTYPE_EVENT, PublicVariables.taskType.toString());	
-	}
-	
-	@Test
-	public void test027InsertHashtag2() {
-		String phrase = "test @headquarter 3/30 22:59 - 23:59 #impt #now";
-		ArrayList<String> testHashtags = new ArrayList<String>();
-		testHashtags.add("#impt");
-		testHashtags.add("#now");
-		String startTime = "2016-03-30T22:59";
-		String endTime = "2016-03-30T23:59";
-		CommandParser.parseCommand(phrase, 5);
-		assertEquals("test", PublicVariables.taskDescription);
-		assertEquals("headquarter", PublicVariables.taskLocation);
-		assertEquals(startTime, PublicVariables.taskStartTime.toString());
-		assertEquals(endTime, PublicVariables.taskEndTime.toString());
-		assertEquals(testHashtags, PublicVariables.taskHashtags);
-		assertEquals(TASKTYPE_EVENT, PublicVariables.taskType.toString());	
-	}
-	
-	@Test
 	public void test028DeleteFunctionByIndex() {
 		String phrase = "delete 1";
 		CommandParser.parseCommand(phrase, 5);
+		Integer expectedIndex = 0;
 		assertEquals(COMMAND_TYPE.DELETE, PublicVariables.commandType);
-		assertEquals(0, PublicVariables.taskIndex);
+		assertEquals(expectedIndex, PublicVariables.positions.get(0));
 		assertEquals("", PublicVariables.taskDescription);
 	}
 	
@@ -466,8 +434,9 @@ public class PtParser {
 	public void test029DeleteFunctionByPosition() {
 		String phrase = "delete";
 		CommandParser.parseCommand(phrase, 5);
+		Integer expectedIndex = 5;
 		assertEquals(COMMAND_TYPE.DELETE, PublicVariables.commandType);
-		assertEquals(5, PublicVariables.taskIndex);
+		assertEquals(expectedIndex, PublicVariables.positions.get(0));
 		assertEquals("", PublicVariables.taskDescription);
 	}
 	
@@ -484,8 +453,9 @@ public class PtParser {
 	public void test031PriFunctionByIndex() {
 		String phrase = "pri 1";
 		CommandParser.parseCommand(phrase, 5);
+		Integer expectedIndex = 0;
 		assertEquals(COMMAND_TYPE.PRIORITISE, PublicVariables.commandType);
-		assertEquals(0, PublicVariables.taskIndex);
+		assertEquals(expectedIndex, PublicVariables.positions.get(0));
 		assertEquals("", PublicVariables.taskDescription);
 	}
 	
@@ -493,8 +463,9 @@ public class PtParser {
 	public void test032PriFunctionByPosition() {
 		String phrase = "pri";
 		CommandParser.parseCommand(phrase, 5);
+		Integer expectedIndex = 5;
 		assertEquals(COMMAND_TYPE.PRIORITISE, PublicVariables.commandType);
-		assertEquals(5, PublicVariables.taskIndex);
+		assertEquals(expectedIndex, PublicVariables.positions.get(0));
 		assertEquals("", PublicVariables.taskDescription);
 	}
 	
@@ -511,8 +482,9 @@ public class PtParser {
 	public void test034DoneFunctionByIndex() {
 		String phrase = "done 1";
 		CommandParser.parseCommand(phrase, 5);
+		Integer expectedIndex = 0;
 		assertEquals(COMMAND_TYPE.COMPLETE, PublicVariables.commandType);
-		assertEquals(0, PublicVariables.taskIndex);
+		assertEquals(expectedIndex, PublicVariables.positions.get(0));
 		assertEquals("", PublicVariables.taskDescription);
 	}
 	
@@ -520,8 +492,9 @@ public class PtParser {
 	public void test035DoneFunctionByPosition() {
 		String phrase = "done";
 		CommandParser.parseCommand(phrase, 5);
+		Integer expectedIndex = 5;
 		assertEquals(COMMAND_TYPE.COMPLETE, PublicVariables.commandType);
-		assertEquals(5, PublicVariables.taskIndex);
+		assertEquals(expectedIndex, PublicVariables.positions.get(0));
 		assertEquals("", PublicVariables.taskDescription);
 	}
 	
@@ -567,5 +540,33 @@ public class PtParser {
 		String phrase = "home";
 		CommandParser.parseCommand(phrase, 5);
 		assertEquals(COMMAND_TYPE.HOME, PublicVariables.commandType);
+	}
+	
+	@Test
+	public void test042HideFunction() {
+		String phrase = "hide";
+		CommandParser.parseCommand(phrase, 5);
+		assertEquals(COMMAND_TYPE.HIDE, PublicVariables.commandType);
+	}
+	
+	@Test
+	public void test043HelpFunction() {
+		String phrase = "help";
+		CommandParser.parseCommand(phrase, 5);
+		assertEquals(COMMAND_TYPE.HELP, PublicVariables.commandType);
+	}
+	
+	@Test
+	public void test044DemoFunction() {
+		String phrase = "demo";
+		CommandParser.parseCommand(phrase, 5);
+		assertEquals(COMMAND_TYPE.DEMO, PublicVariables.commandType);
+	}
+	
+	@Test
+	public void test045SetDirectoryFunction() {
+		String phrase = "saveto";
+		CommandParser.parseCommand(phrase, 5);
+		assertEquals(COMMAND_TYPE.SET_DIRECTORY, PublicVariables.commandType);
 	}
 }
