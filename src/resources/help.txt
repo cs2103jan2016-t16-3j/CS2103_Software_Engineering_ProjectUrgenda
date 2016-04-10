@@ -28,10 +28,10 @@ When searching for a date, all tasks with this date wil be displayed.
 When searching for a month, all tasks during that month will be displayed.
 
 6. Home:
-returns you to the home display to show all tasks
+Returns you to the home display to show all tasks
 
 7. Exit:
-click the top right exit button, or type "exit"
+Click the top right exit button, or type "exit"
 
 8. Showing Details:
 Shows more details of a task

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="helpPane" minHeight="400.0" minWidth="400.0" onKeyPressed="#handleEscPressed" stylesheets="@../styles/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.HelpController">
+<BorderPane fx:id="helpPane" minHeight="400.0" minWidth="400.0" onKeyPressed="#helpSceneKeyHandler" stylesheets="@../styles/urgendaStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="urgenda.gui.HelpController">
          <bottom>
             <Button fx:id="helpExitButton" mnemonicParsing="false" onAction="#handleOkAction" text="OK" BorderPane.alignment="CENTER">
          <BorderPane.margin>

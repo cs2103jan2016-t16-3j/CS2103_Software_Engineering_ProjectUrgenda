@@ -12,7 +12,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,7 +20,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -101,17 +99,6 @@ public class HelpController implements Initializable {
 		_helpStage.getIcons().add(new Image(getClass().getResourceAsStream(PATH_ICON)));
 		_helpStage.setTitle(HELP_NAME);
 		showHelpStage();
-		_helpScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				if(event.getCode().equals(KeyCode.LEFT)) {
-					helpPrev();
-				}
-				if(event.getCode().equals(KeyCode.RIGHT)) {
-					helpNext();
-				}
-			}	
-		});
 	}
 	
 	//sorts the title for the page and the text
@@ -131,9 +118,22 @@ public class HelpController implements Initializable {
 	}
 
 	@FXML
-	private void handleEscPressed(KeyEvent event) {
-		if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.ESCAPE) {
+	private void helpSceneKeyHandler(KeyEvent event) {
+		event.consume();
+		switch(event.getCode()) {
+		case ENTER:
+		case ESCAPE:
 			_helpStage.close();
+			break;
+		case LEFT:
+			helpPrev();
+			break;
+		case RIGHT:
+			helpNext();
+			break;
+		default:
+			// No action required
+			break;
 		}
 	}
 	
