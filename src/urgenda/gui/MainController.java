@@ -253,7 +253,6 @@ public class MainController {
 
 	@FXML
 	private void sceneListener(KeyEvent e) {
-		e.consume();
 		KeyCode code = e.getCode();
 		if (code == KeyCode.TAB) {
 			if (!inputBar.isFocused()) {
@@ -271,7 +270,6 @@ public class MainController {
 
 	@FXML
 	private void commandLineListener(KeyEvent e) {
-		e.consume();
 		KeyCode code = e.getCode();
 		if(code == KeyCode.TAB) {
 			sceneListener(e); //pass control to scene
@@ -312,7 +310,6 @@ public class MainController {
 	
 	@FXML
 	private void savePathChangeListener(ActionEvent e) {
-		e.consume();
 		String feedback;
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(TITLE_SAVE_DIRECTORY);
@@ -329,43 +326,36 @@ public class MainController {
 	
 	@FXML
 	private void minimiseWindowListener(ActionEvent e) {
-		e.consume();
 		_main.getPrimaryStage().setIconified(true);
 	}
 	
 	@FXML
 	private void taskToggleDownListener(ActionEvent e) {			
-		e.consume();
 		displayAreaController.executeTraverse(DisplayController.Direction.DOWN);
 	}
 
 	@FXML
 	private void taskToggleUpListener(ActionEvent e) {
-		e.consume();
 		displayAreaController.executeTraverse(DisplayController.Direction.UP);
 	}
 
 	@FXML
 	private void multipleSlotToggleLeftListener(ActionEvent e) {
-		e.consume();
 		displayAreaController.executeTraverse(DisplayController.Direction.LEFT);
 	}
 
 	@FXML
 	private void multipleSlotToggleRightListener(ActionEvent e) {
-		e.consume();
 		displayAreaController.executeTraverse(DisplayController.Direction.RIGHT);
 	}
 	
 	@FXML
 	private void showmoreListener (ActionEvent e) {
-		e.consume();
 		_main.handleCommandLine(KEYWORD_SHOWMORE);
 	}
 
 	@FXML
 	private void showAllTasks(ActionEvent e) {
-		e.consume();
 		String feedback = _main.handleCommandLine(KEYWORD_SHOW_ALL);
 		displayFeedback(feedback);
 		inputBar.clear();
@@ -373,7 +363,6 @@ public class MainController {
 
 	@FXML
 	private void handleUndo(ActionEvent e) {
-		e.consume();
 		String feedback = _main.handleCommandLine(KEYWORD_UNDO);
 		displayFeedback(feedback);
 		inputBar.clear();
@@ -381,7 +370,6 @@ public class MainController {
 
 	@FXML
 	private void handleRedo(ActionEvent e) {
-		e.consume();
 		String feedback = _main.handleCommandLine(KEYWORD_REDO);
 		displayFeedback(feedback);
 		inputBar.clear();
@@ -389,7 +377,6 @@ public class MainController {
 	
 	@FXML
 	private void toggleAdvancedViewListener(ActionEvent e) {
-		e.consume();
 		boolean isNovice = _main.getController().getDisplayController().getNoviceSettings();
 		if(isNovice) {
 			menuToggleAdvancedView.setText(MENUTEXT_NOVICE_VIEW);
@@ -431,7 +418,6 @@ public class MainController {
 	
 	@FXML
 	private void exit(ActionEvent e) {
-		e.consume();
 		Platform.exit();
 		System.exit(0);
 	}
