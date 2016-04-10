@@ -464,6 +464,7 @@ public class LogicData {
 	}
 
 	private void searchForNonOrderedDesc(ArrayList<Task> matches, ArrayList<String> substr2) {
+		logger.getLogger().info("searching fo non-ordered desc (input more than one word");
 		for (Task task : _displays) {
 			boolean flag = true;
 			for (String s : substr2) {

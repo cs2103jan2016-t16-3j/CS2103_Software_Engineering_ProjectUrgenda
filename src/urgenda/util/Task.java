@@ -12,6 +12,8 @@ import java.util.ArrayList;
  */
 public class Task {
 
+	private static UrgendaLogger logger = UrgendaLogger.getInstance();
+
 	private static final String TASK_TYPE_FLOATING = "FLOATING";
 	private static final String TASK_TYPE_EVENT = "EVENT";
 	private static final String TASK_TYPE_DEADLINE = "DEADLINE";
@@ -460,6 +462,7 @@ public class Task {
 		LocalDateTime end = task.getEndTime();
 		// checks overlaps if there are multiple slots
 		if (this.getSlot() != null) {
+			logger.getLogger().info("checking for overlap within multipleslot");
 			ArrayList<DateTimePair> slots = this.getSlot().getSlots();
 			for (DateTimePair pair : slots) {
 				if (hasOverlap(start, end, pair.getEarlierDateTime(), pair.getLaterDateTime())) {
