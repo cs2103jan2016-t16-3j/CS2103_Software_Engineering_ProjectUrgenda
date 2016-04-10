@@ -17,8 +17,9 @@ import urgenda.util.UrgendaLogger;
 /**
  * 
  * Recurrence command object used for performing recurring tasks in Urgenda.
- * This is an unused feature due to change in special feature. Not implemented and called by other components.
- * Tag as unused due to the effort spent ><. 
+ * This is an unused feature due to change in special feature. Not implemented
+ * and called by other components and not comprehensively tested. Tag as unused
+ * due to the effort spent ><.
  *
  */
 public class Recurrence extends TaskCommand {
@@ -50,11 +51,21 @@ public class Recurrence extends TaskCommand {
 	private Integer _years;
 	private Integer _length;
 
+	/**
+	 * Default constructor for recurrence.
+	 */
 	public Recurrence() {
 	}
 
+	/**
+	 * Execute command of Recurrence which sets task as recurring at specified
+	 * time interval in Urgenda.
+	 */
 	public String execute() throws LogicException {
 		_data = LogicData.getInstance();
+		/*
+		 * recur a task that is alr in Urgenda tasklist.
+		 */
 		if (_id != null && _id.intValue() > -1) {
 			_recurrTask = _data.findMatchingPosition(_id.intValue());
 		}
@@ -63,10 +74,14 @@ public class Recurrence extends TaskCommand {
 			logger.getLogger().severe("Exception(No edit match) thrown");
 			throw new LogicException(MESSAGE_NO_RECURR_MATCH);
 		} else {
+			/*
+			 * add an entirely new task that has recurring time
+			 */
 			_newTask = new Task(_recurrTask);
 		}
 		_recurr = _newTask.getSlot();
 		if (_length == null) {
+			// set length of recurrence to infinite(max) if non-specified
 			_length = Integer.MAX_VALUE;
 		}
 		recurrTimeSlot();
@@ -74,10 +89,11 @@ public class Recurrence extends TaskCommand {
 			throw new LogicException(MESSAGE_INVALID);
 		}
 
-		// _newTask.toggleRecurring(); attribute to be added to task to indicate
-		// task is of type recurring
-		// highlight to gui to only show start time, end time and first
-		// datetimepair in multiple slot
+		/*
+		 * newTask.toggleRecurring(); attribute to be added to task to indicate
+		 * task is of type recurring highlight to gui to only show start time,
+		 * end time and first datetime pair in multiple slot
+		 */
 		_newTask.setSlot(_recurr);
 		LocalDateTime now = LocalDateTime.now();
 		updateId(now);
@@ -93,12 +109,19 @@ public class Recurrence extends TaskCommand {
 			checkTaskValidity(_newTask);
 			_data.addTask(_newTask);
 			if (_id != null) {
+				/*
+				 * if recurring a task that is originally in tasklisk e.g.
+				 * recurr 8 every week for 3 times del the original one as added
+				 * the new task w recuuring timeslot as replacement
+				 */
 				_data.deleteTask(_recurrTask);
 			}
-			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			_data.setTaskPointer(_newTask);
-			_data.clearShowMoreTasks();
+			setDisplayState();
 			if (_id == null) {
+				/*
+				 * if recurring a entirely newly added task e.g. recurr cs tut
+				 * by 4/4/16 5pm (first occurrence) every week check for warning
+				 */
 				feedback = checkPassed();
 				feedback += findOverlaps();
 			}
@@ -109,6 +132,12 @@ public class Recurrence extends TaskCommand {
 			throw new LogicException(MESSAGE_ERROR + e.getMessage());
 		}
 		return feedback;
+	}
+
+	private void setDisplayState() {
+		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
+		_data.setTaskPointer(_newTask);
+		_data.clearShowMoreTasks();
 	}
 
 	private void updateId(LocalDateTime now) {
@@ -250,36 +279,95 @@ public class Recurrence extends TaskCommand {
 		return feedback;
 	}
 
+	/**
+	 * setter for adding a new recurring task.
+	 * 
+	 * @param newTask
+	 *            The new task to be added.
+	 */
 	public void setNewTask(Task newTask) {
 		_newTask = newTask;
 	}
 
+	/**
+	 * setter for recurring a task that is alr in tasklist.
+	 * 
+	 * @param id
+	 *            the position of the task to be set as recurring.
+	 */
 	public void setId(int id) {
 		_id = Integer.valueOf(id);
 	}
 
+	/**
+	 * setter for the number of mins to recur e.g. recurr every 2 mins.
+	 * 
+	 * @param input
+	 *            The num of mins to recur.
+	 */
 	public void setMins(int input) {
 		_minutes = Integer.valueOf(input);
 	}
 
+	/**
+	 * setter for the number of hours to recur e.g. recurr every 12 hours.
+	 * 
+	 * @param input
+	 *            The num of hours to recur
+	 */
 	public void setHours(int input) {
 		_hours = Integer.valueOf(input);
 	}
 
+	/**
+	 * setter for the number of days to recur e.g. recurr every 5 days.
+	 * 
+	 * @param input
+	 *            The num of days to recur.
+	 */
 	public void setDays(int input) {
 		_days = Integer.valueOf(input);
 	}
 
+	/**
+	 * setter for the number of weeks to recur e.g. recurr every week (1).
+	 * 
+	 * @param input
+	 *            The num of weeks to recur.
+	 */
 	public void setWeeks(int input) {
 		_weeks = Integer.valueOf(input);
 	}
 
+	/**
+	 * setter for the number of months to recur e.g. recurr every 2 months.
+	 * 
+	 * @param input
+	 *            The num of months to recur
+	 */
 	public void setMonths(int input) {
 		_months = Integer.valueOf(input);
 	}
 
+	/**
+	 * setter for the number of years to recur e.g. recurr every year (1).
+	 * 
+	 * @param input
+	 *            The num of years to recur.
+	 */
 	public void setYears(int input) {
-		_years = input;
+		_years = Integer.valueOf(input);
+	}
+
+	/**
+	 * setter for the number of times to recurr e.g. recurr every 5 hours for 10
+	 * times.
+	 * 
+	 * @param length
+	 *            The num of times to recurr at specified interval.
+	 */
+	public void setLength(int length) {
+		_length = length;
 	}
 
 	public void updateDateModified(ArrayList<Task> tasks) {
