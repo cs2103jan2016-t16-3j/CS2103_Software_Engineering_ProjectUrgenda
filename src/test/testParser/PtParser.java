@@ -332,7 +332,7 @@ public class PtParser {
 	
 	@Test
 	public void test020EventSeparateDateTimeSingleDate2() {
-		String phrase = "next wed test abcd 22:59 - 23:59";
+		String phrase = "test 13/4 abcd 22:59 - 23:59";
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String startTime = "2016-04-13T22:59";
 		String endTime = "2016-04-13T23:59";
@@ -347,7 +347,7 @@ public class PtParser {
 	
 	@Test
 	public void test021EventSeparateDateTimeSingleDate3() {
-		String phrase = "test next wed for abcd 22:59 - 23:59";
+		String phrase = "test 13/4 for abcd 22:59 - 23:59";
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String startTime = "2016-04-13T22:59";
 		String endTime = "2016-04-13T23:59";
