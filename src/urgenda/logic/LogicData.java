@@ -137,51 +137,51 @@ public class LogicData {
 	public StateFeedback getState() {
 		StateFeedback state;
 		switch (_currState) {
-		case ALL_TASKS:
+		case ALL_TASKS :
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
-		case MULTIPLE_DELETE: // Fallthrough
-		case MULTIPLE_COMPLETE: // Fallthrough
-		case MULTIPLE_PRIORITISE:
+		case MULTIPLE_DELETE : // Fallthrough
+		case MULTIPLE_COMPLETE : // Fallthrough
+		case MULTIPLE_PRIORITISE :
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.MULTIPLE_MATCHES);
 			break;
-		case SHOW_SEARCH:
+		case SHOW_SEARCH :
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.SHOW_SEARCH);
 			break;
-		case HELP:
+		case HELP :
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.SHOW_HELP);
 			break;
-		case EXIT:
+		case EXIT :
 			saveContents();
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.EXIT);
 			break;
-		case INVALID_COMMAND: // Fallthrough
-		case INVALID_TASK:
+		case INVALID_COMMAND : // Fallthrough
+		case INVALID_TASK :
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ERROR);
 			break;
-		case ARCHIVE:
+		case ARCHIVE :
 			state = displayArchiveTasks(_archives);
 			state.setState(StateFeedback.State.ARCHIVE);
 			break;
-		case FIND_FREE:
+		case FIND_FREE :
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.FIND_FREE);
 			break;
-		case DEMO:
+		case DEMO :
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.DEMO);
 			break;
-		case HIDE:
+		case HIDE :
 			state = displayAllTasks(_displays);
 			state.setState(StateFeedback.State.HIDE);
 			break;
-		default:
+		default :
 			state = displayAllTasks(_tasks);
 			state.setState(StateFeedback.State.ALL_TASKS);
 			break;
@@ -343,7 +343,7 @@ public class LogicData {
 		}
 		_tasks.removeAll(completedTasks);
 		_archives.addAll(completedTasks);
-		assert(_archives.size() >= 0);
+		assert (_archives.size() >= 0);
 	}
 
 	private void checkEvents(ArrayList<Task> completedTasks, LocalDateTime now, Task task) {
@@ -690,8 +690,8 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for retrieving tasks that matches both date and time as specified by
-	 * input.
+	 * Method for retrieving tasks that matches both date and time as specified
+	 * by input.
 	 * 
 	 * @param input
 	 *            The DateTime specified for searching of tasks falling it.
@@ -1036,8 +1036,10 @@ public class LogicData {
 	 * @param path
 	 *            The String path specified for changing of current directory to
 	 *            the new one.
-	 * @throws StorageException if invalid input format.
-	 * @throws InvalidFolderException if folder to be saved to does not exist.
+	 * @throws StorageException
+	 *             if invalid input format.
+	 * @throws InvalidFolderException
+	 *             if folder to be saved to does not exist.
 	 */
 	public void changeDirectory(String path) throws StorageException, InvalidFolderException {
 		_storage.changeFileSettings(path);
