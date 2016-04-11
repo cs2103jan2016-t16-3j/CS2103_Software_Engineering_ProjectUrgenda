@@ -71,7 +71,7 @@ public class Recurrence extends TaskCommand {
 		}
 		if (_recurrTask == null) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			logger.getLogger().severe("Exception(No edit match) thrown");
+			logger.getLogger().severe("Exception(No recur match) thrown");
 			throw new LogicException(MESSAGE_NO_RECURR_MATCH);
 		} else {
 			/*
@@ -88,11 +88,11 @@ public class Recurrence extends TaskCommand {
 		if (_recurr.isEmpty() || _recurr.equals(null)) {
 			throw new LogicException(MESSAGE_INVALID);
 		}
-
 		/*
 		 * newTask.toggleRecurring(); attribute to be added to task to indicate
 		 * task is of type recurring highlight to gui to only show start time,
-		 * end time and first datetime pair in multiple slot
+		 * end time and first datetime pair in multiple slot if recurrence is to
+		 * be implemented.
 		 */
 		_newTask.setSlot(_recurr);
 		LocalDateTime now = LocalDateTime.now();
@@ -150,24 +150,22 @@ public class Recurrence extends TaskCommand {
 
 	private void recurrTimeSlot() throws LogicException {
 		switch (_newTask.getTaskType()) {
-		case DEADLINE:
+		case DEADLINE :
 			LocalDateTime start = null;
 			LocalDateTime end = _newTask.getEndTime();
 			end = updateDeadLineTimeSlot(start, end);
 			break;
-		case EVENT:
+		case EVENT :
 			upDateEventTimeSlot();
 			break;
-		default:
+		default :
 			throw new LogicException(MESSAGE_TYPE_ERROR);
 		}
 	}
 
 	private void upDateEventTimeSlot() {
-		LocalDateTime start;
-		LocalDateTime end;
-		start = _newTask.getStartTime();
-		end = _newTask.getEndTime();
+		LocalDateTime start = _newTask.getStartTime();
+		LocalDateTime end = _newTask.getEndTime();
 		for (int i = 0; i < (_length).intValue(); i++) {
 			if (_minutes != null) {
 				start = start.plusMinutes(_minutes);
