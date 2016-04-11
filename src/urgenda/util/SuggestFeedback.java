@@ -4,6 +4,13 @@ package urgenda.util;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+/**
+ * Utility class used to return real-time feedback for user input. Indicated
+ * detection of complete or incomplete command words detected.
+ * 
+ * @author KangSoon
+ *
+ */
 public class SuggestFeedback {
 
 	private ArrayList<String> _suggestions;
@@ -42,11 +49,14 @@ public class SuggestFeedback {
 	}
 
 	/**
-	 * Creates a SuggestFeedback instance with the suggestions to be shown in the suggestions popup, for which a complete command is not yet detected
+	 * Creates a SuggestFeedback instance with the suggestions to be shown in
+	 * the suggestions popup, for which a complete command is not yet detected
 	 * 
-	 * @param suggestions array of suggestion text formats
+	 * @param suggestions
+	 *            array of suggestion text formats
 	 * 
-	 * @param isCommand boolean whether a completed command word is detected or not
+	 * @param isCommand
+	 *            boolean whether a completed command word is detected or not
 	 */
 	public SuggestFeedback(ArrayList<String> suggestions, boolean isCommand) {
 		_suggestions = suggestions;
@@ -93,18 +103,23 @@ public class SuggestFeedback {
 	}
 
 	/**
-	 * Sets whether the array of suggestion texts are for complete command words or not.
+	 * Sets whether the array of suggestion texts are for complete command words
+	 * or not.
 	 * 
-	 * @param isSuggestion boolean whether the array of suggestion texts are for complete command words or not
+	 * @param isSuggestion
+	 *            boolean whether the array of suggestion texts are for complete
+	 *            command words or not
 	 */
 	public void setIsSuggestion(boolean isSuggestion) {
 		_isSuggestion = isSuggestion;
 	}
 
 	/**
-	 * Returns whether the suggestion texts are for complete command words or not.
+	 * Returns whether the suggestion texts are for complete command words or
+	 * not.
 	 * 
-	 * @return boolean whether the suggestion texts are for complete command words or not
+	 * @return boolean whether the suggestion texts are for complete command
+	 *         words or not
 	 */
 	public boolean isSuggestion() {
 		return _isSuggestion;
