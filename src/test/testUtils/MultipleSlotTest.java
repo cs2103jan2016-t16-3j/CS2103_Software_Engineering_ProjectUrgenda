@@ -13,6 +13,7 @@ import org.junit.Test;
 import urgenda.util.DateTimePair;
 import urgenda.util.MultipleSlot;
 
+// test cases for the methods in multipleslot
 public class MultipleSlotTest {
 
 	@Test
