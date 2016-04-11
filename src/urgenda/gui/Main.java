@@ -337,6 +337,15 @@ public class Main extends Application {
 	}
 
 	/**
+	 * Returns the current state of tasks to display.
+	 * 
+	 * @return the current state of tasks to display
+	 */
+	public StateFeedback getCurrentState() {
+		return _currState;
+	}
+	
+	/**
 	 * Returns MainController instance.
 	 * 
 	 * @return MainController object instance

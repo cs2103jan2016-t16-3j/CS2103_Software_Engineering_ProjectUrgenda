@@ -39,6 +39,8 @@ public class DisplayController extends AnchorPane {
 
 	// Constants
 	private static final String MESSAGE_ZERO_TASKS = "\nYou have no tasks to display!";
+	private static final String MESSAGE_ZERO_FREE_TIMESLOTS = "\nNo free time slots were found!";
+	private static final String MESSAGE_ZERO_ARCHIVE_TASKS = "\nYou have no tasks in your archive!";
 	private static final String KEYWORD_SHOWMORE = "showmore";
 	private static final int INVALID_INDEX = -1;
 
@@ -258,7 +260,20 @@ public class DisplayController extends AnchorPane {
 	}
 
 	private void showZeroTasksFeedback() {
-		Text emptyDisplay = new Text(MESSAGE_ZERO_TASKS);
+		Text emptyDisplay;
+		switch(_main.getCurrentState().getState()) {
+		case FIND_FREE:
+			emptyDisplay = new Text(MESSAGE_ZERO_FREE_TIMESLOTS);
+			break;
+		case ARCHIVE:
+			emptyDisplay = new Text(MESSAGE_ZERO_ARCHIVE_TASKS);
+			break;
+		case ALL_TASKS:
+		//fall-through
+		default:
+			emptyDisplay = new Text(MESSAGE_ZERO_TASKS);
+			break;
+		}
 		emptyDisplay.setFont(Main.BOLD_FONT);
 		displayHolder.getChildren().add(emptyDisplay);
 	}
