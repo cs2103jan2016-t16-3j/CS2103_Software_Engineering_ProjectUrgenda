@@ -1,17 +1,11 @@
 //@@author A0127764X
 package urgenda.parser;
 
-import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Arrays;
-import java.util.Calendar;
 
 import urgenda.command.*;
 import urgenda.parser.PublicVariables.*;
@@ -38,18 +32,21 @@ import urgenda.parser.commandParser.ShowDetailsCommandParser;
 import urgenda.parser.commandParser.UndoCommandParser;
 import urgenda.util.*;
 
-
 public class CommandParser {
 	private static String _argsString;
 
 	private static String deadlineKeyWordRegex = "\\s+by(\\s+|\\Z)";
 	private static String reservedWordsRegex = "([^\\d+\\s+/-:]+)(\\d+)";
 
-
 	/**
-	 * This is the function to parse the commands given by logic when user hits enter
-	 * @param commandString The command string being parsed
-	 * @param index The passed in index of the currently selected task, can be used as parameter for certain commands
+	 * This is the function to parse the commands given by logic when user hits
+	 * enter
+	 * 
+	 * @param commandString
+	 *            The command string being parsed
+	 * @param index
+	 *            The passed in index of the currently selected task, can be
+	 *            used as parameter for certain commands
 	 * @return the appropriate command objects with all the parsed attributes
 	 */
 	public static Command parseCommand(String commandString, int index) {
@@ -67,12 +64,15 @@ public class CommandParser {
 		}
 	}
 
-	
 	/**
-	 * This is the function to parse the commands as they were being typed into the command line
-	 * in order to give feedback and suggestions to the user
-	 * @param commandString the command currently present on the command line when a keystroke is registered
-	 * @return the SuggestCommand object that contains relevant information, such as suggested keywords, direction of input
+	 * This is the function to parse the commands as they were being typed into
+	 * the command line in order to give feedback and suggestions to the user
+	 * 
+	 * @param commandString
+	 *            the command currently present on the command line when a
+	 *            keystroke is registered
+	 * @return the SuggestCommand object that contains relevant information,
+	 *         such as suggested keywords, direction of input
 	 */
 	public static SuggestCommand parseRuntimeInput(String commandString) {
 		if (isCommandStringValid(commandString)) {
@@ -325,7 +325,7 @@ public class CommandParser {
 			return handleEventCheckForNonKeyWordLastWord(string, lastWord);
 		}
 	}
-	
+
 	private static boolean handleDeadlineCheckForNonKeyWordLastWord(String string) {
 		Matcher matcher = Pattern.compile(deadlineKeyWordRegex).matcher(string);
 		if (matcher.find()) {
@@ -334,7 +334,7 @@ public class CommandParser {
 			return false;
 		}
 	}
-	
+
 	private static Boolean handleEventCheckForNonKeyWordLastWord(String string, String lastWord) {
 		try {
 			Integer.parseInt(lastWord);
@@ -358,7 +358,7 @@ public class CommandParser {
 			}
 		}
 	}
-	
+
 	private static Command generateAddCommandAndReturn(String commandString, int index) {
 		PublicVariables.commandType = COMMAND_TYPE.ADD;
 		AddCommandParser addCommand = new AddCommandParser(commandString, index);
@@ -374,13 +374,6 @@ public class CommandParser {
 		}
 
 		return array;
-	}
-
-	private static String undoReserveWords(ArrayList<String> array, String string) {
-		for (String arrayString : array) {
-			string = string.replace(arrayString, arrayString.substring(1, arrayString.length() - 1));
-		}
-		return string;
 	}
 
 	private static String formatCommandString(String commandString) {
@@ -404,7 +397,7 @@ public class CommandParser {
 	private static Boolean isLastWordEventKeyWord(String lastWord) {
 		return (PublicVariables.startTimeWords.contains(lastWord) || PublicVariables.periodWords.contains(lastWord));
 	}
-	
+
 	private static Boolean isLastWordDeadlineKeyWord(String lastWord) {
 		return PublicVariables.endTimeWords.contains(lastWord);
 	}

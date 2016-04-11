@@ -4,8 +4,6 @@ package urgenda.parser.commandParser;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 import org.ocpsoft.prettytime.nlp.parse.DateGroup;
@@ -13,9 +11,6 @@ import org.ocpsoft.prettytime.nlp.parse.DateGroup;
 import urgenda.command.*;
 import urgenda.parser.DateTimeParser;
 import urgenda.parser.PublicFunctions;
-import urgenda.parser.PublicVariables;
-import urgenda.parser.TaskDetailsParser;
-import urgenda.parser.PublicVariables.COMMAND_TYPE;
 import urgenda.util.Task;
 
 public class NewEditCommandParser {
@@ -41,11 +36,25 @@ public class NewEditCommandParser {
 	private static Integer index;
 	private static int numberOfRemoveFlag = 0;
 
+	/**
+	 * public constructor of NewEditCommandParser
+	 * 
+	 * @param argsString
+	 *            argument string to be parsed
+	 * @param index
+	 *            location of currently highlighted task
+	 */
 	public NewEditCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 	}
 
+	/**
+	 * function that parses the passed in argument string to generate an return
+	 * an appropriate Edit object
+	 * 
+	 * @return Edit object with parsed details stored in its attributes
+	 */
 	public static Command generateAndReturn() {
 		if (_argsString == null) {
 			return new Invalid();
@@ -56,7 +65,6 @@ public class NewEditCommandParser {
 			String reducedString = searchIndex();
 			reducedString = countRmFlag(reducedString);
 			searchDetails(reducedString);
-
 
 			Edit editCommand = new Edit();
 			Task newTask = new Task();
@@ -105,22 +113,22 @@ public class NewEditCommandParser {
 		String temp = reducedString;
 		String combinedRegex = "(" + removeFlagRegex2 + "|" + removeFlagRegex1 + ")";
 		int count = 0;
-		
+
 		int index = reducedString.indexOf(removeFlagRegex1);
 		while (index != -1) {
 			count++;
-			if (reducedString.length()-1 >= index + 3) {
+			if (reducedString.length() - 1 >= index + 3) {
 				reducedString = reducedString.substring(0, index) + reducedString.substring(index + 3);
 			} else {
 				reducedString = reducedString.substring(0, index);
 			}
 			index = reducedString.indexOf(removeFlagRegex1);
 		}
-		
+
 		index = reducedString.indexOf(removeFlagRegex2);
 		while (index != -1) {
 			count++;
-			if (reducedString.length()-1 >= index + 2) {
+			if (reducedString.length() - 1 >= index + 2) {
 				reducedString = reducedString.substring(0, index) + reducedString.substring(index + 2);
 			} else {
 				reducedString = reducedString.substring(0, index);

@@ -19,12 +19,26 @@ public class BlockSlotsCommandParser {
 	private static String timeDelimiter = " at ";
 	private static String groupDelimiter = ",";
 	private static String emptyString = "";
-	
+
+	/**
+	 * public constructor of BlockSlotsCommandParser
+	 * 
+	 * @param argsString
+	 *            argument string to be parsed
+	 * @param index
+	 *            location of currently highlighted task
+	 */
 	public BlockSlotsCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 	}
 
+	/**
+	 * function that parses the passed in argument string to generate an return
+	 * an appropriate BlockSlots object
+	 * 
+	 * @return BlockSlots object with parsed details stored in its attributes
+	 */
 	public static Command generateAndReturn() {
 		if (_argsString == null) {
 			return new Invalid();
@@ -97,7 +111,7 @@ public class BlockSlotsCommandParser {
 		} else {
 			return new Invalid();
 		}
-		
+
 		switch (PublicVariables.taskType) {
 		case EVENT:
 			newTask.setTaskType(Task.Type.EVENT);
@@ -111,7 +125,7 @@ public class BlockSlotsCommandParser {
 		default:
 			return new Invalid();
 		}
-		
+
 		BlockSlots blockCommand = new BlockSlots(newTask);
 		return blockCommand;
 	}

@@ -19,7 +19,9 @@ public class PublicFunctions {
 
 	/**
 	 * get the first word of the passed in string
-	 * @param commandString the passed in string
+	 * 
+	 * @param commandString
+	 *            the passed in string
 	 * @return the passed in string's first word
 	 */
 	public static String getFirstWord(String commandString) {
@@ -27,8 +29,11 @@ public class PublicFunctions {
 	}
 
 	/**
-	 * Removes the first word from passed in string and return the rest of the string
-	 * @param commandString passed in string
+	 * Removes the first word from passed in string and return the rest of the
+	 * string
+	 * 
+	 * @param commandString
+	 *            passed in string
 	 * @return passed in string without first word
 	 */
 	public static String removeFirstWord(String commandString) {
@@ -45,7 +50,8 @@ public class PublicFunctions {
 	}
 
 	/**
-	 * Function to reinitialize the global variables stored in PublicVariables for every new parse
+	 * Function to reinitialize the global variables stored in PublicVariables
+	 * for every new parse
 	 */
 	public static void reinitializePublicVariables() {
 		PublicVariables.commandType = COMMAND_TYPE.INVALID;
@@ -63,10 +69,15 @@ public class PublicFunctions {
 	}
 
 	/**
-	 * Function to get the preceeding word from a certain index in a passed in string
-	 * @param position the index
-	 * @param argsString the passed in string
-	 * @return the word right in front of the index position in the passed in string
+	 * Function to get the preceeding word from a certain index in a passed in
+	 * string
+	 * 
+	 * @param position
+	 *            the index
+	 * @param argsString
+	 *            the passed in string
+	 * @return the word right in front of the index position in the passed in
+	 *         string
 	 */
 	public static String getPreceedingWord(int position, String argsString) {
 		if (position == 0 || position == -1) {
@@ -79,9 +90,13 @@ public class PublicFunctions {
 	}
 
 	/**
-	 * function that removes a substring from the passed in string and reformatted the string to contain only single whitespace
-	 * @param argsString the passed in string
-	 * @param removedString the sub string to be removed
+	 * function that removes a substring from the passed in string and
+	 * reformatted the string to contain only single whitespace
+	 * 
+	 * @param argsString
+	 *            the passed in string
+	 * @param removedString
+	 *            the sub string to be removed
 	 * @return the reformatted string with the substring removed
 	 */
 	public static String reselectString(String argsString, String removedString) {
@@ -98,9 +113,12 @@ public class PublicFunctions {
 	}
 
 	/**
-	 * function that performs a reformatting of the passed in string to switch any MMDDYYYY format substring to DDMMYYY
-	 * this is needed as pretty time parse use the MMDDYYYY format, while the Singapore culture use DDMMYYYY
-	 * @param argsString passed in string
+	 * function that performs a reformatting of the passed in string to switch
+	 * any MMDDYYYY format substring to DDMMYYY this is needed as pretty time
+	 * parse use the MMDDYYYY format, while the Singapore culture use DDMMYYYY
+	 * 
+	 * @param argsString
+	 *            passed in string
 	 * @return formatted string with DDMMYYYY format
 	 */
 	public static String reformatArgsString(String argsString) {
@@ -134,7 +152,9 @@ public class PublicFunctions {
 
 	/**
 	 * Convert a date of type Jave.util.Date to java.time.LocalDateTime
-	 * @param date the date of type Jave.util.Date
+	 * 
+	 * @param date
+	 *            the date of type Jave.util.Date
 	 * @return the date of type java.time.LocalDateTime
 	 */
 	public static LocalDateTime getLocalDateTimeFromDate(Date date) {
@@ -158,8 +178,11 @@ public class PublicFunctions {
 	}
 
 	/**
-	 * Function that get the number of words separated by white space within a string
-	 * @param string the passed in string
+	 * Function that get the number of words separated by white space within a
+	 * string
+	 * 
+	 * @param string
+	 *            the passed in string
 	 * @return the number of words in the passed in string
 	 */
 	public static int getNumberOfWords(String string) {
@@ -173,7 +196,9 @@ public class PublicFunctions {
 
 	/**
 	 * function that returns the last word of the passed in string
-	 * @param string the passed in string
+	 * 
+	 * @param string
+	 *            the passed in string
 	 * @return the last word of the passed in string
 	 */
 	public static String getLastWord(String string) {
@@ -187,7 +212,9 @@ public class PublicFunctions {
 
 	/**
 	 * function that returns the second last word of the passed in string
-	 * @param string the passed in string
+	 * 
+	 * @param string
+	 *            the passed in string
 	 * @return second last word of the passed in string
 	 */
 	public static String getSecondLastWord(String string) {

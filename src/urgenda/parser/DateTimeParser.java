@@ -5,14 +5,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 import org.ocpsoft.prettytime.nlp.parse.DateGroup;
-import org.ocpsoft.prettytime.shade.net.fortuna.ical4j.model.DateTime;
 
 import urgenda.util.MultipleSlot;
 
@@ -20,13 +18,17 @@ public class DateTimeParser {
 	private static ArrayList<Date> dateWithoutTime;
 	private static List<DateGroup> dateGroups;
 	private static String _argsString;
-	
+
 	private static String whiteSpace = " ";
 
 	/**
-	 * This function searches for the time string present in the input, determine its type (start time or end time)
-	 * and set the appropriate global variables in PublicVariables. After that, it removes the parsed time string from the input 
-	 * @param argsString The input string
+	 * This function searches for the time string present in the input,
+	 * determine its type (start time or end time) and set the appropriate
+	 * global variables in PublicVariables. After that, it removes the parsed
+	 * time string from the input
+	 * 
+	 * @param argsString
+	 *            The input string
 	 * @return The input string with time strings removed from it
 	 */
 	public static String searchTaskTimes(String argsString) {
@@ -49,8 +51,10 @@ public class DateTimeParser {
 	}
 
 	/**
-	 * Generates an arraylist of dates within the _argsString (class variable to stored the passed in argument string)
-	 * A date is added if it was parsed from a time string that only indicates the date (eg. Monday, 11/3/2016)
+	 * Generates an arraylist of dates within the _argsString (class variable to
+	 * stored the passed in argument string) A date is added if it was parsed
+	 * from a time string that only indicates the date (eg. Monday, 11/3/2016)
+	 * 
 	 * @return ArrayList of dates
 	 */
 	private static ArrayList<Date> searchDatesWithoutTime() {
@@ -198,7 +202,7 @@ public class DateTimeParser {
 			return handleOneDateOneDate();
 		} else {
 			return _argsString;
-		} 
+		}
 	}
 
 	private static String handleOneDateOneDate() {
@@ -222,7 +226,7 @@ public class DateTimeParser {
 		int parsePositionGroup2 = dateGroups.get(1).getPosition();
 		String dateStringGroup2 = dateGroups.get(1).getText();
 		String preceedingWordGroup2 = PublicFunctions.getPreceedingWord(parsePositionGroup2, _argsString);
-		
+
 		Date group1Date = dateGroups.get(0).getDates().get(0);
 		Date group2Date = dateGroups.get(1).getDates().get(0);
 		LocalDateTime group1LocalDate = getLocalDateTimeFromDate(group1Date);
@@ -254,8 +258,7 @@ public class DateTimeParser {
 	}
 
 	private static boolean is1TimeOnly1DateOnly(Date group1Date, Date group2Date) {
-		return (isDateOnly(group1Date) && isTimeOnly(group2Date))
-				|| (isDateOnly(group2Date) && isTimeOnly(group1Date));
+		return (isDateOnly(group1Date) && isTimeOnly(group2Date)) || (isDateOnly(group2Date) && isTimeOnly(group1Date));
 	}
 
 	private static String handle1DateOnly1TimeOnly() {
@@ -266,7 +269,7 @@ public class DateTimeParser {
 		int parsePositionGroup2 = dateGroups.get(1).getPosition();
 		String dateStringGroup2 = dateGroups.get(1).getText();
 		String preceedingWordGroup2 = PublicFunctions.getPreceedingWord(parsePositionGroup2, _argsString);
-		
+
 		Date group1Date = dateGroups.get(0).getDates().get(0);
 		Date group2Date = dateGroups.get(1).getDates().get(0);
 		LocalDateTime group1LocalDate = getLocalDateTimeFromDate(group1Date);
@@ -351,7 +354,7 @@ public class DateTimeParser {
 		int parsePositionGroup2 = dateGroups.get(1).getPosition();
 		String dateStringGroup2 = dateGroups.get(1).getText();
 		String preceedingWordGroup2 = PublicFunctions.getPreceedingWord(parsePositionGroup2, _argsString);
-		
+
 		Date group2Date = dateGroups.get(1).getDates().get(0);
 		Date group1Date1 = dateGroups.get(0).getDates().get(0);
 		Date group1Date2 = dateGroups.get(0).getDates().get(1);
@@ -388,7 +391,8 @@ public class DateTimeParser {
 			setTaskEndTime(group1LocalDate2);
 
 			if (PublicVariables.startTimeWords.contains(preceedingWordGroup1)) {
-				return PublicFunctions.reselectString(_argsString, preceedingWordGroup1 + whiteSpace + dateStringGroup1);
+				return PublicFunctions.reselectString(_argsString,
+						preceedingWordGroup1 + whiteSpace + dateStringGroup1);
 			} else {
 				return PublicFunctions.reselectString(_argsString, dateStringGroup1);
 			}
@@ -403,7 +407,7 @@ public class DateTimeParser {
 		int parsePositionGroup2 = dateGroups.get(1).getPosition();
 		String dateStringGroup2 = dateGroups.get(1).getText();
 		String preceedingWordGroup2 = PublicFunctions.getPreceedingWord(parsePositionGroup2, _argsString);
-		
+
 		Date group1Date = dateGroups.get(0).getDates().get(0);
 		Date group2Date1 = dateGroups.get(1).getDates().get(0);
 		Date group2Date2 = dateGroups.get(1).getDates().get(1);
@@ -440,17 +444,19 @@ public class DateTimeParser {
 			setTaskEndTime(group2LocalDate2);
 
 			if (PublicVariables.startTimeWords.contains(preceedingWordGroup2)) {
-				return PublicFunctions.reselectString(_argsString, preceedingWordGroup2 + whiteSpace + dateStringGroup2);
+				return PublicFunctions.reselectString(_argsString,
+						preceedingWordGroup2 + whiteSpace + dateStringGroup2);
 			} else {
 				return PublicFunctions.reselectString(_argsString, dateStringGroup2);
 			}
 		}
 	}
 
-	
 	/**
 	 * Convert a date of type Jave.util.Date to java.time.LocalDateTime
-	 * @param date the date of type Jave.util.Date
+	 * 
+	 * @param date
+	 *            the date of type Jave.util.Date
 	 * @return the date of type java.time.LocalDateTime
 	 */
 	public static LocalDateTime getLocalDateTimeFromDate(Date date) {
@@ -500,11 +506,14 @@ public class DateTimeParser {
 		PublicVariables.taskEndTime = endTime;
 	}
 
-	
 	/**
-	 * Try parse an input to see if it contains any time string of only dates (eg. Monday, 11/4)
-	 * @param argsString the input to be parsed
-	 * @return the first successful parse of such time string is returned as a java.time.LocalDate
+	 * Try parse an input to see if it contains any time string of only dates
+	 * (eg. Monday, 11/4)
+	 * 
+	 * @param argsString
+	 *            the input to be parsed
+	 * @return the first successful parse of such time string is returned as a
+	 *         java.time.LocalDate
 	 */
 	public static LocalDate tryParseDate(String argsString) {
 		List<DateGroup> dateGroups = new PrettyTimeParser().parseSyntax(argsString);
@@ -523,11 +532,14 @@ public class DateTimeParser {
 		return null;
 	}
 
-	
 	/**
-	 * Try parse an input to see if it contains any time string of complete time (eg. 11/4 8am, next monday 9:30)
-	 * @param argsString the input to be parsed
-	 * @return the first successful parse of such time string is returned as a java.time.LocalDateTime
+	 * Try parse an input to see if it contains any time string of complete time
+	 * (eg. 11/4 8am, next monday 9:30)
+	 * 
+	 * @param argsString
+	 *            the input to be parsed
+	 * @return the first successful parse of such time string is returned as a
+	 *         java.time.LocalDateTime
 	 */
 	public static LocalDateTime tryParseTime(String argsString) {
 		List<DateGroup> dateGroups = new PrettyTimeParser().parseSyntax(argsString);
@@ -547,9 +559,13 @@ public class DateTimeParser {
 	}
 
 	/**
-	 * Try parse an input to see if it contains any time string of month (eg. mar, august)
-	 * @param argsString the input to be parsed
-	 * @return the first successful parse of such time string is returned as a java.time.Month
+	 * Try parse an input to see if it contains any time string of month (eg.
+	 * mar, august)
+	 * 
+	 * @param argsString
+	 *            the input to be parsed
+	 * @return the first successful parse of such time string is returned as a
+	 *         java.time.Month
 	 */
 	public static Month tryParseMonth(String argsString) {
 		if (PublicVariables.janWords.contains(argsString)) {
@@ -581,8 +597,12 @@ public class DateTimeParser {
 	}
 
 	/**
-	 * function that searches and set reserved slots for a task from an array list of time string
-	 * @param taskTimeStrings the arraylist that contains time string as elements to be parsed
+	 * function that searches and set reserved slots for a task from an array
+	 * list of time string
+	 * 
+	 * @param taskTimeStrings
+	 *            the arraylist that contains time string as elements to be
+	 *            parsed
 	 */
 	public static void searchTaskSlots(ArrayList<String> taskTimeStrings) {
 		PublicVariables.taskSlots = new MultipleSlot();
@@ -605,8 +625,11 @@ public class DateTimeParser {
 	}
 
 	/**
-	 * Function that rounds up the deadline time obtained from pretty time parser to a more presentable form
-	 * @param date the date to be rounded up
+	 * Function that rounds up the deadline time obtained from pretty time
+	 * parser to a more presentable form
+	 * 
+	 * @param date
+	 *            the date to be rounded up
 	 * @return the rounded up date
 	 */
 	public static LocalDateTime adjustedDateDeadline(LocalDateTime date) {
@@ -618,8 +641,11 @@ public class DateTimeParser {
 	}
 
 	/**
-	 * Function that rounds up the event time obtained from pretty time parser to a more presentable form
-	 * @param date the date to be rounded up
+	 * Function that rounds up the event time obtained from pretty time parser
+	 * to a more presentable form
+	 * 
+	 * @param date
+	 *            the date to be rounded up
 	 * @return the rounded up date
 	 */
 	public static LocalDateTime adjustedDateEvent(LocalDateTime date) {
