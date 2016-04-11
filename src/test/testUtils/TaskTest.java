@@ -124,37 +124,37 @@ public class TaskTest {
 		Task test = new Task();
 		LocalDateTime start = LocalDateTime.of(2016, Month.MARCH, 1, 9, 00, 00);
 		LocalDateTime end = LocalDateTime.of(2016, Month.MARCH, 1, 22, 00, 00);
-		LocalDateTime comparestart1 = LocalDateTime.of(2016, Month.MARCH, 1, 9, 00, 00);
-		LocalDateTime compareend1 = LocalDateTime.of(2016, Month.MARCH, 1, 22, 00, 00);
-		LocalDateTime comparestart2 = LocalDateTime.of(2016, Month.MARCH, 1, 19, 30, 59);
-		LocalDateTime compareend2 = LocalDateTime.of(2016, Month.MARCH, 1, 20, 45, 01);
+		LocalDateTime compareStart1 = LocalDateTime.of(2016, Month.MARCH, 1, 9, 00, 00);
+		LocalDateTime compareEnd1 = LocalDateTime.of(2016, Month.MARCH, 1, 22, 00, 00);
+		LocalDateTime compareStart2 = LocalDateTime.of(2016, Month.MARCH, 1, 19, 30, 59);
+		LocalDateTime compareEnd2 = LocalDateTime.of(2016, Month.MARCH, 1, 20, 45, 01);
 		// Boundary value for time 00,00
-		LocalDateTime comparestart3 = LocalDateTime.of(2016, Month.MARCH, 1, 00, 00, 00);
-		LocalDateTime compareend3 = LocalDateTime.of(2016, Month.MARCH, 1, 11, 17, 00);
-		LocalDateTime comparestart4 = LocalDateTime.of(2016, Month.MARCH, 1, 12, 35, 00);
+		LocalDateTime compareStart3 = LocalDateTime.of(2016, Month.MARCH, 1, 00, 00, 00);
+		LocalDateTime compareEnd3 = LocalDateTime.of(2016, Month.MARCH, 1, 11, 17, 00);
+		LocalDateTime compareStart4 = LocalDateTime.of(2016, Month.MARCH, 1, 12, 35, 00);
 		// The other Boundary value for time 23,59
-		LocalDateTime compareend4 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 59, 59);
-		LocalDateTime comparestart5 = LocalDateTime.of(2016, Month.MARCH, 1, 7, 00, 00);
-		LocalDateTime compareend5 = LocalDateTime.of(2016, Month.MARCH, 1, 9, 00, 00);
-		LocalDateTime comparestart6 = LocalDateTime.of(2016, Month.MARCH, 1, 22, 00, 00);
-		LocalDateTime compareend6 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 00, 00);
-		LocalDateTime comparestart7 = LocalDateTime.of(2016, Month.MARCH, 1, 8, 00, 34);
-		LocalDateTime compareend7 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 54, 00);
+		LocalDateTime compareEnd4 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 59, 59);
+		LocalDateTime compareStart5 = LocalDateTime.of(2016, Month.MARCH, 1, 7, 00, 00);
+		LocalDateTime compareEnd5 = LocalDateTime.of(2016, Month.MARCH, 1, 9, 00, 00);
+		LocalDateTime compareStart6 = LocalDateTime.of(2016, Month.MARCH, 1, 22, 00, 00);
+		LocalDateTime compareEnd6 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 00, 00);
+		LocalDateTime compareStart7 = LocalDateTime.of(2016, Month.MARCH, 1, 8, 00, 34);
+		LocalDateTime compareEnd7 = LocalDateTime.of(2016, Month.MARCH, 1, 23, 54, 00);
 
 		// overlap: task tested same as compared task.
-		assertTrue(test.hasOverlap(start, end, comparestart1, compareend1));
+		assertTrue(test.hasOverlap(start, end, compareStart1, compareEnd1));
 		// overlap: task tested lies within compared task.
-		assertTrue(test.hasOverlap(start, end, comparestart2, compareend2));
+		assertTrue(test.hasOverlap(start, end, compareStart2, compareEnd2));
 		// Overlap: End of task tested overlaps w compared task.
-		assertTrue(test.hasOverlap(start, end, comparestart3, compareend3));
+		assertTrue(test.hasOverlap(start, end, compareStart3, compareEnd3));
 		// Overlap: Start of task tested overlaps w compared task.
-		assertTrue(test.hasOverlap(start, end, comparestart4, compareend4));
+		assertTrue(test.hasOverlap(start, end, compareStart4, compareEnd4));
 		// Dont overlap (task tested lies totally to the left of compared task)
-		assertFalse(test.hasOverlap(start, end, comparestart5, compareend5));
+		assertFalse(test.hasOverlap(start, end, compareStart5, compareEnd5));
 		// Dont overlap (task tested lies totally to the right of compared task)
-		assertFalse(test.hasOverlap(start, end, comparestart6, compareend6));
+		assertFalse(test.hasOverlap(start, end, compareStart6, compareEnd6));
 		// Overlap: task compared is subset of task tested.
-		assertTrue(test.hasOverlap(start, end, comparestart7, compareend7));
+		assertTrue(test.hasOverlap(start, end, compareStart7, compareEnd7));
 
 	}
 

@@ -23,10 +23,10 @@ public class AddTaskTest {
 		_data.clearTasks();
 		LocalDateTime notime = null;
 		ArrayList<Task> expectedTasks = new ArrayList<Task>();
-		Task newinput = new Task(4, "Do survey", "floating", "", true, false, false, notime, notime,
+		Task newInput = new Task(4, "Do survey", "floating", "", true, false, false, notime, notime,
 				LocalDateTime.now(), notime, null);
-		expectedTasks.add(newinput);
-		AddTask tester = new AddTask(newinput);
+		expectedTasks.add(newInput);
+		AddTask tester = new AddTask(newInput);
 		// test normal add
 		assertEquals("\"Do survey\" added", tester.execute());
 
@@ -40,11 +40,11 @@ public class AddTaskTest {
 		// test invalid task
 		assertEquals("Error: Task has no description", feedback);
 
-		Task newinput2 = new Task(5, "lunch w boss", "event", "", true, false, false,
+		Task newInput2 = new Task(5, "lunch w boss", "event", "", true, false, false,
 				LocalDateTime.of(2016, Month.MARCH, 30, 00, 00),
 				LocalDateTime.of(2016, Month.MARCH, 30, 23, 59), LocalDateTime.now(), notime, null);
-		expectedTasks.add(newinput2);
-		AddTask tester3 = new AddTask(newinput2);
+		expectedTasks.add(newInput2);
+		AddTask tester3 = new AddTask(newInput2);
 		// test warning
 		assertEquals("\"lunch w boss\" on 30/3 00:00 - 30/3 23:59 added"
 				+ "\nWarning: Event added has already passed", tester3.execute());

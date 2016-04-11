@@ -27,7 +27,7 @@ public class LogicDataTest {
 	@Test
 	public void testSortList() {
 		LogicData _test = LogicData.getInstance(true);
-		ArrayList<Task> _testinput = new ArrayList<Task>();
+		ArrayList<Task> _testInput = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task("Buy milk", "", notime, notime, false);
 		Task obj2 = new Task("Submit ie2150 draft", "", notime,
@@ -48,16 +48,16 @@ public class LogicDataTest {
 		Task obj10 = new Task("CS2103 V0.1", "", notime, LocalDateTime.of(2016, Month.MARCH, 10, 17, 00),
 				true);
 
-		_testinput.add(obj);
-		_testinput.add(obj2);
-		_testinput.add(obj3);
-		_testinput.add(obj4);
-		_testinput.add(obj5);
-		_testinput.add(obj6);
-		_testinput.add(obj7);
-		_testinput.add(obj8);
-		_testinput.add(obj9);
-		_testinput.add(obj10);
+		_testInput.add(obj);
+		_testInput.add(obj2);
+		_testInput.add(obj3);
+		_testInput.add(obj4);
+		_testInput.add(obj5);
+		_testInput.add(obj6);
+		_testInput.add(obj7);
+		_testInput.add(obj8);
+		_testInput.add(obj9);
+		_testInput.add(obj10);
 
 		ArrayList<Task> _output = new ArrayList<Task>();
 		_output.add(obj2);
@@ -71,24 +71,24 @@ public class LogicDataTest {
 		_output.add(obj);
 		_output.add(obj6);
 
-		ArrayList<Task> _testinput2 = new ArrayList<Task>();
-		_testinput2.add(obj2);
-		_testinput2.add(obj5);
-		_testinput2.add(obj10);
-		_testinput2.add(obj7);
-		_testinput2.add(obj3);
-		_testinput2.add(obj8);
-		_testinput2.add(obj4);
-		_testinput2.add(obj9);
-		_testinput2.add(obj);
-		_testinput2.add(obj6);
+		ArrayList<Task> _testInput2 = new ArrayList<Task>();
+		_testInput2.add(obj2);
+		_testInput2.add(obj5);
+		_testInput2.add(obj10);
+		_testInput2.add(obj7);
+		_testInput2.add(obj3);
+		_testInput2.add(obj8);
+		_testInput2.add(obj4);
+		_testInput2.add(obj9);
+		_testInput2.add(obj);
+		_testInput2.add(obj6);
 
-		ArrayList<Task> _testinput3 = new ArrayList<Task>();
+		ArrayList<Task> _testInput3 = new ArrayList<Task>();
 
-		assertEquals(_output, _test.sortList(_testinput));
-		assertEquals(_output, _test.sortList(_testinput2)); // test original
+		assertEquals(_output, _test.sortList(_testInput));
+		assertEquals(_output, _test.sortList(_testInput2)); // test original
 															// sorted list
-		assertEquals(_testinput3, _test.sortList(_testinput3)); // test empty
+		assertEquals(_testInput3, _test.sortList(_testInput3)); // test empty
 																// arraylist
 	}
 
@@ -103,8 +103,8 @@ public class LogicDataTest {
 	@Test
 	public void testFindMatchingDesc() {
 		LogicData _test = LogicData.getInstance(true);
-		ArrayList<Task> _testinput = new ArrayList<Task>();
-		_test.setDisplays(_testinput);
+		ArrayList<Task> _testInput = new ArrayList<Task>();
+		_test.setDisplays(_testInput);
 		LocalDateTime notime = null;
 		Task obj = new Task("Buy milk", "", notime, notime);
 		Task obj2 = new Task("Buy Book", "", notime, LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59));
@@ -119,14 +119,14 @@ public class LogicDataTest {
 		Task obj8 = new Task("Project Presentation", "", LocalDateTime.of(2016, Month.MAY, 8, 10, 00),
 				LocalDateTime.of(2016, Month.MAY, 8, 12, 00));
 
-		_testinput.add(obj);
-		_testinput.add(obj2);
-		_testinput.add(obj3);
-		_testinput.add(obj4);
-		_testinput.add(obj5);
-		_testinput.add(obj6);
-		_testinput.add(obj7);
-		_testinput.add(obj8);
+		_testInput.add(obj);
+		_testInput.add(obj2);
+		_testInput.add(obj3);
+		_testInput.add(obj4);
+		_testInput.add(obj5);
+		_testInput.add(obj6);
+		_testInput.add(obj7);
+		_testInput.add(obj8);
 
 		ArrayList<Task> _output = new ArrayList<Task>();
 		_output.add(obj4);
@@ -196,8 +196,8 @@ public class LogicDataTest {
 	@Test
 	public void testFindMatchingPosition() {
 		LogicData _test = LogicData.getInstance(true);
-		ArrayList<Task> _testinput = new ArrayList<Task>();
-		_test.setDisplays(_testinput);
+		ArrayList<Task> _testInput = new ArrayList<Task>();
+		_test.setDisplays(_testInput);
 		LocalDateTime notime = null;
 		Task obj = new Task("Cut hair", "", notime, notime);
 		Task obj2 = new Task("Bro's Birthday Dinner", "", LocalDateTime.of(2016, Month.AUGUST, 31, 19, 00),
@@ -209,12 +209,12 @@ public class LogicDataTest {
 		Task obj5 = new Task("Submit ie2100 hw3", "", notime, LocalDateTime.of(2016, Month.MARCH, 9, 17, 00));
 		Task obj6 = new Task("Housekeeping", "", notime, notime);
 
-		_testinput.add(obj);
-		_testinput.add(obj2);
-		_testinput.add(obj3);
-		_testinput.add(obj4);
-		_testinput.add(obj5);
-		_testinput.add(obj6);
+		_testInput.add(obj);
+		_testInput.add(obj2);
+		_testInput.add(obj3);
+		_testInput.add(obj4);
+		_testInput.add(obj5);
+		_testInput.add(obj6);
 
 		assertEquals(null, _test.findMatchingPosition(Integer.MIN_VALUE)); // test
 																			// MIN_INT
@@ -336,8 +336,8 @@ public class LogicDataTest {
 	@Test
 	public void testFindMatchingMonths() {
 		LogicData _test = LogicData.getInstance(true);
-		ArrayList<Task> _testinput = new ArrayList<Task>();
-		_test.setDisplays(_testinput);
+		ArrayList<Task> _testInput = new ArrayList<Task>();
+		_test.setDisplays(_testInput);
 		LocalDateTime notime = null;
 		Task obj = new Task("Internship interview", "", LocalDateTime.of(2016, Month.APRIL, 4, 13, 00),
 				LocalDateTime.of(2016, Month.APRIL, 4, 15, 00));
@@ -350,12 +350,12 @@ public class LogicDataTest {
 		Task obj5 = new Task("Pay bills", "", notime, LocalDateTime.of(2016, Month.MARCH, 16, 17, 00));
 		Task obj6 = new Task("Housewarming", "", notime, notime);
 
-		_testinput.add(obj);
-		_testinput.add(obj2);
-		_testinput.add(obj3);
-		_testinput.add(obj4);
-		_testinput.add(obj5);
-		_testinput.add(obj6);
+		_testInput.add(obj);
+		_testInput.add(obj2);
+		_testInput.add(obj3);
+		_testInput.add(obj4);
+		_testInput.add(obj5);
+		_testInput.add(obj6);
 
 		ArrayList<Task> _output = new ArrayList<Task>();
 		_output.add(obj3);
