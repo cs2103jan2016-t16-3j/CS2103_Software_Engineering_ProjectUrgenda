@@ -50,13 +50,13 @@ public class Edit extends TaskCommand {
 		_data = LogicData.getInstance();
 		if (_id != null && _id.intValue() > -1) {
 			_prevTask = _data.findMatchingPosition(_id.intValue());
-			_temp = new Task(_prevTask);
 		}
 		if (_prevTask == null) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			logger.getLogger().severe("Exception(No edit match) thrown");
 			throw new LogicException(MESSAGE_NO_EDIT_MATCH);
 		} else {
+			_temp = new Task(_prevTask);
 			performEdition();
 			updateEdition();
 			String warning = checkValidity();
