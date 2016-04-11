@@ -565,7 +565,7 @@ public class PtParser {
 	
 	@Test
 	public void test045SetDirectoryFunction() {
-		String phrase = "saveto";
+		String phrase = "saveto abcd";
 		CommandParser.parseCommand(phrase, 5);
 		assertEquals(COMMAND_TYPE.SET_DIRECTORY, PublicVariables.commandType);
 	}
