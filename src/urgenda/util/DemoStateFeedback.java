@@ -1,4 +1,3 @@
-//@@author A0131857B
 package urgenda.util;
 
 import java.time.LocalDateTime;
@@ -12,7 +11,8 @@ import java.util.ArrayList;
 public class DemoStateFeedback extends StateFeedback {
 
 	// Constants
-	private static final String FEEDBACK_MESSAGE_DEMO = "Use TAB and SHIFT + TAB to navigate during the demo.\nType \"home\" to exit.";
+	private static final String FEEDBACK_MESSAGE_DEMO = "Use TAB and SHIFT + TAB to navigate during the demo.\n"
+			+ "Type \"home\" to exit.";
 
 	/**
 	 * Creates a DemoStateFeedback instance.
