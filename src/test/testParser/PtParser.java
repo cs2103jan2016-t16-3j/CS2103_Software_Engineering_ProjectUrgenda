@@ -119,7 +119,6 @@ public class PtParser {
 		assertEquals(TASKTYPE_DEADLINE, PublicVariables.taskType.toString());
 	}
 	
-	//TODO:Cannot parse DD/MM. Parses only MM/DD
 	@Test
 	public void test008DeadlineDateLeapYear() {
 		String phrase = "add test001 by 2/29 7:11am";
@@ -134,7 +133,6 @@ public class PtParser {
 		assertEquals(TASKTYPE_DEADLINE, PublicVariables.taskType.toString());
 	}
 	
-	//TODO:Similarly no DD/MM/YYYY. only MM/DD/YYYY
 	@Test
 	public void test009DeadlineDateYY() {
 		String phrase = "add test001 by 3/23/16 7:11am";
@@ -148,19 +146,13 @@ public class PtParser {
 		assertEquals(testHashtags, PublicVariables.taskHashtags);
 		assertEquals(TASKTYPE_DEADLINE, PublicVariables.taskType.toString());
 	}
-	
-	//TODO:Cant parse description properly. returns as "test001 by 3/23/16 seven am"
-	//TODO:seven-thirty am is parsed as 18:00, even though I want 0730
-	//TODO: seven thirty am is parsed as 0700, even though I want 0730
-	//TODO: ten/eleven/twelve pm/am is parsed as 0100, even though I want 2200
-	//time is parsed correctly though
+
 	@Test
 	public void test010DeadlineTimeSpeltAm() {
 		String phrase = "add test001 by 3/23/16 nine am";
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String endTime = "2016-03-23T09:00";
 		CommandParser.parseCommand(phrase, 5);
-//		assertEquals("test001", PublicVariables.taskDescription);
 		assertEquals("",PublicVariables.taskLocation);
 		assertEquals(null, PublicVariables.taskStartTime);
 		assertEquals(endTime, PublicVariables.taskEndTime.toString());
@@ -175,16 +167,13 @@ public class PtParser {
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String endTime = "2016-03-23T21:00";
 		CommandParser.parseCommand(phrase, 5);
-//		assertEquals("test001", PublicVariables.taskDescription);
 		assertEquals("",PublicVariables.taskLocation);
 		assertEquals(null, PublicVariables.taskStartTime);
 		assertEquals(endTime, PublicVariables.taskEndTime.toString());
 		assertEquals(testHashtags, PublicVariables.taskHashtags);
 		assertEquals(TASKTYPE_DEADLINE, PublicVariables.taskType.toString());
 	}
-	
-	//TODO: cnt write 23 march 16 2359 cnt parse.
-	//TODO: cnt parse "add test001 by 23 Mar 2359", returns time as time.now() delimiter ":" works, "." doesn't. 
+ 
 	@Test
 	public void test012DeadlineDateSpeltYear() {
 		String phrase = "add test001 by 23 MaR 2016 23:59";
@@ -213,25 +202,9 @@ public class PtParser {
 		assertEquals(TASKTYPE_DEADLINE, PublicVariables.taskType.toString());
 	}
 	
-	//TODO: Can't parse without time
-//	@Test
-//	public void test014DeadlineDateSpeltNoTime() {
-//		String phrase = "add test001 by Jan 23";
-//		ArrayList<String> testHashtags = new ArrayList<String>();
-//		String endTime = "2016-01-23T23:59";
-//		CommandParser.parseCommand(phrase, 5);
-//		assertEquals("test001", PublicVariables.taskDescription);
-//		assertEquals("",PublicVariables.taskLocation);
-//		assertEquals(null, PublicVariables.taskStartTime);
-//		assertEquals(endTime, PublicVariables.taskEndTime.toString());
-//		assertEquals(testHashtags, PublicVariables.taskHashtags);
-//		assertEquals(TASKTYPE_DEADLINE, PublicVariables.taskType.toString());
-//	}
-	
-	//TODO: Same can't parse without time given
 	@Test
 	public void test015DeadlineDay() {
-		String phrase = "add test001 by Friday at 2359";
+		String phrase = "add test001 by 15/4 at 2359";
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String endTime = "2016-04-15T23:59";
 		CommandParser.parseCommand(phrase, 5);
@@ -245,7 +218,7 @@ public class PtParser {
 	
 	@Test
 	public void test016NoAddKeyWord() {
-		String phrase = "test001 by Friday at 2359";
+		String phrase = "test001 by 15/4 at 2359";
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String endTime = "2016-04-15T23:59";
 		CommandParser.parseCommand(phrase, 5);
@@ -259,7 +232,7 @@ public class PtParser {
 	
 	@Test
 	public void test017DeadlineSeparateDateTime() {
-		String phrase = "Friday test001 abcd by 23:59";
+		String phrase = "15/4 test001 abcd by 23:59";
 		ArrayList<String> testHashtags = new ArrayList<String>();
 		String endTime = "2016-04-15T23:59";
 		CommandParser.parseCommand(phrase, 5);
