@@ -101,7 +101,7 @@ public class MainController {
 	private Deque<String> _nextCommandLines = new ArrayDeque<String>();
 	private BooleanProperty _isDemo = new SimpleBooleanProperty(false);
 	private Popup _popupInputSuggestions;
-	private InputSuggestionsPopupController _popupController;
+	private InputSuggestionsController _suggestionsController;
 	private BorderPane _demoTextPane;
 	private DemoController _demoController;
 	private HelpController _helpController;
@@ -115,9 +115,9 @@ public class MainController {
 	
 	private void initTypeSuggestions() {	
 		_popupInputSuggestions = new Popup();
-		_popupController = new InputSuggestionsPopupController();
+		_suggestionsController = new InputSuggestionsController();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(PATH_TYPESUGGESTIONS_FXML));
-		loader.setController(_popupController);
+		loader.setController(_suggestionsController);
 		try {
 			_popupInputSuggestions.getContent().add((Parent)loader.load());
 			UrgendaLogger.getInstance().getLogger().log(Level.INFO, "setup of type suggestions popup successful");
@@ -213,7 +213,7 @@ public class MainController {
 		if(_popupInputSuggestions == null) {
 			initTypeSuggestions();
 		}
-		_popupController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
+		_suggestionsController.updateSuggestions(_main.retrieveSuggestions(inputBar.getText()));
 		if(!windowOutOfBounds()) {
 			if(inputBar.getText().isEmpty()) {
 				_popupInputSuggestions.hide();
