@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -135,7 +136,8 @@ public class FileEditor {
 		}
 	}
 
-	private void addToTaskArray(BufferedReader breader, ArrayList<String> fileDataStringArr) throws IOException {
+	private void addToTaskArray(BufferedReader breader, ArrayList<String> fileDataStringArr)
+			throws IOException {
 		boolean hasNoMoreTasks = false;
 		while (!hasNoMoreTasks) {
 			String taskString = breader.readLine();
@@ -149,7 +151,8 @@ public class FileEditor {
 		}
 	}
 
-	private void addToArchiveArray(BufferedReader breader, ArrayList<String> archiveStringArr) throws IOException {
+	private void addToArchiveArray(BufferedReader breader, ArrayList<String> archiveStringArr)
+			throws IOException {
 		boolean isEmpty = false;
 		while (!isEmpty) {
 			String taskString = breader.readLine();
@@ -249,10 +252,13 @@ public class FileEditor {
 		Path source = _file.toPath();
 		File parentDir = new File(path);
 		parentDir.mkdir();
-		Path newSource = Paths.get(path);
 		try {
+			Path newSource = Paths.get(path);
 			Files.move(source, newSource.resolve(source.getFileName()), REPLACE_EXISTING);
 		} catch (NoSuchFileException e) {
+			logger.getLogger().info(source + " does not exist, unable to proceed with file relocation");
+			throw new InvalidFolderException(path);
+		} catch (InvalidPathException e) {
 			logger.getLogger().info(source + " does not exist, unable to proceed with file relocation");
 			throw new InvalidFolderException(path);
 		} catch (IOException e) {

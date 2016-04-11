@@ -137,12 +137,19 @@ public class Storage {
 	public void changeFileSettings(String path) throws StorageException, InvalidFolderException {
 		String correctPath = checkDirectorySeparator(path);
 		String fileType = getFileTypeFromPath(correctPath);
+		checkValidName(correctPath);
 		if (fileType.equals(TEXT_FILE_TYPE)) {
 			String dir = getDirFromPath(correctPath);
 			String name = getNameFromPath(correctPath);
 			checkIfFileExists(dir, name);
 		} else {
 			checkIfFileExists(correctPath, _file.getFileName());
+		}
+	}
+
+	private void checkValidName(String correctPath) throws InvalidFolderException {
+		if (correctPath.equals(TEXT_FILE_TYPE)) {
+			throw new InvalidFolderException(correctPath);
 		}
 	}
 
@@ -155,7 +162,12 @@ public class Storage {
 	}
 
 	private String getFileTypeFromPath(String path) {
-		return path.trim().substring(path.length() - FILE_TYPE_CHAR_SIZE);
+		if (path.length() > FILE_TYPE_CHAR_SIZE) {
+			return path.trim().substring(path.length() - FILE_TYPE_CHAR_SIZE);
+		} else {
+			return path;
+		}
+
 	}
 
 	private String getNameFromPath(String path) {
@@ -246,6 +258,6 @@ public class Storage {
 	public void setNoviceSettings(boolean isNovice) {
 		_settings.setNoviceSettings(isNovice);
 		_settings.saveSettings();
-		
+
 	}
 }
