@@ -114,31 +114,35 @@ public class NewEditCommandParser {
 		String combinedRegex = "(" + removeFlagRegex2 + "|" + removeFlagRegex1 + ")";
 		int count = 0;
 
-		int index = reducedString.indexOf(removeFlagRegex1);
-		while (index != -1) {
-			count++;
-			if (reducedString.length() - 1 >= index + 3) {
-				reducedString = reducedString.substring(0, index) + reducedString.substring(index + 3);
-			} else {
-				reducedString = reducedString.substring(0, index);
+		if (reducedString != null) {
+			int index = reducedString.indexOf(removeFlagRegex1);
+			while (index != -1) {
+				count++;
+				if (reducedString.length() - 1 >= index + 3) {
+					reducedString = reducedString.substring(0, index) + reducedString.substring(index + 3);
+				} else {
+					reducedString = reducedString.substring(0, index);
+				}
+				index = reducedString.indexOf(removeFlagRegex1);
 			}
-			index = reducedString.indexOf(removeFlagRegex1);
-		}
 
-		index = reducedString.indexOf(removeFlagRegex2);
-		while (index != -1) {
-			count++;
-			if (reducedString.length() - 1 >= index + 2) {
-				reducedString = reducedString.substring(0, index) + reducedString.substring(index + 2);
-			} else {
-				reducedString = reducedString.substring(0, index);
-			}
 			index = reducedString.indexOf(removeFlagRegex2);
+			while (index != -1) {
+				count++;
+				if (reducedString.length() - 1 >= index + 2) {
+					reducedString = reducedString.substring(0, index) + reducedString.substring(index + 2);
+				} else {
+					reducedString = reducedString.substring(0, index);
+				}
+				index = reducedString.indexOf(removeFlagRegex2);
+			}
+			numberOfRemoveFlag = count;
+			System.out.println(count);
+			System.out.println(reducedString);
+			return reducedString;
+		} else {
+			return null;
 		}
-		numberOfRemoveFlag = count;
-		System.out.println(count);
-		System.out.println(reducedString);
-		return reducedString;
 	}
 
 	private static String searchIndex() {
@@ -152,13 +156,15 @@ public class NewEditCommandParser {
 	}
 
 	private static void searchDetails(String argsString) {
-		String temp = argsString;
-		String[] stringArray = temp.trim().split(combinedRegex);
+		if (argsString != null) {
+			String temp = argsString;
+			String[] stringArray = temp.trim().split(combinedRegex);
 
-		if (stringArray.length == 0) {
-			parseTimeWithoutKeyWord(temp);
-		} else {
-			parseDetailsWithKeyWords(temp, stringArray);
+			if (stringArray.length == 0) {
+				parseTimeWithoutKeyWord(temp);
+			} else {
+				parseDetailsWithKeyWords(temp, stringArray);
+			}
 		}
 	}
 
