@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * 
  * UrgendaLogger a the class under Utils component. It is used for logging and tracking of 
  * performance of Urgenda. It is global to all other components.
  *
@@ -58,7 +57,7 @@ public class UrgendaLogger {
 	}
 
 	/**
-	 *Getter for the private attribute of UrgendaLogger class.
+	 * Getter for the private attribute of UrgendaLogger class.
 	 * @return myLogger
 	 * The logger used for logging.
 	 */

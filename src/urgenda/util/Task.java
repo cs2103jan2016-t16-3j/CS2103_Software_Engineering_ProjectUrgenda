@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
- * 
  * Task class of Utils component in Urgenda. Used for storing of information
  * related to a task e.g. timings, location, desc etc.
  *
