@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
-import org.ocpsoft.prettytime.nlp.parse.DateGroup;
 
 import urgenda.command.Command;
 import urgenda.command.Confirm;
@@ -18,11 +17,25 @@ public class ConfirmCommandParser {
 	private static String _argsString;
 	private static int _index;
 
+	/**
+	 * public constructor of ConfirmCommandParser
+	 * 
+	 * @param argsString
+	 *            argument string to be parsed
+	 * @param index
+	 *            location of currently highlighted task
+	 */
 	public ConfirmCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 	}
 
+	/**
+	 * function that parses the passed in argument string to generate an return
+	 * an appropriate Confirm object
+	 * 
+	 * @return Confirm object with parsed details stored in its attributes
+	 */
 	public static Command generateAndReturn() {
 		if (_argsString == null) {
 			return new Invalid();
@@ -35,14 +48,18 @@ public class ConfirmCommandParser {
 			} catch (Exception e) {
 				confirmCommand.setId(_index);
 			}
-
-			PrettyTimeParser parser = new PrettyTimeParser();
-			List<Date> dateTimes = parser.parse(_argsString);
-			if (dateTimes.size() == 2) {
-				return setTimeAndReturn(confirmCommand, dateTimes);
+			if (_argsString != null) {
+				PrettyTimeParser parser = new PrettyTimeParser();
+				List<Date> dateTimes = parser.parse(_argsString);
+				if (dateTimes.size() == 2) {
+					return setTimeAndReturn(confirmCommand, dateTimes);
+				} else {
+					return new Invalid();
+				}
 			} else {
 				return new Invalid();
 			}
+
 		}
 	}
 

@@ -62,7 +62,7 @@ public abstract class Command {
 	public String taskMessageWithLocation(Task task) {
 		Task.Type taskType = task.getTaskType();
 		String feedback = null;
-		if (task.getLocation() == null || task.getLocation().isEmpty()) {
+		if (task.getLocation() == null || task.getLocation().equals("")) {
 			feedback = taskMessage(task);
 		} else {
 			feedback = generateTaskMessageWithVenue(task, taskType, feedback);
@@ -81,7 +81,8 @@ public abstract class Command {
 		case EVENT :
 			feedback = String.format(MESSAGE_EVENT_VENUE, task.getDesc(), task.getLocation(),
 					task.getStartTime().getDayOfMonth(), task.getStartTime().getMonthValue(),
-					task.getStartTime().getHour(), task.getStartTime().getMinute(), 
+					task.getStartTime().getHour(), task.getStartTime().getMinute(),
+					task.getEndTime().getDayOfMonth(), task.getEndTime().getMonthValue(),
 					task.getEndTime().getHour(), task.getEndTime().getMinute());
 			break;
 		case FLOATING :
@@ -110,8 +111,8 @@ public abstract class Command {
 		switch (taskType) {
 		case EVENT :
 			feedback = String.format(MESSAGE_EVENT, task.getDesc(), task.getStartTime().getDayOfMonth(),
-					task.getStartTime().getMonthValue(), task.getStartTime().getHour(), 
-					task.getStartTime().getMinute(), task.getEndTime().getDayOfMonth(), 
+					task.getStartTime().getMonthValue(), task.getStartTime().getHour(),
+					task.getStartTime().getMinute(), task.getEndTime().getDayOfMonth(),
 					task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
 					task.getEndTime().getMinute());
 			break;
@@ -120,7 +121,7 @@ public abstract class Command {
 			break;
 		case DEADLINE :
 			feedback = String.format(MESSAGE_DEADLINE, task.getDesc(), task.getEndTime().getDayOfMonth(),
-					task.getEndTime().getMonthValue(), task.getEndTime().getHour(), 
+					task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
 					task.getEndTime().getMinute());
 			break;
 		}
@@ -128,7 +129,8 @@ public abstract class Command {
 	}
 
 	/*
-	 * Generates the feedback for the block within the given block from the task.
+	 * Generates the feedback for the block within the given block from the
+	 * task.
 	 */
 	private String additionalTimings(MultipleSlot block) {
 		String feedback = "";

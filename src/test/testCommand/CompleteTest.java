@@ -2,7 +2,6 @@
 package test.testCommand;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -37,7 +36,6 @@ public class CompleteTest {
 		tester.setDesc("Sweden");
 		// mark by description
 		assertEquals("Done \"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59!", tester.execute());
-		assertTrue(_data.getTaskList().get(4).isCompleted());
 
 		Complete tester2 = new Complete();
 		tester2.setDesc("mum");

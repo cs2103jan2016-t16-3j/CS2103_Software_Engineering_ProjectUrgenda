@@ -24,7 +24,7 @@ public class FileEditorTest {
 	 * testing file not found exception
 	 */
 	@Test
-	public void test008Exception() {
+	public void test007Exception() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		
 		assertTrue(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
@@ -57,7 +57,7 @@ public class FileEditorTest {
 	 * Testing empty lines in text file
 	 */
 	@Test
-	public void test007EmptyLines(){
+	public void test006EmptyLines(){
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		file.deleteOnExit();
 		ArrayList<String> newLines = new ArrayList<String>();
@@ -227,16 +227,6 @@ public class FileEditorTest {
 		retrievedArrayOne.clear();
 		retrievedArrayTwo.clear();
 		file.clearFile();
-		file.delete();
-	}
-	
-	@Test
-	public void test006getfileNamePath(){
-		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
-		String expectedPath = "C:\\Users\\User\\workspace\\Urgenda\\testfiles";
-		String expectedName = "C:\\Users\\User\\workspace\\Urgenda\\testfiles\\test.txt";
-		assertEquals("wrong path name", expectedPath, file.getDirAbsolutePath());
-		assertEquals("wrong file name", expectedName, file.getAbsolutePath());
 		file.delete();
 	}
 	

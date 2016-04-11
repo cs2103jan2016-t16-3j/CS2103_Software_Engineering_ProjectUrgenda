@@ -224,6 +224,7 @@ public class LogicData {
 		_displays.addAll(sortList(todayTasks));
 		_displays.addAll(sortList(otherTasks));
 
+		logger.getLogger().info("asserting arraysize >= 0");
 		assert (overdueTasks.size() >= 0);
 		assert (todayTasks.size() >= 0);
 		assert (otherTasks.size() >= 0);
@@ -464,6 +465,7 @@ public class LogicData {
 	}
 
 	private void searchForNonOrderedDesc(ArrayList<Task> matches, ArrayList<String> substr2) {
+		logger.getLogger().info("searching for non-ordered desc (input more than one word");
 		for (Task task : _displays) {
 			boolean flag = true;
 			for (String s : substr2) {

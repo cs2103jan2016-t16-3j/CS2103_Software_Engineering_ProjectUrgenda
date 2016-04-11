@@ -1,11 +1,6 @@
 //@@author A0127764X
 package urgenda.parser;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import urgenda.parser.PublicVariables.COMMAND_TYPE;
 import urgenda.parser.PublicVariables.TASK_TYPE;
 
 public class TaskDetailsParser {
@@ -18,6 +13,16 @@ public class TaskDetailsParser {
 	private static String indexDelimiterRegex = ",";
 	private static String indexRangeDelimiterRegex = "-";
 
+	/**
+	 * function that search for a location in the passed in string and update
+	 * the global variable taskLocation in PublicVariables after that the
+	 * substring that contains the location is removed from the passed in
+	 * string, and the passed in string in returned
+	 * 
+	 * @param argsString
+	 *            passed in string
+	 * @return passed in string with location string removed
+	 */
 	public static String searchTaskLocation(String argsString) {
 		try {
 			return tryParseLocationByFirstKeyWord(argsString);
@@ -26,6 +31,13 @@ public class TaskDetailsParser {
 		}
 	}
 
+	/**
+	 * function that search for a description in the passed in string and update
+	 * the global variable taskDescription in PublicVariables
+	 * 
+	 * @param argsString
+	 *            passed in string
+	 */
 	public static void searchTaskDescription(String argsString) {
 		if (isEmptyDesc(argsString)) {
 			PublicVariables.taskDescription = emptyString;
@@ -34,6 +46,11 @@ public class TaskDetailsParser {
 		}
 	}
 
+	/**
+	 * function that determines the task type from the global variables
+	 * taskStartTime and taskEndTime in PublicVariable the global variable
+	 * taskType is set accordingly
+	 */
 	public static void searchTaskType() {
 		if (noTaskStartTime() && noTaskEndTime()) {
 			PublicVariables.taskType = TASK_TYPE.FLOATING;
@@ -46,6 +63,14 @@ public class TaskDetailsParser {
 		}
 	}
 
+	/**
+	 * function that searches for task index in the parsed in string and update
+	 * the global variable taskIndex
+	 * 
+	 * @param argsString
+	 *            passed in string
+	 * @return the passed in string with the parsed index removed
+	 */
 	public static String searchTaskIndex(String argsString) {
 		try {
 			String firstWord = PublicFunctions.getFirstWord(argsString);
@@ -57,8 +82,15 @@ public class TaskDetailsParser {
 		}
 	}
 
+	/**
+	 * function that searches for task indexes in the parsed in string and
+	 * update the global variable positions
+	 * 
+	 * @param argsString
+	 *            passed in string
+	 * @return passed in string with the parsed index removed
+	 */
 	public static String searchTaskIndexRange(String argsString) {
-
 		String[] indexRanges = argsString.split(indexDelimiterRegex);
 
 		for (int i = 0; i < indexRanges.length; i++) {
@@ -136,7 +168,7 @@ public class TaskDetailsParser {
 	private static Boolean noTaskEndTime() {
 		return PublicVariables.taskEndTime == null;
 	}
-	
+
 	private static Boolean isNotRepeatedIndex(int index) {
 		return !PublicVariables.positions.contains(index);
 	}

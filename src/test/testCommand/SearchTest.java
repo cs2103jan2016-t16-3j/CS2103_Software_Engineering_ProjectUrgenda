@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -24,6 +25,13 @@ public class SearchTest {
 		tester.setSearchInput("Sweden");
 		// test search by desc
 		assertEquals("Showing: all task(s) found containing \"Sweden\"", tester.execute());
+		ArrayList<Task> expectedTasks = new ArrayList<Task>();
+		Task match = new Task(5, "Travel to Sweden", "event", " ", false, false, false,
+				LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), null, null);
+		expectedTasks.add(match);
+		checkArrayList(expectedTasks, _data.getDisplays());
+		
 
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
@@ -32,6 +40,12 @@ public class SearchTest {
 		tester2.setSearchDate(LocalDate.of(2016, Month.FEBRUARY, 24));
 		// test search by date
 		assertEquals("These are all the task(s) falling on \"2016-02-24\"", tester2.execute());
+		expectedTasks.clear();
+		match = new Task(2, "Submit ie2150 draft", "deadline", "", true, false, true, null,
+				LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), null, null);
+		expectedTasks.add(match);
+		checkArrayList(expectedTasks, _data.getDisplays());
+		
 
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
@@ -40,6 +54,12 @@ public class SearchTest {
 		tester3.setSearchDateTime(LocalDateTime.of(2016, Month.JULY, 26, 00, 00));
 		// test search by datetime
 		assertEquals("These are all the task(s) falling on \"2016-07-26, 00:00\"", tester3.execute());
+		expectedTasks.clear();
+		match = new Task(5, "Travel to Sweden", "event", " ", false, false, false,
+				LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), null, null);
+		expectedTasks.add(match);
+		checkArrayList(expectedTasks, _data.getDisplays());
 
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
@@ -48,6 +68,15 @@ public class SearchTest {
 		tester4.setSearchMonth(Month.AUGUST);
 		// test search by month
 		assertEquals("These are all the task(s) falling on \"AUGUST\"", tester4.execute());
+		expectedTasks.clear();
+		match = new Task(3, "Submit ie2100 hw3", "deadline", "", false, false, false, null,
+				LocalDateTime.of(2016, Month.AUGUST, 4, 23, 59), LocalDateTime.now(), null, null);
+		expectedTasks.add(match);
+		match = new Task(5, "Travel to Sweden", "event", " ", false, false, false,
+				LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), null, null);
+		expectedTasks.add(match);
+		checkArrayList(expectedTasks, _data.getDisplays());
 
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
@@ -62,6 +91,14 @@ public class SearchTest {
 		tester6.setSearchInput("floating");
 		// test search tasktype
 		assertEquals("Showing: all task(s) found of type \"floating\"", tester6.execute());
+		expectedTasks.clear();
+		match = new Task(1, "Buy milk", "floating", "", false, false, false, null, null,
+				LocalDateTime.now(), null, null);
+		expectedTasks.add(match);
+		match = new Task(1, "Mop floor", "floating", "", true, false, false, null, null,
+				LocalDateTime.now(), null, null);
+		expectedTasks.add(match);
+		checkArrayList(expectedTasks, _data.getDisplays());
 
 		Search tester7 = new Search();
 		tester7.setSearchInput("milk");
@@ -69,6 +106,8 @@ public class SearchTest {
 		assertEquals(
 				"PROGRESSIVE SEARCH: all task(s) found containing \"milk\" based on the current view. Enter home to show all tasks",
 				tester7.execute());
+		expectedTasks.remove(1);
+		checkArrayList(expectedTasks, _data.getDisplays());
 		
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
@@ -84,6 +123,11 @@ public class SearchTest {
 		Search tester9 = new Search("Buy egg");
 		//test near match
 		assertEquals("No exact match found for \"Buy egg\". Showing: 1 near match(es)", tester9.execute());
+		expectedTasks.clear();
+		match = new Task(1, "Buy milk", "floating", "", false, false, false, null, null,
+				LocalDateTime.now(), null, null);
+		expectedTasks.add(match);
+		checkArrayList(expectedTasks, _data.getDisplays());
 		_data.clearTasks();
 	}
 
@@ -113,5 +157,20 @@ public class SearchTest {
 		_data.addTask(obj5);
 		_data.addTask(obj6);
 		return _data;
+	}
+	
+	private void checkArrayList(ArrayList<Task> expectedTasks, ArrayList<Task> actualTasks) {
+		for (int i = 0; i < actualTasks.size(); i++) {
+			Task exTask = expectedTasks.get(i);
+			Task actlTask = actualTasks.get(i);
+			assertEquals(exTask.getDesc(), actlTask.getDesc());
+			assertEquals(exTask.getLocation(), actlTask.getLocation());
+			assertEquals(exTask.isCompleted(), actlTask.isCompleted());
+			assertEquals(exTask.isImportant(), actlTask.isImportant());
+			assertEquals(exTask.isOverdue(), actlTask.isOverdue());
+			assertEquals(exTask.getStartTime(), actlTask.getStartTime());
+			assertEquals(exTask.getEndTime(), actlTask.getEndTime());
+			assertEquals(exTask.getTaskType(), actlTask.getTaskType());
+		}
 	}
 }

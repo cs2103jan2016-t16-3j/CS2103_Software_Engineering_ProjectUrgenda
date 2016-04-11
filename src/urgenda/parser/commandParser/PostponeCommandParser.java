@@ -5,11 +5,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import urgenda.command.*;
-import urgenda.parser.DateTimeParser;
-import urgenda.parser.PublicVariables;
-import urgenda.parser.PublicVariables.*;
-import urgenda.util.Task;
-import urgenda.parser.TaskDetailsParser;
 
 public class PostponeCommandParser {
 	private static String _argsString;
@@ -22,10 +17,10 @@ public class PostponeCommandParser {
 	private static String monthRegex = "((\\d+)( )?((month(s)?)|(mth(s)?)))";
 	private static String yearRegex = "((\\d+)( )?((year(s)?)|(yr(s)?)|y))";
 	private static String nonDigitRegex = "\\D+";
-	
+
 	private static String emptyString = "";
 	private static String timeDelimiter = "by";
-	
+
 	private static String secondString;
 	private static String minuteString;
 	private static String hourString;
@@ -41,11 +36,25 @@ public class PostponeCommandParser {
 	private static Integer month;
 	private static Integer year;
 
+	/**
+	 * public constructor of PostponeCommandParser
+	 * 
+	 * @param argsString
+	 *            argument string to be parsed
+	 * @param index
+	 *            location of currently highlighted task
+	 */
 	public PostponeCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 	}
 
+	/**
+	 * function that parses the passed in argument string to generate an return
+	 * an appropriate Postpone object
+	 * 
+	 * @return Postpone object with parsed details stored in its attributes
+	 */
 	public static Command generateAndReturn() {
 		if (_argsString == null) {
 			return new Invalid();
@@ -96,7 +105,7 @@ public class PostponeCommandParser {
 					return new Invalid();
 				}
 			}
-			
+
 			try {
 				if (secondString != null) {
 					postponeCommand.setSecond(getIntPart(secondString));

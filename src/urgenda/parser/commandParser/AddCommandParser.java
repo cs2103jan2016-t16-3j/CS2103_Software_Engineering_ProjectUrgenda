@@ -9,7 +9,6 @@ import urgenda.command.*;
 import urgenda.parser.DateTimeParser;
 import urgenda.parser.PublicFunctions;
 import urgenda.parser.PublicVariables;
-import urgenda.parser.PublicVariables.*;
 import urgenda.util.Task;
 import urgenda.parser.TaskDetailsParser;
 
@@ -17,17 +16,31 @@ public class AddCommandParser {
 	private static String _argsString;
 	private static int _index;
 	private static String descPlaceHolder;
-	
+
 	private static String emptyString = "";
 	private static String doubleQuotes = "\"\"";
-	private static char singleQuote ='\"';
+	private static char singleQuote = '\"';
 
+	/**
+	 * public constructor of AddCommandParser
+	 * 
+	 * @param argsString
+	 *            argument string to be parsed
+	 * @param index
+	 *            location of currently highlighted task
+	 */
 	public AddCommandParser(String argsString, int index) {
 		_argsString = argsString;
 		_index = index;
 		descPlaceHolder = null;
 	}
 
+	/**
+	 * function that parses the passed in argument string to generate an return
+	 * an appropriate AddTask object
+	 * 
+	 * @return AddTask object with parsed details stored in its attributes
+	 */
 	public static Command generateAndReturn() {
 		if (_argsString == null) {
 			return new Invalid();
@@ -128,7 +141,7 @@ public class AddCommandParser {
 		String leftDelimiter = "<";
 		String rightDelimiter = ">";
 		ArrayList<String> array = new ArrayList<String>();
-		
+
 		Matcher matcher = Pattern.compile(specialDescRegex).matcher(_argsString);
 		while (matcher.find()) {
 			_argsString = _argsString.replace(matcher.group(), leftDelimiter + matcher.group() + rightDelimiter);
