@@ -137,9 +137,7 @@ public class NewEditCommandParser {
 				index = reducedString.indexOf(removeFlagRegex2);
 			}
 			numberOfRemoveFlag = count;
-			System.out.println(count);
-			System.out.println(reducedString);
-			return reducedString;
+			return reducedString.trim();
 		} else {
 			return null;
 		}
