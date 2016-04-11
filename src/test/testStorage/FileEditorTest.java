@@ -17,7 +17,7 @@ import org.junit.runners.MethodSorters;
 public class FileEditorTest {
 	private static final String TEST_FILE_LOCATION = "testfiles";
 	private static final String TEST_FILE_NAME = "test.txt";
-	
+
 	private static final String TEST_FILE_LOCATION_2 = "testfiles\\test3";
 	private static final String TEST_FILE_NAME_2 = "test2.txt";
 
@@ -27,16 +27,16 @@ public class FileEditorTest {
 	@Test
 	public void test007Exception() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
-		
+
 		assertTrue(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
-		
+
 		file.delete();
 		assertFalse(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
 		String phrase = "test";
 		file.writeToFile(phrase);
 		String actual = file.retrieveFromFile();
 		assertNull(actual);
-		
+
 		ArrayList<String> expected = new ArrayList<String>();
 		file.writeToFile(expected, expected);
 		ArrayList<String> actlData = new ArrayList<String>();
@@ -44,40 +44,41 @@ public class FileEditorTest {
 		file.retrieveFromFile(actlData, actlArchive);
 		assertEquals(expected, actlData);
 		assertEquals(expected, actlArchive);
-		
+
 		file.clearFile();
 		try {
 			file.relocate(TEST_FILE_LOCATION_2);
 		} catch (InvalidFolderException e) {
-			assertEquals("TESTFILES\\TEST3 is an invalid folder path. Please enter a valid folder path.", e.getMessage());
+			assertEquals("TESTFILES\\TEST3 is an invalid folder path. Please enter a valid folder path.",
+					e.getMessage());
 		}
 		assertFalse(FileEditor.isExistingFile(TEST_FILE_LOCATION, TEST_FILE_NAME));
 	}
-	
+
 	/*
 	 * Testing empty lines in text file
 	 */
 	@Test
-	public void test006EmptyLines(){
+	public void test006EmptyLines() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		file.deleteOnExit();
 		ArrayList<String> newLines = new ArrayList<String>();
 		newLines.add("\n");
 		file.writeToFile(newLines, newLines);
-		
+
 		ArrayList<String> expected = new ArrayList<String>();
 		ArrayList<String> actlTasks = new ArrayList<String>();
 		ArrayList<String> actlArchives = new ArrayList<String>();
 		file.retrieveFromFile(actlTasks, actlArchives);
 		assertEquals(expected, actlTasks);
 		assertEquals(expected, actlArchives);
-		
+
 	}
-	
+
 	@Test
 	public void test001Rename() {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
-		file.rename(TEST_FILE_NAME_2); 
+		file.rename(TEST_FILE_NAME_2);
 		file.paths();
 		file.delete();
 	}
@@ -85,7 +86,7 @@ public class FileEditorTest {
 	@Test
 	public void test002Relocate() throws InvalidFolderException {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
-		file.relocate(TEST_FILE_LOCATION_2)	;
+		file.relocate(TEST_FILE_LOCATION_2);
 		file.paths();
 		file.delete();
 	}
@@ -146,7 +147,7 @@ public class FileEditorTest {
 		FileEditor file = new FileEditor(TEST_FILE_LOCATION, TEST_FILE_NAME);
 		ArrayList<String> inputArrayOne = new ArrayList<String>();
 		ArrayList<String> inputArrayTwo = new ArrayList<String>();
-		//normal test scenario
+		// normal test scenario
 		for (int i = 0; i < 3; i++) {
 			inputArrayOne.add("String" + i);
 		}
@@ -163,8 +164,8 @@ public class FileEditorTest {
 		for (int i = 0; i < retrievedArrayTwo.size(); i++) {
 			assertEquals(i + "diff", inputArrayTwo.get(i), retrievedArrayTwo.get(i));
 		}
-		
-		//testing empty arraylists to write and retrieve
+
+		// testing empty arraylists to write and retrieve
 		inputArrayOne.clear();
 		inputArrayTwo.clear();
 		retrievedArrayOne.clear();
@@ -172,8 +173,8 @@ public class FileEditorTest {
 		file.writeToFile(inputArrayOne, inputArrayTwo);
 		file.retrieveFromFile(retrievedArrayOne, retrievedArrayTwo);
 		assertEquals(inputArrayOne.size(), retrievedArrayOne.size());
-		
-		//testing large quantities to write and retrieve
+
+		// testing large quantities to write and retrieve
 		for (int i = 0; i < 2000; i++) {
 			inputArrayOne.add("String" + i);
 		}
@@ -230,8 +231,5 @@ public class FileEditorTest {
 		file.clearFile();
 		file.delete();
 	}
-	
-	
-	
 
 }

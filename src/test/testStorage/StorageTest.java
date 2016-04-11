@@ -28,7 +28,8 @@ public class StorageTest {
 	private static final String TEST_FILE_LOCATION_2 = "testfiles\\test3";
 	private static final String TEST_FILE_NAME_2 = "test2.txt";
 
-	private static final String EXCEPTION_ERROR_MESSAGE_2 = "test2.txt already exist in TESTFILES\\TEST3. \nLoading tasks from existing file";
+	private static final String EXCEPTION_ERROR_MESSAGE_2 = "test2.txt already exist in TESTFILES\\TEST3. \n"
+			+ "Loading tasks from existing file";
 
 	/*
 	 * Tests file manipulation given a string with file name specified, and
@@ -46,7 +47,7 @@ public class StorageTest {
 		try {
 			store.changeFileSettings(TEST_FILE_LOCATION_2);
 		} catch (StorageException e) {
-			
+
 		}
 
 		File file = new File(TEST_FILE_LOCATION_2, TEST_FILE_NAME);
@@ -59,7 +60,7 @@ public class StorageTest {
 		dir.delete();
 		store.delete();
 	}
-	
+
 	/*
 	 * Tests file manipulation given a string with file name specified, and
 	 * exists in new location. Tests UrgendaException for existing file.
@@ -127,20 +128,20 @@ public class StorageTest {
 
 		MultipleSlot slot = null;
 		LocalDateTime notime = null;
-		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime, LocalDateTime.now(),
-				notime, slot);
+		Task obj = new Task(1, "Buy milk", "FLOATING", "", false, false, false, notime, notime,
+				LocalDateTime.now(), notime, slot);
 		Task obj2 = new Task(2, "Submit ie2150 draft", "DEADLINE", "", true, false, true, notime,
 				LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), notime, slot);
-		Task obj3 = new Task(3, "Submit ie2100 hw3", "DEADLINE", "", false, false, false, notime, LocalDateTime.now(),
-				LocalDateTime.now(), notime, slot);
+		Task obj3 = new Task(3, "Submit ie2100 hw3", "DEADLINE", "", false, false, false, notime,
+				LocalDateTime.now(), LocalDateTime.now(), notime, slot);
 		Task obj4 = new Task(4, "Dental Appointment", "EVENT", " ", true, false, false,
-				LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(), notime,
-				slot);
-		Task obj5 = new Task(5, "Travel to Sweden", "EVENT", " ", false, false, false,
-				LocalDateTime.of(2016, Month.JULY, 26, 00, 00), LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59),
-				LocalDateTime.now(), notime, slot);
-		Task obj6 = new Task(1, "Mop floor", "FLOATING", "", true, false, false, notime, notime, LocalDateTime.now(),
+				LocalDateTime.now().minusHours(3), LocalDateTime.now().plusHours(1), LocalDateTime.now(),
 				notime, slot);
+		Task obj5 = new Task(5, "Travel to Sweden", "EVENT", " ", false, false, false,
+				LocalDateTime.of(2016, Month.JULY, 26, 00, 00),
+				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), notime, slot);
+		Task obj6 = new Task(1, "Mop floor", "FLOATING", "", true, false, false, notime, notime,
+				LocalDateTime.now(), notime, slot);
 
 		tasks.add(obj);
 		tasks.add(obj2);
@@ -187,9 +188,9 @@ public class StorageTest {
 		store.delete();
 
 	}
-	
+
 	@Test
-	public void test00Constructing(){
+	public void test00Constructing() {
 		Storage store = new Storage();
 		String fullDir = store.getDirPath();
 		String dir = fullDir.trim().substring(fullDir.lastIndexOf("\\") + 1, fullDir.length());
