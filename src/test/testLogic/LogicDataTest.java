@@ -27,7 +27,6 @@ public class LogicDataTest {
 	@Test
 	public void testSortList() {
 		LogicData _test = LogicData.getInstance(true);
-		;
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task("Buy milk", "", notime, notime, false);
@@ -104,7 +103,6 @@ public class LogicDataTest {
 	@Test
 	public void testFindMatchingDesc() {
 		LogicData _test = LogicData.getInstance(true);
-		;
 		ArrayList<Task> _testinput = new ArrayList<Task>();
 		_test.setDisplays(_testinput);
 		LocalDateTime notime = null;
@@ -134,6 +132,8 @@ public class LogicDataTest {
 		_output.add(obj4);
 		// test single match
 		assertEquals(_output, _test.findMatchingDesc("Sweden"));
+
+		_output.clear();
 		_output.add(obj);
 		_output.add(obj2);
 		// test multiple matches
@@ -163,7 +163,6 @@ public class LogicDataTest {
 	@Test
 	public void testIsTaskToday() {
 		LogicData _test = LogicData.getInstance(true);
-		;
 		ArrayList<Task> _tasks = new ArrayList<Task>();
 		LocalDateTime notime = null;
 		Task obj = new Task("Buy milk", "", notime, notime);

@@ -19,7 +19,6 @@ public class Storage {
 	private static final String TEXT_FILE_TYPE = ".txt";
 	private static final String DIRECTORY_SEPARATOR_FWD_SLASH = "/";
 	private static final String DIRECTORY_SEPARATOR_BCK_SLASH = "\\";
-	private static final String DESC_INTRO_TASK = "Add your first Task! Press Help or Alt + F1 for guidance";
 
 	private static final int FILE_TYPE_CHAR_SIZE = 4;
 
@@ -45,26 +44,7 @@ public class Storage {
 		_demo = new Manual(DEMO_TYPE);
 		_file = new FileEditor(path, name);
 		_file.retrieveFromFile(_fileDataStringArr, _archiveStringArr);
-		// checkIfEmptyFile();
 		logger.getLogger().info("Storage object created.");
-	}
-
-	private void checkIfEmptyFile() {
-		if (_fileDataStringArr.isEmpty() && _archiveStringArr.isEmpty()) {
-			createIntroTask();
-		}
-
-	}
-
-	private void createIntroTask() {
-		Task introTask = new Task();
-		introTask.setDesc(DESC_INTRO_TASK);
-		introTask.updateTaskType();
-		ArrayList<Task> introList = new ArrayList<Task>();
-		ArrayList<Task> introArchive = new ArrayList<Task>();
-		introList.add(introTask);
-		save(introList, introArchive);
-
 	}
 
 	/**
@@ -138,6 +118,11 @@ public class Storage {
 		String correctPath = checkDirectorySeparator(path);
 		String fileType = getFileTypeFromPath(correctPath);
 		checkValidName(correctPath);
+		checkFileType(correctPath, fileType);
+	}
+
+	private void checkFileType(String correctPath, String fileType)
+			throws StorageException, InvalidFolderException {
 		if (fileType.equals(TEXT_FILE_TYPE)) {
 			String dir = getDirFromPath(correctPath);
 			String name = getNameFromPath(correctPath);

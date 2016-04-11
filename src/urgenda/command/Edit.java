@@ -60,13 +60,14 @@ public class Edit extends TaskCommand {
 			performEdition();
 			updateEdition();
 			String warning = checkValidity();
-			return taskMessageWithLocation(_prevTask) + MESSAGE_EDIT + taskMessageWithLocation(_newTask) + warning;
+			return taskMessageWithLocation(_prevTask) + MESSAGE_EDIT + taskMessageWithLocation(_newTask)
+					+ warning;
 		}
 	}
 
 	/*
-	 * method to check for warnings, start time after end time etc and set pointer to
-	 * edited task.
+	 * method to check for warnings, start time after end time etc and set
+	 * pointer to edited task.
 	 */
 	private String checkValidity() throws LogicException {
 		String warning;
@@ -89,8 +90,8 @@ public class Edit extends TaskCommand {
 	}
 
 	/*
-	 * Method to update fields that are non-editable through edit command by users e.g.
-	 * multislot, priority, datemodified etc.
+	 * Method to update fields that are non-editable through edit command by
+	 * users e.g. multislot, priority, datemodified etc.
 	 */
 	private void updateEdition() {
 		_newTask.setId(_prevTask.getId());
@@ -124,18 +125,18 @@ public class Edit extends TaskCommand {
 	}
 
 	/*
-	 * Method to determine whether timing entered is for edition of start/end time 
-	 * if user input it w/o start &/ end flag.
+	 * Method to determine whether timing entered is for edition of start/end
+	 * time if user input it w/o start &/ end flag.
 	 */
 	private void determineUnclearTimings() {
 		switch (_temp.getTaskType()) {
-		case FLOATING: // Fallthrough
-		case DEADLINE:
+		case FLOATING : // Fallthrough
+		case DEADLINE :
 			// if prevtask is of type float/event (after removal of time had alr
 			// been performed), set unknown as endtime.
 			setUnknownAsEndTime();
 			break;
-		default:
+		default :
 			// if prevTask is of type event, compare unknown w task time
 			checkStartEndAndSetUnknown();
 			break;
@@ -158,9 +159,10 @@ public class Edit extends TaskCommand {
 			} else {
 				_newTask.setStartTime(_unknown);
 			}
-		} else { 
+		} else {
 			// when user enter 2 new time to be edited, one w flag one w/o falg
-			// e.g. 7pm to 10pm instead of from 7pm to 10pm, the unknown non-flag one
+			// e.g. 7pm to 10pm instead of from 7pm to 10pm, the unknown
+			// non-flag one
 			// could be determined
 			if (_newTask.getEndTime() == null) {
 				_newTask.setEndTime(_unknown);
@@ -193,15 +195,14 @@ public class Edit extends TaskCommand {
 	}
 
 	private void setLocation() {
-		if (_newTask.getLocation() == null || _newTask.getLocation().equals("") 
-				&& _prevTask.getLocation() != null) {
+		if (_newTask.getLocation() == null
+				|| _newTask.getLocation().equals("") && _prevTask.getLocation() != null) {
 			_newTask.setLocation(_prevTask.getLocation());
 		}
 	}
 
 	private void setDesc() {
-		if (_newTask.getDesc() == null || _newTask.getDesc().equals("") 
-				&& _prevTask.getDesc() != null) {
+		if (_newTask.getDesc() == null || _newTask.getDesc().equals("") && _prevTask.getDesc() != null) {
 			_newTask.setDesc(_prevTask.getDesc());
 		}
 	}
@@ -246,8 +247,6 @@ public class Edit extends TaskCommand {
 	private String findOverlaps() {
 		ArrayList<Task> overlaps;
 		overlaps = _data.overlappingTasks(_newTask);
-		assert(overlaps.size() >= 0);
-
 		if (overlaps.size() == 0) {
 			return "";
 		} else {
@@ -281,7 +280,8 @@ public class Edit extends TaskCommand {
 		_data.deleteTask(_prevTask);
 		_data.addTask(_newTask);
 		_data.setTaskPointer(_newTask);
-		return taskMessageWithLocation(_prevTask) + MESSAGE_EDIT + taskMessageWithLocation(_newTask) + findOverlaps();
+		return taskMessageWithLocation(_prevTask) + MESSAGE_EDIT + taskMessageWithLocation(_newTask)
+				+ findOverlaps();
 	}
 
 	/**
