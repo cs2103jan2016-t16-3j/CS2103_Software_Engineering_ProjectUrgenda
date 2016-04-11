@@ -1,3 +1,4 @@
+//@@author A0080436J
 package test.testUrgenda;
 
 import static org.junit.Assert.*;
@@ -33,6 +34,7 @@ public class UrgendaTest {
 
 	private static final int ADD_INDEX = 0;
 
+	// Test case of adding a floating task across logic and parser, using a stubbed location for storage.
 	@Test
 	public void testAddFloating() {
 		String desc = "floating task";
@@ -59,6 +61,7 @@ public class UrgendaTest {
 		logic.clearStorageTester();
 	}
 
+	// test case for adding an event
 	@Test
 	public void testAddEvent() {
 		String desc = "event task";
@@ -85,7 +88,8 @@ public class UrgendaTest {
 		
 		logic.clearStorageTester();
 	}
-	
+
+	// test case for adding of deadline task.
 	@Test
 	public void testAddDeadline() {
 		String desc = "deadline task";
@@ -112,7 +116,9 @@ public class UrgendaTest {
 		
 		logic.clearStorageTester();
 	}
-	
+
+	// test the adding of multiple tasks of different type across logic and parser.
+	// checks for the positioning of the tasks being inserted as well.
 	@Test
 	public void testAddMulitple() {
 		String desc1 = "deadline task";
@@ -199,7 +205,8 @@ public class UrgendaTest {
 		
 		logic.clearStorageTester();
 	}
-	
+
+	// tests the undo and redo functionality of adding a task.
 	@Test
 	public void testUndoAndRedo() {
 		String desc = "event task";
@@ -250,7 +257,8 @@ public class UrgendaTest {
 		
 		logic.clearStorageTester();
 	}
-	
+
+	// tests for deletion of a task by the position of the task.
 	@Test
 	public void testDelete() {
 		String desc = "event task";
@@ -289,7 +297,8 @@ public class UrgendaTest {
 		
 		logic.clearStorageTester();
 	}
-	
+
+	// tests the deletion of multiple tasks through location.
 	@Test
 	public void testDeleteMultiple() {
 		String desc1 = "deadline task";
@@ -354,6 +363,7 @@ public class UrgendaTest {
 		logic.clearStorageTester();
 	}
 	
+	// comparator function for tasklists.
 	private void compareTaskList(TaskList expectedList, TaskList actualList) {
 		// tests the TaskList object in state feedback
 		ArrayList<Task> actualTasks = actualList.getTasks();
@@ -418,13 +428,14 @@ public class UrgendaTest {
 			break;
 		case DEADLINE :
 			feedback = String.format(MESSAGE_DEADLINE, task.getDesc(), task.getEndTime().getDayOfMonth(),
-					task.getEndTime().getMonthValue(), task.getEndTime().getHour(), 
+					task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
 					task.getEndTime().getMinute());
 			break;
 		}
 		return feedback;
 	}
 
+	// generator for feedback message for slots
 	private String additionalTimings(MultipleSlot block) {
 		String feedback = "";
 		ArrayList<DateTimePair> slots = block.getSlots();
