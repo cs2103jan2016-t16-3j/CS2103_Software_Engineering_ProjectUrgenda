@@ -10,7 +10,6 @@ import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
 /**
- * 
  * Edit is the command object used for editing of task in Urgenda.
  * 
  */

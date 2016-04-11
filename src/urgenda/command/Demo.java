@@ -4,7 +4,6 @@ package urgenda.command;
 import urgenda.logic.LogicData;
 
 /**
- * 
  * Demo is the command object used for running a short demo in Urgenda.
  *
  */

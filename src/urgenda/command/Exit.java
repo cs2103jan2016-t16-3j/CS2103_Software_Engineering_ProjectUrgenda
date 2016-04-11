@@ -4,7 +4,6 @@ package urgenda.command;
 import urgenda.logic.LogicData;
 
 /**
- * 
  * Exit is the command object used for exiting and closing of Urgenda.
  *
  */

@@ -15,7 +15,6 @@ import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
 /**
- * 
  * Recurrence command object used for performing recurring tasks in Urgenda.
  * This is an unused feature due to change in special feature. Not implemented
  * and called by other components and not comprehensively tested. Tag as unused
@@ -25,7 +24,8 @@ import urgenda.util.UrgendaLogger;
 public class Recurrence extends TaskCommand {
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
-	private static final String MESSAGE_NO_RECURR_MATCH = "Invalid task number. No matches found to set as recurring";
+	private static final String MESSAGE_NO_RECURR_MATCH = "Invalid task number. "
+			+ "No matches found to set as recurring";
 	private static final String MESSAGE_ERROR = "ERROR:";
 	private static final String MESSAGE_INVALID = "Insufficient reccurrence info entered";
 	private static final String MESSAGE_TYPE_ERROR = "ERROR: Invalid Task Type for recurrence";
@@ -150,15 +150,15 @@ public class Recurrence extends TaskCommand {
 
 	private void recurrTimeSlot() throws LogicException {
 		switch (_newTask.getTaskType()) {
-		case DEADLINE :
+		case DEADLINE:
 			LocalDateTime start = null;
 			LocalDateTime end = _newTask.getEndTime();
 			end = updateDeadLineTimeSlot(start, end);
 			break;
-		case EVENT :
+		case EVENT:
 			upDateEventTimeSlot();
 			break;
-		default :
+		default:
 			throw new LogicException(MESSAGE_TYPE_ERROR);
 		}
 	}

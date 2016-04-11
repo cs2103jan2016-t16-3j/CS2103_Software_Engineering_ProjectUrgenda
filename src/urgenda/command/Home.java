@@ -4,7 +4,6 @@ package urgenda.command;
 import urgenda.logic.LogicData;
 
 /**
- * 
  * Home is the command object used for returning display screen to displaying
  * all tasks.
  *

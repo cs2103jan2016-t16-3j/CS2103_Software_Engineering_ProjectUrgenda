@@ -4,7 +4,6 @@ package urgenda.command;
 import urgenda.logic.LogicData;
 
 /**
- * 
  * Help is the command object used for generating help (user manual) of Urgenda.
  *
  */

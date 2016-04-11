@@ -12,20 +12,22 @@ import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
 /**
- * 
  * Search is the command object used for searching of tasks in Urgenda.
  *
  */
 public class Search extends Command {
 
 	private static final String MESSAGE_SHOWING = "Showing: ";
-	private static final String MESSAGE_PROGRESSIVE_SEARCH = "PROGRESSIVE SEARCH: %1$s based on the current view. Enter home to show all tasks";
+	private static final String MESSAGE_PROGRESSIVE_SEARCH = "PROGRESSIVE SEARCH: %1$s based on the current view. "
+			+ "Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_DESC = "all task(s) found containing \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TYPE = "all task(s) found of type \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TIME = "These are all the task(s) falling on \"%1$s\"";
 	private static final String MESSAGE_SEARCH_DATETIME = "These are all the task(s) falling on \"%1$s, %2$s\"";
-	private static final String MESSAGE_REFINE_SEARCH_TIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s\" based on the current view. Enter home to show all tasks";
-	private static final String MESSAGE_REFINE_SEARCH_DATETIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s, %2$s\" based on the current view. Enter home to show all tasks";
+	private static final String MESSAGE_REFINE_SEARCH_TIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s\" based on the current view. "
+			+ "Enter home to show all tasks";
+	private static final String MESSAGE_REFINE_SEARCH_DATETIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s, %2$s\" based on the current view. "
+			+ "Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
 	private static final String MESSAGE_SEARCH_INT_NOT_FOUND = "There is no match found for task no. %1$s";
 	private static final String MESSAGE_SEARCH_INT = "Search Result: Showing detailed info of task no. %1$s";
@@ -158,7 +160,7 @@ public class Search extends Command {
 			typeCount = findTypeCompleted(data, matches, typeCount);
 			break;
 		case "important" : // Fallthrough
-		case "impt" : // Fallthrough
+		case "impt": // Fallthrough
 		case "prioritise" :
 			matches = data.findMatchingDesc(_searchDesc);
 			descCount = matches.size();
