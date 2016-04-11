@@ -17,7 +17,7 @@ import urgenda.util.UrgendaLogger;
 public class Complete extends TaskCommand {
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
-	
+
 	private static final String MESSAGE_DONE = "Done ";
 	private static final String MESSAGE_UNDONE = " unmarked from done";
 	private static final String MESSAGE_MULTIPLE_FOUND = "Multiple tasks with description \"%1$s\" found";

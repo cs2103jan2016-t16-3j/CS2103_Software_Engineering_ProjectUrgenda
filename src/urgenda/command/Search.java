@@ -12,20 +12,22 @@ import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
 /**
- * 
  * Search is the command object used for searching of tasks in Urgenda.
  *
  */
 public class Search extends Command {
 
 	private static final String MESSAGE_SHOWING = "Showing: ";
-	private static final String MESSAGE_PROGRESSIVE_SEARCH = "PROGRESSIVE SEARCH: %1$s based on the current view. Enter home to show all tasks";
+	private static final String MESSAGE_PROGRESSIVE_SEARCH = "PROGRESSIVE SEARCH: %1$s based on the current view. "
+			+ "Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_DESC = "all task(s) found containing \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TYPE = "all task(s) found of type \"%1$s\"";
 	private static final String MESSAGE_SEARCH_TIME = "These are all the task(s) falling on \"%1$s\"";
 	private static final String MESSAGE_SEARCH_DATETIME = "These are all the task(s) falling on \"%1$s, %2$s\"";
-	private static final String MESSAGE_REFINE_SEARCH_TIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s\" based on the current view. Enter home to show all tasks";
-	private static final String MESSAGE_REFINE_SEARCH_DATETIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s, %2$s\" based on the current view. Enter home to show all tasks";
+	private static final String MESSAGE_REFINE_SEARCH_TIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s\" based on the current view. "
+			+ "Enter home to show all tasks";
+	private static final String MESSAGE_REFINE_SEARCH_DATETIME = "PROGRESSIVE SEARCH: Showing task(s) that falls on \"%1$s, %2$s\" based on the current view. "
+			+ "Enter home to show all tasks";
 	private static final String MESSAGE_SEARCH_NOT_FOUND = "There is no match found for \"%1$s\"";
 	private static final String MESSAGE_SEARCH_INT_NOT_FOUND = "There is no match found for task no. %1$s";
 	private static final String MESSAGE_SEARCH_INT = "Search Result: Showing detailed info of task no. %1$s";
@@ -141,53 +143,53 @@ public class Search extends Command {
 		ArrayList<Task> matches;
 		String feedback;
 		// copy of _searchDesc for modification, trimming and caseignore
-		//and just in case prevent editing of original _searchDesc.
+		// and just in case prevent editing of original _searchDesc.
 		String copy = _searchDesc;
 		int descCount = 0;
 		int typeCount = 0;
 		int nearMatchCount = 0;
 		switch (copy.toLowerCase().trim()) {
-		case "overdue":
+		case "overdue" :
 			matches = data.findMatchingDesc(_searchDesc);
 			descCount = matches.size();
 			typeCount = findTypeOverdue(data, matches, typeCount);
 			break;
-		case "completed":
+		case "completed" :
 			matches = data.findMatchingDesc(_searchDesc);
 			descCount = matches.size();
 			typeCount = findTypeCompleted(data, matches, typeCount);
 			break;
-		case "important": // Fallthrough
+		case "important" : // Fallthrough
 		case "impt": // Fallthrough
-		case "prioritise":
+		case "prioritise" :
 			matches = data.findMatchingDesc(_searchDesc);
 			descCount = matches.size();
 			typeCount = findTypePri(data, matches, typeCount);
 			break;
-		case "twotime": // Fallthrough
-		case "event":
+		case "twotime" : // Fallthrough
+		case "event" :
 			matches = data.findMatchingDesc(_searchDesc);
 			descCount = matches.size();
 			typeCount = findTypeEvent(data, matches, typeCount);
 			break;
-		case "onetime": // Fallthrough
-		case "duedate": // Fallthrough
-		case "deadline": // Fallthrough
+		case "onetime" : // Fallthrough
+		case "duedate" : // Fallthrough
+		case "deadline" : // Fallthrough
 			matches = data.findMatchingDesc(_searchDesc);
 			descCount = matches.size();
 			typeCount = findTypeDeadLine(data, matches, typeCount);
 			break;
-		case "floating": // Fallthrough
-		case "untimed":
+		case "floating" : // Fallthrough
+		case "untimed" :
 			matches = data.findMatchingDesc(_searchDesc);
 			descCount = matches.size();
 			typeCount = findTypeFloat(data, matches, typeCount);
 			break;
-		case "archive":
+		case "archive" :
 			matches = data.getArchives();
 			typeCount = matches.size();
 			break;
-		default:
+		default :
 			matches = data.findRefinedMatchingDesc(_searchDesc);
 			descCount = matches.size();
 			nearMatchCount = findNearMatch(data, matches, nearMatchCount);

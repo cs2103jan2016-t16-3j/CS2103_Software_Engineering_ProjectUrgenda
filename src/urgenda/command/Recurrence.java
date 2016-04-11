@@ -15,7 +15,6 @@ import urgenda.util.Task;
 import urgenda.util.UrgendaLogger;
 
 /**
- * 
  * Recurrence command object used for performing recurring tasks in Urgenda.
  * This is an unused feature due to change in special feature. Not implemented
  * and called by other components and not comprehensively tested. Tag as unused
@@ -25,7 +24,8 @@ import urgenda.util.UrgendaLogger;
 public class Recurrence extends TaskCommand {
 
 	private static UrgendaLogger logger = UrgendaLogger.getInstance();
-	private static final String MESSAGE_NO_RECURR_MATCH = "Invalid task number. No matches found to set as recurring";
+	private static final String MESSAGE_NO_RECURR_MATCH = "Invalid task number. "
+			+ "No matches found to set as recurring";
 	private static final String MESSAGE_ERROR = "ERROR:";
 	private static final String MESSAGE_INVALID = "Insufficient reccurrence info entered";
 	private static final String MESSAGE_TYPE_ERROR = "ERROR: Invalid Task Type for recurrence";
@@ -71,7 +71,7 @@ public class Recurrence extends TaskCommand {
 		}
 		if (_recurrTask == null) {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
-			logger.getLogger().severe("Exception(No edit match) thrown");
+			logger.getLogger().severe("Exception(No recur match) thrown");
 			throw new LogicException(MESSAGE_NO_RECURR_MATCH);
 		} else {
 			/*
@@ -88,11 +88,11 @@ public class Recurrence extends TaskCommand {
 		if (_recurr.isEmpty() || _recurr.equals(null)) {
 			throw new LogicException(MESSAGE_INVALID);
 		}
-
 		/*
 		 * newTask.toggleRecurring(); attribute to be added to task to indicate
 		 * task is of type recurring highlight to gui to only show start time,
-		 * end time and first datetime pair in multiple slot
+		 * end time and first datetime pair in multiple slot if recurrence is to
+		 * be implemented.
 		 */
 		_newTask.setSlot(_recurr);
 		LocalDateTime now = LocalDateTime.now();
@@ -164,10 +164,8 @@ public class Recurrence extends TaskCommand {
 	}
 
 	private void upDateEventTimeSlot() {
-		LocalDateTime start;
-		LocalDateTime end;
-		start = _newTask.getStartTime();
-		end = _newTask.getEndTime();
+		LocalDateTime start = _newTask.getStartTime();
+		LocalDateTime end = _newTask.getEndTime();
 		for (int i = 0; i < (_length).intValue(); i++) {
 			if (_minutes != null) {
 				start = start.plusMinutes(_minutes);

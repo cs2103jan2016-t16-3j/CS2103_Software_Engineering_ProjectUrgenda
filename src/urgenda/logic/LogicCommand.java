@@ -12,8 +12,8 @@ import urgenda.util.LogicException;
 import urgenda.util.UrgendaLogger;
 
 /**
- * Logic Command class of the Logic component in Urgenda.
- * Responsible of accessing and storage of the different commands used by Urgenda.
+ * Logic Command class of the Logic component in Urgenda. Responsible of
+ * accessing and storage of the different commands used by Urgenda.
  * 
  */
 public class LogicCommand {
