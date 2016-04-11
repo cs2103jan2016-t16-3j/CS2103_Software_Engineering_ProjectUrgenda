@@ -104,7 +104,8 @@ public class SearchTest {
 		tester7.setSearchInput("milk");
 		// test progressive search
 		assertEquals(
-				"PROGRESSIVE SEARCH: all task(s) found containing \"milk\" based on the current view. Enter home to show all tasks",
+				"PROGRESSIVE SEARCH: all task(s) found containing \"milk\" based on the current view. "
+				+ "Enter home to show all tasks",
 				tester7.execute());
 		expectedTasks.remove(1);
 		checkArrayList(expectedTasks, _data.getDisplays());

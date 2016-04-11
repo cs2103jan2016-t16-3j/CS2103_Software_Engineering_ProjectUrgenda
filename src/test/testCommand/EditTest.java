@@ -40,7 +40,8 @@ public class EditTest {
 		tester2.setNewTask(testTask2);
 		tester2.setId(0);
 		assertEquals(
-				"\"Buy milk\" has been edited to \"Buy milk\" on 5/4 10:00 - 5/4 12:00 Warning: Event added has already passed",
+				"\"Buy milk\" has been edited to \"Buy milk\" on 5/4 10:00 - 5/4 12:00 "
+				+ "Warning: Event added has already passed",
 				tester2.execute());
 		checkTask(exTask, _data.getTaskList().get(0));
 		_data.clearTasks();
