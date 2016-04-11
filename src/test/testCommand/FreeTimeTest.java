@@ -64,7 +64,6 @@ public class FreeTimeTest {
 		ArrayList<Task> actualList = data.getDisplays();
 
 		// comparing expected and actual free time range
-//		assertEquals(expectedList.size(), actualList.size());
 		for (int i = 0; i < expectedList.size(); i++) {
 			Task actual = actualList.get(i);
 			Task expected = expectedList.get(i);
@@ -87,16 +86,6 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 6.01pm to 7pm starttime and endtime both infront of
-		// range
-		// removed all tasks to test modified range. 
-//		Task task1 = new Task();
-//		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 58);
-//		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 12, 01);
-//		task1.setStartTime(start1);
-//		task1.setEndTime(end1);
-//		task1.updateTaskType();
-//		data.addTask(task1);
 
 		// configuring expected outputs
 		Task exTask1 = new Task();
@@ -131,8 +120,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2016, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 6.01pm to 7pm starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 58);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 12, 01);
@@ -193,8 +181,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 12, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 6.01pm to 7pm starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 58);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 12, 01);
@@ -231,11 +218,7 @@ public class FreeTimeTest {
 		assertEquals(expectedPhrase, actualPhrase);
 		ArrayList<Task> actualList = data.getDisplays();
 
-		/*
-		 * TODO: Why is everything still running fine when test.execute() is
-		 * supposed to throw an exception and not have executed everything
-		 * below?
-		 */
+		
 		// comparing expected and actual free time range
 		assertEquals(expectedList.size(), actualList.size());
 		for (int i = 0; i < expectedList.size(); i++) {
@@ -262,8 +245,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 6.01pm to 7pm starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 58);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 12, 01);
@@ -326,8 +308,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 6.01pm to 7pm starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 59);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 12, 01);
@@ -389,8 +370,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 6.01pm to 7pm starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 59);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 12, 01);
@@ -451,8 +431,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 6.01pm to 7pm starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 12, 01);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 13, 00);
@@ -573,9 +552,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 12.01pm to 17.59pm starttime and endtime both infront
-		// of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 59);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 18, 01);
@@ -616,9 +593,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 12.01pm to 17.59pm starttime and endtime both infront
-		// of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 12, 0);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 18, 0);
@@ -666,8 +641,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 6.01pm to 7pm starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 18, 01);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 19, 00);
@@ -722,8 +696,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 12.01 to 7pm starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 12, 01);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 19, 00);
@@ -778,8 +751,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 10.00 to 11.59 starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 17, 59);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 19, 00);
@@ -834,8 +806,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 10.00 to 11.59 starttime and endtime both infront of
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 10, 0);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 11, 59);
@@ -890,8 +861,7 @@ public class FreeTimeTest {
 		LocalDateTime rangeEnd = LocalDateTime.of(2017, 3, 23, 18, 0);
 		FindFree test = new FindFree(rangeStart, rangeEnd);
 
-		// timing is from 11.59 to 14.00 starttime outside range, endtime inside
-		// range
+		
 		Task task1 = new Task();
 		LocalDateTime start1 = LocalDateTime.of(2017, 3, 23, 11, 59);
 		LocalDateTime end1 = LocalDateTime.of(2017, 3, 23, 17, 0);
