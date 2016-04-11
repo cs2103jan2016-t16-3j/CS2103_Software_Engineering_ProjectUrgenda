@@ -18,7 +18,7 @@ import urgenda.util.SuggestFeedback;
  * 
  * @author KangSoon
  */
-public class InputSuggestionsPopupController extends BorderPane {
+public class InputSuggestionsController extends BorderPane {
 
 	// File paths
 	private static final String PATH_INPUT_SUGGESTIONS_CSS = "styles/InputSuggestions.css";
@@ -71,7 +71,7 @@ public class InputSuggestionsPopupController extends BorderPane {
 	/**
 	 * Creates a InputSuggestionsPopupController instance.
 	 */
-	public InputSuggestionsPopupController() {
+	public InputSuggestionsController() {
 		this.getStylesheets().addAll(getClass().getResource(PATH_INPUT_SUGGESTIONS_CSS).toExternalForm());
 	}
 	
