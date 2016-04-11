@@ -1,3 +1,4 @@
+//@@author A0127358Y
 package test.testCommand;
 
 import static org.junit.Assert.assertEquals;
@@ -13,8 +14,7 @@ import urgenda.util.Task;
 
 public class EditTest {
 
-	// This method is for testing whether correct feedback msg is return when
-	// editing a task.
+	// This method is for testing Edit.execute();
 	@Test
 	public void testExecute() throws Exception {
 		LogicData _data = setUpTestDisplayList();
@@ -57,18 +57,19 @@ public class EditTest {
 		_data.addTask(obj);
 		return _data;
 	}
-	
-	private void checkTask(Task exTask,Task actlTask) {
-			assertEquals(exTask.getDesc(), actlTask.getDesc());
-			assertEquals(exTask.getLocation(), actlTask.getLocation());
-			assertEquals(exTask.isCompleted(), actlTask.isCompleted());
-			assertEquals(exTask.isImportant(), actlTask.isImportant());
-			assertEquals(exTask.isOverdue(), actlTask.isOverdue());
-			assertEquals(exTask.getStartTime(), actlTask.getStartTime());
-			assertEquals(exTask.getEndTime(), actlTask.getEndTime());
-			assertEquals(exTask.getTaskType(), actlTask.getTaskType());
-		}
 
+	private void checkTask(Task exTask, Task actlTask) {
+		assertEquals(exTask.getDesc(), actlTask.getDesc());
+		assertEquals(exTask.getLocation(), actlTask.getLocation());
+		assertEquals(exTask.isCompleted(), actlTask.isCompleted());
+		assertEquals(exTask.isImportant(), actlTask.isImportant());
+		assertEquals(exTask.isOverdue(), actlTask.isOverdue());
+		assertEquals(exTask.getStartTime(), actlTask.getStartTime());
+		assertEquals(exTask.getEndTime(), actlTask.getEndTime());
+		assertEquals(exTask.getTaskType(), actlTask.getTaskType());
+	}
+
+	// This method is for testing undo of edit.
 	@Test
 	public void testUndo() throws Exception {
 		LogicData _data = setUpTestDisplayList();
@@ -86,6 +87,7 @@ public class EditTest {
 		_data.clearTasks();
 	}
 
+	// This method is for testing redo of edit.
 	@Test
 	public void testRedo() throws Exception {
 		LogicData _data = setUpTestDisplayList();

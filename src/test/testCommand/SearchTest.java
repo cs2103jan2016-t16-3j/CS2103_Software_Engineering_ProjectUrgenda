@@ -1,3 +1,4 @@
+//@@author A0127358Y
 package test.testCommand;
 
 import static org.junit.Assert.*;
@@ -15,7 +16,8 @@ import urgenda.util.Task;
 
 public class SearchTest {
 
-	//This method is for testing whether correct feedbck msg was returned when searching for tasks.
+	// This method is for testing execution of Search. Testing whether correct
+	// feedback is return and correct search matches set as display.
 	@Test
 	public void testExecute() {
 		LogicData _data = setUpTestDisplayList();
@@ -31,7 +33,6 @@ public class SearchTest {
 				LocalDateTime.of(2016, Month.AUGUST, 17, 23, 59), LocalDateTime.now(), null, null);
 		expectedTasks.add(match);
 		checkArrayList(expectedTasks, _data.getDisplays());
-		
 
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
@@ -45,7 +46,6 @@ public class SearchTest {
 				LocalDateTime.of(2016, Month.FEBRUARY, 24, 23, 59), LocalDateTime.now(), null, null);
 		expectedTasks.add(match);
 		checkArrayList(expectedTasks, _data.getDisplays());
-		
 
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
@@ -92,11 +92,11 @@ public class SearchTest {
 		// test search tasktype
 		assertEquals("Showing: all task(s) found of type \"floating\"", tester6.execute());
 		expectedTasks.clear();
-		match = new Task(1, "Buy milk", "floating", "", false, false, false, null, null,
-				LocalDateTime.now(), null, null);
+		match = new Task(1, "Buy milk", "floating", "", false, false, false, null, null, LocalDateTime.now(),
+				null, null);
 		expectedTasks.add(match);
-		match = new Task(1, "Mop floor", "floating", "", true, false, false, null, null,
-				LocalDateTime.now(), null, null);
+		match = new Task(1, "Mop floor", "floating", "", true, false, false, null, null, LocalDateTime.now(),
+				null, null);
 		expectedTasks.add(match);
 		checkArrayList(expectedTasks, _data.getDisplays());
 
@@ -108,24 +108,24 @@ public class SearchTest {
 				tester7.execute());
 		expectedTasks.remove(1);
 		checkArrayList(expectedTasks, _data.getDisplays());
-		
+
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		Search tester8 = new Search();
 		tester8.setSearchInput("hello");
-		//test no match found
+		// test no match found
 		assertEquals("There is no match found for \"hello\"", tester8.execute());
-		
+
 		_data = setUpTestDisplayList();
 		_data.setDisplays(_data.getTaskList());
 		_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 		Search tester9 = new Search("Buy egg");
-		//test near match
+		// test near match
 		assertEquals("No exact match found for \"Buy egg\". Showing: 1 near match(es)", tester9.execute());
 		expectedTasks.clear();
-		match = new Task(1, "Buy milk", "floating", "", false, false, false, null, null,
-				LocalDateTime.now(), null, null);
+		match = new Task(1, "Buy milk", "floating", "", false, false, false, null, null, LocalDateTime.now(),
+				null, null);
 		expectedTasks.add(match);
 		checkArrayList(expectedTasks, _data.getDisplays());
 		_data.clearTasks();
@@ -158,7 +158,7 @@ public class SearchTest {
 		_data.addTask(obj6);
 		return _data;
 	}
-	
+
 	private void checkArrayList(ArrayList<Task> expectedTasks, ArrayList<Task> actualTasks) {
 		for (int i = 0; i < actualTasks.size(); i++) {
 			Task exTask = expectedTasks.get(i);
