@@ -79,6 +79,7 @@ public class PrioritiseTest {
 		return _data;
 	}
 
+	// this method is to test Prioritise by specifying task positions.
 	@Test
 	public void testExecutePositions() throws Exception {
 		LogicData _data = setUpTestDisplayList();

@@ -1,3 +1,4 @@
+//@@author A0127358Y
 package test.testLogic;
 
 import static org.junit.Assert.*;
@@ -10,6 +11,10 @@ import urgenda.logic.LogicCommand;
 
 public class LogicCommandTest {
 
+	/*
+	 * This method is a simple test for testing if processCommand in
+	 * LogicCommand executes properly and correct feedback is returned.
+	 */
 	@Test
 	public void testProcessCommand() {
 		LogicCommand test = new LogicCommand();

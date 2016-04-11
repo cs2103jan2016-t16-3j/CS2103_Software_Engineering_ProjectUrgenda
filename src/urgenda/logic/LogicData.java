@@ -639,7 +639,7 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for retrieving tasks that matches date specified by input.
+	 * Method for retrieving tasks that matches date as specified by input.
 	 * 
 	 * @param input
 	 *            The date specified for searching of tasks falling on it.
@@ -690,7 +690,7 @@ public class LogicData {
 	}
 
 	/**
-	 * Method for retrieving tasks that matches both date and time specified by
+	 * Method for retrieving tasks that matches both date and time as specified by
 	 * input.
 	 * 
 	 * @param input

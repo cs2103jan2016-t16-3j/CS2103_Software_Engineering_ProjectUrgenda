@@ -1,3 +1,4 @@
+//@@author A0127358Y
 package test.testCommand;
 
 import static org.junit.Assert.*;
@@ -15,6 +16,7 @@ import urgenda.util.Task;
 
 public class AddTaskTest {
 
+	// test execute of addTask
 	@Test
 	public void testExecute() throws LogicException {
 		LogicData _data = LogicData.getInstance(true);
@@ -66,6 +68,7 @@ public class AddTaskTest {
 		}
 	}
 
+	// test undo of addtask
 	@Test
 	public void testUndo() throws LogicException {
 		LogicData _data = LogicData.getInstance(true);
@@ -81,6 +84,7 @@ public class AddTaskTest {
 		_data.clearTasks();
 	}
 
+	// test redo of addTask
 	@Test
 	public void testRedo() throws LogicException {
 		LogicData _data = LogicData.getInstance(true);
