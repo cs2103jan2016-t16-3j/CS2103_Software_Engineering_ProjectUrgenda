@@ -78,17 +78,17 @@ public abstract class Command {
 	 */
 	private String generateTaskMessageWithVenue(Task task, Task.Type taskType, String feedback) {
 		switch (taskType) {
-		case EVENT:
+		case EVENT :
 			feedback = String.format(MESSAGE_EVENT_VENUE, task.getDesc(), task.getLocation(),
 					task.getStartTime().getDayOfMonth(), task.getStartTime().getMonthValue(),
 					task.getStartTime().getHour(), task.getStartTime().getMinute(),
 					task.getEndTime().getDayOfMonth(), task.getEndTime().getMonthValue(),
 					task.getEndTime().getHour(), task.getEndTime().getMinute());
 			break;
-		case FLOATING:
+		case FLOATING :
 			feedback = String.format(MESSAGE_FLOAT_VENUE, task.getDesc(), task.getLocation());
 			break;
-		case DEADLINE:
+		case DEADLINE :
 			feedback = String.format(MESSAGE_DEADLINE_VENUE, task.getDesc(), task.getLocation(),
 					task.getEndTime().getDayOfMonth(), task.getEndTime().getMonthValue(),
 					task.getEndTime().getHour(), task.getEndTime().getMinute());
@@ -109,17 +109,17 @@ public abstract class Command {
 		Task.Type taskType = task.getTaskType();
 		String feedback = null;
 		switch (taskType) {
-		case EVENT:
+		case EVENT :
 			feedback = String.format(MESSAGE_EVENT, task.getDesc(), task.getStartTime().getDayOfMonth(),
 					task.getStartTime().getMonthValue(), task.getStartTime().getHour(),
 					task.getStartTime().getMinute(), task.getEndTime().getDayOfMonth(),
 					task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
 					task.getEndTime().getMinute());
 			break;
-		case FLOATING:
+		case FLOATING :
 			feedback = String.format(MESSAGE_FLOAT, task.getDesc());
 			break;
-		case DEADLINE:
+		case DEADLINE :
 			feedback = String.format(MESSAGE_DEADLINE, task.getDesc(), task.getEndTime().getDayOfMonth(),
 					task.getEndTime().getMonthValue(), task.getEndTime().getHour(),
 					task.getEndTime().getMinute());

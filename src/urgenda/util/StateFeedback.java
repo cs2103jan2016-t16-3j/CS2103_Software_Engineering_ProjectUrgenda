@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Utility used when returning from Logic component to UI component to pass the state to be displayed, all 
+ * Utility class used when returning from Logic component to UI component to pass the state to be displayed, all 
  * tasks to display, the task to set as selected, and the number of overdue tasks.
  * 
  * @author KangSoon

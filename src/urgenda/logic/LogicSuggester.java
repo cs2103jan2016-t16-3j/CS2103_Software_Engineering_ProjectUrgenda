@@ -14,7 +14,6 @@ import urgenda.util.SuggestFeedback;
  */
 public class LogicSuggester {
 
-	// TODO rescale to 110 char
 	private static final String ADD_EVENT = "[desc] [start time] to [end time] @[location] [optional]";
 	private static final String ADD_EVENT_MESSAGE = "Adds a task spanning across a time period";
 	private static final String ADD_DEADLINE = "[desc] by [deadline] @[location] [optional]";
@@ -28,14 +27,11 @@ public class LogicSuggester {
 	private static final String DONE_TASK = "[task no] | [task no]-[task no] | [desc]";
 	private static final String DONE_MESSAGE = "Mark selected task(s) as done";
 
-	// TODO feedback for edit
-	private static final String EDIT_FLOATING = "[task no] [new desc] | [new timing(s)] | "
-			+ "[-r] [removes a timing] | @[location] [optional]";
-	private static final String EDIT_FLOATING_1 = "[task no] [new desc] | [use at/from/on/by for timings] | "
-			+ "[-r] [remove a timing] | @[location]";
+	private static final String EDIT_FLOATING = "[task no] [new desc] | [use at/from/on/by for timings] | "
+			+ "[-r] [removes a timing] | @[location]";
 	private static final String EDIT_FLOATING_MESSAGE = "Edits desc, date(s) and timing(s), "
 			+ "and/or location of selected task";
-	private static final String EDIT_EVENT = "[task no] [new desc] | from [start time] to [end time] | "
+	private static final String EDIT_EVENT = "[task no] [new desc] | [start time] to [end time] | "
 			+ "@[location] [optional]";
 	private static final String EDIT_EVENT_MESSAGE = "Edits task into an event";
 	private static final String EDIT_DEADLINE = "[task no] [new desc] | by [deadline] | "

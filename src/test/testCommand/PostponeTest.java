@@ -14,9 +14,6 @@ import urgenda.util.Task;
 
 public class PostponeTest {
 
-	private static final String MESSAGE_POSTPONE_FLOATING = "Task has no time to postpone";
-	private static final String MESSAGE_POSTPONED_TASK = "\"%1$s\" postponed by ";
-
 	@Test
 	public void testExecute() {
 		LogicData data = LogicData.getInstance(true);
@@ -36,19 +33,12 @@ public class PostponeTest {
 		Postpone cmd = new Postpone();
 		cmd.setDay(1);
 		cmd.setId(0);
-		String feedback = null;
 		try {
-			feedback = cmd.execute();
+			cmd.execute();
 		} catch (LogicException e) {
-			feedback = e.getMessage();
+			e.printStackTrace();
 		}
 		checkArrayList(expectedTasks, data.getTaskList());
-		
-		// test for deadline task
-		LocalDateTime deadline = LocalDateTime.of(2016, 7, 5, 0, 0);
-		Task deadlineTask = new Task("deadline task", null, null, deadline, false);
-		expectedTasks = new ArrayList<Task>();
-		expectedTasks.add(deadlineTask);
 		
 	}
 

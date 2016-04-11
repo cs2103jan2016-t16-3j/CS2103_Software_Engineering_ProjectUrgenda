@@ -4,13 +4,13 @@ Welcome to Urgenda's demo! Use TAB to move to the next part of the demo. If you 
 
 Urgenda allows you to select different tasks using a selector by moving up or down. You can use CTRL + UP or CTRL + DOWN to move your selection to a task that you wish to perform a command on. Try it after the demo!
 
-In Urgenda, we make managing different tasks effortless for you by allowing you find important tasks quickly. Tasks are colour coded to let you know which ones need to be settled first.   					
+In Urgenda, we make managing different tasks effortless for you by allowing you to find important tasks quickly. Tasks are colour coded to let you know which ones need to be settled first.   					
 Overdue tasks are shown in red to let you know you need to get them completed ASAP!
 
 All tasks that are due by or happen on today are shown in yellow, for you to take note of all your activities for the day!		
 Events today that have passed are marked with a strikethrough to let you know they are over!
 
-Other tasks that happen after today are shown in blue, and are shown after your tasks that are overdue or due today.
+All other tasks that happen after today are shown in blue.
 
 Tasks that are completed and marked as done are shown in grey. You can view these task by using the command 'archive'!
 

@@ -181,7 +181,7 @@ public class FindFree extends Command {
 			_data.setCurrState(LogicData.DisplayState.ALL_TASKS);
 			throw new LogicException(MESSAGE_INVALID_TIME_RANGE);
 		} else if (_startOfRange.isBefore(now)) {
-			_startOfRange = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), 
+			_startOfRange = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(),
 					now.getHour(), now.getMinute());
 		}
 	}

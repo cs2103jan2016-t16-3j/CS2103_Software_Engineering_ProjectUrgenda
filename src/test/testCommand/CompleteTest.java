@@ -1,3 +1,4 @@
+//@@author A0131857B
 package test.testCommand;
 
 import static org.junit.Assert.assertEquals;
@@ -12,10 +13,20 @@ import urgenda.command.Complete;
 import urgenda.logic.LogicData;
 import urgenda.util.Task;
 
+/**
+ * Test class for commands to mark tasks as completed.
+ * 
+ * @author KangSoon
+ *
+ */
 public class CompleteTest {
 
-	// this fn is to test whether correct feedback msg was returned for marking
-	// of task specified by desc as done
+	/**
+	 * Tests for the marking as complete command functionality.
+	 * 
+	 * @throws Exception
+	 *             thrown exception when executing command
+	 */
 	@Test
 	public void testExecuteDesc() throws Exception {
 		LogicData _data = setUpTestDisplayList();
@@ -23,7 +34,7 @@ public class CompleteTest {
 
 		Complete tester = new Complete();
 		tester.setDesc("Sweden");
-		// test done by desc
+		// mark by description
 		assertEquals("Done \"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59!", tester.execute());
 
 		Complete tester2 = new Complete();
@@ -34,8 +45,8 @@ public class CompleteTest {
 		} catch (Exception e) {
 			feedback = e.getMessage();
 		}
-		assertEquals("No matches found to complete", feedback); // test done by
-																// desc no match
+		// tests when no matches are found
+		assertEquals("No matches found to complete", feedback);
 		Complete tester3 = new Complete();
 		tester3.setDesc("Submit");
 		try {
@@ -43,7 +54,7 @@ public class CompleteTest {
 		} catch (Exception e) {
 			feedback = e.getMessage();
 		}
-		// test done by desc multi match
+		// tests for multiple matches
 		assertEquals("Multiple tasks with description \"Submit\" found", feedback);
 		_data.clearTasks();
 	}
@@ -76,8 +87,13 @@ public class CompleteTest {
 		return _data;
 	}
 
-	// this fn is to test whether correct feedback msg was returned for marking
-	// of task specified by positions/task num as done.
+	/**
+	 * Tests for returned position indexes when executing marking of tasks as
+	 * done.
+	 * 
+	 * @throws Exception
+	 *             thrown exception when executing command
+	 */
 	@Test
 	public void testExecutePositions() throws Exception {
 		LogicData _data = setUpTestDisplayList();
@@ -86,13 +102,15 @@ public class CompleteTest {
 
 		Complete tester = new Complete();
 		ArrayList<Integer> range = new ArrayList<Integer>();
-		range.add(0); // test min acceptable boundary
+		// boundary value for minimum
+		range.add(0);
 		range.add(2);
-		range.add(_data.getDisplays().size() - 1); // test max acceptable
-													// boundary
+		// boundary value for max
+		range.add(_data.getDisplays().size() - 1);
 		tester.setPositions(range);
+		// test marking by positions
 		assertEquals("3 tasks have been marked as done: \"Buy milk\", \"Submit ie2100 hw3\", \"Mop floor\"",
-				tester.execute()); // test pri by positions
+				tester.execute());
 		range.clear();
 		range.add(-6);
 		Complete tester2 = new Complete();
@@ -103,8 +121,8 @@ public class CompleteTest {
 		} catch (Exception e) {
 			feedback = e.getMessage();
 		}
-		assertEquals("No matches found to complete", feedback); // test negative
-																// boundary
+		// test negative values for indexes
+		assertEquals("No matches found to complete", feedback);
 		range.clear();
 		Complete tester3 = new Complete();
 		tester3.setPositions(range);
@@ -113,11 +131,17 @@ public class CompleteTest {
 		} catch (Exception e) {
 			feedback = e.getMessage();
 		}
-		assertEquals("No matches found to complete", feedback); // test empty
-																// positions
+		// test for indexes that tasks do not exist at
+		assertEquals("No matches found to complete", feedback);
 		_data.clearTasks();
 	}
 
+	/**
+	 * Tests undo of previous marking as complete.
+	 * 
+	 * @throws Exception
+	 *             thrown exception from executing command
+	 */
 	@Test
 	public void testUndo() throws Exception {
 		LogicData _data = setUpTestDisplayList();
@@ -126,7 +150,7 @@ public class CompleteTest {
 		Complete tester = new Complete();
 		tester.setDesc("Sweden");
 		tester.execute();
-		// test undo of a complete by desc.
+		// test undo of a complete by desc
 		assertEquals("\"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59 unmarked from done!", tester.undo());
 
 		ArrayList<Integer> range = new ArrayList<Integer>();
@@ -141,6 +165,12 @@ public class CompleteTest {
 		_data.clearTasks();
 	}
 
+	/**
+	 * Tests redo of previous marking as complete.
+	 * 
+	 * @throws Exception
+	 *             thrown exception from executing command
+	 */
 	@Test
 	public void testRedo() throws Exception {
 		LogicData _data = setUpTestDisplayList();
@@ -152,5 +182,4 @@ public class CompleteTest {
 		assertEquals("Done \"Travel to Sweden\" on 26/7 00:00 - 17/8 23:59!", tester.redo());
 		_data.clearTasks();
 	}
-
 }
