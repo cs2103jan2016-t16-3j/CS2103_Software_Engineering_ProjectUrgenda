@@ -1,3 +1,4 @@
+//@@author A0127358Y
 package test.testCommand;
 
 import static org.junit.Assert.assertEquals;
@@ -135,6 +136,7 @@ public class PrioritiseTest {
 		_data.clearTasks();
 	}
 
+	// This method is to test undo of Prioritise.
 	@Test
 	public void testUndo() throws Exception {
 		LogicData _data = setUpTestDisplayList();
@@ -159,6 +161,7 @@ public class PrioritiseTest {
 		assertFalse(_data.getTaskList().get(1).isImportant());
 	}
 
+	// This method is to test redo of prioritise.
 	@Test
 	public void testRedo() throws Exception {
 		LogicData _data = setUpTestDisplayList();
